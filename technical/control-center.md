@@ -42,12 +42,12 @@ share unmodified across every event type.
 
 ## The tabs
 
-**Live Matches, Match Finder, and Standings** behave as the old per-event
-pages did, with three differences: club logos were dropped entirely (no
-`.score-logo`/`.live-team-logo`/`.cs-logo` treatment); the console **ignores
-`isLive` and always shows live data** (`computeDayIsLive()` is hardcoded
-`true`), so an operator can preview a day before it's public; and labels
-degrade to raw codes when `display` config is absent rather than erroring.
+**Live Matches, Match Finder, and Standings** have no club logos anywhere
+(no `.score-logo`/`.live-team-logo`/`.cs-logo` treatment); the console
+**ignores `isLive` and always shows live data** (`computeDayIsLive()` is
+hardcoded `true`), so an operator can preview a day before it's public;
+and labels degrade to raw codes when `display` config is absent rather
+than erroring.
 
 **Standings layout is chosen by `type`.** `dual-meet` gets per-club columns
 inside each category with a shared club win-total summary bar and the
@@ -59,8 +59,7 @@ desktop toggle bar and a mobile category-search filter.
 architecture in its own section below.
 
 **Mission Control** — see [Mission Control usage](../features/control-center.md#mission-control)
-for what it does; behaviorally unchanged from the old per-event pages, just
-scoped to whichever event is selected. The go-live states are `auto`
+for what it does; scoped to whichever event is selected. The go-live states are `auto`
 (live 4 hours before the day's earliest scheduled match time, computed live
 from the synced `Schedule` column — no hour to configure), `true` (force
 live), and `false` (Live/Standings hidden, scores suppressed on Tournament

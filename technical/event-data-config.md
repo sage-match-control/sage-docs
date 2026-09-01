@@ -58,7 +58,9 @@ default).
   spreadsheet exists.
 - `matchesSheetName`/`standingsSheetName` can be overridden per day, if that
   spreadsheet's tabs are literally named something else. **Deliberately no
-  GID equivalent** — see the incident note below.
+  GID equivalent** — a GID is assigned per-workbook and doesn't carry over
+  if a spreadsheet is ever duplicated from another event's; a tab name
+  does.
 - A `"_comment"` string key is allowed anywhere in the tree for notes that
   have no other home in JSON; ignored by validation.
 
@@ -86,17 +88,6 @@ If unsure whether an edit is valid before committing, check `GET
 /sync/config` (`X-Sync-Secret` header) after committing — it reports which
 config revision is actually live, and whether the service fell back to its
 bundled seed because the commit failed validation.
-
-## Why there's no per-tab GID override
-
-An earlier version of this schema let a day override its matches/standings
-tab by numeric GID instead of name. It was removed after a real incident: a
-workbook duplicated from another event inherited that event's tab GIDs, so
-a GID-based override correct for one spreadsheet silently pointed at a
-leftover tab from a completely different event — with no error, just wrong
-data being published. A tab GID is assigned per-workbook and doesn't carry
-over when a spreadsheet is duplicated; a tab **name** doesn't carry that
-risk. Both `sage-tools-api` fetch paths now address tabs by name only.
 
 ## Sheet IDs are effectively public
 

@@ -33,7 +33,7 @@ stack two lines, truncating with an ellipsis. Club is read **per side** from
 the team-code prefix, never assumed by position — semifinals in a dual-meet
 bracket are intra-club (e.g. `PNF_LIWD_SF_1` vs. `PNF_LIWD_SF_2`), so a cell
 can legitimately be the same club on both sides; hardcoding "club A always
-left" was a real bug caught in review.
+left" would be wrong.
 
 A **stage pill** beside the category chip reads the ladder position off the
 same `roundKeyword()` classification the rest of the site uses — lifted

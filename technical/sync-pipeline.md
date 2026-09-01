@@ -35,7 +35,7 @@ Key pieces, in `sage-tools-api/src/sync/`:
   `config/events.json`.
 
 Both fetchers are pure functions of `(facility, sheets)` — neither imports
-config directly; `SyncService` resolves the day's sheet names/GIDs once and
+config directly; `SyncService` resolves the day's sheet names once and
 passes them down.
 
 **Apps Script side:** `scripts/sheets-sync.gs`, installed once per facility
@@ -108,15 +108,11 @@ since every sync re-reads `isLive` from the registry each time. See
 
 ## Sheet tabs are addressed by name, not GID
 
-An earlier design let a day's config override the matches/standings sheet
-by numeric tab GID. This was removed after a real incident: a workbook
-duplicated from an old event inherited that event's tab GIDs, so a
-GID-based override silently pointed at a leftover tab from the *previous*
-event instead of the real one — no error, just wrong data being published.
-Both fetch paths now address tabs by name only
+Both fetch paths address a facility's matches/standings tabs by name
 (`matchesSheetName`/`standingsSheetName`, both overridable per day, default
-`CSV`/`STANDINGSCSV`). See [event registry schema](event-data-config.md) for
-where this incident is documented in more detail.
+`CSV`/`STANDINGSCSV`) — never by numeric tab GID, since a GID is assigned
+per-workbook and doesn't carry over if a spreadsheet is ever duplicated
+from another event's.
 
 ## Live delivery today, and a planned upgrade
 

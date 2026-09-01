@@ -79,12 +79,10 @@ resolved.
 
 Both templates load icons and images with root-absolute paths
 (`/assets/logo.png`, one shared `assets/` folder at the repo root), not
-relative ones. This is deliberate: several of the earliest event pages were
-originally written with relative paths, then moved into `events/archives/`
-as pure renames — which broke their icons, since a relative path resolves
-differently depending on how deep the page is nested. Root-absolute paths
-work regardless of nesting. Leave them that way; archiving an event later
-is then a plain `mv` with nothing to re-prefix.
+relative ones — a relative path resolves differently depending on how deep
+a page is nested, so root-absolute paths work regardless of nesting. Leave
+them that way; archiving an event later is then a plain `mv` with nothing
+to re-prefix.
 
 ## Things kept in sync by hand (no automatic check)
 
