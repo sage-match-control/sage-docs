@@ -7,19 +7,19 @@ bottom of each page here.
 
 ## For players & spectators
 
-- **[The public event site](public-site.md)** — Match Finder, live scores,
-  live standings, the club-vs-club win count, and the venue's schedule board.
-  Nothing to install, nothing to sign into.
+- **[Tournament Hub](tournament-hub.md)** — the public event page: Match
+  Finder, live scores, live standings, the club-vs-club win count, and the
+  venue's schedule board. Nothing to install, nothing to sign into.
 
 ## For tournament organizers & day-of operators
 
-- **[Match Control](match-control.md)** — the operator console. Live
+- **[Control Center](control-center.md)** — the operator console. Live
   Matches, Match Finder, Standings, Awards (podium results + shareable
   images), and Mission Control (sign-in, resync, the public-site kill
   switch).
 - **[Running an event, day of](running-an-event-day.md)** — a plain-language
   walkthrough of what an operator actually does from doors-open to the last
-  match, using Match Control.
+  match, using Control Center.
 - **[Scoresheet Generator](scoresheet-generator.md)** — turn a matches CSV
   into printable PDF scoresheets.
 - **[Tournament Calculator](tournament-calculator.md)** — plan a tournament's

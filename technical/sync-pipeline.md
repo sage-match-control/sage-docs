@@ -139,4 +139,4 @@ checklist is built around. Not reflected anywhere in this doc site's
 architecture pages until it ships.
 
 ---
-**Features:** [Match Control's Mission Control tab](../features/match-control.md#mission-control) uses this pipeline's resync/go-live actions.
+**Features:** [Control Center's Mission Control tab](../features/control-center.md#mission-control) uses this pipeline's resync/go-live actions.

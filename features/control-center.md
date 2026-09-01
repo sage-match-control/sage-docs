@@ -1,8 +1,8 @@
-# Match Control
+# Control Center
 
-Match Control is the operator's console for running a tournament day —
+Control Center is the operator's console for running a tournament day —
 one page, covering every registered event, always showing live data (unlike
-the public site, it never hides scores while previewing a day before it's
+Tournament Hub, it never hides scores while previewing a day before it's
 publicly live). Open it, pick an event and a day, and five tabs appear.
 
 No sign-in is needed to view any of the first four tabs — they're read-only.
@@ -19,10 +19,10 @@ show.
 
 ## Match Finder
 
-Identical to the public site's Match Finder — search a pair's name, see
+Identical to Tournament Hub's Match Finder — search a pair's name, see
 their full day of matches with Live/Next Up flags and scores. Useful for an
 operator fielding "where's my match" questions without having to also pull up
-the public page.
+Tournament Hub itself.
 
 ## Standings
 
@@ -68,13 +68,13 @@ A few things the Awards tab is careful about:
 
 ## Mission Control
 
-The operator-only control panel — the one part of Match Control that needs
+The operator-only control panel — the one part of Control Center that needs
 signing in.
 
 - **Sign in** with the shared operator username/password. This exchanges your
   password for a short-lived session token held only in that browser tab —
   the password itself is never stored anywhere.
-- **Public site status** — the kill switch for the *public* site's Live
+- **Public site status** — the kill switch for Tournament Hub's Live
   Matches/Standings (this console's own tabs are unaffected and always show
   live data, for preview). Three states: `Auto` (goes live automatically
   ~4 hours before the day's first scheduled match), `Force live`, or
@@ -84,8 +84,8 @@ signing in.
 - **Resync this day now** — pulls a fresh copy from the spreadsheet(s)
   immediately, instead of waiting for the next automatic sync.
 - **Public pages** — launchers for the venue's schedule board and the
-  event's public Match Finder page, both opening in a new tab so the console
-  stays where it is.
+  event's Tournament Hub, both opening in a new tab so the console stays
+  where it is.
 
 ---
-**Technical:** [console architecture](../technical/match-control.md) · [Awards tab](../technical/awards-tab.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md)
+**Technical:** [Control Center architecture, incl. Awards tab internals](../technical/control-center.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md)

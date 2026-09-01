@@ -23,7 +23,7 @@ does.
 (`X-Sync-Secret` header) **or** an operator's bearer token. This is
 deliberate, not redundant: Apps Script (the thing calling this endpoint on
 every sheet edit) has no browser to sign into, so it authenticates with the
-raw secret directly; the Match Control console authenticates with the
+raw secret directly; Control Center authenticates with the
 token it got from signing in. Same for `GET /sync/config`.
 
 `POST /sync/:day/live` (the go-live override) accepts the **operator
@@ -39,7 +39,7 @@ there's no unauthenticated fallback.
 
 Signing in exchanges the operator's password for a session token held only
 in that browser tab — the password itself is never stored. See [Mission
-Control usage](../features/match-control.md#mission-control).
+Control usage](../features/control-center.md#mission-control).
 
 ---
 **Related env vars:** `AUTH_PASSWORD_HASH`, `AUTH_TOKEN_SECRET`,

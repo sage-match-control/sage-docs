@@ -1,8 +1,8 @@
-# The public event site
+# Tournament Hub
 
-Every S.A.G.E. event gets its own page, linked from a QR code posted at the
-venue. No app to install, no login to remember — open it on a phone and
-everything below is already running.
+Every S.A.G.E. event gets its own Tournament Hub — a public page linked
+from a QR code posted at the venue. No app to install, no login to
+remember — open it on a phone and everything below is already running.
 
 ## For players: find your matches
 
@@ -39,9 +39,9 @@ after every match, with whichever club is ahead visually highlighted.
 A wall display meant for a screen at the venue, not a phone — courts as
 columns, time slots as rows, one card per match, color-coded by category.
 Live matches get a highlighted ring; finished ones dim and show their score.
-It's unlisted (nothing on the public site links to it) — an operator launches
+It's unlisted (nothing on Tournament Hub links to it) — an operator launches
 it from Mission Control and hands the URL to whoever's running the venue's
-screen. See [Match Control § Mission Control](match-control.md#mission-control).
+screen. See [Control Center § Mission Control](control-center.md#mission-control).
 
 It supports splitting by court range (so a two-screen venue can show
 different courts on each), collapsing its header down to just the essentials
@@ -57,12 +57,12 @@ hand, nothing is fetched live.
 
 ## What you *won't* see here
 
-The public site is read-only and always shows the current state of play —
+Tournament Hub is read-only and always shows the current state of play —
 it has no sign-in, no editing, and (before an event goes live) hides scores
 and standings entirely rather than showing incomplete data. The tools
 operators use to run the event — Mission Control, the Awards podium/export,
 resyncing a facility — live in a separate console. See
-[Match Control](match-control.md).
+[Control Center](control-center.md).
 
 ---
-**Technical:** [Match Control console architecture](../technical/match-control.md) · [schedule board](../technical/schedule-board.md) · [how live data reaches the page](../technical/sync-pipeline.md)
+**Technical:** [Control Center architecture](../technical/control-center.md) · [schedule board](../technical/schedule-board.md) · [how live data reaches the page](../technical/sync-pipeline.md)

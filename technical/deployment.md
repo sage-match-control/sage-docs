@@ -1,8 +1,11 @@
 # Deployment
 
-`sage-tools-api` runs on Google Cloud Run. `sage-match-control.github.io`
-and `event-data` are both plain GitHub Pages — pushing to `main` is their
-entire deploy story, no build step.
+Every repo deploys the same way: **push to `main`.** No manual deploy step
+for any of them. `sage-match-control.github.io` and `event-data` are plain
+GitHub Pages, so a push is their entire story with no build. `sage-tools-api`
+runs on Google Cloud Run behind a build trigger watching the repo — pushing
+to `main` builds and deploys the new revision automatically; nobody runs
+`gcloud run deploy` by hand day to day.
 
 ## Local development
 
@@ -24,11 +27,17 @@ injection). No TypeScript, no build step, no test suite, no linter.
 
 ## Cloud Run deploy
 
+The build/deploy trigger runs the equivalent of:
+
 ```bash
 gcloud run deploy sage-tools-api --source . --use-http2 --region us-central1 \
   --memory 2Gi --cpu 2 --timeout 900 --concurrency 4 --min-instances 0 \
   --allow-unauthenticated
 ```
+
+— this exact command is kept as a comment at the top of the `Dockerfile`,
+both as the documentation of what the trigger does and as the manual
+fallback if the trigger itself ever needs bypassing.
 
 Runs on `node:22-slim` (Puppeteer requires Node ≥22.12), with system
 Chromium installed via `apt` rather than Puppeteer's own bundled download

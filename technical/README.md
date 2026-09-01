@@ -24,10 +24,10 @@ each page here.
 
 ## Frontend (`sage-match-control.github.io`)
 
-- **[Match Control console](match-control.md)** — the single-page operator
-  console: config resolution, theming, the four original tabs.
-- **[Awards tab](awards-tab.md)** — podium derivation, bye/walkover handling,
-  and the Canvas 2D image export.
+- **[Control Center](control-center.md)** — the single-page operator
+  console: config resolution, theming, the five tabs (including the Awards
+  tab's podium derivation, bye/walkover handling, and Canvas 2D image
+  export).
 - **[Schedule board](schedule-board.md)** — the venue wall display.
 - **[Tournament Calculator](tournament-calculator.md)** — the dual-meet math
   fixes and its PWA (installable, offline) setup.

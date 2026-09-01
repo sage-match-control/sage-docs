@@ -5,8 +5,8 @@ A standalone page per event (`events/<event-key>/schedule.html`, public URL
 columns, time slots as rows, one face-off card per match, color-coded by
 category, live matches highlighted and results filling in as they're
 played. Deliberately **unlisted** — nothing on the public site links to it;
-Mission Control is its only entry point (see [Match
-Control](match-control.md)).
+Mission Control is its only entry point (see [Control
+Center](control-center.md)).
 
 ## Why a separate page, not a tab
 
@@ -117,5 +117,5 @@ stale data beats one showing an error message. Re-rendering preserves the
 current court filter and scroll position.
 
 ---
-**Features:** [The schedule board, for spectators/operators](../features/public-site.md#at-the-venue-the-schedule-board) · [launching it from Mission Control](../features/match-control.md#mission-control)
+**Features:** [The schedule board, for spectators/operators](../features/tournament-hub.md#at-the-venue-the-schedule-board) · [launching it from Mission Control](../features/control-center.md#mission-control)
 **Spec:** `specs/schedule-screen-spec.md` in the site repo (full layout spec, pagination math, acceptance checklist).

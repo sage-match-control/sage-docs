@@ -1,14 +1,14 @@
 # Running an event, day of
 
 A plain-language walkthrough of what an operator actually does on tournament
-day, using [Match Control](match-control.md). This assumes the event is
+day, using [Control Center](control-center.md). This assumes the event is
 already set up (categories, days, and venues registered) — someone handled
 that ahead of time.
 
 ## Before doors open
 
 1. Get on the venue's wifi.
-2. Open Match Control, select the event and today's day.
+2. Open Control Center, select the event and today's day.
 3. Sign in, under **Mission Control**.
 4. Click **Check connection** — confirms everything's reachable before a
    single match depends on it.
@@ -29,9 +29,10 @@ their schedule the moment they arrive, click **Force live**.
 
 - Click **Open schedule** to launch the wall display, and put that on
   whatever screen is mounted at the venue.
-- Click **Open match finder** for the public Match Finder page — useful on a
-  second screen, or just to confirm it looks like what a player would
-  actually see.
+- Click **Open Tournament Hub** for the event's public page — useful on a
+  second screen (showing Standings or Live Matches, whichever fits — the
+  schedule board already covers the court-by-court view), or just to
+  confirm it looks like what a player would actually see.
 
 ## During play
 
@@ -52,11 +53,11 @@ What to actually watch for:
   stale, click **Resync this day now** yourself rather than waiting.
 - **A bad score or typo that needs a quiet fix** — set the public site to
   **Force hidden**, correct it, resync, then set it back. This only hides
-  the *public* page; Match Control itself keeps showing everything the whole
+  Tournament Hub; Control Center itself keeps showing everything the whole
   time, so you can verify the fix before putting it back in front of
   spectators.
 - **A player asking where their match is** — use Match Finder right there in
-  Match Control.
+  Control Center.
 
 ## End of day
 
@@ -70,4 +71,4 @@ Nothing needs turning off — once the public site has gone live, it just
 stays that way.
 
 ---
-**See also:** [Match Control](match-control.md)
+**See also:** [Control Center](control-center.md)

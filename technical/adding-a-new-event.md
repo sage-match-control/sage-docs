@@ -71,9 +71,9 @@ common cause. Exact, case-sensitive:
   `B35XD_F_1_(2)`)
 - Dual meet: `<CLUB>_<DIVISION><EVENT>_<REST>`
 
-`_(N)` suffixes mark a twice-to-beat playoff instance. See [Match
-Control](match-control.md) and [Awards tab](awards-tab.md) for how that
-gets parsed and resolved.
+`_(N)` suffixes mark a twice-to-beat playoff instance. See [Control
+Center, incl. Awards tab](control-center.md) for how that gets parsed and
+resolved.
 
 ## Root-absolute asset paths — don't "fix" them to relative
 

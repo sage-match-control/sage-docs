@@ -30,7 +30,7 @@ S.A.G.E. is three repos, not one. This doc repo is a fourth, alongside them:
 | Repo | What it is |
 | --- | --- |
 | [`sage-tools-api`](https://github.com/sage-match-control/sage-tools-api) | Node/Express backend on Google Cloud Run. Scoresheet PDF generation + the Google Sheets → GitHub live-data sync. |
-| [`sage-match-control.github.io`](https://github.com/sage-match-control/sage-match-control.github.io) | GitHub Pages static site. The public event pages, the operator console, and the standalone tools. |
+| [`sage-match-control.github.io`](https://github.com/sage-match-control/sage-match-control.github.io) | GitHub Pages static site. Tournament Hub (the public event pages), Control Center (the operator console), and the standalone tools. |
 | [`event-data`](https://github.com/sage-match-control/event-data) | Shared data store. Every event's live snapshots and the registry (`config/events.json`) that says which events/days/facilities exist. |
 
 Full picture: [technical/architecture.md](technical/architecture.md).

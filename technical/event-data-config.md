@@ -46,7 +46,7 @@ default).
 
 - `<event-key>` must match this event's folder name under `events/` in
   `sage-match-control.github.io` **and** its folder name in `event-data`.
-- `type` is read **only** by the Match Control console — `sage-tools-api`
+- `type` is read **only** by Control Center — `sage-tools-api`
   never looks at it. Not inferred: an unmatched code would fail *silently*
   the moment the code shape ever changes, so it's required and explicit.
 - `display` maps are all `code → label`; **order comes from key order**, so
