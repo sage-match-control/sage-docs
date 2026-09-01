@@ -9,6 +9,13 @@ No sign-in is needed to view any of the first four tabs — they're read-only.
 Only the actions inside Mission Control (resyncing, forcing the public site
 live or hidden) need an operator to sign in.
 
+**Installable** — from Chrome's install prompt on Android, or "Add to Home
+Screen" on iOS Safari — so an operator's device can launch straight into
+it with its own icon, no browser chrome or address bar around it. This is
+just a shortcut to the same live page; there's no offline mode, so it
+still needs a network connection to do anything, same as opening it in a
+regular tab.
+
 ## Live Matches
 
 A board of every court currently in use, grouped by venue if the event has

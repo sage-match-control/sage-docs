@@ -32,19 +32,23 @@ Fixed by:
 
 ## PWA (installable, offline)
 
-**Scoped to this one page only** — the event templates, the scoresheet
-generator, and archived events remain deliberately non-installable. The
-calculator is the only page where offline is both useful and safe: it has
-no live data (nothing it renders can go stale, so caching can never show a
-wrong score — the exact failure mode that rules out PWA treatment for any
-event page), it's genuinely useful without a network (schedule planning
-happens at venues, on hotel wifi), and it's evergreen (not tied to an event
-lifecycle that would later strand a service worker).
+**The only page with offline support.** [Control
+Center](control-center.md) later became installable too, but with no
+service worker — the calculator remains the only page where *offline* is
+both useful and safe: it has no live data (nothing it renders can go
+stale, so caching can never show a wrong score — the exact failure mode
+that rules out full PWA treatment for a live-data page like Control
+Center or any event page), it's genuinely useful without a network
+(schedule planning happens at venues, on hotel wifi), and it's evergreen
+(not tied to an event lifecycle that would later strand a service
+worker). The event templates, the scoresheet generator, and archived
+events remain deliberately non-installable altogether.
 
 **Manifest scope is the page path, not the directory**
-(`/tools/tournament-calculator.html`), and the shared site-wide manifest
-(`/assets/favicons/site.webmanifest`) is left with an empty `name` — that's
-what keeps every *other* page on the site non-installable. Two independent
+(`/tools/tournament-calculator.html`) — its own manifest, not the shared
+site-wide one (`/assets/favicons/site.webmanifest`, left with an empty
+`name` so it can't make anything installable on its own; Control Center's
+manifest is a third, separate file for the same reason). Two independent
 guards contain the worker's blast radius to this one page: the manifest
 scope, and a fetch handler that **passes through anything it doesn't
 explicitly own** rather than a catch-all cache-first branch — critical,

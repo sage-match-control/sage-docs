@@ -81,6 +81,25 @@ registry schema](event-data-config.md) § Sheet IDs are effectively
 public). The link is omitted for a facility with no `sheetId` yet, the
 same "not set up" condition the sync pipeline itself skips.
 
+## Installability
+
+Installable via its own manifest, `tools/control-center.webmanifest`, the
+same pattern [Tournament Calculator](tournament-calculator.md) established —
+`scope` is the page path (`/tools/control-center.html`), not the `/tools/`
+directory, so installing this doesn't sweep in `scoresheet-generator.html`
+or the calculator itself. Icons and theme/background colors reuse the
+shared site assets and palette, same as the calculator's manifest.
+
+**Deliberately no service worker.** Unlike the calculator (whose whole
+justification for offline support is that nothing it shows can go stale),
+Control Center's entire value is live data — scores, sync status, court
+assignments — so caching any of it risks showing an operator something
+stale during a live event, exactly the failure mode the calculator's own
+spec ruled out for pages like this. The manifest alone is enough for
+"Add to Home Screen" / an install prompt and a standalone window; it adds
+no caching and changes no runtime behavior. An installed shortcut still
+needs a live connection to do anything, identical to a regular tab.
+
 ## Theme
 
 The console is a **tool** — it lives in `tools/` beside
