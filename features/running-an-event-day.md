@@ -17,6 +17,13 @@ that ahead of time.
    correctly before play starts.
 6. Confirm **Facility sync status** shows a fresh "Synced" for every venue
    this event uses.
+7. Open each venue's **Google Sheet** — the link sits right on its row in
+   Facility Sync Status. This is where the actual day-of work happens:
+   type scores into the matches tab, and mark which match is currently on
+   which court in the **Court Control** column. That second part is what
+   makes a match show up as live — on Control Center's Live Matches tab,
+   the schedule board, and Tournament Hub — so it's worth opening this
+   now and keeping it up throughout the day, not just visiting it once.
 
 ## Deciding when the public site goes live
 
@@ -36,11 +43,15 @@ their schedule the moment they arrive, click **Force live**.
 
 ## During play
 
+Everything below happens in the Google Sheet you opened in step 7, not in
+Control Center — the console is where you *watch* the day, the sheet is
+where you *run* it.
+
 The rhythm at each court, as matches happen: mark the next match live on
-that court as soon as it frees up, and replace it with the *following* match
-number the moment it finishes — never leave a court blank, since a blank
-court just shows as idle instead of telling anyone what's coming up next.
-Enter the finished match's score right after.
+that court as soon as it frees up (in Court Control), and replace it with
+the *following* match number the moment it finishes — never leave a court
+blank, since a blank court just shows as idle instead of telling anyone
+what's coming up next. Enter the finished match's score right after.
 
 Everything else happens on its own — scores and court status reach the
 public site and the wall display within about ten seconds, with no extra
