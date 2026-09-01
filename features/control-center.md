@@ -80,7 +80,12 @@ signing in.
   ~4 hours before the day's first scheduled match), `Force live`, or
   `Force hidden` — for quietly correcting a bad score before anyone sees it.
 - **Facility sync status** — whether each venue's spreadsheet is syncing
-  cleanly, and when it last succeeded.
+  cleanly, and when it last succeeded. Each row has a **Google Sheet**
+  link that opens that facility's actual Google Sheet for this event, in
+  a new tab — for checking or correcting a score straight at the source
+  without having to go find it in Drive. Whether it opens editable
+  depends on that sheet's own Google sharing settings, not on Control
+  Center.
 - **Resync this day now** — pulls a fresh copy from the spreadsheet(s)
   immediately, instead of waiting for the next automatic sync.
 - **Public pages** — launchers for the venue's schedule board and the

@@ -71,6 +71,16 @@ pipeline](sync-pipeline.md) § Observability), so an operator can see at a
 glance whether a just-committed `events.json` change has actually taken
 effect yet.
 
+Each facility row in the Facility Sync Status list links directly to that
+facility's actual Google Sheet (`docs.google.com/spreadsheets/d/<sheetId>/edit`).
+`FACILITIES` (resolved per day-select from `EVENTS_REGISTRY`) carries
+`sheetId` alongside `name` for exactly this — previously dropped, since
+nothing needed it. No new exposure: sheet IDs are already public in the
+same `config/events.json` fetch the console already makes (see [event
+registry schema](event-data-config.md) § Sheet IDs are effectively
+public). The link is omitted for a facility with no `sheetId` yet, the
+same "not set up" condition the sync pipeline itself skips.
+
 ## Theme
 
 The console is a **tool** — it lives in `tools/` beside
