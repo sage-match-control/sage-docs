@@ -1,0 +1,142 @@
+# Sync pipeline
+
+How a score typed into a Google Sheet ends up on the public site, and how
+`sage-tools-api` knows which spreadsheets belong to which event without a
+redeploy.
+
+## The sheet → GitHub path
+
+```
+Facility Google Sheet
+   |  installable onEdit trigger, debounced  (scripts/sheets-sync.gs)
+   v
+POST /sync/:day?facility=<name>   (X-Sync-Secret header, or an operator's bearer token)
+   |  SheetsCsvFetcher (default) or GvizCsvFetcher (?method=csv fallback)
+   |  merge with the currently-published snapshot — never drop a facility on failure
+   v
+GitHub Contents API commit -> event-data/<event-key>/data/<day>.json
+   |  GitHub Pages redeploys on push (no cache-purge step)
+   v
+Event page fetches https://sage-match-control.github.io/event-data/<event-key>/data/<day>.json
+```
+
+Key pieces, in `sage-tools-api/src/sync/`:
+
+- **`SheetsCsvFetcher`** — the default path, reads via the Sheets API.
+- **`GvizCsvFetcher`** — a fallback path (`?method=csv`) using Google's
+  `gviz` CSV export, for when the Sheets API path has trouble.
+- **`SyncService`** — orchestrates a sync: resolves the day's config,
+  fetches each facility (in parallel, via `ConcurrencyPool`), merges results
+  with whatever's already published (a facility that fails to fetch keeps
+  its last-known-good data rather than vanishing from the snapshot), and
+  hands the result to the publisher.
+- **`GitHubPublisher`** — wraps the Contents API. Used both to publish a new
+  snapshot and (shared with the config store below) to read
+  `config/events.json`.
+
+Both fetchers are pure functions of `(facility, sheets)` — neither imports
+config directly; `SyncService` resolves the day's sheet names/GIDs once and
+passes them down.
+
+**Apps Script side:** `scripts/sheets-sync.gs`, installed once per facility
+spreadsheet, watches the SCHEDULE and COURT CONTROL tabs via an *installable*
+`onEdit` trigger (a bare `onEdit(e)` can't call `UrlFetchApp`, which is why
+it has to be installed rather than the default simple trigger), debounces
+edits, and POSTs to Cloud Run. Install steps are in the script's own header
+comment.
+
+## The runtime-fetched event registry
+
+The event/day/facility registry — which spreadsheets exist, their
+labels, their `isLive` state — lives at `event-data/config/events.json`, not
+in `sage-tools-api` source. This is deliberate: source-code config means
+adding an event or fixing a wrong sheet ID requires a full Cloud Build image
+rebuild (`gcloud run deploy --source .`, which reinstalls Chromium). A
+JSON file in a data repo means the same change is a commit, live within
+about a minute, with no redeploy.
+
+**`SyncConfigStore`** (`src/sync/SyncConfigStore.mjs`) owns fetching,
+caching, and validating it:
+
+- **Cache hit within the TTL** (`SYNC_CONFIG_TTL_MS`, default 60s) — no
+  network call.
+- **Cache miss** — fetches via `GitHubPublisher.fetchExisting()` (the same
+  Contents API path used for snapshots), validates, swaps in.
+- **Concurrent callers on a cold instance** share one in-flight request; a
+  rejection isn't cached.
+- **Fetch fails, something already held** — logs a warning, keeps serving
+  the held config. A sync during a GitHub outage still fails, but at the
+  same point it always would have (fetching/publishing the snapshot itself)
+  — config availability doesn't add a new failure mode.
+- **Fetch succeeds but validation fails** — the bad config is *refused
+  wholesale*, not partially applied; the previous good config keeps serving,
+  and an error names the failed rule. A typo in a commit can't crash-loop
+  the service or half-apply.
+- **Nothing held, no usable fetch** — falls back to a bundled seed
+  (`events.seed.json`, a snapshot of the config as of the last deploy),
+  logged at error level. This only fires on a cold start during a GitHub
+  outage, or a cold start right after someone commits a broken config —
+  exactly the scenario the whole mechanism exists to make safer.
+
+Validation (rejects the whole file if any rule fails): a schema `version`
+check, event/day keys restricted to `^[a-z0-9][a-z0-9-]*$` (they become
+path segments and filenames — this is what makes a `../` traversal
+impossible), day keys globally unique *across every event* (two events can
+never race to publish into each other's folder, since a day key is also the
+`/sync/:day` route), each day needs a `label` and a `facilities` array, and
+facility names unique within a day. Full shape and rules:
+[event registry schema](event-data-config.md).
+
+**Observability:**
+
+- `GET /ping`'s `X-Sync-Config` header reports the cached config's short
+  SHA + source (`a1b2c3d/remote` or `seed/fallback`) — but never *triggers*
+  a load itself, since Cloud Run's health checks hit this endpoint and it
+  must stay fast even when GitHub is unreachable.
+- `GET /sync/config` (secret- or token-gated) returns the full resolved
+  view for debugging: SHA, source, age, every registered event/day.
+
+## `/sync/:day/live` — the go-live override
+
+Separate from a data sync: this endpoint (operator-token-only, no shared
+secret) is Mission Control's public-site kill switch. It writes the day's
+`isLive` value (`true` / `false` / `"auto"`) into `config/events.json`, then
+immediately republishes that day's snapshot with the new value stamped in
+— so a later real sync can never silently revert an operator's override,
+since every sync re-reads `isLive` from the registry each time. See
+[Auth](auth.md) for the token vs. shared-secret distinction.
+
+## Sheet tabs are addressed by name, not GID
+
+An earlier design let a day's config override the matches/standings sheet
+by numeric tab GID. This was removed after a real incident: a workbook
+duplicated from an old event inherited that event's tab GIDs, so a
+GID-based override silently pointed at a leftover tab from the *previous*
+event instead of the real one — no error, just wrong data being published.
+Both fetch paths now address tabs by name only
+(`matchesSheetName`/`standingsSheetName`, both overridable per day, default
+`CSV`/`STANDINGSCSV`). See [event registry schema](event-data-config.md) for
+where this incident is documented in more detail.
+
+## Live delivery today, and a planned upgrade
+
+Today, the client polls the published GitHub Pages snapshot directly on a
+10-second interval (`POLL_INTERVAL_MS`), with a cache-busting query param
+(GitHub Pages caches responses for ~10 minutes with no purge API, so this is
+required, not optional). End-to-end, a score typed into a sheet takes
+roughly **40–60 seconds** to reach a viewer — almost all of it GitHub Pages
+rebuilding the site after the data commits.
+
+**Not yet built:** a spec (`fast-data-delivery-spec.md`) proposes cutting
+that to **~5–7 seconds** by adding Cloudflare R2 as a "hot" delivery path
+in front of a tiny 3-second-polled pointer file (a hash + timestamp) that
+only triggers a payload fetch when something actually changed, with GitHub
+kept as a durability backup and automatic fallback. It's a well-scoped
+addition to this pipeline, not a rewrite — the sheet→sync→GitHub half above
+is unchanged — but it does add its own failure modes (R2 outages, CDN cache
+misconfiguration, concurrent-write races) that the spec's acceptance
+checklist is built around. Not reflected anywhere in this doc site's
+architecture pages until it ships.
+
+---
+**Features:** [Match Control's Mission Control tab](../features/match-control.md#mission-control) uses this pipeline's resync/go-live actions.
