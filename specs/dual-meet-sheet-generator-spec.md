@@ -821,11 +821,13 @@ equivalent `semis` tab by the banner plus two blocks.
 
 ### 10.1 Phase 2 — `SCHEDULE`
 
-Nothing in the CSV contains a schedule. The calculator computes match
-*counts* only (`dualPlayoffPlan`, line ~376). Either port the cross-product
-pairing plus court and slot assignment into the generator, or teach the
-calculator to export the match list. That fork should be decided before
-Phase 2 starts.
+Specified separately, in `dual-meet-schedule-generator-spec.md`.
+
+Nothing in the CSV contains a schedule — the calculator computes match
+*counts* only (`dualPlayoffPlan`, line ~376). That spec settles the fork
+this section used to pose: the cross-product pairing plus court and slot
+assignment is **ported into the generator**, not exported by the
+calculator, whose plan CSV stays a round-trippable config file.
 
 ### 10.2 Phase 3 — `CSV`, `STANDINGSCSV`, `Court Control`
 
