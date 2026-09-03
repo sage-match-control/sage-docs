@@ -1,9 +1,16 @@
 # Dual Meet Sheet Generator
 
 `sage-tools-api/scripts/sheet-generator.gs` — bound Apps Script that builds a
-dual meet's category tabs from a Tournament Calculator CSV. Implements
+dual meet event's whole workbook from a Tournament Calculator CSV: every
+category tab, `SCHEDULE`, and the four readout tabs the live sync and the
+operator both depend on. Implements
 [`dual-meet-sheet-generator-spec.md`](../specs/dual-meet-sheet-generator-spec.md)
-Phase 1.
+Phase 1 (category tabs),
+[`dual-meet-schedule-generator-spec.md`](../specs/dual-meet-schedule-generator-spec.md)
+Phase 2 (`SCHEDULE`), and
+[`dual-meet-readouts-generator-spec.md`](../specs/dual-meet-readouts-generator-spec.md)
+Phase 3 (`Court Control`, `Timeline`, `CSV`, `STANDINGSCSV`) — all three
+built and in use.
 
 **It lives in the API repo but is not part of the API.** It runs inside a
 Google Sheet, talks to no server, and ships by being pasted into the
@@ -13,11 +20,15 @@ arrangement as `sheets-sync.gs`.
 
 ## Why bound Apps Script and not a Cloud Run endpoint
 
-The category tabs don't run on native Sheets formulas. They run on
-container-bound custom functions — `GETTOTALWINS`, `SORTBYWINS`,
-`GETSCOREAGAINSTPAIR`, and friends — that exist only inside the workbook and
-are in no repo. Generating a *blank* spreadsheet would produce tabs full of
-`#NAME?`.
+The category tabs (and, since Phase 3, the readout tabs too) don't run on
+native Sheets formulas. They run on a library of Named Functions —
+`GETTOTALWINS`, `SORTBYWINS`, `GETSCOREAGAINSTPAIR`, `STACKBLOCKS`,
+`MATCHTIME`, and friends — that exist only inside the workbook and are in no
+repo. They're workbook-level `LAMBDA` definitions under
+`Data -> Named functions`, not container-bound Apps Script custom functions
+(an easy thing to assume, since the generator itself *is* bound Apps
+Script — but the two are unrelated features living in the same workbook).
+Generating a *blank* spreadsheet would produce tabs full of `#NAME?`.
 
 So generation has to start from a copy of a master workbook that already
 carries those functions. That single constraint rules out the Sheets API
@@ -112,6 +123,33 @@ If something fails *after* writing starts, there's no rollback: the error
 names exactly which tabs made it in. Guessing past an error would produce a
 workbook that looks complete and isn't.
 
+## Verifying a change before it reaches a workbook
+
+```bash
+node scripts/verify-sheet-generator.mjs
+```
+
+Runs the real `generateEventTabs` against a mocked Sheets API and checks the
+result against the specs' worked examples — four scenarios: the readouts
+spec's §10 reference event, a two-bracket `semis`/`aggregate` mix, a 2-court
+event, and the rerun refusal.
+
+This is the one place the repo's "no tests" convention bends, and the reason
+is the in-place rebuild. `SCHEDULE` and the four readout tabs are grown from
+prototypes that only exist once, so the build is deliberately non-idempotent:
+a run that dies halfway cannot be retried, it costs a fresh copy of the
+master workbook. That makes the normal loop — paste into Apps Script, copy
+the master, generate, read the execution log — expensive enough that finding
+a bug in Node first is worth the mock.
+
+The mock is faithful about the things that have actually caused bugs: range
+bounds, sheet growth, `getLastRow`/`getLastColumn`, and `copyTo` repeating a
+smaller source to fill a larger destination. It does **not** evaluate
+formulas — a formula's *text* is what gets asserted — so anything that
+depends on Sheets actually calculating (Named Functions resolving, spill
+heights, `COUNTPAIRAT` matching a slot time) still has to be confirmed in a
+real workbook.
+
 ## Tracing
 
 Every run writes its full computed geometry, each grid's anchor, and each
@@ -123,17 +161,17 @@ a block one row off looks like a perfectly normal spreadsheet unless you
 already know which row it should have been on. Every bug found while building
 this was of that kind.
 
-## Not built
+## What is not generated
 
-`SCHEDULE` (Phase 2) and the `CSV` / `STANDINGSCSV` / `Court Control` tabs
-that depend on it (Phase 3). Phase 2 is blocked on input the calculator
-doesn't currently export — it computes match *counts*, not a match list — so
-it needs either the pairing/court/slot assignment ported into the generator,
-or the calculator taught to export the schedule. That fork should be settled
-before Phase 2 starts.
+Player names. Every other tab a generated workbook needs — category tabs,
+`SCHEDULE`, `Court Control`, `Timeline`, `CSV`, `STANDINGSCSV`, `Variables`,
+`Title`, `Reference for Players` — is built and wired together; the operator
+pastes rosters into each category tab's name-entry columns and the workbook
+is ready to run.
 
-Until then a generated workbook's `SCHEDULE` still holds whatever event the
-master was copied from, so it is not ready to run.
+The calculator's plan CSV carries match *counts* only; `buildMatchList` does
+the cross-product pairing and slot placement itself. See
+`dual-meet-schedule-generator-spec.md` §4.
 
 Also unexercised: the two-bracket **`semis`** path has been verified by
 computation but never by generating a real tab.

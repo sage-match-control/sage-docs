@@ -29,6 +29,14 @@ And it fills in the `Variables`, `Title`, and `Reference for Players` tabs
 from the same plan, so the event name, date, courts, and match duration are
 all consistent without being typed three times.
 
+Finally, it builds the four **readout tabs**: `Court Control` (the live
+who's-on-which-court board, with a pace-against-plan estimate), `Timeline`
+(a pair-by-time-slot grid for spotting a pair double-booked before the event
+starts), and `CSV`/`STANDINGSCSV` (the two tabs the live sync publishes to
+the public event page — one row per match, one row per pair's record).
+These are what make a generated workbook able to run an event end to end,
+not just look like one.
+
 ## How to use it
 
 1. Build the plan in the [Tournament Calculator](tournament-calculator.md)
@@ -52,18 +60,13 @@ to the workbook.
 
 ## What it does *not* do
 
-**A generated workbook is not ready to run an event yet.** Two things are
-still hand work:
+**Player names.** The plan has no roster in it, so the name columns come out
+empty for you to paste into. The generator says so when it finishes — that
+is the one piece of hand work a generated workbook still needs before it can
+run an event.
 
-- **Player names.** The plan has no roster in it, so the name columns come
-  out empty for you to paste into. The generator says so when it finishes.
-- **The readout tabs.** `CSV`, `STANDINGSCSV`, and `Court Control` are not
-  generated. Until you rebuild those, they still hold whatever event the
-  master workbook was copied from, so the live sync will publish the wrong
-  thing.
-
-Treat the generated workbook as a well-formed starting point, not a finished
-one.
+Treat the generated workbook as ready to run once rosters are in, not as a
+finished, already-scored event.
 
 ## If it refuses to run
 
@@ -78,11 +81,13 @@ Common ones:
   overwrite or rename anything — delete or rename the old tabs yourself
   first. This is deliberate: a half-replaced set of tabs partway through an
   event is far worse than being told to clean up first.
-- **`SCHEDULE` has already been built.** Unlike the category tabs, `SCHEDULE`
-  is grown in place from the master's one-court starter, so it can only be
-  built once. If you have already generated into this workbook — or a run
-  failed partway through — start again from a fresh copy of the master. The
-  generator will not try to reset the tab, for the same reason as above.
+- **`SCHEDULE` or a readout tab has already been built.** Unlike the category
+  tabs, `SCHEDULE`, `Court Control`, `Timeline`, `CSV`, and `STANDINGSCSV`
+  are each grown in place from the master's own small starting shape, so
+  every one of them can only be built once. If you have already generated
+  into this workbook — or a run failed partway through — start again from a
+  fresh copy of the master. The generator will not try to reset any of the
+  five, for the same reason as above.
 
 ## Playoff shapes
 

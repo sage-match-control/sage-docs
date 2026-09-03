@@ -2,8 +2,8 @@
 
 A plain-language walkthrough of what an operator actually does on tournament
 day, using [Control Center](control-center.md). This assumes the event is
-already set up (categories, days, and venues registered) — someone handled
-that ahead of time.
+already set up — categories, days and venues registered, workbooks built and
+wired to the sync. That half is [preparing an event](preparing-an-event.md).
 
 ## Before doors open
 

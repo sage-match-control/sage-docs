@@ -17,6 +17,9 @@ bottom of each page here.
   Matches, Match Finder, Standings, Awards (podium results + shareable
   images), and Mission Control (sign-in, resync, the public-site kill
   switch).
+- **[Preparing an event](preparing-an-event.md)** — everything that has to
+  exist before tournament day, in the order it has to exist in: the plan, the
+  scoring workbook, the event site, and the registration that connects them.
 - **[Running an event, day of](running-an-event-day.md)** — a plain-language
   walkthrough of what an operator actually does from doors-open to the last
   match, using Control Center.

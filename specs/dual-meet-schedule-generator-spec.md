@@ -5,7 +5,7 @@ Phase 2 of the Dual Meet Sheet Generator: the `SCHEDULE` tab. Split out of
 
 Phase 1 built every category tab plus `Variables`, `Title` and
 `Reference for Players`, and is documented in that spec — read its §1.1
-(the custom function contract), §2 (the plan CSV) and §3 (validation)
+(the Named Function contract), §2 (the plan CSV) and §3 (validation)
 first. This spec does not restate them; it inherits them and adds the
 inputs and rules only the schedule needs.
 
@@ -16,7 +16,7 @@ deploy, no `package.json` bump.
 | | |
 | --- | --- |
 | Scope | The `SCHEDULE` tab only |
-| Not in scope | `CSV`, `STANDINGSCSV`, `Court Control` (Phase 3) |
+| Not in scope | `CSV`, `STANDINGSCSV`, `Court Control`, `Timeline` — see `dual-meet-readouts-generator-spec.md` |
 | Depends on | Phase 1's pair codes — the seam is §5 |
 
 ---
@@ -48,22 +48,19 @@ opens the copy, and runs `SAGE -> Generate event tabs` from the menu,
 pasting the calculator's CSV into a sidebar. Everything runs inside that
 one spreadsheet.
 
-**Why it must be bound script.** The category tabs depend on custom
-functions (`GETTOTALWINS`, `SORTBYWINS`, `GETSCOREAGAINSTPAIR`, …) that
-exist only inside the master workbook and are in no repo. A blank
-spreadsheet produces `#NAME?` everywhere. That rules out a Cloud Run /
+**Why it must be bound script.** The category tabs depend on a library of
+Named Functions (`GETTOTALWINS`, `SORTBYWINS`, `GETSCOREAGAINSTPAIR`, … —
+workbook-level `LAMBDA` definitions, not container-bound Apps Script custom
+functions) that exist only inside the master workbook and are in no repo. A
+blank spreadsheet produces `#NAME?` everywhere. That rules out a Cloud Run /
 Sheets API approach entirely. See Phase 1 spec §1 and §1.1.
 
 **What Phase 1 already built** (all of it working): every category tab, plus
 `Variables`, `Title` and `Reference for Players`.
 
 **What this spec adds:** the `SCHEDULE` tab — the one the operator types
-scores into, and the one every custom function reads match results from.
+scores into, and the one every Named Function reads match results from.
 Without it a generated workbook cannot run an event.
-
-**Still unbuilt after this** (Phase 3, `dual-meet-sheet-generator-spec.md`
-§10.2): `CSV`, `STANDINGSCSV`, `Court Control`. These are row-count-driven
-off the match list and become mechanical once Phase 2 fixes the numbers.
 
 **Vocabulary.**
 
@@ -83,13 +80,7 @@ reference data in §10 before any Sheets code is written.
 **Section-reference convention.** A bare `§n` means this document. A
 reference into another spec always names it — "Phase 1 spec §11.1",
 "`schedule-screen-spec.md` §3.1". Both documents have a §11, and both carry
-a divergences section at a different number (this one's is §12, Phase 1's is
-§13), so the attribution matters.
-
-**Read §12 before trusting a decision above it.** Parts of this document
-were written before the tab existed, and a few did not survive being
-generated. Those sections are corrected in place; §12 records what changed
-and why, so a later reader does not "fix" the code back.
+so the attribution matters.
 
 ---
 
@@ -450,11 +441,9 @@ player-name columns (§2.2) — framing each match and leaving the codes and
 scores in between on white. The web schedule board mirrors this as "the
 solid hue as a 5px left rule" (`schedule-screen-spec.md` §3).
 
-> Corrected after Phase 2 was built. This section originally said `D` and
-> `J`, describing them as "the block's outer edges" — but `J` is
-> `team2Score` (§2.2), so colouring it contradicted this section's own
-> "leaving the codes and scores in between on white". `D` and `H` are what
-> deliver that intent. See §12.1.
+> `J` would be the obvious other edge of the `D:J` span, and is wrong: `J`
+> is `team2Score` (§2.2), so colouring it contradicts this section's own
+> "leaving the codes and scores in between on white".
 
 It is applied as **conditional format rules, one per category** — not by
 setting cell backgrounds. Three reasons, in order of weight:
@@ -537,7 +526,7 @@ reader knows they were considered, not overlooked.
   row 4. `I` and `J` merge vertically per slot from row 6 down.
 - **Colour goes on `D` and `H`, via conditional formatting** (§6.5-§6.6) —
   literally those two columns, not the `D:J` block. (Recorded as `D` and
-  `J` before Phase 2 was built; corrected against the built sheet — §12.1.)
+  `J`, which is a score column, not an edge.)
 - **Partial slots are centred** (§4.3). Confirmed as a deliberate choice: the
   phase chunking §4.3 already requires makes centring a single extra term, so
   it costs nothing over left-packing and matches the organiser's sheet.
@@ -582,7 +571,7 @@ run (hundreds of merge-carrying `copyTo` calls, §8.5), and in the
 before-`Variables` position a single timeout takes three cheap,
 deterministic tabs down with it. Last means a `SCHEDULE` failure costs only
 `SCHEDULE` — which is what `dual-meet-sheet-generator-spec.md` §11.3 wants
-out of a partial failure. See §12.2.
+out of a partial failure.
 
 ### 8.2 Existing helpers to reuse — do not rewrite these
 
@@ -653,18 +642,28 @@ Order matters: **grow down first, then across.** Each horizontal copy then
 carries every slot with it.
 
 ```
-1. vertical:   for s in 2..slots
-                 copy D6:K7  ->  D<6+2(s-1)>:K<7+2(s-1)>
-               and B6:B7 -> B<...> for the time column's merge
+1. vertical:   for s in 2..gridSlots
+                 copy B6:J7  ->  B<6+2(s-1)>:J<7+2(s-1)>
+               one copy per slot, spacer column C included, so the time
+               column's own merge comes along
 
 2. horizontal: for c in 2..courts
-                 src  = D5:K<lastRow>            (header band + all slots)
+                 src  = D5:J<lastRow>            (header band + all slots)
                  dest = <blockStart(c)>5
-               the LAST court copies D5:J<lastRow> only — no trailing
-               separator (§2.1)
 
 3. relabel:    row 5, F-offset of each block -> "Court <c>"
 ```
+
+**Every court copies `D:J` — 7 columns, no exceptions, and no separator
+column is ever written.** Blocks sit 8 apart while only 7 columns are
+written, so the one-column gap falls out for free as untouched space, and
+"the last court has no trailing separator" (§2.1) stops being a case to
+handle at all. The master's prototype has no `K` to copy from in any case —
+it is one court wide, and one court is always the last court (§2.5). Only
+the *width* of those gap columns needs setting, per §8.10.
+
+`gridSlots` is `slots + 1`: the grid runs one row-pair past the last real
+slot to carry the event's end time (readouts spec §3.2).
 
 Loop the vertical copy per slot rather than relying on `copyTo` tiling a
 larger destination. At 30 slots and 12 courts that is ~42 calls, nowhere
@@ -695,17 +694,29 @@ Unused courts take `-` in `E`, `F` and `G` (§2.4) — written, not skipped.
 export). The sheet renders `3:00 PM` because the prototype's `B` column
 carries a time number format, which `copyTo` propagates.
 
-So parse to minutes and write a **fraction of a day**, the same convention
-`writeVariablesTab_` already uses for `I2`:
+Writing the string `"3:00 PM"` would work visually and break any formula
+that treats the column as a time. The value has to be a **fraction of a
+day**, the same convention `writeVariablesTab_` already uses for `I2`.
 
-```js
-var startMin = hh * 60 + mm;
-var pitch    = Number(settings.duration_min) + Number(settings.buffer_min || 0);
-var value    = (startMin + (slot - 1) * pitch) / 1440;
+Write it as the reference workbook's own **chained formulas**, not as a
+literal this script computes:
+
+```
+B6  =Variables!H2
+B8  =B6+Variables!$I$2
+B10 =B8+Variables!$I$2   … one per slot, through the end-time row
 ```
 
-Writing the string `"3:00 PM"` would work visually and break any formula
-that treats the column as a time.
+The obvious alternative — computing each slot in JavaScript as
+`(startMin + (slot - 1) * pitch) / 1440` and writing literals — renders
+identically and is wrong. Phase 3's `Timeline` builds its own time headers
+by exactly this chain (`=B$2+Variables!$I$2`, readouts spec §5.2) and
+`COUNTPAIRAT` matches a slot's time **exactly**. The same nominal time
+reached two different ways lands on floats that differ in the last few bits,
+so the two silently stop comparing equal. Chaining off the same two cells
+makes both sides the same computation, so they cannot drift.
+
+Full account of how that surfaced: readouts spec §14.4.
 
 ### 8.8 Conditional formatting
 
@@ -867,8 +878,7 @@ Every number above is verified against the reference workbook.
   numbers, times, courts and team codes
 - It produces the same 14 playoff matches (7 bronze, 7 finals) in the same
   two slots, but in CSV order rather than the reference's hand order — a
-  deliberate divergence from the reference workbook (§4.2). For deliberate
-  divergences from *this document*, see §12.
+  deliberate divergence from the reference workbook (§4.2).
 - Grid width is exactly `8 * courts + 2`; no stray separator past the last court
 - Every unused court carries `-` in `E`/`F`/`G`
 - No pair appears twice in one slot, in any category
@@ -882,70 +892,6 @@ Every number above is verified against the reference workbook.
   row heights — court 9 looks like court 1, slot 15 like slot 1 (§8.10)
 - A full-size event completes without `Service timed out: Spreadsheets`
   (§8.11)
-
----
-
-## 12. Where the built generator diverges from this document
-
-The counterpart to `dual-meet-sheet-generator-spec.md` §13, and it exists
-for the same reason: everything above was written *before* the tab existed,
-and a few of its decisions did not survive contact with a generated
-workbook. Each entry below records what this document originally said, what
-`sheet-generator.gs` actually does, and why — so the next reader treats the
-difference as a decision rather than a bug to be tidied back.
-
-The affected sections have been corrected in place; this section is the
-audit trail, not the specification.
-
-### 12.1 Colour goes on `D` and `H`, not `D` and `J`
-
-§6.5, §6.6 and §7 all originally named `D` and `J`, describing them as "the
-block's outer edges".
-
-That was wrong on this document's own evidence: `J` is `team2Score` (§2.2's
-column table), so colouring it directly contradicted §6.5's stated intent —
-"framing each match and leaving the codes **and scores** in between on
-white". `D` and `H` are the two player-name columns, and colouring those is
-what actually produces the described result: each side's names carry the
-category hue; the codes (`E`, `G`), match number (`F`) and both score cells
-(`I`, `J`) stay white. Confirmed against the built sheet by the organiser.
-
-`J` looks to have been picked by reading "outer edges" off the `D:J` span
-rather than off what those columns hold.
-
-The §6.6 formula needed no change — see the note added there.
-
-### 12.2 `SCHEDULE` is built last, not before `Variables`
-
-§8.1 originally said to hook it in "after the category tabs and before
-`writeVariablesTab_`", on the grounds that "the colour column §6.7 adds to
-`Variables` needs `categoryColor_`, and nothing else orders the two."
-
-The first half is not an ordering constraint: `categoryColor_` is pure
-(§6.4), so `Variables` gets its colour column regardless of whether
-`SCHEDULE` exists. The second half was the real finding — *nothing* ordered
-the two, so the position was free, and the first full run spent it badly: a
-`Service timed out: Spreadsheets` inside `buildScheduleTab_` (§8.11) left
-`Variables`, `Title` and `Reference for Players` unwritten, because all
-three sat behind the slowest and least reliable step in the run.
-
-Built last, a `SCHEDULE` failure costs only `SCHEDULE`.
-
-### 12.3 No `K`-column separator is ever written
-
-§2.1 describes the separator column `K`, and §8.5 tells the horizontal tile
-to copy `D5:K<lastRow>` for every court except the last, which copies
-`D5:J<lastRow>` "— no trailing separator".
-
-The built generator copies **`D:J` (7 columns) for every court, without
-exception**, and never writes into a separator column at all. Because blocks
-are placed 8 apart while only 7 columns are written, the one-column gap
-falls out for free as untouched space, and "the last court has no trailing
-separator" stops being a case to handle. The master's own prototype has no
-`K` to copy from anyway (§2.5 — one court is always the last court), which
-is what forced the simplification and then justified it.
-
-Only the *width* of those gap columns needs setting, per §8.10.
 
 ---
 
@@ -979,9 +925,15 @@ the sheet's own width:
 `first` is the column offset being stacked: `5` `teamCode1`, `6` match
 number, `7` `teamCode2`, `9` `team1Score`, `10` `team2Score`.
 
-Better as a named function (**Data → Named functions**) defined once in the
+Better as a Named Function (**Data → Named functions**) defined once in the
 master, so every copy inherits it and each call site is one line —
-`STACKBLOCKS(5, 8, 6)`:
+`STACKBLOCKS(5, 8, 6)`. This is not merely a suggested improvement: it
+exists in the master today, and `dual-meet-readouts-generator-spec.md` §2.1
+builds the entire Phase 3 Named Function library on top of it —
+`GETPLAYERSCOLUMN1`, `GETMATCHNUMBERS`, `GETPLAYERSCOLUMN2`,
+`GETSCORESCOLUMN1` and `GETSCORESCOLUMN2` are each just one `STACKBLOCKS`
+call with a different `first_col`. Read that spec's §2.1 for the base layer
+this appendix's own formula grew into, rather than re-deriving it:
 
 ```
 STACKBLOCKS(first_col, step, first_row)

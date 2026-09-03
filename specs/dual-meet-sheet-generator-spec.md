@@ -9,17 +9,17 @@ Scoped to **dual meets only** — the club-A-versus-club-B format described in
 `_templates/dual-meet-template/` on the site side. Standard-format
 tournaments are out of scope and must be rejected, not approximated.
 
-**Status: Phase 1 built and in use.** Implemented at
+**Status: Phase 1, Phase 2 and Phase 3 all built and in use.** Implemented at
 `sage-tools-api/scripts/sheet-generator.gs`. Phase 2 (§10.1, `SCHEDULE`) and
-Phase 3 (§10.2) remain unbuilt.
+Phase 3 (§10.2, the four readout tabs) are documented separately — see
+`dual-meet-schedule-generator-spec.md` and
+`dual-meet-readouts-generator-spec.md`.
 
-**Before trusting any cell reference in this document, read §13.** Building
-Phase 1 against the live workbook turned up a dozen places where this spec
-describes something the reference workbook does not actually do — the CODES
+**Before trusting any cell reference in this document, read §13.** It
+carries the details the sections below leave out or get wrong — the CODES
 column's row count, where the roster sits, the shape of the feeder formulas,
-and an entire undocumented score grid on the playoff blocks. §13 lists every
-divergence and what the generator does instead. Where §13 and the sections
-below disagree, §13 is what shipped.
+and an entire score grid on the playoff blocks. Where §13 and the sections
+below disagree, §13 describes the built generator.
 
 Phase 1 (§4) generates every tab except the schedule. Phase 2 (§10.1)
 generates `SCHEDULE` and is deliberately separated — it needs input the
@@ -35,9 +35,10 @@ example — note that §12's exact addresses are superseded by §13.
 
 ## 1. Why a bound script on a template copy
 
-The category tabs do not run on native Sheets formulas. They run on
-container-bound Apps Script custom functions that exist **only inside the
-workbook** and are not in any repo:
+The category tabs do not run on native Sheets formulas. They run on a
+library of **Named Functions** — Sheets' `Data -> Named functions` feature,
+not container-bound Apps Script custom functions — that exist **only inside
+the workbook** and are not in any repo:
 
 ```
 GETTOTALWINS             GETTOTALLOSES         GETTOTALSCORE
@@ -74,12 +75,13 @@ Keep parsing and building as pure functions — `parsePlanCsv(text)` and
 `buildCategoryTab(ss, cat, settings)` — so a `POST /sheets/generate` endpoint
 could later reuse them with only the transport changed.
 
-### 1.1 The custom function contract
+### 1.1 The Named Function contract
 
 These are the ground truth for every formula in this spec, and they are
 **not in any repo** — read them in the master workbook via
-`Extensions -> Apps Script` before writing code. The signatures below are
-what the existing workbooks' formulas demonstrably rely on:
+`Data -> Named functions` before writing code. They are workbook-level
+`LAMBDA` definitions and are not part of the bound script project. The
+signatures below are what the existing workbooks' formulas rely on:
 
 | Function | Takes | Returns |
 |---|---|---|
@@ -655,7 +657,10 @@ A one-time manual job, and the larger half of the work:
    both. Nothing two-bracket-specific is needed — see §4.1.
 4. Clear `Variables!C2:D8`, `Title!B6:B8`, and the `Reference for Players`
    anchors — the generator writes all of them.
-5. Keep the bound script project, which carries the custom functions in §1.
+5. Keep the bound script project (it carries the generator itself) — the
+   Named Functions from §1 are separate, workbook-level, and come along
+   automatically with any copy of the workbook regardless of the script
+   project.
 6. Name it **SAGE Dual Meet Master**.
 
 One template covers both variants, so there is no second template to build
@@ -684,7 +689,7 @@ Run against the reference CSV in §2 and confirm:
   two intra-club semi blocks, and bronze/final — 36 matches' worth of slots
 - A mixed CSV (some categories `brackets: 1`, some `2`) generates each from
   its own template, as the PPA x Club 2600 workbook does
-- No `#NAME?` anywhere — the custom functions resolve
+- No `#NAME?` anywhere — the Named Functions resolve
 - No `BA:BD` content on any category tab
 - `Variables!C2:D8` has seven distinct keys including `LIWD`
 - `Title!B8` reads `…/events/pnf-x-bup-dual-meet`
@@ -826,14 +831,15 @@ Specified separately, in `dual-meet-schedule-generator-spec.md`, and **built** �
 for where the built tab diverges from its own text.
 
 Nothing in the CSV contains a schedule — the calculator computes match
-*counts* only (`dualPlayoffPlan`, line ~376). That spec settles the fork
-this section used to pose: the cross-product pairing plus court and slot
-assignment is **ported into the generator**, not exported by the
-calculator, whose plan CSV stays a round-trippable config file.
+*counts* only (`dualPlayoffPlan`, line ~376). The cross-product pairing plus
+court and slot assignment lives **in the generator**; the calculator's plan
+CSV stays a round-trippable config file.
 
 ### 10.2 Phase 3 — `CSV`, `STANDINGSCSV`, `Court Control`, `Timeline`
 
-Specified separately, in `dual-meet-readouts-generator-spec.md`. Not built yet.
+Specified separately, in `dual-meet-readouts-generator-spec.md`, and
+**built** — `sheet-generator.gs` generates all four readout tabs as of
+Phase 3.
 
 Row-count-driven: formulas sized to the match count and roster. That spec
 covers four tabs — `CSV`, `STANDINGSCSV`, `Court Control` and `Timeline` —
@@ -875,8 +881,6 @@ and the `SCHEDULE` and `Variables` changes they depend on.
   reproduce it, rather than assuming a plain `setFormula` suffices.
 - `SpreadsheetApp.flush()` after the tab is complete, before moving to the
   next, keeps partial state from confusing a later `getRange` read.
-- Custom functions recalculate lazily. Immediately after generation the tab
-  may show `Loading...`; that is expected and not a failure to report.
 
 ### 11.2 Ordering
 
@@ -952,29 +956,34 @@ and final, and `PNF_LIWD_1..8` / `BUP_LIWD_1..8` pair codes plus four
 
 ---
 
-## 13. As built — where this spec and the workbook disagreed
+## 13. As built — the details §4 and §12 leave out
 
-Phase 1 was implemented against the live PNF x BUP workbook rather than
-against this document alone, and the two turned out to differ in a dozen
-places. Everything below is what `sheet-generator.gs` actually does, verified
-cell by cell in the reference workbook. **Where this section contradicts §4
-or §12, this section is correct** — the earlier sections are kept as the
-original design record.
-
-The recurring lesson: this spec's worked example (§12) was written from one
-category at one size (`n = 4`, one bracket). Several details that look like
-general rules there are artefacts of that one case.
+`sheet-generator.gs` was implemented against the live PNF x BUP workbook,
+and this section is what it actually does, verified cell by cell there.
+**Where this section and §4 or §12 differ, this section is authoritative** —
+§12's worked example is written from one category at one size (`n = 4`, one
+bracket), and several details that read as general rules there are artefacts
+of that single case.
 
 ### 13.1 The roster scaffold
 
-| Spec says | Actually |
-|---|---|
-| CODES column is `teams_a + 2` rows, "2 slack" (§4.0.2, §12) | Exactly `teams_a` rows. The reference has no slack rows at all. |
-| Scaffold sits beside each club's own block | **Both** clubs' scaffolds sit beside **club A's** bracket-1 block — same rows, club A in `AA:AG`, club B in `AP:AV`. Club B's is nowhere near club B's block. |
-| (not mentioned) | A pair-index number `1..teams_a` sits in `AA`/`AP`, one per pair, on that pair's first name row only. |
-| (not mentioned) | Row `header-1` carries `STEP 1/2/3`; row `header` carries "Put names here" / "Copy these numbers" / "Put randomized codes". |
-| `AG`/`AV` (RANDOMIZED, `STEP 3`) holds "the same codes after the operator shuffles them" (§4.0.2) | Generated **blank** — fill only, no values. It was briefly pre-seeded with the codes in roster order, which was wrong twice over: it makes a step that hasn't been done look done, and an unshuffled `STEP 3` is not a no-op — it maps every pair to its own roster slot, defeating the blinding the shuffle exists for. `CODES` (`STEP 2`) is the only one of the three columns the generator populates. |
-| `AC5 =AG5` (§4.0.2) | Wrapped as `=IF(AG5="","",AG5)`, and the mirror row likewise. With `STEP 3` shipping blank, a bare `=AG5` against an empty cell renders `0`, not blank — a column of zeros beside every unfilled roster. |
+- The CODES column is exactly `teams_a` rows. There are no slack rows.
+- **Both** clubs' scaffolds sit beside **club A's** bracket-1 block — the
+  same rows for each, club A in `AA:AG` and club B in `AP:AV`. Club B's is
+  nowhere near club B's own block.
+- A pair-index number `1..teams_a` sits in `AA`/`AP`, one per pair, on that
+  pair's first name row only.
+- Row `header-1` carries `STEP 1/2/3`; row `header` carries "Put names here"
+  / "Copy these numbers" / "Put randomized codes".
+- `AG`/`AV` (RANDOMIZED, `STEP 3`) ships **blank** — fill only, no values.
+  Pre-seeding it with the codes in roster order would be wrong twice over: it
+  makes a step that has not been done look done, and an unshuffled `STEP 3`
+  is not a no-op, since it maps every pair to its own roster slot and defeats
+  the blinding the shuffle exists for. `CODES` (`STEP 2`) is the only one of
+  the three columns the generator populates.
+- `AC5` is `=IF(AG5="","",AG5)`, and the mirror row likewise. With `STEP 3`
+  blank, a bare `=AG5` against an empty cell renders `0`, not blank — a
+  column of zeros beside every unfilled roster.
 
 Colors are fixed values read off the reference, not derived: header row
 `#70ad47`, index column `#cccccc`, NAMES and RANDOMIZED `#fff2cc`, the
@@ -982,10 +991,9 @@ Colors are fixed values read off the reference, not derived: header row
 
 ### 13.2 The score grids
 
-§4.0.3 describes the group-block grid only. **Playoff blocks have one too** —
-undocumented here, found by reading the reference's bronze block. It is the
-same `GETSCOREAGAINSTPAIR` mechanism, self-referential, with both entrants
-serving as both row and column headers:
+§4.0.3 describes the group-block grid. **Playoff blocks have one too**, on
+the same `GETSCOREAGAINSTPAIR` mechanism, self-referential, with both
+entrants serving as both row and column headers:
 
 ```
 M14 "BRONZE B"   N14 =M15   O14 =M16      (label + entrant headers)
@@ -995,7 +1003,7 @@ N16 =GETSCOREAGAINSTPAIR($M16,N14)        (B's score vs A)
 N15, O16 blank                            (an entrant against itself)
 ```
 
-Two things about that geometry are easy to get wrong, and both were, twice:
+Two things about that geometry are easy to get wrong:
 
 - The grid's header row is `block.first`, **one row below** the block's
   A-column label at `block.header`.
@@ -1006,10 +1014,10 @@ Two things about that geometry are easy to get wrong, and both were, twice:
 
 Grid formatting is **copied from named prototype cells in the template**
 rather than set property by property — that is what carries the cell borders,
-which an earlier `setBackground`-only version silently dropped. Sources:
-`M4`/`N4`/`M5`/`N5` for club A's grid, `M8`/`N8`/`M9`/`N9` for club B's (so
-each club's own colour comes along), and `M14`/`N14`/`O14`/`M15`/`M16`/`O15`
-for playoff grids.
+which a `setBackground`-only approach silently drops. Sources: `M4`/`N4`/
+`M5`/`N5` for club A's grid, `M8`/`N8`/`M9`/`N9` for club B's (so each club's
+own colour comes along), and `M14`/`N14`/`O14`/`M15`/`M16`/`O15` for playoff
+grids.
 
 The reference also applies a **conditional format** to the grid columns —
 `value >= 11` fills `#93C47D` over a flat `#D9EAD3` base. Conditional rules
@@ -1018,34 +1026,32 @@ generator adds the rule itself.
 
 ### 13.3 The feeder formulas
 
-§4.1.4's shape is right in outline and wrong in three details:
+§4.1.4 has the shape right in outline. Three details differ:
 
-| Spec (§4.1.4) | Actually |
-|---|---|
-| `SUM(D4:E11)` | `SUM($J$4:$J$11)` — column J is matches-played (`=D+E`); same total, but J is the column that means it |
-| relative ranges | absolute (`$A$4:$H$11`) |
-| feeder on the entrant's row | feeder on the entrant's **second** row, with the first row mirroring it (`I26` = `=I27`) |
-
-That mirroring is why §4.0.4 notes column `I` stays unmerged while `D:H` are
-merged: its two rows genuinely hold different formulas.
+- The gate sums `$J$4:$J$11`, not `D4:E11` — column `J` is matches-played
+  (`=D+E`). Same total, but `J` is the column that means it.
+- Ranges are absolute (`$A$4:$H$11`), so the formula survives being copied.
+- The feeder sits on the entrant's **second** row, with the first row
+  mirroring it (`I26` = `=I27`). That mirroring is why §4.0.4 keeps column
+  `I` unmerged while `D:H` are merged: its two rows genuinely hold different
+  formulas.
 
 The gate is `n²` computed from the pair count. §12's `16` is that one
 example's value, not a constant.
 
 ### 13.4 Block order at two brackets
 
-§4.6.2 interleaves the clubs bracket by bracket (b1 club A, b1 club B, b2
-club A, b2 club B). The generator groups **by club** instead — club A's
-bracket 1 and 2 back to back, then club B's.
+Blocks are grouped **by club** — club A's bracket 1 and 2 back to back, then
+club B's — not interleaved bracket by bracket as §4.6.2 lays them out.
 
-The interleaved order forced a run of blank padding rows between the two
-clubs: club A's roster lists all `teams_a` pairs, which needs more vertical
-room than its bracket-1 block alone has. Grouping a club's brackets together
-means the roster spans that club's own blocks naturally, so no block is ever
-padded — every block is exactly `2n` rows, and a club's pairs read top to
-bottom. Single-bracket geometry is unchanged.
+Interleaving forces a run of blank padding rows between the two clubs: club
+A's roster lists all `teams_a` pairs, which needs more vertical room than its
+bracket-1 block alone has. Grouping a club's brackets together means the
+roster spans that club's own blocks naturally, so no block is ever padded —
+every block is exactly `2n` rows, and a club's pairs read top to bottom.
+Single-bracket geometry is identical either way.
 
-### 13.5 Smaller corrections
+### 13.5 Smaller details
 
 - **Column K (`Br Rank`) is left blank.** The spec names the column but never
   defines a formula, and the reference workbook has none either — only the
@@ -1067,17 +1073,15 @@ bottom. Single-bracket geometry is unchanged.
   via `Logger`, prefixed `[sage]`. Layout bugs here are invisible in a
   finished tab unless you already know which row was expected.
 
-### 13.6 Still not built
+### 13.6 What a generated workbook still needs
 
-Phase 2 (§10.1 `SCHEDULE`) and Phase 3 (§10.2 `CSV`, `STANDINGSCSV`,
-`Court Control`) are unchanged and unbuilt. A freshly generated workbook has
-correct category tabs, `Variables`, `Title` and `Reference for Players`, but
-its `SCHEDULE` and the tabs derived from it still carry whatever event the
-master was copied from — so it is **not** ready to run an event as-is. The
-completion toast says player names still need pasting, which understates
-this.
+Player names. Phase 2 (§10.1 `SCHEDULE`) and Phase 3 (§10.2, the four readout
+tabs) are both built, so a freshly generated workbook has correct category
+tabs, `Variables`, `Title`, `Reference for Players`, `SCHEDULE`,
+`Court Control`, `Timeline`, `CSV` and `STANDINGSCSV`, and is ready to run an
+event once rosters are pasted in.
 
-Also untested against a real generation: the two-bracket **`semis`** path.
-Every category in the reference CSV is single-bracket except `HIXD`
-(`semis`) and `AMD` (`aggregate`), and the layout and formulas for `semis`
-have been verified by computation but never by generating the tab.
+The two-bracket **`semis`** path is exercised by
+`scripts/verify-sheet-generator.mjs` but has never been generated against a
+real workbook. Every category in the reference CSV is single-bracket except
+`HIXD` (`semis`) and `AMD` (`aggregate`).

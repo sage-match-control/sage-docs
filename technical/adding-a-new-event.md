@@ -21,11 +21,10 @@ general multi-club template.
 > already exist (step 8 installs the sync trigger into them). For a dual
 > meet, build that workbook with the
 > [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) — it produces
-> every category tab plus `Variables`, `Title` and `Reference for Players`
-> from the Tournament Calculator plan. It does **not** produce `SCHEDULE`,
-> nor the `CSV`/`STANDINGSCSV`/`Court Control` tabs that read from it, so
-> those remain hand work and the workbook isn't ready to score until they're
-> done.
+> every tab the event needs from the Tournament Calculator plan, and the
+> workbook is ready to score once player names are pasted in. The full
+> sequence, from planning to dry run, is
+> [preparing an event](../features/preparing-an-event.md).
 
 ## The steps, in order
 
