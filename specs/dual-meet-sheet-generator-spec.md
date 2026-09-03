@@ -831,10 +831,13 @@ this section used to pose: the cross-product pairing plus court and slot
 assignment is **ported into the generator**, not exported by the
 calculator, whose plan CSV stays a round-trippable config file.
 
-### 10.2 Phase 3 — `CSV`, `STANDINGSCSV`, `Court Control`
+### 10.2 Phase 3 — `CSV`, `STANDINGSCSV`, `Court Control`, `Timeline`
 
-Row-count-driven: fixed formulas sized to the match count and roster.
-Mechanical once Phase 2 fixes the numbers.
+Specified separately, in `dual-meet-readouts-generator-spec.md`. Not built yet.
+
+Row-count-driven: formulas sized to the match count and roster. That spec
+covers four tabs — `CSV`, `STANDINGSCSV`, `Court Control` and `Timeline` —
+and the `SCHEDULE` and `Variables` changes they depend on.
 
 ### 10.3 Not planned
 
