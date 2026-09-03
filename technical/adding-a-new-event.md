@@ -16,6 +16,17 @@ handle any number of tournament days and divisions/events.
 `dual-meet-template/` additionally handles exactly two clubs; it's not a
 general multi-club template.
 
+> **Dual meets: generate the scoring workbook, don't copy last event's.**
+> These steps instantiate the *site*; they assume the event's Google Sheets
+> already exist (step 8 installs the sync trigger into them). For a dual
+> meet, build that workbook with the
+> [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) — it produces
+> every category tab plus `Variables`, `Title` and `Reference for Players`
+> from the Tournament Calculator plan. It does **not** produce `SCHEDULE`,
+> nor the `CSV`/`STANDINGSCSV`/`Court Control` tabs that read from it, so
+> those remain hand work and the workbook isn't ready to score until they're
+> done.
+
 ## The steps, in order
 
 1. **Copy the template folder** into `events/<event-key>/` in the site

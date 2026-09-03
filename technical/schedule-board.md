@@ -105,10 +105,10 @@ placement is defensive: a valid, parseable `CourtAssignment` places
 directly; anything blank, unparseable, or a duplicate falls to the first
 free lane; a genuinely full slot **surfaces rather than drops** a match — a
 `+n` badge on the time cell lists the overflow match numbers in a tooltip.
-Row order must never be trusted as an implicit court assignment — an
-earlier build did this, happened to be correct at the time, and that's
-exactly what made it dangerous: an undocumented contract that breaks
-silently on a row reorder.
+Row order must never be trusted as an implicit court assignment. It can
+appear to work — row order often does line up with courts — and that is
+exactly what makes it dangerous: an undocumented contract that breaks
+silently the first time someone reorders a row.
 
 Polls on the same interval and cache-busting convention as the rest of the
 site (see [sync pipeline](sync-pipeline.md)); a failed poll leaves the last

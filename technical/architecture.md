@@ -31,20 +31,35 @@ The scoresheet feature is independent of all of the above: the site's
 `/scoresheets/generate/stream` and gets NDJSON progress lines plus a base64
 PDF back. See [Scoresheet pipeline](scoresheet-pipeline.md).
 
+## A fourth kind of code: bound Apps Script
+
+`sage-tools-api/scripts/` holds Google Apps Script that is versioned in that
+repo but is **not part of the service** and never runs on Cloud Run. It ships
+by being pasted into a spreadsheet's own bound script project, so changing
+one is not a deploy and doesn't bump the API version.
+
+| File | Bound to | Does |
+| --- | --- | --- |
+| `sheets-sync.gs` | each facility spreadsheet | the debounced onEdit trigger that calls `POST /sync/:day` (the diagram above) |
+| `sheet-generator.gs` | the SAGE Dual Meet Master workbook | builds a dual meet's category tabs from a Tournament Calculator CSV — see [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) |
+
+They sit at opposite ends: `sheets-sync.gs` is the *entry point* to the sync
+pipeline, while `sheet-generator.gs` touches no server at all and only
+prepares the workbook that pipeline will later read from.
+
 ## Why the registry lives in `event-data`, not in code
 
-Originally, the event/day/facility registry (which spreadsheets belong to
-which day, display labels, etc.) was a hardcoded object in
-`sage-tools-api`'s source. That meant adding an event or fixing a wrong
-sheet ID required a full Cloud Build image rebuild — `gcloud run deploy
---source .`, which rebuilds a Dockerfile that installs Chromium.
+The event/day/facility registry (which spreadsheets belong to which day,
+display labels, etc.) lives at `event-data/config/events.json`, fetched by
+`sage-tools-api` at runtime and cached with a TTL (`SyncConfigStore`).
 
-It now lives at `event-data/config/events.json`, fetched by
-`sage-tools-api` at runtime and cached with a TTL (`SyncConfigStore`). Adding
-an event or fixing a sheet ID is now a commit to `event-data`, live within
-about a minute, with **no redeploy**. See [event registry
-schema](event-data-config.md) for the shape, and [sync
-pipeline](sync-pipeline.md) for how the store fetches/caches/validates it.
+Holding it in `sage-tools-api`'s source instead would make adding an event or
+fixing a wrong sheet ID a full Cloud Build image rebuild — `gcloud run deploy
+--source .`, which rebuilds a Dockerfile that installs Chromium. As a config
+fetch, it is a commit to `event-data`, live within about a minute, with **no
+redeploy**. See [event registry schema](event-data-config.md) for the shape,
+and [sync pipeline](sync-pipeline.md) for how the store fetches, caches and
+validates it.
 
 ## Things that must be kept in sync by hand
 

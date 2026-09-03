@@ -1,48 +1,38 @@
 # Tournament Calculator
 
 `tools/tournament-calculator.html` — fully self-contained (inline
-`<style>` + `<script>`), no server dependency. Two independent bodies of
-work have shipped against it: dual-meet UI fixes, and turning it into an
-installable, offline-capable PWA.
+`<style>` + `<script>`), no server dependency.
 
 ## Dual-meet mode
 
-Dual-meet categories originally exposed **three** inputs — separate `Club A
-pairs` / `Club B pairs` fields plus a shared `Number of brackets` field that
-dual mode inherited from standard mode's default (4), so a new dual category
-opened showing 4 brackets instead of the sensible default of 1.
+A dual-meet category exposes two inputs: **Pairs per club** (default 5) and
+**Number of brackets** (`groupDual`, default 1).
 
-Fixed by:
-
-- Collapsing the two club-pair inputs into a single **Pairs per club**
-  field (default 5) that writes the same value to both `teamsA`/`teamsB`
-  internally. The internal split is kept — not collapsed to one field —
-  because the match math (`calcDualCategory`, `dualGroupStage`) already
-  handles asymmetric club sizes correctly, the CSV schema's `teams_a`/
-  `teams_b` columns stay stable, and asymmetry remains reachable via CSV
-  import (a plan saved before this change, or one hand-edited, can still
-  produce unequal counts — the "club pair counts differ" note that surfaces
-  that case was kept for exactly this reason).
-- A **separate `groupDual` field**, rather than reusing standard mode's
-  `group`. The format toggle is global and flips every category at once;
-  overwriting a shared field would destroy a carefully-set standard-mode
-  bracket layout the instant someone peeked at dual mode, with no undo. Two
-  fields means toggling formats back and forth is lossless. Standard mode's
-  `group` default (4) is untouched.
+- **Pairs per club writes the same value to both `teamsA` and `teamsB`.**
+  The internal split is deliberately kept rather than collapsed to a single
+  field: the match math (`calcDualCategory`, `dualGroupStage`) handles
+  asymmetric club sizes correctly, the CSV schema's `teams_a`/`teams_b`
+  columns stay stable, and asymmetry is still reachable through CSV import
+  or a hand-edited plan. The "club pair counts differ" note exists to
+  surface exactly that case, and must stay for it.
+- **Bracket count is `groupDual`, separate from standard mode's `group`.**
+  The format toggle is global and flips every category at once, so a shared
+  field would destroy a carefully-set standard-mode bracket layout the
+  instant someone peeked at dual mode, with no undo. Two fields make
+  toggling formats lossless. Standard mode's `group` default is 4.
 
 ## PWA (installable, offline)
 
 **The only page with offline support.** [Control
-Center](control-center.md) later became installable too, but with no
-service worker — the calculator remains the only page where *offline* is
-both useful and safe: it has no live data (nothing it renders can go
-stale, so caching can never show a wrong score — the exact failure mode
-that rules out full PWA treatment for a live-data page like Control
-Center or any event page), it's genuinely useful without a network
-(schedule planning happens at venues, on hotel wifi), and it's evergreen
-(not tied to an event lifecycle that would later strand a service
-worker). The event templates, the scoresheet generator, and archived
-events remain deliberately non-installable altogether.
+Center](control-center.md) is installable too, but has no service worker.
+The calculator is the only page where *offline* is both useful and safe: it
+has no live data (nothing it renders can go stale, so caching can never show
+a wrong score — the exact failure mode that rules out full PWA treatment for
+a live-data page like Control Center or any event page), it's genuinely
+useful without a network (schedule planning happens at venues, on hotel
+wifi), and it's evergreen (not tied to an event lifecycle that would strand
+a service worker). The event templates, the scoresheet generator, and
+archived events are deliberately non-installable altogether.
 
 **Manifest scope is the page path, not the directory**
 (`/tools/tournament-calculator.html`) — its own manifest, not the shared
@@ -66,14 +56,36 @@ third-party assets (fonts, SheetJS) are cached opportunistically
 (`Promise.allSettled`), so a CDN blip costs only the export button, not the
 ability to install at all.
 
-**Persistence was already built, just inert.** The page's `save()`/`load()`
-functions already wired up every field to a `window.storage` API — but
-that's a claude.ai artifacts runtime API, undefined on GitHub Pages, so both
-functions silently no-op in production. The fix was a small `localStorage`
-fallback (keeping the `window.storage` branch, in case the page is ever
-opened as an artifact again) — not a rewrite. One accepted side effect:
-this changes behavior for every visitor, not just installed ones — the
-calculator now remembers state across visits in a plain browser tab too.
+**Persistence works in any tab, not just an installed one.** `save()`/
+`load()` persist every field to `localStorage`, so a plan survives across
+visits in a plain browser tab. They also retain a `window.storage` branch —
+a claude.ai artifacts runtime API that is undefined on GitHub Pages — so the
+page still works if opened as an artifact.
+
+## Dual Meet Sheet Generator handoff
+
+Selecting the Dual meet format reveals a box under the export buttons whose
+button copies the plan CSV to the clipboard and opens the master workbook's
+`/copy` URL, so the operator lands in Google's "Make a copy" dialog and
+pastes into the
+[generator's](dual-meet-sheet-generator.md) sidebar.
+
+Three implementation details that are easy to get wrong:
+
+- **`buildPlanCsv()` is shared with `exportCSV()`**, so the clipboard and the
+  downloaded file are byte-identical.
+- **The clipboard write starts inside the click handler and is not awaited.**
+  The anchor's own `target="_blank"` navigation opens the dialog; awaiting the
+  clipboard promise first would push that navigation outside the user gesture
+  and into the popup blocker.
+- **There's an `execCommand('copy')` fallback**, because the async clipboard
+  API is secure-context only. If both fail, the message points at Export CSV
+  rather than failing silently.
+
+The master's file ID is hard-coded in the anchor's `href`. A Drive file ID is
+stable across folder moves, so only replacing the workbook itself breaks the
+link. The show/hide becomes a swap once a standard-tournament generator
+exists.
 
 ---
 **Features:** [Tournament Calculator usage](../features/tournament-calculator.md)

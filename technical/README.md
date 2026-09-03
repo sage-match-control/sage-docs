@@ -22,6 +22,17 @@ each page here.
 - **[Deployment](deployment.md)** — Cloud Run setup, the version/changelog
   convention, environment variables.
 
+## Bound Apps Script (in `sage-tools-api`, but not the API)
+
+Both live in `sage-tools-api/scripts/` for versioning, run inside a Google
+Sheet, and ship by being pasted into that sheet's own script project —
+changing either is not a deploy.
+
+- **[Dual Meet Sheet Generator](dual-meet-sheet-generator.md)** — builds a
+  dual meet's category tabs from a Tournament Calculator CSV.
+- The sync trigger (`sheets-sync.gs`) is covered in
+  [Sync pipeline](sync-pipeline.md).
+
 ## Frontend (`sage-match-control.github.io`)
 
 - **[Control Center](control-center.md)** — the single-page operator

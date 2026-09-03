@@ -1,10 +1,10 @@
 # Control Center
 
 One operator console (`tools/control-center.html`) covering every registered
-event, replacing what used to be a separate `match-control.html` copy
-per event — four copies at last count, ~13,700 lines total, each carrying
-its own ~106-line hand-duplicated configuration block. The console carries
-**no per-event configuration of its own**: it picks an event from
+event. The alternative it displaces is a separate copy of the console per
+event, each carrying its own hand-duplicated configuration block — which is
+why the console carries **no per-event configuration of its own**: it picks
+an event from
 `event-data/config/events.json` (see [event registry
 schema](event-data-config.md)), reads that event's registry entry, and
 renders.
@@ -73,8 +73,8 @@ effect yet.
 Each facility row in the Facility Sync Status list links directly to that
 facility's actual Google Sheet (`docs.google.com/spreadsheets/d/<sheetId>/edit`).
 `FACILITIES` (resolved per day-select from `EVENTS_REGISTRY`) carries
-`sheetId` alongside `name` for exactly this — previously dropped, since
-nothing needed it. No new exposure: sheet IDs are already public in the
+`sheetId` alongside `name` for exactly this. This exposes nothing extra:
+sheet IDs are already public in the
 same `config/events.json` fetch the console already makes (see [event
 registry schema](event-data-config.md) § Sheet IDs are effectively
 public). The link is omitted for a facility with no `sheetId` yet, the
@@ -98,6 +98,43 @@ spec ruled out for pages like this. The manifest alone is enough for
 "Add to Home Screen" / an install prompt and a standalone window; it adds
 no caching and changes no runtime behavior. An installed shortcut still
 needs a live connection to do anything, identical to a regular tab.
+
+## Narrow screens
+
+The console gets opened on a phone at a venue, so it holds up at 375px, and
+at 320px on the smallest common handsets. Three pieces carry that:
+
+- **The view-tab row** is a horizontal scroller below the breakpoint. Five
+  pills need ~400px in a row, more than a phone has, so they scroll rather
+  than wrap — wrapping costs ~30px of vertical space in a hero that is
+  already tall. An edge fade appears only on the side that still has content
+  past it, and activating a tab scrolls it fully into view, so nothing is
+  ever hidden without a cue.
+
+  `justify-content` is `flex-start` while scrolling, not `center`. A centred
+  flex row that overflows makes its *leading* items unreachable in every
+  browser.
+
+  The row is measured when it is **revealed** (after a day loads), not at
+  script load — while `display:none` its `scrollWidth`/`clientWidth` both
+  read 0. Anything that reveals those tabs by another path must call
+  `syncViewTabsScroll()`.
+
+- **The standings club-summary boxes** let their identity and stat blocks
+  shrink (`min-width:0`) below 520px. They sit in a `flex:1` box, so
+  `flex:0 0 auto` contents would have nothing to give and would spill past
+  their own border.
+
+- **Mission Control's status rows** wrap their detail onto its own line on
+  small screens, rather than truncating the facility name.
+
+Tap targets key off `@media (pointer:coarse)` rather than a width
+breakpoint, so a tablet gets them too — it is wide but still driven by a
+thumb.
+
+**Known gap, desktop rather than mobile:** the standings grid wants ~1100px
+inside a 920px `.wrap`, squeezing the pair-name cells to 16px so player
+names overflow them.
 
 ## Theme
 
