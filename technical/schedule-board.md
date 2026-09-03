@@ -118,4 +118,4 @@ current court filter and scroll position.
 
 ---
 **Features:** [The schedule board, for spectators/operators](../features/tournament-hub.md#at-the-venue-the-schedule-board) · [launching it from Mission Control](../features/control-center.md#mission-control)
-**Spec:** `specs/schedule-screen-spec.md` in the site repo (full layout spec, pagination math, acceptance checklist).
+**Spec:** [`schedule-screen-spec.md`](../specs/schedule-screen-spec.md) (full layout spec, pagination math, acceptance checklist).

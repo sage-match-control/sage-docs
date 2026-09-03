@@ -12,9 +12,9 @@ renders.
 > Renamed from "Match Control" to "Control Center" after the fact — the
 > file, the URL (`/tools/control-center`), and every reference were moved
 > together; `tools/match-control.html` survives only as a redirect stub so
-> an already-bookmarked link keeps working. `specs/match-control-console-spec.md`
-> and `specs/awards-podium-tab-spec.md` in the site repo, both written
-> before the rename, still use the old name throughout — treat them as a
+> an already-bookmarked link keeps working. [`match-control-console-spec.md`](../specs/match-control-console-spec.md)
+> and [`awards-podium-tab-spec.md`](../specs/awards-podium-tab-spec.md), both
+> written before the rename, still use the old name throughout — treat them as a
 > historical record, not out of date documentation.
 
 ## Config resolution
@@ -273,4 +273,4 @@ wrong while the on-screen tab looks fine.
 
 ---
 **Features:** [Control Center](../features/control-center.md) · [Awards tab usage](../features/control-center.md#awards)
-**Specs:** `specs/match-control-console-spec.md` and `specs/awards-podium-tab-spec.md` in the site repo (full build history, acceptance checklists — both written under the console's old name).
+**Specs:** [`match-control-console-spec.md`](../specs/match-control-console-spec.md) and [`awards-podium-tab-spec.md`](../specs/awards-podium-tab-spec.md) (full build history, acceptance checklists — both written under the console's old name).

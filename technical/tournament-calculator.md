@@ -89,4 +89,4 @@ exists.
 
 ---
 **Features:** [Tournament Calculator usage](../features/tournament-calculator.md)
-**Specs:** `specs/calculator-dual-meet-spec.md` and `specs/calculator-pwa-spec.md` in the site repo.
+**Specs:** [`calculator-dual-meet-spec.md`](../specs/calculator-dual-meet-spec.md) and [`calculator-pwa-spec.md`](../specs/calculator-pwa-spec.md).

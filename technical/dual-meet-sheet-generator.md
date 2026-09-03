@@ -2,7 +2,8 @@
 
 `sage-tools-api/scripts/sheet-generator.gs` — bound Apps Script that builds a
 dual meet's category tabs from a Tournament Calculator CSV. Implements
-`specs/dual-meet-sheet-generator-spec.md` Phase 1.
+[`dual-meet-sheet-generator-spec.md`](../specs/dual-meet-sheet-generator-spec.md)
+Phase 1.
 
 **It lives in the API repo but is not part of the API.** It runs inside a
 Google Sheet, talks to no server, and ships by being pasted into the
@@ -139,11 +140,12 @@ computation but never by generating a real tab.
 
 ## Reading the spec
 
-`specs/dual-meet-sheet-generator-spec.md` is the design document, but it was
-written before the workbook was read closely, and **§13 records where the two
-disagree** — the CODES column's row count, the roster's position, the feeder
-formulas, and an entire undocumented score grid on the playoff blocks. Read
-§13 before trusting a cell reference anywhere else in it.
+[`dual-meet-sheet-generator-spec.md`](../specs/dual-meet-sheet-generator-spec.md)
+is the design document, but it was written before the workbook was read
+closely, and **§13 records where the two disagree** — the CODES column's row
+count, the roster's position, the feeder formulas, and an entire undocumented
+score grid on the playoff blocks. Read §13 before trusting a cell reference
+anywhere else in it.
 
 ---
 **Features:** [what the generator does for you](../features/dual-meet-sheet-generator.md)
