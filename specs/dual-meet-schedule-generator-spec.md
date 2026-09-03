@@ -82,8 +82,14 @@ reference data in §10 before any Sheets code is written.
 
 **Section-reference convention.** A bare `§n` means this document. A
 reference into another spec always names it — "Phase 1 spec §11.1",
-"`schedule-screen-spec.md` §3.1". Both documents have a §11, so the
-attribution matters.
+"`schedule-screen-spec.md` §3.1". Both documents have a §11, and both carry
+a divergences section at a different number (this one's is §12, Phase 1's is
+§13), so the attribution matters.
+
+**Read §12 before trusting a decision above it.** Parts of this document
+were written before the tab existed, and a few did not survive being
+generated. Those sections are corrected in place; §12 records what changed
+and why, so a later reader does not "fix" the code back.
 
 ---
 
@@ -439,10 +445,16 @@ them still orders correctly.
 
 ### 6.5 Applied as conditional formatting, not as fills
 
-The colour lands on **columns `D` and `J`** of each court block — the
-block's outer edges, framing each match and leaving the codes and scores in
-between on white. The web schedule board mirrors this as "the solid hue as
-a 5px left rule" (`schedule-screen-spec.md` §3).
+The colour lands on **columns `D` and `H`** of each court block — the two
+player-name columns (§2.2) — framing each match and leaving the codes and
+scores in between on white. The web schedule board mirrors this as "the
+solid hue as a 5px left rule" (`schedule-screen-spec.md` §3).
+
+> Corrected after Phase 2 was built. This section originally said `D` and
+> `J`, describing them as "the block's outer edges" — but `J` is
+> `team2Score` (§2.2), so colouring it contradicted this section's own
+> "leaving the codes and scores in between on white". `D` and `H` are what
+> deliver that intent. See §12.1.
 
 It is applied as **conditional format rules, one per category** — not by
 setting cell backgrounds. Three reasons, in order of weight:
@@ -458,7 +470,7 @@ setting cell backgrounds. Three reasons, in order of weight:
 
 ### 6.6 The rule
 
-One rule per category, applied to the `D` and `J` columns of every court
+One rule per category, applied to the `D` and `H` columns of every court
 block (`2 * courts` ranges per rule, via `setRanges`) over rows 6 to the
 last slot row. The separator column `K` is excluded by leaving it out of
 the ranges rather than by guarding in the formula.
@@ -478,8 +490,11 @@ category key. Two pieces of arithmetic carry the whole rule:
   value only in the top-left cell, so a rule evaluated on row 7 that read
   `E7` directly would see a blank. Both rows must look at row 6.
 - `8 * INT((COLUMN() - 4) / 8) + 5` — **finds the block's own code column.**
-  Column `D` (4) and column `J` (10) both resolve to `E` (5); court 2's `D`
-  (12) and `J` (18) both resolve to `M` (13).
+  Column `D` (4) and column `H` (8) both resolve to `E` (5); court 2's `D`
+  (12) and `H` (16) both resolve to `M` (13). The arithmetic maps every
+  column of a block — offsets 0 to 7, so `D` through the separator `K` —
+  onto that block's own `E`, which is why changing *which* columns the rule
+  covers never requires touching the formula.
 
 The test is `INDEX(SPLIT(code, "_"), 2)` — the second underscore-delimited
 token of `<CLUB>_<KEY>_<rest>` — compared exactly. That is deliberately not
@@ -520,8 +535,9 @@ reader knows they were considered, not overlooked.
   has confirmed the generator should not try to reproduce it.
 - **`I5:J5` is one merged `SCORE` header** (§2.2), not a vertical merge into
   row 4. `I` and `J` merge vertically per slot from row 6 down.
-- **Colour goes on `D` and `J`, via conditional formatting** (§6.5-§6.6) —
-  literally those two columns, not the `D:J` block.
+- **Colour goes on `D` and `H`, via conditional formatting** (§6.5-§6.6) —
+  literally those two columns, not the `D:J` block. (Recorded as `D` and
+  `J` before Phase 2 was built; corrected against the built sheet — §12.1.)
 - **Partial slots are centred** (§4.3). Confirmed as a deliberate choice: the
   phase chunking §4.3 already requires makes centring a single extra term, so
   it costs nothing over left-packing and matches the organiser's sheet.
@@ -555,9 +571,18 @@ it verifiable against the reference's 126 rows without a workbook, and it
 follows the same rule Phase 1's header comment sets out under "PURE VS.
 SHEETS-API CODE".
 
-Hook it into `generateEventTabs` after the category tabs and before
-`writeVariablesTab_` — the colour column §6.7 adds to `Variables` needs
-`categoryColor_`, and nothing else orders the two.
+Hook it into `generateEventTabs` **last** — after the category tabs and
+after `Variables`, `Title` and `Reference for Players`.
+
+Nothing orders it earlier. `categoryColor_` is a pure function of the
+category key (§6.4), so the colour column §6.7 adds to `Variables` resolves
+whether or not `SCHEDULE` has been built. What orders it *later* is failure
+blast radius: `SCHEDULE` is the most expensive and failure-prone step in the
+run (hundreds of merge-carrying `copyTo` calls, §8.5), and in the
+before-`Variables` position a single timeout takes three cheap,
+deterministic tabs down with it. Last means a `SCHEDULE` failure costs only
+`SCHEDULE` — which is what `dual-meet-sheet-generator-spec.md` §11.3 wants
+out of a partial failure. See §12.2.
 
 ### 8.2 Existing helpers to reuse — do not rewrite these
 
@@ -692,8 +717,8 @@ categories.forEach(function (cat) {
   var ranges = [];
   for (var c = 1; c <= courts; c++) {
     var start = COL.D + 8 * (c - 1);
-    ranges.push(schedule.getRange(6, start,     2 * slots, 1));  // D
-    ranges.push(schedule.getRange(6, start + 6, 2 * slots, 1));  // J
+    ranges.push(schedule.getRange(6, start,     2 * slots, 1));  // D — team 1 names
+    ranges.push(schedule.getRange(6, start + 4, 2 * slots, 1));  // H — team 2 names
   }
   rules.push(SpreadsheetApp.newConditionalFormatRule()
     .whenFormulaSatisfied(colorFormulaFor_(cat.key, lastCol, lastRow))
@@ -728,6 +753,48 @@ The completion toast currently says only that player names need pasting.
 Once Phase 2 lands it should stop implying the workbook is otherwise ready —
 `CSV`, `STANDINGSCSV` and `Court Control` are still Phase 3 and still carry
 the previous event's shape.
+
+### 8.10 `copyTo` does not carry column widths or row heights
+
+Found by generating one. `Range.copyTo` brings values, formats, formulas and
+merges (§8.5) — but column width and row height are **sheet** properties,
+not cell formats, so they do not come along. Left alone, every tiled court
+and every tiled slot sits at Sheets' defaults (100px / 21px) while court 1
+and slot 1 keep the master's sizing. It reads as "court 1 looks right,
+courts 2-9 look wrong".
+
+So after both tiling axes, copy the prototype's own dimensions:
+
+- court 1's seven column widths (`D:J`) onto every other court
+- slot 1's two row heights (rows 6, 7) onto every other slot's row pair
+
+**Not `autoResizeColumns`.** At generation time `D` and `H` are empty —
+their name lookups resolve only once the operator pastes rosters (§2.2) — so
+auto-fitting would collapse exactly the two columns that need the most room.
+
+The inter-court separator columns have no prototype to copy: the master is
+one court wide, and one court is always the *last* court, which carries no
+trailing separator (§2.5). They take **column `C`'s** width — the template's
+own blank spacer, and the only stated-intent gap width in the sheet.
+
+### 8.11 Flush between stages, or the whole tab times out
+
+A full-size event is merge-heavy in a way the call count hides:
+`courts * slots * 4` vertical merges (`E`, `G`, `I`, `J` per slot per
+court) — 540 for the reference event, up to 1440 at 12 courts and 30 slots.
+Every one of them is created by a `copyTo` in §8.5, and the value writes in
+§8.6 then land *on those merges*.
+
+Queued into a single un-flushed batch, that fails with
+**`Service timed out: Spreadsheets`** — not from too many calls, but from
+one batch too large to resolve. `SpreadsheetApp.flush()` between stages
+(after growing, after the vertical axis, per court on the horizontal axis,
+after the value writes) keeps any single batch small enough to settle.
+
+This is the concrete form of `dual-meet-sheet-generator-spec.md` §11.1's
+`flush()` note, and it is what makes §8.6's batched-write question moot:
+flushing the merges before writing into them is what lets the write stay
+`courts` calls rather than `courts * slots`.
 
 ---
 
@@ -799,8 +866,9 @@ Every number above is verified against the reference workbook.
 - The reference plan CSV reproduces **group matches 1-112** with identical
   numbers, times, courts and team codes
 - It produces the same 14 playoff matches (7 bronze, 7 finals) in the same
-  two slots, but in CSV order rather than the reference's hand order — the
-  one deliberate divergence (§4.2)
+  two slots, but in CSV order rather than the reference's hand order — a
+  deliberate divergence from the reference workbook (§4.2). For deliberate
+  divergences from *this document*, see §12.
 - Grid width is exactly `8 * courts + 2`; no stray separator past the last court
 - Every unused court carries `-` in `E`/`F`/`G`
 - No pair appears twice in one slot, in any category
@@ -810,6 +878,74 @@ Every number above is verified against the reference workbook.
 - Running the generator twice on the same workbook is **refused**, not
   half-applied (§8.3)
 - `Variables!E` carries one hex per category, with the cell painted to match
+- Every tiled court and slot matches the prototype's own column widths and
+  row heights — court 9 looks like court 1, slot 15 like slot 1 (§8.10)
+- A full-size event completes without `Service timed out: Spreadsheets`
+  (§8.11)
+
+---
+
+## 12. Where the built generator diverges from this document
+
+The counterpart to `dual-meet-sheet-generator-spec.md` §13, and it exists
+for the same reason: everything above was written *before* the tab existed,
+and a few of its decisions did not survive contact with a generated
+workbook. Each entry below records what this document originally said, what
+`sheet-generator.gs` actually does, and why — so the next reader treats the
+difference as a decision rather than a bug to be tidied back.
+
+The affected sections have been corrected in place; this section is the
+audit trail, not the specification.
+
+### 12.1 Colour goes on `D` and `H`, not `D` and `J`
+
+§6.5, §6.6 and §7 all originally named `D` and `J`, describing them as "the
+block's outer edges".
+
+That was wrong on this document's own evidence: `J` is `team2Score` (§2.2's
+column table), so colouring it directly contradicted §6.5's stated intent —
+"framing each match and leaving the codes **and scores** in between on
+white". `D` and `H` are the two player-name columns, and colouring those is
+what actually produces the described result: each side's names carry the
+category hue; the codes (`E`, `G`), match number (`F`) and both score cells
+(`I`, `J`) stay white. Confirmed against the built sheet by the organiser.
+
+`J` looks to have been picked by reading "outer edges" off the `D:J` span
+rather than off what those columns hold.
+
+The §6.6 formula needed no change — see the note added there.
+
+### 12.2 `SCHEDULE` is built last, not before `Variables`
+
+§8.1 originally said to hook it in "after the category tabs and before
+`writeVariablesTab_`", on the grounds that "the colour column §6.7 adds to
+`Variables` needs `categoryColor_`, and nothing else orders the two."
+
+The first half is not an ordering constraint: `categoryColor_` is pure
+(§6.4), so `Variables` gets its colour column regardless of whether
+`SCHEDULE` exists. The second half was the real finding — *nothing* ordered
+the two, so the position was free, and the first full run spent it badly: a
+`Service timed out: Spreadsheets` inside `buildScheduleTab_` (§8.11) left
+`Variables`, `Title` and `Reference for Players` unwritten, because all
+three sat behind the slowest and least reliable step in the run.
+
+Built last, a `SCHEDULE` failure costs only `SCHEDULE`.
+
+### 12.3 No `K`-column separator is ever written
+
+§2.1 describes the separator column `K`, and §8.5 tells the horizontal tile
+to copy `D5:K<lastRow>` for every court except the last, which copies
+`D5:J<lastRow>` "— no trailing separator".
+
+The built generator copies **`D:J` (7 columns) for every court, without
+exception**, and never writes into a separator column at all. Because blocks
+are placed 8 apart while only 7 columns are written, the one-column gap
+falls out for free as untouched space, and "the last court has no trailing
+separator" stops being a case to handle. The master's own prototype has no
+`K` to copy from anyway (§2.5 — one court is always the last court), which
+is what forced the simplification and then justified it.
+
+Only the *width* of those gap columns needs setting, per §8.10.
 
 ---
 

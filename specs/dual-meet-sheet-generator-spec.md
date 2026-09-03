@@ -821,7 +821,9 @@ equivalent `semis` tab by the banner plus two blocks.
 
 ### 10.1 Phase 2 — `SCHEDULE`
 
-Specified separately, in `dual-meet-schedule-generator-spec.md`.
+Specified separately, in `dual-meet-schedule-generator-spec.md`, and **built** —
+`sheet-generator.gs` generates `SCHEDULE` as of Phase 2. See that spec's §12
+for where the built tab diverges from its own text.
 
 Nothing in the CSV contains a schedule — the calculator computes match
 *counts* only (`dualPlayoffPlan`, line ~376). That spec settles the fork
@@ -968,6 +970,8 @@ general rules there are artefacts of that one case.
 | Scaffold sits beside each club's own block | **Both** clubs' scaffolds sit beside **club A's** bracket-1 block — same rows, club A in `AA:AG`, club B in `AP:AV`. Club B's is nowhere near club B's block. |
 | (not mentioned) | A pair-index number `1..teams_a` sits in `AA`/`AP`, one per pair, on that pair's first name row only. |
 | (not mentioned) | Row `header-1` carries `STEP 1/2/3`; row `header` carries "Put names here" / "Copy these numbers" / "Put randomized codes". |
+| `AG`/`AV` (RANDOMIZED, `STEP 3`) holds "the same codes after the operator shuffles them" (§4.0.2) | Generated **blank** — fill only, no values. It was briefly pre-seeded with the codes in roster order, which was wrong twice over: it makes a step that hasn't been done look done, and an unshuffled `STEP 3` is not a no-op — it maps every pair to its own roster slot, defeating the blinding the shuffle exists for. `CODES` (`STEP 2`) is the only one of the three columns the generator populates. |
+| `AC5 =AG5` (§4.0.2) | Wrapped as `=IF(AG5="","",AG5)`, and the mirror row likewise. With `STEP 3` shipping blank, a bare `=AG5` against an empty cell renders `0`, not blank — a column of zeros beside every unfilled roster. |
 
 Colors are fixed values read off the reference, not derived: header row
 `#70ad47`, index column `#cccccc`, NAMES and RANDOMIZED `#fff2cc`, the

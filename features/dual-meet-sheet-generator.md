@@ -20,7 +20,12 @@ Given a plan with seven categories, it creates seven tabs, each with:
 - The name-entry scaffold — the numbered STEP 1 / 2 / 3 columns where you
   paste your roster.
 
-It also fills in the `Variables`, `Title`, and `Reference for Players` tabs
+It also builds the **`SCHEDULE`** tab — every match, numbered and placed on a
+court and a start time, with each category colour-coded. That is the tab you
+type scores into during the event, and the one every scoring formula reads
+match results back from.
+
+And it fills in the `Variables`, `Title`, and `Reference for Players` tabs
 from the same plan, so the event name, date, courts, and match duration are
 all consistent without being typed three times.
 
@@ -35,6 +40,12 @@ all consistent without being typed three times.
 5. Paste the plan into the sidebar (Ctrl+V, or Cmd+V on Mac), add the venue
    name, and click **Generate**.
 
+If you would rather work from the file than the clipboard, you can **drag the
+calculator's exported `.csv` straight onto the big box**, or use the
+sidebar's **Choose file** button — either one fills the same box, so you can
+still read over the plan, or edit it, before generating. All three routes are
+equivalent; a file is read on your own machine and never uploaded anywhere.
+
 The first time you run it, Google will ask you to authorize the script. That
 is expected — it is the workbook's own script asking for permission to write
 to the workbook.
@@ -46,10 +57,10 @@ still hand work:
 
 - **Player names.** The plan has no roster in it, so the name columns come
   out empty for you to paste into. The generator says so when it finishes.
-- **The schedule.** The `SCHEDULE` tab — and the `CSV`, `STANDINGSCSV`, and
-  `Court Control` tabs that read from it — are not generated. Until you build
-  those, they still hold whatever event the master workbook was copied from,
-  so scores will not compute and the live sync will publish the wrong thing.
+- **The readout tabs.** `CSV`, `STANDINGSCSV`, and `Court Control` are not
+  generated. Until you rebuild those, they still hold whatever event the
+  master workbook was copied from, so the live sync will publish the wrong
+  thing.
 
 Treat the generated workbook as a well-formed starting point, not a finished
 one.
@@ -67,6 +78,11 @@ Common ones:
   overwrite or rename anything — delete or rename the old tabs yourself
   first. This is deliberate: a half-replaced set of tabs partway through an
   event is far worse than being told to clean up first.
+- **`SCHEDULE` has already been built.** Unlike the category tabs, `SCHEDULE`
+  is grown in place from the master's one-court starter, so it can only be
+  built once. If you have already generated into this workbook — or a run
+  failed partway through — start again from a fresh copy of the master. The
+  generator will not try to reset the tab, for the same reason as above.
 
 ## Playoff shapes
 
