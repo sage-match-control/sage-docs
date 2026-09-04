@@ -1,4 +1,0 @@
-- [Features](features/README.md)
-- [Technical](technical/README.md)
-- [Specs](specs/README.md)
-- [GitHub](https://github.com/sage-match-control/sage-docs)

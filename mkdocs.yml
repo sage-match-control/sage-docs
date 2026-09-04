@@ -1,0 +1,80 @@
+site_name: S.A.G.E. Documentation
+site_description: Documentation for S.A.G.E. Match Control Experts' tournament tooling.
+site_url: https://sage-match-control.github.io/sage-docs/
+repo_url: https://github.com/sage-match-control/sage-docs
+repo_name: sage-match-control/sage-docs
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+
+theme:
+  name: material
+  font: false
+  favicon: https://sage-match-control.github.io/assets/logo.png
+  logo: https://sage-match-control.github.io/assets/logo.png
+  palette:
+    scheme: default
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - tables
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+
+nav:
+  - Home: README.md
+  - Features & Usage:
+      - Overview: features/README.md
+      - Tournament Hub: features/tournament-hub.md
+      - Control Center: features/control-center.md
+      - Preparing an event: features/preparing-an-event.md
+      - Running an event, day of: features/running-an-event-day.md
+      - Scoresheet Generator: features/scoresheet-generator.md
+      - Tournament Calculator: features/tournament-calculator.md
+      - Dual Meet Sheet Generator: features/dual-meet-sheet-generator.md
+  - Technical:
+      - Overview: technical/README.md
+      - Architecture: technical/architecture.md
+      - Sync pipeline: technical/sync-pipeline.md
+      - Scoresheet pipeline: technical/scoresheet-pipeline.md
+      - Auth: technical/auth.md
+      - Deployment: technical/deployment.md
+      - Dual Meet Sheet Generator: technical/dual-meet-sheet-generator.md
+      - Named Function library: technical/named-function-library.md
+      - Control Center: technical/control-center.md
+      - Schedule board: technical/schedule-board.md
+      - Tournament Calculator: technical/tournament-calculator.md
+      - Event registry schema: technical/event-data-config.md
+      - Adding a new event: technical/adding-a-new-event.md
+  - Specs:
+      - Overview: specs/README.md
+      - Fast data delivery: specs/fast-data-delivery-spec.md
+      - Fast data delivery — explainer: specs/fast-data-delivery-explainer.md
+      - Runtime-fetched sync config: specs/sync-config-runtime-spec.md
+      - Match Control console: specs/match-control-console-spec.md
+      - Awards tab: specs/awards-podium-tab-spec.md
+      - Schedule screen: specs/schedule-screen-spec.md
+      - Calculator dual-meet fixes: specs/calculator-dual-meet-spec.md
+      - Calculator PWA: specs/calculator-pwa-spec.md
+      - Sheet generator (Phase 1): specs/dual-meet-sheet-generator-spec.md
+      - Schedule generator (Phase 2): specs/dual-meet-schedule-generator-spec.md
+      - Readouts generator (Phase 3): specs/dual-meet-readouts-generator-spec.md
+      - Event site templates: specs/event-templates-spec.md
+      - PNF × BUP dual meet: specs/pnf-x-bup-dual-meet-spec.md
