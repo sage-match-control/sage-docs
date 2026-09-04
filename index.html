@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<title>S.A.G.E. Documentation</title>
+<meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling: live sync, Control Center, Scoresheet Generator, Tournament Calculator, and the architecture behind them.">
+<link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+<meta property="og:title" content="S.A.G.E. Documentation">
+<meta property="og:description" content="Docs for S.A.G.E. Match Control Experts' tournament tooling.">
+<meta property="og:image" content="https://sage-match-control.github.io/assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+<style>
+  /*
+    S.A.G.E. house palette — navy structure, green accent, off-white paper —
+    shared verbatim with tools/control-center.html, tools/index.html and the
+    rest of sage-match-control.github.io so every S.A.G.E. surface reads as
+    one product, docs included.
+  */
+  :root{
+    --navy:#14263C;
+    --navy-deep:#0B1826;
+    --green:#7CB92C;
+    --green-dark:#5C8F1F;
+    --on-green:#0B1826;
+
+    --bg:#F6F7F2;
+    --bg-alt:#ECEEE6;
+    --card:#FFFFFF;
+    --ink:#14263C;
+    --muted:#5B6B74;
+    --line:#D9DED2;
+    --shadow: 0 14px 30px -20px rgba(11,24,38,.25);
+    --code-bg:#0B1826;
+    --code-ink:#EAEFE6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B1826;
+      --bg-alt:#101F30;
+      --card:#16283D;
+      --ink:#EAEFE6;
+      --muted:#9FB1AC;
+      --line:rgba(237,239,233,.14);
+      --green:#8FCB3F;
+      --green-dark:#6FA82A;
+      --shadow: 0 14px 30px -18px rgba(0,0,0,.55);
+      --code-bg:#0B1826;
+      --code-ink:#EAEFE6;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B1826;
+    --bg-alt:#101F30;
+    --card:#16283D;
+    --ink:#EAEFE6;
+    --muted:#9FB1AC;
+    --line:rgba(237,239,233,.14);
+    --green:#8FCB3F;
+    --green-dark:#6FA82A;
+    --shadow: 0 14px 30px -18px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box;}
+  html{overflow-x:hidden;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+  :focus-visible{ outline:3px solid var(--green); outline-offset:2px; }
+  a{ color:var(--green-dark); }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) a{ color:var(--green); } }
+  :root[data-theme="dark"] a{ color:var(--green); }
+
+  /* ---------- Loading placeholder (docsify swaps #app's innerHTML in) ---------- */
+  #app{ min-height:100vh; }
+  #app:empty::before{
+    content:"S.A.G.E. Documentation";
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    font-family:'Archivo Black',sans-serif;
+    text-transform:uppercase;
+    color:var(--navy);
+  }
+
+  /* ---------- App shell / masthead ---------- */
+  .sidebar .app-name{ opacity:1 !important; margin:0 0 20px !important; }
+  .app-name-link{
+    display:flex !important;
+    align-items:center;
+    gap:10px;
+    font-family:'Archivo Black',sans-serif !important;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+    font-size:16px !important;
+    color:#F1F3EC !important;
+  }
+  .app-name-link img{ height:28px; width:28px; border-radius:6px; flex-shrink:0; }
+
+  nav.app-nav{ margin-top:6px !important; }
+  nav.app-nav li{ margin: 0 0 0 20px !important; }
+  nav.app-nav a{
+    font-family:'Barlow Condensed',sans-serif !important;
+    font-weight:600 !important;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:13px !important;
+    color:var(--ink) !important;
+  }
+  nav.app-nav a:hover{ color:var(--green-dark) !important; }
+
+  .sidebar{
+    background:var(--navy) !important;
+    border-right:none !important;
+  }
+  .sidebar .search{ border-bottom:1px solid rgba(241,243,236,.16) !important; }
+  .sidebar .search input{
+    background:rgba(241,243,236,.08) !important;
+    border:1px solid rgba(241,243,236,.16) !important;
+    color:#F1F3EC !important;
+    font-family:'Inter',sans-serif !important;
+  }
+  .sidebar .search input::placeholder{ color:rgba(241,243,236,.5) !important; }
+  .sidebar .search .clear-button svg{ fill:rgba(241,243,236,.6) !important; }
+  .sidebar .search .results-panel a{ color:#F1F3EC !important; }
+  .sidebar .search h2{
+    color:var(--green) !important;
+    font-family:'Barlow Condensed',sans-serif !important;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+  }
+  .sidebar-nav{ padding: 4px 0 40px; }
+  .sidebar-nav > p, .sidebar-nav p.sidebar-heading{
+    font-family:'Barlow Condensed',sans-serif !important;
+    font-weight:700 !important;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    font-size:12.5px !important;
+    color:var(--green) !important;
+    margin:26px 0 6px !important;
+    padding-left:16px;
+  }
+  .sidebar-nav ul li{ margin: 2px 0 !important; }
+  .sidebar-nav ul li a{
+    font-family:'Inter',sans-serif !important;
+    color:rgba(241,243,236,.82) !important;
+    font-size:14.5px !important;
+    border-radius:8px;
+    transition:background .15s ease, color .15s ease;
+  }
+  .sidebar-nav ul li a:hover{
+    color:#fff !important;
+    background:rgba(241,243,236,.08);
+  }
+  .sidebar-nav ul li.active > a{
+    color:#fff !important;
+    font-weight:600 !important;
+    background:rgba(124,185,44,.22);
+    border-left:3px solid var(--green);
+    padding-left:13px !important;
+  }
+  .sidebar-toggle{
+    background:transparent !important;
+  }
+  .sidebar-toggle span{ background-color:var(--ink) !important; }
+
+  /* The default octocat ribbon doesn't match the SAGE brand — the repo link
+     lives as a plain text item in the navbar instead (see _navbar.md). */
+  .github-corner{ display:none !important; }
+
+  .content{ padding-top: 20px; }
+  .markdown-section{ max-width:840px; padding: 46px 42px 90px; }
+  .markdown-section > *:first-child{ margin-top:0 !important; }
+
+  .markdown-section h1{
+    font-family:'Archivo Black',sans-serif !important;
+    font-weight:400 !important;
+    text-transform:uppercase;
+    color:var(--navy);
+    font-size:clamp(28px,4.4vw,40px) !important;
+    line-height:1.05;
+    letter-spacing:.01em;
+    padding-bottom:14px;
+    margin-bottom:24px !important;
+    border-bottom:3px solid var(--green);
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .markdown-section h1{ color:var(--ink); } }
+  :root[data-theme="dark"] .markdown-section h1{ color:var(--ink); }
+
+  .markdown-section h2{
+    font-family:'Barlow Condensed',sans-serif !important;
+    font-weight:700 !important;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--navy);
+    font-size:23px !important;
+    margin:44px 0 14px !important;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .markdown-section h2{ color:var(--ink); } }
+  :root[data-theme="dark"] .markdown-section h2{ color:var(--ink); }
+
+  .markdown-section h3{
+    font-family:'Barlow Condensed',sans-serif !important;
+    font-weight:600 !important;
+    color:var(--navy);
+    font-size:18.5px !important;
+    margin:30px 0 10px !important;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .markdown-section h3{ color:var(--ink); } }
+  :root[data-theme="dark"] .markdown-section h3{ color:var(--ink); }
+
+  .markdown-section h4{
+    font-family:'Inter',sans-serif !important;
+    font-weight:700 !important;
+    color:var(--muted);
+    font-size:14px !important;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  .markdown-section p, .markdown-section li{ color:var(--ink); }
+  .markdown-section strong{ color:var(--navy); }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .markdown-section strong{ color:var(--ink); } }
+  :root[data-theme="dark"] .markdown-section strong{ color:var(--ink); }
+
+  .markdown-section code{
+    background:var(--bg-alt);
+    color:var(--navy-deep);
+    border-radius:5px;
+    padding:.15em .4em;
+    font-size:.88em;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .markdown-section code{ color:var(--green); } }
+  :root[data-theme="dark"] .markdown-section code{ color:var(--green); }
+
+  .markdown-section pre{
+    background:var(--code-bg) !important;
+    border-radius:12px;
+    box-shadow:var(--shadow);
+  }
+  .markdown-section pre > code{
+    background:transparent;
+    color:var(--code-ink);
+  }
+
+  .markdown-section blockquote{
+    border-left:4px solid var(--green);
+    background:var(--bg-alt);
+    border-radius:0 10px 10px 0;
+    color:var(--muted);
+    padding:2px 18px;
+  }
+
+  .markdown-section table{ border-radius:10px; overflow:hidden; box-shadow:var(--shadow); }
+  .markdown-section table tr{ border-top:1px solid var(--line); background:var(--card); }
+  .markdown-section table thead tr{
+    background:var(--navy);
+  }
+  .markdown-section table th{
+    color:#F1F3EC;
+    font-family:'Barlow Condensed',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-size:13px;
+  }
+  .markdown-section table td, .markdown-section table th{ border:none; padding:10px 16px; }
+  .markdown-section table tr:nth-child(2n){ background:var(--bg-alt); }
+
+  .markdown-section hr{ border:none; border-top:2px dashed rgba(124,185,44,.5); margin:40px 0; }
+
+  .app-sub-sidebar li{ font-family:'Inter',sans-serif; }
+
+  .pagination-item-label{
+    font-family:'Barlow Condensed',sans-serif !important;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--muted) !important;
+  }
+  .pagination-item-title{ color:var(--navy) !important; font-weight:600; }
+  .pagination-item{ border:1px solid var(--line) !important; border-radius:10px !important; }
+  .pagination-item:hover{ border-color:var(--green) !important; }
+
+  .docsify-copy-code-button{
+    font-family:'Inter',sans-serif !important;
+    background:var(--navy) !important;
+  }
+
+  .search input::placeholder, .content{ scroll-behavior:smooth; }
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-thumb{ background:var(--line); border-radius:6px; }
+  .sidebar::-webkit-scrollbar-thumb{ background:rgba(241,243,236,.2); }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+  window.$docsify = {
+    name: '<img src="https://sage-match-control.github.io/assets/logo.png" alt=""> S.A.G.E. Docs',
+    nameLink: '#/',
+    loadSidebar: true,
+    loadNavbar: true,
+    subMaxLevel: 2,
+    auto2top: true,
+    homepage: 'README.md',
+    coverpage: false,
+    routerMode: 'hash',
+    alias: {
+      '/.*/_sidebar.md': '/_sidebar.md',
+      '/.*/_navbar.md': '/_navbar.md'
+    },
+    search: {
+      maxAge: 86400000,
+      paths: 'auto',
+      placeholder: 'Search the docs…',
+      noData: 'No results.',
+      depth: 3
+    },
+    pagination: {
+      crossChapter: true,
+      crossChapterText: true
+    },
+    formatUpdated: '{MM}/{DD}/{YYYY}'
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+</body>
+</html>
