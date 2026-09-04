@@ -72,9 +72,14 @@ env var for every workbook of every event.
 `sheets-sync.gs` also declares `onOpen`, contributing **Generate
 Scoresheets** (deep-links into the Scoresheet Generator with this workbook's
 day and venue preselected — a link only, no HTTP request and no new OAuth
-scope), **Sync now**, **Pause live sync** / **Resume live sync**, and **Live
-sync settings** once configured, or **Set up live sync** otherwise. Pausing
-is for editing a watched tab (rosters, a mid-event schedule fix) without
+scope), **Sync now**, **Pause live sync** / **Resume live sync**, **Live
+sync settings** once configured (or **Set up live sync** otherwise), and
+**Help** — always present regardless of configuration state, since this is
+the one file guaranteed to be in every workbook. Help shows a workflow
+refresher plus this workbook's live status (configured/not, paused/not) in
+one dialog.
+
+Pausing is for editing a watched tab (rosters, a mid-event schedule fix) without
 publishing every intermediate state — it leaves the saved configuration and
 the installed trigger alone, it just makes `onEditInstallable` and the
 debounce trigger no-op until resumed. It's a backstop, not the primary

@@ -1034,6 +1034,18 @@ data**. No change needed.
 
 ## 15. Divergences
 
+- **`Help` menu item, added post-spec.** A `showSyncHelp()` dialog, always
+  contributed by `addSyncMenuItems_` regardless of configuration state (it's
+  the last item added, after `Live sync settings`/`Set up live sync`). Shows
+  a workflow refresher (generate tabs → paste rosters → fix anything → set
+  up sync last) alongside this workbook's live status via `readSyncConfig_()`
+  and `isSyncPaused_()` — so it doubles as "how do I do this again" and "did
+  I already do this." Lives in `sheets-sync.gs` rather than a README tab
+  precisely because that file is guaranteed present in every workbook
+  (hand-built or Master-generated), where a generator-created tab would not
+  be; a tab would also wrongly show up as a candidate in the setup dialog's
+  "tabs to watch" list. Introduced `escapeHtml_()` as a shared helper, since
+  `showScoresheetLink` already needed the same escaping inline.
 - **Pause/resume, added post-spec.** Not in the original design: a
   `SYNC_PAUSED` Script Property (unguarded by spreadsheet ID — an inherited
   pause on a copy fails safe rather than misdirecting anything), an
