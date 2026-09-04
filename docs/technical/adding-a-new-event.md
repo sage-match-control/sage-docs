@@ -53,7 +53,10 @@ general multi-club template.
 8. **Install the sync script** (`scripts/sheets-sync.gs`, from
    `sage-tools-api`) once per facility spreadsheet — set `DAY_KEY`,
    `FACILITY_NAME`, `CLOUD_RUN_BASE_URL` in its `CONFIG` block, run
-   `setup()` once to authorize and install the trigger.
+   `setup()` once to authorize and install the trigger. Reloading the
+   spreadsheet also adds a **SAGE → Generate Scoresheets** menu item
+   deep-linking into the [Scoresheet Generator](../features/scoresheet-generator.md)
+   with this workbook's day/venue preselected — no extra setup needed for it.
 9. **Create the data folder** in `event-data` — `<event-key>/data/`, or let
    the first successful sync create it.
 10. **Copy the dry-run checklist** template into the event's own folder —

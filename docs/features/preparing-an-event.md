@@ -120,7 +120,10 @@ step that exercises the whole chain end to end, and the only place a
 case-sensitive facility name or a missing column is cheap to find.
 
 If you print scoresheets, this is also when to generate them — see the
-[Scoresheet Generator](scoresheet-generator.md).
+[Scoresheet Generator](scoresheet-generator.md). Once the rehearsal has
+proven a sync reaches the public page, the generator can pull matches
+straight from that registered event/day/venue instead of downloading a CSV
+from the workbook.
 
 ## What "ready" looks like
 

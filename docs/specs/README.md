@@ -16,6 +16,9 @@ instead, and come here when you need the *why* behind a specific piece.
 - **[Runtime-fetched sync config](sync-config-runtime-spec.md)** — why
   `event-data/config/events.json` is fetched at runtime instead of committed
   to `sage-tools-api`.
+- **[Sync script configuration](sync-script-configuration-spec.md)** — why
+  `sheets-sync.gs` keeps its per-workbook config in Script Properties, and the
+  validation the setup dialog runs before saving it.
 
 ## Control Center
 
@@ -24,6 +27,11 @@ instead, and come here when you need the *why* behind a specific piece.
 - **[Awards tab](awards-podium-tab-spec.md)** — podium finishers and image
   export.
 - **[Schedule screen](schedule-screen-spec.md)** — the venue wall display.
+
+## Scoresheet Generator
+
+- **[Event picker](scoresheet-event-picker-spec.md)** — sourcing the matches
+  CSV from a published `event-data` snapshot instead of a file upload.
 
 ## Tournament Calculator
 

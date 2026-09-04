@@ -22,6 +22,19 @@ request — the sync pipeline is wired eagerly, so a sync-only cold start
 (the common case for this service) never pays Puppeteer's import cost at
 all. Don't move that import to the top level.
 
+## Where the CSV comes from
+
+`tools/scoresheet-generator.html` can source the `csv` part of the request
+from either an uploaded file, or — for a registered event — the `matchesCsv`
+string in that day's published `event-data` snapshot
+(`<event-key>/data/<day-key>.json`), fetched client-side and handed to the
+same `FormData` path as a `Blob`. That snapshot's CSV already has the exact
+header this pipeline's `CsvService` expects (matched by header name, not
+position), so no transformation happens on either side — this pipeline has
+no awareness of where its input came from. See
+`sage-docs/docs/specs/scoresheet-event-picker-spec.md` for the picker's own
+design.
+
 ## Endpoints
 
 - **`POST /scoresheets/generate`** — multipart (`csv` file + `evt`, `type`,

@@ -164,6 +164,18 @@ a block one row off looks like a perfectly normal spreadsheet unless you
 already know which row it should have been on. Every bug found while building
 this was of that kind.
 
+## The `onOpen` it shares with `sheets-sync.gs`
+
+The generator's `onOpen` adds the `SAGE → Generate event tabs` menu item. A
+generated dual-meet workbook also carries `sheets-sync.gs` (pasted in during
+setup), which declares its own `onOpen` for `SAGE → Generate Scoresheets`.
+Two `onOpen` declarations in one Apps Script project don't error — the
+last-loaded file's silently wins, and load order isn't controllable — so
+both files' `onOpen` bodies build the *same* menu, each feature-detecting
+whether the other file's entry point exists
+(`typeof showScoresheetLink === 'function'`) rather than assuming it does.
+Change this file's `onOpen`, change `sheets-sync.gs`'s to match.
+
 ## What is not generated
 
 Player names. Every other tab a generated workbook needs — category tabs,

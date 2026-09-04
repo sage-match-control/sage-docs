@@ -58,6 +58,14 @@ The first time you run it, Google will ask you to authorize the script. That
 is expected — it is the workbook's own script asking for permission to write
 to the workbook.
 
+Once the live sync script is installed on a facility spreadsheet (see
+[preparing an event](preparing-an-event.md)), the **SAGE** menu also gets a
+**Generate Scoresheets** item, above the separator from **Generate event
+tabs**. Unlike its neighbour, it's safe and repeatable to click any time — it
+just opens the [Scoresheet Generator](scoresheet-generator.md) in a new tab
+with this workbook's day and venue already selected, and makes no changes to
+the spreadsheet.
+
 ## What it does *not* do
 
 **Player names.** The plan has no roster in it, so the name columns come out

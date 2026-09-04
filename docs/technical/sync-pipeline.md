@@ -45,6 +45,19 @@ it has to be installed rather than the default simple trigger), debounces
 edits, and POSTs to Cloud Run. Install steps are in the script's own header
 comment.
 
+`sheets-sync.gs` also declares `onOpen`, adding a **SAGE → Generate
+Scoresheets** menu item that deep-links into the Scoresheet Generator with
+this workbook's day and venue preselected — a link only, no HTTP request and
+no new OAuth scope. A generated dual-meet workbook carries both this file and
+`sheet-generator.gs`, and Apps Script silently lets the last-loaded file's
+`onOpen` win when two are declared — so both files' `onOpen` bodies build the
+*same* menu, each feature-detecting the other's entry point
+(`typeof showGenerateSidebar === 'function'` / `typeof showScoresheetLink ===
+'function'`) rather than assuming it exists. Change one file's `onOpen`,
+change the other's to match — see the divergences/design notes in
+`sage-docs/docs/specs/scoresheet-event-picker-spec.md` §8.3 for why this
+shared-contract shape was chosen over the alternatives.
+
 ## The runtime-fetched event registry
 
 The event/day/facility registry — which spreadsheets exist, their
