@@ -1,11 +1,11 @@
 # S.A.G.E. Documentation
 
-S.A.G.E. (Match Control Experts) is pickleball tournament tooling: live
-match/standings sync from a Google Sheet to a public event site, an operator
-console for running the day of, and a couple of standalone generator tools
-(scoresheets, bracket graphics, tournament timing). This repo is the
-documentation for all of it, split into two sections for two different
-readers.
+S.A.G.E. Match Control Experts is a team that runs pickleball tournaments.
+This repo documents the tooling they built to do it: live match/standings
+sync from a Google Sheet to a public event site, an operator console for
+running the day of, and a couple of standalone generator tools (scoresheets,
+bracket graphics, tournament timing). It's split into two sections for two
+different readers.
 
 ## [Features & Usage](features/README.md)
 
