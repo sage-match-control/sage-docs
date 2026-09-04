@@ -29,6 +29,9 @@ repo. They're workbook-level `LAMBDA` definitions under
 (an easy thing to assume, since the generator itself *is* bound Apps
 Script — but the two are unrelated features living in the same workbook).
 Generating a *blank* spreadsheet would produce tabs full of `#NAME?`.
+The library itself — every definition, its dependency graph, and the traps
+that come with editing it — is written up in
+[The Named Function library](named-function-library.md).
 
 So generation has to start from a copy of a master workbook that already
 carries those functions. That single constraint rules out the Sheets API

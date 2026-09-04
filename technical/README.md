@@ -30,6 +30,10 @@ changing either is not a deploy.
 
 - **[Dual Meet Sheet Generator](dual-meet-sheet-generator.md)** — builds a
   dual meet's category tabs from a Tournament Calculator CSV.
+  - **[Named Function library](named-function-library.md)** — the 23
+    workbook-level `LAMBDA` definitions those generated formulas call. Not
+    Apps Script: they live in the workbook itself, under
+    Data → Named functions.
 - The sync trigger (`sheets-sync.gs`) is covered in
   [Sync pipeline](sync-pipeline.md).
 
