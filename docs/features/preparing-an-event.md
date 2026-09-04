@@ -53,6 +53,11 @@ Export the plan when it's right. For a dual meet, use **Copy plan & open
 generator** rather than the file export — it puts the plan on your clipboard
 and opens the master workbook's copy dialog in one step.
 
+If any category needs pairs split into brackets, draw them now with the
+[Bracket Generator](bracket-generator.md) — before the workbook exists, so
+the draw's result is what you paste into each category tab's name-entry
+columns in the next step, rather than something you work out after the fact.
+
 ## 2. Build the scoring workbook
 
 **Dual meet:** use the

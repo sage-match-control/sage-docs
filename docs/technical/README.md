@@ -46,6 +46,8 @@ changing either is not a deploy.
 - **[Schedule board](schedule-board.md)** — the venue wall display.
 - **[Tournament Calculator](tournament-calculator.md)** — the dual-meet math
   fixes and its PWA (installable, offline) setup.
+- **[Bracket Generator](bracket-generator.md)** — the one-palette-source
+  arrangement that keeps the canvas export in step with the page.
 
 ## Data (`event-data`)
 

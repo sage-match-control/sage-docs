@@ -28,6 +28,8 @@ bottom of each page here.
 - **[Tournament Calculator](tournament-calculator.md)** — plan a tournament's
   timing before the draw is even final: how many matches, how many courts,
   what time it ends.
+- **[Bracket Generator](bracket-generator.md)** — paste in a category's pairs
+  and draw its brackets on screen, exported as an image or a text file.
 - **[Dual Meet Sheet Generator](dual-meet-sheet-generator.md)** — turn a
   finished dual-meet plan into the event's scoring workbook, instead of
   copying last event's and find-replacing team codes.

@@ -48,13 +48,6 @@ different courts on each), collapsing its header down to just the essentials
 for a screen that needs every pixel, and printing/exporting to PDF for a
 paper copy at the front desk.
 
-## Bracket Generator
-
-A separate tool for building and exporting playoff bracket graphics — paste
-in the pairs, get a clean bracket image ready to print or post, without
-wrestling a spreadsheet into a diagram. Self-contained; pairs are entered by
-hand, nothing is fetched live.
-
 ## What you *won't* see here
 
 Tournament Hub is read-only and always shows the current state of play —

@@ -19,7 +19,8 @@ copies; script-relative line numbers are offsets within the `<script>` block.
 
 **Settled up front** (§3): data comes from the Cloud Run snapshot pipeline, not
 a direct browser fetch of Google Sheets; snapshots go to one generic data repo
-with a folder per event; `bracket-generator.html` ships in both templates.
+with a folder per event; `bracket-generator.html` ships in both templates
+*(superseded — see D3 below)*.
 
 ---
 
@@ -31,11 +32,9 @@ _templates/
   standard-tournament-template/
     index.html
     match-control.html
-    bracket-generator.html
   dual-meet-template/
     index.html
     match-control.html
-    bracket-generator.html
 ```
 
 `_templates/` at the **repo root**, not under `events/`.
@@ -51,11 +50,6 @@ unpublished.
 - Templates contain only placeholders and example values, never secrets, so if
   they do leak into the published site nothing is exposed — it is a tidiness
   boundary, not a security one. State that in `_templates/CLAUDE.md`.
-
-`bracket-generator.html` is byte-identical in both templates. The duplication is
-deliberate: it makes instantiation a single `cp -r` of one folder. Add a comment
-at the top of both copies noting that a change to one must be mirrored to the
-other.
 
 ---
 
@@ -114,6 +108,15 @@ instantiation, and one less way for a new event to point at nothing.
 **D3 — `bracket-generator.html` ships in both templates.**
 It is fully event-agnostic (no config block, no sheet access — pairs are pasted
 in by hand), so it is copied verbatim from bkl and needs no genericisation.
+
+> **Superseded by the bracket generator spec.** The per-template copy this
+> decision describes was correct at the time — the duplication cost (§1) was
+> real but small next to genericising a template contract from scratch. Once
+> the tool had shipped and drifted (one copy fell behind the S.A.G.E. theme
+> with no mechanism catching it), that trade flipped: the tool moved to one
+> evergreen copy at `tools/bracket-generator.html`, with an optional
+> **Event name** field replacing the token-based branding it loses. See
+> `sage-docs/docs/specs/bracket-generator-spec.md`.
 
 **D4 — Organizer page stays unlinked.** Follow bkl: `match-control.html` is not
 linked from `index.html`; the URL is handed out directly.
@@ -511,7 +514,6 @@ It must cover:
    **not** affect the choice; both templates handle any number of each.
 2. **The steps**, in order:
    - `cp -r _templates/<template> events/<event-key>/`
-   - rename `bracket-generator.html`'s sibling QR image placeholder
    - replace every `{{TOKEN}}` (§4.2) — then `grep -r '{{' events/<event-key>/`
      must come back empty
    - replace the `// EXAMPLE — replace` config values: `DAYS`, `FACILITIES`,
