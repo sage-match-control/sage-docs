@@ -704,13 +704,17 @@ the three stay three.
 
 ### 8.3 The `onOpen` collision — read this before writing the menu
 
-> **`sync-script-configuration-spec.md` §6 is authoritative for the `onOpen`
-> contract.** It resolves the same collision with identical `onOpen` bodies in
-> both files delegating to feature-detected `addSyncMenuItems_` /
-> `addGeneratorMenuItems_` builders, which is stricter than the two
-> feature-detecting bodies below. If that spec is built, add
-> `Generate Scoresheets` inside `addSyncMenuItems_` and skip the rest of this
-> section. The explanation of *why* the collision exists still applies.
+> **`sync-script-configuration-spec.md` §7 is authoritative for the `onOpen`
+> contract, and it has landed.** It resolves the same collision with
+> identical `onOpen` bodies in both files delegating to feature-detected
+> `addSyncMenuItems_` / `addGeneratorMenuItems_` builders, which is stricter
+> than the two feature-detecting bodies below — this section's code sample is
+> historical. `Generate Scoresheets` is contributed by `addSyncMenuItems_`
+> and appears only in a workbook `readSyncConfig_()` finds configured,
+> alongside `Sync now` and `Live sync settings`; an unconfigured workbook
+> gets `Set up live sync` instead. The explanation of *why* the collision
+> exists still applies; skip the rest of this section for the actual
+> implementation.
 
 `sheets-sync.gs` defines **no `onOpen` today**; `sheet-generator.gs` defines the
 only one (~line 723). A generated dual-meet workbook ends up carrying **both**
@@ -803,37 +807,41 @@ function showScoresheetLink() {
 }
 ```
 
-The dialog **shows `DAY_KEY` and `FACILITY_NAME` before the click** on purpose:
+The dialog **shows the day key and facility name before the click** on purpose:
 it lets the operator catch a misconfigured workbook here, rather than after
 landing on §6.6's error. That readout is the feature, not decoration — do not
 reduce this to a bare button.
 
-`rel="noopener"` accompanies `target="_blank"` as standard practice. Both values
-are interpolated into HTML, so if either is ever made operator-editable at
-runtime they need escaping; as module-level constants edited in source, they are
-not a live injection path.
+`rel="noopener"` accompanies `target="_blank"` as standard practice.
 
-### 8.5 If `DAY_KEY` / `FACILITY_NAME` move to Script Properties
-
-There is a separate, larger proposal to stop `sheets-sync.gs` carrying
-per-spreadsheet constants in source at all and read them from Script Properties
-instead (the pattern that file already uses for the shared secret). If that
-lands, this section changes in exactly one place — `showScoresheetLink` reads
-the two values from `PropertiesService.getScriptProperties()` rather than
-module constants:
+**Where the two values actually come from, as built:** `DAY_KEY` and
+`FACILITY_NAME` never stayed module constants — `sync-script-configuration-spec.md`
+moved all per-spreadsheet identity into Script Properties, so
+`showScoresheetLink` reads them from `readSyncConfig_()` instead:
 
 ```js
-const props = PropertiesService.getScriptProperties();
-const dayKey   = props.getProperty(PROP_DAY_KEY);
-const facility = props.getProperty(PROP_FACILITY_NAME);
-if (!dayKey || !facility) {
-  SpreadsheetApp.getUi().alert('Run setup() first — this workbook has no day/venue configured yet.');
+const config = readSyncConfig_();
+if (!config) {
+  SpreadsheetApp.getUi().alert(
+    'This workbook has no day or venue configured yet. Run SAGE -> Set up live sync first.'
+  );
   return;
 }
+// ...url built from config.dayKey / config.facilityName...
 ```
 
-Nothing else in §8 depends on where the values come from. The two changes are
-independent and can ship in either order.
+Both values are interpolated into HTML — as operator-entered property values
+now, rather than source constants, they are closer to a live injection path
+than before, so the `<dl>` readout escapes them (they already reach the
+`href` through `encodeURIComponent`). See
+`sync-script-configuration-spec.md` §8 for the full change.
+
+### 8.5 (superseded)
+
+This section previously proposed moving `DAY_KEY`/`FACILITY_NAME` to Script
+Properties as a separate, larger follow-up. That follow-up is
+`sync-script-configuration-spec.md`, it has shipped, and its change is now
+folded into §8.4 above.
 
 ### 8.6 Install instructions
 
@@ -952,5 +960,11 @@ written, not when the feature ships.
 
 ## 12. Divergences
 
-*(Empty at time of writing — record here where the built feature departs from
-this document, as `dual-meet-sheet-generator-spec.md` §13 does.)*
+- **§8.3's `onOpen` collision** is resolved by `sync-script-configuration-spec.md`
+  §7's shared-builder contract (`addSyncMenuItems_` / `addGeneratorMenuItems_`)
+  instead of this spec's own two feature-detecting `onOpen` bodies. §8.3's
+  code sample is historical.
+- **§8.4/§8.5 — `DAY_KEY`/`FACILITY_NAME` moved to Script Properties.** §8.5's
+  "if this happens" proposal happened: `showScoresheetLink` reads
+  `readSyncConfig_()` instead of module constants. Folded into §8.4; §8.5
+  itself is superseded.

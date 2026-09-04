@@ -67,9 +67,11 @@ There's no single source of truth enforcing these — they're conventions,
 not code:
 
 - `event-data/config/events.json`'s `events[<event>].days` ↔ the `DAYS`
-  array in that event's page ↔ each of its spreadsheets' `DAY_KEY` /
-  `FACILITY_NAME` in `sheets-sync.gs`. Facility names are compared exactly
-  and are case-sensitive.
+  array in that event's page ↔ each spreadsheet's day key and facility name,
+  set through that workbook's **SAGE → Set up live sync** menu item and
+  stored in its own Script Properties (`sheets-sync.gs`'s source is
+  identical in every workbook). Facility names are compared exactly and are
+  case-sensitive — setup validates both against the registry before saving.
 - Adding a scoresheet type = a new `templates/<name>.{html,css}` pair in
   `sage-tools-api` **and** an entry in `ScoresheetConfig.mjs`. Nothing else
   needs touching.

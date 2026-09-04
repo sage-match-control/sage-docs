@@ -166,15 +166,32 @@ this was of that kind.
 
 ## The `onOpen` it shares with `sheets-sync.gs`
 
-The generator's `onOpen` adds the `SAGE → Generate event tabs` menu item. A
-generated dual-meet workbook also carries `sheets-sync.gs` (pasted in during
-setup), which declares its own `onOpen` for `SAGE → Generate Scoresheets`.
-Two `onOpen` declarations in one Apps Script project don't error — the
-last-loaded file's silently wins, and load order isn't controllable — so
-both files' `onOpen` bodies build the *same* menu, each feature-detecting
-whether the other file's entry point exists
-(`typeof showScoresheetLink === 'function'`) rather than assuming it does.
-Change this file's `onOpen`, change `sheets-sync.gs`'s to match.
+The Dual Meet Master carries `sheets-sync.gs` alongside the generator, so a
+copy of the Master is ready for both features from the start — no code
+pasting needed for either. Both files declare a **byte-identical** `onOpen`
+that delegates to feature-detected builders, `addGeneratorMenuItems_` here
+and `addSyncMenuItems_` in `sheets-sync.gs`, each contributing only its own
+menu items and its own leading separator. Two `onOpen` declarations in one
+Apps Script project don't error — the last-loaded file's silently wins, and
+load order isn't controllable — but which one wins can't matter here, since
+both bodies are the same text. Change this file's `onOpen`, change
+`sheets-sync.gs`'s to match — see
+`sage-docs/docs/specs/sync-script-configuration-spec.md` §7 for the full
+contract.
+
+`Generate event tabs` appears only in a workbook that hasn't been generated
+yet: `addGeneratorMenuItems_` checks the `TABS_GENERATED_FOR` Script
+Property that `generateEventTabs` writes at the end of a successful run
+(stamped with the spreadsheet's ID, so an inherited property from a copy
+doesn't suppress the item in a workbook that genuinely needs it) and
+contributes nothing once it matches. This is menu hygiene, not a safety
+mechanism — `REBUILT_IN_PLACE_TABS`' pristine-shape check is what actually
+refuses a second run — but it stops a live event workbook from offering an
+action that can only produce an error.
+
+For the sync half — the setup dialog, its validation, and the
+spreadsheet-ID guard that keeps a copied workbook from inheriting another
+facility's day key — see [Sync pipeline](sync-pipeline.md).
 
 ## What is not generated
 

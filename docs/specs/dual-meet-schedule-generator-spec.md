@@ -594,9 +594,11 @@ court arithmetic is relative to `COL.D`.
 Every other tab in Phase 1 is *created* by copying `_CATEGORY_TEMPLATE`.
 `SCHEDULE` is not: the master's own `SCHEDULE` **is** the prototype (§2.5),
 and the generator grows it where it sits. There is no `_SCHEDULE_TEMPLATE`
-and none should be added — the tab's GID is referenced by
-`scripts/sheets-sync.gs` (`WATCHED_SHEET_GIDS`), so replacing the tab
-would break the live sync trigger for that workbook.
+and none should be added — the tab's GID is what the live sync trigger
+watches (resolved from the tab name at setup and stored in that workbook's
+`SYNC_WATCHED_GIDS` Script Property — see
+`sync-script-configuration-spec.md` §5), so replacing the tab would break
+the live sync trigger for that workbook.
 
 That makes the operation **non-idempotent**: running it twice would tile an
 already-tiled sheet.

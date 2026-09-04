@@ -613,9 +613,11 @@ anything is written. Add four entries:
 | `CSV` | 2 | 12 | header row + one match row |
 | `STANDINGSCSV` | 2 | 7 | header row + one pair row |
 
-`Court Control` shares `SCHEDULE`'s hard constraint: its tab GID is pinned
-in `scripts/sheets-sync.gs` (`WATCHED_SHEET_GIDS`), so replacing the tab
-kills the live sync trigger while the sheet still looks correct. `CSV` and
+`Court Control` shares `SCHEDULE`'s hard constraint: its tab GID is what the
+live sync trigger watches (resolved from the tab name at setup and stored in
+that workbook's `SYNC_WATCHED_GIDS` Script Property — see
+`sync-script-configuration-spec.md` §5), so replacing the tab kills the live
+sync trigger while the sheet still looks correct. `CSV` and
 `STANDINGSCSV` are addressed by **name** by the Cloud Run fetcher
 (`GvizCsvFetcher`'s `&sheet=`) and would survive replacement; they are
 rebuilt in place anyway so one rule covers every readout tab.

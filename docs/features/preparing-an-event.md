@@ -72,6 +72,10 @@ Two things to know before you run it:
   finishes; until they're filled, the workbook is structurally complete but
   has nobody in it.
 
+A generated workbook carries the live-sync script already — it's built into
+the master — so it's ready for step 4's sync setup with no code-pasting step
+of its own.
+
 **Standard tournament:** there's no generator yet, so the workbook is built by
 hand or copied from a previous event. Whichever way, it has to end up with the
 exact column names the sync expects — see
@@ -100,13 +104,15 @@ Two connections, and the event is inert until both exist:
 - **Register the event** in `event-data/config/events.json` — its type,
   title, and one entry per day with that day's venues. This takes effect
   within minutes of the commit; nothing needs redeploying.
-- **Install the sync script** into each venue's spreadsheet, once per
-  workbook, setting that workbook's day key and facility name. This is what
-  makes typing a score publish it.
+- **Wire up the sync** in each venue's spreadsheet, once per workbook: reload
+  it and run **SAGE → Set up live sync**, entering that workbook's day key
+  and facility name. This is what makes typing a score publish it.
 
 The facility names in the config and in each spreadsheet's own settings are
-compared exactly and are **case-sensitive**. A mismatch here is silent — the
-day just never publishes that venue.
+compared exactly and are **case-sensitive** — but setup doesn't leave that to
+chance: it confirms the entered day key and facility name against the
+registry (and runs a real test sync) before saving, so a mismatch is caught
+on the spot rather than discovered as a venue that silently never publishes.
 
 ## 5. Rehearse it
 

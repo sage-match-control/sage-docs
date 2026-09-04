@@ -58,13 +58,17 @@ The first time you run it, Google will ask you to authorize the script. That
 is expected — it is the workbook's own script asking for permission to write
 to the workbook.
 
-Once the live sync script is installed on a facility spreadsheet (see
-[preparing an event](preparing-an-event.md)), the **SAGE** menu also gets a
-**Generate Scoresheets** item, above the separator from **Generate event
-tabs**. Unlike its neighbour, it's safe and repeatable to click any time — it
-just opens the [Scoresheet Generator](scoresheet-generator.md) in a new tab
-with this workbook's day and venue already selected, and makes no changes to
-the spreadsheet.
+A generated workbook carries the live sync script already, so the **SAGE**
+menu always has both features in it: **Generate event tabs**, and — once
+[live sync is set up](preparing-an-event.md) — **Generate Scoresheets**,
+**Sync now**, and **Live sync settings**. Before setup it's just **Set up
+live sync** instead. **Set up live sync**/**Live sync settings** is safe and
+repeatable to click any time; so is **Generate Scoresheets**, which just
+opens the [Scoresheet Generator](scoresheet-generator.md) in a new tab with
+this workbook's day and venue already selected and makes no changes to the
+spreadsheet. **Generate event tabs** is the opposite — it runs once per
+workbook and then disappears from the menu, since a second run can only
+fail.
 
 ## What it does *not* do
 

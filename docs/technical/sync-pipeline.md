@@ -39,23 +39,60 @@ config directly; `SyncService` resolves the day's sheet names once and
 passes them down.
 
 **Apps Script side:** `scripts/sheets-sync.gs`, installed once per facility
-spreadsheet, watches the SCHEDULE and COURT CONTROL tabs via an *installable*
-`onEdit` trigger (a bare `onEdit(e)` can't call `UrlFetchApp`, which is why
-it has to be installed rather than the default simple trigger), debounces
-edits, and POSTs to Cloud Run. Install steps are in the script's own header
-comment.
+spreadsheet, watches that workbook's configured tabs (SCHEDULE and Court
+Control by default) via an *installable* `onEdit` trigger (a bare `onEdit(e)`
+can't call `UrlFetchApp`, which is why it has to be installed rather than the
+default simple trigger), debounces edits, and POSTs to Cloud Run.
 
-`sheets-sync.gs` also declares `onOpen`, adding a **SAGE → Generate
-Scoresheets** menu item that deep-links into the Scoresheet Generator with
-this workbook's day and venue preselected — a link only, no HTTP request and
-no new OAuth scope. A generated dual-meet workbook carries both this file and
-`sheet-generator.gs`, and Apps Script silently lets the last-loaded file's
-`onOpen` win when two are declared — so both files' `onOpen` bodies build the
-*same* menu, each feature-detecting the other's entry point
-(`typeof showGenerateSidebar === 'function'` / `typeof showScoresheetLink ===
-'function'`) rather than assuming it exists. Change one file's `onOpen`,
-change the other's to match — see the divergences/design notes in
-`sage-docs/docs/specs/scoresheet-event-picker-spec.md` §8.3 for why this
+The file itself is **identical in every workbook** and holds no
+spreadsheet-specific values. Everything that identifies a workbook — day key,
+facility name, watched tabs, the shared secret — lives in that project's
+Script Properties, set through **SAGE → Set up live sync**, a menu-driven
+dialog rather than edited constants. Setup validates what it's given before
+saving anything:
+
+- A `GET /sync/config` call, gated on the entered secret, checks the secret
+  itself (401 blocks) and that the entered day key is registered (blocks with
+  the real list of registered day keys otherwise).
+- A real test sync (`POST /sync/:day?facility=`) checks the facility name —
+  an "unknown facility" rejection blocks and names the valid alternatives —
+  and, on success, publishes a real snapshot as end-to-end proof the workbook
+  is wired up.
+- A timeout, 5xx, or unreachable host at either step is **not** blocking: the
+  configuration may be correct and Cloud Run simply unavailable, so setup
+  saves anyway and reports a warning instead.
+
+Identity values (day key, facility name, watched tabs) are only honoured for
+the spreadsheet they were saved for, keyed off a stored spreadsheet ID — a
+workbook copied from an already-configured one reads as unconfigured rather
+than inheriting the source's day key and publishing over its snapshot. The
+shared secret is **not** guarded this way, since it's the same one Cloud Run
+env var for every workbook of every event.
+
+`sheets-sync.gs` also declares `onOpen`, contributing **Generate
+Scoresheets** (deep-links into the Scoresheet Generator with this workbook's
+day and venue preselected — a link only, no HTTP request and no new OAuth
+scope), **Sync now**, **Pause live sync** / **Resume live sync**, and **Live
+sync settings** once configured, or **Set up live sync** otherwise. Pausing
+is for editing a watched tab (rosters, a mid-event schedule fix) without
+publishing every intermediate state — it leaves the saved configuration and
+the installed trigger alone, it just makes `onEditInstallable` and the
+debounce trigger no-op until resumed. It's a backstop, not the primary
+safeguard: the trigger doesn't exist at all until `Set up live sync` has run
+once, so the normal workflow — finish rosters and schedule fixes, wire up
+sync last — never needs it. `Sync now` still works while paused, since
+that's an explicit manual action rather than the automatic edit-triggered
+path pausing is scoped to. A generated dual-meet workbook carries both this file
+and `sheet-generator.gs`, and Apps Script silently lets the last-loaded
+file's `onOpen` win when two are declared — so both files declare a
+**byte-identical** `onOpen` body that delegates to feature-detected builders
+(`addSyncMenuItems_` in this file, `addGeneratorMenuItems_` in
+`sheet-generator.gs`), each contributing only its own items and its own
+leading separator. Which declaration wins can't matter, since both bodies are
+the same text. Change one file's `onOpen`, change the other's to match — see
+`sage-docs/docs/specs/sync-script-configuration-spec.md` §7 for the full
+contract, and the divergences/design notes in
+`sage-docs/docs/specs/scoresheet-event-picker-spec.md` §8.3 for why a
 shared-contract shape was chosen over the alternatives.
 
 ## The runtime-fetched event registry

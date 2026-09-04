@@ -51,12 +51,13 @@ general multi-club template.
    registry schema](event-data-config.md). Commit; no `sage-tools-api`
    redeploy needed, live within `SYNC_CONFIG_TTL_MS`.
 8. **Install the sync script** (`scripts/sheets-sync.gs`, from
-   `sage-tools-api`) once per facility spreadsheet — set `DAY_KEY`,
-   `FACILITY_NAME`, `CLOUD_RUN_BASE_URL` in its `CONFIG` block, run
-   `setup()` once to authorize and install the trigger. Reloading the
-   spreadsheet also adds a **SAGE → Generate Scoresheets** menu item
-   deep-linking into the [Scoresheet Generator](../features/scoresheet-generator.md)
-   with this workbook's day/venue preselected — no extra setup needed for it.
+   `sage-tools-api` — a dual meet's workbook carries it already) once per
+   facility spreadsheet. Reload the spreadsheet and run **SAGE → Set up live
+   sync**, entering the day key and facility name; setup verifies both
+   against Cloud Run — including a real test sync — before saving. Reloading
+   also adds a **SAGE → Generate Scoresheets** menu item deep-linking into
+   the [Scoresheet Generator](../features/scoresheet-generator.md) with this
+   workbook's day/venue preselected — no extra setup needed for it.
 9. **Create the data folder** in `event-data` — `<event-key>/data/`, or let
    the first successful sync create it.
 10. **Copy the dry-run checklist** template into the event's own folder —
@@ -100,8 +101,10 @@ to re-prefix.
 ## Things kept in sync by hand (no automatic check)
 
 - `event-data/config/events.json`'s `days` ↔ the `DAYS` array in the event
-  page ↔ each spreadsheet's `DAY_KEY`/`FACILITY_NAME` in `sheets-sync.gs`.
-  Facility names are compared exactly, case-sensitive.
+  page ↔ each spreadsheet's day key and facility name, set through
+  **SAGE → Set up live sync** and stored in that workbook's Script
+  Properties (not in `sheets-sync.gs`'s source, which is identical in every
+  workbook). Facility names are compared exactly, case-sensitive.
 - `EVENT_KEY` — identical across the site-repo folder name, the
   `event-data` folder name, and the registry key.
 
