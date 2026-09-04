@@ -1,0 +1,3868 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/dual-meet-schedule-generator-spec/">
+      
+      
+        <link rel="prev" href="../dual-meet-sheet-generator-spec/">
+      
+      
+        <link rel="next" href="../dual-meet-readouts-generator-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Schedule generator (Phase 2) - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-dual-meet-schedule-generator-phase-2" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Schedule generator (Phase 2)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-orientation-read-this-first-if-you-have-no-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Orientation — read this first if you have no context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-inside-one-court-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Inside one court block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-one-time-slot-is-two-rows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 One time slot is two rows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-empty-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Empty cells
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-the-template-prototype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 The template prototype
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Inputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-match-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Match list
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Match list">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-group-stage-cross-product-as-n-rounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Group stage — cross product as n rounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-emission-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Emission order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-placement-and-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Placement and numbering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-why-no-pair-is-ever-double-booked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Why no pair is ever double-booked
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-seam-with-phase-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The seam with Phase 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-category-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Category colours
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Category colours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-hue-by-event-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Hue by event type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-shade-by-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Shade by level
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-the-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 The table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-deriving-it-from-a-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Deriving it from a key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-applied-as-conditional-formatting-not-as-fills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Applied as conditional formatting, not as fills
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-the-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 The rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-where-the-hexes-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Where the hexes live
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-implementation-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Implementation notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Implementation notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-where-the-code-goes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Where the code goes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-existing-helpers-to-reuse-do-not-rewrite-these" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Existing helpers to reuse — do not rewrite these
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-schedule-is-rebuilt-in-place-and-that-needs-a-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 SCHEDULE is rebuilt in place — and that needs a guard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-growing-the-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 Growing the sheet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-tiling-use-copyto-not-insertrows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 Tiling — use copyTo, not insertRows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#86-writing-values-into-merged-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 Writing values into merged cells
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#87-times-are-numbers-not-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.7 Times are numbers, not strings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#88-conditional-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.8 Conditional formatting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#89-tracing-and-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.9 Tracing and failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#810-copyto-does-not-carry-column-widths-or-row-heights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.10 copyTo does not carry column widths or row heights
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#811-flush-between-stages-or-the-whole-tab-times-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.11 Flush between stages, or the whole tab times out
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Build order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-worked-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Worked example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-a-reading-schedule-back-by-column-dynamically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix A — reading SCHEDULE back by column, dynamically
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-orientation-read-this-first-if-you-have-no-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Orientation — read this first if you have no context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-inside-one-court-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Inside one court block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-one-time-slot-is-two-rows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 One time slot is two rows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-empty-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Empty cells
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-the-template-prototype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 The template prototype
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Inputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-match-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Match list
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Match list">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-group-stage-cross-product-as-n-rounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Group stage — cross product as n rounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-emission-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Emission order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-placement-and-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Placement and numbering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-why-no-pair-is-ever-double-booked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Why no pair is ever double-booked
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-seam-with-phase-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The seam with Phase 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-category-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Category colours
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Category colours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-hue-by-event-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Hue by event type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-shade-by-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Shade by level
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-the-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 The table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-deriving-it-from-a-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Deriving it from a key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-applied-as-conditional-formatting-not-as-fills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Applied as conditional formatting, not as fills
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-the-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 The rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-where-the-hexes-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Where the hexes live
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-implementation-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Implementation notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Implementation notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-where-the-code-goes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Where the code goes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-existing-helpers-to-reuse-do-not-rewrite-these" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Existing helpers to reuse — do not rewrite these
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-schedule-is-rebuilt-in-place-and-that-needs-a-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 SCHEDULE is rebuilt in place — and that needs a guard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-growing-the-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 Growing the sheet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-tiling-use-copyto-not-insertrows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 Tiling — use copyTo, not insertRows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#86-writing-values-into-merged-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 Writing values into merged cells
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#87-times-are-numbers-not-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.7 Times are numbers, not strings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#88-conditional-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.8 Conditional formatting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#89-tracing-and-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.9 Tracing and failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#810-copyto-does-not-carry-column-widths-or-row-heights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.10 copyTo does not carry column widths or row heights
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#811-flush-between-stages-or-the-whole-tab-times-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.11 Flush between stages, or the whole tab times out
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Build order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-worked-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Worked example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-a-reading-schedule-back-by-column-dynamically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix A — reading SCHEDULE back by column, dynamically
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/dual-meet-schedule-generator-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-dual-meet-schedule-generator-phase-2">Spec — Dual Meet Schedule Generator (Phase 2)<a class="headerlink" href="#spec-dual-meet-schedule-generator-phase-2" title="Permanent link">&para;</a></h1>
+<p>Phase 2 of the Dual Meet Sheet Generator: the <code>SCHEDULE</code> tab. Split out of
+<code>dual-meet-sheet-generator-spec.md</code> §10.1, which now stubs to this file.</p>
+<p>Phase 1 built every category tab plus <code>Variables</code>, <code>Title</code> and
+<code>Reference for Players</code>, and is documented in that spec — read its §1.1
+(the Named Function contract), §2 (the plan CSV) and §3 (validation)
+first. This spec does not restate them; it inherits them and adds the
+inputs and rules only the schedule needs.</p>
+<p>Same delivery story as Phase 1: bound Apps Script in
+<code>sage-tools-api/scripts/sheet-generator.gs</code>, no new infra, no Cloud Run
+deploy, no <code>package.json</code> bump.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scope</td>
+<td>The <code>SCHEDULE</code> tab only</td>
+</tr>
+<tr>
+<td>Not in scope</td>
+<td><code>CSV</code>, <code>STANDINGSCSV</code>, <code>Court Control</code>, <code>Timeline</code> — see <code>dual-meet-readouts-generator-spec.md</code></td>
+</tr>
+<tr>
+<td>Depends on</td>
+<td>Phase 1's pair codes — the seam is §5</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="0-orientation-read-this-first-if-you-have-no-context">0. Orientation — read this first if you have no context<a class="headerlink" href="#0-orientation-read-this-first-if-you-have-no-context" title="Permanent link">&para;</a></h2>
+<p><strong>What this is.</strong> SAGE runs pickleball tournaments. A "dual meet" is two
+clubs playing each other across several categories (age/skill/gender
+divisions). Each event runs off one Google Sheets workbook. The <strong>Dual Meet
+Sheet Generator</strong> is bound Apps Script inside that workbook that builds the
+whole event's tabs from a CSV the Tournament Time Calculator exports.</p>
+<p><strong>Where everything lives.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Thing</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The generator</td>
+<td><code>sage-tools-api/scripts/sheet-generator.gs</code></td>
+</tr>
+<tr>
+<td>Phase 1 spec — read it first</td>
+<td><code>sage-docs/specs/dual-meet-sheet-generator-spec.md</code></td>
+</tr>
+<tr>
+<td>The colour palette's other consumer</td>
+<td><code>sage-docs/specs/schedule-screen-spec.md</code> §3.1</td>
+</tr>
+<tr>
+<td>The live sync that reads <code>SCHEDULE</code></td>
+<td><code>sage-tools-api/scripts/sheets-sync.gs</code></td>
+</tr>
+<tr>
+<td>The calculator that writes the plan CSV</td>
+<td><code>sage-match-control.github.io/tools/tournament-calculator.html</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>sage-tools-api/scripts/*.gs</code> is <strong>not</strong> part of the Cloud Run service. It
+ships by pasting into a spreadsheet's own bound script project. Changing it
+is not a deploy, and does <strong>not</strong> bump <code>package.json</code>.</p>
+<p><strong>How it ships.</strong> The operator copies the <em>SAGE Dual Meet Master</em> workbook,
+opens the copy, and runs <code>SAGE -&gt; Generate event tabs</code> from the menu,
+pasting the calculator's CSV into a sidebar. Everything runs inside that
+one spreadsheet.</p>
+<p><strong>Why it must be bound script.</strong> The category tabs depend on a library of
+Named Functions (<code>GETTOTALWINS</code>, <code>SORTBYWINS</code>, <code>GETSCOREAGAINSTPAIR</code>, … —
+workbook-level <code>LAMBDA</code> definitions, not container-bound Apps Script custom
+functions) that exist only inside the master workbook and are in no repo. A
+blank spreadsheet produces <code>#NAME?</code> everywhere. That rules out a Cloud Run /
+Sheets API approach entirely. See Phase 1 spec §1 and §1.1.</p>
+<p><strong>What Phase 1 already built</strong> (all of it working): every category tab, plus
+<code>Variables</code>, <code>Title</code> and <code>Reference for Players</code>.</p>
+<p><strong>What this spec adds:</strong> the <code>SCHEDULE</code> tab — the one the operator types
+scores into, and the one every Named Function reads match results from.
+Without it a generated workbook cannot run an event.</p>
+<p><strong>Vocabulary.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>category</td>
+<td>A division, keyed <code>LIWD</code>, <code>AMD</code>, … — one tab each</td>
+</tr>
+<tr>
+<td>pair</td>
+<td>Two players who play together; the atomic competitor</td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td>Pairs per club per bracket — <code>teams_a / brackets</code></td>
+</tr>
+<tr>
+<td>bracket</td>
+<td>A group within a category; 1 or 2 of them</td>
+</tr>
+<tr>
+<td>slot</td>
+<td>One start time across all courts — two sheet rows</td>
+</tr>
+<tr>
+<td>team code</td>
+<td><code>&lt;CLUB&gt;_&lt;KEY&gt;_&lt;i&gt;</code>, e.g. <code>PNF_LIWD_3</code> — the join key for everything</td>
+</tr>
+</tbody>
+</table>
+<p><strong>There is no test framework.</strong> No linter, no build step, no TypeScript.
+<code>buildMatchList</code> is pure precisely so it can be checked by hand against the
+reference data in §10 before any Sheets code is written.</p>
+<p><strong>Section-reference convention.</strong> A bare <code>§n</code> means this document. A
+reference into another spec always names it — "Phase 1 spec §11.1",
+"<code>schedule-screen-spec.md</code> §3.1". Both documents have a §11, and both carry
+so the attribution matters.</p>
+<hr />
+<h2 id="1-sources">1. Sources<a class="headerlink" href="#1-sources" title="Permanent link">&para;</a></h2>
+<p>Everything below was read directly out of two workbooks, because none of it
+is in source control:</p>
+<table>
+<thead>
+<tr>
+<th>Workbook</th>
+<th>File ID</th>
+<th>What it gave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reference (PNF x BUP, played)</td>
+<td><code>1DH7BNVdvSkyaywavLzUlfCP4NEhT0SjnzFr_e0LVfFg</code></td>
+<td>A complete 126-match <code>SCHEDULE</code>, 9 courts</td>
+</tr>
+<tr>
+<td>Master template</td>
+<td><code>1cBvQ5r6Nm29BJ7Hpsk_gonX31hWJHOrCK1WPLgQaqtg</code></td>
+<td>The stripped <code>SCHEDULE</code> prototype the generator copies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read coverage.</strong> The reference <code>SCHEDULE</code> was read through row 32; the
+Drive text export truncates there, so the last two slots (rows 33-35) were
+recovered from that workbook's own <code>CSV</code> tab, which was read complete — all
+126 match rows. The template <code>SCHEDULE</code> was read complete.</p>
+<hr />
+<h2 id="2-layout">2. Layout<a class="headerlink" href="#2-layout" title="Permanent link">&para;</a></h2>
+<h3 id="21-the-grid">2.1 The grid<a class="headerlink" href="#21-the-grid" title="Permanent link">&para;</a></h3>
+<p>Rows 1-4 are blank. Row 5 is the header band. Data starts at row 6.</p>
+<p>Columns are a <strong>repeating 8-column court block</strong> starting at column D:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a> A   B      C   | D  E  F  G  H  I  J | K   | L ... R | S   | ...
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>     Time       |      Court 1        | sep |  Court 2| sep |
+</code></pre></div>
+<ul>
+<li><code>A</code> — blank</li>
+<li><code>B</code> — time, merged vertically across the slot's two rows</li>
+<li><code>C</code> — blank spacer</li>
+<li><code>D:J</code> — one court's block, 7 columns</li>
+<li><code>K</code> — blank separator, making the period 8</li>
+</ul>
+<p>Court <code>c</code> (1-based) starts at column <code>4 + 8(c - 1)</code>. The <strong>last court has no
+trailing separator</strong>, so a <code>courts</code>-wide sheet is exactly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>grid width = 8 * courts + 2
+</code></pre></div>
+<p>9 courts → 74 columns (<code>BV</code>); 12 courts → 98 columns (<code>CT</code>). That is the
+number the <code>CSV</code> tab's column-stacking formulas have to track, and the
+reason they cannot be hand-listed.</p>
+<h3 id="22-inside-one-court-block">2.2 Inside one court block<a class="headerlink" href="#22-inside-one-court-block" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Col</th>
+<th>Offset</th>
+<th>Content</th>
+<th>Written by</th>
+<th>Merge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D</td>
+<td>+0</td>
+<td>team 1 player names — one per row</td>
+<td>formula</td>
+<td>none</td>
+</tr>
+<tr>
+<td>E</td>
+<td>+1</td>
+<td><code>teamCode1</code></td>
+<td>generator</td>
+<td>merged, both rows</td>
+</tr>
+<tr>
+<td>F</td>
+<td>+2</td>
+<td>match number</td>
+<td>generator</td>
+<td>first row only</td>
+</tr>
+<tr>
+<td>G</td>
+<td>+3</td>
+<td><code>teamCode2</code></td>
+<td>generator</td>
+<td>merged, both rows</td>
+</tr>
+<tr>
+<td>H</td>
+<td>+4</td>
+<td>team 2 player names — one per row</td>
+<td>formula</td>
+<td>none</td>
+</tr>
+<tr>
+<td>I</td>
+<td>+5</td>
+<td><code>team1Score</code></td>
+<td>operator, live</td>
+<td>merged, both rows</td>
+</tr>
+<tr>
+<td>J</td>
+<td>+6</td>
+<td><code>team2Score</code></td>
+<td>operator, live</td>
+<td>merged, both rows</td>
+</tr>
+<tr>
+<td>K</td>
+<td>+7</td>
+<td>separator</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Row 5 carries <code>Court &lt;c&gt;</code> at the <code>F</code> offset, and a single <code>SCORE</code> header
+merged horizontally across <code>I5:J5</code>. <code>B5</code> reads <code>Time</code>.</p>
+<p>Three merges per court block, and they are different shapes — worth keeping
+straight:</p>
+<table>
+<thead>
+<tr>
+<th>Merge</th>
+<th>Shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>I5:J5</code></td>
+<td>horizontal, once in the header band — the <code>SCORE</code> label</td>
+</tr>
+<tr>
+<td><code>E</code>, <code>G</code>, <code>I</code>, <code>J</code></td>
+<td>vertical, per slot — <code>E6:E7</code>, <code>I6:I7</code>, <code>J6:J7</code>, …</td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>vertical, per slot — the time</td>
+</tr>
+</tbody>
+</table>
+<p>So <code>I</code> and <code>J</code> are merged <em>horizontally</em> on row 5 and <em>vertically</em> from row
+6 down. The header band is tiled once per court; the slot merges are tiled
+per court per slot.</p>
+<p><strong>The generator writes three columns per match: <code>E</code>, <code>F</code>, <code>G</code>.</strong> Nothing
+else. <code>D</code> and <code>H</code> are name lookups off <code>E</code> and <code>G</code> — put a team code in, the
+names appear — and they come across for free when the prototype block is
+tiled, since their references are relative to their own block. <code>I</code> and <code>J</code>
+stay empty for the operator to fill during play.</p>
+<p>That is the whole write surface, and it is what keeps <code>buildScheduleTab</code>
+small: tile the prototype, then batch-write three literal columns per court
+plus the time in <code>B</code>.</p>
+<h3 id="23-one-time-slot-is-two-rows">2.3 One time slot is two rows<a class="headerlink" href="#23-one-time-slot-is-two-rows" title="Permanent link">&para;</a></h3>
+<p>Rows 6-7 are slot 1, rows 8-9 slot 2, and so on. The row pair exists because
+each side fields <strong>two players</strong>, one name per row in <code>D</code> and <code>H</code>.
+Everything else in the block is merged across both rows.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>slot s occupies rows 6 + 2(s - 1) and 7 + 2(s - 1)
+</code></pre></div>
+<h3 id="24-empty-cells">2.4 Empty cells<a class="headerlink" href="#24-empty-cells" title="Permanent link">&para;</a></h3>
+<p>An unused court in a slot carries <code>-</code> in <code>E</code>, <code>F</code> and <code>G</code>, with <code>I</code>/<code>J</code>
+blank. That is the same <code>-</code> sentinel the schedule board and event pages
+already skip on (<code>schedule-screen-spec.md</code> §5.1: a row where <code>teamCode1</code> is
+<code>-</code> is a spacer row), so unused courts must be <strong>written</strong>, not left blank.</p>
+<h3 id="25-the-template-prototype">2.5 The template prototype<a class="headerlink" href="#25-the-template-prototype" title="Permanent link">&para;</a></h3>
+<p>The master's <code>SCHEDULE</code> is stripped to exactly <strong>one court block, one time
+slot</strong> — header rows 1-5, a single <code>Court 1</code> block in <code>D:J</code>, and one slot at
+rows 6-7 carrying <code>-</code> in <code>E</code>/<code>F</code>/<code>G</code> and no time in <code>B</code>.</p>
+<p>This is the same contract <code>_CATEGORY_TEMPLATE</code> has in Phase 1: the prototype
+carries live formatting and formulas, and the generator tiles it. Phase 2
+grows it in both directions — right by court, down by slot — rather than
+rebuilding formatting by hand.</p>
+<hr />
+<h2 id="3-inputs">3. Inputs<a class="headerlink" href="#3-inputs" title="Permanent link">&para;</a></h2>
+<p>Phase 1 reads <code>club_a</code>, <code>club_b</code>, <code>teams_a</code>, <code>teams_b</code>, <code>brackets</code>, <code>key</code>
+and <code>value</code>. Phase 2 additionally reads the timing settings, which
+<code>parsePlanCsv</code> already stores wholesale and simply never used:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>courts</code></td>
+<td>Court block count — the sheet's width</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td>Slot 1's time</td>
+</tr>
+<tr>
+<td><code>duration_min</code></td>
+<td>Slot pitch</td>
+</tr>
+<tr>
+<td><code>buffer_min</code></td>
+<td>Slot pitch</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>slot time = start + (slot - 1) * (duration_min + buffer_min)
+</code></pre></div>
+<p>The reference confirms this: <code>duration_min: 25</code>, <code>buffer_min: 0</code>, start
+<code>3:00 PM</code>, giving 3:00, 3:25, 3:50 … 8:50 PM across 15 slots.</p>
+<p>No parser change is needed.</p>
+<hr />
+<h2 id="4-match-list">4. Match list<a class="headerlink" href="#4-match-list" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Derived from the reference workbook's 126 matches. The rotation below
+reproduces all 112 group matches exactly. Confirm before building.</p>
+</blockquote>
+<h3 id="41-group-stage-cross-product-as-n-rounds">4.1 Group stage — cross product as <code>n</code> rounds<a class="headerlink" href="#41-group-stage-cross-product-as-n-rounds" title="Permanent link">&para;</a></h3>
+<p>A category with <code>n</code> pairs per club per bracket plays the full <code>n x n</code> cross
+product, decomposed into <code>n</code> <strong>rounds</strong> of <code>n</code> matches. Within a round every
+pair plays exactly once, so a round can never self-conflict.</p>
+<p>Round <code>r</code> (1-based) pairs club A's pair <code>i</code> against club B's pair:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>j = ((i - 1) - (r - 1)) mod n + 1
+</code></pre></div>
+<p>For <code>n = 4</code> that is:</p>
+<table>
+<thead>
+<tr>
+<th>Round</th>
+<th>Pairings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1v1 2v2 3v3 4v4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1v4 2v1 3v2 4v3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1v3 2v4 3v1 4v2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1v2 2v3 3v4 4v1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-emission-order">4.2 Emission order<a class="headerlink" href="#42-emission-order" title="Permanent link">&para;</a></h3>
+<p>Rounds are the outer loop, categories the inner:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>for r in 1..n:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    for cat in CSV order:
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>        emit that category's round r
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>then all bronze matches
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>then all finals
+</code></pre></div>
+<p>With 7 categories at <code>n = 4</code>: matches 1-28 are round 1, 29-56 round 2,
+57-84 round 3, 85-112 round 4, 113-119 bronze, 120-126 finals. Verified
+against every match number in the reference.</p>
+<p>Interleaving by round rather than by category is what keeps a category's own
+matches ~28 apart, which is what makes §4.4's guarantee hold.</p>
+<p><strong>Category order is CSV order</strong>, unchanged from how the operator arranged
+them in the calculator. Round 1 of the reference runs <code>LIWD LIMD LIXD HIWD
+HIMD HIXD AMD</code> — which is both the plan CSV's own order and the organiser's
+stated intent: ascending level (LI, HI, A), and <code>WD</code>, <code>MD</code>, <code>XD</code> within each
+level.</p>
+<p>Those two coincide here, and the generator follows the CSV rather than
+re-deriving the level ordering from the keys. §6.4 does parse a key into
+level and type, but ordering cannot lean on that the way colour can: colour
+degrades per category (an unparseable key simply gets no fill), whereas a
+sort needs a total order over <em>every</em> category at once, and the calculator
+permits <code>OPEN</code> and operator-defined <code>CUSTOM</code> codes that yield no level.
+Following the CSV also keeps the order operator-controllable — reorder the
+categories in the calculator and the schedule follows.</p>
+<p>Bronze and finals are emitted in the same CSV order. The reference orders
+them differently (<code>LIXD LIWD LIMD AMD HIMD HIWD HIXD</code>), by hand and to no
+rule the plan carries — see §6.</p>
+<h3 id="43-placement-and-numbering">4.3 Placement and numbering<a class="headerlink" href="#43-placement-and-numbering" title="Permanent link">&para;</a></h3>
+<p>Matches fill <code>(slot, court)</code> in reading order — slot first, then court — and
+match numbers are assigned in that same order, densely, from 1.</p>
+<p>Two rules on top of that:</p>
+<ul>
+<li><strong>Bronze and finals each start a fresh slot.</strong> Group matches pack densely,
+  but the first bronze match begins a new slot even when the previous slot
+  has free courts, and likewise for the first final.</li>
+<li><strong>A partial slot is centred, not left-packed.</strong> A slot holding <code>m</code> matches
+  on <code>courts</code> courts starts at court <code>floor((courts - m) / 2) + 1</code>.</li>
+</ul>
+<p>Both rules fall out of one shape: split the match list into three phases —
+group, bronze, finals — and chunk each into runs of <code>courts</code>. A phase's last
+chunk is the only partial one, and centring is one term on the court index:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>court = i + floor((courts - chunkSize) / 2) + 1
+</code></pre></div>
+<p>Match numbers are then just the position in the flattened placement order,
+so centring does not complicate numbering.</p>
+<p>Both hold across all three partial slots in the reference: 4 matches on 9
+courts → courts 3-6; 7 matches → courts 2-8, twice.</p>
+<h3 id="44-why-no-pair-is-ever-double-booked">4.4 Why no pair is ever double-booked<a class="headerlink" href="#44-why-no-pair-is-ever-double-booked" title="Permanent link">&para;</a></h3>
+<p>A slot holds <code>courts</code> consecutive match numbers. Two matches involving the
+same pair are either in the same round (impossible — §4.1) or in different
+rounds, which §4.2 puts <code>categories * n</code> apart. So the guarantee is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>courts &lt;= categories * n
+</code></pre></div>
+<p>At 9 courts, 7 categories, <code>n = 4</code> there are 28 matches per round — huge
+headroom. A very small event on many courts could violate it, so this is a
+<strong>validation rule</strong>, not an assumption.</p>
+<hr />
+<h2 id="5-the-seam-with-phase-1">5. The seam with Phase 1<a class="headerlink" href="#5-the-seam-with-phase-1" title="Permanent link">&para;</a></h2>
+<p><code>SCHEDULE</code> writes team codes; the category tabs read scores back by those
+codes through <code>GETSCOREAGAINSTPAIR</code> and friends. The codes must match Phase
+1's exactly, and Phase 1 already emits all of them:</p>
+<table>
+<thead>
+<tr>
+<th>Match</th>
+<th>Code</th>
+<th>Emitted by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Group</td>
+<td><code>&lt;CLUB&gt;_&lt;KEY&gt;_&lt;i&gt;</code></td>
+<td><code>pairCode_</code></td>
+</tr>
+<tr>
+<td>Bronze</td>
+<td><code>&lt;CLUB&gt;_&lt;KEY&gt;_B</code></td>
+<td><code>writePlayoffBlockCrossClub_</code></td>
+</tr>
+<tr>
+<td>Final</td>
+<td><code>&lt;CLUB&gt;_&lt;KEY&gt;_F</code></td>
+<td><code>writePlayoffBlockCrossClub_</code></td>
+</tr>
+<tr>
+<td>Semi</td>
+<td><code>&lt;CLUB&gt;_&lt;KEY&gt;_SF_1</code> / <code>_SF_2</code></td>
+<td><code>writePlayoffBlockIntraClub_</code></td>
+</tr>
+</tbody>
+</table>
+<p>Confirmed against the reference: bronze rows carry <code>PNF_LIWD_B</code> /
+<code>BUP_LIWD_B</code>, finals <code>PNF_LIWD_F</code> / <code>BUP_LIWD_F</code>.</p>
+<p>Playoff rows therefore carry <strong>literal synthetic codes</strong>, not formulas
+pointing into the category tab. Who those codes resolve to is the category
+tab's business — its feeder formulas. The schedule only needs a stable
+handle to record a score against.</p>
+<p><strong>Two brackets adds a semi round.</strong> The reference is single-bracket
+throughout, so a <code>semis</code> category's two intra-club semifinals have no
+precedent in it. They slot between the last group round and bronze, and
+<code>dual-meet-sheet-generator-spec.md</code> §13.6 already flags the two-bracket
+<code>semis</code> path as never yet generated — Phase 2 is where it gets exercised.</p>
+<hr />
+<h2 id="6-category-colours">6. Category colours<a class="headerlink" href="#6-category-colours" title="Permanent link">&para;</a></h2>
+<p>The seven hexes in <code>schedule-screen-spec.md</code> §3.1 are not arbitrary: they
+are three columns of <strong>Google Sheets' own standard palette</strong>, picked by
+event type, at a shade picked by level. That makes them derivable rather
+than a lookup table that has to grow by hand for every new category.</p>
+<h3 id="61-hue-by-event-type">6.1 Hue by event type<a class="headerlink" href="#61-hue-by-event-type" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Suffix</th>
+<th>Hue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WD</code></td>
+<td>magenta</td>
+</tr>
+<tr>
+<td><code>MD</code></td>
+<td>cornflower blue</td>
+</tr>
+<tr>
+<td><code>XD</code></td>
+<td>orange</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-shade-by-level">6.2 Shade by level<a class="headerlink" href="#62-shade-by-level" title="Permanent link">&para;</a></h3>
+<p>Each hue is a column of seven shades, light to dark. Levels occupy fixed
+rungs on that column — <strong>the rung is a property of the level, not of how
+many levels the event happens to have</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Rung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>N</code> novice</td>
+<td>lighter 2</td>
+</tr>
+<tr>
+<td><code>LI</code> low intermediate</td>
+<td>lighter 1</td>
+</tr>
+<tr>
+<td><code>I</code> intermediate</td>
+<td>base</td>
+</tr>
+<tr>
+<td><code>HI</code> high intermediate</td>
+<td>darker 1</td>
+</tr>
+<tr>
+<td><code>A</code> advanced</td>
+<td>darker 2</td>
+</tr>
+</tbody>
+</table>
+<p>Fixing the ladder globally, rather than spreading whatever levels appear
+across the column, is deliberate: adding an advanced category to an event
+must not recolour the categories already in it.</p>
+<p>The reference bears this out. <code>WD</code> and <code>XD</code> have only two levels there but
+still use <em>lighter 1</em> and <em>darker 1</em> — the same rungs <code>MD</code>'s first two
+levels use — rather than stretching to fill the column.</p>
+<h3 id="63-the-table">6.3 The table<a class="headerlink" href="#63-the-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Rung</th>
+<th>Level</th>
+<th>Magenta <code>WD</code></th>
+<th>Cornflower <code>MD</code></th>
+<th>Orange <code>XD</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lighter 2</td>
+<td><code>N</code></td>
+<td><code>#D5A6BD</code></td>
+<td><code>#A4C2F4</code></td>
+<td><code>#F9CB9C</code></td>
+</tr>
+<tr>
+<td>lighter 1</td>
+<td><code>LI</code></td>
+<td><strong><code>#C27BA0</code></strong></td>
+<td><strong><code>#6D9EEB</code></strong></td>
+<td><strong><code>#F6B26B</code></strong></td>
+</tr>
+<tr>
+<td>base</td>
+<td><code>I</code></td>
+<td><code>#A64D79</code></td>
+<td><code>#3C78D8</code></td>
+<td><code>#E69138</code></td>
+</tr>
+<tr>
+<td>darker 1</td>
+<td><code>HI</code></td>
+<td><strong><code>#741B47</code></strong></td>
+<td><strong><code>#1155CC</code></strong></td>
+<td><strong><code>#B45F06</code></strong></td>
+</tr>
+<tr>
+<td>darker 2</td>
+<td><code>A</code></td>
+<td><code>#4C1130</code></td>
+<td><strong><code>#1C4587</code></strong></td>
+<td><code>#783F04</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bold</strong> = one of the seven confirmed against <code>schedule-screen-spec.md</code>
+§3.1, which was itself recovered by sampling the rendered sheet. The other
+eight are read off the same palette columns and <strong>should be eyeballed once
+in the Sheets colour picker</strong> before they ship — nothing in the reference
+exercises them.</p>
+<h3 id="64-deriving-it-from-a-key">6.4 Deriving it from a key<a class="headerlink" href="#64-deriving-it-from-a-key" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>type  = last two characters of the key, if in {WD, MD, XD}
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>level = everything before that
+</code></pre></div>
+<p><code>LIWD</code> → level <code>LI</code>, type <code>WD</code> → magenta lighter 1 → <code>#C27BA0</code>.</p>
+<p>A key that does not end in <code>WD</code>/<code>MD</code>/<code>XD</code>, or whose level is not in §6.2,
+gets <strong>no fill</strong> — and a trace line saying so. That is the honest outcome:
+the calculator's own presets include <code>OPEN</code> and an operator-defined
+<code>CUSTOM</code> code, and validation only requires <code>[A-Z0-9]{2,8}</code>, so unmatched
+keys are expected rather than exceptional. Inventing a colour for one would
+put a wrong category colour on the wall display, which is worse than a
+plain row.</p>
+<p>Note the calculator's preset levels are <code>N</code>/<code>I</code>/<code>A</code> while the reference
+event used <code>LI</code>/<code>HI</code>/<code>A</code>. Both are covered by §6.2, and an event mixing
+them still orders correctly.</p>
+<h3 id="65-applied-as-conditional-formatting-not-as-fills">6.5 Applied as conditional formatting, not as fills<a class="headerlink" href="#65-applied-as-conditional-formatting-not-as-fills" title="Permanent link">&para;</a></h3>
+<p>The colour lands on <strong>columns <code>D</code> and <code>H</code></strong> of each court block — the two
+player-name columns (§2.2) — framing each match and leaving the codes and
+scores in between on white. The web schedule board mirrors this as "the
+solid hue as a 5px left rule" (<code>schedule-screen-spec.md</code> §3).</p>
+<blockquote>
+<p><code>J</code> would be the obvious other edge of the <code>D:J</code> span, and is wrong: <code>J</code>
+is <code>team2Score</code> (§2.2), so colouring it contradicts this section's own
+"leaving the codes and scores in between on white".</p>
+</blockquote>
+<p>It is applied as <strong>conditional format rules, one per category</strong> — not by
+setting cell backgrounds. Three reasons, in order of weight:</p>
+<ol>
+<li><strong>The colour follows the data.</strong> Move a match to another court or slot
+   by editing its team codes and the colour goes with it. Baked-in fills
+   would strand the old cell coloured and leave the new one white, and
+   rescheduling mid-event is normal.</li>
+<li>One <code>setConditionalFormatRules</code> call per tab instead of thousands of
+   per-cell <code>setBackground</code> calls — see the Phase 1 spec §11.1 on batching
+   and the 6-minute execution limit.</li>
+<li>The rules survive the operator inserting a slot by hand.</li>
+</ol>
+<h3 id="66-the-rule">6.6 The rule<a class="headerlink" href="#66-the-rule" title="Permanent link">&para;</a></h3>
+<p>One rule per category, applied to the <code>D</code> and <code>H</code> columns of every court
+block (<code>2 * courts</code> ranges per rule, via <code>setRanges</code>) over rows 6 to the
+last slot row. The separator column <code>K</code> is excluded by leaving it out of
+the ranges rather than by guarding in the formula.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>=LET(code, INDEX($A$6:$&lt;LC&gt;$&lt;LR&gt;,
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>                 2 * INT((ROW() - 6) / 2) + 1,
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>                 8 * INT((COLUMN() - 4) / 8) + 5),
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>     IFERROR(INDEX(SPLIT(code, "_"), 2) = "&lt;KEY&gt;", FALSE))
+</code></pre></div>
+<p><code>&lt;LC&gt;</code>/<code>&lt;LR&gt;</code> are the generated sheet's last column and row; <code>&lt;KEY&gt;</code> is the
+category key. Two pieces of arithmetic carry the whole rule:</p>
+<ul>
+<li><code>2 * INT((ROW() - 6) / 2) + 1</code> — <strong>normalises to the slot's top row.</strong>
+  <code>E</code> is merged across the slot's two rows, and a merged range holds its
+  value only in the top-left cell, so a rule evaluated on row 7 that read
+  <code>E7</code> directly would see a blank. Both rows must look at row 6.</li>
+<li><code>8 * INT((COLUMN() - 4) / 8) + 5</code> — <strong>finds the block's own code column.</strong>
+  Column <code>D</code> (4) and column <code>H</code> (8) both resolve to <code>E</code> (5); court 2's <code>D</code>
+  (12) and <code>H</code> (16) both resolve to <code>M</code> (13). The arithmetic maps every
+  column of a block — offsets 0 to 7, so <code>D</code> through the separator <code>K</code> —
+  onto that block's own <code>E</code>, which is why changing <em>which</em> columns the rule
+  covers never requires touching the formula.</li>
+</ul>
+<p>The test is <code>INDEX(SPLIT(code, "_"), 2)</code> — the second underscore-delimited
+token of <code>&lt;CLUB&gt;_&lt;KEY&gt;_&lt;rest&gt;</code> — compared exactly. That is deliberately not
+a substring match: <code>AMD</code> and a hypothetical <code>MD</code> would collide under one.
+<code>IFERROR</code> catches the <code>-</code> placeholder in unused courts, which splits to a
+single token.</p>
+<p><code>INDEX</code> over a bounded range is used rather than <code>OFFSET</code> because <code>OFFSET</code>
+is volatile and this evaluates on every cell of every rule.</p>
+<h3 id="67-where-the-hexes-live">6.7 Where the hexes live<a class="headerlink" href="#67-where-the-hexes-live" title="Permanent link">&para;</a></h3>
+<p>Phase 1 already writes <code>Variables</code>: <code>C</code> category key, <code>D</code> category name,
+<code>G2</code> courts, <code>H2</code> start, <code>I2</code> duration. Column <code>E</code> is free.</p>
+<p>The generator writes each category's resolved hex to <code>E</code> on that category's
+row, <strong>and sets that cell's own background to it</strong> so the operator sees a
+swatch beside the key rather than a string.</p>
+<p><code>Variables</code> is a <em>record</em>, not an input — the generator computes the colour,
+builds the rules, and writes <code>E</code> so the value is inspectable and documented.
+Making <code>E</code> an override that a "recolour" menu item reads back is a sensible
+follow-up, but it is not Phase 2.</p>
+<hr />
+<h2 id="7-decisions">7. Decisions<a class="headerlink" href="#7-decisions" title="Permanent link">&para;</a></h2>
+<p>Every question this spec opened is now closed. Recorded here so a later
+reader knows they were considered, not overlooked.</p>
+<ul>
+<li><strong><code>D</code> and <code>H</code> are formulas.</strong> Confirmed by the organiser: the only things
+  filled in to place a match are the team codes in <code>E</code> and <code>G</code>; the names
+  follow. Match numbers in <code>F</code> are filled left to right, top to bottom.
+  See §2.2 — this is why the generator's write surface is three columns.</li>
+<li><strong>Playoff ordering follows CSV order</strong> (§4.2). The reference's
+  <code>LIXD LIWD LIMD AMD HIMD HIWD HIXD</code> was arranged by hand; the organiser
+  has confirmed the generator should not try to reproduce it.</li>
+<li><strong><code>I5:J5</code> is one merged <code>SCORE</code> header</strong> (§2.2), not a vertical merge into
+  row 4. <code>I</code> and <code>J</code> merge vertically per slot from row 6 down.</li>
+<li><strong>Colour goes on <code>D</code> and <code>H</code>, via conditional formatting</strong> (§6.5-§6.6) —
+  literally those two columns, not the <code>D:J</code> block. (Recorded as <code>D</code> and
+  <code>J</code>, which is a score column, not an edge.)</li>
+<li><strong>Partial slots are centred</strong> (§4.3). Confirmed as a deliberate choice: the
+  phase chunking §4.3 already requires makes centring a single extra term, so
+  it costs nothing over left-packing and matches the organiser's sheet.</li>
+</ul>
+<hr />
+<h2 id="8-implementation-notes">8. Implementation notes<a class="headerlink" href="#8-implementation-notes" title="Permanent link">&para;</a></h2>
+<p>Phase 1's own §11.1 covers the general Apps Script mechanics — batching,
+<code>copyTo</code>, the 6-minute execution limit, <code>flush()</code>. Read it. This section
+covers only what is new or different in Phase 2.</p>
+<h3 id="81-where-the-code-goes">8.1 Where the code goes<a class="headerlink" href="#81-where-the-code-goes" title="Permanent link">&para;</a></h3>
+<p>All of it in <code>sage-tools-api/scripts/sheet-generator.gs</code>, the same bound
+script Phase 1 lives in. Two new functions plus a hook:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// PURE — no Sheets API, sits with parsePlanCsv / computeLayout / colLetter_</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kd">function</span><span class="w"> </span><span class="nx">buildMatchList</span><span class="p">(</span><span class="nx">parsed</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; [{ matchNumber, slot, court, timeMinutes,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">                                         </span><span class="c1">//       codeA, codeB, catKey, phase }]</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kd">function</span><span class="w"> </span><span class="nx">categoryColor_</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; '#RRGGBB' or null</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1">// SHEETS GLUE</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="kd">function</span><span class="w"> </span><span class="nx">buildScheduleTab_</span><span class="p">(</span><span class="nx">ss</span><span class="p">,</span><span class="w"> </span><span class="nx">matches</span><span class="p">,</span><span class="w"> </span><span class="nx">settings</span><span class="p">,</span><span class="w"> </span><span class="nx">categories</span><span class="p">)</span>
+</code></pre></div>
+<p><code>buildMatchList</code> takes the output of the existing <code>parsePlanCsv(text)</code> and
+returns plain data. It must not touch <code>SpreadsheetApp</code> — that is what makes
+it verifiable against the reference's 126 rows without a workbook, and it
+follows the same rule Phase 1's header comment sets out under "PURE VS.
+SHEETS-API CODE".</p>
+<p>Hook it into <code>generateEventTabs</code> <strong>last</strong> — after the category tabs and
+after <code>Variables</code>, <code>Title</code> and <code>Reference for Players</code>.</p>
+<p>Nothing orders it earlier. <code>categoryColor_</code> is a pure function of the
+category key (§6.4), so the colour column §6.7 adds to <code>Variables</code> resolves
+whether or not <code>SCHEDULE</code> has been built. What orders it <em>later</em> is failure
+blast radius: <code>SCHEDULE</code> is the most expensive and failure-prone step in the
+run (hundreds of merge-carrying <code>copyTo</code> calls, §8.5), and in the
+before-<code>Variables</code> position a single timeout takes three cheap,
+deterministic tabs down with it. Last means a <code>SCHEDULE</code> failure costs only
+<code>SCHEDULE</code> — which is what <code>dual-meet-sheet-generator-spec.md</code> §11.3 wants
+out of a partial failure.</p>
+<h3 id="82-existing-helpers-to-reuse-do-not-rewrite-these">8.2 Existing helpers to reuse — do not rewrite these<a class="headerlink" href="#82-existing-helpers-to-reuse-do-not-rewrite-these" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>parsePlanCsv(text)</code></td>
+<td>Already returns <code>{ settings, categories }</code> with every setting</td>
+</tr>
+<tr>
+<td><code>validatePlan(parsed)</code></td>
+<td>Returns an array of all failures; extend it, don't wrap it</td>
+</tr>
+<tr>
+<td><code>colLetter_(idx)</code></td>
+<td>1-based column index → <code>A1</code> letters</td>
+</tr>
+<tr>
+<td><code>ensureRowCount_(sheet, n)</code> / <code>ensureColumnCount_(sheet, n)</code></td>
+<td>Grow the grid before writing past it</td>
+</tr>
+<tr>
+<td><code>clubCode_(settings, 'A'\|'B')</code></td>
+<td><code>settings.club_a</code> / <code>club_b</code> with a fallback</td>
+</tr>
+<tr>
+<td><code>pairCode_(settings, cat, club, i)</code></td>
+<td><code>&lt;CLUB&gt;_&lt;KEY&gt;_&lt;i&gt;</code> — the group code, §5</td>
+</tr>
+<tr>
+<td><code>trace_(msg)</code></td>
+<td><code>[sage]</code>-prefixed execution log</td>
+</tr>
+<tr>
+<td><code>logStep_(msg)</code></td>
+<td>Progress line the sidebar polls</td>
+</tr>
+</tbody>
+</table>
+<p><code>COL</code> (near the top of the file) maps <code>A: 1, B: 2, D: 4 … K: 11</code>. Phase 2's
+court arithmetic is relative to <code>COL.D</code>.</p>
+<h3 id="83-schedule-is-rebuilt-in-place-and-that-needs-a-guard">8.3 SCHEDULE is rebuilt in place — and that needs a guard<a class="headerlink" href="#83-schedule-is-rebuilt-in-place-and-that-needs-a-guard" title="Permanent link">&para;</a></h3>
+<p>Every other tab in Phase 1 is <em>created</em> by copying <code>_CATEGORY_TEMPLATE</code>.
+<code>SCHEDULE</code> is not: the master's own <code>SCHEDULE</code> <strong>is</strong> the prototype (§2.5),
+and the generator grows it where it sits. There is no <code>_SCHEDULE_TEMPLATE</code>
+and none should be added — the tab's GID is what the live sync trigger
+watches (resolved from the tab name at setup and stored in that workbook's
+<code>SYNC_WATCHED_GIDS</code> Script Property — see
+<code>sync-script-configuration-spec.md</code> §5), so replacing the tab would break
+the live sync trigger for that workbook.</p>
+<p>That makes the operation <strong>non-idempotent</strong>: running it twice would tile an
+already-tiled sheet.</p>
+<p>So, matching Phase 1's collision policy (<code>dual-meet-sheet-generator-spec.md</code>
+§9.2 — abort, never half-overwrite), validation must <strong>abort if <code>SCHEDULE</code>
+is not in its pristine one-court, one-slot state</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">schedule</span><span class="p">.</span><span class="nx">getLastRow</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">7</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">schedule</span><span class="p">.</span><span class="nx">getLastColumn</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">11</span><span class="p">)</span><span class="w"> </span><span class="nx">abort</span>
+</code></pre></div>
+<p>Message the operator toward the fix: start again from a fresh copy of the
+master. Do not attempt to reset the tab by deleting rows and columns — a
+half-reset schedule mid-event is exactly the outcome §9.2 exists to prevent.</p>
+<h3 id="84-growing-the-sheet">8.4 Growing the sheet<a class="headerlink" href="#84-growing-the-sheet" title="Permanent link">&para;</a></h3>
+<p>Slot count and width both come from the match list:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>slots = max(m.slot for m in matches)
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>width = 8 * courts + 2
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>rows  = 5 + 2 * slots
+</code></pre></div>
+<p>Call <code>ensureColumnCount_(schedule, width)</code> and
+<code>ensureRowCount_(schedule, rows)</code> <strong>before</strong> any tiling. The prototype may
+have been trimmed rather than cleared, exactly as Phase 1 found for
+<code>_CATEGORY_TEMPLATE</code>'s <code>AA:AV</code>.</p>
+<h3 id="85-tiling-use-copyto-not-insertrows">8.5 Tiling — use <code>copyTo</code>, not <code>insertRows</code><a class="headerlink" href="#85-tiling-use-copyto-not-insertrows" title="Permanent link">&para;</a></h3>
+<p>Phase 1's §11.1 warns that formatting propagates on insert but <strong>merges do
+not</strong>. Phase 2 is merge-heavy (§2.2), so inserting rows would produce a
+schedule with no per-slot merges at all.</p>
+<p><code>Range.copyTo(destination)</code> copies values, formats, formulas <em>and merges</em>,
+and adjusts relative references — which is what carries the <code>D</code>/<code>H</code> name
+lookups into every tiled block without rewriting them. Use it for both axes.</p>
+<p>Order matters: <strong>grow down first, then across.</strong> Each horizontal copy then
+carries every slot with it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>1. vertical:   for s in 2..gridSlots
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>                 copy B6:J7  -&gt;  B&lt;6+2(s-1)&gt;:J&lt;7+2(s-1)&gt;
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>               one copy per slot, spacer column C included, so the time
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>               column's own merge comes along
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>2. horizontal: for c in 2..courts
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>                 src  = D5:J&lt;lastRow&gt;            (header band + all slots)
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>                 dest = &lt;blockStart(c)&gt;5
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>3. relabel:    row 5, F-offset of each block -&gt; "Court &lt;c&gt;"
+</code></pre></div>
+<p><strong>Every court copies <code>D:J</code> — 7 columns, no exceptions, and no separator
+column is ever written.</strong> Blocks sit 8 apart while only 7 columns are
+written, so the one-column gap falls out for free as untouched space, and
+"the last court has no trailing separator" (§2.1) stops being a case to
+handle at all. The master's prototype has no <code>K</code> to copy from in any case —
+it is one court wide, and one court is always the last court (§2.5). Only
+the <em>width</em> of those gap columns needs setting, per §8.10.</p>
+<p><code>gridSlots</code> is <code>slots + 1</code>: the grid runs one row-pair past the last real
+slot to carry the event's end time (readouts spec §3.2).</p>
+<p>Loop the vertical copy per slot rather than relying on <code>copyTo</code> tiling a
+larger destination. At 30 slots and 12 courts that is ~42 calls, nowhere
+near the execution limit, and it removes a behaviour that would have to be
+verified.</p>
+<h3 id="86-writing-values-into-merged-cells">8.6 Writing values into merged cells<a class="headerlink" href="#86-writing-values-into-merged-cells" title="Permanent link">&para;</a></h3>
+<p><code>E</code> and <code>G</code> are merged across each slot's two rows; <code>F</code> is not. A write of
+the whole <code>(2 * slots) x 3</code> rectangle per court is one <code>setValues</code> call:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>row 6 + 2(s-1):  [ codeA, matchNumber, codeB ]
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>row 7 + 2(s-1):  [ '',    '',          ''    ]
+</code></pre></div>
+<p>Writing into a range that contains merges lands on each merge's anchor.
+<strong>Verify this against a real workbook early</strong> — it decides whether the write
+loop is <code>courts</code> calls or <code>courts * slots</code> calls. If the runtime rejects it,
+fall back to one <code>setValues</code> per slot per court; at 12 x 30 that is 360
+calls, still comfortable.</p>
+<p>Unused courts take <code>-</code> in <code>E</code>, <code>F</code> and <code>G</code> (§2.4) — written, not skipped.</p>
+<h3 id="87-times-are-numbers-not-strings">8.7 Times are numbers, not strings<a class="headerlink" href="#87-times-are-numbers-not-strings" title="Permanent link">&para;</a></h3>
+<p><code>settings.start</code> arrives as <code>"15:00"</code> (24-hour, from the calculator's own
+export). The sheet renders <code>3:00 PM</code> because the prototype's <code>B</code> column
+carries a time number format, which <code>copyTo</code> propagates.</p>
+<p>Writing the string <code>"3:00 PM"</code> would work visually and break any formula
+that treats the column as a time. The value has to be a <strong>fraction of a
+day</strong>, the same convention <code>writeVariablesTab_</code> already uses for <code>I2</code>.</p>
+<p>Write it as the reference workbook's own <strong>chained formulas</strong>, not as a
+literal this script computes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>B6  =Variables!H2
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>B8  =B6+Variables!$I$2
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>B10 =B8+Variables!$I$2   … one per slot, through the end-time row
+</code></pre></div>
+<p>The obvious alternative — computing each slot in JavaScript as
+<code>(startMin + (slot - 1) * pitch) / 1440</code> and writing literals — renders
+identically and is wrong. Phase 3's <code>Timeline</code> builds its own time headers
+by exactly this chain (<code>=B$2+Variables!$I$2</code>, readouts spec §5.2) and
+<code>COUNTPAIRAT</code> matches a slot's time <strong>exactly</strong>. The same nominal time
+reached two different ways lands on floats that differ in the last few bits,
+so the two silently stop comparing equal. Chaining off the same two cells
+makes both sides the same computation, so they cannot drift.</p>
+<p>Full account of how that surfaced: readouts spec §14.4.</p>
+<h3 id="88-conditional-formatting">8.8 Conditional formatting<a class="headerlink" href="#88-conditional-formatting" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">rules</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">schedule</span><span class="p">.</span><span class="nx">getConditionalFormatRules</span><span class="p">();</span><span class="w">   </span><span class="c1">// keep what's there</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nx">categories</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">cat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">categoryColor_</span><span class="p">(</span><span class="nx">cat</span><span class="p">.</span><span class="nx">key</span><span class="p">);</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">color</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">                                </span><span class="c1">// §6.4 — no fill, trace it</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">ranges</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">courts</span><span class="p">;</span><span class="w"> </span><span class="nx">c</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">COL</span><span class="p">.</span><span class="nx">D</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="nx">ranges</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">schedule</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="mf">6</span><span class="p">,</span><span class="w"> </span><span class="nx">start</span><span class="p">,</span><span class="w">     </span><span class="mf">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">slots</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">));</span><span class="w">  </span><span class="c1">// D — team 1 names</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="nx">ranges</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">schedule</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="mf">6</span><span class="p">,</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">4</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">slots</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">));</span><span class="w">  </span><span class="c1">// H — team 2 names</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">  </span><span class="nx">rules</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">newConditionalFormatRule</span><span class="p">()</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="p">.</span><span class="nx">whenFormulaSatisfied</span><span class="p">(</span><span class="nx">colorFormulaFor_</span><span class="p">(</span><span class="nx">cat</span><span class="p">.</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">lastCol</span><span class="p">,</span><span class="w"> </span><span class="nx">lastRow</span><span class="p">))</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="p">.</span><span class="nx">setBackground</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">    </span><span class="p">.</span><span class="nx">setRanges</span><span class="p">(</span><span class="nx">ranges</span><span class="p">)</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">    </span><span class="p">.</span><span class="nx">build</span><span class="p">());</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="p">});</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="nx">schedule</span><span class="p">.</span><span class="nx">setConditionalFormatRules</span><span class="p">(</span><span class="nx">rules</span><span class="p">);</span>
+</code></pre></div>
+<p><strong><code>setConditionalFormatRules</code> replaces every rule on the sheet.</strong> Read the
+existing ones first and append, as above — the prototype may carry its own
+(Phase 1 has <code>applyScoreConditionalFormat_</code> doing the equivalent for
+category tabs). Overwriting them silently is the easy mistake here.</p>
+<p>The formula is §6.6. Build it per category with the generated sheet's real
+last column and row substituted in.</p>
+<h3 id="89-tracing-and-failure">8.9 Tracing and failure<a class="headerlink" href="#89-tracing-and-failure" title="Permanent link">&para;</a></h3>
+<p>Follow Phase 1 exactly: <code>trace_</code> every computed value a wrong schedule would
+otherwise hide — slot count, grid width, each court's block start column,
+and the full match list as <code>#&lt;n&gt; &lt;slot&gt;/&lt;court&gt; &lt;codeA&gt; v &lt;codeB&gt;</code>. A
+misplaced match is invisible in a finished tab unless you already know which
+cell was expected.</p>
+<p>On failure mid-build, do not roll back and do not continue (Phase 1 §11.3).
+<code>generateEventTabs</code>'s existing <code>try/catch</code> reports which tabs were written;
+<code>SCHEDULE</code> needs to appear in that list.</p>
+<p>The completion toast currently says only that player names need pasting.
+Once Phase 2 lands it should stop implying the workbook is otherwise ready —
+<code>CSV</code>, <code>STANDINGSCSV</code> and <code>Court Control</code> are still Phase 3 and still carry
+the previous event's shape.</p>
+<h3 id="810-copyto-does-not-carry-column-widths-or-row-heights">8.10 <code>copyTo</code> does not carry column widths or row heights<a class="headerlink" href="#810-copyto-does-not-carry-column-widths-or-row-heights" title="Permanent link">&para;</a></h3>
+<p>Found by generating one. <code>Range.copyTo</code> brings values, formats, formulas and
+merges (§8.5) — but column width and row height are <strong>sheet</strong> properties,
+not cell formats, so they do not come along. Left alone, every tiled court
+and every tiled slot sits at Sheets' defaults (100px / 21px) while court 1
+and slot 1 keep the master's sizing. It reads as "court 1 looks right,
+courts 2-9 look wrong".</p>
+<p>So after both tiling axes, copy the prototype's own dimensions:</p>
+<ul>
+<li>court 1's seven column widths (<code>D:J</code>) onto every other court</li>
+<li>slot 1's two row heights (rows 6, 7) onto every other slot's row pair</li>
+</ul>
+<p><strong>Not <code>autoResizeColumns</code>.</strong> At generation time <code>D</code> and <code>H</code> are empty —
+their name lookups resolve only once the operator pastes rosters (§2.2) — so
+auto-fitting would collapse exactly the two columns that need the most room.</p>
+<p>The inter-court separator columns have no prototype to copy: the master is
+one court wide, and one court is always the <em>last</em> court, which carries no
+trailing separator (§2.5). They take <strong>column <code>C</code>'s</strong> width — the template's
+own blank spacer, and the only stated-intent gap width in the sheet.</p>
+<h3 id="811-flush-between-stages-or-the-whole-tab-times-out">8.11 Flush between stages, or the whole tab times out<a class="headerlink" href="#811-flush-between-stages-or-the-whole-tab-times-out" title="Permanent link">&para;</a></h3>
+<p>A full-size event is merge-heavy in a way the call count hides:
+<code>courts * slots * 4</code> vertical merges (<code>E</code>, <code>G</code>, <code>I</code>, <code>J</code> per slot per
+court) — 540 for the reference event, up to 1440 at 12 courts and 30 slots.
+Every one of them is created by a <code>copyTo</code> in §8.5, and the value writes in
+§8.6 then land <em>on those merges</em>.</p>
+<p>Queued into a single un-flushed batch, that fails with
+<strong><code>Service timed out: Spreadsheets</code></strong> — not from too many calls, but from
+one batch too large to resolve. <code>SpreadsheetApp.flush()</code> between stages
+(after growing, after the vertical axis, per court on the horizontal axis,
+after the value writes) keeps any single batch small enough to settle.</p>
+<p>This is the concrete form of <code>dual-meet-sheet-generator-spec.md</code> §11.1's
+<code>flush()</code> note, and it is what makes §8.6's batched-write question moot:
+flushing the merges before writing into them is what lets the write stay
+<code>courts</code> calls rather than <code>courts * slots</code>.</p>
+<hr />
+<h2 id="9-build-order">9. Build order<a class="headerlink" href="#9-build-order" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>buildMatchList(parsed)</code> — pure, verified against the reference's 126 rows
+   before any Sheets code exists</li>
+<li><code>categoryColor_(key)</code> — pure, §6</li>
+<li>Extend <code>validatePlan</code> with <code>courts &lt;= categories * n</code> (§4.4) and the
+   pristine-<code>SCHEDULE</code> guard (§8.3)</li>
+<li><code>buildScheduleTab_</code> — grow, tile, write, then conditional formatting</li>
+<li>Add the colour column to <code>writeVariablesTab_</code> (§6.7)</li>
+<li>Hook into <code>generateEventTabs</code>; correct the completion toast</li>
+</ol>
+<hr />
+<h2 id="10-worked-example">10. Worked example<a class="headerlink" href="#10-worked-example" title="Permanent link">&para;</a></h2>
+<p>Input: the reference plan CSV — <code>format: dual</code>, <code>club_a: PNF</code>, <code>club_b: BUP</code>,
+<code>courts: 9</code>, <code>start: 15:00</code>, <code>duration_min: 25</code>, <code>buffer_min: 0</code>, and seven
+categories <code>LIWD LIMD LIXD HIWD HIMD HIXD AMD</code>, each <code>brackets: 1</code>,
+<code>teams_a: teams_b: 4</code> — so <code>n = 4</code>.</p>
+<p>Derived: 7 x 16 group + 7 bronze + 7 finals = <strong>126 matches</strong>, 9 courts,
+<strong>15 slots</strong>. Grid is <code>8 * 9 + 2 = 74</code> columns (<code>A:BV</code>) and <code>5 + 2 * 15 = 35</code>
+rows.</p>
+<p>Court block start columns: D(4), L(12), T(20), AB(28), AJ(36), AR(44),
+AZ(52), BH(60), BP(68).</p>
+<p>Slot 1 — rows 6-7, <code>B6:B7</code> = <code>15:00</code> (0.625 as a day fraction):</p>
+<table>
+<thead>
+<tr>
+<th>Match</th>
+<th>Court</th>
+<th>Code cell</th>
+<th>Value</th>
+<th>Match-no cell</th>
+<th>Code-2 cell</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td><code>E6</code></td>
+<td><code>PNF_LIWD_1</code></td>
+<td><code>F6</code></td>
+<td><code>G6</code></td>
+<td><code>BUP_LIWD_1</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td><code>M6</code></td>
+<td><code>PNF_LIWD_2</code></td>
+<td><code>N6</code></td>
+<td><code>O6</code></td>
+<td><code>BUP_LIWD_2</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td><code>U6</code></td>
+<td><code>PNF_LIWD_3</code></td>
+<td><code>V6</code></td>
+<td><code>W6</code></td>
+<td><code>BUP_LIWD_3</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td><code>AC6</code></td>
+<td><code>PNF_LIWD_4</code></td>
+<td><code>AD6</code></td>
+<td><code>AE6</code></td>
+<td><code>BUP_LIWD_4</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>5</td>
+<td><code>AK6</code></td>
+<td><code>PNF_LIMD_1</code></td>
+<td><code>AL6</code></td>
+<td><code>AM6</code></td>
+<td><code>BUP_LIMD_1</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>6</td>
+<td><code>AS6</code></td>
+<td><code>PNF_LIMD_2</code></td>
+<td><code>AT6</code></td>
+<td><code>AU6</code></td>
+<td><code>BUP_LIMD_2</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>7</td>
+<td><code>BA6</code></td>
+<td><code>PNF_LIMD_3</code></td>
+<td><code>BB6</code></td>
+<td><code>BC6</code></td>
+<td><code>BUP_LIMD_3</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>8</td>
+<td><code>BI6</code></td>
+<td><code>PNF_LIMD_4</code></td>
+<td><code>BJ6</code></td>
+<td><code>BK6</code></td>
+<td><code>BUP_LIMD_4</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>9</td>
+<td><code>BQ6</code></td>
+<td><code>PNF_LIXD_1</code></td>
+<td><code>BR6</code></td>
+<td><code>BS6</code></td>
+<td><code>BUP_LIXD_1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Round 1 continues into slot 2 (rows 8-9, <code>15:25</code>) with match 10 =
+<code>PNF_LIXD_2</code> v <code>BUP_LIXD_2</code> on court 1 — categories are not aligned to slot
+boundaries, and must not be forced to be.</p>
+<p>Phase boundaries for this event:</p>
+<table>
+<thead>
+<tr>
+<th>Matches</th>
+<th>Phase</th>
+<th>Slots</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-28</td>
+<td>group round 1</td>
+<td>1-4 (court 1 of slot 4)</td>
+</tr>
+<tr>
+<td>29-56</td>
+<td>group round 2</td>
+<td>4-7</td>
+</tr>
+<tr>
+<td>57-84</td>
+<td>group round 3</td>
+<td>7-10</td>
+</tr>
+<tr>
+<td>85-112</td>
+<td>group round 4</td>
+<td>10-13</td>
+</tr>
+<tr>
+<td>113-119</td>
+<td>bronze</td>
+<td>14 — fresh slot, 7 matches centred on courts 2-8</td>
+</tr>
+<tr>
+<td>120-126</td>
+<td>finals</td>
+<td>15 — fresh slot, courts 2-8</td>
+</tr>
+</tbody>
+</table>
+<p>Slot 13 holds only matches 109-112, centred on <strong>courts 3-6</strong>; courts 1, 2,
+7, 8 and 9 carry <code>-</code>.</p>
+<p>Every number above is verified against the reference workbook.</p>
+<hr />
+<h2 id="11-acceptance">11. Acceptance<a class="headerlink" href="#11-acceptance" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The reference plan CSV reproduces <strong>group matches 1-112</strong> with identical
+  numbers, times, courts and team codes</li>
+<li>It produces the same 14 playoff matches (7 bronze, 7 finals) in the same
+  two slots, but in CSV order rather than the reference's hand order — a
+  deliberate divergence from the reference workbook (§4.2).</li>
+<li>Grid width is exactly <code>8 * courts + 2</code>; no stray separator past the last court</li>
+<li>Every unused court carries <code>-</code> in <code>E</code>/<code>F</code>/<code>G</code></li>
+<li>No pair appears twice in one slot, in any category</li>
+<li>A two-bracket <code>semis</code> category generates its intra-club semifinals</li>
+<li>The <code>CSV</code> tab's stacking formulas resolve against the generated width
+  without editing (Appendix A)</li>
+<li>Running the generator twice on the same workbook is <strong>refused</strong>, not
+  half-applied (§8.3)</li>
+<li><code>Variables!E</code> carries one hex per category, with the cell painted to match</li>
+<li>Every tiled court and slot matches the prototype's own column widths and
+  row heights — court 9 looks like court 1, slot 15 like slot 1 (§8.10)</li>
+<li>A full-size event completes without <code>Service timed out: Spreadsheets</code>
+  (§8.11)</li>
+</ul>
+<hr />
+<h2 id="appendix-a-reading-schedule-back-by-column-dynamically">Appendix A — reading <code>SCHEDULE</code> back by column, dynamically<a class="headerlink" href="#appendix-a-reading-schedule-back-by-column-dynamically" title="Permanent link">&para;</a></h2>
+<p>Not Phase 2, but derived alongside it and needed by Phase 3.</p>
+<p>The <code>CSV</code> and <code>STANDINGSCSV</code> tabs flatten <code>SCHEDULE</code> by stacking one column
+from every court block. Written out by hand that is a fixed list, and it
+breaks the moment the court count changes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>={SCHEDULE!$E$6:$E ; SCHEDULE!$M$6:$M ; SCHEDULE!$U$6:$U ; … ; SCHEDULE!$CO$6:$CO}
+</code></pre></div>
+<p>Since blocks are period 8 from column D (§2.1), the list is derivable from
+the sheet's own width:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>=LET(
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  first, 5,
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>  step,  8,
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>  n,     INT((COLUMNS(SCHEDULE!$1:$1) - first) / step) + 1,
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  ref,   LAMBDA(c, LET(L, SUBSTITUTE(ADDRESS(1, c, 4), "1", ""),
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>                       INDIRECT("SCHEDULE!" &amp; L &amp; "6:" &amp; L))),
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>  REDUCE(ref(first), SEQUENCE(n - 1, 1, first + step, step),
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>         LAMBDA(acc, c, VSTACK(acc, ref(c))))
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>)
+</code></pre></div>
+<p><code>first</code> is the column offset being stacked: <code>5</code> <code>teamCode1</code>, <code>6</code> match
+number, <code>7</code> <code>teamCode2</code>, <code>9</code> <code>team1Score</code>, <code>10</code> <code>team2Score</code>.</p>
+<p>Better as a Named Function (<strong>Data → Named functions</strong>) defined once in the
+master, so every copy inherits it and each call site is one line —
+<code>STACKBLOCKS(5, 8, 6)</code>. This is not merely a suggested improvement: it
+exists in the master today, and <code>dual-meet-readouts-generator-spec.md</code> §2.1
+builds the entire Phase 3 Named Function library on top of it —
+<code>GETPLAYERSCOLUMN1</code>, <code>GETMATCHNUMBERS</code>, <code>GETPLAYERSCOLUMN2</code>,
+<code>GETSCORESCOLUMN1</code> and <code>GETSCORESCOLUMN2</code> are each just one <code>STACKBLOCKS</code>
+call with a different <code>first_col</code>. Read that spec's §2.1 for the base layer
+this appendix's own formula grew into, rather than re-deriving it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>STACKBLOCKS(first_col, step, first_row)
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>=LET(
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>  n,   INT((COLUMNS(SCHEDULE!$1:$1) - first_col) / step) + 1,
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>  ref, LAMBDA(c, LET(L, SUBSTITUTE(ADDRESS(1, c, 4), "1", ""),
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>                     INDIRECT("SCHEDULE!" &amp; L &amp; first_row &amp; ":" &amp; L))),
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>  REDUCE(ref(first_col), SEQUENCE(n - 1, 1, first_col + step, step),
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>         LAMBDA(acc, c, VSTACK(acc, ref(c))))
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>)
+</code></pre></div>
+<p>Notes that cost time to rediscover:</p>
+<ul>
+<li><strong><code>DROP</code> does not exist in Google Sheets</strong> — it is Excel-only, as are
+  <code>TAKE</code> and <code>EXPAND</code>. <code>VSTACK</code>, <code>CHOOSECOLS</code>, <code>TOCOL</code>, <code>REDUCE</code>, <code>LET</code> and
+  <code>LAMBDA</code> all do. Hence <code>SEQUENCE(n - 1, …)</code> to build the tail rather than
+  dropping the head.</li>
+<li><code>INDIRECT</code> keeps the open-ended <code>E6:E</code> form, so the stacked height matches
+  the hand-written original exactly. A <code>CHOOSECOLS</code> over a fixed rectangle
+  is non-volatile but changes the height.</li>
+<li><code>ADDRESS(1, c, 4)</code> gives <code>"E1"</code>; stripping the <code>1</code> yields the column
+  letter, safe because column letters never contain digits.</li>
+<li>Convert <strong>all</strong> of these formulas together. If two of them are consumed
+  row-for-row (codes against scores, say), one converted and one not will
+  drift apart.</li>
+<li><code>SEQUENCE(0, …)</code> errors, so a single-court sheet needs
+  <code>IFERROR(…, ref(first))</code>.</li>
+<li>The block count tolerates up to 7 spare trailing columns before it invents
+  a phantom court.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../dual-meet-sheet-generator-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Sheet generator (Phase 1)">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Sheet generator (Phase 1)
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../dual-meet-readouts-generator-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Readouts generator (Phase 3)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Readouts generator (Phase 3)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2657 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/pnf-x-bup-dual-meet-spec/">
+      
+      
+        <link rel="prev" href="../event-templates-spec/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>PNF × BUP dual meet - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-pickle-friends-1bataan-united-picklers-dual-meet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PNF × BUP dual meet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-settled-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Settled parameters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Settled parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-event-local-assets-delivered-at-a-different-path-than-first-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Event-local assets — delivered, at a different path than first planned
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-identity-and-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Identity and tokens
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Identity and tokens">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-hero-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Hero copy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-club-logos-custom-addition-not-a-template-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Club logos — custom addition, not a template token
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configuration-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Configuration block
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configuration block">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-advanced-is-mens-doubles-only-no-config-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Advanced is men's-doubles only — no config needed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-division-key-order-matters-for-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Division key order matters for parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-resulting-team-code-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Resulting team code format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-theme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Theme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Theme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-one-change-falls-outside-the-root-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 One change falls outside the :root block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-bracket-generatorhtml-was-missed-on-the-first-pass-fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 bracket-generator.html was missed on the first pass — fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-found-not-fixed-a-wider-hardcoded-glow-pattern-across-all-three-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Found, not fixed: a wider hardcoded-glow pattern across all three files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spreadsheet-columns-verify-before-anything-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Spreadsheet columns — verify before anything else
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-settled-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Settled parameters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Settled parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-event-local-assets-delivered-at-a-different-path-than-first-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Event-local assets — delivered, at a different path than first planned
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-identity-and-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Identity and tokens
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Identity and tokens">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-hero-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Hero copy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-club-logos-custom-addition-not-a-template-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Club logos — custom addition, not a template token
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configuration-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Configuration block
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configuration block">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-advanced-is-mens-doubles-only-no-config-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Advanced is men's-doubles only — no config needed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-division-key-order-matters-for-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Division key order matters for parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-resulting-team-code-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Resulting team code format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-theme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Theme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Theme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-one-change-falls-outside-the-root-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 One change falls outside the :root block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-bracket-generatorhtml-was-missed-on-the-first-pass-fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 bracket-generator.html was missed on the first pass — fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-found-not-fixed-a-wider-hardcoded-glow-pattern-across-all-three-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Found, not fixed: a wider hardcoded-glow pattern across all three files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spreadsheet-columns-verify-before-anything-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Spreadsheet columns — verify before anything else
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/pnf-x-bup-dual-meet-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-pickle-friends-1bataan-united-picklers-dual-meet">Spec — Pickle &amp; Friends × 1Bataan United Picklers dual meet<a class="headerlink" href="#spec-pickle-friends-1bataan-united-picklers-dual-meet" title="Permanent link">&para;</a></h1>
+<p>Instantiate <code>_templates/dual-meet-template/</code> for a one-day dual meet on
+<strong>12 September 2026</strong> at <strong>Pampanga Pickleball Center</strong>.</p>
+<p>This is an <em>instantiation</em>, not a code change: follow
+<code>sage-match-control.github.io/_templates/CLAUDE.md</code>, which is the authoritative
+runbook. This spec supplies the filled-in values and records the decisions
+specific to this event. Where the two disagree, the runbook wins.</p>
+<p><strong>All parameters are settled (§1) and all artefacts are delivered — nothing
+outstanding.</strong> §1.1 below documents where they actually ended up, since it
+differs from the original plan in one respect: event-specific images (QR +
+both club logos) live in a <strong>local <code>assets/</code> subfolder inside this event's own
+folder</strong>, not directly alongside <code>index.html</code> as first assumed, and not in the
+shared site-root <code>/assets/</code>.</p>
+<hr />
+<h2 id="1-settled-parameters">1. Settled parameters<a class="headerlink" href="#1-settled-parameters" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Event key</td>
+<td><code>pnf-x-bup-dual-meet</code></td>
+</tr>
+<tr>
+<td>Club codes</td>
+<td><code>PNF</code> (Pickle &amp; Friends) / <code>BUP</code> (1Bataan United Picklers)</td>
+</tr>
+<tr>
+<td>Mixed doubles code</td>
+<td><code>XD</code> — consistent with bkl-cup-2026 and the PPA dual meet, <strong>not</strong> the pubmat's <code>MXD</code></td>
+</tr>
+<tr>
+<td>Go-live</td>
+<td><strong>12:00 noon PH</strong> (<code>LIVE_GO_LIVE_HOUR_PH = 12</code>), three hours before first serve</td>
+</tr>
+<tr>
+<td>Courts</td>
+<td><strong>9</strong>, numbered 1–9 at the single venue</td>
+</tr>
+<tr>
+<td>Facility sheet ID</td>
+<td><code>1IcnsOEA5iGljEmh6Z0ChhIYn580MZ9mzpVEZY55pX0U</code></td>
+</tr>
+<tr>
+<td>QR asset / link</td>
+<td><code>assets/qr.png</code> (event-local) / <code>tinyurl.com/SAGExPNFxBUP</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="11-event-local-assets-delivered-at-a-different-path-than-first-planned">1.1 Event-local assets — delivered, at a different path than first planned<a class="headerlink" href="#11-event-local-assets-delivered-at-a-different-path-than-first-planned" title="Permanent link">&para;</a></h3>
+<p>All three live in <code>events/pnf-x-bup-dual-meet/assets/</code> — a subfolder created
+specifically for this event, sitting next to <code>index.html</code>:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assets/qr.png</code></td>
+<td><code>{{QR_IMAGE}}</code> — the QR panel on <code>index.html</code></td>
+</tr>
+<tr>
+<td><code>assets/pnf-logo.jpg</code></td>
+<td>Club-logos row (§2.2) — Pickle &amp; Friends Community</td>
+</tr>
+<tr>
+<td><code>assets/bup-logo.jpg</code></td>
+<td>Club-logos row (§2.2) — 1Bataan United Picklers</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why this path and not root-absolute <code>/assets/</code>:</strong> the site's shared
+<code>/assets/</code> folder (<code>logo.png</code>, <code>favicons/</code>) holds S.A.G.E.'s own operator
+branding, used by every page on the site. These three files are specific to
+<em>this one event</em> — putting them there would mix per-event content into a
+folder meant for platform-wide assets, and would need every future event to
+pick non-colliding filenames (<code>qr.png</code> alone would already collide across
+events). A plain relative path (<code>assets/qr.png</code>, no leading <code>/</code> or <code>../</code>) is
+also archive-safe: moving <code>events/pnf-x-bup-dual-meet/</code> to
+<code>events/archives/pnf-x-bup-dual-meet/</code> as a whole folder — including this
+subfolder — preserves the relationship with no re-prefixing, same as the
+root-absolute convention achieves for the shared assets (§6 in the templates
+runbook).</p>
+<p><code>tinyurl.com/SAGExPNFxBUP</code> points at
+<code>https://sage-match-control.github.io/events/pnf-x-bup-dual-meet/</code>; the QR
+image encodes that short link, not the long URL.</p>
+<blockquote>
+<p><strong>The pubmat prints <code>MXD</code>; the site uses <code>XD</code>.</strong> That divergence is
+deliberate, but it is a live trap for whoever builds the spreadsheet — a
+mixed-doubles row keyed <code>PNF_LIMXD_1</code> will silently fail to parse and the
+pair will vanish from the finder and standings. Say so explicitly when
+handing over the sheet template, and check it during §8.</p>
+</blockquote>
+<p>Everything else is derived from the pubmat and is not in question: date, venue,
+both club names, and the category list.</p>
+<hr />
+<h2 id="2-identity-and-tokens">2. Identity and tokens<a class="headerlink" href="#2-identity-and-tokens" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{EVENT_KEY}}</code></td>
+<td><code>pnf-x-bup-dual-meet</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TITLE}}</code></td>
+<td><code>Dual Meet</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_DATE_RANGE}}</code></td>
+<td><code>12 September 2026</code></td>
+</tr>
+<tr>
+<td><code>{{VENUE}}</code></td>
+<td><code>Pampanga Pickleball Center</code></td>
+</tr>
+<tr>
+<td><code>{{CLUB_A_NAME}}</code></td>
+<td><code>Pickle &amp; Friends Community</code></td>
+</tr>
+<tr>
+<td><code>{{CLUB_B_NAME}}</code></td>
+<td><code>1Bataan United Picklers</code></td>
+</tr>
+<tr>
+<td><code>{{CLUB_A_CODE}}</code></td>
+<td><code>PNF</code></td>
+</tr>
+<tr>
+<td><code>{{CLUB_B_CODE}}</code></td>
+<td><code>BUP</code></td>
+</tr>
+<tr>
+<td><code>{{CLOUD_RUN_BASE_URL}}</code></td>
+<td><code>https://sage-tools-api-811926984834.us-central1.run.app</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TAGLINE}}</code></td>
+<td><em>(blank)</em></td>
+</tr>
+<tr>
+<td><code>{{EVENT_HEADLINE}}</code></td>
+<td><em>(blank)</em></td>
+</tr>
+<tr>
+<td><code>{{QR_IMAGE}}</code></td>
+<td><code>assets/qr.png</code></td>
+</tr>
+<tr>
+<td><code>{{QR_URL}}</code></td>
+<td><code>tinyurl.com/SAGExPNFxBUP</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>{{EVENT_KEY}}</code> must satisfy <code>^[a-z0-9][a-z0-9-]*$</code> (enforced by
+<code>SyncConfigStore</code>) and must be identical in three places: the folder under
+<code>events/</code>, the <code>EVENT_KEY</code> constant, and the folder in the <code>event-data</code> repo.</p>
+<p>The clubs do <strong>not</strong> go in <code>{{EVENT_TITLE}}</code> — settled, after a brief detour.
+An earlier revision tried putting the full club names in the title, on top of
+the eyebrow already rendering <code>Club A × Club B · date · venue</code> directly above
+the <code>&lt;h1&gt;</code>; confirmed in the browser that this printed both club names twice
+in a row. Reverted back to <code>Dual Meet</code>. The clubs' visual identity is now
+carried by the logo row instead (§2.2), which is arguably a better fit for a
+poster-style hero than a second line of text would have been anyway.</p>
+<h3 id="21-hero-copy">2.1 Hero copy<a class="headerlink" href="#21-hero-copy" title="Permanent link">&para;</a></h3>
+<p>Four stacked slots, top to bottom:</p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>bkl-cup-2026 used</th>
+<th>This event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{EVENT_TAGLINE}}</code> — small italic</td>
+<td>"The Battle for the Court Begins!"</td>
+<td><strong>blank</strong></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TITLE}}</code> — big gradient headline</td>
+<td>"BKL Pickleball Cup"</td>
+<td><code>Dual Meet</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_HEADLINE}}</code> — large uppercase block</td>
+<td>"6 Days. 1 Goal. Total Domination."</td>
+<td><strong>blank</strong></td>
+</tr>
+<tr>
+<td>Fixed subtitle</td>
+<td>"Find your pair's full match schedule…"</td>
+<td>unchanged — not a token</td>
+</tr>
+</tbody>
+</table>
+<p>Both the tagline and headline slots ended up blank. That's deliberate, not a
+placeholder-replace that got forgotten: a one-night dual meet doesn't need a
+slogan the way bkl's six-day tournament did, and the visual weight that would
+have gone there instead goes to the club-logos row (§2.2), which sits between
+the eyebrow and the title. The eyebrow still renders <code>Pickle &amp; Friends
+Community × 1Bataan United Picklers · 12 September 2026 · Pampanga Pickleball
+Center</code>.</p>
+<h3 id="22-club-logos-custom-addition-not-a-template-token">2.2 Club logos — custom addition, not a template token<a class="headerlink" href="#22-club-logos-custom-addition-not-a-template-token" title="Permanent link">&para;</a></h3>
+<p>Not part of the dual-meet template's stock feature set — <code>{{CLUB_A_NAME}}</code> /
+<code>{{CLUB_B_NAME}}</code> only ever fill text (the eyebrow, <code>CLUBS</code> config). This adds
+a circular-logo row, <code>pnf-logo.jpg</code> × <code>bup-logo.jpg</code> separated by <code>×</code>.</p>
+<p><strong>Placement, revised once:</strong> first sitting above the eyebrow (between it and
+the blank tagline), then moved to <strong>below the eyebrow, above the title</strong> —
+between the club names (as text) and the big "DUAL MEET" gradient headline.
+Stacking order in the hero is now: crown mark → tagline (blank) → eyebrow →
+<strong>club logos</strong> → <code>&lt;h1&gt;</code> title → subtitle.</p>
+<p><strong>Size, also revised once:</strong> the circles started at <code>clamp(52px,12vw,76px)</code>
+and were bumped to <code>clamp(84px,20vw,140px)</code> — roughly 60% larger at both the
+mobile floor and the desktop ceiling. The <code>×</code> separator and the row's <code>gap</code>
+were scaled up to match (14–18px → 22–34px; 16px gap → 22px), so the
+separator and spacing still read as proportionate to the now-larger circles
+rather than looking left behind.</p>
+<p>Added to <strong>both</strong> <code>index.html</code> and <code>match-control.html</code> (identical CSS class
++ markup in both, matching how the rest of the hero is kept in sync between
+them), not to <code>bracket-generator.html</code> — that page's header is a plain
+eyebrow + <code>&lt;h1&gt;</code> with no equivalent slot, and adding one would be a real
+layout addition, not a copy-paste.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">.</span><span class="nc">club-logos</span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">align-items</span><span class="p">:</span><span class="kc">center</span><span class="p">;</span><span class="w"> </span><span class="k">justify-content</span><span class="p">:</span><span class="kc">center</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="mi">22</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">.</span><span class="nc">club-logos</span><span class="w"> </span><span class="nt">img</span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">84</span><span class="kt">px</span><span class="p">,</span><span class="mi">20</span><span class="kt">vw</span><span class="p">,</span><span class="mi">140</span><span class="kt">px</span><span class="p">);</span><span class="w"> </span><span class="k">aspect-ratio</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="k">object-fit</span><span class="p">:</span><span class="kc">cover</span><span class="p">;</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nb">rgba</span><span class="p">(</span><span class="mi">226</span><span class="p">,</span><span class="mi">236</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mf">.35</span><span class="p">);</span><span class="w"> </span><span class="k">box-shadow</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--card-shadow</span><span class="p">);</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--paper</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">.</span><span class="nc">club-logos</span><span class="w"> </span><span class="p">.</span><span class="nc">club-logos-sep</span><span class="p">{</span><span class="w"> </span><span class="k">font-family</span><span class="p">:</span><span class="s1">'Anton'</span><span class="p">,</span><span class="kc">sans-serif</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">22</span><span class="kt">px</span><span class="p">,</span><span class="mi">5</span><span class="kt">vw</span><span class="p">,</span><span class="mi">34</span><span class="kt">px</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--court</span><span class="p">);</span><span class="w"> </span><span class="k">opacity</span><span class="p">:</span><span class="mf">.85</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"eyebrow"</span><span class="p">&gt;</span>…<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"club-logos"</span><span class="p">&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">"assets/pnf-logo.jpg"</span> <span class="na">alt</span><span class="o">=</span><span class="s">"Pickle &amp;amp; Friends Community logo"</span> <span class="p">/&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"club-logos-sep"</span><span class="p">&gt;</span><span class="ni">&amp;times;</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">"assets/bup-logo.jpg"</span> <span class="na">alt</span><span class="o">=</span><span class="s">"1Bataan United Picklers logo"</span> <span class="p">/&gt;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Dual Meet<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><code>clamp()</code> scales the circles between mobile and desktop without a media query
+— at the current values, the 140px ceiling is reached once the viewport hits
+~700px wide (<code>20vw × 700px = 140px</code>). <code>aspect-ratio:1/1</code> + <code>object-fit:cover</code>
+keeps them circular regardless of the source images' actual dimensions
+(1024×1024 and 1254×1254 here, but the CSS doesn't depend on that). Because
+this lives only in this event's two files — not in <code>_templates/</code> — it does
+not carry forward to the next dual-meet event automatically. If a future
+event wants the same treatment, it is a copy of this CSS+markup block, not
+something the runbook currently hands you for free.</p>
+<h2 id="3-configuration-block">3. Configuration block<a class="headerlink" href="#3-configuration-block" title="Permanent link">&para;</a></h2>
+<p>Single day, single venue — both of which the template already handles as
+first-class cases (day picker hides and auto-loads; facility heading rows and
+the per-facility resync row are suppressed).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAYS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">'pnf-x-bup-day1'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Sep 12'</span><span class="p">,</span><span class="w"> </span><span class="nx">date</span><span class="o">:</span><span class="w"> </span><span class="s1">'2026-09-12'</span><span class="p">,</span><span class="w"> </span><span class="nx">isLive</span><span class="o">:</span><span class="w"> </span><span class="s1">'auto'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">];</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">LIVE_GO_LIVE_HOUR_PH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">12</span><span class="p">;</span><span class="w">   </span><span class="c1">// noon PH — 3h before first serve (§1)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FACILITIES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Pampanga Pickleball Center'</span><span class="p">,</span><span class="w"> </span><span class="nx">courts</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">9</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">];</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DIVISIONS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="nx">LI</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'LI'</span><span class="p">,</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'Low Intermediate'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="nx">HI</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'HI'</span><span class="p">,</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'High Intermediate'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="nx">A</span><span class="o">:</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'A'</span><span class="p">,</span><span class="w">  </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'Advanced'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">};</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">  </span><span class="nx">WD</span><span class="o">:</span><span class="w"> </span><span class="s2">"Women's Doubles"</span><span class="p">,</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">  </span><span class="nx">MD</span><span class="o">:</span><span class="w"> </span><span class="s2">"Men's Doubles"</span><span class="p">,</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="nx">XD</span><span class="o">:</span><span class="w"> </span><span class="s2">"Mixed Doubles"</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="p">};</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DIVISION_ORDER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">   </span><span class="c1">// key order above is already the pubmat's order</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENT_ORDER</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="31-advanced-is-mens-doubles-only-no-config-needed">3.1 Advanced is men's-doubles only — no config needed<a class="headerlink" href="#31-advanced-is-mens-doubles-only-no-config-needed" title="Permanent link">&para;</a></h3>
+<p>The pubmat lists Advanced with only MD. <strong>Do not try to express that in
+<code>DIVISIONS</code>/<code>EVENTS</code>.</strong> Those two objects declare the vocabulary the code
+parser understands, not the categories that exist. Displayed categories are
+derived from the rows actually present in the standings data, so an Advanced
+Women's Doubles column simply never appears if no such pair is entered.
+Declaring the full cross-product is correct and creates nothing empty.</p>
+<h3 id="32-division-key-order-matters-for-parsing">3.2 Division key order matters for parsing<a class="headerlink" href="#32-division-key-order-matters-for-parsing" title="Permanent link">&para;</a></h3>
+<p><code>CODE_REGEX</code> is built by joining <code>Object.keys(DIVISIONS)</code> into an alternation,
+and JavaScript preserves insertion order. <code>LI</code>, <code>HI</code>, <code>A</code> are mutually
+non-prefixing, so the order above is safe. If a division is ever added whose
+code is a prefix of another (e.g. adding <code>AB</code> alongside <code>A</code>), <strong>list the longer
+code first</strong> — regex backtracking usually rescues it, but relying on that is
+avoidable. The "don't hand-edit this regex" comment in the template stands;
+change the order in <code>DIVISIONS</code> instead.</p>
+<h3 id="33-resulting-team-code-format">3.3 Resulting team code format<a class="headerlink" href="#33-resulting-team-code-format" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&lt;CLUB&gt;_&lt;DIVISION&gt;&lt;EVENT&gt;_&lt;REST&gt;
+</code></pre></div>
+<p>Concretely: <code>PNF_LIMD_1</code>, <code>BUP_HIXD_3</code>, <code>PNF_AMD_SF_1</code>,
+<code>BUP_LIWD_F_1_(2)</code>.</p>
+<p>Both spreadsheets must use these exactly — the codes are the join key between
+the schedule and standings tabs and everything the site renders.</p>
+<h2 id="4-theme">4. Theme<a class="headerlink" href="#4-theme" title="Permanent link">&para;</a></h2>
+<p>The pubmat's palette is closer to the shipped default than it looks. The
+template already ships bkl's lime-on-near-black scheme; the substantive change
+is <strong>orange → hot pink</strong> for the accent colour.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="o">:</span><span class="nx">root</span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="o">--</span><span class="nx">court</span><span class="o">:</span><span class="w">      </span><span class="n">#B8E830</span><span class="p">;</span><span class="w">   </span><span class="cm">/* lime — pubmat court green (was #C6FF00) */</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="o">--</span><span class="nx">court</span><span class="o">-</span><span class="nx">dark</span><span class="o">:</span><span class="w"> </span><span class="err">#</span><span class="mf">080808</span><span class="p">;</span><span class="w">   </span><span class="cm">/* true black, not navy-black (was #060B16) */</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="o">--</span><span class="nx">court</span><span class="o">-</span><span class="nx">line</span><span class="o">:</span><span class="w"> </span><span class="n">#F2F2F2</span><span class="p">;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="o">--</span><span class="nx">ink</span><span class="o">:</span><span class="w">        </span><span class="err">#</span><span class="mb">0B1</span><span class="nx">B3C</span><span class="p">;</span><span class="w">   </span><span class="cm">/* unchanged — dark text on white cards */</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="o">--</span><span class="nx">paper</span><span class="o">:</span><span class="w">      </span><span class="n">#FFFFFF</span><span class="p">;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="o">--</span><span class="nx">amber</span><span class="o">:</span><span class="w">      </span><span class="n">#FFE24D</span><span class="p">;</span><span class="w">   </span><span class="cm">/* pubmat's yellow accent bars (was #FFD400) */</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="o">--</span><span class="nx">cork</span><span class="o">:</span><span class="w">       </span><span class="n">#FF3D9A</span><span class="p">;</span><span class="w">   </span><span class="cm">/* HOT PINK — the one real change (was #FF7A29) */</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="o">--</span><span class="nx">muted</span><span class="o">:</span><span class="w">      </span><span class="err">#</span><span class="mf">6</span><span class="nx">B7690</span><span class="p">;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="o">--</span><span class="nx">navy</span><span class="o">-</span><span class="nx">mid</span><span class="o">:</span><span class="w">   </span><span class="err">#</span><span class="mf">141414</span><span class="p">;</span><span class="w">   </span><span class="cm">/* black-on-black gradient, no navy (was #122548) */</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Colour values above are eyeballed from the pubmat, not sampled from source
+art.</strong> If the club has brand hexes — particularly the pink and the lime —
+use those instead.</p>
+</blockquote>
+<h3 id="41-one-change-falls-outside-the-root-block">4.1 One change falls outside the <code>:root</code> block<a class="headerlink" href="#41-one-change-falls-outside-the-root-block" title="Permanent link">&para;</a></h3>
+<p>The template's <code>body</code> background hard-codes two radial gradients in <code>rgba()</code>,
+including a <strong>blue</strong> one (<code>rgba(45,110,220,.24)</code>) that has no counterpart in the
+pubmat and will read as wrong against a true-black ground. That is the single
+documented exception to "the theme block is the only place you restyle an
+event" — retint that gradient to the pubmat's gold (roughly
+<code>rgba(200,160,48,.20)</code>) or drop it.</p>
+<p>The pubmat's gold halftone dot texture is <strong>not</strong> attempted. It could be
+approximated with a repeating <code>radial-gradient</code>, but that is a bigger change to
+<code>body</code> than a theme swap and risks the busy-background problem the template's
+existing gradients were tuned to avoid. Out of scope unless asked for.</p>
+<h3 id="42-bracket-generatorhtml-was-missed-on-the-first-pass-fixed">4.2 <code>bracket-generator.html</code> was missed on the first pass — fixed<a class="headerlink" href="#42-bracket-generatorhtml-was-missed-on-the-first-pass-fixed" title="Permanent link">&para;</a></h3>
+<p>The theming steps above were originally applied to <code>index.html</code> and
+<code>match-control.html</code> only; <code>bracket-generator.html</code> was left on the template's
+stock lime/navy/orange palette, including the blue body gradient §4.1 already
+flags. Caught this by chance — a routine file-diff notification surfaced the
+untouched <code>:root</code> block. Since fixed: the same six variables, the same
+gradient retint, and three more spots specific to this file that the other
+two pages don't have, because canvas can't read CSS custom properties —
+<code>bracket-generator.html</code>'s exported-PNG drawing code duplicates the palette in
+raw JS:</p>
+<ul>
+<li><code>bgGrad</code> (the exported image's own background gradient) — <code>#060B16</code> /
+  <code>#122548</code> / <code>#060B16</code> → <code>#080808</code> / <code>#141414</code> / <code>#080808</code></li>
+<li>The header/title <code>ctx.fillStyle</code> calls — <code>#FFD400</code> → <code>#FFE24D</code>,
+  <code>#C6FF00</code> → <code>#B8E830</code></li>
+<li><code>BADGE_FILL</code> / <code>BADGE_TEXT</code> (the bracket-slot colour badges baked into the
+  exported image) — cork/court/amber entries updated to match; the fourth
+  badge colour (<code>#8B7CF6</code>, purple) isn't part of this theme and is unchanged</li>
+<li>The canvas <code>glow()</code> call's raw <code>rgba(198,255,0,...)</code> → <code>rgba(184,232,48,...)</code></li>
+</ul>
+<p><strong>If this event's templates are ever re-themed again, re-check all three
+files, not just the two with visible on-page styles</strong> — the export canvas is
+easy to forget precisely because you don't see it until you click "Export as
+image."</p>
+<h3 id="43-found-not-fixed-a-wider-hardcoded-glow-pattern-across-all-three-files">4.3 Found, not fixed: a wider hardcoded-glow pattern across all three files<a class="headerlink" href="#43-found-not-fixed-a-wider-hardcoded-glow-pattern-across-all-three-files" title="Permanent link">&para;</a></h3>
+<p>While chasing §4.2's gap, found that <code>rgba(198,255,0,…)</code> — raw lime, matching
+the <em>stock</em> <code>--court</code> value — appears throughout the CSS in all three files
+(not just bracket-generator) in glow/shadow/hover effects that were never
+wired to the <code>--court</code> variable in the original bkl template: the crown mark's
+drop-shadow, the <code>.regal-rule</code> divider gradient, the <code>h1.title</code> gradient-text
+fill (<code>#8FE94B</code>/<code>#C6FF00</code>/<code>#F5FF8C</code>, also unthemed), border hovers, pulse
+animations. A dozen-plus occurrences across <code>index.html</code>, <code>match-control.html</code>,
+and <code>bracket-generator.html</code>.</p>
+<p><strong>Deliberately not fixed as part of this change.</strong> It's a template-level gap
+(present in <code>_templates/dual-meet-template/</code> itself, inherited from bkl, not
+introduced by this instantiation), it's low-opacity decorative glow rather
+than a solid brand colour, and fixing it properly means either a wider sweep
+across all three files here or — better — teaching <code>_templates/</code> to reference
+<code>var(--court)</code> in these spots so every future event gets it for free instead
+of every instantiation re-discovering the same gap. Flagging for a decision,
+not fixing silently.</p>
+<h2 id="5-backend">5. Backend<a class="headerlink" href="#5-backend" title="Permanent link">&para;</a></h2>
+<p>Add to <code>event-data</code>'s <code>config/events.json</code> (a commit — <strong>no Cloud Run
+redeploy</strong>, per the runtime sync config):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">"pnf-x-bup-dual-meet"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"days"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">"pnf-x-bup-day1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sep 12"</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">      </span><span class="nt">"facilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pampanga Pickleball Center"</span><span class="p">,</span><span class="w"> </span><span class="nt">"sheetId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1IcnsOEA5iGljEmh6Z0ChhIYn580MZ9mzpVEZY55pX0U"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">      </span><span class="p">]</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>The day key must be <strong>globally unique across every event</strong> in that file.
+  <code>bkl-cup-2026</code> already holds <code>day2</code>–<code>day6</code>, so the prefixed key above is
+  required, not stylistic.</li>
+<li>The facility <code>name</code> must match the <code>FACILITIES</code> entry in §3 <strong>exactly</strong> —
+  it is compared case-sensitively.</li>
+<li>Only add <code>matchesSheetName</code> / <code>standingsSheetName</code> overrides if this
+  event's sheet tabs are literally named something other than <code>CSV</code> /
+  <code>STANDINGSCSV</code>. This event's are correctly named, so no override is
+  needed — <strong>this day's actual investigation is why GID-based overrides
+  (<code>csvGid</code> / <code>standingsGid</code>) don't exist any more.</strong> This sheet's
+  <code>STANDINGSCSV</code> tab sits at GID <code>1801965166</code> because the workbook was
+  duplicated from the archived <code>ppa-x-club-2600-dual-meet</code> sheet and
+  inherited its old tabs' GIDs — the shared default GID silently resolved
+  to a leftover tab from that old event instead. Both fetch paths in
+  <code>sage-tools-api</code> now address tabs by name only; see
+  <code>event-data/config/README.md</code>.</li>
+</ul>
+<p>Then install <code>scripts/sheets-sync.gs</code> on the facility spreadsheet with
+<code>DAY_KEY = 'pnf-x-bup-day1'</code>, <code>FACILITY_NAME = 'Pampanga Pickleball
+Center'</code>, and the Cloud Run URL from §2 — and <strong>check <code>WATCHED_SHEET_GIDS</code>
+against this spreadsheet's own tab GIDs</strong>, which will not match the shipped
+defaults.</p>
+<h2 id="6-steps">6. Steps<a class="headerlink" href="#6-steps" title="Permanent link">&para;</a></h2>
+<p>Per <code>_templates/CLAUDE.md</code> §2, with this event's specifics. Steps 1–6 are
+pure file work and are done; 7–8 touch live systems.</p>
+<ol>
+<li><code>cp -r _templates/dual-meet-template events/pnf-x-bup-dual-meet/</code></li>
+<li>Replace every token (§2). <code>grep -r '{{' events/pnf-x-bup-dual-meet/</code> comes
+   back empty</li>
+<li>Fill the config block (§3) in <strong>both</strong> <code>index.html</code> and <code>match-control.html</code></li>
+<li>Apply the theme (§4) to <strong>all three files</strong>, including
+   <code>bracket-generator.html</code> (§4.2 — easy to miss, since it has no on-page
+   visual until you export)</li>
+<li>Create <code>events/pnf-x-bup-dual-meet/assets/</code> and drop in <code>qr.png</code>,
+   <code>pnf-logo.jpg</code>, <code>bup-logo.jpg</code> (§1.1); add the club-logos block (§2.2) to
+   <code>index.html</code> and <code>match-control.html</code></li>
+<li>Verify the spreadsheet's columns (§7) <strong>before</strong> wiring anything up</li>
+<li>Commit <code>config/events.json</code> in <code>event-data</code> (§5); confirm
+   <code>pnf-x-bup-day1</code> appears in <code>GET /sync/config</code> before continuing</li>
+<li>Install the Apps Script on the facility spreadsheet (§5), then trigger a
+   test sync and confirm it writes
+   <code>pnf-x-bup-dual-meet/data/pnf-x-bup-day1.json</code></li>
+</ol>
+<p><code>bracket-generator.html</code> needs no configuration — copy as-is.</p>
+<p>The <code>data/</code> folder in <code>event-data</code> does not need creating by hand; the first
+successful sync creates it.</p>
+<h2 id="7-spreadsheet-columns-verify-before-anything-else">7. Spreadsheet columns — verify before anything else<a class="headerlink" href="#7-spreadsheet-columns-verify-before-anything-else" title="Permanent link">&para;</a></h2>
+<p>The most common cause of a new event rendering blank. Exact, case-sensitive:</p>
+<ul>
+<li><strong>Matches tab</strong>: <code>matchNumber</code>, <code>teamCode1</code>, <code>team1Player1</code>, <code>team1Player2</code>,
+  <code>teamCode2</code>, <code>team2Player1</code>, <code>team2Player2</code>, <code>Schedule</code>, <code>team1Score</code>,
+  <code>team2Score</code>, <code>CourtAssignment</code>, <code>court</code></li>
+<li><strong>Standings tab</strong>: <code>teamCode</code>, <code>player1</code>, <code>player2</code>, <code>wins</code>, <code>loss</code>,
+  <code>quotient</code>, <code>bracket</code></li>
+</ul>
+<p><code>court</code> is the <strong>live</strong> court and is distinct from the scheduled
+<code>CourtAssignment</code>. Without it the Live Matches tab reads "No matches are
+currently on court." indefinitely, no matter how much other data is correct.</p>
+<h2 id="8-acceptance">8. Acceptance<a class="headerlink" href="#8-acceptance" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] <code>grep -r '{{' events/pnf-x-bup-dual-meet/</code> returns nothing.</li>
+<li>[ ] No <code>bkl</code>, <code>Pampanga Paddle Aces</code>, <code>Club 2600</code>, or other prior-event
+      string survives anywhere in the folder.</li>
+<li>[ ] Day picker is <strong>hidden</strong> and the single day auto-loads (§3).</li>
+<li>[ ] Facility heading row on the Live board and the per-facility resync row in
+      Mission Control are both <strong>suppressed</strong> (single facility).</li>
+<li>[ ] Standings show the club-vs-club win summary with the leader highlighted;
+      desktop shows category columns with both clubs stacked inside, mobile
+      shows one column per club.</li>
+<li>[ ] A pair with the same two names entered on both clubs is not merged in the
+      autocomplete.</li>
+<li>[ ] Before the go-live threshold, <code>index.html</code> hides scores and the
+      Live/Standings tabs; <code>match-control.html</code> shows them regardless.</li>
+<li>[ ] Mission Control's connection check reaches <code>/ping</code> and reports a config
+      SHA; a resync writes <code>pnf-x-bup-dual-meet/data/pnf-x-bup-day1.json</code>.</li>
+<li>[x] Shared-site asset paths (favicons, <code>/assets/logo.png</code>) are root-absolute
+      and icons resolve. Event-local assets (<code>assets/qr.png</code>, both club logos)
+      are relative on purpose (§1.1) — don't "fix" them to root-absolute.
+      Verified in the browser, real HTTP server: no 404s except the expected
+      external-fetch ones (unpublished snapshot data), across all three pages.</li>
+<li>[x] QR panel renders the real image (not a broken-image icon) and the
+      printed text reads <code>tinyurl.com/SAGExPNFxBUP</code>. Verified.</li>
+<li>[x] Club-logos row renders as two circles separated by <code>×</code>, on both
+      <code>index.html</code> and <code>match-control.html</code>, at both mobile and desktop
+      widths (<code>clamp()</code>-based sizing, no media query). Verified.</li>
+<li>[x] <code>bracket-generator.html</code>'s theme matches the other two pages — background,
+      title colour, eyebrow colour. Verified after §4.2's fix; was failing
+      before it.</li>
+<li>[ ] Mobile (≤980px) and desktop standings layouts both render.</li>
+</ul>
+<h2 id="9-out-of-scope">9. Out of scope<a class="headerlink" href="#9-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Generating the QR PNG or creating the tinyurl (§1.1 — values are fixed, the artefacts are a separate errand).</li>
+<li>The gold halftone texture from the pubmat (§4.1).</li>
+<li>Any change to <code>_templates/</code> itself. If something here needs a template edit
+  rather than a config value, stop and treat that as a separate change — the
+  templates serve future events too.</li>
+<li>Archiving. That happens after the event; because asset paths are
+  root-absolute, the folder moves into <code>events/archives/</code> with no re-prefixing.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../event-templates-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Event site templates">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Event site templates
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

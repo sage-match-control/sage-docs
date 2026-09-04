@@ -1,0 +1,2458 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/sync-config-runtime-spec/">
+      
+      
+        <link rel="prev" href="../fast-data-delivery-explainer/">
+      
+      
+        <link rel="next" href="../match-control-console-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Runtime-fetched sync config - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-runtime-fetched-sync-config" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Runtime-fetched sync config
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-this-is-safe-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why this is safe here
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-settled-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Settled decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-config-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The config file
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The config file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Validation rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-sheet-ids-become-publicly-listed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Sheet IDs become publicly listed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-new-syncconfigstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. New: SyncConfigStore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. New: SyncConfigStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-bundled-fallback-seed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Bundled fallback seed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-syncconfig-becomes-a-resolved-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. SyncConfig becomes a resolved snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-fetchers-stop-importing-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Fetchers stop importing config
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-failure-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Failure modes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-migration-one-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Migration (one-time)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-this-is-safe-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why this is safe here
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-settled-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Settled decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-config-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The config file
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The config file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Validation rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-sheet-ids-become-publicly-listed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Sheet IDs become publicly listed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-new-syncconfigstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. New: SyncConfigStore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. New: SyncConfigStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-bundled-fallback-seed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Bundled fallback seed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-syncconfig-becomes-a-resolved-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. SyncConfig becomes a resolved snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-fetchers-stop-importing-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Fetchers stop importing config
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-failure-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Failure modes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-migration-one-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Migration (one-time)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/sync-config-runtime-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-runtime-fetched-sync-config">Spec — Runtime-fetched sync config<a class="headerlink" href="#spec-runtime-fetched-sync-config" title="Permanent link">&para;</a></h1>
+<p>Move the event/day/facility registry out of <code>sage-tools-api/src/sync/SyncConfig.mjs</code>
+and into a JSON file in the shared <code>event-data</code> repo, fetched at runtime via the
+GitHub Contents API.</p>
+<p><strong>Goal:</strong> adding an event, adding a day, or fixing a wrong sheet ID becomes a
+commit to a data repo, not a Cloud Build image rebuild. Today <code>SyncConfig.mjs</code>
+is source code, so every one of those requires <code>gcloud run deploy --source .</code>,
+which rebuilds a Dockerfile that <code>apt-get install</code>s Chromium.</p>
+<p><strong>Deliverable is the mechanism, not an event.</strong> No new event is registered by
+this task. §9 covers the one-time migration.</p>
+<p>Line references are to the files as they stand today (post-templating):
+<code>SyncConfig.mjs</code> 176 lines, <code>SyncService.mjs</code> 137, <code>GitHubPublisher.mjs</code> 92,
+<code>SheetsCsvFetcher.mjs</code> 132, <code>GvizCsvFetcher.mjs</code> 88.</p>
+<hr />
+<h2 id="1-why-this-is-safe-here">1. Why this is safe here<a class="headerlink" href="#1-why-this-is-safe-here" title="Permanent link">&para;</a></h2>
+<p>The standard objection to runtime-fetched config is that it puts a network
+dependency in a live-event hot path. That objection does not apply:
+<code>api.github.com</code> is <strong>already</strong> a hard dependency of every single sync —
+<code>SyncService.syncDay()</code> calls <code>publisher.fetchExisting(path)</code> (<code>SyncService.mjs:81</code>)
+and then <code>publisher.publish(...)</code> (<code>:117</code>). If GitHub is unreachable, the sync
+fails regardless of where config lives.</p>
+<p>So this adds one more call to a service the sync already cannot work without —
+not a new class of failure. And that call is cacheable far more aggressively
+than the snapshot read, because config changes at human speed.</p>
+<p>The real win is <strong>mid-event agility</strong>, not per-event setup convenience. Setup is
+dominated by hand-installing Apps Script on each facility spreadsheet; one extra
+deploy is noise next to that. The scenario that actually hurts is a facility
+spreadsheet being recreated the morning of an event and needing a full image
+rebuild to correct one ID while matches are starting.</p>
+<hr />
+<h2 id="2-settled-decisions">2. Settled decisions<a class="headerlink" href="#2-settled-decisions" title="Permanent link">&para;</a></h2>
+<p><strong>D1 — Config lives in the <code>event-data</code> repo at <code>config/events.json</code>.</strong>
+Same repo the snapshots already go to. <code>GITHUB_TOKEN</code> already has
+<code>Contents: Read and write</code> there, it is already the per-event home, and it means
+one repo to look at when debugging. Not a separate <code>sage-config</code> repo — that
+would be another repo and another token scope for no benefit.</p>
+<p><strong>D2 — Read it through the Contents API, not GitHub Pages.</strong>
+Pages caches responses ~10 minutes with no purge API (the site templates already
+fight this with a cache-busting query param, see <code>snapshotUrlFor</code>). Config
+staleness there would be silent and confusing. <code>GitHubPublisher.fetchExisting()</code>
+(<code>GitHubPublisher.mjs:52</code>) already does exactly the right request and returns
+<code>{ json, sha }</code> — reuse it verbatim.</p>
+<p><strong>D3 — In-memory cache with a TTL, plus last-known-good on failure.</strong>
+A warm instance does not re-fetch config per sync. A fetch failure falls back to
+the last good config it holds rather than failing the sync.</p>
+<p><strong>D4 — Validation rejects a bad config instead of crashing the process.</strong>
+Today a duplicate day key throws at module load (<code>SyncConfig.mjs:101-112</code>), which
+is a good fail-fast for source code but wrong for remote data — it would turn a
+typo in a data repo into a crash-looping service. Validation stays, but a config
+that fails it is <em>refused</em> and the last-known-good is kept.</p>
+<p><strong>D5 — Tab-name/GID defaults stay in code.</strong>
+<code>DEFAULT_MATCHES_SHEET_NAME</code> / <code>DEFAULT_STANDINGS_SHEET_NAME</code> / <code>DEFAULT_CSV_GID</code>
+/ <code>DEFAULT_STANDINGS_GID</code> (<code>SyncConfig.mjs:15-18</code>) are platform defaults, not
+per-event data. The JSON may override any of them per day, exactly as a day entry
+can today.</p>
+<blockquote>
+<p><strong>Partially superseded.</strong> The GID half of this decision was implemented as
+written, then removed once it caused a real incident: a workbook duplicated
+from another event's inherits that event's tab GIDs, so a GID-based override
+correct for one spreadsheet silently pointed at the wrong tab in another
+(see <code>event-data/config/README.md</code>, and <code>pnf-x-bup-dual-meet</code>'s day entry in
+<code>events.json</code> for the specific case). Both fetch paths now address tabs by
+name only — <code>GvizCsvFetcher.mjs</code> builds its gviz URL with <code>&amp;sheet=&lt;name&gt;</code>
+instead of <code>&amp;gid=&lt;gid&gt;</code>. <code>DEFAULT_CSV_GID</code>/<code>DEFAULT_STANDINGS_GID</code> and the
+per-day <code>csvGid</code>/<code>standingsGid</code> override fields described in §3 and §6
+below no longer exist. The tab-<em>name</em> half of D5 is unchanged.</p>
+</blockquote>
+<p><strong>D6 — <code>/sync/:day</code> stays exactly as it is.</strong>
+Day keys remain globally unique, so the event is still derivable from the key.
+The 15 Apps Script installs already on the bkl spreadsheets keep working
+untouched.</p>
+<hr />
+<h2 id="3-the-config-file">3. The config file<a class="headerlink" href="#3-the-config-file" title="Permanent link">&para;</a></h2>
+<p><code>event-data/config/events.json</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">"_comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Source of truth for sage-tools-api's sync registry. See config/README.md."</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">"defaults"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">"matchesSheetName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CSV"</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">"standingsSheetName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STANDINGSCSV"</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">"csvGid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2136121736"</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">"standingsGid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1507029786"</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="nt">"events"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">"bkl-cup-2026"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">      </span><span class="nt">"_comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ended Aug 2026. Archived pages read from the pre-migration location; a resync now publishes to event-data/bkl-cup-2026/data/ instead. Harmless — nothing triggers one."</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="nt">"days"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">        </span><span class="nt">"day2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">          </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Day 1 · Aug 15"</span><span class="p">,</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">          </span><span class="nt">"facilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Main"</span><span class="p">,</span><span class="w"> </span><span class="nt">"sheetId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1hbjqbH3H1Z-..."</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">          </span><span class="p">]</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>defaults</code> is optional; anything it omits falls back to the in-code default (D5).</li>
+<li>A day may override any subset of the four <code>defaults</code> keys.</li>
+<li><code>version</code> is a schema version, checked on load so a future shape change fails
+  loudly rather than silently mis-parsing.</li>
+<li>JSON has no comments, and the comments currently in <code>SyncConfig.mjs</code> are
+  load-bearing documentation (the day-key offset history, the <code>event-data</code>
+  migration note). <code>_comment</code> string keys carry the short ones; the rest move to
+  <code>config/README.md</code>, written as part of this task.</li>
+</ul>
+<h3 id="31-validation-rules">3.1 Validation rules<a class="headerlink" href="#31-validation-rules" title="Permanent link">&para;</a></h3>
+<p>Run on every load, before a config is accepted:</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>version</code> equals the supported version</td>
+<td>Fail loudly on a future shape change</td>
+</tr>
+<tr>
+<td>Event keys match <code>^[a-z0-9][a-z0-9-]*$</code></td>
+<td><strong>Path safety</strong> — the key becomes a path segment in <code>repoPathFor()</code>; <code>../</code> must be impossible</td>
+</tr>
+<tr>
+<td>Day keys match <code>^[a-z0-9][a-z0-9-]*$</code></td>
+<td>Same — the key becomes the filename, and arrives from the URL</td>
+</tr>
+<tr>
+<td>Day keys globally unique across events</td>
+<td>Preserves today's guard (<code>SyncConfig.mjs:101-112</code>); stops one event publishing into another's folder</td>
+</tr>
+<tr>
+<td>Each day has a non-empty <code>label</code> and an array <code>facilities</code></td>
+<td><code>SyncService</code> uses <code>label</code> in every error message</td>
+</tr>
+<tr>
+<td>Facility names unique within a day</td>
+<td><code>SyncService</code> filters by name (<code>:52</code>); duplicates are ambiguous</td>
+</tr>
+<tr>
+<td>At least one event, each with at least one day</td>
+<td>Catches a truncated/empty file</td>
+</tr>
+</tbody>
+</table>
+<p>Path safety is the one genuinely new concern. Today event keys are hardcoded in
+source, so a traversal is impossible by construction; once they arrive from a
+fetched file, <code>repoPathFor()</code> (<code>SyncConfig.mjs:161</code>) would happily build
+<code>../../foo/data/day2.json</code>. The slug regex is what closes that.</p>
+<h3 id="32-sheet-ids-become-publicly-listed">3.2 Sheet IDs become publicly listed<a class="headerlink" href="#32-sheet-ids-become-publicly-listed" title="Permanent link">&para;</a></h3>
+<p><code>event-data</code> is public (GitHub Pages requires it on a free plan), so this file
+publishes the list of spreadsheet IDs. Sheet IDs are not secrets — the sheets are
+already "anyone with the link can view" by design, and the published snapshots
+already contain all their match data. But it does make the set of spreadsheets
+enumerable, including tabs that are <em>not</em> published. Note in <code>config/README.md</code>:
+only put IDs of spreadsheets whose sharing is already link-viewable, and don't
+keep private working notes in a tab of a synced spreadsheet.</p>
+<hr />
+<h2 id="4-new-syncconfigstore">4. New: <code>SyncConfigStore</code><a class="headerlink" href="#4-new-syncconfigstore" title="Permanent link">&para;</a></h2>
+<p><code>src/sync/SyncConfigStore.mjs</code> — owns fetching, caching, validating.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">SyncConfigStore</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">publisher</span><span class="p">,</span><span class="w"> </span><span class="nx">logger</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"config/events.json"</span><span class="p">,</span><span class="w"> </span><span class="nx">ttlMs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60000</span><span class="p">,</span><span class="w"> </span><span class="nx">fallback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="c1">// Resolves to a SyncConfigSnapshot (§5). Cached for ttlMs.</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">get</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>Behavior:</p>
+<ul>
+<li><strong>Cache hit within TTL</strong> → return the held snapshot, no network.</li>
+<li><strong>Cache miss / expired</strong> → <code>publisher.fetchExisting(path)</code>, validate, swap in.</li>
+<li><strong>In-flight de-duplication</strong> → concurrent callers on a cold instance share one
+  promise, and a rejection is not cached. Same pattern as
+  <code>getScoresheetService()</code> in <code>index.mjs:49-65</code> — follow it.</li>
+<li><strong>Fetch fails, snapshot held</strong> → log a warning, keep serving the held one.</li>
+<li><strong>Fetch succeeds but validation fails</strong> → log an error naming the failed rule,
+  keep serving the held one. Never swap in an invalid config.</li>
+<li><strong>Nothing held and no usable fetch</strong> → fall back to the bundled seed (§4.1);
+  if that is also unusable, throw <code>SyncConfigUnavailableError</code> (503).</li>
+</ul>
+<p>TTL default 60s, overridable via <code>SYNC_CONFIG_TTL_MS</code>. At 60s a live event costs
+at most one small config read per instance per minute, and a config fix is live
+within a minute without a redeploy.</p>
+<h3 id="41-bundled-fallback-seed">4.1 Bundled fallback seed<a class="headerlink" href="#41-bundled-fallback-seed" title="Permanent link">&para;</a></h3>
+<p><code>src/sync/events.seed.json</code>, shipped in the image, is a copy of the config as of
+the last deploy. It is used <strong>only</strong> when an instance has nothing cached and the
+remote fetch or validation failed — i.e. a cold start during a GitHub outage, or
+a cold start after someone commits a broken config mid-event. That second case is
+exactly the scenario this whole change exists to make safer, so the seed earns
+its keep.</p>
+<p>It is not the source of truth and must say so in a <code>_comment</code> at its top. When
+the seed is used, log at error level and reflect it in the diagnostics (§7) so a
+silently-stale fallback can't masquerade as healthy.</p>
+<hr />
+<h2 id="5-syncconfig-becomes-a-resolved-snapshot">5. <code>SyncConfig</code> becomes a resolved snapshot<a class="headerlink" href="#5-syncconfig-becomes-a-resolved-snapshot" title="Permanent link">&para;</a></h2>
+<p>Today's <code>SyncConfig</code> is a class of statics over a module-level <code>EVENTS</code> const.
+Turn it into an instance over injected data, constructed by the store after
+validation. <strong>The method surface stays synchronous and identical</strong>, so only the
+construction site changes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">SyncConfigSnapshot</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="kr">constructor</span><span class="p">({</span><span class="w"> </span><span class="nx">events</span><span class="p">,</span><span class="w"> </span><span class="nx">defaults</span><span class="p">,</span><span class="w"> </span><span class="nx">sha</span><span class="p">,</span><span class="w"> </span><span class="nx">loadedAt</span><span class="p">,</span><span class="w"> </span><span class="nx">source</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nx">getDay</span><span class="p">(</span><span class="nx">day</span><span class="p">)</span><span class="w">                 </span><span class="c1">// unchanged shape: { day, event, label, facilities }</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nx">knownDays</span><span class="p">()</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nx">repoPathFor</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span><span class="w"> </span><span class="nx">day</span><span class="p">)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="nx">sheetsFor</span><span class="p">(</span><span class="nx">day</span><span class="p">)</span><span class="w">              </span><span class="c1">// NEW — see §6</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>getDay()</code> keeps filtering out facilities with an empty <code>sheetId</code>
+(<code>SyncConfig.mjs:146</code>) and keeps <code>event</code> additive on the result. <code>knownDays()</code>
+still spans every event so <code>UnknownSyncDayError</code> keeps listing something useful.
+<code>repoPathFor()</code> is unchanged.</p>
+<p><code>SyncService</code> gains the store as a constructor dependency and resolves once per
+sync:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">async</span><span class="w"> </span><span class="nx">syncDay</span><span class="p">(</span><span class="nx">day</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">facilityName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nx">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sheets"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">configStore</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">event</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">facilities</span><span class="o">:</span><span class="w"> </span><span class="nx">allFacilities</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">getDay</span><span class="p">(</span><span class="nx">day</span><span class="p">);</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="p">...</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>Everything after that line in <code>syncDay</code> is unchanged except <code>SyncConfig.repoPathFor</code>
+→ <code>config.repoPathFor</code> (<code>:80</code>).</p>
+<hr />
+<h2 id="6-fetchers-stop-importing-config">6. Fetchers stop importing config<a class="headerlink" href="#6-fetchers-stop-importing-config" title="Permanent link">&para;</a></h2>
+<p>Both fetchers currently reach back into config themselves:
+<code>SheetsCsvFetcher.mjs:73-74</code> calls <code>SyncConfig.matchesSheetName(day)</code> /
+<code>standingsSheetName(day)</code>, and <code>GvizCsvFetcher.mjs:33-34</code> calls
+<code>SyncConfig.csvUrl(day, sheetId)</code> / <code>standingsUrl(day, sheetId)</code>.</p>
+<p>Replace with a resolved spec passed down from <code>SyncService</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">sheets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">sheetsFor</span><span class="p">(</span><span class="nx">day</span><span class="p">);</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">// { matchesSheetName, standingsSheetName, csvGid, standingsGid } — defaults applied</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">allSettled</span><span class="p">(</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nx">targetFacilities</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">csvFetcher</span><span class="p">.</span><span class="nx">fetchFacility</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span><span class="w"> </span><span class="nx">sheets</span><span class="p">))</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li><code>fetchFacility(facility, day)</code> → <code>fetchFacility(facility, sheets)</code> in both
+  fetchers. Same <code>{ name, matchesCsv, standingsCsv }</code> output, so nothing
+  downstream changes.</li>
+<li><code>csvUrl()</code> / <code>standingsUrl()</code> are <strong>deleted</strong> from config; <code>GvizCsvFetcher</code>
+  builds its own gviz URLs from <code>csvGid</code> / <code>standingsGid</code>. Those URLs are a
+  gviz implementation detail and belong in the gviz fetcher.</li>
+<li>Both fetchers drop <code>import { SyncConfig }</code> entirely and become pure functions
+  of their arguments.</li>
+</ul>
+<p>Worth doing regardless of where config lives — it is the right shape either way.</p>
+<p>Also update the error text at <code>SheetsCsvFetcher.mjs:93-95</code>, which currently tells
+the operator to "check the tab names in SyncConfig.mjs" — that file will no
+longer be where tab names live.</p>
+<hr />
+<h2 id="7-observability">7. Observability<a class="headerlink" href="#7-observability" title="Permanent link">&para;</a></h2>
+<p>Knowing <em>which</em> config is live is essential once it can change without a deploy.</p>
+<ul>
+<li><strong><code>GET /ping</code></strong> gains an <code>X-Sync-Config</code> response header: short SHA plus source,
+  e.g. <code>a1b2c3d/remote</code> or <code>seed/fallback</code>. It must report only what is
+  <strong>already cached</strong> and must never trigger a load — Cloud Run health checks hit
+  this endpoint, and it must not fail or slow down when GitHub is down. Omit the
+  header when nothing has been loaded yet.</li>
+<li><strong><code>GET /sync/config</code></strong> (new, behind the same <code>requireSyncSecret</code> middleware as
+  <code>POST /sync/:day</code> in <code>routes.mjs:16</code>) returns the resolved view for debugging:
+  <code>{ sha, source, loadedAt, ageMs, events: [...], days: [...] }</code>. Never returns
+  the token or the shared secret.</li>
+<li><strong>Mission Control</strong>: the connection check in both templates'
+  <code>match-control.html</code> (<code>:3018-3022</code>) already reads <code>X-App-Version</code> off <code>/ping</code>
+  and prints it. Append the config SHA to that same line, so
+  "Connected to Cloud Run — 210ms · v1.4.0 · cfg a1b2c3d". Mirror the change into
+  both templates (they are maintained as a pair).</li>
+</ul>
+<hr />
+<h2 id="8-failure-modes">8. Failure modes<a class="headerlink" href="#8-failure-modes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Warm instance, config unchanged</td>
+<td>No network call at all (TTL cache)</td>
+</tr>
+<tr>
+<td>Config edited in <code>event-data</code></td>
+<td>Live within <code>SYNC_CONFIG_TTL_MS</code> on every instance, no deploy</td>
+</tr>
+<tr>
+<td>GitHub unreachable, instance warm</td>
+<td>Sync still fails — but at <code>fetchExisting</code>/<code>publish</code>, as it does today. Config is not the new cause</td>
+</tr>
+<tr>
+<td>GitHub unreachable, cold start</td>
+<td>Bundled seed (§4.1) is used; logged at error level. Sync still fails at publish, for the same pre-existing reason</td>
+</tr>
+<tr>
+<td>Broken config committed, instance warm</td>
+<td>Rejected by validation; last-known-good kept; error logged naming the rule</td>
+</tr>
+<tr>
+<td>Broken config committed, cold start</td>
+<td>Bundled seed used; logged at error level; <code>/sync/config</code> shows <code>source: "fallback"</code></td>
+</tr>
+<tr>
+<td>Duplicate day key across two events</td>
+<td>Config refused wholesale (not partially applied) — same protection as today's module-load throw</td>
+</tr>
+<tr>
+<td>Event key containing <code>../</code></td>
+<td>Config refused by the slug rule (§3.1)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-migration-one-time">9. Migration (one-time)<a class="headerlink" href="#9-migration-one-time" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Create <code>config/events.json</code> in <code>event-data</code> from the current <code>EVENTS</code> object
+   in <code>SyncConfig.mjs:32-93</code>, verbatim — same day keys, same sheet IDs, same
+   labels. Carry the bkl <code>_comment</code> notes across.</li>
+<li>Write <code>config/README.md</code> in that repo: the shape, the validation rules, the
+   sheet-ID caution (§3.2), and a pointer to <code>_templates/CLAUDE.md</code>.</li>
+<li>Implement <code>SyncConfigStore</code> + <code>SyncConfigSnapshot</code>; delete the <code>EVENTS</code> const
+   and the module-load <code>DAY_INDEX</code> loop from <code>SyncConfig.mjs</code>.</li>
+<li>Rewire <code>SyncService</code> (store injection, <code>config.repoPathFor</code>, <code>sheetsFor</code>) and
+   both fetchers (§6). Wire the store in <code>index.mjs</code> next to the publisher —
+   it needs the same <code>GitHubPublisher</code> instance.</li>
+<li>Commit the seed (§4.1) as a copy of step 1's file.</li>
+<li><strong>Deploy once.</strong> This is the last deploy required to add or change an event.</li>
+<li>Verify against the acceptance checklist (§10) before touching the runbook.</li>
+<li>Update <code>_templates/CLAUDE.md</code>: §2 step 6 becomes "edit <code>config/events.json</code> in
+   <code>event-data</code>", and <strong>step 7 (commit and deploy <code>sage-tools-api</code>) is deleted</strong>
+   from the per-event path. Add a line to §0 noting the config file's location
+   and that a change to it is live within ~a minute. Also fix the note in §2
+   step 6 that points at "the defaults at the top of <code>SyncConfig.mjs</code>".</li>
+<li>Update the root <code>CLAUDE.md</code>: the <code>SyncConfig.mjs (day/facility registry)</code>
+   description in the Layout section, and the "Things that must be kept in sync
+   by hand" bullet, which currently names <code>SyncConfig.mjs EVENTS[&lt;event&gt;].days</code>.</li>
+</ol>
+<p><strong>Rollback:</strong> revert the code change and redeploy. The config file can stay in
+<code>event-data</code> — an old build simply ignores it.</p>
+<hr />
+<h2 id="10-acceptance-checklist">10. Acceptance checklist<a class="headerlink" href="#10-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Behavior</strong></p>
+<ul>
+<li>[ ] <code>POST /sync/day2</code> still resolves to the <code>bkl-cup-2026</code> event and publishes
+      to <code>bkl-cup-2026/data/day2.json</code> — the move must not change what any
+      existing day key means.</li>
+<li>[ ] Editing <code>config/events.json</code> (e.g. changing a <code>label</code>) is reflected by a
+      running instance within <code>SYNC_CONFIG_TTL_MS</code>, with no redeploy.</li>
+<li>[ ] A second sync within the TTL makes no additional config request.</li>
+<li>[ ] Committing a config with a duplicate day key across two events leaves a
+      warm instance serving the previous config, with an error logged.</li>
+<li>[ ] Committing a config with an event key of <code>../evil</code> is refused.</li>
+<li>[ ] With the remote config unreachable and nothing cached, the bundled seed is
+      used and the fact is logged at error level.</li>
+<li>[ ] Two concurrent syncs on a cold instance trigger exactly one config fetch.</li>
+<li>[ ] <code>?method=csv</code> still works, using per-day GID overrides where present.</li>
+<li>[ ] A day whose facilities all have empty <code>sheetId</code> still raises the existing
+      <code>ValidationError</code> ("no facilities configured yet").</li>
+</ul>
+<p><strong>Shape</strong></p>
+<ul>
+<li>[ ] Neither fetcher imports <code>SyncConfig</code> any more.</li>
+<li>[ ] <code>csvUrl</code> / <code>standingsUrl</code> no longer exist in the config module.</li>
+<li>[ ] No sheet ID, event key, or day key remains hardcoded in <code>sage-tools-api</code>
+      source, except inside <code>events.seed.json</code>.</li>
+<li>[ ] <code>GET /ping</code> responds normally (and fast) with GitHub unreachable.</li>
+</ul>
+<p><strong>Docs</strong></p>
+<ul>
+<li>[ ] <code>event-data/config/README.md</code> exists and documents the shape + validation.</li>
+<li>[ ] <code>_templates/CLAUDE.md</code> no longer tells the reader to deploy when adding an
+      event, and its §0/§2 references to <code>SyncConfig.mjs</code> are corrected.</li>
+<li>[ ] Root <code>CLAUDE.md</code> describes the registry's new home.</li>
+</ul>
+<hr />
+<h2 id="11-out-of-scope">11. Out of scope<a class="headerlink" href="#11-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Registering any new event.</li>
+<li>Migrating the published <code>bkl-cup-2026</code> snapshots into <code>event-data</code>.</li>
+<li>An admin UI for editing the config. Editing JSON in GitHub's web editor is the
+  interface.</li>
+<li>CI validation inside the <code>event-data</code> repo. The service-side validation in §3.1
+  is the guard; a pre-commit check there can come later if it proves needed.</li>
+<li>A <code>npm run validate-config</code> CLI. Useful, but not required for correctness given
+  last-known-good + seed.</li>
+<li>Any change to the scoresheet half of <code>sage-tools-api</code>, to auth, or to the
+  <code>/sync/:day</code> route shape.</li>
+<li>Per-event GitHub repos or a second Cloud Run service.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../fast-data-delivery-explainer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Fast data delivery — explainer">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Fast data delivery — explainer
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../match-control-console-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Match Control console">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Match Control console
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

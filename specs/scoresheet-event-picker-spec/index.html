@@ -1,0 +1,3105 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/scoresheet-event-picker-spec/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Spec — Scoresheet Generator event picker - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-scoresheet-generator-event-picker" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Spec — Scoresheet Generator event picker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-current-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Current state
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Current state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-operator-does-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the operator does today
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-the-published-snapshot-is-the-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why the published snapshot is the source
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Why the published snapshot is the source">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-freshness-caveat-and-why-it-is-already-handled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The freshness caveat, and why it is already handled
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Data sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Data sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-registry-configeventsjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Registry — config/events.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-snapshot-event-keydataday-keyjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Snapshot — &lt;event-key&gt;/data/&lt;day-key&gt;.json
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. UI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. UI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-step-order-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Step order changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-step-1-markup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Step 1 markup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-new-css" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 New CSS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-footer-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Footer copy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Behaviour
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Behaviour">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-constants-and-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Constants and state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-load-the-registry-on-page-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Load the registry on page load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-the-cascade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 The cascade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-submit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Submit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-event-name-auto-fill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Event name auto-fill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-output-filename" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Output filename
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-deep-link-query-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Deep-link query parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-error-and-edge-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Error and edge states
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Error and edge states">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-registry-unavailable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Registry unavailable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-no-snapshot-for-the-selected-day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 No snapshot for the selected day
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-freshness-and-partial-syncs-updatepickermeta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Freshness and partial syncs — updatePickerMeta()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-placeholder-playoff-rows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Placeholder playoff rows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-trailing-whitespace-in-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Trailing whitespace in names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-deep-link-that-doesnt-resolve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Deep link that doesn't resolve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-one-venue-per-pdf-no-all-venues-option" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 One venue per PDF; no "All venues" option
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-archived-events-are-excluded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Archived events are excluded
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-facilities-come-from-the-snapshot-not-the-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Facilities come from the snapshot, not the registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-the-workbook-menu-opens-a-link-it-does-not-call-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 The workbook menu opens a link; it does not call the API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-upload-stays-a-first-class-peer-not-a-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Upload stays a first-class peer, not a fallback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76-rejected-a-backend-endpoint-that-reads-the-sheet-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 Rejected — a backend endpoint that reads the sheet live
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-the-workbook-menu-sheets-syncgs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. The workbook menu — sheets-sync.gs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. The workbook menu — sheets-sync.gs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-why-sheets-syncgs-and-not-sheet-generatorgs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Why sheets-sync.gs and not sheet-generator.gs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-new-config-constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 New config constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-the-onopen-collision-read-this-before-writing-the-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 The onOpen collision — read this before writing the menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-the-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 The dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-superseded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 (superseded)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#86-install-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 Install instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Acceptance checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Acceptance checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deep-links-57-66" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep links (§5.7, §6.6)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workbook-menu-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workbook menu (§8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-docs-to-update-when-this-ships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Docs to update when this ships
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/scoresheet-event-picker-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-scoresheet-generator-event-picker">Spec — Scoresheet Generator event picker<a class="headerlink" href="#spec-scoresheet-generator-event-picker" title="Permanent link">&para;</a></h1>
+<p>Give <code>tools/scoresheet-generator.html</code> a second way to supply its matches:
+pick a registered <strong>event → day → facility</strong> and pull that facility's matches
+straight from the published snapshot in <code>event-data</code>, instead of downloading
+the workbook's <code>CSV</code> tab and re-uploading the file.</p>
+<p>Two files change, in two repos:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Repo</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tools/scoresheet-generator.html</code></td>
+<td><code>sage-match-control.github.io</code></td>
+<td>the picker itself (§4–§6)</td>
+</tr>
+<tr>
+<td><code>scripts/sheets-sync.gs</code></td>
+<td><code>sage-tools-api</code></td>
+<td>a <code>SAGE → Generate Scoresheets</code> menu that deep-links into it (§8)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No running code changes.</strong> No new endpoint, no auth, no CORS work, no
+<code>event-data</code> schema change — and specifically <strong>no <code>package.json</code> bump and no
+Cloud Run deploy</strong>: <code>sheets-sync.gs</code> runs inside a spreadsheet and ships by
+being pasted into that workbook's script project, so nothing about what Cloud
+Run is running is affected. Same arrangement as every other <code>scripts/*.gs</code>
+change.</p>
+<p>The two halves are independent and either can ship first — the menu is a link,
+so the page must work standalone anyway.</p>
+<p><strong>This adds a source; it removes nothing.</strong> Drag-and-drop and click-to-browse
+CSV upload stay exactly as they are, as a first-class peer of the picker rather
+than a degraded fallback — see §7.5.</p>
+<hr />
+<h2 id="1-current-state">1. Current state<a class="headerlink" href="#1-current-state" title="Permanent link">&para;</a></h2>
+<p>The page is four steps (<code>tools/scoresheet-generator.html</code>, form at ~line 412):</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Card</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Name the event</td>
+<td><code>#evtName</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pick a scoresheet type</td>
+<td>four <code>.type-card</code> radios, <code>name="type"</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Upload your matches CSV</td>
+<td><code>#dropzone</code> + <code>#csvInput</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Add blank scoresheets</td>
+<td><code>#blankCount</code></td>
+</tr>
+</tbody>
+</table>
+<p>The submit handler (~line 616) reads those four, builds a <code>FormData</code>, and POSTs
+to the NDJSON streaming endpoint:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">FormData</span><span class="p">();</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'evt'</span><span class="p">,</span><span class="w"> </span><span class="nx">evt</span><span class="p">);</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'type'</span><span class="p">,</span><span class="w"> </span><span class="nx">type</span><span class="p">);</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'csv'</span><span class="p">,</span><span class="w"> </span><span class="nx">file</span><span class="p">);</span><span class="w">          </span><span class="c1">// &lt;- a File from #csvInput</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'blanks'</span><span class="p">,</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">blanks</span><span class="p">));</span>
+</code></pre></div>
+<p><code>API_URL</code> is
+<code>https://sage-tools-api-811926984834.us-central1.run.app/scoresheets/generate/stream</code>.</p>
+<p>The page is <strong>not</strong> a PWA — it registers no service worker and has no
+<code>.webmanifest</code> of its own (unlike <code>control-center.html</code> and
+<code>tournament-calculator.html</code>). Nothing here changes that.</p>
+<h3 id="what-the-operator-does-today">What the operator does today<a class="headerlink" href="#what-the-operator-does-today" title="Permanent link">&para;</a></h3>
+<p>Open the workbook → click the <code>CSV</code> tab → File → Download → Comma Separated
+Values → find the file in Downloads → open this page → type the event name →
+pick a type → upload → generate. This spec removes the middle five steps for any
+event registered in <code>event-data/config/events.json</code>.</p>
+<hr />
+<h2 id="2-why-the-published-snapshot-is-the-source">2. Why the published snapshot is the source<a class="headerlink" href="#2-why-the-published-snapshot-is-the-source" title="Permanent link">&para;</a></h2>
+<p>The decisive fact, and the reason this is a frontend-only change:</p>
+<p><strong>The snapshot's <code>matchesCsv</code> is already the exact CSV this tool parses.</strong></p>
+<p><code>event-data/pnf-x-bup-dual-meet/data/pnf-x-bup-day1.json</code> →
+<code>facilities[].matchesCsv</code> is a CSV <strong>string</strong> whose header is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>matchNumber,court,Schedule,CourtAssignment,teamCode1,team1Player1,team1Player2,team1Score,teamCode2,team2Player1,team2Player2,team2Score
+</code></pre></div>
+<p><code>Match</code> in <code>sage-tools-api/src/scoresheets/PageChunkBuilder.mjs</code> reads
+<code>matchNumber</code>, <code>teamCode1</code>, <code>team1Player1</code>, <code>team1Player2</code>, <code>teamCode2</code>,
+<code>team2Player1</code>, <code>team2Player2</code> — every one present. <code>CsvService</code> maps by header
+<em>name</em>, not position, so the differing column order is irrelevant and the extra
+score/court/schedule columns are ignored.</p>
+<p>That string can be handed to the existing <code>FormData</code> path as a <code>Blob</code> with no
+transformation whatsoever.</p>
+<p>Three further properties make this the right source rather than a new backend
+fetch:</p>
+<ul>
+<li><strong>Same origin.</strong> <code>event-data</code> is a project repo under the same GitHub Pages
+  org, so it serves from <code>https://sage-match-control.github.io/event-data/...</code> —
+  the same origin as this page. No CORS, no preflight, no allow-list.</li>
+<li><strong>No secrets.</strong> The snapshot is public static JSON. Fetching the <em>sheet</em>
+  instead would need <code>GOOGLE_SHEETS_API_KEY</code>, which means a backend endpoint,
+  which means the operator token, which means sign-in on a tool that has never
+  had one.</li>
+<li><strong>Already the pattern.</strong> <code>control-center.html</code> resolves every event this exact
+  way (<code>configUrlFor</code> / <code>snapshotUrlFor</code>, ~line 2096). This spec mirrors it.</li>
+</ul>
+<h3 id="the-freshness-caveat-and-why-it-is-already-handled">The freshness caveat, and why it is already handled<a class="headerlink" href="#the-freshness-caveat-and-why-it-is-already-handled" title="Permanent link">&para;</a></h3>
+<p>A snapshot only exists once a sync has fired for that day. That is not a
+practical constraint: pasting rosters into a category tab <em>is</em> an edit, which
+fires <code>sheets-sync.gs</code>'s <code>onEdit</code> trigger, which publishes. And
+<code>features/preparing-an-event.md</code> §5 puts scoresheet printing in the dry run —
+which happens after rosters are in, and whose entire purpose is proving a sync
+reaches the public page.</p>
+<p>Where it can't be satisfied, the upload path is right there. The UI must say so
+rather than dead-ending (§6.2).</p>
+<hr />
+<h2 id="3-data-sources">3. Data sources<a class="headerlink" href="#3-data-sources" title="Permanent link">&para;</a></h2>
+<h3 id="31-registry-configeventsjson">3.1 Registry — <code>config/events.json</code><a class="headerlink" href="#31-registry-configeventsjson" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>https://sage-match-control.github.io/event-data/config/events.json?t=&lt;Date.now()&gt;
+</code></pre></div>
+<p>The <code>?t=</code> cache-buster is required, not optional: GitHub Pages caches responses
+for ~10 minutes with no way to force an early refresh. Carry over the comment
+from <code>control-center.html</code> ~line 2087 explaining this.</p>
+<p>Fields this spec reads (full schema in <code>technical/event-data-config.md</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>events.&lt;key&gt;.archived</code></td>
+<td>if truthy, <strong>exclude</strong> from the picker</td>
+</tr>
+<tr>
+<td><code>events.&lt;key&gt;.title</code></td>
+<td>event dropdown label; fall back to the key</td>
+</tr>
+<tr>
+<td><code>events.&lt;key&gt;.days.&lt;dayKey&gt;.label</code></td>
+<td>day dropdown label</td>
+</tr>
+<tr>
+<td><code>events.&lt;key&gt;.days.&lt;dayKey&gt;.date</code></td>
+<td>day sort key, and the "today" default</td>
+</tr>
+</tbody>
+</table>
+<p>Nothing else. <code>type</code>, <code>display</code>, <code>facilities[].sheetId</code> and <code>isLive</code> are all
+irrelevant here — facility names come from the snapshot, not the registry, so a
+facility registered but never synced can't be offered (§7.3).</p>
+<h3 id="32-snapshot-event-keydataday-keyjson">3.2 Snapshot — <code>&lt;event-key&gt;/data/&lt;day-key&gt;.json</code><a class="headerlink" href="#32-snapshot-event-keydataday-keyjson" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>https://sage-match-control.github.io/event-data/&lt;eventKey&gt;/data/&lt;dayKey&gt;.json?t=&lt;Date.now()&gt;
+</code></pre></div>
+<p>Top-level keys: <code>day</code>, <code>label</code>, <code>isLive</code>, <code>generatedAt</code>, <code>facilities</code>,
+<code>failedFacilities</code>, <code>staleFacilities</code>.</p>
+<p>Each <code>facilities[]</code> entry: <code>{ name, matchesCsv, standingsCsv, syncedAt }</code>.</p>
+<p>Read <code>name</code>, <code>matchesCsv</code>, <code>syncedAt</code>. Ignore <code>standingsCsv</code> entirely.
+<code>failedFacilities</code> and <code>staleFacilities</code> are string arrays used only for the
+warning in §6.3.</p>
+<hr />
+<h2 id="4-ui">4. UI<a class="headerlink" href="#4-ui" title="Permanent link">&para;</a></h2>
+<h3 id="41-step-order-changes">4.1 Step order changes<a class="headerlink" href="#41-step-order-changes" title="Permanent link">&para;</a></h3>
+<p>The cards get reordered so the flow reads downward. <strong>Move the existing "Name
+the event" card below the new source card</strong> — the event name is auto-filled from
+the picker, and a field that fills itself from a control <em>below</em> it reads wrong.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Card</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Choose your matches</strong></td>
+<td><strong>new</strong> — mode toggle, plus either the pickers or the existing dropzone</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Name the event</td>
+<td>unchanged markup, moved down one, auto-filled in event mode</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Pick a scoresheet type</td>
+<td>unchanged</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Add blank scoresheets</td>
+<td>unchanged</td>
+</tr>
+</tbody>
+</table>
+<p>Renumber the <code>.step-num</code> spans accordingly. The existing dropzone markup
+(<code>#dropzone</code>, <code>#csvInput</code>, <code>#dzText</code>) <strong>moves into step 1's upload panel
+verbatim</strong> — same ids, same classes, so the existing <code>dropzone</code>/<code>csvInput</code>
+wiring and the <code>.dz-file</code> filename display keep working untouched.</p>
+<h3 id="42-step-1-markup">4.2 Step 1 markup<a class="headerlink" href="#42-step-1-markup" title="Permanent link">&para;</a></h3>
+<p>Reuse <code>.type-card</code> for the mode toggle — it is already a styled radio and needs
+no new CSS beyond a two-column grid:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cm">&lt;!-- Step 1: Where the matches come from --&gt;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"card"</span><span class="p">&gt;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"step-label"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"step-num"</span><span class="p">&gt;</span>1<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"step-title"</span><span class="p">&gt;</span>Choose your matches<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"step-help"</span><span class="p">&gt;</span>Pull them from a registered event, or upload a CSV yourself.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"type-grid two"</span><span class="p">&gt;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"type-card"</span><span class="p">&gt;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"radio"</span> <span class="na">name</span><span class="o">=</span><span class="s">"source"</span> <span class="na">value</span><span class="o">=</span><span class="s">"event"</span> <span class="na">checked</span><span class="p">&gt;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"dot"</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"t-name"</span><span class="p">&gt;</span>Registered event<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"t-desc"</span><span class="p">&gt;</span>Straight from live event data<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"type-card"</span><span class="p">&gt;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"radio"</span> <span class="na">name</span><span class="o">=</span><span class="s">"source"</span> <span class="na">value</span><span class="o">=</span><span class="s">"upload"</span><span class="p">&gt;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"dot"</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"t-name"</span><span class="p">&gt;</span>Upload a CSV<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"t-desc"</span><span class="p">&gt;</span>Any matches file<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>  <span class="cm">&lt;!-- Event mode --&gt;</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"eventPanel"</span> <span class="na">class</span><span class="o">=</span><span class="s">"source-panel"</span><span class="p">&gt;</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"picker-grid"</span><span class="p">&gt;</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"f"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"lab"</span><span class="p">&gt;</span>Event<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>        <span class="p">&lt;</span><span class="nt">select</span> <span class="na">id</span><span class="o">=</span><span class="s">"eventSelect"</span><span class="p">&gt;&lt;/</span><span class="nt">select</span><span class="p">&gt;&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"f"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"lab"</span><span class="p">&gt;</span>Day<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        <span class="p">&lt;</span><span class="nt">select</span> <span class="na">id</span><span class="o">=</span><span class="s">"daySelect"</span><span class="p">&gt;&lt;/</span><span class="nt">select</span><span class="p">&gt;&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"f"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"lab"</span><span class="p">&gt;</span>Venue<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>        <span class="p">&lt;</span><span class="nt">select</span> <span class="na">id</span><span class="o">=</span><span class="s">"facilitySelect"</span><span class="p">&gt;&lt;/</span><span class="nt">select</span><span class="p">&gt;&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"picker-meta"</span> <span class="na">id</span><span class="o">=</span><span class="s">"pickerMeta"</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>  <span class="cm">&lt;!-- Upload mode: the existing dropzone, moved here verbatim --&gt;</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"uploadPanel"</span> <span class="na">class</span><span class="o">=</span><span class="s">"source-panel"</span> <span class="na">hidden</span><span class="p">&gt;</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"dropzone"</span> <span class="na">id</span><span class="o">=</span><span class="s">"dropzone"</span><span class="p">&gt;</span> ... unchanged ... <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"file"</span> <span class="na">id</span><span class="o">=</span><span class="s">"csvInput"</span> <span class="na">accept</span><span class="o">=</span><span class="s">".csv"</span><span class="p">&gt;</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Two markup notes:</p>
+<ul>
+<li><strong>Drop <code>required</code> from <code>#csvInput</code>.</strong> It is now conditionally required, and a
+  <code>required</code> control inside a <code>hidden</code> panel blocks native form submission with
+  a focus error the user cannot see. §5.4 validates in JS instead.</li>
+<li><code>.type-grid.two</code> is a one-line CSS addition — the existing <code>.type-grid</code> is
+  sized for four cards.</li>
+</ul>
+<h3 id="43-new-css">4.3 New CSS<a class="headerlink" href="#43-new-css" title="Permanent link">&para;</a></h3>
+<p>Add beside the existing <code>.type-grid</code> block (~line 167). Use the existing custom
+properties; introduce no new colours beyond the two state colours below.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">.</span><span class="nc">type-grid</span><span class="p">.</span><span class="nc">two</span><span class="p">{</span><span class="k">grid-template-columns</span><span class="p">:</span><span class="nf">repeat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="n">fr</span><span class="p">);}</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">.</span><span class="nc">source-panel</span><span class="p">{</span><span class="k">margin-top</span><span class="p">:</span><span class="mi">18</span><span class="kt">px</span><span class="p">;}</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">.</span><span class="nc">picker-grid</span><span class="p">{</span><span class="k">display</span><span class="p">:</span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="mi">1</span><span class="n">fr</span><span class="p">;}</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">@</span><span class="k">media</span><span class="w"> </span><span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">620px</span><span class="o">)</span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="nc">picker-grid</span><span class="p">{</span><span class="k">grid-template-columns</span><span class="p">:</span><span class="mf">1.4</span><span class="n">fr</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="w"> </span><span class="mf">1.2</span><span class="n">fr</span><span class="p">;}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">.</span><span class="nc">picker-grid</span><span class="w"> </span><span class="p">.</span><span class="nc">f</span><span class="p">{</span><span class="k">display</span><span class="p">:</span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">flex-direction</span><span class="p">:</span><span class="kc">column</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="mi">6</span><span class="kt">px</span><span class="p">;}</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">.</span><span class="nc">picker-grid</span><span class="w"> </span><span class="p">.</span><span class="nc">lab</span><span class="p">{</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="k">font-family</span><span class="p">:</span><span class="s1">'Barlow Condensed'</span><span class="p">,</span><span class="kc">sans-serif</span><span class="p">;</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="k">font-weight</span><span class="p">:</span><span class="mi">600</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="mi">13</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">letter-spacing</span><span class="p">:</span><span class="mf">.06</span><span class="kt">em</span><span class="p">;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="k">text-transform</span><span class="p">:</span><span class="kc">uppercase</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--ink-soft</span><span class="p">);</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">}</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">.</span><span class="nc">picker-grid</span><span class="w"> </span><span class="nt">select</span><span class="p">{</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span><span class="k">width</span><span class="p">:</span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="mi">11</span><span class="kt">px</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">  </span><span class="k">border</span><span class="p">:</span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--line</span><span class="p">);</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--ink</span><span class="p">);</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">  </span><span class="k">font-family</span><span class="p">:</span><span class="s1">'Inter'</span><span class="p">,</span><span class="kc">sans-serif</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="mi">15</span><span class="kt">px</span><span class="p">;</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="p">}</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="p">.</span><span class="nc">picker-grid</span><span class="w"> </span><span class="nt">select</span><span class="p">:</span><span class="nd">disabled</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--paper-dim</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--ink-soft</span><span class="p">);}</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="p">.</span><span class="nc">picker-meta</span><span class="p">{</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">  </span><span class="k">margin</span><span class="p">:</span><span class="mi">12</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="mi">13</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--ink-soft</span><span class="p">);</span><span class="w"> </span><span class="k">min-height</span><span class="p">:</span><span class="mi">18</span><span class="kt">px</span><span class="p">;</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="p">}</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="p">.</span><span class="nc">picker-meta</span><span class="p">.</span><span class="nc">warn</span><span class="p">{</span><span class="k">color</span><span class="p">:</span><span class="mh">#9A6B00</span><span class="p">;}</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="p">.</span><span class="nc">picker-meta</span><span class="p">.</span><span class="nc">err</span><span class="p">{</span><span class="k">color</span><span class="p">:</span><span class="mh">#B3261E</span><span class="p">;}</span>
+</code></pre></div>
+<p>Match the <code>select</code> padding/border/radius to the page's existing <code>input</code> rule so
+the three dropdowns and <code>#evtName</code> look like one family.</p>
+<h3 id="44-footer-copy">4.4 Footer copy<a class="headerlink" href="#44-footer-copy" title="Permanent link">&para;</a></h3>
+<p>The footer currently reads:</p>
+<blockquote>
+<p>Powered by <strong>S.A.G.E.</strong> — sends your CSV straight to the scoresheet API, nothing is stored.</p>
+</blockquote>
+<p>Change to:</p>
+<blockquote>
+<p>Powered by <strong>S.A.G.E.</strong> — matches go straight to the scoresheet API, nothing is stored.</p>
+</blockquote>
+<hr />
+<h2 id="5-behaviour">5. Behaviour<a class="headerlink" href="#5-behaviour" title="Permanent link">&para;</a></h2>
+<h3 id="51-constants-and-state">5.1 Constants and state<a class="headerlink" href="#51-constants-and-state" title="Permanent link">&para;</a></h3>
+<p>Add near <code>API_URL</code> at the top of the <code>&lt;script&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// event-data is a project repo under the same GitHub Pages org, so these are</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">// same-origin — no CORS. Pages caches every response for ~10 minutes with no</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">// way to force an early refresh; the ?t= param is what keeps a fetch fresh</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">// instead of stuck on a stale copy. Same arrangement as control-center.html.</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">GHPAGES_OWNER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'sage-match-control'</span><span class="p">;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="kd">const</span><span class="w"> </span><span class="nx">GHPAGES_REPO</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">'event-data'</span><span class="p">;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="kd">const</span><span class="w"> </span><span class="nx">configUrlFor</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`https://</span><span class="si">${</span><span class="nx">GHPAGES_OWNER</span><span class="si">}</span><span class="sb">.github.io/</span><span class="si">${</span><span class="nx">GHPAGES_REPO</span><span class="si">}</span><span class="sb">/config/events.json?t=</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="kd">const</span><span class="w"> </span><span class="nx">snapshotUrlFor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">eventKey</span><span class="p">,</span><span class="w"> </span><span class="nx">dayKey</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`https://</span><span class="si">${</span><span class="nx">GHPAGES_OWNER</span><span class="si">}</span><span class="sb">.github.io/</span><span class="si">${</span><span class="nx">GHPAGES_REPO</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">eventKey</span><span class="si">}</span><span class="sb">/data/</span><span class="si">${</span><span class="nx">dayKey</span><span class="si">}</span><span class="sb">.json?t=</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FETCH_TIMEOUT_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8000</span><span class="p">;</span><span class="w">   </span><span class="c1">// venue wifi hangs rather than fails outright</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="kd">let</span><span class="w"> </span><span class="nx">REGISTRY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Map</span><span class="p">();</span><span class="w">  </span><span class="c1">// eventKey -&gt; registry entry, archived excluded</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="kd">let</span><span class="w"> </span><span class="nx">SNAPSHOT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">       </span><span class="c1">// the currently selected day's snapshot, or null</span>
+</code></pre></div>
+<p>Read the mode with <code>form.querySelector('input[name="source"]:checked').value</code> at
+the point of use — no separate mode variable to keep in step.</p>
+<h3 id="52-load-the-registry-on-page-load">5.2 Load the registry on page load<a class="headerlink" href="#52-load-the-registry-on-page-load" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">fetchJson</span><span class="p">(</span><span class="nx">url</span><span class="p">){</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">ctrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">AbortController</span><span class="p">();</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">ctrl</span><span class="p">.</span><span class="nx">abort</span><span class="p">(),</span><span class="w"> </span><span class="nx">FETCH_TIMEOUT_MS</span><span class="p">);</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">signal</span><span class="o">:</span><span class="w"> </span><span class="nx">ctrl</span><span class="p">.</span><span class="nx">signal</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`responded </span><span class="si">${</span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timer</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">}</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">loadRegistry</span><span class="p">(){</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">raw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchJson</span><span class="p">(</span><span class="nx">configUrlFor</span><span class="p">());</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">  </span><span class="nx">REGISTRY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Map</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">raw</span><span class="p">.</span><span class="nx">events</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">{}).</span><span class="nx">filter</span><span class="p">(([,</span><span class="w"> </span><span class="nx">e</span><span class="p">])</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="o">!</span><span class="nx">e</span><span class="p">.</span><span class="nx">archived</span><span class="p">));</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="p">}</span>
+</code></pre></div>
+<p>On <code>DOMContentLoaded</code>: call <code>loadRegistry()</code>, then populate the event select and
+cascade. On throw, or on an empty registry, fall back to upload mode (§6.1).</p>
+<h3 id="53-the-cascade">5.3 The cascade<a class="headerlink" href="#53-the-cascade" title="Permanent link">&para;</a></h3>
+<p><strong>Events</strong> — insertion order of <code>raw.events</code>, labelled <code>title || key</code>.</p>
+<p><strong>Days</strong> — mirror <code>control-center.html</code> ~line 5279: map the day entries to
+<code>{key, label, date}</code> and sort by <code>date</code>, undated days last:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">rawEvent</span><span class="p">.</span><span class="nx">days</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">{})</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="p">.</span><span class="nx">map</span><span class="p">(([</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">d</span><span class="p">])</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="nx">d</span><span class="p">.</span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">date</span><span class="o">:</span><span class="w"> </span><span class="nx">d</span><span class="p">.</span><span class="nx">date</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">}))</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">date</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'9999-99-99'</span><span class="p">).</span><span class="nx">localeCompare</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">date</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'9999-99-99'</span><span class="p">));</span>
+</code></pre></div>
+<p>Default selection: the day whose <code>date</code> is today, else the first day whose
+<code>date</code> is in the future, else the first day. (<code>control-center.html</code> ~line 3723
+does exactly this — copy the logic, not the surrounding console state.)</p>
+<p><strong>Facilities</strong> — these require a snapshot, so selecting a day fetches
+<code>snapshotUrlFor(eventKey, dayKey)</code> into <code>SNAPSHOT</code> and fills the venue select
+from <code>SNAPSHOT.facilities[].name</code>. While that fetch is in flight, disable the
+venue select and set <code>#pickerMeta</code> to <code>Loading day data…</code>.</p>
+<p>A facility whose <code>matchesCsv</code> has no data rows is listed but <strong>disabled</strong>, its
+option text suffixed <code>— no matches yet</code>. Listing it is deliberate: a venue
+silently missing from the dropdown looks like a config bug, and the operator
+needs to be able to tell the two apart.</p>
+<p>Every selection change re-runs <code>updatePickerMeta()</code> (§6.3) and, in event mode,
+re-fills <code>#evtName</code> (§5.5).</p>
+<h3 id="54-submit">5.4 Submit<a class="headerlink" href="#54-submit" title="Permanent link">&para;</a></h3>
+<p>Replace the <code>const file = csvInput.files[0]</code> block. Everything downstream — the
+<code>FormData</code>, the fetch, <code>readNdjsonStream</code>, the progress bar, <code>base64ToBlob</code>,
+<code>triggerDownload</code> — is untouched.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">form</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'input[name="source"]:checked'</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kd">let</span><span class="w"> </span><span class="nx">csvPart</span><span class="p">,</span><span class="w"> </span><span class="nx">csvPartName</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">mode</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'event'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">fac</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">selectedFacility</span><span class="p">();</span><span class="w">          </span><span class="c1">// SNAPSHOT.facilities.find(...)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">fac</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nx">countMatches</span><span class="p">(</span><span class="nx">fac</span><span class="p">.</span><span class="nx">matchesCsv</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nx">setStatus</span><span class="p">(</span><span class="s1">'Pick an event, day and venue that has matches in it.'</span><span class="p">,</span><span class="w"> </span><span class="s1">'err'</span><span class="p">);</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">  </span><span class="nx">csvPart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Blob</span><span class="p">([</span><span class="nx">fac</span><span class="p">.</span><span class="nx">matchesCsv</span><span class="p">],</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">'text/csv'</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="nx">csvPartName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'matches.csv'</span><span class="p">;</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">  </span><span class="nx">csvPart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">csvInput</span><span class="p">.</span><span class="nx">files</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">csvPart</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">setStatus</span><span class="p">(</span><span class="s1">'Add a CSV file to continue.'</span><span class="p">,</span><span class="w"> </span><span class="s1">'err'</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">  </span><span class="nx">csvPartName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">csvPart</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">}</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">evt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">setStatus</span><span class="p">(</span><span class="s1">'Add an event name to continue.'</span><span class="p">,</span><span class="w"> </span><span class="s1">'err'</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="c1">// ...existing blanks validation, unchanged...</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="kd">const</span><span class="w"> </span><span class="nx">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">FormData</span><span class="p">();</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'evt'</span><span class="p">,</span><span class="w"> </span><span class="nx">evt</span><span class="p">);</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'type'</span><span class="p">,</span><span class="w"> </span><span class="nx">type</span><span class="p">);</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'csv'</span><span class="p">,</span><span class="w"> </span><span class="nx">csvPart</span><span class="p">,</span><span class="w"> </span><span class="nx">csvPartName</span><span class="p">);</span><span class="w">   </span><span class="c1">// third arg matters — see below</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'blanks'</span><span class="p">,</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">blanks</span><span class="p">));</span>
+</code></pre></div>
+<p><strong>Pass the third <code>append</code> argument.</strong> <code>ScoresheetService</code> writes the upload to
+<code>path.join(workspace.tempDir, csvFileName || "input.csv")</code> using multer's
+<code>originalname</code>. A <code>Blob</code> appended without a filename arrives as <code>"blob"</code>. The
+fallback would cope, but an explicit <code>matches.csv</code> keeps server-side logs and
+temp paths readable, and costs one argument.</p>
+<p><code>countMatches</code> counts non-empty lines after the header, tolerating CRLF — the
+snapshot's <code>matchesCsv</code> uses <code>\r\n</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">countMatches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">csv</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nx">csv</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/\r?\n/</span><span class="p">).</span><span class="nx">slice</span><span class="p">(</span><span class="mf">1</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">l</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">l</span><span class="p">.</span><span class="nx">trim</span><span class="p">()</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s1">''</span><span class="p">).</span><span class="nx">length</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="55-event-name-auto-fill">5.5 Event name auto-fill<a class="headerlink" href="#55-event-name-auto-fill" title="Permanent link">&para;</a></h3>
+<p>In event mode, set <code>#evtName</code> to the registry <code>title</code> (falling back to the event
+key) whenever the event selection changes — <strong>but only if the field is empty or
+still holds the previously auto-filled value</strong>. Track the last auto-filled
+string in a variable and compare: a name the operator typed themselves must
+survive changing the day or venue.</p>
+<p>The field stays editable in both modes and remains required.</p>
+<h3 id="56-output-filename">5.6 Output filename<a class="headerlink" href="#56-output-filename" title="Permanent link">&para;</a></h3>
+<p>Currently:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">safeName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">evt</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[^a-z0-9]+/gi</span><span class="p">,</span><span class="w"> </span><span class="s1">'_'</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^_+|_+$/g</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'scoresheet'</span><span class="p">;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nx">triggerDownload</span><span class="p">(</span><span class="nx">blob</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">safeName</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()</span><span class="si">}</span><span class="sb">_SCORESHEET`</span><span class="p">);</span>
+</code></pre></div>
+<p>In event mode, append the day key and venue so a multi-venue day's stacks are
+distinguishable in the Downloads folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>PNF_X_BUP_DUAL_MEET_PNF_X_BUP_DAY1_PAMPANGA_PICKLEBALL_CENTER_SCORESHEET.pdf
+</code></pre></div>
+<p>Build it by running each part through the same <code>[^a-z0-9]+ -&gt; _</code> slug helper and
+joining with <code>_</code>. Upload mode keeps today's <code>&lt;EVT&gt;_SCORESHEET</code> exactly.</p>
+<hr />
+<h3 id="57-deep-link-query-parameters">5.7 Deep-link query parameters<a class="headerlink" href="#57-deep-link-query-parameters" title="Permanent link">&para;</a></h3>
+<p>The page accepts three optional query params so the workbook menu (§8) — or a
+bookmark — can land on a preselected venue.</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Value</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>day</code></td>
+<td>a day key, e.g. <code>pnf-x-bup-day1</code></td>
+<td>selects the owning event <strong>and</strong> that day</td>
+</tr>
+<tr>
+<td><code>facility</code></td>
+<td>a facility name, URL-encoded</td>
+<td>selects that venue</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>one of the four registered type ids</td>
+<td>preselects the scoresheet type radio</td>
+</tr>
+</tbody>
+</table>
+<p><code>?day=</code> alone is enough to identify the event. <strong>Day keys are globally unique
+across every event</strong> — an enforced validation rule in <code>SyncConfigStore</code>, because
+a day key is also the <code>/sync/:day</code> route — so the page resolves the event by
+scanning the registry for the day, and no <code>event</code> param is needed. Accept an
+<code>event</code> param as an optional, ignored-if-inconsistent hint only if it turns out
+to be wanted; do not require it.</p>
+<p>Applied <strong>after</strong> <code>loadRegistry()</code> resolves and before the default day selection
+in §5.3, so a deep link wins over the today/next-upcoming default. Once applied,
+params are inert: a subsequent manual change to any dropdown is never
+overridden, and the params are not re-read or written back to the URL.</p>
+<p>Matching rules:</p>
+<ul>
+<li><code>day</code> — exact match against day keys.</li>
+<li><code>facility</code> — <strong>exact and case-sensitive</strong>, matching how the sync itself
+  compares facility names everywhere else in the system. Do not
+  case-fold or trim as a convenience; that would make this page the one place
+  in S.A.G.E. where a facility-name mismatch silently works, and mask the exact
+  bug the operator needs to find in <code>sheets-sync.gs</code>.</li>
+<li><code>type</code> — must be one of the four ids in <code>ScoresheetConfig.mjs</code>
+  (<code>scoresheet</code>, <code>scoresheet-best-of-3</code>, <code>scoresheet-no-ref</code>,
+  <code>scoresheet-no-ref-wide</code>). An unrecognised value is ignored silently and the
+  default <code>scoresheet</code> radio stays checked.</li>
+</ul>
+<p><strong>Archived events resolve by deep link only.</strong> <code>REGISTRY</code> excludes them (§7.2),
+but a link naming an archived event's day key still works: resolve against the
+unfiltered <code>raw.events</code>, and if it hits, add that one event to the dropdown for
+this session with an <code>(archived)</code> suffix on its label. Reprinting a finished
+event's scoresheets is rare but legitimate, and the alternative is a dead link
+with a confusing "unknown day" error. Archived events never appear in the
+dropdown otherwise.</p>
+<h2 id="6-error-and-edge-states">6. Error and edge states<a class="headerlink" href="#6-error-and-edge-states" title="Permanent link">&para;</a></h2>
+<p>All of these write to <code>#pickerMeta</code> (or <code>#statusMsg</code> for submit-time failures).
+None may leave the page with no way forward — the upload path is always one
+radio click away, and the copy should say so.</p>
+<h3 id="61-registry-unavailable">6.1 Registry unavailable<a class="headerlink" href="#61-registry-unavailable" title="Permanent link">&para;</a></h3>
+<p><code>events.json</code> 404s, times out, or has zero non-archived events.</p>
+<ul>
+<li>Force upload mode: check the <code>upload</code> radio, show <code>#uploadPanel</code>.</li>
+<li><strong>Disable</strong> the <code>Registered event</code> radio and add a <code>title</code> explaining why.</li>
+<li><code>#pickerMeta</code> (<code>.err</code>): <code>Couldn't load the event list — upload a CSV instead.</code></li>
+</ul>
+<p>The page must remain fully usable. This is the pre-change behaviour, so a
+registry outage is a graceful degrade, not an outage of the tool.</p>
+<h3 id="62-no-snapshot-for-the-selected-day">6.2 No snapshot for the selected day<a class="headerlink" href="#62-no-snapshot-for-the-selected-day" title="Permanent link">&para;</a></h3>
+<p><code>snapshotUrlFor(...)</code> 404s — the common real case, a day registered but never
+synced.</p>
+<ul>
+<li>Clear and disable the venue select.</li>
+<li><code>#pickerMeta</code> (<code>.warn</code>): <code>No published data for this day yet — it appears
+  after the first sync. Upload a CSV instead.</code></li>
+<li>Submit in event mode is blocked by §5.4's guard.</li>
+</ul>
+<h3 id="63-freshness-and-partial-syncs-updatepickermeta">6.3 Freshness and partial syncs — <code>updatePickerMeta()</code><a class="headerlink" href="#63-freshness-and-partial-syncs-updatepickermeta" title="Permanent link">&para;</a></h3>
+<p>When a facility is selected and has matches, <code>#pickerMeta</code> shows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>128 matches · synced 4 minutes ago
+</code></pre></div>
+<p>from <code>countMatches(fac.matchesCsv)</code> and a relative time off <code>fac.syncedAt</code>.</p>
+<p>This is the single most useful line on the new card: it is how the operator
+confirms the roster paste actually landed before printing 128 sheets.</p>
+<p>Escalate to <code>.warn</code> and append when either applies:</p>
+<ul>
+<li><code>SNAPSHOT.staleFacilities</code> names this facility →
+  <code>· venue last synced &lt;relative&gt;, data may be behind the sheet</code></li>
+<li><code>SNAPSHOT.failedFacilities</code> has an entry starting <code>"&lt;name&gt;: "</code> →
+  <code>· last sync for this venue failed</code></li>
+</ul>
+<p>Both arrays hold strings (<code>failedFacilities</code> entries are <code>"&lt;name&gt;: &lt;error&gt;"</code>), so
+match on the name prefix, not equality.</p>
+<h3 id="64-placeholder-playoff-rows">6.4 Placeholder playoff rows<a class="headerlink" href="#64-placeholder-playoff-rows" title="Permanent link">&para;</a></h3>
+<p>Bronze/Final rows carry <code>-</code> or the bare team code until the group stage
+completes — <code>Match.#formatTeam</code> already renders those as <code>&lt;code&gt; -</code> with blank
+name lines. <strong>This is correct and wanted</strong>: it produces a pre-printed final with
+blank name lines to write into. Do not filter these rows out, and do not warn
+about them.</p>
+<h3 id="65-trailing-whitespace-in-names">6.5 Trailing whitespace in names<a class="headerlink" href="#65-trailing-whitespace-in-names" title="Permanent link">&para;</a></h3>
+<p>Snapshot names carry trailing spaces (<code>"Jazmin Solis "</code>). Harmless in the
+rendered PDF, identical to the manual-download path, and not this page's to fix.
+Leave it.</p>
+<hr />
+<h3 id="66-deep-link-that-doesnt-resolve">6.6 Deep link that doesn't resolve<a class="headerlink" href="#66-deep-link-that-doesnt-resolve" title="Permanent link">&para;</a></h3>
+<p>A link from a workbook whose <code>DAY_KEY</code> or <code>FACILITY_NAME</code> is wrong is the whole
+reason these messages matter — they are the fastest diagnosis of a
+<code>sheets-sync.gs</code> misconfiguration the system currently offers, so name the
+offending value rather than failing generically.</p>
+<p><strong>Unknown <code>day</code></strong> — no event in the registry (archived included) owns it. Fall
+back to the normal default selection, and <code>#pickerMeta</code> (<code>.err</code>):</p>
+<blockquote>
+<p><code>Day "&lt;day&gt;" isn't in the event registry — check DAY_KEY in this workbook's
+sync script. Showing &lt;event title&gt; instead.</code></p>
+</blockquote>
+<p><strong>Unknown <code>facility</code></strong> — the day resolved, the venue name didn't. Select the
+event and day normally, leave the venue select unselected, and <code>#pickerMeta</code>
+(<code>.err</code>), listing what does exist:</p>
+<blockquote>
+<p><code>No venue named "&lt;facility&gt;" on this day — facility names are case-sensitive.
+This day has: Main, Annex, Dreamcourts.</code></p>
+</blockquote>
+<p>Naming the case sensitivity in the message is deliberate: a case mismatch
+between <code>FACILITY_NAME</code> and <code>events.json</code> is a known silent failure mode in this
+system (<code>features/preparing-an-event.md</code> §4 calls it out), and this is the one
+screen where it becomes visible.</p>
+<p><strong>Registry unreachable with params present</strong> — §6.1 wins. The page falls back to
+upload mode; the params are dropped and not reported. A deep link is a
+convenience, never the only way in.</p>
+<h2 id="7-decisions">7. Decisions<a class="headerlink" href="#7-decisions" title="Permanent link">&para;</a></h2>
+<h3 id="71-one-venue-per-pdf-no-all-venues-option">7.1 One venue per PDF; no "All venues" option<a class="headerlink" href="#71-one-venue-per-pdf-no-all-venues-option" title="Permanent link">&para;</a></h3>
+<p>Each facility workbook numbers its own matches <code>1..N</code>, so concatenating two
+venues produces a PDF with duplicate match numbers — actively harmful on a paper
+sheet, which is identified by that number. One venue at a time, generated twice,
+is correct. Generating N PDFs in sequence from one click is a reasonable future
+convenience and is out of scope (§10).</p>
+<h3 id="72-archived-events-are-excluded">7.2 Archived events are excluded<a class="headerlink" href="#72-archived-events-are-excluded" title="Permanent link">&para;</a></h3>
+<p>Mirrors <code>control-center.html</code> ~line 5331. Nobody prints scoresheets for a
+finished event, and BKL Cup 2026's snapshots no longer feed its archived pages
+(see the <code>_comment</code> on that event in <code>events.json</code>).</p>
+<h3 id="73-facilities-come-from-the-snapshot-not-the-registry">7.3 Facilities come from the snapshot, not the registry<a class="headerlink" href="#73-facilities-come-from-the-snapshot-not-the-registry" title="Permanent link">&para;</a></h3>
+<p>The registry lists facilities that may have no spreadsheet yet — a blank
+<code>sheetId</code> is explicitly allowed, so a day's entry can exist before its workbook
+does. Offering one would produce a picker entry that can never generate
+anything. The snapshot lists what actually synced.</p>
+<h3 id="74-the-workbook-menu-opens-a-link-it-does-not-call-the-api">7.4 The workbook menu opens a link; it does not call the API<a class="headerlink" href="#74-the-workbook-menu-opens-a-link-it-does-not-call-the-api" title="Permanent link">&para;</a></h3>
+<p>A <code>SAGE → Generate Scoresheets</code> menu item is in scope (§8), but <strong>only as a
+deep link</strong>. The version first considered — Apps Script POSTing the <code>CSV</code> tab to
+<code>/scoresheets/generate</code> via <code>UrlFetchApp</code> and handing back a PDF — is rejected.
+Three of its four problems simply do not exist for a link, and the fourth is
+solved by putting the item in a different file:</p>
+<ul>
+<li><strong>Timeouts.</strong> <code>UrlFetchApp</code> cannot consume NDJSON progressively, so it would
+  have to call the blocking <code>/scoresheets/generate</code> and sit there against Apps
+  Script's execution limit. The streaming endpoint exists precisely because
+  Puppeteer takes real time on a large day; that trades a working progress bar
+  for a hard cap. <strong>A link makes no request at all</strong>, and generation runs in
+  the browser against the streaming endpoint exactly as it does today.</li>
+<li><strong>PDF delivery.</strong> Apps Script cannot hand a file to the browser. It would need
+  either a Drive scope — re-authorization on every copy, files accumulating in
+  Drive — or the whole PDF pushed through an HTML dialog as base64. <strong>A link
+  needs no new scope</strong>: the PDF downloads from the page, in the browser, the way
+  it already does.</li>
+<li><strong>Distribution.</strong> <code>sheet-generator.gs</code> is bound to the SAGE Dual Meet Master,
+  so an item there reaches dual-meet workbooks <em>copied after the change</em> — not
+  existing copies, and not standard tournaments at all. <strong>Resolved by putting
+  the item in <code>sheets-sync.gs</code> instead</strong> (§8.1), which is installed on every
+  facility workbook of every event, and which already holds the two values the
+  link needs.</li>
+<li><strong>Menu hazard.</strong> The <code>SAGE</code> menu's only item today is <code>Generate event tabs</code>:
+  run-once, non-idempotent, and a failed run costs a fresh copy of the master.
+  Parking a repeatable action beside it invites the wrong click. <strong>Still true,
+  and still worth guarding</strong> — §8.3 keeps the two items apart with a separator
+  and orders them so the destructive one is not the default landing spot.</li>
+</ul>
+<h3 id="75-upload-stays-a-first-class-peer-not-a-fallback">7.5 Upload stays a first-class peer, not a fallback<a class="headerlink" href="#75-upload-stays-a-first-class-peer-not-a-fallback" title="Permanent link">&para;</a></h3>
+<p>The two sources sit as equal radio cards, event mode selected on load. Upload is
+not a hidden escape hatch, an "advanced" disclosure, or something reachable only
+when the registry fails — it is one click away at all times and its behaviour is
+byte-identical to the pre-change page.</p>
+<p>It is not redundant with the picker. It is the only path for:</p>
+<ul>
+<li>an event that was never registered in <code>events.json</code> — a scrimmage, a club
+  night, a one-off, anything run before the site work is done;</li>
+<li>a hand-edited or trimmed CSV — reprinting one court's afternoon, or a bracket
+  someone fixed up by hand;</li>
+<li>a standard tournament whose workbook predates any of this;</li>
+<li>printing before the day's first sync has published anything (§6.2);</li>
+<li>generating from a machine that can't reach <code>event-data</code>.</li>
+</ul>
+<p><strong>Implications for implementation:</strong> the dropzone markup is moved, never
+rewritten (§4.2); the upload branch of the submit handler and its
+<code>&lt;EVT&gt;_SCORESHEET.pdf</code> filename are preserved verbatim (§5.4, §5.6); and both
+modes must be exercised by the acceptance checklist, not just the new one (§9).</p>
+<p>A toggle is used rather than showing both controls at once so it is never
+ambiguous which source will generate — a half-filled hidden panel cannot
+silently win over the visible one. That ambiguity is worth a click to avoid on a
+tool that commits hundreds of printed pages.</p>
+<h3 id="76-rejected-a-backend-endpoint-that-reads-the-sheet-live">7.6 Rejected — a backend endpoint that reads the sheet live<a class="headerlink" href="#76-rejected-a-backend-endpoint-that-reads-the-sheet-live" title="Permanent link">&para;</a></h3>
+<p>A <code>GET /scoresheets/matches?event=&amp;day=&amp;facility=</code> reusing <code>SheetsCsvFetcher</code>
+would remove the snapshot dependency entirely. It also needs
+<code>GOOGLE_SHEETS_API_KEY</code> (server-side only), which means the operator bearer
+token, which means adding sign-in to a tool that has deliberately never had one.
+The snapshot is fresh enough for the one moment this is used (§2), so this is
+the escape hatch if §6.2 ever proves to bite in practice — not day-one work.</p>
+<hr />
+<h2 id="8-the-workbook-menu-sheets-syncgs">8. The workbook menu — <code>sheets-sync.gs</code><a class="headerlink" href="#8-the-workbook-menu-sheets-syncgs" title="Permanent link">&para;</a></h2>
+<p><code>SAGE → Generate Scoresheets</code> opens the generator in a new tab with this
+workbook's day and venue already selected. It makes no HTTP request, needs no
+new OAuth scope, and touches nothing in the spreadsheet.</p>
+<h3 id="81-why-sheets-syncgs-and-not-sheet-generatorgs">8.1 Why <code>sheets-sync.gs</code> and not <code>sheet-generator.gs</code><a class="headerlink" href="#81-why-sheets-syncgs-and-not-sheet-generatorgs" title="Permanent link">&para;</a></h3>
+<p><code>sheets-sync.gs</code> is installed <strong>once per facility spreadsheet, for every
+event</strong> — dual meet and standard tournament alike, including BKL Cup 2026's
+fifteen hand-built workbooks. <code>sheet-generator.gs</code> is bound to the Dual Meet
+Master and reaches only dual-meet copies made after the change.</p>
+<p>More decisively, <code>sheets-sync.gs</code> already holds exactly the two values the link
+needs, and they are already required to be correct for that workbook to sync at
+all:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAY_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'day2'</span><span class="p">;</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FACILITY_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Main'</span><span class="p">;</span>
+</code></pre></div>
+<p>Nothing new to configure, and no new way for the workbook to be wrong: a link
+that lands on the wrong venue means the sync was already pointing at the wrong
+venue, and §6.6's error message says so in as many words.</p>
+<h3 id="82-new-config-constant">8.2 New config constant<a class="headerlink" href="#82-new-config-constant" title="Permanent link">&para;</a></h3>
+<p>Add to the <strong>"usually leave as-is"</strong> block, not the per-spreadsheet block — it
+is the same for every install:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">SCORESHEET_GENERATOR_URL</span><span class="w"> </span><span class="o">=</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="s1">'https://sage-match-control.github.io/tools/scoresheet-generator.html'</span><span class="p">;</span>
+</code></pre></div>
+<p>Leave the header comment's "edit these three per spreadsheet" wording alone —
+the three stay three.</p>
+<h3 id="83-the-onopen-collision-read-this-before-writing-the-menu">8.3 The <code>onOpen</code> collision — read this before writing the menu<a class="headerlink" href="#83-the-onopen-collision-read-this-before-writing-the-menu" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong><code>sync-script-configuration-spec.md</code> §7 is authoritative for the <code>onOpen</code>
+contract, and it has landed.</strong> It resolves the same collision with
+identical <code>onOpen</code> bodies in both files delegating to feature-detected
+<code>addSyncMenuItems_</code> / <code>addGeneratorMenuItems_</code> builders, which is stricter
+than the two feature-detecting bodies below — this section's code sample is
+historical. <code>Generate Scoresheets</code> is contributed by <code>addSyncMenuItems_</code>
+and appears only in a workbook <code>readSyncConfig_()</code> finds configured,
+alongside <code>Sync now</code> and <code>Live sync settings</code>; an unconfigured workbook
+gets <code>Set up live sync</code> instead. The explanation of <em>why</em> the collision
+exists still applies; skip the rest of this section for the actual
+implementation.</p>
+</blockquote>
+<p><code>sheets-sync.gs</code> defines <strong>no <code>onOpen</code> today</strong>; <code>sheet-generator.gs</code> defines the
+only one (~line 723). A generated dual-meet workbook ends up carrying <strong>both</strong>
+scripts — the master copy brings the generator, and step 8 of
+<code>technical/adding-a-new-event.md</code> pastes the sync script in afterwards.</p>
+<p>Two files in one Apps Script project both declaring <code>function onOpen()</code> is not
+an error. The declarations hoist, the last one loaded wins silently, and load
+order is not something the operator controls. Adding a naive <code>onOpen</code> to
+<code>sheets-sync.gs</code> would therefore make the <code>SAGE</code> menu lose either
+<code>Generate event tabs</code> or <code>Generate Scoresheets</code> depending on file order — a bug
+that appears only in workbooks that have both, only after a reload, and looks
+exactly like a paste that didn't take.</p>
+<p><strong>Fix: make both definitions produce the same menu</strong>, so whichever one wins is
+irrelevant. Each file feature-detects the other's entry point rather than
+assuming it exists.</p>
+<p>In <code>sheets-sync.gs</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">// NOTE: sheet-generator.gs declares its own onOpen, and a generated dual-meet</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1">// workbook carries BOTH scripts. Duplicate declarations don't error — the last</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1">// file loaded wins, and load order isn't controllable. So this body and</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1">// sheet-generator.gs's must build the SAME menu, each feature-detecting the</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1">// other's entry point. Change one, change the other.</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="kd">function</span><span class="w"> </span><span class="nx">onOpen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">menu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">createMenu</span><span class="p">(</span><span class="s1">'SAGE'</span><span class="p">);</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">  </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Generate Scoresheets'</span><span class="p">,</span><span class="w"> </span><span class="s1">'showScoresheetLink'</span><span class="p">);</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="ow">typeof</span><span class="w"> </span><span class="nx">showGenerateSidebar</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'function'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addSeparator</span><span class="p">().</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Generate event tabs'</span><span class="p">,</span><span class="w"> </span><span class="s1">'showGenerateSidebar'</span><span class="p">);</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">  </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addToUi</span><span class="p">();</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>In <code>sheet-generator.gs</code>, replacing the existing <code>onOpen</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">// See the matching note in sheets-sync.gs — these two bodies must agree.</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kd">function</span><span class="w"> </span><span class="nx">onOpen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">menu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">createMenu</span><span class="p">(</span><span class="s1">'SAGE'</span><span class="p">);</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="ow">typeof</span><span class="w"> </span><span class="nx">showScoresheetLink</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'function'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Generate Scoresheets'</span><span class="p">,</span><span class="w"> </span><span class="s1">'showScoresheetLink'</span><span class="p">);</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addSeparator</span><span class="p">();</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Generate event tabs'</span><span class="p">,</span><span class="w"> </span><span class="s1">'showGenerateSidebar'</span><span class="p">);</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">  </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addToUi</span><span class="p">();</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>Both yield <code>Generate Scoresheets · ─── · Generate event tabs</code> when both scripts
+are present, and the single available item otherwise. The separator and the
+ordering are §7.4's menu-hazard guard: the safe, repeatable item is first, and
+the run-once destructive one is not what the cursor lands on.</p>
+<p>Editing <code>sheet-generator.gs</code> here does <strong>not</strong> bump <code>package.json</code> and is not a
+deploy, same as any other <code>scripts/*.gs</code> change. It also does not require
+<code>node scripts/verify-sheet-generator.mjs</code> to change — that script exercises
+<code>generateEventTabs</code>, not the menu — but running it is still the cheap check
+that the file still parses.</p>
+<h3 id="84-the-dialog">8.4 The dialog<a class="headerlink" href="#84-the-dialog" title="Permanent link">&para;</a></h3>
+<p>Apps Script cannot open a URL from server-side code, and a <code>window.open()</code> fired
+on load inside the dialog's sandboxed iframe is blocked as a popup. <strong>The
+navigation must come from a real user click on an anchor.</strong> This is the one
+thing that will silently not work if implemented the obvious way.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">showScoresheetLink</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SCORESHEET_GENERATOR_URL</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="s1">'?day='</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">DAY_KEY</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="s1">'&amp;facility='</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">FACILITY_NAME</span><span class="p">);</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">HtmlService</span><span class="p">.</span><span class="nx">createHtmlOutput</span><span class="p">(</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="s1">'&lt;style&gt;body{font-family:Arial,sans-serif;font-size:13px;padding:8px 12px;}'</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="s1">'a.btn{display:inline-block;margin-top:14px;padding:10px 18px;background:#7CB92C;'</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">    </span><span class="s1">'color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;}'</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">    </span><span class="s1">'dl{margin:10px 0;} dt{color:#5B6B74;font-size:11px;text-transform:uppercase;}'</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="s1">'dd{margin:0 0 8px;font-weight:bold;}&lt;/style&gt;'</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">    </span><span class="s1">'&lt;p&gt;Opens the Scoresheet Generator with this workbook preselected.&lt;/p&gt;'</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">    </span><span class="s1">'&lt;dl&gt;&lt;dt&gt;Day&lt;/dt&gt;&lt;dd&gt;'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">DAY_KEY</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'&lt;/dd&gt;'</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="w">    </span><span class="s1">'&lt;dt&gt;Venue&lt;/dt&gt;&lt;dd&gt;'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">FACILITY_NAME</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'&lt;/dd&gt;&lt;/dl&gt;'</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="w">    </span><span class="s1">'&lt;a class="btn" href="'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'" target="_blank" rel="noopener" '</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="w">    </span><span class="s1">'onclick="google.script.host.close()"&gt;Open Scoresheet Generator&lt;/a&gt;'</span>
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="w">  </span><span class="p">).</span><span class="nx">setWidth</span><span class="p">(</span><span class="mf">380</span><span class="p">).</span><span class="nx">setHeight</span><span class="p">(</span><span class="mf">230</span><span class="p">);</span>
+<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>
+<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="w">  </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">showModalDialog</span><span class="p">(</span><span class="nx">html</span><span class="p">,</span><span class="w"> </span><span class="s1">'Generate Scoresheets'</span><span class="p">);</span>
+<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="p">}</span>
+</code></pre></div>
+<p>The dialog <strong>shows the day key and facility name before the click</strong> on purpose:
+it lets the operator catch a misconfigured workbook here, rather than after
+landing on §6.6's error. That readout is the feature, not decoration — do not
+reduce this to a bare button.</p>
+<p><code>rel="noopener"</code> accompanies <code>target="_blank"</code> as standard practice.</p>
+<p><strong>Where the two values actually come from, as built:</strong> <code>DAY_KEY</code> and
+<code>FACILITY_NAME</code> never stayed module constants — <code>sync-script-configuration-spec.md</code>
+moved all per-spreadsheet identity into Script Properties, so
+<code>showScoresheetLink</code> reads them from <code>readSyncConfig_()</code> instead:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">readSyncConfig_</span><span class="p">();</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">config</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">alert</span><span class="p">(</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="s1">'This workbook has no day or venue configured yet. Run SAGE -&gt; Set up live sync first.'</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="p">);</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="p">}</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="c1">// ...url built from config.dayKey / config.facilityName...</span>
+</code></pre></div>
+<p>Both values are interpolated into HTML — as operator-entered property values
+now, rather than source constants, they are closer to a live injection path
+than before, so the <code>&lt;dl&gt;</code> readout escapes them (they already reach the
+<code>href</code> through <code>encodeURIComponent</code>). See
+<code>sync-script-configuration-spec.md</code> §8 for the full change.</p>
+<h3 id="85-superseded">8.5 (superseded)<a class="headerlink" href="#85-superseded" title="Permanent link">&para;</a></h3>
+<p>This section previously proposed moving <code>DAY_KEY</code>/<code>FACILITY_NAME</code> to Script
+Properties as a separate, larger follow-up. That follow-up is
+<code>sync-script-configuration-spec.md</code>, it has shipped, and its change is now
+folded into §8.4 above.</p>
+<h3 id="86-install-instructions">8.6 Install instructions<a class="headerlink" href="#86-install-instructions" title="Permanent link">&para;</a></h3>
+<p><code>sheets-sync.gs</code>'s header comment is its install runbook (steps 1–6). Add a
+sentence to step 6 noting that reloading the spreadsheet also adds
+<code>SAGE → Generate Scoresheets</code>, and that it needs no authorization of its own —
+it opens a link and calls nothing.</p>
+<p>The same note belongs in <code>_templates/CLAUDE.md</code> §2 step 8 in the site repo,
+which walks through this install per facility spreadsheet.</p>
+<h2 id="9-acceptance-checklist">9. Acceptance checklist<a class="headerlink" href="#9-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] Page loads with <strong>Registered event</strong> selected, the event dropdown
+      populated from <code>events.json</code>, and <code>bkl-cup-2026</code> <strong>absent</strong> (archived).</li>
+<li>[ ] Selecting an event fills the day dropdown sorted by <code>date</code>, defaulting to
+      today / next upcoming / first.</li>
+<li>[ ] Selecting a day fetches the snapshot and fills the venue dropdown from
+      <code>facilities[].name</code>; the venue select is disabled while that is in flight.</li>
+<li>[ ] <code>#pickerMeta</code> shows a match count and a relative <code>syncedAt</code> for the
+      selected venue.</li>
+<li>[ ] <code>#evtName</code> auto-fills from the registry <code>title</code>; typing a custom name and
+      then changing day or venue does <strong>not</strong> overwrite it.</li>
+<li>[ ] Generating in event mode produces the same PDF as downloading that
+      workbook's <code>CSV</code> tab and uploading it — verify against
+      <code>pnf-x-bup-dual-meet</code> / <code>pnf-x-bup-day1</code>: page count and first/last match
+      identical.</li>
+<li>[ ] The downloaded filename includes event, day and venue.</li>
+<li>[ ] Switching to <strong>Upload a CSV</strong> shows the dropzone; drag-drop,
+      click-to-browse, and the <code>.dz-file</code> filename display all still work, and
+      generating produces today's <code>&lt;EVT&gt;_SCORESHEET.pdf</code> name.</li>
+<li>[ ] With <code>events.json</code> unreachable (block it in devtools), the page falls back
+      to upload mode, disables the event radio, explains why, and still
+      generates a PDF from a file.</li>
+<li>[ ] Picking a day with no published snapshot shows the §6.2 message and blocks
+      submit with a readable error rather than posting an empty CSV.</li>
+<li>[ ] A facility with a header-only <code>matchesCsv</code> appears in the dropdown,
+      disabled, labelled <code>— no matches yet</code>.</li>
+<li>[ ] Blank-scoresheet count, the progress bar, and midstream
+      <code>{"phase":"error"}</code> handling are unchanged in both modes.</li>
+<li>[ ] Layout holds at 375px wide — the three pickers stack.</li>
+</ul>
+<h3 id="deep-links-57-66">Deep links (§5.7, §6.6)<a class="headerlink" href="#deep-links-57-66" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] <code>?day=pnf-x-bup-day1&amp;facility=Pampanga%20Pickleball%20Center</code> lands with
+      the event, day and venue all selected and the match count shown — without
+      an <code>event</code> param.</li>
+<li>[ ] A deep link beats the today/next-upcoming day default.</li>
+<li>[ ] Changing any dropdown after arriving via a deep link sticks; the params
+      do not reassert themselves.</li>
+<li>[ ] <code>?type=scoresheet-no-ref</code> preselects that radio; <code>?type=nonsense</code> is
+      ignored and leaves <strong>Standard</strong> checked.</li>
+<li>[ ] <code>?facility=pampanga%20pickleball%20center</code> (wrong case) does <strong>not</strong>
+      match, and the error names the case sensitivity and lists the real venues.</li>
+<li>[ ] <code>?day=nope</code> shows the §6.6 message naming <code>nope</code> and still leaves a
+      usable page.</li>
+<li>[ ] A deep link to an archived event's day key (<code>day2</code>, BKL Cup 2026)
+      resolves and shows that event in the dropdown suffixed <code>(archived)</code>;
+      reloading without params drops it again.</li>
+</ul>
+<h3 id="workbook-menu-8">Workbook menu (§8)<a class="headerlink" href="#workbook-menu-8" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] In a workbook with <strong>only</strong> <code>sheets-sync.gs</code>, the <code>SAGE</code> menu appears
+      after reload with <code>Generate Scoresheets</code> alone.</li>
+<li>[ ] In a workbook with <strong>only</strong> <code>sheet-generator.gs</code> (the Dual Meet Master),
+      the <code>SAGE</code> menu still shows <code>Generate event tabs</code> alone — unchanged
+      behaviour.</li>
+<li>[ ] In a workbook with <strong>both</strong>, the menu shows both items with a separator
+      between them, <strong>and this holds whichever order the two files sit in</strong> —
+      test it both ways, since load order is what decides which <code>onOpen</code> wins.</li>
+<li>[ ] The dialog displays this workbook's <code>DAY_KEY</code> and <code>FACILITY_NAME</code> before
+      the click.</li>
+<li>[ ] Clicking the button opens the generator in a <strong>new tab</strong> with both params
+      set, and closes the dialog. It is not popup-blocked.</li>
+<li>[ ] The menu item triggers no authorization prompt on a workbook whose sync
+      script is already authorized, and issues no HTTP request from Apps Script.</li>
+<li>[ ] A workbook with a deliberately wrong <code>FACILITY_NAME</code> lands on §6.6's
+      case-sensitivity error rather than a blank or misleading selection.</li>
+<li>[ ] <code>node scripts/verify-sheet-generator.mjs</code> still passes after the
+      <code>sheet-generator.gs</code> <code>onOpen</code> edit.</li>
+</ul>
+<h2 id="10-out-of-scope">10. Out of scope<a class="headerlink" href="#10-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Any <code>sage-tools-api</code> change, including a version bump. Nothing about what
+  Cloud Run runs changes.</li>
+<li>A "generate for every venue on this day" batch button (§7.1).</li>
+<li>A live-sheet fetch endpoint (§7.6).</li>
+<li>Sign-in on this page. It stays a no-auth public tool.</li>
+<li>Standings — <code>standingsCsv</code> is read by nothing here.</li>
+<li>Making the page a PWA, or wiring it to <code>tools/sw.js</code>.</li>
+<li>Any change to the four scoresheet types, their templates, or
+  <code>ScoresheetConfig.mjs</code>.</li>
+<li>Filtering, reordering or de-duplicating matches before generation. What the
+  venue's <code>CSV</code> tab holds is what prints.</li>
+</ul>
+<h2 id="11-docs-to-update-when-this-ships">11. Docs to update when this ships<a class="headerlink" href="#11-docs-to-update-when-this-ships" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>features/scoresheet-generator.md</code> — step 3 becomes "pick an event or upload a
+  CSV"; note the match count and sync freshness line.</li>
+<li><code>features/preparing-an-event.md</code> §5 — printing scoresheets no longer needs a
+  CSV download.</li>
+<li><code>technical/scoresheet-pipeline.md</code> — one line noting the page can source its
+  CSV from a published snapshot, and the deep-link params it accepts.</li>
+<li><code>technical/sync-pipeline.md</code> — <code>sheets-sync.gs</code> now also contributes a <code>SAGE</code>
+  menu; note the shared-<code>onOpen</code> contract with <code>sheet-generator.gs</code> (§8.3), as
+  that is the non-obvious part someone will otherwise break.</li>
+<li><code>technical/dual-meet-sheet-generator.md</code> — same contract, from the other file's
+  side.</li>
+<li><code>technical/adding-a-new-event.md</code> step 8 and <code>_templates/CLAUDE.md</code> §2 step 8
+  — installing the sync script now also gets you the menu.</li>
+<li><code>features/dual-meet-sheet-generator.md</code> — the <code>SAGE</code> menu has a second item;
+  say plainly that it is safe and repeatable, unlike its neighbour.</li>
+</ul>
+<p><code>specs/README.md</code> already lists this spec — it was indexed when the spec was
+written, not when the feature ships.</p>
+<h2 id="12-divergences">12. Divergences<a class="headerlink" href="#12-divergences" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>§8.3's <code>onOpen</code> collision</strong> is resolved by <code>sync-script-configuration-spec.md</code>
+  §7's shared-builder contract (<code>addSyncMenuItems_</code> / <code>addGeneratorMenuItems_</code>)
+  instead of this spec's own two feature-detecting <code>onOpen</code> bodies. §8.3's
+  code sample is historical.</li>
+<li><strong>§8.4/§8.5 — <code>DAY_KEY</code>/<code>FACILITY_NAME</code> moved to Script Properties.</strong> §8.5's
+  "if this happens" proposal happened: <code>showScoresheetLink</code> reads
+  <code>readSyncConfig_()</code> instead of module constants. Folded into §8.4; §8.5
+  itself is superseded.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

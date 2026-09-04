@@ -1,0 +1,2980 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/schedule-screen-spec/">
+      
+      
+        <link rel="prev" href="../awards-podium-tab-spec/">
+      
+      
+        <link rel="next" href="../calculator-dual-meet-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Schedule screen - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-schedule-screen-venue-wall-display" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Schedule screen
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-a-standalone-page-not-a-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why a standalone page, not a tab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Why a standalone page, not a tab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-duplication-cost-smaller-here-than-usual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Duplication cost — smaller here than usual
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-match-cell-face-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Match cell — face-off
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#211-stage-pill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1 Stage pill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-collapsible-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Collapsible header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 States
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-theme-sage-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Theme — SAGE tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Theme — SAGE tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-category-colours-organiser-owned-do-not-invent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Category colours — organiser-owned, do not invent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-court-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Court filter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Court filter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-launching-it-mission-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Launching it — Mission Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-export-print-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Export — print / PDF
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#421-two-dimensional-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Two-dimensional pagination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-print-specific-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Print-specific rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-parsing-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Parsing rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-court-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Court assignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-live-polling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Live polling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-responsive-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Responsive behaviour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-build-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Build steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-known-data-issues-not-this-pages-job-to-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Known data issues (not this page's job to fix)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-a-standalone-page-not-a-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why a standalone page, not a tab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Why a standalone page, not a tab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-duplication-cost-smaller-here-than-usual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Duplication cost — smaller here than usual
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-match-cell-face-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Match cell — face-off
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#211-stage-pill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1.1 Stage pill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-collapsible-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Collapsible header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 States
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-theme-sage-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Theme — SAGE tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Theme — SAGE tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-category-colours-organiser-owned-do-not-invent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Category colours — organiser-owned, do not invent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-court-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Court filter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Court filter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-launching-it-mission-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Launching it — Mission Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-export-print-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Export — print / PDF
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#421-two-dimensional-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Two-dimensional pagination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-print-specific-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Print-specific rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-parsing-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Parsing rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-court-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Court assignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-live-polling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Live polling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-responsive-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Responsive behaviour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-build-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Build steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-known-data-issues-not-this-pages-job-to-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Known data issues (not this page's job to fix)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/schedule-screen-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-schedule-screen-venue-wall-display">Spec — Schedule screen (venue wall display)<a class="headerlink" href="#spec-schedule-screen-venue-wall-display" title="Permanent link">&para;</a></h1>
+<p>Add a <strong>standalone schedule board</strong> to an event site: courts as columns, time
+slots as rows, one face-off card per match, colour-coded by category, with live
+matches highlighted and results filling in as they are played.</p>
+<p>Built and reviewed as a mockup against real synced data from
+<code>pnf-x-bup-dual-meet</code> (126 matches / 15 slots / 9 courts). This spec records the
+decisions that mockup settled and what still has to be built to ship it.</p>
+<p><strong>Scope note.</strong> This is the <em>first</em> instantiation. Once it is working, the
+intent is to fold the reusable parts back into
+<code>_templates/dual-meet-template/</code>. That backport is explicitly <strong>out of scope
+here</strong> (§10) and will be a separate pass.</p>
+<hr />
+<h2 id="1-why-a-standalone-page-not-a-tab">1. Why a standalone page, not a tab<a class="headerlink" href="#1-why-a-standalone-page-not-a-tab" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>events/&lt;event-key&gt;/schedule.html</code></td>
+</tr>
+<tr>
+<td>Public URL</td>
+<td><code>/events/&lt;event-key&gt;/schedule</code></td>
+</tr>
+<tr>
+<td>Discoverability</td>
+<td><strong>Unlisted publicly</strong> — linked only from Mission Control (§4.1)</td>
+</tr>
+</tbody>
+</table>
+<p>GitHub Pages resolves extensionless HTML (verified: <code>/tools/scoresheet-generator</code>
+returns <code>200</code> on the live site), so naming the file <code>schedule.html</code> yields the
+clean <code>/schedule</code> URL with no directory and no config. This matches how
+<code>tools/</code> already reads.</p>
+<p>It is a separate page rather than a fourth tab in <code>index.html</code> because:</p>
+<ol>
+<li><strong>Different audience, opposite needs.</strong> <code>index.html</code> is a phone lookup tool
+   for a player finding their own match — it wants hero, search, day picker,
+   tab bar, footer. The schedule is a passive wall display where every one of
+   those costs a match row. The masthead here is deliberately 48px.</li>
+<li><strong>The themes collide.</strong> This page uses the SAGE tools theme (§3); the event
+   pages use the dark event theme. Both define <code>--paper</code>, <code>--ink</code>, <code>.cell</code>,
+   <code>.legend</code>, <code>.dot</code>. Separate documents avoid a whole class of cross-contamination
+   bugs.</li>
+<li><strong>Weight.</strong> <code>index.html</code> is already 114 KB; the schedule is ~18 KB
+   standalone. Folding it in taxes every phone visitor for a view they will
+   never open.</li>
+</ol>
+<h3 id="11-duplication-cost-smaller-here-than-usual">1.1 Duplication cost — smaller here than usual<a class="headerlink" href="#11-duplication-cost-smaller-here-than-usual" title="Permanent link">&para;</a></h3>
+<p>The repo's known weak spot is hand-synced duplication (<code>index.html</code> and
+<code>match-control.html</code> share a ~106-line configuration block). This page does
+<strong>not</strong> meaningfully add to it: it derives club from the team-code prefix,
+carries its own <code>CAT_META</code>, and needs none of <code>DIVISIONS</code>, <code>EVENTS</code>, <code>CLUBS</code>,
+<code>STAGE_META</code>, search, standings, or bracket logic.</p>
+<p>It needs exactly four things, ~5 lines total:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENT_KEY</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s1">'pnf-x-bup-dual-meet'</span><span class="p">;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">GHPAGES_OWNER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'sage-match-control'</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">GHPAGES_REPO</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">'event-data'</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAY_KEY</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s1">'pnf-x-bup-day1'</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">COURTS</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="mf">9</span><span class="p">;</span><span class="w">   </span><span class="c1">// or derive from CourtAssignment — see §5.2</span>
+</code></pre></div>
+<p>Add these to CLAUDE.md's "things that must be kept in sync by hand" list.</p>
+<hr />
+<h2 id="2-layout">2. Layout<a class="headerlink" href="#2-layout" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌──────────────────────────────────────────────────────────────┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│ [logo] S.A.G.E. · MATCH CONTROL EXPERTS    COURTS [All][1..9] │  48px masthead
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│        PNF × BUP Dual Meet   meta          legend    ● LIVE   │
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>├──────┬───────────┬───────────┬───────────┬───────────────────┤
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│      │  COURT 1  │  COURT 2  │  COURT 3  │       ...         │  sticky header row
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>├──────┼───────────┼───────────┼───────────┼───────────────────┤
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│ 3:00 │ [match]   │ [match]   │ [match]   │                   │  sticky time column
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│ 3:25 │ [match]   │ [match]   │ [match]   │                   │
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>└──────┴───────────┴───────────┴───────────┴───────────────────┘
+</code></pre></div>
+<ul>
+<li><strong>Columns = courts</strong>, from <code>CourtAssignment</code>. <strong>Rows = time slots</strong>, from
+  <code>Schedule</code>, in first-appearance order.</li>
+<li>Column headers and the time column are both <code>position:sticky</code>, so they stay
+  visible when the board scrolls.</li>
+<li>A court with no match in a slot renders a dimmed dashed <strong>"Open"</strong> placeholder,
+  never a collapsed/missing cell — the grid must not reflow as matches come and go.</li>
+</ul>
+<h3 id="21-match-cell-face-off">2.1 Match cell — face-off<a class="headerlink" href="#21-match-cell-face-off" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌───────────────────────────────────────┐
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│ #47  HI MD  RR              ● COURT 2 │   number · category · stage · live
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│ [PNF] Ericson G      11 : 8   Allan [BUP] │
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│       Mike T                  Jun     │
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>└───────────────────────────────────────┘
+</code></pre></div>
+<ul>
+<li>Symmetric: team 1 left, score centred, team 2 right, mirrored.</li>
+<li>Player names <strong>stacked</strong>, two lines, truncating with ellipsis.</li>
+<li>The club tag sits <strong>inline beside</strong> the names, not on its own line — this is
+  what keeps the cell at 60px and lets 15 slots fit 1080px.</li>
+<li>Club is read <strong>per side</strong> from the team-code prefix, never assumed by
+  position. Semifinals are intra-club (<code>PNF_LIWD_SF_1</code> vs <code>PNF_LIWD_SF_2</code>), so
+  a cell can legitimately be PNF-vs-PNF. Hardcoding PNF-left/BUP-right is wrong
+  and was a real bug caught in review.</li>
+</ul>
+<h3 id="211-stage-pill">2.1.1 Stage pill<a class="headerlink" href="#211-stage-pill" title="Permanent link">&para;</a></h3>
+<p>A second pill beside the category chip says where in the ladder the match sits.</p>
+<table>
+<thead>
+<tr>
+<th>Suffix in team code</th>
+<th>Pill</th>
+<th>Style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1</code>, <code>2</code>, <code>3</code>… (pool number)</td>
+<td><code>RR</code></td>
+<td>outline, muted</td>
+</tr>
+<tr>
+<td><code>R16</code></td>
+<td><code>R16</code></td>
+<td>solid navy</td>
+</tr>
+<tr>
+<td><code>QF</code></td>
+<td><code>QF</code></td>
+<td>solid navy</td>
+</tr>
+<tr>
+<td><code>SF</code></td>
+<td><code>SF</code></td>
+<td>solid navy</td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td><code>BRONZE</code></td>
+<td>solid navy</td>
+</tr>
+<tr>
+<td><code>F</code></td>
+<td><code>FINAL</code></td>
+<td>solid navy</td>
+</tr>
+</tbody>
+</table>
+<p>Pool play is ~89% of cells (112 of 126 here), so <code>RR</code> is a quiet outline —
+shouting it 112 times would be noise. Playoff rounds invert to solid navy so a
+Bronze or Final is findable at a glance across a wall.</p>
+<ul>
+<li>Classification regexes are <strong>lifted verbatim from <code>roundKeyword()</code> in
+  <code>index.html</code></strong>, so this page classifies a code exactly as the rest of the site
+  does. Order matters — <code>SF</code> is tested before <code>F</code>.</li>
+<li>An unrecognised suffix falls back to <code>RR</code>, matching <code>standingsStageKey()</code>.</li>
+<li>Read from team 1 only; both sides of a match are always the same stage.</li>
+<li><code>QF</code>/<code>SF</code>/<code>R16</code> are supported even though the current event emits only
+  <code>1-4</code>/<code>B</code>/<code>F</code> — the bracket generator produces them, and this should not need
+  editing the first time a larger event runs.</li>
+</ul>
+<h3 id="22-collapsible-header">2.2 Collapsible header<a class="headerlink" href="#22-collapsible-header" title="Permanent link">&para;</a></h3>
+<p>A chevron at the right of the masthead collapses it. State is carried in the
+URL as <code>?compact=1</code>, composing with <code>?courts=</code> (§4) so a screen can be
+bookmarked into both at once.</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Expanded</th>
+<th>Collapsed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logo + <code>S.A.G.E. · MATCH CONTROL EXPERTS</code></td>
+<td>shown</td>
+<td><strong>shown</strong></td>
+</tr>
+<tr>
+<td>Event name</td>
+<td>shown</td>
+<td><strong>shown</strong></td>
+</tr>
+<tr>
+<td>Category legend + live key</td>
+<td>shown</td>
+<td><strong>shown</strong></td>
+</tr>
+<tr>
+<td>Sub line</td>
+<td><code>Sep 12 · 126 matches · 15 slots · courts 1-5</code></td>
+<td><code>Sep 12 · 126 matches</code></td>
+</tr>
+<tr>
+<td>Court filter pills</td>
+<td>shown</td>
+<td>hidden</td>
+</tr>
+<tr>
+<td><code>PDF</code> export button</td>
+<td>shown</td>
+<td>hidden</td>
+</tr>
+<tr>
+<td>Masthead height</td>
+<td>48px</td>
+<td>36px</td>
+</tr>
+</tbody>
+</table>
+<p>The legend stays because a viewer needs the colour key to read the board at
+all. What hides is operator chrome — the court filter (its state is already in
+the URL) and the export button (Ctrl+P still prints, so nothing is lost). The
+sub keeps date and match count and drops the slot count and court scope.</p>
+<blockquote>
+<p>The expand chevron stays visible in both states, otherwise a collapsed screen
+can never be reopened.</p>
+<p><strong>Match count is event-wide, identical on every screen.</strong> It is the <em>scope</em>
+("courts 1-5") that says what a given screen shows. A filtered count would
+make the same label mean different things on the two halves of a split-screen
+setup.</p>
+<p><strong>The page must be a flex column, not <code>height:calc(100vh - 48px)</code>.</strong> The
+masthead changes height when collapsed, and any hardcoded offset silently
+desyncs and leaves a dead strip. With <code>body{display:flex;flex-direction:column}</code>
+and <code>.grid-wrap{flex:1 1 auto;min-height:0}</code> the board always takes exactly
+the remaining space — verified summing to the viewport in both states.</p>
+</blockquote>
+<h3 id="23-states">2.3 States<a class="headerlink" href="#23-states" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Condition</th>
+<th>Treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Upcoming</td>
+<td>no scores, not live</td>
+<td>full opacity, <code>VS</code> in centre</td>
+</tr>
+<tr>
+<td>Live</td>
+<td><code>court</code> column non-empty</td>
+<td>green ring + glow, <code>● COURT n</code> pill</td>
+</tr>
+<tr>
+<td>Completed</td>
+<td>both scores present</td>
+<td>dimmed to <code>opacity:.84</code>, shows <code>11 : 8</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>.done</code> is <code>.84</code> and not lower: at <code>.72</code> the darkest category (HI WD) fell to
+<strong>4.48:1</strong> for body text, under the 4.5:1 AA floor. <code>.84</code> restores it to 5.63:1.</p>
+<hr />
+<h2 id="3-theme-sage-tools">3. Theme — SAGE tools<a class="headerlink" href="#3-theme-sage-tools" title="Permanent link">&para;</a></h2>
+<p>Taken verbatim from <code>tools/scoresheet-generator.html</code> and
+<code>tools/tournament-calculator.html</code>, which share one <code>:root</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">--navy</span><span class="o">:</span><span class="p">#</span><span class="nn">14263C</span><span class="o">;</span><span class="w">  </span><span class="nt">--navy-deep</span><span class="o">:</span><span class="p">#</span><span class="nn">0B1826</span><span class="o">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">--green</span><span class="o">:</span><span class="p">#</span><span class="nn">7CB92C</span><span class="o">;</span><span class="w"> </span><span class="nt">--green-dark</span><span class="o">:</span><span class="p">#</span><span class="nn">5C8F1F</span><span class="o">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">--paper</span><span class="o">:</span><span class="p">#</span><span class="nn">F6F7F2</span><span class="o">;</span><span class="w"> </span><span class="nt">--paper-dim</span><span class="o">:</span><span class="p">#</span><span class="nn">ECEEE6</span><span class="o">;</span><span class="w">  </span><span class="nt">--line</span><span class="o">:</span><span class="p">#</span><span class="nn">D9DED2</span><span class="o">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">--ink</span><span class="o">:</span><span class="p">#</span><span class="nn">14263C</span><span class="o">;</span><span class="w">   </span><span class="nt">--ink-soft</span><span class="o">:</span><span class="p">#</span><span class="nn">5B6B74</span><span class="o">;</span><span class="w">   </span><span class="nt">--white</span><span class="o">:</span><span class="p">#</span><span class="nn">FFFFFF</span><span class="o">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nt">--radius</span><span class="p">:</span><span class="nd">14px</span><span class="o">;</span>
+</code></pre></div>
+<p>Type: <strong>Archivo Black</strong> (display/numbers), <strong>Barlow Condensed</strong> (uppercase
+tracked labels), <strong>Inter</strong> (body). Logo at <code>/assets/logo.png</code>.</p>
+<p>The tools render a tall navy <code>.bezel</code> panel on a <code>.stand</code>. That is a good
+desktop flourish but costs ~120px of a wall display, so the schedule keeps the
+navy bezel, green eyebrow and Archivo Black title but compresses them into one
+sticky 48px bar. Same identity, a twelfth of the height.</p>
+<h3 id="31-category-colours-organiser-owned-do-not-invent">3.1 Category colours — organiser-owned, do not invent<a class="headerlink" href="#31-category-colours-organiser-owned-do-not-invent" title="Permanent link">&para;</a></h3>
+<p>Read off the colour-coded <code>SCHEDULE</code> tab of the source spreadsheet so the wall
+display and the printed schedule agree.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Colour</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LIWD</code></td>
+<td><code>#C27BA0</code></td>
+<td>light berry</td>
+</tr>
+<tr>
+<td><code>HIWD</code></td>
+<td><code>#741B47</code></td>
+<td>dark berry</td>
+</tr>
+<tr>
+<td><code>LIMD</code></td>
+<td><code>#6D9EEB</code></td>
+<td>light blue</td>
+</tr>
+<tr>
+<td><code>HIMD</code></td>
+<td><code>#1155CC</code></td>
+<td>mid blue</td>
+</tr>
+<tr>
+<td><code>AMD</code></td>
+<td><code>#1C4587</code></td>
+<td>dark navy</td>
+</tr>
+<tr>
+<td><code>LIXD</code></td>
+<td><code>#F6B26B</code></td>
+<td>light orange</td>
+</tr>
+<tr>
+<td><code>HIXD</code></td>
+<td><code>#B45F06</code></td>
+<td>dark orange</td>
+</tr>
+</tbody>
+</table>
+<p>The scheme is <strong>hue = event</strong> (Women's berry, Men's blue, Mixed orange),
+<strong>lightness = division</strong> (LI light → HI dark → A darkest).</p>
+<blockquote>
+<p><strong>These are not exportable.</strong> Cell fills are formatting, so they appear in
+neither the CSV nor the gviz export — both tabs export byte-identical text.
+Google Sheets also paints the grid to a single <code>&lt;canvas&gt;</code>, so the DOM exposes
+only Google's own toolbar chrome. They were recovered by sampling canvas
+pixels and matching colour run-lengths against the known category-by-court
+grid, cross-checked across five rows. <strong>If the organiser recolours the sheet,
+these must be re-read by hand — nothing detects drift.</strong></p>
+</blockquote>
+<p>Applied as a <strong>40% tint</strong> of the hue over white, with the solid hue as a 5px
+left rule. 40% is the measured ceiling: it holds ~6.9:1 for navy body text on
+the darkest category, where 48% drops to 5.7 and 55% to 4.8.</p>
+<p>Category chip text colour is <strong>derived per category</strong> from luminance
+(<code>&gt;140</code> → navy, else white), not hardcoded — the palette spans <code>#F6B26B</code> to
+<code>#741B47</code> and a fixed colour is unreadable at one end.</p>
+<hr />
+<h2 id="4-court-filter">4. Court filter<a class="headerlink" href="#4-court-filter" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UI</td>
+<td><code>All</code> + one pill per court, in the masthead</td>
+</tr>
+<tr>
+<td>State</td>
+<td><strong>the URL</strong> — <code>?courts=1-5</code>, <code>?courts=1,2,7-9</code></td>
+</tr>
+<tr>
+<td>Default</td>
+<td>no param → all courts</td>
+</tr>
+</tbody>
+</table>
+<p>The URL is the point. A two-screen venue setup bookmarks one URL per screen:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>/events/pnf-x-bup-dual-meet/schedule?courts=1-5     ← screen A
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>/events/pnf-x-bup-dual-meet/schedule?courts=6-9     ← screen B
+</code></pre></div>
+<p>Each screen boots straight into its range after a refresh or power cycle with
+nobody touching the machine. Clicking pills rewrites the URL live
+(<code>history.replaceState</code>) so an operator can dial in a layout and bookmark
+whatever they land on. Selections collapse to the shortest form (<code>1,2,3,4</code> →
+<code>1-4</code>).</p>
+<p>Rules:
+- Deselecting the last remaining court is refused — never render a blank board.
+- The <strong>legend</strong> follows the filter (it keys what is on screen); the <strong>match
+  count</strong> does not (§2.2).
+- Verified lossless: <code>?courts=1-5</code> (71 cells) + <code>?courts=6-9</code> (55) = 126.</p>
+<h3 id="41-launching-it-mission-control">4.1 Launching it — Mission Control<a class="headerlink" href="#41-launching-it-mission-control" title="Permanent link">&para;</a></h3>
+<p>The board is unlisted from the public pages, so Mission Control in
+<code>match-control.html</code> is its only entry point: operators get a launcher,
+spectators never see a link.</p>
+<p>A <code>Schedule board</code> heading at the foot of the organizer panel with a single
+<code>Open schedule</code> button → <code>schedule.html</code>.</p>
+<ul>
+<li><code>target="_blank" rel="noopener"</code> — the operator is mid-session, and a wall
+  display is a second screen, not a navigation away.</li>
+<li><strong>One button, no preset court ranges.</strong> Splitting is done on the board itself
+  (§4), which writes the range into the URL for bookmarking. Duplicating those
+  presets here would be a second place to keep the court maths correct for no
+  gain.</li>
+</ul>
+<hr />
+<h3 id="42-export-print-pdf">4.2 Export — print / PDF<a class="headerlink" href="#42-export-print-pdf" title="Permanent link">&para;</a></h3>
+<p>A <code>PDF</code> button in the masthead builds print-only pages and calls
+<code>window.print()</code>. Browsers' "Save as PDF" covers the PDF ask; the same output
+prints on paper.</p>
+<p><strong>Why print and not a canvas render.</strong> <code>bracket-generator.html</code> exports by
+hand-drawing to a <code>&lt;canvas&gt;</code> and calling <code>toBlob()</code>. That works there because a
+bracket card is simple and fits one image. Here it would mean re-implementing
+every face-off cell in Canvas 2D <em>and</em> chunking pages by hand — a second layout
+implementation that drifts from the CSS the moment either changes. Printing
+gets page breaking, paper size, margins and DPI from the browser for free, and
+<code>gridHTML(courts, rows)</code> is shared with the live board, so <strong>there is exactly
+one implementation of a cell</strong>.</p>
+<h3 id="421-two-dimensional-pagination">4.2.1 Two-dimensional pagination<a class="headerlink" href="#421-two-dimensional-pagination" title="Permanent link">&para;</a></h3>
+<p>Both axes can overflow a sheet independently, so both are chunked and the pages
+are the cross product. Courts are the outer loop, so one court group's whole day
+lands on consecutive sheets.</p>
+<table>
+<thead>
+<tr>
+<th>Budget</th>
+<th>Value</th>
+<th>Derivation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PRINT_COURTS_PER_PAGE</code></td>
+<td>4</td>
+<td>A4 landscape ≈ 1054px usable width</td>
+</tr>
+<tr>
+<td><code>PRINT_SLOTS_PER_PAGE</code></td>
+<td>15</td>
+<td>≈726px usable height, less ~70px of headers, ÷ ~42px per row</td>
+</tr>
+</tbody>
+</table>
+<p>Chunking is <strong>balanced</strong>, not fill-then-orphan: 9 courts at 4/page gives 3+3+3,
+never 4+4+1.</p>
+<p>Verified across shapes — every one fits the sheet height and is lossless (no
+match dropped or duplicated):</p>
+<table>
+<thead>
+<tr>
+<th>Shape</th>
+<th>Sheets</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9 courts, 15 slots</td>
+<td>3</td>
+<td>this event</td>
+</tr>
+<tr>
+<td>4 courts, 15 slots</td>
+<td>1</td>
+<td>small venue</td>
+</tr>
+<tr>
+<td>3 courts, 15 slots</td>
+<td>1</td>
+<td>small venue</td>
+</tr>
+<tr>
+<td>9 courts, 29 slots</td>
+<td>6</td>
+<td>12-hour day — splits both ways</td>
+</tr>
+<tr>
+<td>3 courts, 29 slots</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>1 court, 40 slots</td>
+<td>3</td>
+<td>degenerate case still correct</td>
+</tr>
+</tbody>
+</table>
+<p>Page header carries <code>Courts 1–3</code>, the time window (<strong>only when the day is
+actually split</strong>, else it is noise), and <code>page N of M</code>. Single-court pages read
+<code>Court 1</code>, not <code>Courts 1–1</code>.</p>
+<h3 id="422-print-specific-rules">4.2.2 Print-specific rules<a class="headerlink" href="#422-print-specific-rules" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>print-color-adjust:exact</code></strong> is required, or browsers drop the category
+  tints and the whole colour-coding — the point of the board — prints blank.</li>
+<li><strong><code>.done</code> is forced back to <code>opacity:1</code>.</strong> On screen dimming separates
+  finished matches; on paper it just prints muddy. Ink is cheap, contrast is not.</li>
+<li><strong>Name font is 6.5pt, not 7pt.</strong> At 7pt a 4-court sheet (~244px columns)
+  clipped a handful of names, and paper has no hover tooltip to recover them.
+  6.5pt clears every shape above with no extra sheets; 6pt buys nothing more.</li>
+<li><code>beforeprint</code> rebuilds the pages, so Ctrl+P (not just the button) always
+  reflects the current court filter.</li>
+<li>The export honours the court filter: filtering to <code>?courts=1-5</code> prints only
+  those courts.</li>
+</ul>
+<blockquote>
+<p><strong>Image export was considered and not built.</strong> A PNG of a 3250px board is
+unwieldy, and producing one would need either the canvas-duplication above or
+a CDN dependency (<code>html2canvas</code>), which this repo's self-contained pages avoid.
+Print-to-PDF covers the same need and paginates properly.</p>
+</blockquote>
+<hr />
+<h2 id="5-data">5. Data<a class="headerlink" href="#5-data" title="Permanent link">&para;</a></h2>
+<p>Source: the synced snapshot the rest of the site already reads —
+<code>https://&lt;owner&gt;.github.io/&lt;repo&gt;/&lt;event-key&gt;/data/&lt;day&gt;.json</code>, field
+<code>facilities[].matchesCsv</code>.</p>
+<p>Columns used: <code>matchNumber</code>, <code>Schedule</code>, <code>CourtAssignment</code>, <code>court</code>,
+<code>teamCode1/2</code>, <code>team1Player1/2</code>, <code>team2Player1/2</code>, <code>team1Score</code>, <code>team2Score</code>.</p>
+<h3 id="51-parsing-rules">5.1 Parsing rules<a class="headerlink" href="#51-parsing-rules" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Handling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Row where <code>teamCode1</code> is <code>-</code></td>
+<td>Spacer row — skip</td>
+</tr>
+<tr>
+<td>Player cell <code>#REF!</code> or empty</td>
+<td>Treat as no name; fall back to the team code, muted italic</td>
+</tr>
+<tr>
+<td>Score cell empty / non-numeric</td>
+<td><code>null</code> — match is not complete</td>
+</tr>
+<tr>
+<td>Both scores present</td>
+<td>Completed; higher score wins</td>
+</tr>
+<tr>
+<td><code>court</code> non-empty</td>
+<td>Live on that court</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-court-assignment">5.2 Court assignment<a class="headerlink" href="#52-court-assignment" title="Permanent link">&para;</a></h3>
+<p><code>CourtAssignment</code> holds <code>"Court 1"…"Court 9"</code>. Parse the trailing integer.</p>
+<p>Defensive placement, in order:
+1. Valid court, lane free → place there.
+2. Blank / unparseable (<code>"SCORE"</code> has been observed) / duplicate → first free lane.
+3. Slot already full → <strong>surface, never drop.</strong> Flag <code>+n</code> on the time cell with
+   the match numbers in a <code>title</code>.</p>
+<p>This matters: an earlier snapshot had a slot with 10 matches for 9 courts,
+<code>Court 1</code> assigned twice, and 5 cells containing <code>SCORE</code>. Current data is clean
+(126/126 placed directly), but the sheet is hand-edited and will regress.</p>
+<blockquote>
+<p>Do <strong>not</strong> fall back to row-order-implies-court. An earlier build did, and it
+happened to be correct, which is exactly what makes it dangerous — it is an
+undocumented contract that breaks silently on a row reorder.</p>
+</blockquote>
+<h3 id="53-live-polling">5.3 Live polling<a class="headerlink" href="#53-live-polling" title="Permanent link">&para;</a></h3>
+<p>Poll on the same <code>POLL_INTERVAL_MS = 10000</code> the event pages use, with the same
+cache-busting <code>?t=${Date.now()}</code>.</p>
+<ul>
+<li><strong>Cache-busting is required, not optional.</strong> The snapshot is regenerated
+  behind a fixed filename; without it a stale copy renders silently and looks
+  correct. This was hit during review.</li>
+<li>Re-render must <strong>preserve the current court filter</strong> and not reset scroll.</li>
+<li>A failed poll must leave the last good board on screen — a wall display
+  showing stale data beats one showing an error.</li>
+</ul>
+<hr />
+<h2 id="6-responsive-behaviour">6. Responsive behaviour<a class="headerlink" href="#6-responsive-behaviour" title="Permanent link">&para;</a></h2>
+<p>Court columns are <code>1fr</code> — they share whatever width the window gives, and get
+<strong>wider</strong> when the filter narrows the set.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>1280px</th>
+<th>1600px</th>
+<th>1920px</th>
+<th>3250px</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9 courts</td>
+<td>scrolls</td>
+<td>scrolls</td>
+<td>199px ✓</td>
+<td>347px ✓</td>
+</tr>
+<tr>
+<td>5 courts</td>
+<td>234px ✓</td>
+<td>298px ✓</td>
+<td>362px ✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>4 courts</td>
+<td>294px ✓</td>
+<td>374px ✓</td>
+<td>454px ✓</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Floor is <code>minmax(190px, 1fr)</code>: below that the face-off stops being readable, so
+the wrapper scrolls rather than crushing cells further. The court filter is the
+intended answer on smaller screens — fewer courts means wider cells.</p>
+<blockquote>
+<p>Do not reintroduce <code>min-width:max-content</code> on the grid. It pins the grid to
+its content width and forces a horizontal scrollbar even when there is room
+to fit; it was what prevented the board from ever shrinking to the window.</p>
+</blockquote>
+<hr />
+<h2 id="7-build-steps">7. Build steps<a class="headerlink" href="#7-build-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Copy the reviewed mockup to <code>events/&lt;event-key&gt;/schedule.html</code>.</li>
+<li>Replace the static <code>fetch('schedule-data-beta.json')</code> with the live snapshot
+   URL + the CSV parsing of §5.</li>
+<li>Add the <code>POLL_INTERVAL_MS</code> refresh loop (§5.3), preserving filter and scroll.</li>
+<li>Wire the four config constants (§1.1), and read the date from the snapshot's
+   <code>label</code> field rather than hardcoding it (the mockup hardcodes <code>Sep 12</code>).</li>
+<li>Add the Mission Control launchers (§4.1) to <code>match-control.html</code>. Leave
+   <code>index.html</code> untouched — no public link.</li>
+<li>Delete <code>schedule-beta.html</code>, <code>schedule-darkmode-beta.html</code> and
+   <code>schedule-data-beta.json</code> once shipped (all <code>*beta*</code>, already gitignored).</li>
+</ol>
+<hr />
+<h2 id="8-acceptance">8. Acceptance<a class="headerlink" href="#8-acceptance" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] <code>/events/pnf-x-bup-dual-meet/schedule</code> loads; <code>.html</code> form also works.</li>
+<li>[ ] 9 court columns, 15 time slots, 126 matches, none dropped.</li>
+<li>[ ] Semifinal cells show PNF-vs-PNF / BUP-vs-BUP, not PNF-vs-BUP.</li>
+<li>[ ] Every cell carries a stage pill; pool matches read <code>RR</code> as an outline and
+      Bronze/Final invert to solid navy. For this event: 112 <code>RR</code>, 7 <code>BRONZE</code>,
+      7 <code>FINAL</code>.</li>
+<li>[ ] The extra pill does not overflow the cell header at any supported width,
+      and does not push the live <code>COURT n</code> pill out.</li>
+<li>[ ] <code>?courts=1-5</code> and <code>?courts=6-9</code> split 71/55, sum to 126.</li>
+<li>[ ] Clicking pills updates the URL; reloading restores the same courts.</li>
+<li>[ ] Chevron collapses the header to logo + eyebrow + event name + legend +
+      <code>Sep 12 · 126 matches</code>; the court filter and <code>PDF</code> button hide, the
+      chevron itself stays.</li>
+<li>[ ] <code>?courts=6-9&amp;compact=1</code> boots collapsed <strong>and</strong> on courts 6-9; expanding
+      drops <code>compact=1</code> and leaves <code>courts=6-9</code> intact.</li>
+<li>[ ] Masthead + board sum to the viewport height in both states (no dead strip).</li>
+<li>[ ] Match count reads the same event-wide total on every screen regardless of
+      filter; only the scope text changes.</li>
+<li>[ ] Mission Control shows an <code>Open schedule</code> button that opens in a new tab.</li>
+<li>[ ] <code>PDF</code> button paginates: 9 courts / 15 slots → 3 sheets, none taller than
+      the sheet, no match dropped or duplicated.</li>
+<li>[ ] A long day (≈29 slots) splits down as well as across; a 3-court venue
+      does not split across at all.</li>
+<li>[ ] Printed sheets keep the category tints (<code>print-color-adjust</code>), and no
+      player name is clipped at any supported court count.</li>
+<li>[ ] Ctrl+P (without using the button) produces the same paginated output.</li>
+<li>[ ] Live matches show the green ring and <code>COURT n</code>; completed show scores.</li>
+<li>[ ] A new score in the sheet appears within ~10s without a manual refresh,
+      and does not reset the court filter or scroll position.</li>
+<li>[ ] Board fills the window at 1920 and 3250 wide with no horizontal scroll.</li>
+<li>[ ] Not linked from any other page.</li>
+</ul>
+<hr />
+<h2 id="9-known-data-issues-not-this-pages-job-to-fix">9. Known data issues (not this page's job to fix)<a class="headerlink" href="#9-known-data-issues-not-this-pages-job-to-fix" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>#REF!</code> player names.</strong> 8 cells in the current snapshot. The page degrades
+  to the team code; the fix belongs in the spreadsheet.</li>
+<li><strong>Division-code mismatch.</strong> Earlier snapshots used <code>IWD</code>/<code>IMD</code>/<code>IXD</code> while
+  the site's <code>DIVISIONS</code> config is <code>LI</code>/<code>HI</code>/<code>A</code>. Current data uses the correct
+  codes. Codes that do not match a configured division silently fall back to
+  "Other" in the event pages — worth watching.</li>
+<li><strong>Playoff slots unseeded.</strong> Bronze/Final rows carry codes but no players yet;
+  they render as muted codes. Expected, not a bug.</li>
+</ul>
+<hr />
+<h2 id="10-out-of-scope">10. Out of scope<a class="headerlink" href="#10-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Backporting to <code>_templates/dual-meet-template/</code> — deliberately deferred; will
+  be a separate pass once this page is settled.</li>
+<li>Any change to <code>index.html</code> or <code>bracket-generator.html</code>. The <strong>only</strong> edit
+  outside the new page is the Mission Control launcher block in
+  <code>match-control.html</code> (§4.1).</li>
+<li>Standings, brackets, search, or day switching — this page shows one day's
+  schedule and nothing else.</li>
+<li>Writing anything back to the spreadsheet. The mock-score generator used
+  during review (<code>--mock-scores=N</code>) is a review aid only and ships with nothing.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../awards-podium-tab-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Awards tab">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Awards tab
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../calculator-dual-meet-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Calculator dual-meet fixes">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Calculator dual-meet fixes
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2495 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/calculator-pwa-spec/">
+      
+      
+        <link rel="prev" href="../calculator-dual-meet-spec/">
+      
+      
+        <link rel="next" href="../dual-meet-sheet-generator-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Calculator PWA - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-tournament-calculator-as-a-pwa" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Calculator PWA
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-this-page-and-not-the-others" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why this page and not the others
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-the-page-is-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What the page is today
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-verify-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Verify first
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-manifest-toolstournament-calculatorwebmanifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Manifest — tools/tournament-calculator.webmanifest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-service-worker-toolsswjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Service worker — tools/sw.js
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Service worker — tools/sw.js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-caching-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Caching strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-precache-resilience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Precache resilience
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Registration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-containment-do-not-leak-into-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Containment — do not leak into /tools/
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-activate-the-existing-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Activate the existing persistence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Activate the existing persistence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-two-consequences-accepted-deliberately" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Two consequences, accepted deliberately
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-implementation-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Implementation order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-this-page-and-not-the-others" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why this page and not the others
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-the-page-is-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What the page is today
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-verify-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Verify first
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-manifest-toolstournament-calculatorwebmanifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Manifest — tools/tournament-calculator.webmanifest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-service-worker-toolsswjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Service worker — tools/sw.js
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Service worker — tools/sw.js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-caching-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Caching strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-precache-resilience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Precache resilience
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Registration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-containment-do-not-leak-into-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Containment — do not leak into /tools/
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-activate-the-existing-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Activate the existing persistence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Activate the existing persistence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-two-consequences-accepted-deliberately" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Two consequences, accepted deliberately
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-implementation-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Implementation order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/calculator-pwa-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-tournament-calculator-as-a-pwa">Spec — Tournament Calculator as a PWA<a class="headerlink" href="#spec-tournament-calculator-as-a-pwa" title="Permanent link">&para;</a></h1>
+<p>Make <code>tools/tournament-calculator.html</code> installable and offline-capable, without
+affecting any other page on the site.</p>
+<p><strong>Scope:</strong> this one page. The event templates, the scoresheet generator, and the
+archived events are untouched and must remain non-installable.</p>
+<hr />
+<h2 id="1-why-this-page-and-not-the-others">1. Why this page and not the others<a class="headerlink" href="#1-why-this-page-and-not-the-others" title="Permanent link">&para;</a></h2>
+<p>The calculator is the only page on the site where offline is both <strong>useful and
+safe</strong>:</p>
+<ul>
+<li><strong>No live data.</strong> It computes tournament timings from inputs the user types.
+  Nothing it renders can go stale, so caching it cannot show anyone a wrong
+  score — the failure mode that rules PWAs out for the event pages.</li>
+<li><strong>Genuinely useful without a network.</strong> Schedule planning happens at venues,
+  on hotel wifi, in cars. The core calculation is pure client-side JS.</li>
+<li><strong>Evergreen.</strong> Not tied to an event lifecycle, so there is no archiving step
+  that would later strand a service worker.</li>
+</ul>
+<p>The event pages are the opposite on all three counts. Do not generalise this
+spec to them without revisiting each point.</p>
+<h2 id="2-what-the-page-is-today">2. What the page is today<a class="headerlink" href="#2-what-the-page-is-today" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>File</td>
+<td><code>tools/tournament-calculator.html</code>, ~1114 lines / ~63 KB, fully self-contained (inline <code>&lt;style&gt;</code> + <code>&lt;script&gt;</code>)</td>
+</tr>
+<tr>
+<td>Manifest</td>
+<td>Links the shared <code>/assets/favicons/site.webmanifest</code>, whose <code>name</code>/<code>short_name</code> are empty strings — nothing on the site is currently installable</td>
+</tr>
+<tr>
+<td>Fonts</td>
+<td>Google Fonts — Archivo Black, Barlow Condensed, Inter</td>
+</tr>
+<tr>
+<td>SheetJS</td>
+<td><code>cdnjs.cloudflare.com/.../xlsx/0.18.5/xlsx.full.min.js</code></td>
+</tr>
+<tr>
+<td>Images</td>
+<td><code>/assets/logo.png</code></td>
+</tr>
+<tr>
+<td>State</td>
+<td>A complete <code>save()</code> / <code>load()</code> pair exists and the boot path already restores every field — but both are gated on <code>window.storage</code>, a claude.ai artifacts API that does not exist on GitHub Pages, so <strong>nothing persists in production today</strong> (§8)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SheetJS is export-only.</strong> It is used at four call sites, all in one function:
+<code>aoa_to_sheet</code>, <code>book_new</code>, <code>book_append_sheet</code>, <code>writeFile</code>. Every calculation
+in the tool works without it; only the "download breakdown as .xlsx" button
+depends on it. That makes it a precache target, not a blocker.</p>
+<h2 id="3-verify-first">3. Verify first<a class="headerlink" href="#3-verify-first" title="Permanent link">&para;</a></h2>
+<p>Short list — this project has no design-invalidating gates, but confirm these
+before writing code.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Check</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Chrome/Android install criteria currently in force</td>
+<td><strong>Informational only — the service worker ships regardless</strong> (decided, for offline support). This just tells you whether the automatic install prompt depends on it, which affects how users discover the install. iOS Safari installs from the manifest alone</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>cf-cache</code>/CORS on the SheetJS URL</td>
+<td>Already confirmed: cdnjs returns <code>Access-Control-Allow-Origin: *</code> and <code>immutable</code>, so it precaches as a normal (non-opaque) response</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>.webmanifest</code> MIME from Pages</td>
+<td>Already confirmed: <code>application/manifest+json; charset=utf-8</code>. No workaround needed</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-files">4. Files<a class="headerlink" href="#4-files" title="Permanent link">&para;</a></h2>
+<p><strong>New</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tools/tournament-calculator.webmanifest
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>tools/sw.js
+</code></pre></div>
+<p><strong>Changed</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tools/tournament-calculator.html   (manifest link + registration snippet + §8 localStorage fallback)
+</code></pre></div>
+<p><strong>Explicitly not changed:</strong> <code>/assets/favicons/site.webmanifest</code>. It stays as-is,
+icons-only with empty <code>name</code>, serving the other 16 pages. Do not "fix" its empty
+name — that is what keeps every other page non-installable (§7).</p>
+<h2 id="5-manifest-toolstournament-calculatorwebmanifest">5. Manifest — <code>tools/tournament-calculator.webmanifest</code><a class="headerlink" href="#5-manifest-toolstournament-calculatorwebmanifest" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SAGE Tourney Calculator"</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"short_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SAGE Calc"</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Estimate tournament duration, court load, and schedule breakdown."</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">"start_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/tools/tournament-calculator.html"</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/tools/tournament-calculator.html"</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="nt">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"standalone"</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="nt">"theme_color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#14263C"</span><span class="p">,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="nt">"background_color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#F6F7F2"</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="nt">"icons"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/assets/favicons/android-chrome-192x192.png"</span><span class="p">,</span><span class="w"> </span><span class="nt">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192x192"</span><span class="p">,</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/assets/favicons/android-chrome-512x512.png"</span><span class="p">,</span><span class="w"> </span><span class="nt">"sizes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"512x512"</span><span class="p">,</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/png"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p><code>name</code> is the full title, shown in the install prompt and app settings.
+<code>short_name</code> is the <strong>home screen label</strong>, which Android and iOS truncate at
+roughly 12–15 characters — "SAGE Tourney Calculator" would render as
+"SAGE Tourne…". <code>"SAGE Calc"</code> keeps the branding and fits. Change it if you
+want different wording, but keep it short.</p>
+</blockquote>
+<ul>
+<li><code>theme_color</code> and <code>background_color</code> come from the page's own palette
+  (<code>--navy</code> and <code>--bg</code>), not the shared manifest's <code>#ffffff</code> — a mismatched
+  <code>background_color</code> shows as a white flash on every launch.</li>
+<li><code>scope</code> is deliberately the <strong>page path, not the directory</strong>. Scope matching
+  is a string prefix, so this keeps <code>scoresheet-generator.html</code> out of the app
+  (§7). Non-directory scopes are legal but less commonly used — confirm the
+  browser accepts it during §9 step 5. If it objects, fall back to <code>/tools/</code>
+  and rely on the pass-through handler alone, which still contains the
+  behaviour; the precise scope is defence in depth, not the only guard.</li>
+<li><strong>Icons reuse the existing site icons — decided.</strong> Note the consequence: if
+  an event page ever becomes installable too, the two would be visually
+  indistinguishable on a home screen. Not a problem while this is the only PWA.</li>
+</ul>
+<p>In the page's <code>&lt;head&gt;</code>, replace the shared manifest link:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"manifest"</span> <span class="na">href</span><span class="o">=</span><span class="s">"/tools/tournament-calculator.webmanifest"</span><span class="p">&gt;</span>
+</code></pre></div>
+<h2 id="6-service-worker-toolsswjs">6. Service worker — <code>tools/sw.js</code><a class="headerlink" href="#6-service-worker-toolsswjs" title="Permanent link">&para;</a></h2>
+<h3 id="61-caching-strategy">6.1 Caching strategy<a class="headerlink" href="#61-caching-strategy" title="Permanent link">&para;</a></h3>
+<p>Split by resource type. This is the load-bearing decision:</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Strategy</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tournament-calculator.html</code> (the document)</td>
+<td><strong>Network-first, cache fallback</strong></td>
+<td>The document is the whole app — all logic is inline. Network-first means a pushed fix lands on the next launch, not the one after. Offline still works via the fallback</td>
+</tr>
+<tr>
+<td>Google Fonts CSS + font files</td>
+<td>Cache-first</td>
+<td>Effectively immutable, and a font miss is a visible layout shift</td>
+</tr>
+<tr>
+<td>SheetJS (<code>xlsx.full.min.js</code>)</td>
+<td>Cache-first</td>
+<td>Version-pinned in the URL and served <code>immutable</code></td>
+</tr>
+<tr>
+<td><code>/assets/logo.png</code>, icons</td>
+<td>Cache-first</td>
+<td>Static</td>
+</tr>
+<tr>
+<td>Everything else</td>
+<td><strong>Pass through untouched</strong></td>
+<td>§7</td>
+</tr>
+</tbody>
+</table>
+<p>Network-first on the document costs one round trip (~64 KB) per launch when
+online. That is the right trade for a tool whose correctness matters more than
+its cold-start time, and it preserves this codebase's edit-and-commit hot-fix
+model rather than trapping users on a cached build.</p>
+<h3 id="62-precache-resilience">6.2 Precache resilience<a class="headerlink" href="#62-precache-resilience" title="Permanent link">&para;</a></h3>
+<p>Precache the shell <strong>atomically</strong>, and the third-party assets <strong>opportunistically</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">CACHE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'sage-calc-v1'</span><span class="p">;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">SHELL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="s1">'/tools/tournament-calculator.html'</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="s1">'/assets/logo.png'</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="s1">'/assets/favicons/android-chrome-192x192.png'</span><span class="p">,</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="s1">'/assets/favicons/android-chrome-512x512.png'</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">];</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="kd">const</span><span class="w"> </span><span class="nx">OPTIONAL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="s1">'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'</span><span class="p">,</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="s1">'https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Barlow+Condensed:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap'</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">];</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="nx">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'install'</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">waitUntil</span><span class="p">((</span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">caches</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">CACHE</span><span class="p">);</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">cache</span><span class="p">.</span><span class="nx">addAll</span><span class="p">(</span><span class="nx">SHELL</span><span class="p">);</span><span class="w">                     </span><span class="c1">// atomic — fail install if this fails</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">allSettled</span><span class="p">(</span><span class="nx">OPTIONAL</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">u</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">cache</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">u</span><span class="p">)));</span><span class="w">  </span><span class="c1">// never block install</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">  </span><span class="nx">self</span><span class="p">.</span><span class="nx">skipWaiting</span><span class="p">();</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="p">})()));</span>
+</code></pre></div>
+<p><code>cache.addAll</code> is atomic: one failed URL fails the whole install. Putting cdnjs
+or Google Fonts in that list would mean <strong>a third-party blip prevents the app
+from installing at all</strong>. <code>allSettled</code> on the optional set avoids that; a missing
+SheetJS only costs the export button, and it will be picked up on a later fetch.</p>
+<p>Font <em>files</em> (<code>fonts.gstatic.com</code>) are referenced from inside the Google Fonts
+stylesheet, so they cannot be listed upfront — cache them on first fetch via the
+runtime handler instead.</p>
+<h3 id="63-activation">6.3 Activation<a class="headerlink" href="#63-activation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nx">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'activate'</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">waitUntil</span><span class="p">((</span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">keys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">caches</span><span class="p">.</span><span class="nx">keys</span><span class="p">();</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">keys</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">k</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">k</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="nx">CACHE</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">k</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">caches</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="nx">k</span><span class="p">)));</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">self</span><span class="p">.</span><span class="nx">clients</span><span class="p">.</span><span class="nx">claim</span><span class="p">();</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">})()));</span>
+</code></pre></div>
+<p><code>skipWaiting()</code> + <code>clients.claim()</code> means a new worker takes over immediately
+rather than waiting for every tab to close. Bump <code>CACHE</code> on any change to the
+cached set.</p>
+<h3 id="64-registration">6.4 Registration<a class="headerlink" href="#64-registration" title="Permanent link">&para;</a></h3>
+<p>At the end of the page's inline script:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s1">'serviceWorker'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">navigator</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'load'</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nx">navigator</span><span class="p">.</span><span class="nx">serviceWorker</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">'/tools/sw.js'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">scope</span><span class="o">:</span><span class="w"> </span><span class="s1">'/tools/tournament-calculator.html'</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">      </span><span class="p">.</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* PWA is an enhancement; never break the page over it */</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>Registration failure must be silent and non-fatal. The calculator has to keep
+working in browsers with service workers disabled, in private windows, and
+behind enterprise policies.</p>
+<h2 id="7-containment-do-not-leak-into-tools">7. Containment — do not leak into <code>/tools/</code><a class="headerlink" href="#7-containment-do-not-leak-into-tools" title="Permanent link">&para;</a></h2>
+<p>A worker at <code>/tools/sw.js</code> is <em>technically</em> scoped to <code>/tools/</code>, which contains
+<code>scoresheet-generator.html</code>. Two independent guards keep the blast radius to one
+page:</p>
+<ol>
+<li><strong>Manifest <code>scope</code></strong> is the page path (§5), so navigating to the scoresheet
+   generator leaves the installed app window rather than absorbing it.</li>
+<li><strong>The fetch handler passes through anything it does not explicitly own.</strong> Do
+   not write a catch-all cache-first branch. Requests for
+   <code>scoresheet-generator.html</code> must reach the network unmodified and uncached —
+   it posts multipart uploads to Cloud Run and must never be served from cache.</li>
+</ol>
+<p>This is worth an explicit test (§10), because a sloppy <code>fetch</code> handler is the
+easy way to silently break a neighbouring tool.</p>
+<p>The narrower <code>/tools/sw.js</code> placement is deliberate: a worker at the site root
+would scope to everything, including the event pages, where cached stale data is
+actively harmful.</p>
+<h2 id="8-activate-the-existing-persistence">8. Activate the existing persistence<a class="headerlink" href="#8-activate-the-existing-persistence" title="Permanent link">&para;</a></h2>
+<p><strong>In scope — ships with this work.</strong> Reopening an installed app with its own
+icon to a blank form reads as broken in a way a browser tab does not.</p>
+<p>This is <strong>not</strong> a from-scratch feature. The page already has the whole thing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">save</span><span class="p">(){</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="k">try</span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">storage</span><span class="p">)</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">storage</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'ttc-config'</span><span class="p">,</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">readForm</span><span class="p">()));</span><span class="w"> </span><span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">){}</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">}</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">load</span><span class="p">(){</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="k">try</span><span class="p">{</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">window</span><span class="p">.</span><span class="nx">storage</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">r</span><span class="o">=</span><span class="k">await</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">storage</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'ttc-config'</span><span class="p">);</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">r</span><span class="o">?</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="o">:</span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>save()</code> is called from <code>recalc()</code> (so on every input change) and <code>load()</code> from
+the boot IIFE, which already restores title, date, start, courts, duration,
+buffer, format, both club names, and the full <code>cats</code> array. All of it works.</p>
+<p>The problem is only that both are gated on <strong><code>window.storage</code></strong> — a claude.ai
+artifacts runtime API. On GitHub Pages it is <code>undefined</code>, so <code>save()</code> silently
+no-ops, <code>load()</code> returns <code>null</code>, and boot falls through to <code>[defaultCat()]</code>.
+The author's own comment says as much: <em>"works in claude.ai artifacts; safely
+skipped elsewhere."</em></p>
+<p><strong>The change is to add a <code>localStorage</code> fallback to those two functions —
+roughly four lines.</strong> Keep the <code>window.storage</code> branch so the page keeps working
+if it is ever opened as an artifact again:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">save</span><span class="p">(){</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="k">try</span><span class="p">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">readForm</span><span class="p">());</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">storage</span><span class="p">)</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">storage</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'ttc-config'</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="p">);</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">'ttc-config'</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="p">);</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">){}</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">}</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">load</span><span class="p">(){</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span><span class="k">try</span><span class="p">{</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">storage</span><span class="p">){</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">storage</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'ttc-config'</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">r</span><span class="o">?</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="o">:</span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">'ttc-config'</span><span class="p">);</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">v</span><span class="o">?</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span><span class="o">:</span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="p">}</span>
+</code></pre></div>
+<p>The existing <code>try/catch</code> wrapping is already the right shape — it matches how
+all six event pages guard their own <code>localStorage</code> access, and it keeps private
+windows and storage-disabled browsers from breaking the page.</p>
+<h3 id="81-two-consequences-accepted-deliberately">8.1 Two consequences, accepted deliberately<a class="headerlink" href="#81-two-consequences-accepted-deliberately" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>It changes behaviour for every visitor, not just installed users.</strong> The
+  calculator now remembers state across visits in a plain browser tab too.
+  Accepted — but it is a product change, not a PWA-only one, so don't be
+  surprised when someone reports the form "isn't blank any more".</li>
+<li><strong>Restored configs predate the current schema.</strong> <code>load()</code> spreads saved
+  categories straight into <code>cats</code>, so a config saved before the dual-meet change
+  has no <code>groupDual</code>. It degrades correctly — both <code>c.groupDual||1</code> in the card
+  and <code>Math.round(c.groupDual)||1</code> in <code>calcDualCategory</code> fall back to 1 — so no
+  migration is needed now. But once persistence is live in production, future
+  schema changes will need this considered rather than assumed.</li>
+</ul>
+<h2 id="9-implementation-order">9. Implementation order<a class="headerlink" href="#9-implementation-order" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Add the <code>localStorage</code> fallback to <code>save()</code> / <code>load()</code> (§8) — independent of
+   everything else, and worth landing first so it gets exercised on its own</li>
+<li>Add <code>tools/tournament-calculator.webmanifest</code> (§5)</li>
+<li>Swap the page's <code>&lt;link rel="manifest"&gt;</code> to it (§5)</li>
+<li>Add <code>tools/sw.js</code> with the split strategy, resilient precache, and
+   pass-through default (§6)</li>
+<li>Add the guarded registration snippet (§6.4)</li>
+<li>Verify install + offline on a real Android device, not just desktop DevTools
+   — including that the non-directory <code>scope</code> (§5) is accepted</li>
+</ol>
+<p>Step 1 stands alone and is separately revertible. Steps 2–3 make the page
+installable on iOS Safari. Steps 4–5 add offline support and the Android
+install prompt.</p>
+<h2 id="10-acceptance-checklist">10. Acceptance checklist<a class="headerlink" href="#10-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Install</strong></p>
+<ul>
+<li>[ ] Chrome on Android offers install; the app launches standalone with no
+      browser chrome, correct icon, and no white flash on launch.</li>
+<li>[ ] iOS Safari "Add to Home Screen" produces the same.</li>
+<li>[ ] <strong>No other page on the site became installable</strong> — check
+      <code>scoresheet-generator.html</code> and at least one archived event page.</li>
+</ul>
+<p><strong>Offline</strong></p>
+<ul>
+<li>[ ] Airplane mode, launch the installed app: the page loads and calculations
+      work.</li>
+<li>[ ] Fonts render correctly offline (no fallback-font layout shift).</li>
+<li>[ ] The .xlsx export works offline, having visited the page online once.</li>
+<li>[ ] First-ever visit with cdnjs unreachable still installs and still
+      calculates; only the export button degrades.</li>
+</ul>
+<p><strong>Updates — the one most likely to be missed</strong></p>
+<ul>
+<li>[ ] Edit a visible string in the HTML, commit, push. Reload the installed app
+      while online: <strong>the change appears on that launch</strong>, not the next one.</li>
+<li>[ ] Old caches are deleted after a <code>CACHE</code> version bump (check DevTools →
+      Application → Cache Storage).</li>
+</ul>
+<p><strong>Persistence (§8)</strong></p>
+<ul>
+<li>[ ] Fill in a plan, close the tab, reopen: every field is restored — title,
+      date, start, courts, duration, buffer, format, club names, and all
+      categories.</li>
+<li>[ ] Same in the installed app: close it fully, relaunch, state survives.</li>
+<li>[ ] A dual-meet plan round-trips with the right <code>groupDual</code>, and a config
+      saved before that field existed still loads, falling back to 1 bracket.</li>
+<li>[ ] Private/incognito window and a browser with site data blocked: the
+      calculator still loads and works, just without restoring.</li>
+<li>[ ] Corrupt the stored value by hand (set <code>ttc-config</code> to <code>not json</code>) — the
+      page still boots to a default category rather than throwing.</li>
+</ul>
+<p><strong>Containment</strong></p>
+<ul>
+<li>[ ] <code>scoresheet-generator.html</code> loads normally with the worker active, and its
+      CSV upload to Cloud Run still works — confirm the request reaches the
+      network and is not served or intercepted from cache.</li>
+<li>[ ] Navigating from the installed app to <code>scoresheet-generator.html</code> leaves
+      the app window (confirms the <code>scope</code> string is doing its job).</li>
+<li>[ ] Unregistering the worker and hard-reloading returns the calculator to
+      normal behaviour with no errors.</li>
+<li>[ ] With service workers blocked (private window / disabled), the calculator
+      still loads and works.</li>
+</ul>
+<h2 id="11-out-of-scope">11. Out of scope<a class="headerlink" href="#11-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Making any event page, template, or archived page a PWA. §1 explains why the
+  reasoning does not transfer.</li>
+<li>A dedicated calculator app icon. <strong>Decided: reuse the site icons</strong> (§5).</li>
+<li>Push notifications, background sync, or any install-prompt UI. The browser's
+  native prompt is sufficient.</li>
+<li>Self-hosting SheetJS. Precaching the pinned cdnjs URL covers the realistic
+  case, since installation implies at least one online visit; vendoring ~900 KB
+  into the repo for an export button is a poor trade.</li>
+<li>Changing <code>/assets/favicons/site.webmanifest</code> or any other page's manifest link.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../calculator-dual-meet-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Calculator dual-meet fixes">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Calculator dual-meet fixes
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../dual-meet-sheet-generator-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Sheet generator (Phase 1)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Sheet generator (Phase 1)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

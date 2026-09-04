@@ -1,0 +1,3397 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/sync-script-configuration-spec/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Spec — Live sync script configuration - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-live-sync-script-configuration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Spec — Live sync script configuration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-failure-mode-this-closes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The failure mode this closes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-implementation-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Implementation order
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Implementation order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-code-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Code style
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-property-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Property model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Property model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-constant-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The constant block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-secret-is-shared-identity-is-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The secret is shared; identity is not
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-the-spreadsheet-id-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 The spreadsheet-ID guard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-reading-config-at-sync-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Reading config at sync time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-the-secrets-carrier-developer-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 The secret's carrier — developer metadata
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 The secret&#39;s carrier — developer metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#promotion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Promotion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-the-secret-ends-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the secret ends up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exposure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-secret-and-day-key-get-syncconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Secret and day key — GET /sync/config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-facility-name-a-real-test-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Facility name — a real test sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-non-blocking-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Non-blocking failures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-resolving-watched-gids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Resolving watched GIDs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-setup-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The setup dialog
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The setup dialog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-entry-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Entry point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Save
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-client-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Client behaviour
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-setup-stays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 setup() stays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-sync-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Sync now
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-sage-menu-and-the-onopen-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The SAGE menu and the onOpen contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The SAGE menu and the onOpen contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-current-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Current state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-the-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 The contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-resulting-menus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Resulting menus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-set-shared-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Set shared secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-showscoresheetlink-reads-its-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. showScoresheetLink reads its config
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-sheet-generatorgs-the-generated-marker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. sheet-generator.gs — the generated marker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. sheet-generator.gs — the generated marker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-the-verify-harness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 The verify harness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-shipping-the-sync-script-in-the-dual-meet-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Shipping the sync script in the Dual Meet Master
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Shipping the sync script in the Dual Meet Master">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-exposure-this-creates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Exposure this creates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-rolling-this-out-to-existing-workbooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Rolling this out to existing workbooks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-what-can-be-checked-from-this-repo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 What can be checked from this repo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-what-cannot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 What cannot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-documentation-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Documentation changes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. Documentation changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-sheets-syncgss-own-header-comment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 sheets-sync.gs's own header comment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-sage-docsdocstechnicalsync-pipelinemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 sage-docs/docs/technical/sync-pipeline.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-sage-docsdocstechnicaldual-meet-sheet-generatormd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3 sage-docs/docs/technical/dual-meet-sheet-generator.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-sage-docsdocstechnicaladding-a-new-eventmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4 sage-docs/docs/technical/adding-a-new-event.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#135-sage-docsdocsfeaturespreparing-an-eventmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.5 sage-docs/docs/features/preparing-an-event.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#136-sage-docsdocsfeaturesdual-meet-sheet-generatormd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.6 sage-docs/docs/features/dual-meet-sheet-generator.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#137-sage-match-controlgithubio_templatesclaudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.7 sage-match-control.github.io/_templates/CLAUDE.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#138-the-two-generator-specs-gid-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.8 The two generator specs' GID notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#139-scoresheet-event-picker-specmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.9 scoresheet-event-picker-spec.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1310-dcoding-projectssageclaudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.10 D:\Coding Projects\SAGE\CLAUDE.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1311-already-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.11 Already done
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/sync-script-configuration-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-live-sync-script-configuration">Spec — Live sync script configuration<a class="headerlink" href="#spec-live-sync-script-configuration" title="Permanent link">&para;</a></h1>
+<p>Move <code>sheets-sync.gs</code>'s per-spreadsheet configuration out of source and into
+Script Properties, collected through a menu-driven setup dialog that validates
+what it is given before saving it. Ship the sync script inside the Dual Meet
+Master so a generated workbook needs no code pasting at all.</p>
+<p>Three files change:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sage-tools-api/scripts/sheets-sync.gs</code></td>
+<td>config → Script Properties; setup dialog; validation; shared <code>onOpen</code>; <code>showScoresheetLink</code> reads config (§3–§8)</td>
+</tr>
+<tr>
+<td><code>sage-tools-api/scripts/sheet-generator.gs</code></td>
+<td>shared <code>onOpen</code> contract; post-generation marker (§7, §9)</td>
+</tr>
+<tr>
+<td><code>sage-tools-api/scripts/mock-apps-script.mjs</code></td>
+<td>a <code>PropertiesService</code> stub, so §9's marker write survives the verify harness</td>
+</tr>
+</tbody>
+</table>
+<p>Plus the documentation in §13, which is part of the work, not a follow-up.</p>
+<p><strong>Neither <code>.gs</code> file is a deploy.</strong> Both run inside a spreadsheet and ship by
+being pasted into that workbook's script project. Do <strong>not</strong> bump
+<code>package.json</code> and do <strong>not</strong> add a <code>README.md</code> changelog entry — nothing about
+what Cloud Run runs is affected. The mock change is a test-harness file and is
+likewise not a deploy.</p>
+<p>Nothing in <code>src/</code> changes. No endpoint, no auth, no <code>events.json</code> schema change.</p>
+<hr />
+<h2 id="1-the-failure-mode-this-closes">1. The failure mode this closes<a class="headerlink" href="#1-the-failure-mode-this-closes" title="Permanent link">&para;</a></h2>
+<p><code>sheets-sync.gs</code> carries three per-spreadsheet values as source constants
+(<code>sheets-sync.gs:52</code>, <code>:53</code>, <code>:64</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAY_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'day2'</span><span class="p">;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FACILITY_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Main'</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">WATCHED_SHEET_GIDS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s1">'331216315'</span><span class="p">,</span><span class="w"> </span><span class="s1">'359580789'</span><span class="p">];</span>
+</code></pre></div>
+<p>Its install procedure is "paste this whole file in", which is also how an update
+is applied — and a paste resets those lines to the shipped defaults.</p>
+<p><code>day2</code> + <code>Main</code> is a <strong>registered, valid sync target</strong>: BKL Cup 2026's first
+day, Main facility. <code>archived</code> is a Control Center display flag only —
+it appears nowhere in <code>sage-tools-api/src/sync/</code>, so <code>POST /sync/day2</code> resolves
+and publishes exactly as a live event would.</p>
+<p>A forgotten re-edit after a paste therefore does not fail. It publishes that
+workbook's <code>CSV</code> tab into <code>bkl-cup-2026/data/day2.json</code> — wrong event, no error
+raised anywhere, and the only symptom is a page that stops updating. Day keys
+being globally unique is what guarantees the mistake lands on a valid target
+instead of a 404.</p>
+<p>The fix is that configuration must not live in the bytes being overwritten.</p>
+<hr />
+<h2 id="2-implementation-order">2. Implementation order<a class="headerlink" href="#2-implementation-order" title="Permanent link">&para;</a></h2>
+<p>Work in this order. Each step leaves the file in a syntactically valid state,
+and §12's syntax check can be run after any of them.</p>
+<ol>
+<li><strong>§3</strong> — replace the CONFIG block with the property model, add
+   <code>readSyncConfig_()</code> / <code>readSharedSecret_()</code>, and convert <code>triggerSync_()</code>
+   and <code>onEditInstallable</code> to read from them.</li>
+<li><strong>§8</strong> — convert <code>showScoresheetLink</code> to read from <code>readSyncConfig_()</code>.
+   Do this immediately after §3: it is the other existing reader of the two
+   constants being deleted, and leaving it until later means the file
+   references identifiers that no longer exist.</li>
+<li><strong>§5</strong> — <code>listSheetTabs</code> and <code>resolveWatchedGids_</code>.</li>
+<li><strong>§4</strong> + <strong>§6</strong> — the validation calls and the dialog that drives them.
+   <code>saveSyncSetup</code> is the join between the two; write §4's helpers first.</li>
+<li><strong>§7</strong> — replace <em>both</em> files' existing <code>onOpen</code> with the shared body, and
+   add the two builders.</li>
+<li><strong>§9</strong> — <code>sheet-generator.gs</code>'s marker and the mock's <code>PropertiesService</code>.</li>
+<li><strong>§12</strong> — run the syntax check and the verify harness.</li>
+<li><strong>§13</strong> — the documentation. Not optional and not a separate task.</li>
+</ol>
+<h3 id="21-code-style">2.1 Code style<a class="headerlink" href="#21-code-style" title="Permanent link">&para;</a></h3>
+<p>Match each file's existing conventions:</p>
+<ul>
+<li><code>sheets-sync.gs</code> uses <code>const</code>, arrow functions and template literals.</li>
+<li><code>sheet-generator.gs</code> uses <code>var</code> and <code>function</code> declarations exclusively, and
+  string concatenation rather than template literals.</li>
+</ul>
+<p><strong>Where a declaration must exist in both files it must be <code>var</code>.</strong> Apps Script
+loads every <code>.gs</code> in a project into one global lexical scope: two top-level
+<code>const</code> declarations of the same name are a project-wide
+<code>Identifier has already been declared</code> error that breaks <em>both</em> features, while
+duplicate <code>var</code> declarations and duplicate <code>function</code> declarations are both
+legal. This applies to <code>PROP_TABS_GENERATED_FOR</code> (§7, §9) and to the <code>onOpen</code>
+body itself.</p>
+<p>There are no top-level name collisions between the two files today. Before
+adding any new top-level name to <code>sheets-sync.gs</code>, check it against
+<code>sheet-generator.gs</code>'s <code>var</code> declarations — in particular, that file already
+owns <code>SCHEDULE_SHEET_NAME</code> and <code>COURT_CONTROL_SHEET_NAME</code>, which is why §3.1's
+new constants are named <code>*_TAB_NAME</code>.</p>
+<hr />
+<h2 id="3-property-model">3. Property model<a class="headerlink" href="#3-property-model" title="Permanent link">&para;</a></h2>
+<p>All configuration lives in <code>PropertiesService.getScriptProperties()</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Holds</th>
+<th>Honoured in a copy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SYNC_SHARED_SECRET</code></td>
+<td>the shared secret</td>
+<td><strong>Yes</strong>, and it is the one value deliberately carried into a copy — but by §3.5's metadata, not by properties</td>
+</tr>
+<tr>
+<td><code>SYNC_DAY_KEY</code></td>
+<td>this workbook's day key</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>SYNC_FACILITY_NAME</code></td>
+<td>this workbook's facility name</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>SYNC_WATCHED_GIDS</code></td>
+<td>JSON array of GID strings</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>SYNC_BOUND_SPREADSHEET_ID</code></td>
+<td>the spreadsheet these identity values were saved for</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>TABS_GENERATED_FOR</code></td>
+<td>the spreadsheet <code>generateEventTabs</code> ran against</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>The "in a copy" column is about intent, not mechanism: <strong>no</strong> Script Property
+survives a spreadsheet copy, because properties belong to the script project
+and a copy gets a new, empty one. Where the guard in §3.3 rejects inherited
+identity, that is defence against a <em>paste</em> into a workbook that was set up
+elsewhere, not against copying. The secret reaches a copy through §3.5.</p>
+<p><code>SYNC_SHARED_SECRET</code> is the key <code>sheets-sync.gs</code> already uses today, under the
+constant name <code>SCRIPT_PROP_SECRET_KEY</code>. <strong>The stored key name does not change</strong>,
+so an existing workbook's secret survives the paste — only the constant
+identifier in source is renamed for consistency with the rest of the block.</p>
+<p><code>PROP_LAST_EDIT</code> (<code>lastEditTime</code>) is unrelated debounce bookkeeping and is left
+exactly as it is.</p>
+<h3 id="31-the-constant-block">3.1 The constant block<a class="headerlink" href="#31-the-constant-block" title="Permanent link">&para;</a></h3>
+<p>Replacing <code>sheets-sync.gs:51-72</code> in full — the <code>CONFIG</code> comment banner at
+<code>:51</code> through the <code>SCORESHEET_GENERATOR_URL</code> declaration ending at <code>:72</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// ---- Property keys — where per-workbook configuration actually lives ----</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">// Nothing in this file is spreadsheet-specific: the file is byte-identical in</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">// every workbook, and everything that identifies THIS workbook is stored in</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">// Script Properties by SAGE -&gt; Set up live sync. See §1 of</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1">// sage-docs/docs/specs/sync-script-configuration-spec.md for why.</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kd">const</span><span class="w"> </span><span class="nx">PROP_SHARED_SECRET</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SYNC_SHARED_SECRET'</span><span class="p">;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kd">const</span><span class="w"> </span><span class="nx">PROP_DAY_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SYNC_DAY_KEY'</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kd">const</span><span class="w"> </span><span class="nx">PROP_FACILITY_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SYNC_FACILITY_NAME'</span><span class="p">;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kd">const</span><span class="w"> </span><span class="nx">PROP_WATCHED_GIDS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SYNC_WATCHED_GIDS'</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="kd">const</span><span class="w"> </span><span class="nx">PROP_BOUND_SPREADSHEET_ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SYNC_BOUND_SPREADSHEET_ID'</span><span class="p">;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kd">const</span><span class="w"> </span><span class="nx">PROP_LAST_EDIT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'lastEditTime'</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">// Declared with `var`, not `const`: sheet-generator.gs declares this same name,</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1">// and a generated workbook carries both files in one Apps Script project, where</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1">// duplicate top-level `const` is a project-breaking error and duplicate `var`</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1">// is not. Keep the two declarations identical.</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="kd">var</span><span class="w"> </span><span class="nx">PROP_TABS_GENERATED_FOR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'TABS_GENERATED_FOR'</span><span class="p">;</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1">// ---- Platform constants — identical in every workbook, none of them secret ----</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="kd">const</span><span class="w"> </span><span class="nx">CLOUD_RUN_BASE_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'https://sage-tools-api-811926984834.us-central1.run.app'</span><span class="p">;</span><span class="w"> </span><span class="c1">// no trailing slash</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="kd">const</span><span class="w"> </span><span class="nx">SCORESHEET_GENERATOR_URL</span><span class="w"> </span><span class="o">=</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span><span class="s1">'https://sage-match-control.github.io/tools/scoresheet-generator.html'</span><span class="p">;</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DEBOUNCE_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10000</span><span class="p">;</span><span class="w"> </span><span class="c1">// wait for ~10s of quiet before syncing (best-effort)</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="kd">const</span><span class="w"> </span><span class="nx">SETTLE_HANDLER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'runIfSettled'</span><span class="p">;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="c1">// Tabs pre-ticked in the setup dialog when they exist. Not a watch list — the</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="c1">// operator's ticks are, and they are stored as GIDs (§5).</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="kd">const</span><span class="w"> </span><span class="nx">SCHEDULE_TAB_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SCHEDULE'</span><span class="p">;</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="kd">const</span><span class="w"> </span><span class="nx">COURT_CONTROL_TAB_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Court Control'</span><span class="p">;</span>
+</code></pre></div>
+<blockquote>
+<p><strong><code>Court Control</code>, not <code>COURT CONTROL</code>.</strong> <code>sheet-generator.gs:229</code> creates the
+tab as <code>Court Control</code>. Name-based lookup must use that exact string. The
+<code>// "SCHEDULE", "COURT CONTROL"</code> comment on today's <code>WATCHED_SHEET_GIDS</code> line
+is wrong about the second name and goes away with the line.</p>
+</blockquote>
+<h3 id="32-the-secret-is-shared-identity-is-not">3.2 The secret is shared; identity is not<a class="headerlink" href="#32-the-secret-is-shared-identity-is-not" title="Permanent link">&para;</a></h3>
+<p>The secret is one Cloud Run environment variable, identical for every workbook
+of every event, so a copy inheriting it is correct and saves re-entering an
+opaque string per workbook.</p>
+<p>The day key and facility name identify <em>this</em> workbook. A copy inheriting them
+is precisely the §1 failure in a new form — so they are guarded.</p>
+<h3 id="33-the-spreadsheet-id-guard">3.3 The spreadsheet-ID guard<a class="headerlink" href="#33-the-spreadsheet-id-guard" title="Permanent link">&para;</a></h3>
+<p>Identity values are only honoured when they were saved for <em>this</em> spreadsheet,
+and only when they are complete:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cm">/**</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cm"> * This workbook's sync identity, or null if it has none. Null means one of:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm"> * never set up, or set up in a DIFFERENT spreadsheet that this one was copied</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cm"> * from. Both are "unconfigured" and both must behave identically — a copied</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cm"> * workbook inheriting a day key would publish its scores over another</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cm"> * facility's snapshot.</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="cm"> */</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="kd">function</span><span class="w"> </span><span class="nx">readSyncConfig_</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">PropertiesService</span><span class="p">.</span><span class="nx">getScriptProperties</span><span class="p">();</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_BOUND_SPREADSHEET_ID</span><span class="p">)</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getActive</span><span class="p">().</span><span class="nx">getId</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">dayKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_DAY_KEY</span><span class="p">);</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">facilityName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_FACILITY_NAME</span><span class="p">);</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">dayKey</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nx">facilityName</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">watchedGids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="nx">watchedGids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_WATCHED_GIDS</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'[]'</span><span class="p">);</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="nx">watchedGids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">dayKey</span><span class="p">,</span><span class="w"> </span><span class="nx">facilityName</span><span class="p">,</span><span class="w"> </span><span class="nx">watchedGids</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="p">}</span>
+</code></pre></div>
+<p>A non-null return therefore always carries a usable <code>dayKey</code> and
+<code>facilityName</code>, which is what lets every caller in §3.4, §7 and §8 treat
+<code>readSyncConfig_()</code> as a single truthiness check.</p>
+<p>The secret is read separately and is <strong>never</strong> subject to this guard:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">readSharedSecret_</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">stored</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">PropertiesService</span><span class="p">.</span><span class="nx">getScriptProperties</span><span class="p">().</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_SHARED_SECRET</span><span class="p">);</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">stored</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">stored</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">inherited</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">readSecretMetadata_</span><span class="p">();</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">inherited</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">inherited</span><span class="p">.</span><span class="nx">secret</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>This is what makes §10 safe, and the guard is what makes it safe <em>only</em> for the
+secret: identity values inherited by a copy are rejected, so a copy cannot
+publish over the facility it was copied from.</p>
+<p><strong>Script Properties do not survive a spreadsheet copy.</strong> They belong to the
+script project, and copying a spreadsheet creates a new, empty one — so a copy
+of the Master inherits no secret from properties, however the Master stores
+them. That is why <code>readSharedSecret_</code> has a second source; §3.5 is the carrier
+that reaches a copy at all.</p>
+<h3 id="34-reading-config-at-sync-time">3.4 Reading config at sync time<a class="headerlink" href="#34-reading-config-at-sync-time" title="Permanent link">&para;</a></h3>
+<p><code>triggerSync_()</code> reads from <code>readSyncConfig_()</code> and <code>readSharedSecret_()</code>
+instead of module constants, and returns without acting when either is missing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">triggerSync_</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">readSyncConfig_</span><span class="p">();</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">config</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">'Live sync is not configured for this spreadsheet. Run SAGE -&gt; Set up live sync.'</span><span class="p">);</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">readSharedSecret_</span><span class="p">();</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">secret</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">'No shared secret stored. Run SAGE -&gt; Set up live sync.'</span><span class="p">);</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="c1">// ...unchanged from here: URL build, UrlFetchApp.fetch, status logging...</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>Everything below that point is untouched, with <code>config.dayKey</code> and
+<code>config.facilityName</code> substituted for <code>DAY_KEY</code> and <code>FACILITY_NAME</code> — the
+<code>fetchTimeoutSeconds: 30</code> and <code>muteHttpExceptions: true</code> options and their
+comments stay exactly as they are.</p>
+<p><code>onEditInstallable</code> gains the same early exit, and takes its watch list from the
+config rather than a constant. The order matters: an unconfigured workbook must
+return <strong>before</strong> touching <code>PROP_LAST_EDIT</code> or scheduling a trigger, so it does
+nothing at all rather than scheduling work that cannot succeed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">onEditInstallable</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">readSyncConfig_</span><span class="p">();</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">config</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// unconfigured — do nothing at all, not even schedule</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">editedGid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">range</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">range</span><span class="p">.</span><span class="nx">getSheet</span><span class="p">().</span><span class="nx">getSheetId</span><span class="p">())</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">editedGid</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nx">config</span><span class="p">.</span><span class="nx">watchedGids</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">editedGid</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// edit was on an unrelated tab (or e is missing/unexpected) — ignore</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="c1">// ...unchanged: PROP_LAST_EDIT write, trigger cleanup, newTrigger...</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="35-the-secrets-carrier-developer-metadata">3.5 The secret's carrier — developer metadata<a class="headerlink" href="#35-the-secrets-carrier-developer-metadata" title="Permanent link">&para;</a></h3>
+<p>Developer metadata belongs to the <strong>spreadsheet</strong>, not the script project, and
+Drive copies it along with the cells. It is the only store that reaches a copy,
+which makes it the one place a shared secret can be handed down from the Dual
+Meet Master without anyone re-typing it.</p>
+<p>One spreadsheet-scoped entry, <code>DOCUMENT</code> visibility — <code>PROJECT</code> visibility is
+scoped to the script project that wrote it, which is exactly what a copy does
+not have:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">META_SHARED_SECRET</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SAGE_SYNC_SECRET'</span><span class="p">;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">// value: {"secret": "...", "origin": "&lt;spreadsheetId&gt;"}</span>
+</code></pre></div>
+<p><code>origin</code> is the ID of the spreadsheet the value was typed into. In the Master it
+equals <code>SpreadsheetApp.getActive().getId()</code>; in every copy it does not. That one
+comparison is what lets the menu offer the secret dialog in the Master (where
+rotation belongs) and withhold it in the copies (where nobody should be asked) —
+see §7.4.</p>
+<p><strong>Only the secret goes here.</strong> The day key and facility name must never be
+carried: metadata copying is the whole point of it, so putting identity in it
+would hand every copy an inherited day and venue and defeat §3.3's guard
+outright. The secret is exempt from that guard by design (§3.2); identity is not.</p>
+<p><code>readSecretMetadata_()</code> treats a malformed or hand-edited entry as absent rather
+than throwing. It is called during <code>onOpen</code> (§7.4), where an exception would
+abort menu construction and leave the workbook with no <code>SAGE</code> menu at all — the
+carrier failing must degrade to "the dialog asks for the secret", never to that.</p>
+<h4 id="promotion">Promotion<a class="headerlink" href="#promotion" title="Permanent link">&para;</a></h4>
+<p><code>saveSyncSetup</code> writes whichever secret it actually used — typed or inherited —
+into the workbook's own Script Properties, inside the same "nothing written
+before this point" block as the identity values (§6.3). After a copy's first
+successful setup it answers from the first branch of <code>readSharedSecret_</code> and no
+longer depends on the carrier, so rotating the Master's secret or deleting its
+metadata cannot unconfigure a venue that is already running.</p>
+<h4 id="where-the-secret-ends-up">Where the secret ends up<a class="headerlink" href="#where-the-secret-ends-up" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Workbook</th>
+<th>Script Properties</th>
+<th>Metadata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dual Meet Master, after <code>Set shared secret</code></td>
+<td>yes</td>
+<td>yes, <code>origin</code> = itself</td>
+</tr>
+<tr>
+<td>Copy of the Master, before setup</td>
+<td>no</td>
+<td>yes, <code>origin</code> = the Master</td>
+</tr>
+<tr>
+<td>Copy of the Master, after setup</td>
+<td>yes (promoted)</td>
+<td>yes, inherited</td>
+</tr>
+<tr>
+<td>Hand-built workbook (pasted, never copied)</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<h4 id="exposure">Exposure<a class="headerlink" href="#exposure" title="Permanent link">&para;</a></h4>
+<p>The secret now travels inside the spreadsheet <em>file</em>, so anyone given a copy of
+the Master receives it whether or not they ever open the script editor. Within a
+single workbook the readable set is unchanged — <code>DOCUMENT</code> metadata and Script
+Properties are both readable by anyone with edit access — so this widens §10.1's
+accepted exposure by exactly one thing: sharing a copy now shares the secret.
+It stops being an acceptable trade at the same moment §10.1 says it does.</p>
+<hr />
+<h2 id="4-validation">4. Validation<a class="headerlink" href="#4-validation" title="Permanent link">&para;</a></h2>
+<p>Setup validates before it saves. Two of the three checks are blocking.</p>
+<h3 id="41-secret-and-day-key-get-syncconfig">4.1 Secret and day key — <code>GET /sync/config</code><a class="headerlink" href="#41-secret-and-day-key-get-syncconfig" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>GET {CLOUD_RUN_BASE_URL}/sync/config
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>X-Sync-Secret: &lt;entered secret&gt;
+</code></pre></div>
+<p>Handled by <code>handleConfigDiagnostics</code> in <code>sage-tools-api/src/sync/routes.mjs</code>,
+behind <code>requireSyncSecretOrAuthToken</code>. Returns
+<code>{ sha, source, loadedAt, ageMs, events: [...], days: [...] }</code>, where <code>days</code> is
+<code>SyncConfigSnapshot.knownDays()</code> — every day key across every registered event.</p>
+<ul>
+<li><strong>401</strong> → the secret is wrong. Blocking. <code>The shared secret was rejected.
+  Check it against Cloud Run's SYNC_SHARED_SECRET.</code></li>
+<li><strong>200, and <code>days</code> excludes the entered day key</strong> → blocking. Report it with
+  the real list, which is exactly what the operator needs to pick from:
+  <code>Day key "&lt;entered&gt;" is not registered. Registered day keys: &lt;days joined&gt;.</code></li>
+<li><strong>200 with the day key present</strong> → proceed.</li>
+<li><strong>Network failure / 5xx</strong> → non-blocking (§4.3).</li>
+</ul>
+<h3 id="42-facility-name-a-real-test-sync">4.2 Facility name — a real test sync<a class="headerlink" href="#42-facility-name-a-real-test-sync" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>POST {CLOUD_RUN_BASE_URL}/sync/&lt;dayKey&gt;?facility=&lt;encoded facilityName&gt;
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>X-Sync-Secret: &lt;secret&gt;
+</code></pre></div>
+<p><code>SyncService.syncDay</code> (<code>src/sync/SyncService.mjs:55-60</code>) rejects an unknown
+facility with a <code>ValidationError</code> — <strong>HTTP 400</strong> — whose message names the valid
+ones:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&lt;label&gt;: unknown facility "X". Known facilities: Main, Annex, Dreamcourts
+</code></pre></div>
+<p>The response body is <code>{ "error": "&lt;that message&gt;" }</code>.</p>
+<ul>
+<li><strong>Non-2xx whose body contains <code>unknown facility</code></strong> → blocking. Surface the
+  message verbatim; it already names the alternatives. Match on the substring
+  rather than on the status code, so an unrelated 400 still falls through to
+  §4.3 rather than being reported as a bad facility name.</li>
+<li><strong>2xx</strong> → success. Report it, including the response body's counts.</li>
+<li><strong>Any other non-2xx, or a network failure</strong> → non-blocking (§4.3).</li>
+</ul>
+<p>Facility names are compared exactly and case-sensitively by the sync itself.
+Do not trim or case-fold the entered value to be helpful — that would hide the
+mismatch this check exists to catch. (Leading/trailing whitespace <em>is</em> trimmed
+at §6.3 step 1, before the value is ever compared; that is a paste artefact, not
+a name.)</p>
+<p>An unregistered day key would be rejected here too, as an <code>UnknownSyncDayError</code>
+— but §4.1 has already blocked that case, so this check never sees it.</p>
+<p>This publishes a real snapshot. That is intended: it is the end-to-end proof the
+workbook is wired up. Running it before rosters are pasted publishes a snapshot
+with empty player names, which the next edit replaces — harmless, and worth a
+line in the dialog's success message so it is not mistaken for a fault.</p>
+<h3 id="43-non-blocking-failures">4.3 Non-blocking failures<a class="headerlink" href="#43-non-blocking-failures" title="Permanent link">&para;</a></h3>
+<p>A timeout, a 5xx, or an unreachable host means the configuration may be perfectly
+correct and Cloud Run is simply unavailable. Save the configuration, install the
+trigger, and report a warning rather than an error:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Saved, but the test sync could not reach Cloud Run (&lt;reason&gt;).
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>Use SAGE -&gt; Sync now to retry once it is reachable.
+</code></pre></div>
+<p>Both calls use <code>muteHttpExceptions: true</code> so a non-2xx returns a response rather
+than throwing, and both are wrapped in <code>try</code>/<code>catch</code> so a genuine transport
+failure becomes a §4.3 warning rather than an unhandled exception in the dialog.</p>
+<p>Only a <strong>rejected secret</strong>, an <strong>unregistered day key</strong>, and an <strong>unknown
+facility</strong> block the save. Each of those is a value that is definitively wrong.</p>
+<hr />
+<h2 id="5-resolving-watched-gids">5. Resolving watched GIDs<a class="headerlink" href="#5-resolving-watched-gids" title="Permanent link">&para;</a></h2>
+<p>The watched tabs are resolved by name at setup and their GIDs stored. Matching
+on GID at edit time is retained, so renaming a tab afterwards does not break the
+trigger.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">resolveWatchedGids_</span><span class="p">(</span><span class="nx">selectedNames</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">ss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getActive</span><span class="p">();</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">gids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nx">selectedNames</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">name</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">getSheetByName</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">sheet</span><span class="p">)</span><span class="w"> </span><span class="nx">gids</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">String</span><span class="p">(</span><span class="nx">sheet</span><span class="p">.</span><span class="nx">getSheetId</span><span class="p">()));</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">gids</span><span class="p">;</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>The dialog presents every tab in the workbook as a checkbox list, pre-ticking
+<code>SCHEDULE</code> and <code>Court Control</code> where they exist. A generated workbook needs no
+interaction here; a hand-built one whose tabs are named differently is a matter
+of ticking the right boxes rather than reading GIDs out of tab URLs.</p>
+<p>At least one tab must resolve — blocking, with
+<code>Pick at least one tab to watch for score edits.</code> Check this on the resolved
+GIDs, not on the submitted names, so a name that no longer matches a tab is
+caught rather than saved as an empty watch list.</p>
+<p>Provide the tab list to the dialog from a server function:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">listSheetTabs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getActive</span><span class="p">().</span><span class="nx">getSheets</span><span class="p">().</span><span class="nx">map</span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">getName</span><span class="p">(),</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="nx">gid</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">getSheetId</span><span class="p">())</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="p">}));</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="6-the-setup-dialog">6. The setup dialog<a class="headerlink" href="#6-the-setup-dialog" title="Permanent link">&para;</a></h2>
+<h3 id="61-entry-point">6.1 Entry point<a class="headerlink" href="#61-entry-point" title="Permanent link">&para;</a></h3>
+<p>One server function backs both menu labels:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">showSyncSetup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">HtmlService</span><span class="p">.</span><span class="nx">createHtmlOutput</span><span class="p">(</span><span class="nx">SYNC_SETUP_HTML_</span><span class="p">)</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="p">.</span><span class="nx">setWidth</span><span class="p">(</span><span class="mf">420</span><span class="p">).</span><span class="nx">setHeight</span><span class="p">(</span><span class="mf">560</span><span class="p">);</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">showModalDialog</span><span class="p">(</span><span class="nx">html</span><span class="p">,</span><span class="w"> </span><span class="s1">'Live sync'</span><span class="p">);</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>Built with <code>HtmlService.createHtmlOutput</code> on a string constant and
+<code>google.script.run</code> for the round trip — the same construction
+<code>sheet-generator.gs</code>'s <code>GENERATE_SIDEBAR_HTML_</code> uses (<code>sheet-generator.gs:740</code>).
+Follow that constant for the inline <code>&lt;style&gt;</code> and the string-concatenation
+style, and <code>showScoresheetLink</code>'s smaller dialog (<code>sheets-sync.gs:245</code>) for the
+colour palette.</p>
+<p><code>getSyncSetupState</code>, <code>listSheetTabs</code> and <code>saveSyncSetup</code> are called from the
+dialog through <code>google.script.run</code> and therefore must <strong>not</strong> be given
+trailing-underscore names. Everything else new in this file is private and takes
+the underscore.</p>
+<h3 id="62-fields">6.2 Fields<a class="headerlink" href="#62-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Prefill</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day key</td>
+<td>current value</td>
+<td>text</td>
+</tr>
+<tr>
+<td>Facility name</td>
+<td>current value</td>
+<td>text; a note reads <em>matched exactly, including capitalisation</em></td>
+</tr>
+<tr>
+<td>Tabs to watch</td>
+<td>§5's checkbox list</td>
+<td>pre-ticked per §5</td>
+</tr>
+<tr>
+<td>Shared secret</td>
+<td><strong>never prefilled</strong></td>
+<td>hidden entirely when one is already stored, replaced by a <em>Secret stored</em> line and a <strong>Replace secret</strong> link that reveals the field</td>
+</tr>
+</tbody>
+</table>
+<p><code>hasSecret</code> resolves through <code>readSharedSecret_()</code>, so a copy of the Master
+counts as already having one on the strength of §3.5's carrier alone. In
+practice the field is therefore hidden in every generated workbook and shown
+only in a hand-built one — the operator setting up a copy fills in day, venue
+and tabs, and is never asked for the secret.</p>
+<p>The dialog loads current state through one server call:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">getSyncSetupState</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">readSyncConfig_</span><span class="p">();</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="nx">dayKey</span><span class="o">:</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">dayKey</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">''</span><span class="p">,</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="nx">facilityName</span><span class="o">:</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">facilityName</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">''</span><span class="p">,</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="nx">hasSecret</span><span class="o">:</span><span class="w"> </span><span class="o">!!</span><span class="nx">readSharedSecret_</span><span class="p">(),</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="nx">tabs</span><span class="o">:</span><span class="w"> </span><span class="nx">listSheetTabs</span><span class="p">(),</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="nx">watchedGids</span><span class="o">:</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">watchedGids</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span><span class="nx">defaultTabNames</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">SCHEDULE_TAB_NAME</span><span class="p">,</span><span class="w"> </span><span class="nx">COURT_CONTROL_TAB_NAME</span><span class="p">]</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">  </span><span class="p">};</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="p">}</span>
+</code></pre></div>
+<p>When <code>watchedGids</code> is empty, tick the tabs named in <code>defaultTabNames</code>;
+otherwise tick whatever matches the stored GIDs.</p>
+<p>A stored secret is never returned to the client, displayed, or logged — only
+the <code>hasSecret</code> boolean crosses that boundary.</p>
+<h3 id="63-save">6.3 Save<a class="headerlink" href="#63-save" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">saveSyncSetup</span><span class="p">(</span><span class="nx">dayKey</span><span class="p">,</span><span class="w"> </span><span class="nx">facilityName</span><span class="p">,</span><span class="w"> </span><span class="nx">watchedTabNames</span><span class="p">,</span><span class="w"> </span><span class="nx">secretOrNull</span><span class="p">)</span>
+</code></pre></div>
+<p>In order:</p>
+<ol>
+<li>Trim <code>dayKey</code> and <code>facilityName</code>. Both required, and §5's resolved-GID check
+   must pass — otherwise return a blocking result and write nothing.</li>
+<li>Resolve the secret: <code>secretOrNull</code> when supplied, else the stored one. None
+   available → blocking, <code>A shared secret is required.</code></li>
+<li>§4.1's <code>GET /sync/config</code>. Blocking failures return here, having written
+   nothing.</li>
+<li>§4.2's test sync. An <code>unknown facility</code> rejection returns here, having
+   written nothing.</li>
+<li>Write all properties, including <code>SYNC_BOUND_SPREADSHEET_ID</code> =
+   <code>SpreadsheetApp.getActive().getId()</code>, and the secret when newly supplied.</li>
+<li>Install the <code>onEditInstallable</code> trigger if not already present — the same
+   <code>ScriptApp.getProjectTriggers()</code> check <code>setup()</code> performs today.</li>
+<li>Return the result object below.</li>
+</ol>
+<p><strong>Nothing is written before step 5.</strong> A rejected configuration must leave the
+workbook exactly as it was, so a failed attempt cannot half-configure a
+spreadsheet and leave a trigger firing against a wrong day key.</p>
+<p>The return shape, in every case:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span><span class="w"> </span><span class="nx">ok</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="s1">'&lt;what happened&gt;'</span><span class="p">,</span><span class="w"> </span><span class="nx">warning</span><span class="o">:</span><span class="w"> </span><span class="s1">'&lt;§4.3 text&gt;'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="p">{</span><span class="w"> </span><span class="nx">ok</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="s1">'&lt;the one blocking reason&gt;'</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Blocking failures are <strong>returned, not thrown</strong>. <code>google.script.run</code>'s failure
+handler is reserved for genuine exceptions; a wrong secret is an expected
+outcome and belongs in the success path so the dialog can render it inline
+without the operator losing what they typed.</p>
+<h3 id="64-client-behaviour">6.4 Client behaviour<a class="headerlink" href="#64-client-behaviour" title="Permanent link">&para;</a></h3>
+<p>The dialog's own script:</p>
+<ul>
+<li>On load, calls <code>getSyncSetupState()</code> and renders the fields per §6.2. Until it
+  returns, show a <em>Loading…</em> line and keep <strong>Save</strong> disabled.</li>
+<li><strong>Save</strong> disables itself and both text inputs, shows a <em>Checking…</em> line, and
+  calls <code>saveSyncSetup(...)</code> with the ticked tabs' <strong>names</strong>, and the secret
+  field's value or <code>null</code> when the field is hidden.</li>
+<li><code>withSuccessHandler</code>: on <code>ok: false</code>, render <code>error</code> in the error style,
+  re-enable the form, and leave every field as the operator left it. On
+  <code>ok: true</code>, render <code>message</code> (plus <code>warning</code> in the warning style, when
+  present) and leave the dialog open — the operator closes it. Do not auto-close
+  on success; the test-sync result in <code>message</code> is the point of the exercise.</li>
+<li><code>withFailureHandler</code>: render the exception message in the error style and
+  re-enable the form.</li>
+</ul>
+<h3 id="65-setup-stays">6.5 <code>setup()</code> stays<a class="headerlink" href="#65-setup-stays" title="Permanent link">&para;</a></h3>
+<p>Keep the <code>setup()</code> function callable from the editor's function dropdown as a
+fallback for a workbook whose menu has not loaded. It prompts for day key,
+facility name and secret via <code>ui.prompt</code>, resolves the default tabs by name
+without asking, and calls the same <code>saveSyncSetup</code> path so validation is
+identical. It reports the returned <code>error</code> or <code>message</code> through <code>ui.alert</code>.</p>
+<p>Its existing "already set — leaving it as-is" branch for the secret is
+subsumed by §6.3 step 2: prompt for the secret only when
+<code>readSharedSecret_()</code> returns nothing.</p>
+<h3 id="66-sync-now">6.6 <code>Sync now</code><a class="headerlink" href="#66-sync-now" title="Permanent link">&para;</a></h3>
+<p><code>testSyncNow()</code> is kept and exposed as a menu item, enabled only when the
+workbook is configured. It calls <code>triggerSync_()</code> and reports the outcome
+through <code>ui.alert</code> rather than requiring the operator to read Executions. To do
+that, <code>triggerSync_()</code> returns a <code>{ ok, status, body }</code> object (or <code>null</code> when
+it exited early as unconfigured) in addition to its existing logging; the
+<code>runIfSettled</code> caller ignores the return value.</p>
+<hr />
+<h2 id="7-the-sage-menu-and-the-onopen-contract">7. The <code>SAGE</code> menu and the <code>onOpen</code> contract<a class="headerlink" href="#7-the-sage-menu-and-the-onopen-contract" title="Permanent link">&para;</a></h2>
+<h3 id="71-current-state">7.1 Current state<a class="headerlink" href="#71-current-state" title="Permanent link">&para;</a></h3>
+<p><strong>Both files already declare <code>onOpen</code></strong>, at <code>sheets-sync.gs:228</code> and
+<code>sheet-generator.gs:724</code>, added when the scoresheet event picker shipped. They
+are not identical: each builds the whole menu while feature-detecting the
+other's handler function by name (<code>showGenerateSidebar</code> / <code>showScoresheetLink</code>).
+That works, but it makes every menu change a two-file edit with no structural
+guarantee the two agree, and it cannot express "this item is not available right
+now" without both files knowing why.</p>
+<p>This section <strong>replaces both</strong>.</p>
+<h3 id="72-the-contract">7.2 The contract<a class="headerlink" href="#72-the-contract" title="Permanent link">&para;</a></h3>
+<p>A generated workbook carries both scripts in one Apps Script project. Two
+<code>onOpen</code> declarations there is not an error — the declarations hoist, the last
+file loaded wins silently, and load order is not something the operator
+controls.</p>
+<p><strong>Both files therefore declare a byte-identical <code>onOpen</code> that delegates to
+feature-detected builders.</strong> Each file owns only its own items, and which
+declaration wins cannot matter because both bodies are the same text:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">// ============================================================================</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1">// MENU</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1">// ============================================================================</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1">// This block is duplicated VERBATIM in sheets-sync.gs and sheet-generator.gs.</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1">// A generated workbook carries both scripts; duplicate declarations don't</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1">// error, the last file loaded wins, and load order isn't controllable. Keeping</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1">// the two bodies identical makes that race irrelevant. Each file contributes</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1">// only its own items, via the builder it defines, and each builder adds its own</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="c1">// leading separator only if something is already above it — so a workbook where</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1">// one builder contributes nothing gets no stray divider.</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="c1">// Change one, change both.</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="kd">function</span><span class="w"> </span><span class="nx">onOpen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">menu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">createMenu</span><span class="p">(</span><span class="s1">'SAGE'</span><span class="p">);</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="ow">typeof</span><span class="w"> </span><span class="nx">addSyncMenuItems_</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'function'</span><span class="p">)</span><span class="w"> </span><span class="nx">addSyncMenuItems_</span><span class="p">(</span><span class="nx">menu</span><span class="p">,</span><span class="w"> </span><span class="nx">state</span><span class="p">);</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="ow">typeof</span><span class="w"> </span><span class="nx">addGeneratorMenuItems_</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'function'</span><span class="p">)</span><span class="w"> </span><span class="nx">addGeneratorMenuItems_</span><span class="p">(</span><span class="nx">menu</span><span class="p">,</span><span class="w"> </span><span class="nx">state</span><span class="p">);</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="w">  </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addToUi</span><span class="p">();</span>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>state.count</code> is the number of items added so far. A builder that is about to
+add its first item checks <code>state.count &gt; 0</code> and calls <code>menu.addSeparator()</code>
+first, then increments <code>state.count</code> by however many items it added. A builder
+that adds nothing must leave <code>state</code> untouched.</p>
+<p>This is the fix for the case the old two-body arrangement could not express: in
+a generated, configured workbook the generator contributes <strong>no</strong> items (§9's
+marker), and a fixed <code>menu.addSeparator()</code> between the two halves would leave a
+divider dangling at the bottom of the menu.</p>
+<p>In <code>sheets-sync.gs</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">addSyncMenuItems_</span><span class="p">(</span><span class="nx">menu</span><span class="p">,</span><span class="w"> </span><span class="nx">state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addSeparator</span><span class="p">();</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">readSyncConfig_</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Generate Scoresheets'</span><span class="p">,</span><span class="w"> </span><span class="s1">'showScoresheetLink'</span><span class="p">);</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Sync now'</span><span class="p">,</span><span class="w"> </span><span class="s1">'testSyncNow'</span><span class="p">);</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Live sync settings'</span><span class="p">,</span><span class="w"> </span><span class="s1">'showSyncSetup'</span><span class="p">);</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="nx">state</span><span class="p">.</span><span class="nx">count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">3</span><span class="p">;</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">    </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Set up live sync'</span><span class="p">,</span><span class="w"> </span><span class="s1">'showSyncSetup'</span><span class="p">);</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">    </span><span class="nx">state</span><span class="p">.</span><span class="nx">count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>Generate Scoresheets</code> is inside the configured branch because its deep link is
+built from the day key and facility name (§8). An unconfigured workbook has
+neither, so the item would only ever produce a broken link; the one thing that
+workbook offers is <code>Set up live sync</code>.</p>
+<p>In <code>sheet-generator.gs</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">addGeneratorMenuItems_</span><span class="p">(</span><span class="nx">menu</span><span class="p">,</span><span class="w"> </span><span class="nx">state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">PropertiesService</span><span class="p">.</span><span class="nx">getScriptProperties</span><span class="p">().</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_TABS_GENERATED_FOR</span><span class="p">)</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">      </span><span class="o">===</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getActive</span><span class="p">().</span><span class="nx">getId</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// already generated — the item can only error from here</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addSeparator</span><span class="p">();</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span><span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s1">'Generate event tabs'</span><span class="p">,</span><span class="w"> </span><span class="s1">'showGenerateSidebar'</span><span class="p">);</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">  </span><span class="nx">state</span><span class="p">.</span><span class="nx">count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>onOpen</code> runs as a simple trigger without authorization, so both builders must
+stay free of anything needing a scope. <code>PropertiesService</code> and
+<code>SpreadsheetApp.getActive()</code> are both fine.</p>
+<h3 id="73-resulting-menus">7.3 Resulting menus<a class="headerlink" href="#73-resulting-menus" title="Permanent link">&para;</a></h3>
+<p>As built — including the post-spec <code>Help</code>, <code>Pause</code>/<code>Resume</code> and
+<code>Set shared secret</code> items (§15, §7.4):</p>
+<table>
+<thead>
+<tr>
+<th>Workbook</th>
+<th><code>SAGE</code> menu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dual Meet Master, before the secret is set</td>
+<td><code>Set up live sync</code> · <code>Set shared secret</code> · <code>Help</code> · ─── · <code>Generate event tabs</code></td>
+</tr>
+<tr>
+<td>Dual Meet Master, after</td>
+<td><code>Set up live sync</code> · <code>Replace shared secret</code> · <code>Help</code> · ─── · <code>Generate event tabs</code></td>
+</tr>
+<tr>
+<td>Fresh copy of the Master</td>
+<td><code>Set up live sync</code> · <code>Help</code> · ─── · <code>Generate event tabs</code></td>
+</tr>
+<tr>
+<td>Generated, sync configured</td>
+<td><code>Generate Scoresheets</code> · <code>Sync now</code> · <code>Pause live sync</code> · <code>Live sync settings</code> · <code>Help</code></td>
+</tr>
+<tr>
+<td>Generated, sync not yet configured</td>
+<td><code>Set up live sync</code> · <code>Help</code></td>
+</tr>
+<tr>
+<td>Hand-built, sync configured</td>
+<td><code>Generate Scoresheets</code> · <code>Sync now</code> · <code>Pause live sync</code> · <code>Live sync settings</code> · <code>Help</code></td>
+</tr>
+<tr>
+<td>Hand-built, no secret and not configured</td>
+<td><code>Set up live sync</code> · <code>Set shared secret</code> · <code>Help</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>Pause live sync</code> reads <code>Resume live sync</code> while paused. A configured workbook
+offers no destructive action, <code>Generate event tabs</code> appears only where it can
+still legitimately run, and no copy of the Master ever offers the secret item —
+it already has one (§7.4).</p>
+<h3 id="74-set-shared-secret">7.4 <code>Set shared secret</code><a class="headerlink" href="#74-set-shared-secret" title="Permanent link">&para;</a></h3>
+<p><code>addSyncMenuItems_</code> contributes one further item, between the configuration
+branch and <code>Help</code>. It is shown when <strong>either</strong>:</p>
+<ul>
+<li>no secret resolves at all — a hand-built workbook, where this is an
+  alternative to typing the secret into the setup dialog; or</li>
+<li>the carried secret's <code>origin</code> (§3.5) is this spreadsheet — which is true only
+  of the Dual Meet Master, and is where the label reads <code>Replace shared secret</code>.</li>
+</ul>
+<p>A copy of the Master satisfies neither: it resolves an inherited secret whose
+origin is the Master. So the item is absent there, which is the point — nobody
+setting up a facility workbook is asked about the secret at all.</p>
+<p>The Master needs its own entry because it never runs <code>Set up live sync</code> and so
+never sees §6.2's <strong>Replace secret</strong> link. Without this item it would have no
+rotation path short of the Apps Script editor.</p>
+<p><code>showSharedSecretSetup()</code> validates before writing, on §4's terms: a rejected
+secret saves nothing, an unreachable Cloud Run saves with a warning rather than
+blocking an operator on an outage. The Master has no day key of its own, so
+<code>checkSecretAndDayKey_</code> takes <code>dayKey === null</code> to mean "check the secret
+alone". On success it writes both the metadata carrier and the Master's own
+Script Properties.</p>
+<p>Both builders still avoid anything needing a scope (§7.2). Reading developer
+metadata off the active spreadsheet is in the same class as <code>PropertiesService</code>
+and <code>SpreadsheetApp.getActive()</code>, and <code>readSecretMetadata_</code> swallows failures
+so that even if it were not, the menu would still build.</p>
+<hr />
+<h2 id="8-showscoresheetlink-reads-its-config">8. <code>showScoresheetLink</code> reads its config<a class="headerlink" href="#8-showscoresheetlink-reads-its-config" title="Permanent link">&para;</a></h2>
+<p>The scoresheet event picker shipped after this spec was first written, and
+<code>showScoresheetLink</code> (<code>sheets-sync.gs:245</code>) reads <code>DAY_KEY</code> and <code>FACILITY_NAME</code>
+— the two constants §3 deletes. <code>scoresheet-event-picker-spec.md</code> §8.5
+anticipated this and scoped it to exactly one change: the values come from
+<code>readSyncConfig_()</code> instead.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">showScoresheetLink</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">readSyncConfig_</span><span class="p">();</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">config</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">alert</span><span class="p">(</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">      </span><span class="s1">'This workbook has no day or venue configured yet. Run SAGE -&gt; Set up live sync first.'</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SCORESHEET_GENERATOR_URL</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">    </span><span class="s1">'?day='</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">dayKey</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">    </span><span class="s1">'&amp;facility='</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">facilityName</span><span class="p">);</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="w">  </span><span class="c1">// ...unchanged from here: the same dialog HTML, with config.dayKey and</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="w">  </span><span class="c1">// config.facilityName substituted into the &lt;dl&gt; readout...</span>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="p">}</span>
+</code></pre></div>
+<p>The guard is unreachable from the menu — §7.2 only offers the item when
+<code>readSyncConfig_()</code> is non-null — but the function is still callable from the
+editor's function dropdown, and the alert is cheaper than an opaque failure.</p>
+<p><strong>The <code>&lt;dl&gt;</code> readout stays.</strong> <code>scoresheet-event-picker-spec.md</code> §8.4 is explicit
+that showing the day and venue before the click is the feature, not decoration:
+it is where a misconfigured workbook gets caught. Moving the values into Script
+Properties does not weaken that — it is now the only place the operator sees
+them outside the setup dialog.</p>
+<p>Both values are interpolated into HTML. As source constants they were not a live
+injection path; as operator-entered property values they are closer to one. They
+already reach the <code>href</code> through <code>encodeURIComponent</code>; escape them in the <code>&lt;dl&gt;</code>
+readout too rather than relying on a day key never containing a <code>&lt;</code>.</p>
+<hr />
+<h2 id="9-sheet-generatorgs-the-generated-marker">9. <code>sheet-generator.gs</code> — the generated marker<a class="headerlink" href="#9-sheet-generatorgs-the-generated-marker" title="Permanent link">&para;</a></h2>
+<p>At the end of a successful <code>generateEventTabs</code>, record which spreadsheet was
+built. Place the write immediately before the <code>return { message: ... }</code> at
+<code>sheet-generator.gs:1135</code>, after <code>logStep_('Done.')</code> at <code>:1133</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nx">PropertiesService</span><span class="p">.</span><span class="nx">getScriptProperties</span><span class="p">()</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="nx">PROP_TABS_GENERATED_FOR</span><span class="p">,</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getActive</span><span class="p">().</span><span class="nx">getId</span><span class="p">());</span>
+</code></pre></div>
+<p>Written last, after every tab is built, so a run that fails partway leaves the
+menu item in place.</p>
+<p><code>PROP_TABS_GENERATED_FOR</code> is declared in this file as well, with <code>var</code> and the
+identical text §3.1 uses — see §2.1 for why it cannot be <code>const</code>. Put it beside
+the other tab-name <code>var</code>s near <code>sheet-generator.gs:229</code>.</p>
+<p>This is menu hygiene, not a safety mechanism — <code>REBUILT_IN_PLACE_TABS</code>'
+prototype-shape check already refuses a second run. The value is that a live
+event workbook stops offering an action that can only produce an error.</p>
+<p>Storing the spreadsheet ID rather than a boolean means an inherited property
+from a copy does not suppress the item in a workbook that genuinely needs it —
+the same mechanism as §3.3.</p>
+<h3 id="91-the-verify-harness">9.1 The verify harness<a class="headerlink" href="#91-the-verify-harness" title="Permanent link">&para;</a></h3>
+<p><code>scripts/mock-apps-script.mjs</code>'s <code>buildSandbox</code> supplies no <code>PropertiesService</code>,
+so the write above throws <code>PropertiesService is not defined</code> under
+<code>scripts/verify-sheet-generator.mjs</code> and every scenario fails.</p>
+<p>Add a stub to the object <code>buildSandbox</code> returns, alongside the existing
+<code>CacheService</code> entry and backed by a <code>Map</code> the same way <code>cacheStore</code> is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nx">PropertiesService</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">getScriptProperties</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">scriptProperties</span><span class="w"> </span><span class="p">},</span>
+</code></pre></div>
+<p>with <code>getProperty</code> / <code>setProperty</code> / <code>deleteProperty</code> over that map. One store
+per sandbox, so the rerun-refusal scenario — which calls <code>generateEventTabs</code>
+twice on one sandbox — sees the marker persist across the two runs, exactly as a
+real workbook would.</p>
+<p><code>generateEventTabs</code>'s own behaviour, output, and the assertions in
+<code>verify-sheet-generator.mjs</code> are untouched; no fixture changes and no new
+assertion is required. Guarding the write with a <code>typeof PropertiesService</code>
+check instead of extending the mock is <strong>not</strong> the approach here — it would put
+a test-shaped conditional in production code and leave the mock unable to
+express the marker at all.</p>
+<p>The mock's <code>createMenu</code> returns a menu object with only <code>addItem</code> and
+<code>addToUi</code>, no <code>addSeparator</code>. That is fine: the harness never calls <code>onOpen</code>.
+Do not add builder calls to the harness.</p>
+<hr />
+<h2 id="10-shipping-the-sync-script-in-the-dual-meet-master">10. Shipping the sync script in the Dual Meet Master<a class="headerlink" href="#10-shipping-the-sync-script-in-the-dual-meet-master" title="Permanent link">&para;</a></h2>
+<p>Once §3–§9 land, add <code>sheets-sync.gs</code> to the Dual Meet Master's script project
+as a second file, and run <code>SAGE → Set shared secret</code> once on the Master itself
+(§7.4).</p>
+<p><strong>Not Project Settings → Script properties.</strong> A secret set there reaches no
+copy: properties belong to the script project, and a copy gets a new, empty
+one. The menu item writes the developer metadata carrier of §3.5, which is
+what Drive actually copies. This was verified against a real copy before the
+carrier was built on.</p>
+<p>A copy of the Master then carries both scripts and the secret. The workflow is:
+copy the Master, <code>SAGE → Generate event tabs</code>, <code>SAGE → Set up live sync</code>, and
+enter the day key and facility name — the secret is already there, and the
+dialog does not ask for it. No Apps Script editor at any point.</p>
+<p>Safe only because of §3.3 and §3.5's restriction: what a copy inherits is the
+secret and nothing that identifies a workbook.</p>
+<p>This step is done by hand in Google, not by editing anything in this repo. It is
+the one part of this spec that cannot be completed in code.</p>
+<h3 id="101-exposure-this-creates">10.1 Exposure this creates<a class="headerlink" href="#101-exposure-this-creates" title="Permanent link">&para;</a></h3>
+<p>The secret sits in every facility workbook's Script Properties, so the Master is
+one more location rather than a new kind of location. What it adds is that the
+Master is the artifact that gets copied, so anyone able to copy it holds a
+secret authorizing <code>POST /sync/:day</code> for <strong>every registered day of every
+event</strong> — not only their own.</p>
+<p>That is an acceptable trade for a team that controls access to the Master. It
+stops being one if the Master is ever shared outside that team, at which point
+the secret comes out of the Master and the dialog asks for it per workbook —
+a change to §10 alone, with §3–§9 unaffected.</p>
+<hr />
+<h2 id="11-rolling-this-out-to-existing-workbooks">11. Rolling this out to existing workbooks<a class="headerlink" href="#11-rolling-this-out-to-existing-workbooks" title="Permanent link">&para;</a></h2>
+<p>Per workbook: paste the new <code>sheets-sync.gs</code> over the old one, reload the
+spreadsheet, then <code>SAGE → Set up live sync</code> and enter day key and facility name.
+The secret is already stored under the same property key (§3) and is not
+re-entered.</p>
+<p>Until that setup runs, the workbook is unconfigured and syncs nothing — the
+early exits in §3.4 make that a logged no-op rather than a misdirected publish.
+Sync resumes at the end of the dialog, and §4.2's test sync confirms it before
+the operator leaves.</p>
+<p>Archived events need no migration.</p>
+<hr />
+<h2 id="12-verification">12. Verification<a class="headerlink" href="#12-verification" title="Permanent link">&para;</a></h2>
+<h3 id="121-what-can-be-checked-from-this-repo">12.1 What can be checked from this repo<a class="headerlink" href="#121-what-can-be-checked-from-this-repo" title="Permanent link">&para;</a></h3>
+<p>Two commands, both from <code>sage-tools-api/</code>. Run both before considering the code
+half done.</p>
+<p><code>node --check</code> cannot read a <code>.gs</code> file — it rejects the extension — so parse it
+through <code>vm</code> instead:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>node<span class="w"> </span>-e<span class="w"> </span><span class="s2">"const vm=require('vm'),fs=require('fs');for(const f of ['scripts/sheets-sync.gs','scripts/sheet-generator.gs'])new vm.Script(fs.readFileSync(f,'utf8'),{filename:f});console.log('syntax OK')"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>node<span class="w"> </span>scripts/verify-sheet-generator.mjs
+</code></pre></div>
+<p>The verify harness must print <code>ALL CHECKS PASSED</code>, unchanged from before this
+work. It exercises <code>sheet-generator.gs</code> only; nothing in <code>sheets-sync.gs</code> is
+covered by any automated check.</p>
+<p>Also confirm by inspection, since no tool checks them:</p>
+<ul>
+<li>The <code>onOpen</code> block (§7.2) is <strong>byte-identical</strong> in both files — diff the two
+  regions, do not eyeball them.</li>
+<li>No top-level <code>const</code>/<code>let</code> name in <code>sheets-sync.gs</code> matches a top-level <code>var</code>
+  name in <code>sheet-generator.gs</code> (§2.1).</li>
+<li><code>PROP_TABS_GENERATED_FOR</code> is declared <code>var</code> in both files, with the same
+  value.</li>
+<li>No identifier named <code>DAY_KEY</code>, <code>FACILITY_NAME</code> or <code>WATCHED_SHEET_GIDS</code> remains
+  anywhere in <code>sheets-sync.gs</code>.</li>
+</ul>
+<h3 id="122-what-cannot">12.2 What cannot<a class="headerlink" href="#122-what-cannot" title="Permanent link">&para;</a></h3>
+<p>Everything below runs inside Google and needs a real spreadsheet, a real
+secret, and Cloud Run reachable. It is the operator's checklist, to be handed
+over with the change — not something to claim as verified from here.</p>
+<p><strong>Configuration and the guard</strong></p>
+<ul>
+<li>[ ] A freshly pasted <code>sheets-sync.gs</code> in an unconfigured workbook shows
+      <code>SAGE → Set up live sync</code>, and editing a watched tab logs the
+      "not configured" message and schedules no trigger.</li>
+<li>[ ] After a successful setup, <code>SYNC_DAY_KEY</code>, <code>SYNC_FACILITY_NAME</code>,
+      <code>SYNC_WATCHED_GIDS</code> and <code>SYNC_BOUND_SPREADSHEET_ID</code> are all present, and
+      editing a watched tab syncs after the debounce.</li>
+<li>[ ] Re-pasting the whole file over a configured workbook and reloading leaves
+      it configured and syncing, with nothing re-entered.</li>
+<li>[ ] An existing pre-change workbook, after the paste, still has its secret
+      recognised (<code>hasSecret</code> true) and asks only for day key and facility name.</li>
+<li>[ ] Copying a configured workbook produces one whose menu reads
+      <code>Set up live sync</code> — identity rejected by the guard — while the secret
+      carried by §3.5 is still recognised.</li>
+<li>[ ] The stored secret is never returned to the dialog, rendered, or logged.</li>
+</ul>
+<p><strong>The secret's carrier (§3.5, §7.4)</strong></p>
+<ul>
+<li>[ ] <code>SAGE → Set shared secret</code> on the Master validates against Cloud Run,
+      rejects a wrong secret without writing, and reports success.</li>
+<li>[ ] A copy made <em>after</em> that resolves the secret: its setup dialog shows
+      <em>Secret stored</em> and asks only for day, venue and tabs.</li>
+<li>[ ] That copy's <code>SAGE</code> menu has <strong>no</strong> secret item; the Master's reads
+      <code>Replace shared secret</code>.</li>
+<li>[ ] After the copy's first successful setup, <code>SYNC_SHARED_SECRET</code> is present
+      in its own Script Properties, and deleting the Master's metadata
+      afterwards leaves it syncing.</li>
+<li>[ ] A hand-built workbook (pasted, never copied) has no carrier, shows
+      <code>Set shared secret</code>, and its setup dialog still offers the secret field.</li>
+<li>[ ] Corrupting the metadata value by hand leaves the <code>SAGE</code> menu intact — the
+      workbook falls back to asking for the secret rather than losing the menu.</li>
+<li>[ ] No day key or facility name ever appears in developer metadata.</li>
+</ul>
+<p><strong>Validation</strong></p>
+<ul>
+<li>[ ] A wrong secret blocks the save with the §4.1 message and writes nothing.</li>
+<li>[ ] An unregistered day key blocks the save and the error lists the real
+      registered day keys.</li>
+<li>[ ] A facility name with wrong capitalisation blocks the save and the error
+      names the valid facilities for that day.</li>
+<li>[ ] A valid configuration completes, reports the test sync's result, and the
+      published snapshot for that day contains this facility.</li>
+<li>[ ] With Cloud Run unreachable, a save with plausible values still writes the
+      config, installs the trigger, and reports the §4.3 warning.</li>
+<li>[ ] A save rejected at any blocking check leaves properties and triggers
+      exactly as they were, and the dialog keeps what was typed.</li>
+</ul>
+<p><strong>Watched tabs</strong></p>
+<ul>
+<li>[ ] In a generated workbook the dialog pre-ticks <code>SCHEDULE</code> and
+      <code>Court Control</code> and needs no interaction.</li>
+<li>[ ] Renaming a watched tab after setup does not break syncing.</li>
+<li>[ ] A workbook with neither default tab ticks nothing, and saving with no tab
+      ticked is blocked.</li>
+</ul>
+<p><strong>Menu</strong></p>
+<ul>
+<li>[ ] Each row of §7.3's menu table renders as described, with no stray
+      separator in the generated-and-configured case.</li>
+<li>[ ] In a workbook holding both scripts, the menu is correct <strong>with the two
+      files in either order</strong> — verify both, since load order decides which
+      <code>onOpen</code> wins.</li>
+<li>[ ] <code>Generate event tabs</code> disappears after a successful generation and
+      reappears in a fresh copy of the Master.</li>
+<li>[ ] <code>Generate Scoresheets</code> opens the generator with this workbook's day and
+      venue preselected, and still shows both in the dialog before the click.</li>
+<li>[ ] <code>Sync now</code> reports its outcome in a dialog.</li>
+<li>[ ] Opening a spreadsheet triggers no authorization prompt; clicking a menu
+      item prompts on first use and succeeds after approval.</li>
+</ul>
+<p><strong>Regression</strong></p>
+<ul>
+<li>[ ] <code>generateEventTabs</code> output is unchanged — same tabs, same formulas.</li>
+<li>[ ] The debounce still collapses a burst of edits into one sync.</li>
+</ul>
+<p><strong>Post-spec additions (see §15)</strong></p>
+<ul>
+<li>[ ] <code>Pause live sync</code> stops edits to a watched tab from publishing, and the
+      status line in <code>Help</code> and the banner in <code>Live sync settings</code> both say so.</li>
+<li>[ ] <code>Sync now</code> still publishes while paused.</li>
+<li>[ ] An edit made just before pausing, whose debounce trigger is already
+      scheduled, does <strong>not</strong> publish when that trigger fires.</li>
+<li>[ ] <code>Resume live sync</code> restores automatic publishing; the menu label flips
+      between <code>Pause</code>/<code>Resume</code> after a reload.</li>
+<li>[ ] <code>Help</code> opens in both a configured and an unconfigured workbook, and its
+      status line matches reality in each (unconfigured / configured / paused).</li>
+</ul>
+<hr />
+<h2 id="13-documentation-changes">13. Documentation changes<a class="headerlink" href="#13-documentation-changes" title="Permanent link">&para;</a></h2>
+<p>Part of this work, not a follow-up: the paste-and-edit-constants procedure is
+written down in seven places, and every one of them is wrong the moment this
+ships. Present tense throughout — describe what the system does, not what
+changed.</p>
+<h3 id="131-sheets-syncgss-own-header-comment">13.1 <code>sheets-sync.gs</code>'s own header comment<a class="headerlink" href="#131-sheets-syncgss-own-header-comment" title="Permanent link">&para;</a></h3>
+<p>The header (<code>sheets-sync.gs:1-49</code>) is the install runbook. Rewrite steps 1–6 as:</p>
+<ol>
+<li>Open the spreadsheet → Extensions → Apps Script.</li>
+<li>Paste this file in.</li>
+<li>Reload the spreadsheet and choose <strong>SAGE → Set up live sync</strong>.</li>
+<li>Enter the day key and facility name, confirm the tabs to watch, and supply
+   the shared secret if prompted.</li>
+</ol>
+<p>State that the file is identical in every workbook and holds no
+spreadsheet-specific values, that configuration lives in Script Properties, and
+that setup validates the secret, the day key and the facility name against
+Cloud Run before saving.</p>
+<p>Remove the <code>WATCHED_SHEET_GIDS</code> step — GIDs are resolved by tab name. Keep the
+<code>IMPORTANT:</code> paragraph about installable vs simple triggers as is; it is still
+true, with the setup dialog rather than <code>setup()</code> as the thing that installs it.</p>
+<h3 id="132-sage-docsdocstechnicalsync-pipelinemd">13.2 <code>sage-docs/docs/technical/sync-pipeline.md</code><a class="headerlink" href="#132-sage-docsdocstechnicalsync-pipelinemd" title="Permanent link">&para;</a></h3>
+<p>The Apps Script section (from <code>sync-pipeline.md:41</code>) and the <code>onOpen</code> paragraph
+at <code>:48-56</code>:</p>
+<ul>
+<li>Configuration lives in Script Properties, collected by <code>SAGE → Set up live
+  sync</code>; the script file itself is identical across every workbook.</li>
+<li>Setup validates against <code>GET /sync/config</code> and a test sync, so a bad secret,
+  an unregistered day key, or a mis-capitalised facility name is caught at
+  setup.</li>
+<li>The spreadsheet-ID guard: identity values apply only to the spreadsheet they
+  were saved for; the shared secret is not guarded, because it is the same
+  everywhere.</li>
+<li>The <code>onOpen</code> contract (§7): identical bodies delegating to feature-detected
+  <code>addSyncMenuItems_</code> / <code>addGeneratorMenuItems_</code> builders, and that both files
+  must carry the same body. This <strong>replaces</strong> the current description of two
+  bodies that merely build the same menu.</li>
+</ul>
+<h3 id="133-sage-docsdocstechnicaldual-meet-sheet-generatormd">13.3 <code>sage-docs/docs/technical/dual-meet-sheet-generator.md</code><a class="headerlink" href="#133-sage-docsdocstechnicaldual-meet-sheet-generatormd" title="Permanent link">&para;</a></h3>
+<p>Rewrite "The <code>onOpen</code> it shares with <code>sheets-sync.gs</code>" (<code>:167-177</code>) for §7's
+builder contract, and add:</p>
+<ul>
+<li>The Master carries <code>sheets-sync.gs</code> alongside the generator, so a copy is
+  ready for both.</li>
+<li><code>Generate event tabs</code> appears only in a workbook that has not been generated,
+  via the <code>TABS_GENERATED_FOR</code> marker.</li>
+<li>A pointer to <code>sync-pipeline.md</code> for the sync half.</li>
+</ul>
+<h3 id="134-sage-docsdocstechnicaladding-a-new-eventmd">13.4 <code>sage-docs/docs/technical/adding-a-new-event.md</code><a class="headerlink" href="#134-sage-docsdocstechnicaladding-a-new-eventmd" title="Permanent link">&para;</a></h3>
+<p>Step 8 (<code>:53-54</code>) becomes: reload the spreadsheet and run <strong>SAGE → Set up live
+sync</strong>, entering the day key and facility name. Note that setup verifies both
+against Cloud Run and performs a test sync, and that a dual meet's workbook
+carries the script already.</p>
+<p>The "Things kept in sync by hand" entry at <code>:103</code> keeps the same three-way
+relationship but names Script Properties rather than constants in the file.</p>
+<h3 id="135-sage-docsdocsfeaturespreparing-an-eventmd">13.5 <code>sage-docs/docs/features/preparing-an-event.md</code><a class="headerlink" href="#135-sage-docsdocsfeaturespreparing-an-eventmd" title="Permanent link">&para;</a></h3>
+<ul>
+<li>§2 (<code>:56</code>): a generated workbook is ready for sync setup without any code
+  step.</li>
+<li>§4 (<code>:96-109</code>): wiring the sync is a menu item in each workbook; facility
+  names are matched exactly and setup confirms the name against the registry
+  before saving.</li>
+</ul>
+<h3 id="136-sage-docsdocsfeaturesdual-meet-sheet-generatormd">13.6 <code>sage-docs/docs/features/dual-meet-sheet-generator.md</code><a class="headerlink" href="#136-sage-docsdocsfeaturesdual-meet-sheet-generatormd" title="Permanent link">&para;</a></h3>
+<p>At <code>:62</code>: the <code>SAGE</code> menu carries both the generator and the live-sync items.
+<code>Set up live sync</code> is safe and repeatable; <code>Generate event tabs</code> runs once per
+workbook and then disappears.</p>
+<h3 id="137-sage-match-controlgithubio_templatesclaudemd">13.7 <code>sage-match-control.github.io/_templates/CLAUDE.md</code><a class="headerlink" href="#137-sage-match-controlgithubio_templatesclaudemd" title="Permanent link">&para;</a></h3>
+<p>§2 step 8 (<code>:253-294</code>) is the longest version of the old procedure — sub-steps
+1–6 plus the <code>testSyncNow</code> and <code>Generate Scoresheets</code> notes. Replace sub-steps
+2–5 with: paste the file, reload, run <code>SAGE → Set up live sync</code>, enter day key
+and facility name, confirm the watched tabs. Drop the GID-hunting and
+constant-editing entirely. Keep the note that this repeats per facility
+spreadsheet, and that <code>Sync now</code> is available from the menu as the manual test.</p>
+<h3 id="138-the-two-generator-specs-gid-notes">13.8 The two generator specs' GID notes<a class="headerlink" href="#138-the-two-generator-specs-gid-notes" title="Permanent link">&para;</a></h3>
+<p><code>dual-meet-schedule-generator-spec.md:597-599</code> and
+<code>dual-meet-readouts-generator-spec.md:616-618</code> both say the tab GID is pinned in
+<code>sheets-sync.gs</code> (<code>WATCHED_SHEET_GIDS</code>). The constraint survives — the trigger
+still matches on GID, so replacing <code>SCHEDULE</code> or <code>Court Control</code> still kills the
+sync — but the pin now lives in <code>SYNC_WATCHED_GIDS</code> in that workbook's Script
+Properties, resolved from the tab names once at setup. One-line correction in
+each; the surrounding reasoning stands.</p>
+<h3 id="139-scoresheet-event-picker-specmd">13.9 <code>scoresheet-event-picker-spec.md</code><a class="headerlink" href="#139-scoresheet-event-picker-specmd" title="Permanent link">&para;</a></h3>
+<ul>
+<li>§8.3's note already defers to this spec's <code>onOpen</code> contract. Update it to say
+  the contract has landed, and that <code>Generate Scoresheets</code> is contributed by
+  <code>addSyncMenuItems_</code> and appears only in a configured workbook.</li>
+<li>§8.5 ("If <code>DAY_KEY</code> / <code>FACILITY_NAME</code> move to Script Properties") describes
+  this as a possible future. It has happened — fold it into §8.4 as the way the
+  values are read, and record the change in that spec's §12 divergences.</li>
+</ul>
+<h3 id="1310-dcoding-projectssageclaudemd">13.10 <code>D:\Coding Projects\SAGE\CLAUDE.md</code><a class="headerlink" href="#1310-dcoding-projectssageclaudemd" title="Permanent link">&para;</a></h3>
+<p>The "Things that must be kept in sync by hand" bullet at <code>:204</code> names
+<code>DAY_KEY</code>/<code>FACILITY_NAME</code> in <code>sheets-sync.gs</code>. State instead that each
+workbook's day key and facility name are set through <code>SAGE → Set up live sync</code>
+and stored in that workbook's Script Properties, and that setup validates them
+against the registry before saving.</p>
+<h3 id="1311-already-done">13.11 Already done<a class="headerlink" href="#1311-already-done" title="Permanent link">&para;</a></h3>
+<p><code>sage-docs/docs/specs/README.md</code> already lists this spec under <strong>Sync &amp; live
+data</strong>. No change needed.</p>
+<hr />
+<h2 id="14-out-of-scope">14. Out of scope<a class="headerlink" href="#14-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Publishing the sync script as an Apps Script <strong>Library</strong>. It is the way to
+  stop updating N workbooks by hand, and is worth revisiting once this lands,
+  but it puts a cross-project dependency in the live sync path, needs library
+  access granted per editor, and still needs a per-workbook version bump when
+  pinned.</li>
+<li><code>clasp</code> or Apps Script API pushes.</li>
+<li><code>CLOUD_RUN_BASE_URL</code> and <code>SCORESHEET_GENERATOR_URL</code> moving to properties —
+  identical everywhere, neither secret.</li>
+<li>Any change to the sync protocol, endpoints, debounce behaviour, or
+  <code>events.json</code>.</li>
+<li>Any change to <code>tools/scoresheet-generator.html</code> or the event picker's page
+  half. §8 changes where the workbook menu reads two values; the page's contract
+  with the query string is untouched.</li>
+<li>A standard-tournament sheet generator.</li>
+</ul>
+<hr />
+<h2 id="15-divergences">15. Divergences<a class="headerlink" href="#15-divergences" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>The secret's carrier, added post-spec (§3.5, §7.4).</strong> The spec originally
+  declined to depend on whether Script Properties survive a spreadsheet copy,
+  calling both outcomes correct. Testing settled it: <strong>they do not</strong> — a copy
+  gets a new, empty script project — which made §10's "the secret is already
+  there if properties survive the copy" false and left every generated workbook
+  needing the secret typed in by hand. The fix is a spreadsheet-scoped
+  developer metadata entry, <code>DOCUMENT</code> visibility, written once on the Master
+  by a new <code>Set shared secret</code> menu item and promoted into a copy's own
+  properties at its first successful setup. <code>readSharedSecret_</code> gained a second
+  source; nothing else about the property model changed, and identity values
+  are deliberately excluded from the carrier. §3, §3.3, §6.2, §10 and §12.2
+  were corrected in place rather than left standing with the old assumption.</li>
+<li><strong><code>Help</code> menu item, added post-spec.</strong> A <code>showSyncHelp()</code> dialog, always
+  contributed by <code>addSyncMenuItems_</code> regardless of configuration state (it's
+  the last item added, after <code>Live sync settings</code>/<code>Set up live sync</code>). Shows
+  a workflow refresher (generate tabs → paste rosters → fix anything → set
+  up sync last) alongside this workbook's live status via <code>readSyncConfig_()</code>
+  and <code>isSyncPaused_()</code> — so it doubles as "how do I do this again" and "did
+  I already do this." Lives in <code>sheets-sync.gs</code> rather than a README tab
+  precisely because that file is guaranteed present in every workbook
+  (hand-built or Master-generated), where a generator-created tab would not
+  be; a tab would also wrongly show up as a candidate in the setup dialog's
+  "tabs to watch" list. Introduced <code>escapeHtml_()</code> as a shared helper, since
+  <code>showScoresheetLink</code> already needed the same escaping inline.</li>
+<li><strong>Pause/resume, added post-spec.</strong> Not in the original design: a
+  <code>SYNC_PAUSED</code> Script Property (unguarded by spreadsheet ID — an inherited
+  pause on a copy fails safe rather than misdirecting anything), an
+  <code>isSyncPaused_()</code> check added to <code>onEditInstallable</code> and <code>runIfSettled</code>,
+  and a <code>Pause live sync</code>/<code>Resume live sync</code> menu item in the configured
+  branch of <code>addSyncMenuItems_</code> (§7.2), swapped by label/handler based on
+  state at the last <code>onOpen</code>. Added because the primary safeguard — the
+  <code>onEditInstallable</code> trigger not existing until <code>Set up live sync</code> runs —
+  only covers roster-pasting and schedule fixes done <em>before</em> that first
+  setup call. A workbook already configured (an early setup, a dry run, a
+  reopened <code>Live sync settings</code>) had no way to stop automatic publishing
+  during further edits without manually deleting the trigger in the Apps
+  Script UI. <code>Sync now</code>/<code>testSyncNow</code> deliberately bypasses the pause check —
+  it's an explicit manual action, not the automatic edit-triggered path
+  pausing is scoped to. Surfaced in the setup dialog too
+  (<code>getSyncSetupState</code>'s <code>paused</code> field) so reopening <code>Live sync settings</code> on
+  a paused workbook doesn't silently hide that saving there won't resume it.</li>
+<li><strong>§4.3 ordering when §4.1 itself is unreachable.</strong> §6.3 lists §4.1 then §4.2
+  as steps 3 and 4 but doesn't say what happens to step 4 when step 3 comes
+  back <code>unreachable</code> rather than <code>ok</code>/<code>blocking</code>. The built <code>saveSyncSetup</code>
+  skips the test sync entirely in that case and saves with §4.1's warning: if
+  <code>GET /sync/config</code> couldn't be reached, <code>POST /sync/:day</code> to the same host
+  is extremely unlikely to fare differently, and attempting it anyway would
+  just double the wait before the operator sees a result. §4.2 still runs
+  normally whenever §4.1 came back <code>ok</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

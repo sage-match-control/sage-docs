@@ -1,0 +1,2283 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/technical/control-center/">
+      
+      
+        <link rel="prev" href="../named-function-library/">
+      
+      
+        <link rel="next" href="../schedule-board/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Control Center - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#control-center" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Control Center
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../specs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#config-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-tabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The tabs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#narrow-screens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Narrow screens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Theme
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#awards-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Awards tab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Awards tab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#podium-derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Podium derivation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Podium derivation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#twice-to-beat-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Twice-to-beat resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#byes-and-why-theyre-detected-the-way-they-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Byes, and why they're detected the way they are
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#byes-must-not-surface-where-a-match-looks-playable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Byes must not surface where a match looks playable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overall-champion-dual-meet-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overall Champion (dual-meet only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-export-canvas-2d-no-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image export — Canvas 2D, no library
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#config-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-tabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The tabs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#narrow-screens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Narrow screens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Theme
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#awards-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Awards tab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Awards tab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#podium-derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Podium derivation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Podium derivation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#twice-to-beat-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Twice-to-beat resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#byes-and-why-theyre-detected-the-way-they-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Byes, and why they're detected the way they are
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#byes-must-not-surface-where-a-match-looks-playable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Byes must not surface where a match looks playable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overall-champion-dual-meet-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overall Champion (dual-meet only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-export-canvas-2d-no-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image export — Canvas 2D, no library
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/technical/control-center.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="control-center">Control Center<a class="headerlink" href="#control-center" title="Permanent link">&para;</a></h1>
+<p>One operator console (<code>tools/control-center.html</code>) covering every registered
+event. The alternative it displaces is a separate copy of the console per
+event, each carrying its own hand-duplicated configuration block — which is
+why the console carries <strong>no per-event configuration of its own</strong>: it picks
+an event from
+<code>event-data/config/events.json</code> (see <a href="../event-data-config/">event registry
+schema</a>), reads that event's registry entry, and
+renders.</p>
+<blockquote>
+<p>Renamed from "Match Control" to "Control Center" after the fact — the
+file, the URL (<code>/tools/control-center</code>), and every reference were moved
+together; <code>tools/match-control.html</code> survives only as a redirect stub so
+an already-bookmarked link keeps working. <a href="../../specs/match-control-console-spec/"><code>match-control-console-spec.md</code></a>
+and <a href="../../specs/awards-podium-tab-spec/"><code>awards-podium-tab-spec.md</code></a>, both
+written before the rename, still use the old name throughout — treat them as a
+historical record, not out of date documentation.</p>
+</blockquote>
+<h2 id="config-resolution">Config resolution<a class="headerlink" href="#config-resolution" title="Permanent link">&para;</a></h2>
+<p>Selecting an event resolves three things fresh, every time:</p>
+<ul>
+<li><code>CURRENT_EVENT_KEY</code> / <code>EVENTS_REGISTRY</code> entry</li>
+<li><code>CURRENT_TYPE</code> — <code>"dual-meet"</code> or <code>"standard"</code>, <strong>required and explicit</strong>,
+  never inferred from the data. Guessing from team-code shape works most of
+  the time and fails silently; an unrecognized/missing <code>type</code> shows a
+  visible configuration error instead.</li>
+<li><code>DISPLAY</code> — the optional <code>{ divisions, events, clubs }</code> label maps. Absent
+  is fine; the console just shows raw codes (<code>LIWD</code>, <code>PNF</code>) instead of
+  friendly labels.</li>
+</ul>
+<p>Everything else the console needs maps onto that: the category set is the
+second code segment (<code>DIVISIONS</code> × <code>EVENTS</code>), stage (RR/QF/SF/Bronze/Final)
+comes from generic regexes in <code>STAGE_META</code> — not per-event — and the day
+label comes straight from the published snapshot's own <code>label</code> field.</p>
+<p><strong>Mission Control is event-agnostic.</strong> Its dependency surface is just
+<code>EVENT_KEY</code> — it touches none of <code>DIVISIONS</code>, <code>EVENTS</code>, <code>CLUBS</code>,
+<code>STAGE_META</code>, <code>parseCode</code>, or <code>divisionLabel</code>. That's what makes it safe to
+share unmodified across every event type.</p>
+<h2 id="the-tabs">The tabs<a class="headerlink" href="#the-tabs" title="Permanent link">&para;</a></h2>
+<p><strong>Live Matches, Match Finder, and Standings</strong> have no club logos anywhere
+(no <code>.score-logo</code>/<code>.live-team-logo</code>/<code>.cs-logo</code> treatment); the console
+<strong>ignores <code>isLive</code> and always shows live data</strong> (<code>computeDayIsLive()</code> is
+hardcoded <code>true</code>), so an operator can preview a day before it's public;
+and labels degrade to raw codes when <code>display</code> config is absent rather
+than erroring.</p>
+<p><strong>Standings layout is chosen by <code>type</code>.</strong> <code>dual-meet</code> gets per-club columns
+inside each category with a shared club win-total summary bar and the
+cross-club Bronze/Final shown as one block spanning both clubs (see
+<code>CROSS_CLUB_STAGE_KEYS</code>); <code>standard</code> gets flat category cards with a
+desktop toggle bar and a mobile category-search filter.</p>
+<p><strong>Awards</strong> is a fifth tab, added later — full derivation and export
+architecture in its own section below.</p>
+<p><strong>Mission Control</strong> — see <a href="../../features/control-center/#mission-control">Mission Control usage</a>
+for what it does; scoped to whichever event is selected. The go-live states are <code>auto</code>
+(live 4 hours before the day's earliest scheduled match time, computed live
+from the synced <code>Schedule</code> column — no hour to configure), <code>true</code> (force
+live), and <code>false</code> (Live/Standings hidden, scores suppressed on Tournament
+Hub only — this console's own tabs stay live regardless, so an operator can
+verify a fix before un-hiding). The connection-check line also surfaces the
+currently-cached sync config's short SHA (see <a href="../sync-pipeline/">sync
+pipeline</a> § Observability), so an operator can see at a
+glance whether a just-committed <code>events.json</code> change has actually taken
+effect yet.</p>
+<p>Each facility row in the Facility Sync Status list links directly to that
+facility's actual Google Sheet (<code>docs.google.com/spreadsheets/d/&lt;sheetId&gt;/edit</code>).
+<code>FACILITIES</code> (resolved per day-select from <code>EVENTS_REGISTRY</code>) carries
+<code>sheetId</code> alongside <code>name</code> for exactly this. This exposes nothing extra:
+sheet IDs are already public in the
+same <code>config/events.json</code> fetch the console already makes (see <a href="../event-data-config/">event
+registry schema</a> § Sheet IDs are effectively
+public). The link is omitted for a facility with no <code>sheetId</code> yet, the
+same "not set up" condition the sync pipeline itself skips.</p>
+<h2 id="installability">Installability<a class="headerlink" href="#installability" title="Permanent link">&para;</a></h2>
+<p>Installable via its own manifest, <code>tools/control-center.webmanifest</code>, the
+same pattern <a href="../tournament-calculator/">Tournament Calculator</a> established —
+<code>scope</code> is the page path (<code>/tools/control-center.html</code>), not the <code>/tools/</code>
+directory, so installing this doesn't sweep in <code>scoresheet-generator.html</code>
+or the calculator itself. Icons and theme/background colors reuse the
+shared site assets and palette, same as the calculator's manifest.</p>
+<p><strong>Deliberately no service worker.</strong> Unlike the calculator (whose whole
+justification for offline support is that nothing it shows can go stale),
+Control Center's entire value is live data — scores, sync status, court
+assignments — so caching any of it risks showing an operator something
+stale during a live event, exactly the failure mode the calculator's own
+spec ruled out for pages like this. The manifest alone is enough for
+"Add to Home Screen" / an install prompt and a standalone window; it adds
+no caching and changes no runtime behavior. An installed shortcut still
+needs a live connection to do anything, identical to a regular tab.</p>
+<h2 id="narrow-screens">Narrow screens<a class="headerlink" href="#narrow-screens" title="Permanent link">&para;</a></h2>
+<p>The console gets opened on a phone at a venue, so it holds up at 375px, and
+at 320px on the smallest common handsets. Three pieces carry that:</p>
+<ul>
+<li><strong>The view-tab row</strong> is a horizontal scroller below the breakpoint. Five
+  pills need ~400px in a row, more than a phone has, so they scroll rather
+  than wrap — wrapping costs ~30px of vertical space in a hero that is
+  already tall. An edge fade appears only on the side that still has content
+  past it, and activating a tab scrolls it fully into view, so nothing is
+  ever hidden without a cue.</li>
+</ul>
+<p><code>justify-content</code> is <code>flex-start</code> while scrolling, not <code>center</code>. A centred
+  flex row that overflows makes its <em>leading</em> items unreachable in every
+  browser.</p>
+<p>The row is measured when it is <strong>revealed</strong> (after a day loads), not at
+  script load — while <code>display:none</code> its <code>scrollWidth</code>/<code>clientWidth</code> both
+  read 0. Anything that reveals those tabs by another path must call
+  <code>syncViewTabsScroll()</code>.</p>
+<ul>
+<li>
+<p><strong>The standings club-summary boxes</strong> let their identity and stat blocks
+  shrink (<code>min-width:0</code>) below 520px. They sit in a <code>flex:1</code> box, so
+  <code>flex:0 0 auto</code> contents would have nothing to give and would spill past
+  their own border.</p>
+</li>
+<li>
+<p><strong>Mission Control's status rows</strong> wrap their detail onto its own line on
+  small screens, rather than truncating the facility name.</p>
+</li>
+</ul>
+<p>Tap targets key off <code>@media (pointer:coarse)</code> rather than a width
+breakpoint, so a tablet gets them too — it is wide but still driven by a
+thumb.</p>
+<p><strong>Known gap, desktop rather than mobile:</strong> the standings grid wants ~1100px
+inside a 920px <code>.wrap</code>, squeezing the pair-name cells to 16px so player
+names overflow them.</p>
+<h2 id="theme">Theme<a class="headerlink" href="#theme" title="Permanent link">&para;</a></h2>
+<p>The console is a <strong>tool</strong> — it lives in <code>tools/</code> beside
+<code>scoresheet-generator.html</code> and <code>tournament-calculator.html</code>, which are
+where the S.A.G.E. palette (navy structure, green accent, off-white paper;
+Archivo Black / Barlow Condensed / Inter) originated, and it uses that
+palette directly rather than porting a converted theme from the old
+per-event pages. Two consequences:</p>
+<ul>
+<li><strong>It does not take on per-event theming.</strong> An event may re-skin its own
+  Tournament Hub, but the console looks identical regardless of which event
+  is selected — it's one tool pointed at different data, and an operator
+  switching events shouldn't see the furniture move.</li>
+<li>Contrast rules worth knowing if touching the CSS: <strong>green is a fill
+  colour, not a text colour</strong> (<code>--green</code> on white is ~2.3:1, fails AA at any
+  size — use it as a background with navy text on top, or on a navy panel).
+  The masthead is a navy bezel on paper; controls sitting on it need their
+  own light-on-navy overrides rather than reusing the paper-ground base
+  rules.</li>
+</ul>
+<h2 id="awards-tab">Awards tab<a class="headerlink" href="#awards-tab" title="Permanent link">&para;</a></h2>
+<p>A fifth tab showing each category's podium and exporting it as
+SAGE-branded PNGs. Entirely <strong>read-only and derived</strong> — it writes nothing,
+needs no auth, and adds no new sync surface or <code>sage-tools-api</code> dependency.
+Everything it shows comes from <code>MATCHES</code> (the day's parsed match rows) and
+<code>STANDINGS</code>, already loaded by the console for the other tabs.</p>
+<h3 id="podium-derivation">Podium derivation<a class="headerlink" href="#podium-derivation" title="Permanent link">&para;</a></h3>
+<p><code>buildPodiums()</code> is the single pure function everything else consumes:
+<code>(MATCHES, STANDINGS) -&gt; [{ category, source, gold, silver, bronze,
+bronzeWalkover, warning }]</code>, ordered to match Standings' own category order.</p>
+<p>For each category:</p>
+<ol>
+<li><strong>Find the decisive Final.</strong> Among all matches tagged <code>F</code> for that
+   category (there can be more than one, for a twice-to-beat bracket — see
+   below), the decisive one is the <strong>resolved instance with the highest
+   instance number</strong>, where <em>resolved</em> means played, or decided by a bye
+   walkover. A category with no <code>F</code> match at all (pure round robin) falls
+   back to its top-3 standings rows instead, tagged <code>source: 'standings'</code>.</li>
+<li><strong>Find the decisive Bronze</strong>, the same way.</li>
+<li><strong>Gold/silver</strong> = winner/loser of the decisive Final. <strong>Bronze</strong> = winner
+   of the decisive Bronze.</li>
+<li>Anything that can't be resolved cleanly — a tied score, or both sides of
+   a match reading <code>BYE</code> — produces a <code>warning</code> naming the match number and
+   <strong>suppresses the whole category's podium</strong> rather than guessing. Nothing
+   here ever fabricates a winner.</li>
+</ol>
+<h4 id="twice-to-beat-resolution">Twice-to-beat resolution<a class="headerlink" href="#twice-to-beat-resolution" title="Permanent link">&para;</a></h4>
+<p>A bracket can run a Final as <code>F(1)</code>/<code>F(2)</code> — the second match only happens
+if the first goes the challenger's way. <code>matchInstanceOf()</code> reads the
+trailing <code>(1)</code>/<code>(2)</code> off the team code. The decisive-match search always
+prefers the <strong>highest resolved instance</strong>: if only <code>F(1)</code> is played, its
+result stands; once <code>F(2)</code> is also played, it supersedes <code>F(1)</code>'s result
+entirely.</p>
+<h4 id="byes-and-why-theyre-detected-the-way-they-are">Byes, and why they're detected the way they are<a class="headerlink" href="#byes-and-why-theyre-detected-the-way-they-are" title="Permanent link">&para;</a></h4>
+<p>A twice-to-beat bracket often has no Bronze match to actually <em>play</em> — third
+place is already determined by the bracket structure. Rather than special-
+case that in code, it's encoded in the data: the operator types <code>BYE</code> into
+the opponent's team code or either player-name cell, making the real side a
+winner by walkover. <code>matchByeSide(m)</code> checks <strong>all three cells</strong> (both team
+codes, both pairs of player names) — deliberately, since the sheet
+autofills these by formula, so whichever cell the operator overrides has to
+be the one that's checked. A bye match is decisive <strong>without scores</strong> —
+<code>rowsToMatches()</code> sets <code>played</code> from the score columns, so a bye match has
+<code>played === false</code>, and the podium derivation explicitly does not gate on
+<code>played</code> when a bye side is present.</p>
+<p>A bye-decided category shows a <strong>Walkover</strong> tag on that medalist instead of
+a score, and the bye side is never rendered as a person anywhere.</p>
+<h4 id="byes-must-not-surface-where-a-match-looks-playable">Byes must not surface where a match looks playable<a class="headerlink" href="#byes-must-not-surface-where-a-match-looks-playable" title="Permanent link">&para;</a></h4>
+<p>A bye is never a real match, so it's filtered out of every surface that
+presents match data as something to watch or play, not just the podium:</p>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>What's filtered</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standings</td>
+<td>Any row whose team code/player1 is <code>BYE</code>; if a category's <em>decisive</em> Bronze was bye-decided, the whole Bronze block is dropped (not just that row) — a one-sided "Bronze Battle" showing one team with no opponent is worse than showing nothing</td>
+</tr>
+<tr>
+<td>Live Matches</td>
+<td>Bye matches excluded from court grouping entirely</td>
+</tr>
+<tr>
+<td>Match Finder</td>
+<td>A team's own bye match never appears in their schedule, and can never be flagged "Next Up"</td>
+</tr>
+<tr>
+<td>Team index / autocomplete</td>
+<td><code>BYE</code> is never indexed as a searchable name</td>
+</tr>
+</tbody>
+</table>
+<h3 id="overall-champion-dual-meet-only">Overall Champion (dual-meet only)<a class="headerlink" href="#overall-champion-dual-meet-only" title="Permanent link">&para;</a></h3>
+<p>Deliberately <strong>the same metric as Standings' own club win-total
+summary</strong> — total wins across Round Robin rows only, per club — not a
+podium-derived count (e.g. gold medals), so the two tabs can never disagree
+about who's ahead. A tie is shown explicitly as "Tied," never resolved by an
+invented tiebreak.</p>
+<h3 id="image-export-canvas-2d-no-library">Image export — Canvas 2D, no library<a class="headerlink" href="#image-export-canvas-2d-no-library" title="Permanent link">&para;</a></h3>
+<p><code>tools/control-center.html</code> has zero JS dependencies (Google Fonts is the
+only external resource), so the export draws directly with the Canvas 2D
+API rather than pulling in <code>html2canvas</code> or a similar library. Cost: the
+card design lives in drawing code, not CSS.</p>
+<p><strong>Per-category card:</strong> fixed 1080×1350 logical canvas, rendered at 2× (with
+a fallback to 1× if that would exceed a safe canvas-area budget — iOS
+Safari caps total canvas area near 16.7M pixels). Each medal row fills its
+whole box in the medal tint once decided (dark navy text — checked for
+contrast: ~7.3:1 on gold, ~8.9:1 on silver, ~4.7:1 on bronze); an undecided
+placing stays on the plain navy panel, so the row's own color signals
+decided-vs-not.</p>
+<p><strong>Whole-tournament sheet:</strong> every category in a grid (column count picked
+by category count, to keep the image from becoming an ever-taller single
+column) rather than one row per category. Nothing is ever truncated —
+category names, player names, and club labels all word-wrap; <code>wrapCanvasText</code>
+force-breaks at the character level for the rare single "word" (a long
+hyphenated surname, say) that's wider than its column on its own, so no
+line can ever overflow its box.</p>
+<p><strong>The measure-then-draw pattern.</strong> Both the per-card and whole-tournament
+drawing functions take a <code>draw</code> boolean and run through the <em>exact same</em>
+layout logic either way — called once with <code>draw: false</code> (nothing painted,
+just wrapping/line-counting to get a height), then again with <code>draw: true</code>
+at the real position once the canvas is correctly sized. This is what
+makes it possible for content to be genuinely dynamic-height (wrap to
+however many lines it needs) without measuring and drawing ever disagreeing
+about where something lands — they're driven by identical code, not two
+hand-synced implementations.</p>
+<p>Fonts are explicitly <code>document.fonts.load()</code>-ed and awaited before the
+first stroke — <code>ctx.font</code> silently falls back to a system font if the
+family hasn't been requested by <em>some</em> DOM node yet, with no error to
+catch, and this is the single most likely way a cold-load export comes out
+wrong while the on-screen tab looks fine.</p>
+<hr />
+<p><strong>Features:</strong> <a href="../../features/control-center/">Control Center</a> · <a href="../../features/control-center/#awards">Awards tab usage</a>
+<strong>Specs:</strong> <a href="../../specs/match-control-console-spec/"><code>match-control-console-spec.md</code></a> and <a href="../../specs/awards-podium-tab-spec/"><code>awards-podium-tab-spec.md</code></a> (full build history, acceptance checklists — both written under the console's old name).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../named-function-library/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Named Function library">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Named Function library
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../schedule-board/" class="md-footer__link md-footer__link--next" aria-label="Next: Schedule board">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Schedule board
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

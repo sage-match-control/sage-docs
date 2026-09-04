@@ -1,0 +1,3063 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/awards-podium-tab-spec/">
+      
+      
+        <link rel="prev" href="../match-control-console-spec/">
+      
+      
+        <link rel="next" href="../schedule-screen-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Awards tab - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-awards-tab-podium-finishers-image-export" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Awards tab
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-this-belongs-in-the-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why this belongs in the console
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-where-the-podium-comes-from" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Where the podium comes from
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Where the podium comes from">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-derived-from-matches-not-configured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Derived from matches, not configured
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-three-places" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 The three places
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-byes-how-a-walkover-bronze-is-encoded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Byes — how a walkover bronze is encoded
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Byes — how a walkover bronze is encoded">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detecting-a-bye" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detecting a bye
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-a-bye-means-for-the-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a bye means for the result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-decisive-twice-to-beat-and-replays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 "Decisive" — twice-to-beat and replays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-categories-with-no-bracket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Categories with no bracket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-byes-must-not-surface-anywhere-a-match-is-presented-as-playable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Byes must not surface anywhere a match is presented as playable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-incomplete-and-contradictory-states-are-shown-never-guessed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Incomplete and contradictory states are shown, never guessed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-the-derivation-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 The derivation function
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The tab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The tab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Placement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-image-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Image export
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Image export">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-canvas-2d-no-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Canvas 2D, no library
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Geometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-the-whole-tournament-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 The whole-tournament sheet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-fonts-must-be-loaded-before-the-first-stroke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Fonts must be loaded before the first stroke
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-the-sage-mark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 The SAGE mark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-branding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Branding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-download-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Download mechanics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-build-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Build steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-decisions-taken" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decisions taken
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-still-open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Still open
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-this-belongs-in-the-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why this belongs in the console
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-where-the-podium-comes-from" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Where the podium comes from
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Where the podium comes from">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-derived-from-matches-not-configured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Derived from matches, not configured
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-three-places" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 The three places
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-byes-how-a-walkover-bronze-is-encoded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Byes — how a walkover bronze is encoded
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Byes — how a walkover bronze is encoded">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detecting-a-bye" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detecting a bye
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-a-bye-means-for-the-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a bye means for the result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-decisive-twice-to-beat-and-replays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 "Decisive" — twice-to-beat and replays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-categories-with-no-bracket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Categories with no bracket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-byes-must-not-surface-anywhere-a-match-is-presented-as-playable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Byes must not surface anywhere a match is presented as playable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-incomplete-and-contradictory-states-are-shown-never-guessed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Incomplete and contradictory states are shown, never guessed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-the-derivation-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 The derivation function
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The tab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The tab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Placement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-image-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Image export
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Image export">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-canvas-2d-no-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Canvas 2D, no library
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Geometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-the-whole-tournament-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 The whole-tournament sheet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-fonts-must-be-loaded-before-the-first-stroke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Fonts must be loaded before the first stroke
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-the-sage-mark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 The SAGE mark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-branding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Branding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-download-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Download mechanics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-build-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Build steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-decisions-taken" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decisions taken
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-still-open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Still open
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/awards-podium-tab-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-awards-tab-podium-finishers-image-export">Spec — Awards tab (podium finishers + image export)<a class="headerlink" href="#spec-awards-tab-podium-finishers-image-export" title="Permanent link">&para;</a></h1>
+<p>A fifth tab on <code>tools/match-control.html</code> that shows each category's podium —
+gold, silver, bronze — and exports them as SAGE-branded PNGs: one card per
+category, or the whole tournament as a single sheet.</p>
+<p><strong>Status: built.</strong> <code>tools/match-control.html</code> has the Awards tab, bye handling,
+and both export paths implemented per this spec.</p>
+<p>The podium is already decided by data the console has loaded. Every category
+plays a Final (<code>_F</code>) and a Bronze match (<code>_B</code>), both carrying scores in the
+day snapshot's <code>matchesCsv</code>. Nothing new needs to be synced, configured, or
+entered by hand — this tab reads what is already there and draws it.</p>
+<p>This spec is written to be implemented directly. Section 2 defines the data
+rules, section 3 the tab, section 4 the image export, and section 5 the build
+order. Sections 6–9 are acceptance, decisions, open questions, and scope.</p>
+<hr />
+<h2 id="1-why-this-belongs-in-the-console">1. Why this belongs in the console<a class="headerlink" href="#1-why-this-belongs-in-the-console" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>tools/match-control.html</code>, new <code>data-view="awards"</code> tab</td>
+</tr>
+<tr>
+<td>Public URL</td>
+<td><code>/tools/match-control</code> (unchanged)</td>
+</tr>
+<tr>
+<td>New config</td>
+<td>none</td>
+</tr>
+<tr>
+<td>New dependency</td>
+<td>none</td>
+</tr>
+<tr>
+<td>New sync surface</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>sage-tools-api</code> change</td>
+<td>none — no version bump, no deploy</td>
+</tr>
+</tbody>
+</table>
+<p>Three reasons it goes here rather than in the spreadsheet or a separate page:</p>
+<ol>
+<li><strong>The data is already in the browser.</strong> <code>MATCHES</code> (from <code>matchesCsv</code>) has
+   every Final and Bronze match with both teams' player names and scores.
+   Deriving the podium is a pure function over state the console already
+   holds — no fetch, no poll, no new failure mode.</li>
+<li><strong>The sheet's own <code>Awards</code> tab isn't synced.</strong> Only <code>CSV</code> and
+   <code>STANDINGSCSV</code> are pulled by <code>sage-tools-api</code>. Anything typed into the
+   <code>Awards</code> tab today is invisible to every SAGE surface, and re-typing
+   winners by hand at the end of a long day is exactly when transcription
+   errors happen.</li>
+<li><strong>The operator is already here at the moment of need.</strong> The podium matters
+   in the ten minutes between the last Final and the awarding ceremony —
+   when someone is standing at the console watching Mission Control, not
+   opening a spreadsheet.</li>
+</ol>
+<blockquote>
+<p>This is a <strong>read-only, derived</strong> tab. It writes nothing, publishes nothing,
+and needs no auth — same as Live Matches, Match Finder and Standings.
+Signed-out operators see it in full.</p>
+</blockquote>
+<hr />
+<h2 id="2-where-the-podium-comes-from">2. Where the podium comes from<a class="headerlink" href="#2-where-the-podium-comes-from" title="Permanent link">&para;</a></h2>
+<h3 id="21-derived-from-matches-not-configured">2.1 Derived from matches, not configured<a class="headerlink" href="#21-derived-from-matches-not-configured" title="Permanent link">&para;</a></h3>
+<p>Everything below is computed from <code>MATCHES</code> — the parsed <code>matchesCsv</code> rows
+already produced by <code>rowsToMatches()</code>. Each match object carries what the
+derivation needs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span><span class="w"> </span><span class="nx">num</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">,</span><span class="w"> </span><span class="nx">court</span><span class="p">,</span><span class="w"> </span><span class="nx">liveCourt</span><span class="p">,</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nx">t1</span><span class="p">,</span><span class="w"> </span><span class="nx">t1p1</span><span class="p">,</span><span class="w"> </span><span class="nx">t1p2</span><span class="p">,</span><span class="w"> </span><span class="nx">t2</span><span class="p">,</span><span class="w"> </span><span class="nx">t2p1</span><span class="p">,</span><span class="w"> </span><span class="nx">t2p2</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nx">t1Score</span><span class="p">,</span><span class="w"> </span><span class="nx">t2Score</span><span class="p">,</span><span class="w"> </span><span class="nx">played</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>The existing helpers do all the classification, unchanged:</p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Gives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>parseCode(code)</code></td>
+<td><code>{ club, category, rest }</code> — handles both <code>type</code> values</td>
+</tr>
+<tr>
+<td><code>roundKeyword(rest)</code></td>
+<td><code>'F'</code> for Finals, <code>'B'</code> for Bronze, <code>null</code> for pool</td>
+</tr>
+<tr>
+<td><code>matchInstanceOf(rest)</code></td>
+<td><code>2</code> in <code>F(2)</code> — twice-to-beat instance, else <code>null</code></td>
+</tr>
+<tr>
+<td><code>categoryLabel(category)</code></td>
+<td><code>'LIWD'</code> → <code>"Low Intermediate Women's Doubles"</code></td>
+</tr>
+<tr>
+<td><code>clubLabel(club)</code></td>
+<td><code>'PNF'</code> → <code>"Pickle &amp; Friends Community"</code></td>
+</tr>
+<tr>
+<td><code>buildCategoryOrderIndex()</code></td>
+<td>the display order Standings already uses</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>No new parsing.</strong> If a code shape ever changes, it changes in <code>parseCode</code>
+and this tab follows automatically. A second, parallel notion of "which
+match is the final" is exactly the kind of drift the console spec's §2.2
+set out to remove.</p>
+</blockquote>
+<h3 id="22-the-three-places">2.2 The three places<a class="headerlink" href="#22-the-three-places" title="Permanent link">&para;</a></h3>
+<p>For each distinct <code>category</code> token present in the day's matches:</p>
+<table>
+<thead>
+<tr>
+<th>Place</th>
+<th>Comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🥇 Gold</td>
+<td><strong>Winner</strong> of the decisive Final (<code>roundKeyword === 'F'</code>)</td>
+</tr>
+<tr>
+<td>🥈 Silver</td>
+<td><strong>Loser</strong> of that same Final</td>
+</tr>
+<tr>
+<td>🥉 Bronze</td>
+<td><strong>Winner</strong> of the decisive Bronze match (<code>roundKeyword === 'B'</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>A "team" resolves to its two player names (<code>t1p1</code>/<code>t1p2</code> or <code>t2p1</code>/<code>t2p2</code>)
+plus, for <code>dual-meet</code> events, its club label from <code>parseCode(code).club</code>.</p>
+<p>Winner is decided by score, not by position: <code>t1Score &gt; t2Score</code> → team 1.
+A played match with equal scores is a data error, not a tie — see §2.7.</p>
+<h3 id="23-byes-how-a-walkover-bronze-is-encoded">2.3 Byes — how a walkover bronze is encoded<a class="headerlink" href="#23-byes-how-a-walkover-bronze-is-encoded" title="Permanent link">&para;</a></h3>
+<p><strong>In a twice-to-beat bracket there is often no bronze match to play</strong> — the
+third-place finisher is already determined by the bracket's structure. Rather
+than special-case that in code, it is encoded in the data: the operator adds a
+Bronze match row whose <em>opponent</em> is a <strong>bye</strong>, making the bronze medalist the
+winner of that match by walkover.</p>
+<p>This keeps §2.2's rule intact — bronze is always "winner of the Bronze
+match" — with no branch for bracket format.</p>
+<h4 id="detecting-a-bye">Detecting a bye<a class="headerlink" href="#detecting-a-bye" title="Permanent link">&para;</a></h4>
+<p>A match <strong>side</strong> is a bye when any of its identifying cells is the literal
+text <code>BYE</code>, trimmed and case-insensitive:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">BYE_RE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sr">/^bye$/i</span><span class="p">;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kd">function</span><span class="w"> </span><span class="nx">sideIsBye</span><span class="p">(</span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">p1</span><span class="p">,</span><span class="w"> </span><span class="nx">p2</span><span class="p">){</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">BYE_RE</span><span class="p">.</span><span class="nx">test</span><span class="p">((</span><span class="nx">code</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">())</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="o">||</span><span class="w"> </span><span class="nx">BYE_RE</span><span class="p">.</span><span class="nx">test</span><span class="p">((</span><span class="nx">p1</span><span class="w">   </span><span class="o">||</span><span class="w"> </span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">())</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="o">||</span><span class="w"> </span><span class="nx">BYE_RE</span><span class="p">.</span><span class="nx">test</span><span class="p">((</span><span class="nx">p2</span><span class="w">   </span><span class="o">||</span><span class="w"> </span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">());</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kd">function</span><span class="w"> </span><span class="nx">matchByeSide</span><span class="p">(</span><span class="nx">m</span><span class="p">){</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">t1Bye</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sideIsBye</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">t1</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">t1p1</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">t1p2</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">t2Bye</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sideIsBye</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">t2</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">t2p1</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">t2p2</span><span class="p">);</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="nx">t1Bye</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">t2Bye</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s1">'both'</span><span class="p">;</span><span class="w">   </span><span class="c1">// data error — see §2.7</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="nx">t1Bye</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s1">'t1'</span><span class="p">;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="nx">t2Bye</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s1">'t2'</span><span class="p">;</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">}</span>
+</code></pre></div>
+<p>Checking the team code <strong>and</strong> both player cells is deliberate: the sheet
+fills team codes and player names by formula, so whichever cell the operator
+overrides with <code>BYE</code> must work. Do not require a particular one.</p>
+<blockquote>
+<p>Note <code>rowsToMatches()</code> rewrites a side's players to <code>'TBD'</code> when
+<code>t1p1 === t1 || t1p1 === ''</code>. A side typed as <code>BYE</code> in the player cell but
+left with its formula-generated team code will <strong>not</strong> be caught by that
+rule (<code>'BYE' !== 'PNF_LIWD_B'</code>), so <code>BYE</code> survives into <code>t1p1</code> and the test
+above sees it. A side where <code>BYE</code> is in the <em>team code</em> is caught by the
+<code>code</code> check. Both paths work.</p>
+</blockquote>
+<h4 id="what-a-bye-means-for-the-result">What a bye means for the result<a class="headerlink" href="#what-a-bye-means-for-the-result" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p><strong>A bye-decided match is decisive without scores.</strong> <code>rowsToMatches()</code> sets
+<code>played = t1Score !== null &amp;&amp; t2Score !== null</code>, so a bye match with empty
+score cells has <code>played === false</code>. The podium derivation must therefore
+<strong>not gate on <code>played</code> when a bye side is present</strong> — the non-bye side wins
+outright.</p>
+</blockquote>
+<p>Concretely, for any Bronze or Final match:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>matchByeSide(m)</code> is <code>'t1'</code></td>
+<td>team 2 wins (walkover)</td>
+</tr>
+<tr>
+<td><code>matchByeSide(m)</code> is <code>'t2'</code></td>
+<td>team 1 wins (walkover)</td>
+</tr>
+<tr>
+<td><code>matchByeSide(m)</code> is <code>null</code> and <code>m.played</code></td>
+<td>higher score wins</td>
+</tr>
+<tr>
+<td><code>matchByeSide(m)</code> is <code>null</code> and <code>!m.played</code></td>
+<td>pending</td>
+</tr>
+<tr>
+<td><code>matchByeSide(m)</code> is <code>'both'</code></td>
+<td>data error — §2.7</td>
+</tr>
+</tbody>
+</table>
+<p>The bye side is <strong>never</strong> rendered as a person. It contributes no name, no
+club, and no card row — it exists only to make the other side a winner.</p>
+<h3 id="24-decisive-twice-to-beat-and-replays">2.4 "Decisive" — twice-to-beat and replays<a class="headerlink" href="#24-decisive-twice-to-beat-and-replays" title="Permanent link">&para;</a></h3>
+<p><code>matchInstanceOf</code> exists because some brackets run a Final as <code>F(1)</code>/<code>F(2)</code>,
+where the second match is only played if the first goes the wrong way. So:</p>
+<blockquote>
+<p>Among all matches for a category with the same <code>roundKeyword</code>, the decisive
+one is <strong>the resolved instance with the highest instance number</strong> (treating
+a missing instance as <code>0</code>), where <em>resolved</em> means <code>played</code> <strong>or</strong>
+bye-decided per §2.3. If none are resolved, that placing is pending.</p>
+</blockquote>
+<p>One <code>filter</code> + <code>reduce</code>. A bracket that never needed <code>F(2)</code> reports <code>F(1)</code>'s
+result correctly; one that did play <code>F(2)</code> reports the right champion rather
+than the superseded first result.</p>
+<h3 id="25-categories-with-no-bracket">2.5 Categories with no bracket<a class="headerlink" href="#25-categories-with-no-bracket" title="Permanent link">&para;</a></h3>
+<p>A <code>standard</code>-type event can have a category that never plays a Final — pure
+round robin, standings decide it. When <strong>no <code>F</code> match exists at all</strong> for a
+category, fall back to the top three <code>RR</code> standings rows, using the identical
+sort Standings already applies:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>wins desc, then quotient desc
+</code></pre></div>
+<p>Rows failing <code>isEmptyStanding()</code> (placeholder rows where <code>player1</code> equals the
+team code) are excluded before taking the top three.</p>
+<blockquote>
+<p>Mark these podiums visibly as <strong>"by standings"</strong> rather than presenting them
+as a bracket result. An operator reading the card should never have to
+wonder which mechanism produced it.</p>
+</blockquote>
+<h3 id="26-byes-must-not-surface-anywhere-a-match-is-presented-as-playable">2.6 Byes must not surface anywhere a match is presented as playable<a class="headerlink" href="#26-byes-must-not-surface-anywhere-a-match-is-presented-as-playable" title="Permanent link">&para;</a></h3>
+<p>A bye match is <strong>not a match</strong>. It is never played, never assigned a court,
+and has no opponent. Rendering it alongside real fixtures is noise at best and
+misleading at worst — an operator seeing <code>PNF_LIWD_B vs BYE</code> sitting unplayed
+on the Live board will reasonably think something is wrong.</p>
+<p>Exclude bye matches — and bye standings rows — from every existing surface:</p>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Function</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Standings</strong> — bronze block</td>
+<td><code>renderSharedStages()</code> (dual-meet, line ~2551) and <code>renderStageTables()</code> (all types, line ~2348)</td>
+<td>Drop the whole <code>BRONZE</code> stage block for any category whose bronze was bye-decided; also drop any individual row that is itself a <code>BYE</code></td>
+</tr>
+<tr>
+<td><strong>Live Matches</strong></td>
+<td><code>renderLiveMatches()</code> / the facility court grouping</td>
+<td>Filter out <code>matchByeSide(m) !== null</code> before grouping</td>
+</tr>
+<tr>
+<td><strong>Match Finder</strong></td>
+<td><code>ticketHTML()</code> callers, and <code>teamMatches.findIndex(m =&gt; !m.played &amp;&amp; !m.liveCourt)</code> (line ~3542)</td>
+<td>Filter bye matches out of a team's match list so no "Next Up" ticket ever points at one</td>
+</tr>
+<tr>
+<td><strong>Team index / autocomplete</strong></td>
+<td><code>rebuildTeamIndex()</code></td>
+<td>Never index <code>BYE</code> as a searchable pair</td>
+</tr>
+</tbody>
+</table>
+<p>Two rules, applied in that order, cover all of it:</p>
+<ol>
+<li><strong>Row-level:</strong> a standings row whose <code>teamCode</code>/<code>player1</code> is <code>BYE</code> is
+   dropped wherever standings rows are consumed.</li>
+<li><strong>Category-level:</strong> if a category's decisive Bronze match is bye-decided,
+   its <code>BRONZE</code> block is omitted from Standings entirely — there was no
+   contest to report. The result still appears on the Awards tab, and the
+   medalist still appears in their own Round Robin standings row.</li>
+</ol>
+<blockquote>
+<p>Rule 2 is why this is a category-level decision, not just a row filter.
+Dropping only the <code>BYE</code> row would leave a lone one-sided "Bronze Battle"
+block showing a single team with no opponent and no score — worse than
+showing nothing.</p>
+</blockquote>
+<h3 id="27-incomplete-and-contradictory-states-are-shown-never-guessed">2.7 Incomplete and contradictory states are shown, never guessed<a class="headerlink" href="#27-incomplete-and-contradictory-states-are-shown-never-guessed" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Card shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final not yet played</td>
+<td>Gold/Silver slots read <strong>"Pending"</strong>; Bronze fills independently if resolved</td>
+</tr>
+<tr>
+<td>Bronze not yet played and not bye-decided</td>
+<td>Bronze slot reads <strong>"Pending"</strong></td>
+</tr>
+<tr>
+<td>Final played, scores equal</td>
+<td>Podium suppressed for that category; visible <strong>"Check the score for match #N"</strong> warning naming the match number</td>
+</tr>
+<tr>
+<td>Both sides of a match are <code>BYE</code></td>
+<td>Same warning treatment, naming the match number</td>
+</tr>
+<tr>
+<td>Team slot still a placeholder (<code>isEmptyStanding</code> shape)</td>
+<td>Names render as <strong>"TBD"</strong>, consistent with <code>pairCell()</code> elsewhere</td>
+</tr>
+<tr>
+<td>No <code>F</code> match and no RR standings</td>
+<td>Category <strong>omitted entirely</strong> from the tab and from exports</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>This mirrors §2.4 of the console spec: a wrong podium that looks finished is
+worse than one that says it is not. Nothing here silently invents a winner.</p>
+</blockquote>
+<h3 id="28-the-derivation-function">2.8 The derivation function<a class="headerlink" href="#28-the-derivation-function" title="Permanent link">&para;</a></h3>
+<p>The whole of §2 reduces to one pure function, which the tab and both export
+paths all call:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// -&gt; [{ category, source, gold, silver, bronze, warning }]</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">//    source : 'bracket' | 'standings'</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">//    gold/silver/bronze : { p1, p2, club, clubLabel } | null   (null = pending)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">//    warning : string | null</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kd">function</span><span class="w"> </span><span class="nx">buildPodiums</span><span class="p">(){</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Ordered by <code>CATEGORY_ORDER_INDEX</code>, so the Awards tab, the per-category
+exports, and the combined sheet all agree with the Standings tab's order.</p>
+<hr />
+<h2 id="3-the-tab">3. The tab<a class="headerlink" href="#3-the-tab" title="Permanent link">&para;</a></h2>
+<h3 id="31-placement">3.1 Placement<a class="headerlink" href="#31-placement" title="Permanent link">&para;</a></h3>
+<p>A fifth button in the existing <code>#viewTabsWrap</code>, after Standings:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">"view-tab"</span> <span class="na">data-view</span><span class="o">=</span><span class="s">"awards"</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span><span class="p">&gt;</span>Awards<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Wired the same way as the other four in the <code>viewTabs.forEach</code> click handler
+(line ~3039): toggle <code>#awardsResults</code> on <code>view === 'awards'</code> and call
+<code>renderAwards()</code>. Nothing about the existing four changes.</p>
+<p>Placed before Mission Control deliberately — Awards is a spectator-facing
+readout like the three tabs left of it; Mission Control is the operator's
+control surface and stays rightmost.</p>
+<h3 id="32-layout">3.2 Layout<a class="headerlink" href="#32-layout" title="Permanent link">&para;</a></h3>
+<p>One card per category, in <code>CATEGORY_ORDER_INDEX</code> order. Each card:</p>
+<ul>
+<li>Category label as the heading (<code>categoryLabel</code>)</li>
+<li>Three rows: gold, silver, bronze — medal-tinted rank badge, both player
+  names, club name underneath for <code>dual-meet</code></li>
+<li>A per-card <strong>"Export image"</strong> button</li>
+<li>A <code>by standings</code> chip when §2.5's fallback produced it</li>
+<li>A <code>walkover</code> chip on the bronze row when it was bye-decided</li>
+</ul>
+<p>Above the cards, a summary bar:</p>
+<ul>
+<li>Count of categories with a complete podium vs total</li>
+<li>One <strong>"Export whole tournament"</strong> button</li>
+<li>When some categories are still pending, a plain line saying so, so an
+  operator exporting mid-day knows the sheet will have gaps</li>
+</ul>
+<p>Responsive: cards in a grid collapsing to one column under ~700px, same
+<code>NARROW SCREENS</code> approach the rest of the page uses.</p>
+<hr />
+<h2 id="4-image-export">4. Image export<a class="headerlink" href="#4-image-export" title="Permanent link">&para;</a></h2>
+<h3 id="41-canvas-2d-no-library">4.1 Canvas 2D, no library<a class="headerlink" href="#41-canvas-2d-no-library" title="Permanent link">&para;</a></h3>
+<p><code>tools/match-control.html</code> today has <strong>zero JS dependencies</strong> — Google Fonts
+is the only external resource. Keeping it that way rules out <code>html2canvas</code>,
+and rules out a <code>.zip</code> bundler, which is the real reason bulk export is one
+combined image (§7).</p>
+<p>Drawing directly with the Canvas 2D API instead:</p>
+<ul>
+<li>No dependency, no CDN that can be down on venue wifi</li>
+<li>Deterministic output — the PNG does not depend on viewport size, zoom,
+  scroll position, or which browser the operator happens to be on</li>
+<li>No <code>foreignObject</code>/HTML-rasterisation font quirks</li>
+<li>No canvas tainting, since nothing cross-origin is drawn</li>
+</ul>
+<p>The cost is that the card design lives in drawing code rather than CSS —
+acceptable for one fixed, deliberately-designed layout, and the same tradeoff
+the scoresheet generator already makes server-side.</p>
+<h3 id="42-geometry">4.2 Geometry<a class="headerlink" href="#42-geometry" title="Permanent link">&para;</a></h3>
+<p>Design at a logical <strong>1080 × 1350</strong> (social portrait), rendered at 2× into a
+2160 × 2700 backing store and exported at that size:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EXPORT_W</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1080</span><span class="p">,</span><span class="w"> </span><span class="nx">EXPORT_H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1350</span><span class="p">,</span><span class="w"> </span><span class="nx">EXPORT_SCALE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2</span><span class="p">;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nx">EXPORT_W</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">EXPORT_SCALE</span><span class="p">;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">EXPORT_H</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">EXPORT_SCALE</span><span class="p">;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nx">ctx</span><span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="nx">EXPORT_SCALE</span><span class="p">,</span><span class="w"> </span><span class="nx">EXPORT_SCALE</span><span class="p">);</span><span class="w">   </span><span class="c1">// draw in logical units throughout</span>
+</code></pre></div>
+<p>Every coordinate below is in logical units. Vertical rhythm:</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top ~200px</td>
+<td>SAGE mark, <code>S.A.G.E.</code> eyebrow, event title, day label/date</td>
+</tr>
+<tr>
+<td>~180px</td>
+<td>Category name — Archivo Black, wrapped to two lines if long</td>
+</tr>
+<tr>
+<td>3 × ~250px</td>
+<td>Gold, silver, bronze rows</td>
+</tr>
+<tr>
+<td>Bottom ~120px</td>
+<td>Facility/venue name, <code>sage-match-control.github.io</code> footer</td>
+</tr>
+</tbody>
+</table>
+<p>A bronze row that was bye-decided renders the medalist normally, with a small
+<code>WALKOVER</code> tag where a score would otherwise sit. The bye itself is never
+drawn.</p>
+<h3 id="43-the-whole-tournament-sheet">4.3 The whole-tournament sheet<a class="headerlink" href="#43-the-whole-tournament-sheet" title="Permanent link">&para;</a></h3>
+<p>Same 1080 logical width, height computed from category count:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>height = HEADER_H + (categories.length * ROW_H) + FOOTER_H
+</code></pre></div>
+<p>with a condensed per-category row (category name left, three placings right)
+rather than the full card. One PNG, one download, readable as a results sheet.</p>
+<blockquote>
+<p><strong>Canvas size ceiling.</strong> iOS Safari caps total canvas area near 16.7M
+pixels. At <code>EXPORT_SCALE = 2</code> and 2160px wide, that is roughly 7700px of
+backing height. Compute the area before allocating and <strong>drop to
+<code>EXPORT_SCALE = 1</code> when it would exceed a safe budget</strong> rather than
+producing a blank canvas — a silently-empty PNG is the failure mode to
+avoid. A ~20-category event stays well inside 2× regardless.</p>
+</blockquote>
+<h3 id="44-fonts-must-be-loaded-before-the-first-stroke">4.4 Fonts must be loaded before the first stroke<a class="headerlink" href="#44-fonts-must-be-loaded-before-the-first-stroke" title="Permanent link">&para;</a></h3>
+<p><code>ctx.font</code> silently falls back to a system font if the family is not yet
+loaded, and there is no error to catch. The page renders Archivo Black in its
+hero, but the specific weights this drawing needs may never have been
+requested by any DOM node.</p>
+<p>So, before drawing, explicitly load every face used and await them:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="s1">'400 96px "Archivo Black"'</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="s1">'700 44px "Barlow Condensed"'</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="s1">'600 34px "Barlow Condensed"'</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="s1">'600 30px "Inter"'</span><span class="p">,</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="s1">'400 24px "Inter"'</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">fonts</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">f</span><span class="p">)));</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="k">await</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">fonts</span><span class="p">.</span><span class="nx">ready</span><span class="p">;</span>
+</code></pre></div>
+<blockquote>
+<p>Skipping this is the single most likely way the exported image comes out
+wrong while the on-screen tab looks perfect — and it only shows up on a cold
+load, which is exactly the day-of condition.</p>
+</blockquote>
+<h3 id="45-the-sage-mark">4.5 The SAGE mark<a class="headerlink" href="#45-the-sage-mark" title="Permanent link">&para;</a></h3>
+<p>The console's shield already exists as inline SVG in the hero
+(<code>svg.crown-mark</code>, line ~1638). Reuse that artwork rather than transcribing it:</p>
+<ol>
+<li><code>cloneNode(true)</code> the element.</li>
+<li>Set explicit <code>width</code>/<code>height</code> attributes — <strong>Safari renders a blob SVG at
+   zero size without them.</strong></li>
+<li>Substitute the CSS-dependent colours, which do not resolve in a standalone
+   document: <code>currentColor</code> → literal hex, <code>var(--court-dark)</code> → <code>#14263C</code>.</li>
+<li><code>XMLSerializer</code> → <code>Blob</code> (<code>image/svg+xml</code>) → object URL → <code>Image</code>.</li>
+<li><code>await img.decode()</code>, then <code>drawImage</code>.</li>
+</ol>
+<p>Cache the decoded <code>Image</code> on first use so per-category exports in a row do not
+re-decode it, and revoke the object URL once decoded. An inline SVG with no
+external references does <strong>not</strong> taint the canvas, so <code>toBlob</code> stays available.</p>
+<h3 id="46-branding">4.6 Branding<a class="headerlink" href="#46-branding" title="Permanent link">&para;</a></h3>
+<p>Drawn from the theme tokens at the top of the file, hard-coded as literals in
+the drawing code (a canvas cannot read CSS custom properties):</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Colour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Card background</td>
+<td><code>--navy-deep</code> <code>#0B1826</code></td>
+</tr>
+<tr>
+<td>Panel / rows</td>
+<td><code>--navy</code> <code>#14263C</code></td>
+</tr>
+<tr>
+<td>Accent, rank badges, rules</td>
+<td><code>--green</code> <code>#7CB92C</code></td>
+</tr>
+<tr>
+<td>Primary text</td>
+<td><code>#F6F7F2</code> (<code>--paper</code>)</td>
+</tr>
+<tr>
+<td>Secondary text (club, venue)</td>
+<td><code>#9FB1AC</code></td>
+</tr>
+<tr>
+<td>Medal tints</td>
+<td>gold <code>#D4AF37</code>, silver <code>#C0C6CC</code>, bronze <code>#B0763A</code></td>
+</tr>
+</tbody>
+</table>
+<p>Typography matches the site: <strong>Archivo Black</strong> for the category headline and
+eyebrow, <strong>Barlow Condensed</strong> for rank labels and metadata, <strong>Inter</strong> for
+player names.</p>
+<blockquote>
+<p>Keep the medal tints for the rank badges only. The card's structure stays
+navy/green so it reads as a SAGE artefact first and a podium second.</p>
+</blockquote>
+<h3 id="47-download-mechanics">4.7 Download mechanics<a class="headerlink" href="#47-download-mechanics" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nx">canvas</span><span class="p">.</span><span class="nx">toBlob</span><span class="p">(</span><span class="nx">blob</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">URL</span><span class="p">.</span><span class="nx">createObjectURL</span><span class="p">(</span><span class="nx">blob</span><span class="p">);</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'a'</span><span class="p">);</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nx">a</span><span class="p">.</span><span class="nx">href</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">url</span><span class="p">;</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">download</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">filename</span><span class="p">;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">click</span><span class="p">();</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">URL</span><span class="p">.</span><span class="nx">revokeObjectURL</span><span class="p">(</span><span class="nx">url</span><span class="p">),</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">},</span><span class="w"> </span><span class="s1">'image/png'</span><span class="p">);</span>
+</code></pre></div>
+<p>Filenames, lowercased and slugified:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&lt;event-key&gt;-&lt;day-key&gt;-&lt;category&gt;-podium.png
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>pnf-x-bup-dual-meet-pnf-x-bup-day1-liwd-podium.png
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>&lt;event-key&gt;-&lt;day-key&gt;-podium-all.png
+</code></pre></div>
+<p>The day key is included because the tab is day-scoped (§8) — two days of the
+same event must not collide in an operator's Downloads folder.</p>
+<hr />
+<h2 id="5-build-steps">5. Build steps<a class="headerlink" href="#5-build-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Bye handling first, since it touches existing tabs.</strong> Add <code>sideIsBye()</code>
+   / <code>matchByeSide()</code> (§2.3) and apply the four exclusions in §2.6. Verify
+   against the current PNF snapshot that nothing changes yet — no byes exist
+   in it, so Live/Finder/Standings must render byte-identically. That is the
+   regression guard before anything new is added.</li>
+<li><strong><code>buildPodiums()</code></strong> (§2.8), verified against the live <code>pnf-x-bup-day1</code>
+   snapshot. All seven categories currently return pending — that is the
+   correct answer before the event and is itself the first test.</li>
+<li><strong>The tab.</strong> Button, panel, <code>renderAwards()</code>, wired into the existing
+   <code>viewTabs</code> handler. Screen layout and pending states complete before any
+   export code exists.</li>
+<li><strong>Per-category export.</strong> Font preload, SAGE mark rasterisation, card
+   drawing, download. Verify the PNG opens at 2160 × 2700 with correct fonts
+   on a hard reload (cold font cache).</li>
+<li><strong>Whole-tournament sheet</strong>, including the canvas-area guard from §4.3.</li>
+</ol>
+<p>No <code>sage-tools-api</code> change, so no <code>package.json</code> bump and no Cloud Run deploy.</p>
+<hr />
+<h2 id="6-acceptance">6. Acceptance<a class="headerlink" href="#6-acceptance" title="Permanent link">&para;</a></h2>
+<p><strong>Bye handling (§2.3, §2.6)</strong></p>
+<ul>
+<li>[ ] A Bronze match with <code>BYE</code> in the opponent's team code yields that
+      category's bronze medalist with no scores entered</li>
+<li>[ ] The same, with <code>BYE</code> in the opponent's <em>player name</em> cell instead</li>
+<li>[ ] The bye never appears on Live Matches, in Match Finder results, as a
+      "Next Up" ticket, or in the search autocomplete</li>
+<li>[ ] Standings omits the whole <code>BRONZE</code> block for a bye-decided category</li>
+<li>[ ] The bronze medalist still appears in their own Round Robin standings row</li>
+<li>[ ] A match with <code>BYE</code> on <strong>both</strong> sides shows the warning naming the match
+      number, and no podium for that category</li>
+<li>[ ] Against the current PNF snapshot (no byes present), Live Matches, Match
+      Finder and Standings render exactly as they do today</li>
+</ul>
+<p><strong>Podium derivation (§2.2, §2.4, §2.5, §2.7)</strong></p>
+<ul>
+<li>[ ] Current unplayed PNF snapshot: all seven categories listed, every
+      placing "Pending", no fabricated winners, no console errors</li>
+<li>[ ] With a Final's scores filled in: gold/silver populate; bronze stays
+      pending until its own match resolves</li>
+<li>[ ] <code>F(1)</code> and <code>F(2)</code> both played → reports <code>F(2)</code>'s winner</li>
+<li>[ ] <code>F(1)</code> played, <code>F(2)</code> not → reports <code>F(1)</code>'s winner</li>
+<li>[ ] Final played with equal scores → warning naming the match, podium
+      suppressed</li>
+<li>[ ] A <code>standard</code>-type event with an RR-only category shows a top-three
+      podium tagged <strong>by standings</strong></li>
+</ul>
+<p><strong>Export (§4)</strong></p>
+<ul>
+<li>[ ] Per-category PNG: 2160 × 2700, correct fonts on a cold load, SAGE shield
+      present, club names shown for dual-meet</li>
+<li>[ ] A bye-decided bronze row shows the medalist plus a <code>WALKOVER</code> tag, and
+      never the word <code>BYE</code></li>
+<li>[ ] Whole-tournament PNG: every non-omitted category present, in the same
+      order as the Standings tab</li>
+<li>[ ] A sheet that would exceed the canvas area budget falls back to 1× and
+      still exports a readable image</li>
+</ul>
+<p><strong>General</strong></p>
+<ul>
+<li>[ ] Tab is usable signed-out</li>
+<li>[ ] At 375px the cards stack to one column and the document does not scroll
+      horizontally</li>
+</ul>
+<hr />
+<h2 id="7-decisions-taken">7. Decisions taken<a class="headerlink" href="#7-decisions-taken" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Social portrait, 1080 × 1350</strong>, rendered at 2×. Matches how these
+   actually get shared after an event.</li>
+<li><strong>Bulk export is one combined image</strong>, not N files. Browsers throttle
+   multi-file downloads, and bundling to <code>.zip</code> would put the first JS
+   dependency on a page that has none.</li>
+<li><strong>Top three only.</strong> The bronze match's loser is not shown.</li>
+<li><strong>Twice-to-beat bronze is encoded as a bye</strong>, not special-cased in code, so
+   §2.2's single rule ("bronze = winner of the Bronze match") holds for every
+   bracket format.</li>
+<li><strong>A bye-decided bronze removes the whole <code>BRONZE</code> block from Standings</strong>
+   for that category, not just the <code>BYE</code> row — a one-sided Bronze Battle block
+   is worse than none.</li>
+<li>Podium is <strong>per selected day</strong>, like every other tab.</li>
+<li>Club shown as <strong>text</strong>, not a logo — same reasoning as console spec §2.1.</li>
+<li>Tab is <strong>always visible</strong>, including mid-tournament, consistent with the
+   console ignoring <code>isLive</code> for its own display.</li>
+</ol>
+<hr />
+<h2 id="8-still-open">8. Still open<a class="headerlink" href="#8-still-open" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Multi-day events.</strong> Finals happen on the last day, so that day's Awards
+  tab is the tournament's podium. Whether a multi-day event should offer an
+  aggregate export spanning days is deferred until one needs it — the
+  derivation is day-scoped and would need a cross-day snapshot fetch.</li>
+<li><strong>Special awards</strong> (MVP, sportsmanship, most improved). The sheet's <code>Awards</code>
+  tab may hold these; they are not derivable from match data and would need a
+  new synced range.</li>
+<li>Whether the awarding ceremony wants a <strong>landscape variant</strong> for the venue
+  displays in addition to the portrait social card.</li>
+<li>Whether byes should ever be used outside the Bronze match (e.g. a walkover
+  in an earlier round). The detection in §2.3 is generic and would handle it,
+  but only the Bronze case is specified and tested here.</li>
+</ul>
+<hr />
+<h2 id="9-out-of-scope">9. Out of scope<a class="headerlink" href="#9-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Any change to <code>sage-tools-api</code>, <code>events.json</code>, or the sync pipeline</li>
+<li>Publishing podium images anywhere automatically</li>
+<li>The public event <code>index.html</code> — this is an operator surface only</li>
+<li>Editing or overriding a derived podium by hand</li>
+<li>PDF output (the scoresheet pipeline is the place for print artefacts)</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../match-control-console-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Match Control console">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Match Control console
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../schedule-screen-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Schedule screen">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Schedule screen
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

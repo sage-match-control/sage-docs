@@ -1,0 +1,3047 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/event-templates-spec/">
+      
+      
+        <link rel="prev" href="../dual-meet-readouts-generator-spec/">
+      
+      
+        <link rel="next" href="../pnf-x-bup-dual-meet-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Event site templates - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-event-site-templates" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Event site templates
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery — explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Placement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-asset-paths-fix-the-bug-the-originals-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Asset paths — fix the bug the originals have
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-settled-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Settled decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-shared-template-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The shared template contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The shared template contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-placeholder-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Placeholder convention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-token-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Token list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-config-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Config block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-theme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Theme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-required-spreadsheet-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Required spreadsheet columns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-template-a-standard-tournament-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Template A — standard-tournament-template
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-template-b-dual-meet-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Template B — dual-meet-template
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Template B — dual-meet-template">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-port-from-ppa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Port from PPA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-team-code-format-the-fork-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Team code format — the fork point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-take-bkls-round-parsing-not-ppas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Take bkl's round parsing, not PPA's
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-genericisation-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Genericisation work
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Genericisation work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-any-number-of-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Any number of days
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-any-number-of-venues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Any number of venues
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-any-set-of-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Any set of categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-strings-and-branding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Strings and branding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-backend-multi-event-syncconfig-one-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Backend: multi-event SyncConfig (one-time)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Backend: multi-event SyncConfig (one-time)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-data-repo-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Data repo layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-srcsyncsyncconfigmjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 src/sync/SyncConfig.mjs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-sheet-tab-names-gids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Sheet tab names / GIDs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-apps-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 Apps Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-known-consequence-for-bkl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 Known consequence for bkl
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-_templatesclaudemd-the-instantiation-runbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. _templates/CLAUDE.md — the instantiation runbook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF × BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Placement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-asset-paths-fix-the-bug-the-originals-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Asset paths — fix the bug the originals have
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-settled-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Settled decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-shared-template-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The shared template contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The shared template contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-placeholder-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Placeholder convention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-token-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Token list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-config-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Config block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-theme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Theme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-required-spreadsheet-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Required spreadsheet columns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-template-a-standard-tournament-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Template A — standard-tournament-template
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-template-b-dual-meet-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Template B — dual-meet-template
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Template B — dual-meet-template">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-port-from-ppa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Port from PPA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-team-code-format-the-fork-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Team code format — the fork point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-take-bkls-round-parsing-not-ppas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Take bkl's round parsing, not PPA's
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-genericisation-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Genericisation work
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Genericisation work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-any-number-of-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Any number of days
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-any-number-of-venues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Any number of venues
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-any-set-of-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Any set of categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-strings-and-branding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Strings and branding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-backend-multi-event-syncconfig-one-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Backend: multi-event SyncConfig (one-time)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Backend: multi-event SyncConfig (one-time)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-data-repo-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Data repo layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-srcsyncsyncconfigmjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 src/sync/SyncConfig.mjs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-sheet-tab-names-gids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Sheet tab names / GIDs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-apps-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 Apps Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-known-consequence-for-bkl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 Known consequence for bkl
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-_templatesclaudemd-the-instantiation-runbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. _templates/CLAUDE.md — the instantiation runbook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/event-templates-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-event-site-templates">Spec — Event site templates<a class="headerlink" href="#spec-event-site-templates" title="Permanent link">&para;</a></h1>
+<p>Create two reusable event-site templates in the <code>sage-match-control.github.io</code>
+repo, so a new tournament site is a copy-and-fill job rather than a
+copy-an-old-event-and-hunt-for-hardcoded-strings job.</p>
+<table>
+<thead>
+<tr>
+<th>Template</th>
+<th>Based on</th>
+<th>For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>standard-tournament-template</code></td>
+<td><code>events/archives/bkl-cup-2026/</code></td>
+<td>Multi-day, multi-venue, open-entry tournaments</td>
+</tr>
+<tr>
+<td><code>dual-meet-template</code></td>
+<td>bkl structure + <code>events/archives/ppa-x-club-2600-dual-meet.html</code> event model</td>
+<td>Two clubs facing off, usually one day, one venue</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The deliverable is the templates, not an event.</strong> No real event is created by
+this task. §9 is the runbook a later session follows to stand one up.</p>
+<p>Everything below was derived by reading the three source pages
+(<code>bkl-cup-2026/index.html</code> 2752 lines, <code>match-control.html</code> 3167,
+<code>ppa-x-club-2600-dual-meet.html</code> 1590). Line references are to those archived
+copies; script-relative line numbers are offsets within the <code>&lt;script&gt;</code> block.</p>
+<p><strong>Settled up front</strong> (§3): data comes from the Cloud Run snapshot pipeline, not
+a direct browser fetch of Google Sheets; snapshots go to one generic data repo
+with a folder per event; <code>bracket-generator.html</code> ships in both templates
+<em>(superseded — see D3 below)</em>.</p>
+<hr />
+<h2 id="1-placement">1. Placement<a class="headerlink" href="#1-placement" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>_templates/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  CLAUDE.md                        &lt;- how to instantiate (§9)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  standard-tournament-template/
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    index.html
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    match-control.html
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  dual-meet-template/
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    index.html
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    match-control.html
+</code></pre></div>
+<p><code>_templates/</code> at the <strong>repo root</strong>, not under <code>events/</code>.</p>
+<p>Templates must not be served as pages. This repo has no <code>.nojekyll</code>, so GitHub
+Pages runs Jekyll over it, and Jekyll excludes top-level directories beginning
+with <code>_</code> from the published site. That is the mechanism keeping <code>_templates/</code>
+unpublished.</p>
+<ul>
+<li>Do <strong>not</strong> add a <code>.nojekyll</code> to this repo without also finding another way to
+  exclude <code>_templates/</code>. (The <em>data</em> repo needs <code>.nojekyll</code>; this one must not
+  have one. Different repos — don't cross the wires.)</li>
+<li>Templates contain only placeholders and example values, never secrets, so if
+  they do leak into the published site nothing is exposed — it is a tidiness
+  boundary, not a security one. State that in <code>_templates/CLAUDE.md</code>.</li>
+</ul>
+<hr />
+<h2 id="2-asset-paths-fix-the-bug-the-originals-have">2. Asset paths — fix the bug the originals have<a class="headerlink" href="#2-asset-paths-fix-the-bug-the-originals-have" title="Permanent link">&para;</a></h2>
+<p>The bkl and PPA pages were authored at <code>events/&lt;slug&gt;/</code> and later moved into
+<code>events/archives/</code> as pure renames (commit <code>8e7d516</code>, all <code>R100</code>). Their
+relative asset paths were never updated, so <strong>in their current location they are
+broken</strong>:</p>
+<ul>
+<li><code>../favicons/…</code> → <code>events/archives/favicons/</code> (does not exist)</li>
+<li><code>../../assets/logo.png</code> → <code>events/assets/logo.png</code> (does not exist)</li>
+</ul>
+<p>Templates must not inherit this. <strong>Use root-absolute paths in both templates:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"icon"</span> <span class="na">href</span><span class="o">=</span><span class="s">"/events/favicons/favicon-32x32.png"</span><span class="p">&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"og:image"</span> <span class="na">content</span><span class="o">=</span><span class="s">"/assets/logo.png"</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>This works because <code>sage-match-control.github.io</code> is a user/org Pages site
+served at the domain root. (If the site is ever moved to a project-pages repo
+served under <code>/&lt;repo&gt;/</code>, root-absolute paths break and every template needs a
+prefix — note this in <code>_templates/CLAUDE.md</code>.)</p>
+<p>Payoff: templates preview correctly in place, instantiation is
+location-independent, and moving a finished event into <code>events/archives/</code> no
+longer breaks its icons — the exact bug that already bit bkl, PPA, and boc.</p>
+<p>Leave the archived originals alone; fixing them is a separate cleanup (§11).</p>
+<hr />
+<h2 id="3-settled-decisions">3. Settled decisions<a class="headerlink" href="#3-settled-decisions" title="Permanent link">&para;</a></h2>
+<p><strong>D1 — Data source: Cloud Run snapshot pipeline.</strong>
+Both templates read a published JSON snapshot from GitHub Pages; Cloud Run
+fetches the sheets and publishes it. PPA's direct browser-side <code>gviz</code> fetch is
+<strong>not</strong> carried into either template. Mission Control, the partial-sync status
+line, and the "last synced" timestamp all depend on this and are in scope for
+both templates.</p>
+<p><strong>D2 — Data repo: one generic repo named <code>event-data</code>, a folder per event.</strong>
+Not a repo per event. Snapshots live at
+<code>sage-match-control/event-data</code> → <code>&lt;event-key&gt;/data/&lt;day-key&gt;.json</code>, served over
+GitHub Pages at <code>https://sage-match-control.github.io/event-data/…</code>. Layout and
+the <code>SyncConfig</code> restructure it implies are in §8.</p>
+<p>Consequences: <code>GITHUB_REPO</code> stays a single env var, its value becoming
+<code>event-data</code>; <code>GitHubPublisher</code> needs no change; day keys become globally unique
+across events; a template's <code>EVENT_KEY</code> must equal its folder name in that repo.
+Because the name is now fixed, <code>GHPAGES_REPO</code> is a <strong>hardcoded constant</strong> in both
+templates rather than a per-event token — one less thing to fill in at
+instantiation, and one less way for a new event to point at nothing.</p>
+<p><strong>D3 — <code>bracket-generator.html</code> ships in both templates.</strong>
+It is fully event-agnostic (no config block, no sheet access — pairs are pasted
+in by hand), so it is copied verbatim from bkl and needs no genericisation.</p>
+<blockquote>
+<p><strong>Superseded by the bracket generator spec.</strong> The per-template copy this
+decision describes was correct at the time — the duplication cost (§1) was
+real but small next to genericising a template contract from scratch. Once
+the tool had shipped and drifted (one copy fell behind the S.A.G.E. theme
+with no mechanism catching it), that trade flipped: the tool moved to one
+evergreen copy at <code>tools/bracket-generator.html</code>, with an optional
+<strong>Event name</strong> field replacing the token-based branding it loses. See
+<code>sage-docs/docs/specs/bracket-generator-spec.md</code>.</p>
+</blockquote>
+<p><strong>D4 — Organizer page stays unlinked.</strong> Follow bkl: <code>match-control.html</code> is not
+linked from <code>index.html</code>; the URL is handed out directly.</p>
+<hr />
+<h2 id="4-the-shared-template-contract">4. The shared template contract<a class="headerlink" href="#4-the-shared-template-contract" title="Permanent link">&para;</a></h2>
+<p>Both templates must expose the <strong>same</strong> configuration surface, so a session that
+has instantiated one can instantiate the other without relearning anything. The
+only intentional difference is the club dimension (§6).</p>
+<h3 id="41-placeholder-convention">4.1 Placeholder convention<a class="headerlink" href="#41-placeholder-convention" title="Permanent link">&para;</a></h3>
+<p>Two kinds of value, handled differently on purpose:</p>
+<ul>
+<li><strong>Identity strings that must never survive instantiation</strong> — event name, dates,
+  venue, sheet IDs, URLs, club names — are <code>{{DOUBLE_BRACE}}</code>
+  tokens. They are greppable, and "no <code>{{</code> remains" is a hard acceptance check.</li>
+<li><strong>Structural config that demonstrates the shape</strong> — <code>DIVISIONS</code>, <code>EVENTS</code>,
+  <code>FACILITIES</code>, <code>DAYS</code> — ships with <em>working example values</em> under a
+  <code>// EXAMPLE — replace with this event's own</code> comment, so the template renders
+  and the expected shape is self-evident.</li>
+</ul>
+<p>Never leave a real bkl or PPA value as an example: no <code>bkl</code>, <code>BKL</code>,
+<code>bklCup2026</code>, <code>Pickleball Central PH</code>, <code>Pampanga Paddle Aces</code>, <code>Club 2600</code>, and
+no real sheet IDs or Cloud Run URLs anywhere in <code>_templates/</code>.</p>
+<h3 id="42-token-list">4.2 Token list<a class="headerlink" href="#42-token-list" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Used in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{EVENT_KEY}}</code></td>
+<td>config; folder name under <code>events/</code> and in the data repo; storage namespace</td>
+</tr>
+<tr>
+<td><code>{{EVENT_TITLE}}</code></td>
+<td><code>&lt;title&gt;</code>, hero <code>&lt;h1&gt;</code>, footer</td>
+</tr>
+<tr>
+<td><code>{{EVENT_TAGLINE}}</code></td>
+<td>hero subtitle</td>
+</tr>
+<tr>
+<td><code>{{EVENT_HEADLINE}}</code></td>
+<td>bkl's <code>.domination-line</code> slot — optional, blank is fine</td>
+</tr>
+<tr>
+<td><code>{{EVENT_DATE_RANGE}}</code></td>
+<td>hero eyebrow, footer, meta description</td>
+</tr>
+<tr>
+<td><code>{{VENUE}}</code></td>
+<td>hero eyebrow, footer, <code>FACILITIES</code></td>
+</tr>
+<tr>
+<td><code>{{QR_IMAGE}}</code> / <code>{{QR_URL}}</code></td>
+<td>QR panel image + printed short link</td>
+</tr>
+<tr>
+<td><code>{{CLOUD_RUN_BASE_URL}}</code></td>
+<td><code>match-control.html</code> only</td>
+</tr>
+<tr>
+<td><code>{{CLUB_A_CODE}}</code> … <code>{{CLUB_B_NAME}}</code></td>
+<td><strong>dual-meet template only</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-config-block">4.3 Config block<a class="headerlink" href="#43-config-block" title="Permanent link">&para;</a></h3>
+<p>Both templates keep bkl's convention: one commented <code>CONFIGURATION</code> region at
+the top of the <code>&lt;script&gt;</code>, closed by an explicit <code>END CONFIGURATION</code> marker,
+with nothing event-specific below it. An organizer must never need to read past
+the marker.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// ---- Event identity -------------------------------------------------------</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">// Does triple duty: browser-storage namespace, this event's folder in the</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">// shared data repo, and its folder under events/ in this repo. Keep all three</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">// identical.</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENT_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'{{EVENT_KEY}}'</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1">// ---- Days -----------------------------------------------------------------</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1">// One entry per tournament day. Length drives the UI: see §7.1. Day keys must</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1">// be globally unique across all events in the data repo — prefix them with</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1">// something event-specific.</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAYS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="cm">/* EXAMPLE — replace */</span><span class="w"> </span><span class="p">];</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="kd">const</span><span class="w"> </span><span class="nx">LIVE_GO_LIVE_HOUR_PH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">7</span><span class="p">;</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1">// ---- Venues / courts ------------------------------------------------------</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1">// Length drives the UI: see §7.2.</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FACILITIES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="cm">/* EXAMPLE — replace */</span><span class="w"> </span><span class="p">];</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="c1">// ---- Categories -----------------------------------------------------------</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DIVISIONS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* code -&gt; { name, full } */</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENTS</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* code -&gt; label */</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="c1">// Optional overrides. Omit or leave null to fall back to the key order of</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="c1">// DIVISIONS / EVENTS above, which is the normal case (§7.3).</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DIVISION_ORDER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENT_ORDER</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1">// ---- Clubs ----------------------------------------------------------------</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="c1">// DUAL-MEET TEMPLATE ONLY. Absent entirely from the standard template.</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="kd">const</span><span class="w"> </span><span class="nx">CLUBS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* code -&gt; { name, full } */</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="c1">// ---- Data source ----------------------------------------------------------</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="c1">// Fixed for every event — one shared repo, one folder per event, keyed by</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="c1">// EVENT_KEY above. Nothing here is filled in at instantiation; if a page ever</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="c1">// needs a different repo, that is a platform change, not an event setting.</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="kd">const</span><span class="w"> </span><span class="nx">GHPAGES_OWNER</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">'sage-match-control'</span><span class="p">;</span>
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="kd">const</span><span class="w"> </span><span class="nx">GHPAGES_REPO</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">'event-data'</span><span class="p">;</span>
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="kd">const</span><span class="w"> </span><span class="nx">GHPAGES_BRANCH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'main'</span><span class="p">;</span>
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="kd">const</span><span class="w"> </span><span class="nx">snapshotUrlFor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">dayKey</span><span class="w"> </span><span class="p">=&gt;</span>
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="w">  </span><span class="sb">`https://</span><span class="si">${</span><span class="nx">GHPAGES_OWNER</span><span class="si">}</span><span class="sb">.github.io/</span><span class="si">${</span><span class="nx">GHPAGES_REPO</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">EVENT_KEY</span><span class="si">}</span><span class="sb">/data/</span><span class="si">${</span><span class="nx">dayKey</span><span class="si">}</span><span class="sb">.json?t=</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>
+<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="c1">// ---- Network --------------------------------------------------------------</span>
+<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FETCH_TIMEOUT_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8000</span><span class="p">;</span>
+<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="kd">const</span><span class="w"> </span><span class="nx">POLL_INTERVAL_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10000</span><span class="p">;</span>
+<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>
+<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a><span class="c1">// ---- Storage keys ---------------------------------------------------------</span>
+<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="kd">const</span><span class="w"> </span><span class="nx">STORAGE_DAY_KEY</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">EVENT_KEY</span><span class="si">}</span><span class="sb">.dayIndex`</span><span class="p">;</span>
+<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="kd">const</span><span class="w"> </span><span class="nx">STORAGE_SEARCH_KEY</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">EVENT_KEY</span><span class="si">}</span><span class="sb">.search`</span><span class="p">;</span>
+<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ORG_SECRET_STORAGE_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">EVENT_KEY</span><span class="si">}</span><span class="sb">.orgSecret`</span><span class="p">;</span><span class="w">  </span><span class="c1">// match-control.html only</span>
+</code></pre></div>
+<p><code>STAGE_META</code> / <code>STAGE_ORDER</code> / <code>BADGE_CLASSES</code> carry over from bkl unchanged in
+both templates.</p>
+<h3 id="44-theme">4.4 Theme<a class="headerlink" href="#44-theme" title="Permanent link">&para;</a></h3>
+<p>Collect every event-specific colour into the single <code>:root</code> block at the top of
+<code>&lt;style&gt;</code>, under a <code>/* ---------- THEME ---------- */</code> banner, and state in a
+comment that this block is the only place to restyle an event. bkl's palette
+(<code>--court:#C6FF00</code>, <code>--court-dark:#060B16</code>, …) is a reasonable neutral default
+for both templates; do not carry PPA's palette into the dual-meet template
+purely because that was a dual meet.</p>
+<h3 id="45-required-spreadsheet-columns">4.5 Required spreadsheet columns<a class="headerlink" href="#45-required-spreadsheet-columns" title="Permanent link">&para;</a></h3>
+<p>Identical for both templates. Exact, case-sensitive:</p>
+<ul>
+<li><strong>Matches tab</strong>: <code>matchNumber</code>, <code>teamCode1</code>, <code>team1Player1</code>, <code>team1Player2</code>,
+  <code>teamCode2</code>, <code>team2Player1</code>, <code>team2Player2</code>, <code>Schedule</code>, <code>team1Score</code>,
+  <code>team2Score</code>, <code>CourtAssignment</code>, <code>court</code>.
+  <code>court</code> is the <em>live</em> court (distinct from the scheduled <code>CourtAssignment</code>)
+  and is what drives the Live Matches board. The PPA sheet did not have it;
+  without it the Live tab renders "No matches are currently on court." forever.</li>
+<li><strong>Standings tab</strong>: <code>teamCode</code>, <code>player1</code>, <code>player2</code>, <code>wins</code>, <code>loss</code>,
+  <code>quotient</code>, <code>bracket</code>.</li>
+</ul>
+<p>Document this list in <code>_templates/CLAUDE.md</code> — it is the most common cause of a
+new event silently rendering empty.</p>
+<hr />
+<h2 id="5-template-a-standard-tournament-template">5. Template A — <code>standard-tournament-template</code><a class="headerlink" href="#5-template-a-standard-tournament-template" title="Permanent link">&para;</a></h2>
+<p>Copy <code>events/archives/bkl-cup-2026/</code> and genericise per §7. Everything in the
+table below is inherited behaviour to <strong>keep</strong>; it is what makes this worth
+templating rather than rebuilding.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Where it lives now (<code>index.html</code>, script-relative)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONFIGURATION block with explicit END marker</td>
+<td>L1–L168</td>
+</tr>
+<tr>
+<td>Snapshot fetch (<code>fetchDaySnapshot</code>, <code>snapshotUrlFor</code>)</td>
+<td>L286–L307</td>
+</tr>
+<tr>
+<td><code>FETCH_TIMEOUT_MS</code> + <code>AbortController</code> timeout</td>
+<td>L73</td>
+</tr>
+<tr>
+<td>Polling, paused while the tab is hidden</td>
+<td>L78</td>
+</tr>
+<tr>
+<td>Stale-response guard (<code>dayIndexAtStart</code>) in <code>loadLiveData</code></td>
+<td>L318+</td>
+</tr>
+<tr>
+<td>7 AM PH go-live gating (<code>computeDayIsLive</code>, <code>isLive: 'auto'</code>)</td>
+<td>L42–L52</td>
+</tr>
+<tr>
+<td>Partial-sync reporting (<code>snapshot.failedFacilities</code>)</td>
+<td>in <code>loadLiveData</code></td>
+</tr>
+<tr>
+<td>Live Matches court board</td>
+<td>L1318–L1414</td>
+</tr>
+<tr>
+<td>Standings: category toggle bar (desktop) + category autocomplete (mobile)</td>
+<td>L855–L924</td>
+</tr>
+<tr>
+<td>Standings: scroll capture/restore across re-render</td>
+<td>L771–L808</td>
+</tr>
+<tr>
+<td>Standings: matchup pairing (<code>pairUpMatchups</code>, <code>renderMatchup</code>)</td>
+<td>L655–L741</td>
+</tr>
+<tr>
+<td>Twice-to-beat <code>(1)</code>/<code>(2)</code> handling (<code>matchInstanceOf</code>)</td>
+<td>L482–L490</td>
+</tr>
+<tr>
+<td><code>parseCode</code> memo cache + regex derived from <code>DIVISIONS</code>/<code>EVENTS</code></td>
+<td>L147, L448–L463</td>
+</tr>
+<tr>
+<td>Autocomplete with clear (×) button</td>
+<td>L1118–L1192</td>
+</tr>
+<tr>
+<td>QR panel</td>
+<td>body, <code>.qr-panel</code></td>
+</tr>
+<tr>
+<td>Day picker gating the tabs until a day is chosen</td>
+<td>L1035–L1117</td>
+</tr>
+</tbody>
+</table>
+<p><code>match-control.html</code> additionally keeps: the Mission Control tab (resync,
+shared secret in <code>sessionStorage</code>, connection check, per-facility buttons,
+CSV-fallback checkbox — body + script L1541–L1740), and its override of
+<code>computeDayIsLive()</code> to always return <code>true</code> (script L54–L56) so the organizer
+page is never gated. Keep both, and keep the comment explaining why.</p>
+<p>Team code format: <code>&lt;DIVISION&gt;&lt;EVENT&gt;_&lt;REST&gt;</code> (e.g. <code>B18MD_1</code>, <code>HI40XD_SF_2</code>,
+<code>B35XD_F_1_(2)</code>).</p>
+<hr />
+<h2 id="6-template-b-dual-meet-template">6. Template B — <code>dual-meet-template</code><a class="headerlink" href="#6-template-b-dual-meet-template" title="Permanent link">&para;</a></h2>
+<p>Start from the <strong>same genericised bkl base</strong> as Template A — not from the PPA
+file — then port the dual-meet model onto it. The PPA page is the reference for
+<em>what a dual meet is</em>, not the code to build on: it lacks the Live board,
+Mission Control, polling, the stale-response guard, and the snapshot pipeline.</p>
+<h3 id="61-port-from-ppa">6.1 Port from PPA<a class="headerlink" href="#61-port-from-ppa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Where it lives now (<code>ppa-x-club-2600-dual-meet.html</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLUBS</code> registry, club-prefixed team codes</td>
+<td>L~960</td>
+</tr>
+<tr>
+<td><code>parseCode</code> with a club segment</td>
+<td>L~1010</td>
+</tr>
+<tr>
+<td>Club win-totals summary bar (<code>clubWins</code>, VS separator, leader highlight)</td>
+<td>in <code>renderStandings</code></td>
+</tr>
+<tr>
+<td>Desktop standings: category column with clubs stacked inside (<code>renderCategoryColumn</code>, <code>renderClubSubsection</code>)</td>
+<td>L~1160–1185</td>
+</tr>
+<tr>
+<td>Mobile standings: one column per club, categories inside</td>
+<td><code>renderStandings</code> else-branch</td>
+</tr>
+<tr>
+<td><code>divisionLabel()</code> including the club's full name</td>
+<td>L~1030</td>
+</tr>
+<tr>
+<td>Hero copy pattern: "Club A × Club B · date · venue" eyebrow</td>
+<td>body header</td>
+</tr>
+</tbody>
+</table>
+<p>The club-aware standings rendering <strong>replaces</strong> bkl's club-less category card.</p>
+<h3 id="62-team-code-format-the-fork-point">6.2 Team code format — the fork point<a class="headerlink" href="#62-team-code-format-the-fork-point" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Standard: <code>&lt;DIVISION&gt;&lt;EVENT&gt;_&lt;REST&gt;</code></li>
+<li>Dual meet: <code>&lt;CLUB&gt;_&lt;DIVISION&gt;&lt;EVENT&gt;_&lt;REST&gt;</code></li>
+</ul>
+<p>Build the regex the way bkl does, with the club segment added:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">CODE_REGEX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">RegExp</span><span class="p">(</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="sb">`^(</span><span class="si">${</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">CLUBS</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">'|'</span><span class="p">)</span><span class="si">}</span><span class="sb">)_(</span><span class="si">${</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">DIVISIONS</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">'|'</span><span class="p">)</span><span class="si">}</span><span class="sb">)(</span><span class="si">${</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">EVENTS</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">'|'</span><span class="p">)</span><span class="si">}</span><span class="sb">)_(.+)$`</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">);</span>
+</code></pre></div>
+<p><code>parseCode(code)</code> returns <code>{ club, division, event, rest }</code>, keeps bkl's
+<code>parseCodeCache</code> memoisation, and on no match returns
+<code>{ club: null, division: null, event: null, rest: code }</code>.</p>
+<p>The added <code>club</code> is additive, so audit — don't rewrite — these call sites:
+<code>divisionLabel</code>, <code>divisionEventLabel</code>, <code>categorySortKey</code>, <code>standingsStageKey</code>,
+<code>roundKeyword</code>, <code>pairKey</code>, <code>renderStandings</code>, <code>renderCategoryColumn</code>,
+<code>renderClubSubsection</code>.</p>
+<p><code>pairKey()</code> must include the club (PPA's already does) so two pairs with the
+same names on opposite clubs never merge in the autocomplete index.</p>
+<h3 id="63-take-bkls-round-parsing-not-ppas">6.3 Take bkl's round parsing, not PPA's<a class="headerlink" href="#63-take-bkls-round-parsing-not-ppas" title="Permanent link">&para;</a></h3>
+<p>Use bkl's <code>roundKeyword()</code> with anchored regexes (<code>(^|_)SF(_|\d|$)</code>), <strong>not</strong>
+PPA's <code>roundLabel()</code> which uses <code>rest.includes('SF')</code>. bkl's version survives
+twice-to-beat suffixes and won't false-positive on a bracket label.</p>
+<hr />
+<h2 id="7-genericisation-work">7. Genericisation work<a class="headerlink" href="#7-genericisation-work" title="Permanent link">&para;</a></h2>
+<p>This is the substance of the task. Every item is something currently hardcoded
+that must become config-driven, so that "regardless of the categories or the
+number of days" actually holds.</p>
+<h3 id="71-any-number-of-days">7.1 Any number of days<a class="headerlink" href="#71-any-number-of-days" title="Permanent link">&para;</a></h3>
+<p><code>DAYS.length</code> drives the UI at <strong>runtime</strong>. The instantiator sets the array; they
+never delete UI code.</p>
+<ul>
+<li><code>length &gt; 1</code> — day picker visible, tabs gated until a day is chosen,
+  <code>STORAGE_DAY_KEY</code> remembered across reloads, "Jump to today"
+  (<code>getTodayOrNextDayIndex()</code>, <code>match-control.html</code>) available.</li>
+<li><code>length === 1</code> — picker hidden, day <code>0</code> auto-selected on load so tabs and data
+  appear immediately, <code>STORAGE_DAY_KEY</code> unused, "Jump to today" hidden.</li>
+</ul>
+<p>Both templates carry both paths. The dual-meet template merely <em>ships</em> with a
+one-entry example <code>DAYS</code>; it is not restricted to one day.</p>
+<p>Keep <code>computeDayIsLive()</code> and <code>isLive: 'auto'</code> in both — the 7 AM PH gate is
+what hides scores and the Live/Standings tabs before an event starts, and it is
+just as wanted for a one-day meet.</p>
+<p>Also drop bkl's <code>STORAGE_DAY_KEY</code> comment about the cancelled Aug 14 day and the
+<code>.v2</code> suffix — that is bkl history, meaningless in a template.</p>
+<h3 id="72-any-number-of-venues">7.2 Any number of venues<a class="headerlink" href="#72-any-number-of-venues" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Replace bkl's hardcoded <code>facilityForCourt()</code> (courts 1–4 → Main, 5–9 → Annex,
+  10–15 → Dreamcourts) with a lookup driven by <code>FACILITIES</code>.</li>
+<li>Keep <code>groupLiveCourtsByFacility()</code> and the <code>'Other Courts'</code> fallback bucket for
+  unmapped courts.</li>
+<li><code>FACILITIES.length === 1</code> — suppress the facility title row on the live board
+  (a redundant venue name above a single table) and hide the per-facility resync
+  row in <code>match-control.html</code>, which duplicates "Resync this day now".</li>
+<li><code>match-control.html</code> — generate the per-facility buttons from <code>FACILITIES</code>
+  instead of the hardcoded <code>Main</code> / <code>Annex</code> / <code>Dreamcourts</code> markup.</li>
+</ul>
+<h3 id="73-any-set-of-categories">7.3 Any set of categories<a class="headerlink" href="#73-any-set-of-categories" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>CODE_REGEX</code> already derives from <code>Object.keys(DIVISIONS)</code> / <code>EVENTS</code> in bkl.
+  Keep that, and keep the "don't hand-edit this regex" comment.</li>
+<li><code>DIVISION_ORDER</code> / <code>EVENT_ORDER</code> become <strong>optional</strong>: when null, fall back to
+  the key insertion order of <code>DIVISIONS</code> / <code>EVENTS</code>. Today bkl requires a
+  hand-maintained parallel list of <em>full names</em> that silently mis-sorts if it
+  drifts from <code>DIVISIONS</code>. Removing that duplication is the single biggest
+  reduction in per-event setup work.</li>
+<li>Delete bkl's <code>divisionMeta()</code> special case (<code>/^B(\d+)$/</code> → "Beginner N+").
+  It is a bkl-specific naming convention; unknown codes should fall back to
+  <code>{ name: code, full: code }</code> only.</li>
+<li>PPA's division chips (<code>chipDefs = ['IMD','IWD','IXD','HIMD','HIXD']</code>,
+  L~1290) are hardcoded. If the chips row is kept, derive it from the
+  division/event combinations actually present in the loaded data. Otherwise
+  drop the chips from both templates.</li>
+</ul>
+<h3 id="74-strings-and-branding">7.4 Strings and branding<a class="headerlink" href="#74-strings-and-branding" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Every event-specific string in the HTML body — <code>&lt;title&gt;</code>, meta description,
+  all <code>og:</code> tags, hero eyebrow / title / tagline / headline, footer, QR caption
+  and link text — becomes a <code>{{TOKEN}}</code> from §4.2.</li>
+<li>Keep the S.A.G.E. crown/shield SVG mark and the "Powered by S.A.G.E. Match
+  Control Experts" footer line in both templates: those are the operator's
+  brand, not the event's.</li>
+<li>Storage keys are namespaced off <code>EVENT_KEY</code> (§4.3), so a new event can never
+  read or clobber another event's saved state in a shared browser.</li>
+</ul>
+<hr />
+<h2 id="8-backend-multi-event-syncconfig-one-time">8. Backend: multi-event <code>SyncConfig</code> (one-time)<a class="headerlink" href="#8-backend-multi-event-syncconfig-one-time" title="Permanent link">&para;</a></h2>
+<p>Templates are only instantiable if the API can serve more than one event. This
+work happens <strong>once</strong>, not per event.</p>
+<blockquote>
+<p><strong>Superseded — see <code>sync-config-runtime-spec.md</code>.</strong> This section was
+implemented as described, then replaced: <code>src/sync/SyncConfig.mjs</code> no longer
+exists. The event/day/facility registry now lives in the <code>event-data</code> repo at
+<code>config/events.json</code>, fetched and cached at runtime by <code>SyncConfigStore.mjs</code>,
+so adding an event is a commit to that repo rather than a Cloud Run redeploy.
+The data-repo layout (§8.1), the <code>&lt;event&gt;/data/&lt;day&gt;.json</code> path, the
+globally-unique day-key rule, and the decision to keep the flat <code>/sync/:day</code>
+route all still hold exactly as written below. What changed is only <em>where the
+registry lives</em> — §8.2's <code>EVENTS</code> const and its module-load <code>DAY_INDEX</code> are
+historical.</p>
+</blockquote>
+<h3 id="81-data-repo-layout">8.1 Data repo layout<a class="headerlink" href="#81-data-repo-layout" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>event-data/
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  .nojekyll                  &lt;- at the root, once for the whole repo
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  &lt;event-key&gt;/
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    data/
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>      &lt;day-key&gt;.json
+</code></pre></div>
+<p>Keeping <code>data/</code> <em>inside</em> each event folder makes the new layout a pure prefix of
+today's <code>data/&lt;day&gt;.json</code>, so <code>repoPathFor</code> grows one path segment and nothing
+else about publishing changes.</p>
+<p>Because there is still exactly one repo, <code>GITHUB_REPO</code> stays a single env var —
+it just points at <code>event-data</code>. No per-day repo override, no second Cloud Run
+service.</p>
+<h3 id="82-srcsyncsyncconfigmjs">8.2 <code>src/sync/SyncConfig.mjs</code><a class="headerlink" href="#82-srcsyncsyncconfigmjs" title="Permanent link">&para;</a></h3>
+<p>Restructure the flat <code>day2</code>..<code>day6</code> <code>DAYS</code> map into an event-keyed registry, and
+derive a flat day index at module load:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="s1">'bkl-cup-2026'</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">days</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">day2</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'…'</span><span class="p">,</span><span class="w"> </span><span class="nx">facilities</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="cm">/* unchanged */</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="c1">// new events appended here at instantiation time</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">};</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">// dayKey -&gt; { event, entry }, built once at load. Throw on a duplicate day key</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">// across events rather than letting one event publish into another's folder —</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">// this guard is the only thing keeping the flat /sync/:day route safe.</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAY_INDEX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* … */</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li><code>getDay(day)</code> returns <code>{ day, event, label, facilities }</code> — <code>event</code> is
+  <strong>additive</strong>, so existing callers keep working.</li>
+<li><code>repoPathFor(event, day)</code> returns <code>`${event}/data/${day}.json`</code>.</li>
+<li><code>knownDays()</code> still returns every day key across all events, so
+  <code>UnknownSyncDayError</code> keeps listing something useful.</li>
+<li><code>SyncService.syncDay()</code> already calls <code>getDay(day)</code> — take <code>event</code> off that
+  result and pass it to <code>repoPathFor</code>. That is its only change.
+  <code>GitHubPublisher</code> needs none.</li>
+</ul>
+<p><strong>Keep the route as <code>/sync/:day</code>.</strong> Day keys are globally unique, so the event is
+derivable from the key. This keeps the 15 Apps Script installs already on the
+bkl spreadsheets working untouched — they build their URL as
+<code>${CLOUD_RUN_BASE_URL}/sync/${DAY_KEY}</code>. A <code>/sync/:event/:day</code> route would be
+marginally tidier but breaks every installed script for nothing the duplicate-key
+guard doesn't already provide.</p>
+<h3 id="83-sheet-tab-names-gids">8.3 Sheet tab names / GIDs<a class="headerlink" href="#83-sheet-tab-names-gids" title="Permanent link">&para;</a></h3>
+<p><code>SyncConfig</code> assumes every facility sheet uses tabs named <code>CSV</code> (matches) and
+<code>STANDINGSCSV</code> (standings), with GIDs <code>2136121736</code> / <code>1507029786</code> for the
+<code>?method=csv</code> fallback. These are module constants today. <strong>Move them to per-day
+config</strong> (defaulting to the current values) — templating means new events will
+arrive with sheets that don't match. The PPA sheet already used a different
+standings GID (<code>327842042</code>), so this is a real variation, not a hypothetical.</p>
+<h3 id="84-apps-script">8.4 Apps Script<a class="headerlink" href="#84-apps-script" title="Permanent link">&para;</a></h3>
+<p>Rename <code>scripts/bkl-sheets-sync.gs</code> to <code>scripts/sheets-sync.gs</code> now that it
+serves more than one event, and generalise its header comment (it currently
+documents installing across "15 facility spreadsheets — 5 days x 3 facilities").
+Its CONFIG block already parameterises <code>DAY_KEY</code> / <code>FACILITY_NAME</code> /
+<code>CLOUD_RUN_BASE_URL</code>; the watched tab GIDs (SCHEDULE <code>331216315</code>, COURT CONTROL
+<code>359580789</code>) are also per-spreadsheet and must be called out as such.</p>
+<h3 id="85-known-consequence-for-bkl">8.5 Known consequence for bkl<a class="headerlink" href="#85-known-consequence-for-bkl" title="Permanent link">&para;</a></h3>
+<p>Once <code>GITHUB_REPO</code> points at <code>event-data</code>, a resync of a bkl day publishes to
+<code>event-data/bkl-cup-2026/data/…</code>, which is <strong>not</strong> where the archived bkl
+pages read from — their live data would stop updating. Harmless (the event ended
+in Aug 2026 and nothing triggers a resync), but leave a comment in <code>SyncConfig</code>
+saying so rather than leaving a trap for whoever revives that event. Migrating
+the old published data is out of scope (§11).</p>
+<hr />
+<h2 id="9-_templatesclaudemd-the-instantiation-runbook">9. <code>_templates/CLAUDE.md</code> — the instantiation runbook<a class="headerlink" href="#9-_templatesclaudemd-the-instantiation-runbook" title="Permanent link">&para;</a></h2>
+<p>Write this file as part of the task. It is what makes the templates usable
+without re-reading this spec, and Claude Code picks it up automatically when
+working under <code>_templates/</code>.</p>
+<p>It must cover:</p>
+<ol>
+<li><strong>Choosing a template</strong> — clubs facing each other → <code>dual-meet-template</code>;
+   otherwise <code>standard-tournament-template</code>. Day count and category count do
+   <strong>not</strong> affect the choice; both templates handle any number of each.</li>
+<li><strong>The steps</strong>, in order:</li>
+<li><code>cp -r _templates/&lt;template&gt; events/&lt;event-key&gt;/</code></li>
+<li>replace every <code>{{TOKEN}}</code> (§4.2) — then <code>grep -r '{{' events/&lt;event-key&gt;/</code>
+     must come back empty</li>
+<li>replace the <code>// EXAMPLE — replace</code> config values: <code>DAYS</code>, <code>FACILITIES</code>,
+     <code>DIVISIONS</code>, <code>EVENTS</code>, and <code>CLUBS</code> for a dual meet</li>
+<li>set the <code>:root</code> theme block if the event wants its own palette</li>
+<li>add the event + its days to <code>event-data</code>'s <code>config/events.json</code> (see the
+     §8 note — this was <code>SyncConfig.mjs</code> when this spec was written), using day
+     keys prefixed with the event key</li>
+<li>install <code>scripts/sheets-sync.gs</code> on each facility spreadsheet</li>
+<li>create the <code>&lt;event-key&gt;/data/</code> folder in <code>event-data</code></li>
+<li><strong>The required spreadsheet columns</strong> (§4.5), stated as the first thing to
+   verify — it is the most common cause of a new event rendering empty.</li>
+<li><strong>The team code format</strong> for each template (§5, §6.2), with examples.</li>
+<li><strong>Root-absolute asset paths</strong> (§2) and why not to "fix" them to relative.</li>
+<li><strong>Archiving</strong>, later: move the folder into <code>events/archives/</code>; because paths
+   are root-absolute nothing needs re-prefixing. Note that this is the step the
+   old events got wrong.</li>
+<li><strong>The <code>_templates/</code> publication boundary</strong> (§1): no <code>.nojekyll</code> in this repo.</li>
+</ol>
+<hr />
+<h2 id="10-acceptance-checklist">10. Acceptance checklist<a class="headerlink" href="#10-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Both templates</strong></p>
+<ul>
+<li>[ ] <code>grep -rniE 'bkl|bklCup2026|Pickleball Central PH|Pampanga Paddle Aces|Club 2600|tinyurl' _templates/</code> returns nothing.</li>
+<li>[ ] No real sheet ID, Cloud Run URL, or QR short link anywhere in <code>_templates/</code>.</li>
+<li>[ ] Every <code>{{TOKEN}}</code> in §4.2 appears in the template that needs it, and every
+      <code>{{</code> in the templates is listed in §4.2.</li>
+<li>[ ] Config block ends with an explicit <code>END CONFIGURATION</code> marker and nothing
+      event-specific appears below it.</li>
+<li>[ ] Asset paths are root-absolute and resolve when the template is opened in
+      place (§2).</li>
+<li>[ ] Setting <code>DAYS</code> to 1 entry hides the picker and auto-loads; setting it to 3
+      shows the picker and gates the tabs — <strong>without editing anything but the
+      array</strong> (§7.1).</li>
+<li>[ ] Setting <code>FACILITIES</code> to 1 entry suppresses facility headings and the
+      per-facility resync row; 2+ restores both (§7.2).</li>
+<li>[ ] Adding a division/event to <code>DIVISIONS</code>/<code>EVENTS</code> flows through parsing,
+      sorting, and display with <code>DIVISION_ORDER</code>/<code>EVENT_ORDER</code> left <code>null</code>
+      (§7.3).</li>
+<li>[ ] All three tabs render against a hand-made snapshot JSON.</li>
+<li>[ ] Before the configured date at 07:00 PH, <code>index.html</code> hides scores and the
+      Live/Standings tabs; <code>match-control.html</code> shows them regardless.</li>
+<li>[ ] Mission Control: connection check hits <code>/ping</code>, resync sends
+      <code>X-Sync-Secret</code>, secret lives in <code>sessionStorage</code> only and is never written
+      into the file.</li>
+<li>[ ] Polling stops while the tab is backgrounded and resumes on focus.</li>
+<li>[ ] Standings and live board keep scroll position across a poll re-render.</li>
+<li>[ ] Mobile (≤980px) and desktop standings layouts both render.</li>
+</ul>
+<p><strong><code>dual-meet-template</code> only</strong></p>
+<ul>
+<li>[ ] Standings show the club-vs-club win summary with the leader highlighted.</li>
+<li>[ ] A pair with the same names on both clubs is not merged in the autocomplete.</li>
+<li>[ ] Desktop shows category columns with clubs stacked inside; mobile shows one
+      column per club.</li>
+</ul>
+<p><strong>Backend</strong></p>
+<ul>
+<li>[ ] <code>snapshotUrlFor()</code> produces <code>…/event-data/&lt;event-key&gt;/data/&lt;day&gt;.json</code>.</li>
+<li>[ ] <code>SyncConfig</code> throws at module load if two events declare the same day key.</li>
+<li>[ ] Regression: <code>getDay('day2')</code> still resolves to the <code>bkl-cup-2026</code> event and
+      <code>repoPathFor</code> yields <code>bkl-cup-2026/data/day2.json</code> — the restructure must
+      not change what existing day keys mean.</li>
+<li>[ ] Sheet tab names/GIDs are per-day config with the current values as
+      defaults (§8.3).</li>
+</ul>
+<p><strong>Runbook</strong></p>
+<ul>
+<li>[ ] <code>_templates/CLAUDE.md</code> exists and covers all seven points in §9.</li>
+<li>[ ] Following it end-to-end against a scratch event produces a working page
+      without opening this spec.</li>
+</ul>
+<hr />
+<h2 id="11-out-of-scope">11. Out of scope<a class="headerlink" href="#11-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Creating any real event. §9 is the runbook; running it is a later task.</li>
+<li>Migrating the published <code>bkl-cup-2026</code> data into <code>event-data</code> (§8.5).</li>
+<li>Fixing the broken relative asset paths in the existing archived pages (§2).
+  Templates avoid the bug; retrofitting the old pages is separate.</li>
+<li>Generating QR PNGs or short links.</li>
+<li>Any change to the scoresheet half of <code>sage-tools-api</code>.</li>
+<li>Retiring <code>events/archives/ppa-x-club-2600-dual-meet.html</code> or the bkl folder.
+  Templates are copies; the originals stay exactly as they are.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../dual-meet-readouts-generator-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Readouts generator (Phase 3)">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Readouts generator (Phase 3)
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../pnf-x-bup-dual-meet-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: PNF × BUP dual meet">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                PNF × BUP dual meet
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
