@@ -889,6 +889,18 @@ over with the change — not something to claim as verified from here.
 - [ ] `generateEventTabs` output is unchanged — same tabs, same formulas.
 - [ ] The debounce still collapses a burst of edits into one sync.
 
+**Post-spec additions (see §15)**
+
+- [ ] `Pause live sync` stops edits to a watched tab from publishing, and the
+      status line in `Help` and the banner in `Live sync settings` both say so.
+- [ ] `Sync now` still publishes while paused.
+- [ ] An edit made just before pausing, whose debounce trigger is already
+      scheduled, does **not** publish when that trigger fires.
+- [ ] `Resume live sync` restores automatic publishing; the menu label flips
+      between `Pause`/`Resume` after a reload.
+- [ ] `Help` opens in both a configured and an unconfigured workbook, and its
+      status line matches reality in each (unconfigured / configured / paused).
+
 ---
 
 ## 13. Documentation changes

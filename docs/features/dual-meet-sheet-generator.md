@@ -61,14 +61,17 @@ to the workbook.
 A generated workbook carries the live sync script already, so the **SAGE**
 menu always has both features in it: **Generate event tabs**, and — once
 [live sync is set up](preparing-an-event.md) — **Generate Scoresheets**,
-**Sync now**, and **Live sync settings**. Before setup it's just **Set up
-live sync** instead. **Set up live sync**/**Live sync settings** is safe and
-repeatable to click any time; so is **Generate Scoresheets**, which just
-opens the [Scoresheet Generator](scoresheet-generator.md) in a new tab with
-this workbook's day and venue already selected and makes no changes to the
-spreadsheet. **Generate event tabs** is the opposite — it runs once per
-workbook and then disappears from the menu, since a second run can only
-fail.
+**Sync now**, **Pause live sync** (or **Resume live sync**), and **Live sync
+settings**. Before setup it's just **Set up live sync** instead. **Help** is
+always there either way, with a workflow refresher, this workbook's current
+status, and what to check when something looks wrong.
+
+**Set up live sync**/**Live sync settings** is safe and repeatable to click
+any time; so is **Generate Scoresheets**, which just opens the [Scoresheet
+Generator](scoresheet-generator.md) in a new tab with this workbook's day and
+venue already selected and makes no changes to the spreadsheet. **Generate
+event tabs** is the opposite — it runs once per workbook and then disappears
+from the menu, since a second run can only fail.
 
 ## What it does *not* do
 
