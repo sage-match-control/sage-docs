@@ -39,6 +39,11 @@ instead, and come here when you need the *why* behind a specific piece.
   dual-meet-specific timing math.
 - **[PWA](calculator-pwa-spec.md)** — installable, offline setup.
 
+## Bracket Generator
+
+- **[Bracket Generator](bracket-generator-spec.md)** — promoting the per-event
+  bracket draw page into one evergreen tool, with an optional event name.
+
 ## Dual Meet Sheet Generator
 
 - **[Sheet generator](dual-meet-sheet-generator-spec.md)** — Phase 1: category

@@ -168,7 +168,12 @@ this was of that kind.
 
 The Dual Meet Master carries `sheets-sync.gs` alongside the generator, so a
 copy of the Master is ready for both features from the start — no code
-pasting needed for either. Both files declare a **byte-identical** `onOpen`
+pasting needed for either, and no shared secret to enter: the Master carries
+that too, in developer metadata rather than Script Properties precisely
+because properties don't survive a copy. See
+[sync pipeline](sync-pipeline.md#how-the-secret-reaches-a-workbook).
+
+Both files declare a **byte-identical** `onOpen`
 that delegates to feature-detected builders, `addGeneratorMenuItems_` here
 and `addSyncMenuItems_` in `sheets-sync.gs`, each contributing only its own
 menu items and its own leading separator. Two `onOpen` declarations in one

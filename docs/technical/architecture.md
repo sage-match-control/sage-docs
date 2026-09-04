@@ -72,6 +72,10 @@ not code:
   stored in its own Script Properties (`sheets-sync.gs`'s source is
   identical in every workbook). Facility names are compared exactly and are
   case-sensitive — setup validates both against the registry before saving.
+  The shared secret is the exception to "stored in Script Properties": it
+  lives in developer metadata on the spreadsheet so that copies of the Dual
+  Meet Master inherit it. See
+  [sync pipeline](sync-pipeline.md#how-the-secret-reaches-a-workbook).
 - Adding a scoresheet type = a new `templates/<name>.{html,css}` pair in
   `sage-tools-api` **and** an entry in `ScoresheetConfig.mjs`. Nothing else
   needs touching.

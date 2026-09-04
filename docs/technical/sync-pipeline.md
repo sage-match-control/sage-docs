@@ -46,10 +46,9 @@ default simple trigger), debounces edits, and POSTs to Cloud Run.
 
 The file itself is **identical in every workbook** and holds no
 spreadsheet-specific values. Everything that identifies a workbook — day key,
-facility name, watched tabs, the shared secret — lives in that project's
-Script Properties, set through **SAGE → Set up live sync**, a menu-driven
-dialog rather than edited constants. Setup validates what it's given before
-saving anything:
+facility name, watched tabs — lives in that project's Script Properties, set
+through **SAGE → Set up live sync**, a menu-driven dialog rather than edited
+constants. Setup validates what it's given before saving anything:
 
 - A `GET /sync/config` call, gated on the entered secret, checks the secret
   itself (401 blocks) and that the entered day key is registered (blocks with
@@ -69,15 +68,45 @@ than inheriting the source's day key and publishing over its snapshot. The
 shared secret is **not** guarded this way, since it's the same one Cloud Run
 env var for every workbook of every event.
 
+### How the secret reaches a workbook
+
+The secret is the one value an operator should never have to type, and the one
+that has to survive a workbook being *copied* — a generated dual-meet workbook
+starts life as a copy of the Dual Meet Master.
+
+Script Properties can't do that job. They belong to the Apps Script project,
+and copying a spreadsheet creates a new, empty one, so a secret set in the
+Master's Project Settings reaches no copy. The secret is therefore stored as
+**developer metadata on the spreadsheet itself**, which Drive does copy, under
+the key `SAGE_SYNC_SECRET`. It is entered once on the Master through **SAGE →
+Set shared secret**, which validates it against Cloud Run before writing.
+
+Every copy made afterwards carries it. Setting up a facility workbook is
+therefore day, venue and tabs only — the dialog reads *Secret stored* and never
+asks. At the copy's first successful setup the value is promoted into that
+workbook's own Script Properties, so it stands alone from then on and rotating
+the Master's secret can't unconfigure a venue mid-event.
+
+Only the secret is carried. Day key and facility name are deliberately excluded:
+metadata copying is the whole point of it, so putting identity there would hand
+every copy an inherited venue and defeat the guard above.
+
+The **Set shared secret** menu item appears only where it belongs — on the
+Master (labelled *Replace shared secret*, since that's the rotation path) and
+on a hand-built workbook that carries no secret at all. Copies don't show it.
+The secret now travels inside the spreadsheet file, so sharing a copy of the
+Master shares the secret with it.
+
 `sheets-sync.gs` also declares `onOpen`, contributing **Generate
 Scoresheets** (deep-links into the Scoresheet Generator with this workbook's
 day and venue preselected — a link only, no HTTP request and no new OAuth
 scope), **Sync now**, **Pause live sync** / **Resume live sync**, **Live
-sync settings** once configured (or **Set up live sync** otherwise), and
+sync settings** once configured (or **Set up live sync** otherwise),
+**Set shared secret** where it applies (see above), and
 **Help** — always present regardless of configuration state, since this is
 the one file guaranteed to be in every workbook. Help shows a workflow
 refresher plus this workbook's live status (configured/not, paused/not) in
-one dialog.
+one dialog, written for organizers rather than developers.
 
 Pausing is for editing a watched tab (rosters, a mid-event schedule fix) without
 publishing every intermediate state — it leaves the saved configuration and

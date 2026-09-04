@@ -103,14 +103,20 @@ new constants are named `*_TAB_NAME`.
 
 All configuration lives in `PropertiesService.getScriptProperties()`.
 
-| Key | Holds | Copy-inheritable |
+| Key | Holds | Honoured in a copy |
 | --- | --- | --- |
-| `SYNC_SHARED_SECRET` | the shared secret | **Yes** |
+| `SYNC_SHARED_SECRET` | the shared secret | **Yes**, and it is the one value deliberately carried into a copy — but by §3.5's metadata, not by properties |
 | `SYNC_DAY_KEY` | this workbook's day key | No |
 | `SYNC_FACILITY_NAME` | this workbook's facility name | No |
 | `SYNC_WATCHED_GIDS` | JSON array of GID strings | No |
 | `SYNC_BOUND_SPREADSHEET_ID` | the spreadsheet these identity values were saved for | — |
 | `TABS_GENERATED_FOR` | the spreadsheet `generateEventTabs` ran against | — |
+
+The "in a copy" column is about intent, not mechanism: **no** Script Property
+survives a spreadsheet copy, because properties belong to the script project
+and a copy gets a new, empty one. Where the guard in §3.3 rejects inherited
+identity, that is defence against a *paste* into a workbook that was set up
+elsewhere, not against copying. The secret reaches a copy through §3.5.
 
 `SYNC_SHARED_SECRET` is the key `sheets-sync.gs` already uses today, under the
 constant name `SCRIPT_PROP_SECRET_KEY`. **The stored key name does not change**,
@@ -211,20 +217,23 @@ The secret is read separately and is **never** subject to this guard:
 
 ```js
 function readSharedSecret_() {
-  return PropertiesService.getScriptProperties().getProperty(PROP_SHARED_SECRET);
+  const stored = PropertiesService.getScriptProperties().getProperty(PROP_SHARED_SECRET);
+  if (stored) return stored;
+  const inherited = readSecretMetadata_();
+  return inherited ? inherited.secret : null;
 }
 ```
 
-This is what makes §10 safe. Whether Google carries Script Properties across a
-spreadsheet copy is a platform behaviour this spec deliberately does not depend
-on: if properties copy, the secret is inherited and identity is rejected by the
-guard; if they do not, everything is simply unset and the dialog asks for all of
-it. Both paths are correct.
+This is what makes §10 safe, and the guard is what makes it safe *only* for the
+secret: identity values inherited by a copy are rejected, so a copy cannot
+publish over the facility it was copied from.
 
-**Verify the behaviour anyway before implementing §10** — set a property on the
-Master, copy it, read the property back in the copy. The result decides only
-whether the dialog's secret field is usually pre-satisfied (§6.2), not whether
-the design holds.
+**Script Properties do not survive a spreadsheet copy.** They belong to the
+script project, and copying a spreadsheet creates a new, empty one — so a copy
+of the Master inherits no secret from properties, however the Master stores
+them. That is why `readSharedSecret_` has a second source; §3.5 is the carrier
+that reaches a copy at all.
+
 
 ### 3.4 Reading config at sync time
 
@@ -270,6 +279,64 @@ function onEditInstallable(e) {
 }
 ```
 
+### 3.5 The secret's carrier — developer metadata
+
+Developer metadata belongs to the **spreadsheet**, not the script project, and
+Drive copies it along with the cells. It is the only store that reaches a copy,
+which makes it the one place a shared secret can be handed down from the Dual
+Meet Master without anyone re-typing it.
+
+One spreadsheet-scoped entry, `DOCUMENT` visibility — `PROJECT` visibility is
+scoped to the script project that wrote it, which is exactly what a copy does
+not have:
+
+```js
+const META_SHARED_SECRET = 'SAGE_SYNC_SECRET';
+// value: {"secret": "...", "origin": "<spreadsheetId>"}
+```
+
+`origin` is the ID of the spreadsheet the value was typed into. In the Master it
+equals `SpreadsheetApp.getActive().getId()`; in every copy it does not. That one
+comparison is what lets the menu offer the secret dialog in the Master (where
+rotation belongs) and withhold it in the copies (where nobody should be asked) —
+see §7.4.
+
+**Only the secret goes here.** The day key and facility name must never be
+carried: metadata copying is the whole point of it, so putting identity in it
+would hand every copy an inherited day and venue and defeat §3.3's guard
+outright. The secret is exempt from that guard by design (§3.2); identity is not.
+
+`readSecretMetadata_()` treats a malformed or hand-edited entry as absent rather
+than throwing. It is called during `onOpen` (§7.4), where an exception would
+abort menu construction and leave the workbook with no `SAGE` menu at all — the
+carrier failing must degrade to "the dialog asks for the secret", never to that.
+
+#### Promotion
+
+`saveSyncSetup` writes whichever secret it actually used — typed or inherited —
+into the workbook's own Script Properties, inside the same "nothing written
+before this point" block as the identity values (§6.3). After a copy's first
+successful setup it answers from the first branch of `readSharedSecret_` and no
+longer depends on the carrier, so rotating the Master's secret or deleting its
+metadata cannot unconfigure a venue that is already running.
+
+#### Where the secret ends up
+
+| Workbook | Script Properties | Metadata |
+| --- | --- | --- |
+| Dual Meet Master, after `Set shared secret` | yes | yes, `origin` = itself |
+| Copy of the Master, before setup | no | yes, `origin` = the Master |
+| Copy of the Master, after setup | yes (promoted) | yes, inherited |
+| Hand-built workbook (pasted, never copied) | yes | no |
+
+#### Exposure
+
+The secret now travels inside the spreadsheet *file*, so anyone given a copy of
+the Master receives it whether or not they ever open the script editor. Within a
+single workbook the readable set is unchanged — `DOCUMENT` metadata and Script
+Properties are both readable by anyone with edit access — so this widens §10.1's
+accepted exposure by exactly one thing: sharing a copy now shares the secret.
+It stops being an acceptable trade at the same moment §10.1 says it does.
 ---
 
 ## 4. Validation
@@ -429,6 +496,12 @@ the underscore.
 | Facility name | current value | text; a note reads *matched exactly, including capitalisation* |
 | Tabs to watch | §5's checkbox list | pre-ticked per §5 |
 | Shared secret | **never prefilled** | hidden entirely when one is already stored, replaced by a *Secret stored* line and a **Replace secret** link that reveals the field |
+
+`hasSecret` resolves through `readSharedSecret_()`, so a copy of the Master
+counts as already having one on the strength of §3.5's carrier alone. In
+practice the field is therefore hidden in every generated workbook and shown
+only in a hand-built one — the operator setting up a copy fills in day, venue
+and tabs, and is never asked for the secret.
 
 The dialog loads current state through one server call:
 
@@ -628,17 +701,53 @@ stay free of anything needing a scope. `PropertiesService` and
 
 ### 7.3 Resulting menus
 
+As built — including the post-spec `Help`, `Pause`/`Resume` and
+`Set shared secret` items (§15, §7.4):
+
 | Workbook | `SAGE` menu |
 | --- | --- |
-| Dual Meet Master | `Generate event tabs` |
-| Fresh copy of the Master | `Set up live sync` · ─── · `Generate event tabs` |
-| Generated, sync configured | `Generate Scoresheets` · `Sync now` · `Live sync settings` |
-| Generated, sync not yet configured | `Set up live sync` |
-| Hand-built, sync configured | `Generate Scoresheets` · `Sync now` · `Live sync settings` |
-| Hand-built, not yet configured | `Set up live sync` |
+| Dual Meet Master, before the secret is set | `Set up live sync` · `Set shared secret` · `Help` · ─── · `Generate event tabs` |
+| Dual Meet Master, after | `Set up live sync` · `Replace shared secret` · `Help` · ─── · `Generate event tabs` |
+| Fresh copy of the Master | `Set up live sync` · `Help` · ─── · `Generate event tabs` |
+| Generated, sync configured | `Generate Scoresheets` · `Sync now` · `Pause live sync` · `Live sync settings` · `Help` |
+| Generated, sync not yet configured | `Set up live sync` · `Help` |
+| Hand-built, sync configured | `Generate Scoresheets` · `Sync now` · `Pause live sync` · `Live sync settings` · `Help` |
+| Hand-built, no secret and not configured | `Set up live sync` · `Set shared secret` · `Help` |
 
-A configured workbook offers no destructive action. `Generate event tabs`
-appears only where it can still legitimately run.
+`Pause live sync` reads `Resume live sync` while paused. A configured workbook
+offers no destructive action, `Generate event tabs` appears only where it can
+still legitimately run, and no copy of the Master ever offers the secret item —
+it already has one (§7.4).
+
+### 7.4 `Set shared secret`
+
+`addSyncMenuItems_` contributes one further item, between the configuration
+branch and `Help`. It is shown when **either**:
+
+- no secret resolves at all — a hand-built workbook, where this is an
+  alternative to typing the secret into the setup dialog; or
+- the carried secret's `origin` (§3.5) is this spreadsheet — which is true only
+  of the Dual Meet Master, and is where the label reads `Replace shared secret`.
+
+A copy of the Master satisfies neither: it resolves an inherited secret whose
+origin is the Master. So the item is absent there, which is the point — nobody
+setting up a facility workbook is asked about the secret at all.
+
+The Master needs its own entry because it never runs `Set up live sync` and so
+never sees §6.2's **Replace secret** link. Without this item it would have no
+rotation path short of the Apps Script editor.
+
+`showSharedSecretSetup()` validates before writing, on §4's terms: a rejected
+secret saves nothing, an unreachable Cloud Run saves with a warning rather than
+blocking an operator on an outage. The Master has no day key of its own, so
+`checkSecretAndDayKey_` takes `dayKey === null` to mean "check the secret
+alone". On success it writes both the metadata carrier and the Master's own
+Script Properties.
+
+Both builders still avoid anything needing a scope (§7.2). Reading developer
+metadata off the active spreadsheet is in the same class as `PropertiesService`
+and `SpreadsheetApp.getActive()`, and `readSecretMetadata_` swallows failures
+so that even if it were not, the menu would still build.
 
 ---
 
@@ -745,17 +854,22 @@ Do not add builder calls to the harness.
 ## 10. Shipping the sync script in the Dual Meet Master
 
 Once §3–§9 land, add `sheets-sync.gs` to the Dual Meet Master's script project
-as a second file, and set `SYNC_SHARED_SECRET` once in the Master's
-**Project Settings → Script properties**.
+as a second file, and run `SAGE → Set shared secret` once on the Master itself
+(§7.4).
 
-A copy of the Master then carries both scripts. The workflow is: copy the
-Master, `SAGE → Generate event tabs`, `SAGE → Set up live sync`, and enter the
-day key and facility name — the secret is already there if properties survive
-the copy, and is one more field in the same dialog if not. No Apps Script editor
-at any point.
+**Not Project Settings → Script properties.** A secret set there reaches no
+copy: properties belong to the script project, and a copy gets a new, empty
+one. The menu item writes the developer metadata carrier of §3.5, which is
+what Drive actually copies. This was verified against a real copy before the
+carrier was built on.
 
-Safe only because of §3.3: a copy inherits the secret and nothing that
-identifies a workbook.
+A copy of the Master then carries both scripts and the secret. The workflow is:
+copy the Master, `SAGE → Generate event tabs`, `SAGE → Set up live sync`, and
+enter the day key and facility name — the secret is already there, and the
+dialog does not ask for it. No Apps Script editor at any point.
+
+Safe only because of §3.3 and §3.5's restriction: what a copy inherits is the
+secret and nothing that identifies a workbook.
 
 This step is done by hand in Google, not by editing anything in this repo. It is
 the one part of this spec that cannot be completed in code.
@@ -843,9 +957,26 @@ over with the change — not something to claim as verified from here.
 - [ ] An existing pre-change workbook, after the paste, still has its secret
       recognised (`hasSecret` true) and asks only for day key and facility name.
 - [ ] Copying a configured workbook produces one whose menu reads
-      `Set up live sync` — identity rejected by the guard — while a stored
-      secret, if properties carry across the copy, is still recognised.
+      `Set up live sync` — identity rejected by the guard — while the secret
+      carried by §3.5 is still recognised.
 - [ ] The stored secret is never returned to the dialog, rendered, or logged.
+
+**The secret's carrier (§3.5, §7.4)**
+
+- [ ] `SAGE → Set shared secret` on the Master validates against Cloud Run,
+      rejects a wrong secret without writing, and reports success.
+- [ ] A copy made *after* that resolves the secret: its setup dialog shows
+      *Secret stored* and asks only for day, venue and tabs.
+- [ ] That copy's `SAGE` menu has **no** secret item; the Master's reads
+      `Replace shared secret`.
+- [ ] After the copy's first successful setup, `SYNC_SHARED_SECRET` is present
+      in its own Script Properties, and deleting the Master's metadata
+      afterwards leaves it syncing.
+- [ ] A hand-built workbook (pasted, never copied) has no carrier, shows
+      `Set shared secret`, and its setup dialog still offers the secret field.
+- [ ] Corrupting the metadata value by hand leaves the `SAGE` menu intact — the
+      workbook falls back to asking for the secret rather than losing the menu.
+- [ ] No day key or facility name ever appears in developer metadata.
 
 **Validation**
 
@@ -1046,6 +1177,18 @@ data**. No change needed.
 
 ## 15. Divergences
 
+- **The secret's carrier, added post-spec (§3.5, §7.4).** The spec originally
+  declined to depend on whether Script Properties survive a spreadsheet copy,
+  calling both outcomes correct. Testing settled it: **they do not** — a copy
+  gets a new, empty script project — which made §10's "the secret is already
+  there if properties survive the copy" false and left every generated workbook
+  needing the secret typed in by hand. The fix is a spreadsheet-scoped
+  developer metadata entry, `DOCUMENT` visibility, written once on the Master
+  by a new `Set shared secret` menu item and promoted into a copy's own
+  properties at its first successful setup. `readSharedSecret_` gained a second
+  source; nothing else about the property model changed, and identity values
+  are deliberately excluded from the carrier. §3, §3.3, §6.2, §10 and §12.2
+  were corrected in place rather than left standing with the old assumption.
 - **`Help` menu item, added post-spec.** A `showSyncHelp()` dialog, always
   contributed by `addSyncMenuItems_` regardless of configuration state (it's
   the last item added, after `Live sync settings`/`Set up live sync`). Shows
