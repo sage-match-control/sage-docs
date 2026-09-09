@@ -11,10 +11,14 @@ derived the same way, sitting between Standings and Mission Control.
 Per-event `match-control.html` then disappears from both templates and from
 the instantiation runbook.
 
-**Status: built, not yet deployed.** `tools/match-control.html` exists and
-the go-live override is implemented end to end in `sage-tools-api`
-(committed and pushed). Still needed: the Cloud Run deploy itself, and
-setting `AUTH_PASSWORD_HASH`/`AUTH_TOKEN_SECRET` there.
+**Status: built and deployed.** The console is live at
+`tools/control-center.html` — the console was renamed after this spec was
+written, and `tools/match-control.html` remains only as a redirect stub for
+bookmarked links. The go-live override is implemented end to end in
+`sage-tools-api`, and `AUTH_PASSWORD_HASH`/`AUTH_TOKEN_SECRET` are set as
+Cloud Run env vars in production.
+
+Everywhere below that says `match-control.html`, read `control-center.html`.
 
 Operators sign in (§4) rather than pasting a shared secret, and the `auto`
 go-live threshold (§2.5, §4.1) is computed from the schedule rather than a

@@ -34,8 +34,8 @@ whole event's tabs from a CSV the Tournament Time Calculator exports.
 | Thing | Path |
 | --- | --- |
 | The generator | `sage-tools-api/scripts/sheet-generator.gs` |
-| Phase 1 spec — read it first | `sage-docs/specs/dual-meet-sheet-generator-spec.md` |
-| The colour palette's other consumer | `sage-docs/specs/schedule-screen-spec.md` §3.1 |
+| Phase 1 spec — read it first | `sage-docs/docs/specs/implemented/dual-meet-sheet-generator-spec.md` |
+| The colour palette's other consumer | `sage-docs/docs/specs/implemented/schedule-screen-spec.md` §3.1 |
 | The live sync that reads `SCHEDULE` | `sage-tools-api/scripts/sheets-sync.gs` |
 | The calculator that writes the plan CSV | `sage-match-control.github.io/tools/tournament-calculator.html` |
 

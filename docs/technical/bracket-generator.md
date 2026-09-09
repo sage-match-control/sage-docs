@@ -4,7 +4,7 @@
 `<script>`), no build step, no dependency beyond two Google Fonts
 stylesheets, and no network call at run time. It replaced a copy of the same
 file duplicated into both event-site templates (and drifting between them);
-see the [spec](../specs/bracket-generator-spec.md) for why it moved.
+see the [spec](../specs/implemented/bracket-generator-spec.md) for why it moved.
 
 ## The deal
 
@@ -12,6 +12,54 @@ see the [spec](../specs/bracket-generator-spec.md) for why it moved.
 many buckets were requested, so bracket sizes differ by at most one. The
 requested bracket count clamps to the pair count — you can't ask for more
 brackets than you have pairs.
+
+## The draw is verifiable
+
+The ordering is not `Math.random()` — it is a deterministic function of the
+seed and the pair list, so anyone can reproduce it without this tool.
+
+For each pair, in the list as entered (trimmed, blank lines dropped):
+
+    fingerprint = SHA-256( seed + "|" + pair )      lowercase hex
+
+Pairs are sorted ascending by that hex string, then dealt round-robin as above.
+Ties — which only arise from two identical pair strings, since identical input
+hashes identically — break by the pair text, then by input position.
+
+Three details are load-bearing for anyone re-checking a draw:
+
+- **The separator is a single `|`, with no surrounding spaces.**
+- **The seed is trimmed and uppercased before hashing** (`normalizeSeed`), and
+  the field displays the normalized form, so what is on screen is what was
+  hashed.
+- **The sort runs on the full 64-character hash.** The 8-character form in the
+  text export is display only; sorting on a truncated key would start colliding
+  around 65k items.
+
+Because each pair's fingerprint depends only on the seed and its own name, the
+order of the pasted list does not affect the result — which is what lets the
+export stay verifiable without recording the input order.
+
+`shuffle()` still exists and is still Fisher-Yates, but now feeds only
+`runShuffleAnimation()`'s cosmetic per-tick frames. Those are thrown away and
+never exported, so they need no reproducibility.
+
+### The seed
+
+Typing one is optional; having one is not. A blank field generates an
+8-character seed (`crypto.getRandomValues`, alphabet omitting `I`/`O`/`0`/`1`
+so it survives being read aloud), fills the field with it and draws — so every
+draw is reproducible whether or not anyone asked for a ceremony. Both exports
+label the source, `(entered)` or `(auto)`, because only a seed supplied by a
+person shows the organiser did not go looking for one they liked.
+
+### Secure context required
+
+`crypto.subtle` is only available in a secure context. GitHub Pages is HTTPS so
+this never bites in production, but a local `file://` open can hit it. The page
+**fails closed**: the draw button is disabled and the reason stated. It never
+falls back to `Math.random()` while still printing a seed — an export naming a
+seed it was not produced from is a false proof, which is worse than no feature.
 
 ## One palette source
 

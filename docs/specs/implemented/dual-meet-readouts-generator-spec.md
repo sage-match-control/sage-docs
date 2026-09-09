@@ -56,8 +56,8 @@ pages read.
 | Thing | Path |
 | --- | --- |
 | The generator | `sage-tools-api/scripts/sheet-generator.gs` |
-| Phase 1 spec — category tabs | `sage-docs/specs/dual-meet-sheet-generator-spec.md` |
-| Phase 2 spec — `SCHEDULE` | `sage-docs/specs/dual-meet-schedule-generator-spec.md` |
+| Phase 1 spec — category tabs | `sage-docs/docs/specs/implemented/dual-meet-sheet-generator-spec.md` |
+| Phase 2 spec — `SCHEDULE` | `sage-docs/docs/specs/implemented/dual-meet-schedule-generator-spec.md` |
 | The live sync | `sage-tools-api/scripts/sheets-sync.gs` |
 | The Cloud Run fetchers | `sage-tools-api/src/sync/` |
 

@@ -136,7 +136,7 @@ Replacing `sheets-sync.gs:51-72` in full — the `CONFIG` comment banner at
 // Nothing in this file is spreadsheet-specific: the file is byte-identical in
 // every workbook, and everything that identifies THIS workbook is stored in
 // Script Properties by SAGE -> Set up live sync. See §1 of
-// sage-docs/docs/specs/sync-script-configuration-spec.md for why.
+// sage-docs/docs/specs/implemented/sync-script-configuration-spec.md for why.
 const PROP_SHARED_SECRET = 'SYNC_SHARED_SECRET';
 const PROP_DAY_KEY = 'SYNC_DAY_KEY';
 const PROP_FACILITY_NAME = 'SYNC_FACILITY_NAME';

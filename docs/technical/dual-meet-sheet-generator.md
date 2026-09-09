@@ -4,11 +4,11 @@
 dual meet event's whole workbook from a Tournament Calculator CSV: every
 category tab, `SCHEDULE`, and the four readout tabs the live sync and the
 operator both depend on. Implements
-[`dual-meet-sheet-generator-spec.md`](../specs/dual-meet-sheet-generator-spec.md)
+[`dual-meet-sheet-generator-spec.md`](../specs/implemented/dual-meet-sheet-generator-spec.md)
 Phase 1 (category tabs),
-[`dual-meet-schedule-generator-spec.md`](../specs/dual-meet-schedule-generator-spec.md)
+[`dual-meet-schedule-generator-spec.md`](../specs/implemented/dual-meet-schedule-generator-spec.md)
 Phase 2 (`SCHEDULE`), and
-[`dual-meet-readouts-generator-spec.md`](../specs/dual-meet-readouts-generator-spec.md)
+[`dual-meet-readouts-generator-spec.md`](../specs/implemented/dual-meet-readouts-generator-spec.md)
 Phase 3 (`Court Control`, `Timeline`, `CSV`, `STANDINGSCSV`) — all three
 built and in use.
 
@@ -181,7 +181,7 @@ Apps Script project don't error — the last-loaded file's silently wins, and
 load order isn't controllable — but which one wins can't matter here, since
 both bodies are the same text. Change this file's `onOpen`, change
 `sheets-sync.gs`'s to match — see
-`sage-docs/docs/specs/sync-script-configuration-spec.md` §7 for the full
+`sage-docs/docs/specs/implemented/sync-script-configuration-spec.md` §7 for the full
 contract.
 
 `Generate event tabs` appears only in a workbook that hasn't been generated
@@ -215,7 +215,7 @@ computation but never by generating a real tab.
 
 ## Reading the spec
 
-[`dual-meet-sheet-generator-spec.md`](../specs/dual-meet-sheet-generator-spec.md)
+[`dual-meet-sheet-generator-spec.md`](../specs/implemented/dual-meet-sheet-generator-spec.md)
 is the design document, but it was written before the workbook was read
 closely, and **§13 records where the two disagree** — the CODES column's row
 count, the roster's position, the feeder formulas, and an entire undocumented

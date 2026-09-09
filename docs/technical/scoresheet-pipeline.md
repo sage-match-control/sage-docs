@@ -32,7 +32,7 @@ same `FormData` path as a `Blob`. That snapshot's CSV already has the exact
 header this pipeline's `CsvService` expects (matched by header name, not
 position), so no transformation happens on either side — this pipeline has
 no awareness of where its input came from. See
-`sage-docs/docs/specs/scoresheet-event-picker-spec.md` for the picker's own
+`sage-docs/docs/specs/implemented/scoresheet-event-picker-spec.md` for the picker's own
 design.
 
 ## Endpoints

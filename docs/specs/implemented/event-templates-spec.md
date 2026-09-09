@@ -116,7 +116,7 @@ in by hand), so it is copied verbatim from bkl and needs no genericisation.
 > with no mechanism catching it), that trade flipped: the tool moved to one
 > evergreen copy at `tools/bracket-generator.html`, with an optional
 > **Event name** field replacing the token-based branding it loses. See
-> `sage-docs/docs/specs/bracket-generator-spec.md`.
+> `sage-docs/docs/specs/implemented/bracket-generator-spec.md`.
 
 **D4 — Organizer page stays unlinked.** Follow bkl: `match-control.html` is not
 linked from `index.html`; the URL is handed out directly.

@@ -65,16 +65,28 @@ nav:
       - Adding a new event: technical/adding-a-new-event.md
   - Specs:
       - Overview: specs/README.md
-      - Fast data delivery: specs/fast-data-delivery-spec.md
-      - Fast data delivery — explainer: specs/fast-data-delivery-explainer.md
-      - Runtime-fetched sync config: specs/sync-config-runtime-spec.md
-      - Match Control console: specs/match-control-console-spec.md
-      - Awards tab: specs/awards-podium-tab-spec.md
-      - Schedule screen: specs/schedule-screen-spec.md
-      - Calculator dual-meet fixes: specs/calculator-dual-meet-spec.md
-      - Calculator PWA: specs/calculator-pwa-spec.md
-      - Sheet generator (Phase 1): specs/dual-meet-sheet-generator-spec.md
-      - Schedule generator (Phase 2): specs/dual-meet-schedule-generator-spec.md
-      - Readouts generator (Phase 3): specs/dual-meet-readouts-generator-spec.md
-      - Event site templates: specs/event-templates-spec.md
-      - PNF × BUP dual meet: specs/pnf-x-bup-dual-meet-spec.md
+      - Implemented:
+          - Overview: specs/implemented/README.md
+          - Runtime-fetched sync config: specs/implemented/sync-config-runtime-spec.md
+          - Sync script configuration: specs/implemented/sync-script-configuration-spec.md
+          - Match Control console: specs/implemented/match-control-console-spec.md
+          - Awards tab: specs/implemented/awards-podium-tab-spec.md
+          - Schedule screen: specs/implemented/schedule-screen-spec.md
+          - Scoresheet event picker: specs/implemented/scoresheet-event-picker-spec.md
+          - Calculator dual-meet fixes: specs/implemented/calculator-dual-meet-spec.md
+          - Calculator PWA: specs/implemented/calculator-pwa-spec.md
+          - Bracket Generator: specs/implemented/bracket-generator-spec.md
+          - Sheet generator (Phase 1): specs/implemented/dual-meet-sheet-generator-spec.md
+          - Schedule generator (Phase 2): specs/implemented/dual-meet-schedule-generator-spec.md
+          - Readouts generator (Phase 3): specs/implemented/dual-meet-readouts-generator-spec.md
+          - Event site templates: specs/implemented/event-templates-spec.md
+          - PNF x BUP dual meet: specs/implemented/pnf-x-bup-dual-meet-spec.md
+      - In progress:
+          - Overview: specs/in-progress/README.md
+          - Verifiable draw: specs/in-progress/bracket-generator-verifiable-draw-spec.md
+      - Not started:
+          - Overview: specs/not-started/README.md
+          - Standard Tournament Master: specs/not-started/standard-tournament-master-spec.md
+          - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
+          - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
+          - Bracket Generator workbook handoff: specs/not-started/bracket-generator-workbook-handoff-spec.md

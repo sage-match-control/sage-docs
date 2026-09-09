@@ -124,9 +124,9 @@ file's `onOpen` win when two are declared — so both files declare a
 `sheet-generator.gs`), each contributing only its own items and its own
 leading separator. Which declaration wins can't matter, since both bodies are
 the same text. Change one file's `onOpen`, change the other's to match — see
-`sage-docs/docs/specs/sync-script-configuration-spec.md` §7 for the full
+`sage-docs/docs/specs/implemented/sync-script-configuration-spec.md` §7 for the full
 contract, and the divergences/design notes in
-`sage-docs/docs/specs/scoresheet-event-picker-spec.md` §8.3 for why a
+`sage-docs/docs/specs/implemented/scoresheet-event-picker-spec.md` §8.3 for why a
 shared-contract shape was chosen over the alternatives.
 
 ## The runtime-fetched event registry
