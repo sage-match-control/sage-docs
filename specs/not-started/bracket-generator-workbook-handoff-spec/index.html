@@ -1,0 +1,2988 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/not-started/bracket-generator-workbook-handoff-spec/">
+      
+      
+        <link rel="prev" href="../fast-data-delivery-explainer/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Bracket Generator workbook handoff - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-bracket-generator-scoring-workbook-handoff" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Bracket Generator workbook handoff
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator workbook handoff
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator workbook handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-current-state-the-step-3-hole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Current state — the STEP 3 hole
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Current state — the STEP 3 hole">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-bracket-membership-is-positional-not-labelled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Bracket membership is positional, not labelled
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-this-waits-for-a-standard-tournament" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why this waits for a standard tournament
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-menu-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The menu item
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The menu item">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-where-it-goes-and-where-it-must-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Where it goes — and where it must not
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-ungated-unlike-its-neighbour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Ungated, unlike its neighbour
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-the-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 The dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-what-it-prefills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 What it prefills
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-tool-side-the-category-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Tool-side — the ?category= parameter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-shuffled-codes-output-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The shuffled-codes output mode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The shuffled-codes output mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-what-step-3-wants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 What STEP 3 wants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-the-open-design-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 The open design question
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-competing-design-shuffle-in-the-sheet-instead" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The competing design: shuffle in the sheet instead
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-rejected-prefilling-pair-names-from-step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Rejected — prefilling pair names from STEP 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-rejected-a-club-aware-bracket-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Rejected — a club-aware bracket card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-rejected-putting-the-item-in-the-generators-menu-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Rejected — putting the item in the generator's menu builder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-current-state-the-step-3-hole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Current state — the STEP 3 hole
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Current state — the STEP 3 hole">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-bracket-membership-is-positional-not-labelled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Bracket membership is positional, not labelled
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-this-waits-for-a-standard-tournament" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why this waits for a standard tournament
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-menu-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The menu item
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The menu item">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-where-it-goes-and-where-it-must-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Where it goes — and where it must not
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-ungated-unlike-its-neighbour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Ungated, unlike its neighbour
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-the-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 The dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-what-it-prefills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 What it prefills
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-tool-side-the-category-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Tool-side — the ?category= parameter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-shuffled-codes-output-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The shuffled-codes output mode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The shuffled-codes output mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-what-step-3-wants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 What STEP 3 wants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-the-open-design-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 The open design question
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-competing-design-shuffle-in-the-sheet-instead" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The competing design: shuffle in the sheet instead
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-rejected-prefilling-pair-names-from-step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Rejected — prefilling pair names from STEP 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-rejected-a-club-aware-bracket-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Rejected — a club-aware bracket card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-rejected-putting-the-item-in-the-generators-menu-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Rejected — putting the item in the generator's menu builder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/not-started/bracket-generator-workbook-handoff-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-bracket-generator-scoring-workbook-handoff">Spec — Bracket Generator × scoring workbook handoff<a class="headerlink" href="#spec-bracket-generator-scoring-workbook-handoff" title="Permanent link">&para;</a></h1>
+<p>Connect <code>tools/bracket-generator.html</code> to the scoring workbooks that need a
+draw: a <strong>SAGE menu item</strong> that deep-links into the tool with the event and
+category already filled in, and — for dual meets — an output mode that emits
+what the workbook's roster scaffold actually asks for.</p>
+<blockquote>
+<p><strong>Status: not implemented. Deliberately deferred until a standard
+tournament exists</strong> — see §2. Nothing in this document has been built; it is
+written now so the reasoning survives the wait.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Repo</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/sheets-sync.gs</code></td>
+<td><code>sage-tools-api</code></td>
+<td>one menu item + its dialog (§3)</td>
+</tr>
+<tr>
+<td><code>tools/bracket-generator.html</code></td>
+<td><code>sage-match-control.github.io</code></td>
+<td><code>?category=</code> (§4), and the shuffled-codes mode if §5 is taken</td>
+</tr>
+<tr>
+<td><code>docs/features/bracket-generator.md</code></td>
+<td><code>sage-docs</code></td>
+<td>the menu route, once it exists</td>
+</tr>
+<tr>
+<td><code>docs/technical/bracket-generator.md</code></td>
+<td><code>sage-docs</code></td>
+<td>same</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No backend change.</strong> No endpoint, no auth, no <code>event-data</code> read, no
+<code>package.json</code> bump, no Cloud Run deploy. <code>sheets-sync.gs</code> ships by being
+pasted into a workbook's own script project, so changing it is not a deploy
+either.</p>
+<hr />
+<h2 id="1-current-state-the-step-3-hole">1. Current state — the STEP 3 hole<a class="headerlink" href="#1-current-state-the-step-3-hole" title="Permanent link">&para;</a></h2>
+<p>Every generated dual-meet category tab carries a roster scaffold, built by
+<code>writeRosterScaffold_</code> (<code>sheet-generator.gs:1826</code>), once per club:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Column (club A / club B)</th>
+<th>State on a fresh workbook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>STEP 1 · NAMES</strong></td>
+<td><code>AB</code> / <code>AQ</code></td>
+<td>blank — operator pastes pair names, 2 rows per pair</td>
+</tr>
+<tr>
+<td><strong>STEP 2 · CODES</strong></td>
+<td><code>AF</code> / <code>AU</code></td>
+<td>pre-filled <code>&lt;CLUB&gt;_&lt;CATKEY&gt;_1</code> … <code>_&lt;teamsA&gt;</code></td>
+</tr>
+<tr>
+<td><strong>STEP 3 · RANDOMIZED</strong></td>
+<td><code>AG</code> / <code>AV</code></td>
+<td><strong>blank on purpose</strong> — operator pastes the codes back shuffled</td>
+</tr>
+</tbody>
+</table>
+<p>STEP 3 is the draw, and <strong>nothing fills it today.</strong> The operator shuffles the
+codes by hand, or with a throwaway <code>SORT(…, RANDARRAY(…))</code> off to one side.</p>
+<p>The blankness is deliberate and load-bearing. From the generator's own comment
+(<code>sheet-generator.gs:1869</code>):</p>
+<blockquote>
+<p>STEP 3 ("RANDOMIZED") is left BLANK … It used to be pre-seeded with the codes
+in roster order, which was wrong twice over: it made a step that hasn't been
+done yet look done, and an unshuffled STEP 3 is not a no-op — it maps every
+pair to its own roster slot, quietly defeating the blinding the shuffle
+exists to provide.</p>
+</blockquote>
+<p>So the workbook has a hole shaped like a shuffle tool, and the shuffle tool
+has no route into the workbook. That is the gap this spec closes.</p>
+<h3 id="11-bracket-membership-is-positional-not-labelled">1.1 Bracket membership is positional, not labelled<a class="headerlink" href="#11-bracket-membership-is-positional-not-labelled" title="Permanent link">&para;</a></h3>
+<p>A dual meet's brackets are a subdivision <em>within each club</em>, derived from where
+a code lands rather than from any bracket column: with <code>n = teamsA / brackets</code>,
+codes <code>_1</code>…<code>_n</code> are bracket 1 and <code>_n+1</code>…<code>_2n</code> are bracket 2.</p>
+<p>The generator validates that shape hard (<code>sheet-generator.gs:375-388</code>):</p>
+<ul>
+<li><code>brackets</code> must be <strong>1 or 2</strong> — "a club playoff needs exactly two bracket
+  winners to pair off"</li>
+<li><code>teams_a</code> must equal <code>teams_b</code> — "bracket blocks must be square"</li>
+<li><code>teams_a</code> must divide evenly by <code>brackets</code></li>
+<li><code>n</code> must land in 2..12</li>
+</ul>
+<p>None of that matches the tool's own model, which deals an arbitrary pair count
+into an arbitrary bracket count and knows nothing about clubs (bracket
+generator spec §12). The two models are compatible in <em>outcome</em> — a shuffle is
+a shuffle — but not in <em>shape</em>, which is what §5 is about.</p>
+<hr />
+<h2 id="2-why-this-waits-for-a-standard-tournament">2. Why this waits for a standard tournament<a class="headerlink" href="#2-why-this-waits-for-a-standard-tournament" title="Permanent link">&para;</a></h2>
+<p>The tool has one output today — bracket cards, a PNG or text list of pairs
+grouped under lettered brackets — and that artifact fits the two event shapes
+very differently:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Standard tournament</th>
+<th>Dual meet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What the draw produces</td>
+<td>pairs grouped into brackets</td>
+<td>a shuffled column of team codes</td>
+</tr>
+<tr>
+<td>Bracket count</td>
+<td>arbitrary</td>
+<td>1 or 2</td>
+</tr>
+<tr>
+<td>Club dimension</td>
+<td>none</td>
+<td>two clubs, drawn separately</td>
+</tr>
+<tr>
+<td>Does the tool's current output fit?</td>
+<td><strong>yes, exactly</strong></td>
+<td>no — wrong artifact</td>
+</tr>
+<tr>
+<td>Is there a generator workbook to link from?</td>
+<td><strong>not yet</strong></td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>The irony is exact: the event shape the tool's output already serves has no
+workbook to put a menu in, and the one with the workbook needs an output the
+tool doesn't have.</p>
+<p>Building the dual-meet half first would mean designing the deep-link contract
+against the only generator that exists, then retrofitting it when the
+standard-tournament sheet generator lands — which is already planned (see the
+calculator's dual-meet handoff note in the root <code>CLAUDE.md</code>: "A standard-
+tournament equivalent is planned, at which point the show/hide becomes a
+swap"). Worse, the <em>natural</em> dual-meet-first implementation is "menu item →
+bracket cards", which ships something that looks finished and doesn't actually
+close the operator's loop. A feature that appears done and isn't is more
+expensive than one that doesn't exist yet.</p>
+<p>Waiting costs nothing: STEP 3 has been filled by hand for every event so far,
+and one menu contract designed against both generators at once is cheaper than
+two.</p>
+<hr />
+<h2 id="3-the-menu-item">3. The menu item<a class="headerlink" href="#3-the-menu-item" title="Permanent link">&para;</a></h2>
+<h3 id="31-where-it-goes-and-where-it-must-not">3.1 Where it goes — and where it must not<a class="headerlink" href="#31-where-it-goes-and-where-it-must-not" title="Permanent link">&para;</a></h3>
+<p>Add it to <strong><code>addSyncMenuItems_</code> in <code>sheets-sync.gs</code></strong>, not to
+<code>addGeneratorMenuItems_</code> in <code>sheet-generator.gs</code>.</p>
+<p><code>addGeneratorMenuItems_</code> removes itself once the workbook has been generated
+(<code>sheet-generator.gs:750</code>, guarding on <code>PROP_TABS_GENERATED_FOR</code>), because
+<code>Generate event tabs</code> can only error after that. But roster pasting — and
+therefore the draw — happens <em>after</em> generation. An item placed there would
+disappear at exactly the moment it becomes useful.</p>
+<p><code>addSyncMenuItems_</code> persists for the life of the workbook, and the Dual Meet
+Master carries both scripts, so the item shows up before and after generation
+alike.</p>
+<p>Contributing from one builder also sidesteps the hazard the shared block warns
+about — <code>onOpen</code> is duplicated verbatim across both files with a "Change one,
+change both" note (<code>sheets-sync.gs:741-748</code>). This adds nothing to that block.</p>
+<h3 id="32-ungated-unlike-its-neighbour">3.2 Ungated, unlike its neighbour<a class="headerlink" href="#32-ungated-unlike-its-neighbour" title="Permanent link">&para;</a></h3>
+<p><code>Generate Scoresheets</code> sits behind <code>readSyncConfig_()</code> because it deep-links a
+day key and facility name that only exist once sync is set up. A draw needs
+neither. The bracket item is available in any workbook that carries the script,
+configured or not — including the Master, and including a copy on the day the
+rosters arrive but before sync is wired.</p>
+<h3 id="33-the-dialog">3.3 The dialog<a class="headerlink" href="#33-the-dialog" title="Permanent link">&para;</a></h3>
+<p>Copy the <code>showScoresheetLink</code> pattern verbatim (<code>sheets-sync.gs:869</code>), for the
+reason its own docstring gives:</p>
+<blockquote>
+<p>Apps Script can't open a URL from server-side code, and a <code>window.open()</code>
+fired on dialog load is blocked as a popup inside the sandboxed iframe — so
+the navigation has to come from a real user click on an anchor, which is what
+this dialog provides.</p>
+</blockquote>
+<p>Same shape: a small modal, the prefilled values shown as a <code>&lt;dl&gt;</code> so the
+operator can see what they're about to get, one green anchor with
+<code>target="_blank" rel="noopener"</code> and <code>onclick="google.script.host.close()"</code>.
+Makes no HTTP request and needs no additional OAuth scope.</p>
+<p>Add <code>BRACKET_GENERATOR_URL</code> beside <code>SCORESHEET_GENERATOR_URL</code>
+(<code>sheets-sync.gs:94</code>), pointing at
+<code>https://sage-match-control.github.io/tools/bracket-generator.html</code>.</p>
+<h3 id="34-what-it-prefills">3.4 What it prefills<a class="headerlink" href="#34-what-it-prefills" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Source</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>?event=</code></td>
+<td><code>Title!B6</code></td>
+<td>the event title the generator wrote there (<code>sheet-generator.gs:2465</code>)</td>
+</tr>
+<tr>
+<td><code>?category=</code></td>
+<td>the active category tab's <strong><code>A1</code></strong></td>
+<td>the display label, uppercased (<code>sheet-generator.gs:1241</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>A1</code>, not the tab name.</strong> Tabs are named by the raw category key — <code>LIWD</code>,
+matching <code>^[A-Z0-9]{2,8}$</code> — while <code>A1</code> carries the human label
+("LOW INTERMEDIATE WOMEN'S DOUBLES"). The raw key is the wrong thing to print
+on a bracket card handed to players.</p>
+<p><strong>Open question:</strong> how the item behaves when the active sheet isn't a category
+tab. Options are to fall back to no <code>?category=</code> at all, or to offer a picker.
+The cheap version — prefill from the active sheet when it looks like a category
+tab, omit the parameter otherwise — is probably right, but it needs deciding
+against the standard-tournament generator's tab naming, which doesn't exist
+yet.</p>
+<hr />
+<h2 id="4-tool-side-the-category-parameter">4. Tool-side — the <code>?category=</code> parameter<a class="headerlink" href="#4-tool-side-the-category-parameter" title="Permanent link">&para;</a></h2>
+<p>Mirrors <code>?event=</code> (bracket generator spec §3.7) and costs about four lines.</p>
+<p><strong>With one deliberate difference: <code>?category=</code> must not persist.</strong> <code>?event=</code> is
+stored in <code>localStorage</code> and survives to the next visit because one operator
+draws many categories for one event in a sitting (§3.6). Category is the
+opposite, and that same section is explicit about why:</p>
+<blockquote>
+<p>Category and pairs are <strong>not</strong> persisted. They change every draw, and a
+prefilled pair list is a live hazard: an operator who does not notice it draws
+the wrong category's brackets.</p>
+</blockquote>
+<p>A category arriving in a fresh deep link is fine — it came from the tab the
+operator is looking at. A category resurrected from storage on an unrelated
+later visit is the exact hazard above. So: read it, fill the field, never write
+it back.</p>
+<hr />
+<h2 id="5-the-shuffled-codes-output-mode">5. The shuffled-codes output mode<a class="headerlink" href="#5-the-shuffled-codes-output-mode" title="Permanent link">&para;</a></h2>
+<p>This is the part that actually closes the dual-meet loop, and the part with the
+most left to decide.</p>
+<h3 id="51-what-step-3-wants">5.1 What STEP 3 wants<a class="headerlink" href="#51-what-step-3-wants" title="Permanent link">&para;</a></h3>
+<p>A single column of <code>teamsA</code> team codes in shuffled order, for one club, ready
+to paste. Not names, not brackets — codes. The tool's current exports (a PNG of
+bracket cards, a text list of names under bracket headings) are neither.</p>
+<h3 id="52-shape">5.2 Shape<a class="headerlink" href="#52-shape" title="Permanent link">&para;</a></h3>
+<p>Given a code stem (<code>PNF_LIWD</code>) and a pair count, emit <code>PNF_LIWD_1</code> …
+<code>PNF_LIWD_n</code> shuffled. Clipboard, not download: STEP 3 is a paste target, and
+the precedent is the calculator's <strong>Copy plan &amp; open generator</strong> button, which
+copies rather than exporting a file for exactly this reason.</p>
+<p>One draw per club per category, since the two clubs' columns are independent
+(<code>AF</code>/<code>AG</code> for A, <code>AU</code>/<code>AV</code> for B). Whether that means two invocations, a club
+toggle, or one run emitting both columns is undecided.</p>
+<h3 id="53-the-open-design-question">5.3 The open design question<a class="headerlink" href="#53-the-open-design-question" title="Permanent link">&para;</a></h3>
+<p>How this coexists with the bracket-card output. It could be a second export
+button, a mode switch, or an argument that it belongs in a different tool
+entirely. Deciding it before the standard-tournament generator exists means
+deciding it with half the information.</p>
+<hr />
+<h2 id="6-the-competing-design-shuffle-in-the-sheet-instead">6. The competing design: shuffle in the sheet instead<a class="headerlink" href="#6-the-competing-design-shuffle-in-the-sheet-instead" title="Permanent link">&para;</a></h2>
+<p>Worth stating plainly, because it is a genuinely strong alternative and this
+spec should not pretend otherwise.</p>
+<p>A <code>SAGE → Shuffle roster codes</code> item could write the shuffled codes straight
+into <code>AG</code>/<code>AV</code> with one click — no browser, no clipboard, no round trip, no
+paste errors, and the operator never leaves the workbook. For the mechanical
+job STEP 3 describes, that is simpler than everything above.</p>
+<p>What it loses is the reason the bracket generator is shaped the way it is. From
+the bracket generator spec §4:</p>
+<blockquote>
+<p>this page is a <em>stage</em>, not a form … the ~3s shuffle exists so a room can
+watch a draw land</p>
+</blockquote>
+<p>An in-sheet shuffle is invisible. It produces no artifact to post, and nobody
+watches it happen. Where a draw needs to be <em>witnessed</em> — players in the room,
+a photo of the bracket on a wall — the tool is the point and the sheet write is
+not.</p>
+<p>These may simply be two features for two situations: the in-sheet shuffle for a
+routine roster blind, the tool for a draw with an audience. <strong>Not decided
+here.</strong> The standard-tournament case is expected to clarify it, since a
+standard tournament has the audience and (today) no sheet to write into.</p>
+<hr />
+<h2 id="7-decisions">7. Decisions<a class="headerlink" href="#7-decisions" title="Permanent link">&para;</a></h2>
+<h3 id="71-rejected-prefilling-pair-names-from-step-1">7.1 Rejected — prefilling pair names from STEP 1<a class="headerlink" href="#71-rejected-prefilling-pair-names-from-step-1" title="Permanent link">&para;</a></h3>
+<p>Tempting, and the timing genuinely works: names land at STEP 1 <em>before</em> STEP 3,
+so reading them out is not circular the way pulling from <code>event-data</code> would be.
+(That is rejected separately, and for a different reason — the published
+snapshot holds matches and standings, not a pre-draw roster; bracket generator
+spec §9.5. It stays rejected.)</p>
+<p>It fails on output shape instead. Feed names in and the tool returns bracket
+cards, which is still not the column STEP 3 wants — the operator has read their
+roster into a tool and gotten back something they cannot paste. Name prefill
+becomes worth doing <strong>together with</strong> §5's shuffled-codes mode, and is
+pointless without it.</p>
+<h3 id="72-rejected-a-club-aware-bracket-card">7.2 Rejected — a club-aware bracket card<a class="headerlink" href="#72-rejected-a-club-aware-bracket-card" title="Permanent link">&para;</a></h3>
+<p>Grouping a dual meet's cards by club would make the card output fit the dual
+meet. Rejected: the tool knows nothing about clubs by design (bracket generator
+spec §12, "One tool serves both event shapes because nothing in it knows about
+clubs"), and teaching it would fork the one thing that is currently shared.</p>
+<h3 id="73-rejected-putting-the-item-in-the-generators-menu-builder">7.3 Rejected — putting the item in the generator's menu builder<a class="headerlink" href="#73-rejected-putting-the-item-in-the-generators-menu-builder" title="Permanent link">&para;</a></h3>
+<p>See §3.1. It would vanish after generation, which is before the draw.</p>
+<hr />
+<h2 id="8-out-of-scope">8. Out of scope<a class="headerlink" href="#8-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Any change to how <code>sheet-generator.gs</code> builds the roster scaffold. STEP 3
+  stays blank; this spec fills it, it does not redesign it.</li>
+<li>Reading rosters or pairs from <code>event-data</code> (§7.1).</li>
+<li>Seeded or non-random draws — still a different feature with its own spec.</li>
+<li>A standard-tournament sheet generator. This spec <em>waits</em> on one; it does not
+  specify one.</li>
+</ul>
+<hr />
+<h2 id="9-acceptance-checklist">9. Acceptance checklist<a class="headerlink" href="#9-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<p><em>(To be worked through when this is built, not before.)</em></p>
+<ul>
+<li>[ ] The SAGE menu shows the bracket item in the Master, in a fresh copy, and
+      in a generated workbook — before and after <code>Generate event tabs</code>.</li>
+<li>[ ] It appears in a workbook with no sync configured.</li>
+<li>[ ] The dialog's link opens the tool in a new tab with <code>?event=</code> from
+      <code>Title!B6</code> and <code>?category=</code> from the active category tab's <code>A1</code>.</li>
+<li>[ ] Opening it from a non-category tab still works, with whatever §3.4's open
+      question settles on.</li>
+<li>[ ] <code>?category=</code> fills the field and is <strong>not</strong> written to <code>localStorage</code>;
+      a later visit with no parameter comes back with the category empty and
+      the event name still remembered.</li>
+<li>[ ] <code>onOpen</code>'s shared block is byte-identical in both <code>.gs</code> files.</li>
+<li>[ ] <code>node scripts/verify-sheet-generator.mjs</code> still passes (it covers
+      <code>sheet-generator.gs</code> only, but the shared menu block lives in both).</li>
+</ul>
+<hr />
+<h2 id="10-divergences">10. Divergences<a class="headerlink" href="#10-divergences" title="Permanent link">&para;</a></h2>
+<p><em>(None — nothing here is built. Record departures when it is.)</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../fast-data-delivery-explainer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Fast data delivery - explainer">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Fast data delivery - explainer
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

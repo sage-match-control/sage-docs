@@ -1,0 +1,4051 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/implemented/bracket-generator-spec/">
+      
+      
+        <link rel="prev" href="../calculator-pwa-spec/">
+      
+      
+        <link rel="next" href="../dual-meet-sheet-generator-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Bracket Generator - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-bracket-generator" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Bracket Generator
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build order
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Build order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conventions-to-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conventions to match
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-current-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Current state
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Current state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-nothing-in-it-is-per-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Nothing in it is per-event
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-nothing-links-to-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Nothing links to it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-what-the-duplication-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 What the duplication costs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-it-moves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why it moves
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-event-name-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Event name field
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Event name field">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-markup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Markup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-where-it-renders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Where it renders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-the-canvas-needs-truncation-the-tokens-never-did" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 The canvas needs truncation the tokens never did
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-escaping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Escaping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-event-prefill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 ?event= prefill
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-branding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Branding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Branding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-re-skinning-is-a-one-block-edit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Re-skinning is a one-block edit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-what-does-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. What does not change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-canvas-reads-the-palette-instead-of-duplicating-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The canvas reads the palette instead of duplicating it
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The canvas reads the palette instead of duplicating it">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-promote-the-badge-colours-to-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Promote the badge colours to tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-the-canvas-resolves-tokens-at-export-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 The canvas resolves tokens at export time
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-retiring-the-copies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Retiring the copies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Retiring the copies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-the-live-event-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 The live event copy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-_templatesclaudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 _templates/CLAUDE.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-the-ops-roster-row" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. The ops roster row
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-the-event-name-is-optional-and-blank-is-a-first-class-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 The event name is optional, and blank is a first-class state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-remembered-not-asked-for-again" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Remembered, not asked for again
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-rejected-keep-a-per-event-copy-and-add-the-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Rejected — keep a per-event copy and add the tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-rejected-a-pwa-like-the-calculator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Rejected — a PWA, like the calculator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-rejected-pulling-pairs-from-event-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Rejected — pulling pairs from event-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-docs-to-write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Docs to write
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Docs to write">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-new-sage-docsdocsfeaturesbracket-generatormd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 New — sage-docs/docs/features/bracket-generator.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-new-sage-docsdocstechnicalbracket-generatormd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 New — sage-docs/docs/technical/bracket-generator.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-sage-docsdocsfeaturesreadmemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 sage-docs/docs/features/README.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-sage-docsdocstechnicalreadmemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 sage-docs/docs/technical/README.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#115-sage-docsdocsfeaturestournament-hubmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.5 sage-docs/docs/features/tournament-hub.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#116-sage-docsdocsfeaturespreparing-an-eventmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.6 sage-docs/docs/features/preparing-an-event.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#117-sage-docsdocsspecsimplementedevent-templates-specmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.7 sage-docs/docs/specs/implemented/event-templates-spec.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#118-dcoding-projectssageclaudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.8 D:\Coding Projects\SAGE\CLAUDE.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#119-sage-match-controlgithubio_templatesclaudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.9 sage-match-control.github.io/_templates/CLAUDE.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/bracket-generator-workbook-handoff-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator workbook handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build order
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Build order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conventions-to-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conventions to match
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-current-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Current state
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Current state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-nothing-in-it-is-per-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Nothing in it is per-event
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-nothing-links-to-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Nothing links to it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-what-the-duplication-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 What the duplication costs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-it-moves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why it moves
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-event-name-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Event name field
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Event name field">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-markup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Markup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-where-it-renders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Where it renders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-the-canvas-needs-truncation-the-tokens-never-did" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 The canvas needs truncation the tokens never did
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-escaping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Escaping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-event-prefill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 ?event= prefill
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-branding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Branding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Branding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-re-skinning-is-a-one-block-edit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Re-skinning is a one-block edit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-what-does-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. What does not change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-canvas-reads-the-palette-instead-of-duplicating-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The canvas reads the palette instead of duplicating it
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The canvas reads the palette instead of duplicating it">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-promote-the-badge-colours-to-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Promote the badge colours to tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-the-canvas-resolves-tokens-at-export-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 The canvas resolves tokens at export time
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-retiring-the-copies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Retiring the copies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Retiring the copies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-the-live-event-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 The live event copy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-_templatesclaudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 _templates/CLAUDE.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-the-ops-roster-row" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. The ops roster row
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-the-event-name-is-optional-and-blank-is-a-first-class-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 The event name is optional, and blank is a first-class state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-remembered-not-asked-for-again" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Remembered, not asked for again
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-rejected-keep-a-per-event-copy-and-add-the-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Rejected — keep a per-event copy and add the tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-rejected-a-pwa-like-the-calculator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Rejected — a PWA, like the calculator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-rejected-pulling-pairs-from-event-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Rejected — pulling pairs from event-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-docs-to-write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Docs to write
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Docs to write">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-new-sage-docsdocsfeaturesbracket-generatormd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 New — sage-docs/docs/features/bracket-generator.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-new-sage-docsdocstechnicalbracket-generatormd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 New — sage-docs/docs/technical/bracket-generator.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-sage-docsdocsfeaturesreadmemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 sage-docs/docs/features/README.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-sage-docsdocstechnicalreadmemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 sage-docs/docs/technical/README.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#115-sage-docsdocsfeaturestournament-hubmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.5 sage-docs/docs/features/tournament-hub.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#116-sage-docsdocsfeaturespreparing-an-eventmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.6 sage-docs/docs/features/preparing-an-event.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#117-sage-docsdocsspecsimplementedevent-templates-specmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.7 sage-docs/docs/specs/implemented/event-templates-spec.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#118-dcoding-projectssageclaudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.8 D:\Coding Projects\SAGE\CLAUDE.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#119-sage-match-controlgithubio_templatesclaudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.9 sage-match-control.github.io/_templates/CLAUDE.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/implemented/bracket-generator-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-bracket-generator">Spec — Bracket Generator<a class="headerlink" href="#spec-bracket-generator" title="Permanent link">&para;</a></h1>
+<p>Promote the per-event <code>bracket-generator.html</code> into a single evergreen tool at
+<code>tools/bracket-generator.html</code>, branded as S.A.G.E. rather than as whichever
+event it was copied for, and give it an <strong>optional Event name field</strong> that
+supplies at run time the one thing the per-event copies got from build-time
+token replacement.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Repo</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tools/bracket-generator.html</code></td>
+<td><code>sage-match-control.github.io</code></td>
+<td>new — the tool (§3–§6)</td>
+</tr>
+<tr>
+<td><code>tools/index.html</code></td>
+<td><code>sage-match-control.github.io</code></td>
+<td>one row on the ops roster (§8)</td>
+</tr>
+<tr>
+<td><code>_templates/dual-meet-template/bracket-generator.html</code></td>
+<td><code>sage-match-control.github.io</code></td>
+<td>deleted (§7)</td>
+</tr>
+<tr>
+<td><code>_templates/standard-tournament-template/bracket-generator.html</code></td>
+<td><code>sage-match-control.github.io</code></td>
+<td>deleted (§7)</td>
+</tr>
+<tr>
+<td><code>events/pnf-x-bup-dual-meet/bracket-generator.html</code></td>
+<td><code>sage-match-control.github.io</code></td>
+<td>replaced with a redirect stub (§7.2)</td>
+</tr>
+<tr>
+<td><code>_templates/CLAUDE.md</code></td>
+<td><code>sage-match-control.github.io</code></td>
+<td>§8 removed, §2 and §3 amended (§7.3)</td>
+</tr>
+<tr>
+<td><code>docs/features/bracket-generator.md</code></td>
+<td><code>sage-docs</code></td>
+<td>new — organizer page (§11.1)</td>
+</tr>
+<tr>
+<td><code>docs/technical/bracket-generator.md</code></td>
+<td><code>sage-docs</code></td>
+<td>new — its technical counterpart (§11.2)</td>
+</tr>
+<tr>
+<td>six further doc files</td>
+<td><code>sage-docs</code>, site, project root</td>
+<td>§11.3–§11.9</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No running code changes.</strong> No new endpoint, no auth, no CORS, no
+<code>event-data</code> read, no <code>package.json</code> bump and no Cloud Run deploy. The tool
+stays what it already is: one self-contained HTML file that fetches nothing.</p>
+<h2 id="build-order">Build order<a class="headerlink" href="#build-order" title="Permanent link">&para;</a></h2>
+<p>Work in this order. Every step leaves a page that loads and draws, so the
+result can be checked in a browser after any of them.</p>
+<ol>
+<li><strong>Fork the file.</strong> Copy <code>_templates/dual-meet-template/bracket-generator.html</code>
+   to <code>tools/bracket-generator.html</code>. That copy specifically — it is the
+   current, S.A.G.E.-themed one. The <code>events/pnf-x-bup-dual-meet/</code> copy is a
+   palette behind (§1) and the archive copy is older still; forking either is
+   the one mistake that silently undoes the theming.</li>
+<li><strong>§4 — the chrome.</strong> Replace all six token sites, add the logo to the
+   eyebrow row and the shared favicon block. <code>grep '{{' tools/bracket-generator.html</code>
+   must come back empty before moving on.</li>
+<li><strong>§4.1 + §6 — one palette source.</strong> Add the <code>THEME</code> banner, promote the four
+   badge pairs to tokens, convert the canvas to <code>cssVar</code>. Do this <em>before</em> §3:
+   it touches the same export functions the event name work does, and doing it
+   second means editing them twice.</li>
+<li><strong>§3 — the Event name field.</strong> Markup, state, the render sites in §3.3,
+   canvas truncation, escaping, persistence, <code>?event=</code>.</li>
+<li><strong>§7 — retire the copies.</strong> Delete both template copies, write the redirect
+   stub, amend <code>_templates/CLAUDE.md</code> §2, §3 and §8.</li>
+<li><strong>§8 — the ops roster row.</strong></li>
+<li><strong>§11 — the docs.</strong> Nine files across three repos. Not a follow-up task.</li>
+<li><strong>§10 — run the acceptance checklist.</strong></li>
+</ol>
+<p>Steps 5, 6 and 7 are independent of 2–4 and can land separately; 2, 3 and 4 are
+strictly ordered.</p>
+<h3 id="conventions-to-match">Conventions to match<a class="headerlink" href="#conventions-to-match" title="Permanent link">&para;</a></h3>
+<p><code>sage-match-control.github.io</code> has no build step, no framework and no
+dependencies. Keep it that way:</p>
+<ul>
+<li>One self-contained file — inline <code>&lt;style&gt;</code>, inline <code>&lt;script&gt;</code>, no bundler,
+  no CDN, no new <code>&lt;link&gt;</code> beyond the two Google Fonts stylesheets already there.</li>
+<li>Match the file's existing idiom: <code>const</code>/arrow functions, template literals,
+  <code>escapeHtml()</code> on anything reaching <code>innerHTML</code>, comments that explain <em>why</em>
+  rather than restating the line below them.</li>
+<li>Do not reformat or "tidy" the ~1,100 lines being carried across. Every
+  unrelated diff hunk is noise in a review of a file that was copied, not
+  written.</li>
+</ul>
+<hr />
+<h2 id="1-current-state">1. Current state<a class="headerlink" href="#1-current-state" title="Permanent link">&para;</a></h2>
+<p>Four copies of the same ~1,118-line page exist:</p>
+<table>
+<thead>
+<tr>
+<th>Copy</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_templates/dual-meet-template/bracket-generator.html</code></td>
+<td>S.A.G.E.-themed, current</td>
+</tr>
+<tr>
+<td><code>_templates/standard-tournament-template/bracket-generator.html</code></td>
+<td>byte-identical to the above, by design</td>
+</tr>
+<tr>
+<td><code>events/pnf-x-bup-dual-meet/bracket-generator.html</code></td>
+<td><strong>stale</strong> — still the pre-S.A.G.E. dark-neon palette, though its own header comment claims byte-identity with the template</td>
+</tr>
+<tr>
+<td><code>events/archives/bkl-cup-2026/bracket-generator.html</code></td>
+<td>frozen archive</td>
+</tr>
+</tbody>
+</table>
+<p>The page takes a category name, a list of pairs (one per line) and a bracket
+count; shuffles the pairs behind a ~3s deceleration animation; deals them
+round-robin into lettered brackets; and exports the result as a hand-drawn
+PNG or a plain-text file.</p>
+<h3 id="11-nothing-in-it-is-per-event">1.1 Nothing in it is per-event<a class="headerlink" href="#11-nothing-in-it-is-per-event" title="Permanent link">&para;</a></h3>
+<p>There is no configuration block, no sheet access, no <code>event-data</code> fetch, no
+query string. <code>_templates/CLAUDE.md</code> §2 step 4 already says so outright:
+"<code>bracket-generator.html</code> needs no config at all."</p>
+<p>The only event-specific content is three tokens, in six places:</p>
+<table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Token use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;title&gt;</code></td>
+<td><code>{{EVENT_TITLE}} — Bracket Draw</code></td>
+</tr>
+<tr>
+<td><code>.eyebrow</code></td>
+<td><code>{{EVENT_TITLE}} · {{EVENT_DATE_RANGE}} · {{VENUE}}</code></td>
+</tr>
+<tr>
+<td><code>h1.title</code></td>
+<td><code>{{EVENT_TITLE}} &lt;span class="accent"&gt;Bracket Draw&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;footer&gt;</code></td>
+<td><code>{{EVENT_TITLE}} · Bracket Draw Tool</code></td>
+</tr>
+<tr>
+<td><code>exportAsText()</code></td>
+<td><code>'{{EVENT_TITLE}} \u00b7 Bracket Draw Tool\n'</code></td>
+</tr>
+<tr>
+<td><code>exportAsImage()</code></td>
+<td>canvas header eyebrow and canvas footer</td>
+</tr>
+</tbody>
+</table>
+<p>All six are captions. None of them changes what the tool computes.</p>
+<h3 id="12-nothing-links-to-it">1.2 Nothing links to it<a class="headerlink" href="#12-nothing-links-to-it" title="Permanent link">&para;</a></h3>
+<p>Neither the event <code>index.html</code> nor <code>tools/index.html</code> links to the page. It is
+reachable only by knowing the URL. The <code>pnf-x-bup-dual-meet</code> copy drifting a
+full palette behind the template — while still carrying a comment asserting it
+had not — is the predictable result: a page nobody opens is a page nobody
+notices is wrong.</p>
+<h3 id="13-what-the-duplication-costs">1.3 What the duplication costs<a class="headerlink" href="#13-what-the-duplication-costs" title="Permanent link">&para;</a></h3>
+<p><code>_templates/CLAUDE.md</code> §8 exists solely to police the two template copies
+staying byte-identical, and both files carry a header comment repeating the
+rule. Every future change to the tool is a three-file edit — two templates plus
+each live event's copy — with no mechanism that catches a missed one.</p>
+<hr />
+<h2 id="2-why-it-moves">2. Why it moves<a class="headerlink" href="#2-why-it-moves" title="Permanent link">&para;</a></h2>
+<p>Three reasons, in order of weight:</p>
+<ol>
+<li><strong>It is already an evergreen tool wearing event clothes.</strong> A tool whose
+   entire input is typed by hand into the page belongs beside the other
+   hand-input tools — <code>scoresheet-generator.html</code>,
+   <code>tournament-calculator.html</code> — not inside a folder that gets frozen when
+   the event ends.</li>
+<li><strong>One copy cannot drift.</strong> The §8 mirroring rule, the two header comments
+   and the per-event copy all disappear. Instantiating a template stays a
+   single <code>cp -r</code>; it just copies one file fewer.</li>
+<li><strong>It becomes findable.</strong> A row on the ops roster is the difference between
+   a tool the team uses and a URL one person remembers.</li>
+</ol>
+<p>The counter-argument — that a per-event copy is stamped with the event name
+for free — is real, and §3 is the answer to it.</p>
+<hr />
+<h2 id="3-the-event-name-field">3. The Event name field<a class="headerlink" href="#3-the-event-name-field" title="Permanent link">&para;</a></h2>
+<p>The one capability the per-event copies had that a shared tool loses: the
+exported PNG and text file carried the event's name without anyone typing it.
+An operator posting a draw to a group chat wants that stamp; a shared tool that
+silently drops it is a downgrade.</p>
+<p>So the tool asks for it — <strong>optionally</strong>, once per session, and remembers it.</p>
+<h3 id="31-markup">3.1 Markup<a class="headerlink" href="#31-markup" title="Permanent link">&para;</a></h3>
+<p>A new first field in <code>.input-panel</code>, above <strong>Category name</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"field"</span><span class="p">&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"field-label"</span> <span class="na">for</span><span class="o">=</span><span class="s">"eventNameInput"</span><span class="p">&gt;</span>Event name <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"field-optional"</span><span class="p">&gt;</span>optional<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">id</span><span class="o">=</span><span class="s">"eventNameInput"</span> <span class="na">class</span><span class="o">=</span><span class="s">"field-input"</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>         <span class="na">placeholder</span><span class="o">=</span><span class="s">"e.g. BKL Pickleball Cup 2026"</span> <span class="na">autocomplete</span><span class="o">=</span><span class="s">"off"</span> <span class="na">maxlength</span><span class="o">=</span><span class="s">"80"</span> <span class="p">/&gt;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"field-meta"</span><span class="p">&gt;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"field-hint"</span><span class="p">&gt;</span>Stamped on the exported image and text file. Leave blank for plain S.A.G.E. branding.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><code>.field-optional</code> is a new inline chip on the label — uppercase, <code>--ink-soft</code>,
+Barlow Condensed, matching the existing <code>.field-label</code> treatment.
+<code>.field-hint</code> reuses the <code>.field-meta</code> row the pairs counter already sits in.</p>
+<p><code>maxlength="80"</code> is a guardrail, not the wrap strategy — §3.4 still truncates.</p>
+<h3 id="32-state">3.2 State<a class="headerlink" href="#32-state" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">eventNameInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'eventNameInput'</span><span class="p">);</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">let</span><span class="w"> </span><span class="nx">currentEventName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">;</span>
+</code></pre></div>
+<p><code>currentEventName</code> is captured in <code>generateBrackets()</code> alongside
+<code>currentCategory</code>, from the same <code>.trim()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">currentCategory</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nx">categoryInput</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nx">currentEventName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">eventNameInput</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+</code></pre></div>
+<p>Capturing at draw time rather than reading the input at export time is
+deliberate and matches <code>currentCategory</code>: what the operator saw settle is
+exactly what exports, even if they keep typing afterwards.</p>
+<h3 id="33-where-it-renders">3.3 Where it renders<a class="headerlink" href="#33-where-it-renders" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Event name set</th>
+<th>Blank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;title&gt;</code></td>
+<td><em>(static)</em> <code>Bracket Generator — S.A.G.E.</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>Page <code>.eyebrow</code></td>
+<td><em>(static)</em> <code>S.A.G.E. · Match Control Experts</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>Page <code>h1.title</code></td>
+<td><em>(static)</em> <code>Bracket &lt;span class="accent"&gt;Generator&lt;/span&gt;</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>Page <code>&lt;footer&gt;</code></td>
+<td><em>(static)</em> S.A.G.E. branding</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Results header</td>
+<td>new <code>#resultEvent</code> line above <code>#resultTitle</code></td>
+<td>element hidden</td>
+</tr>
+<tr>
+<td>Text export line 1</td>
+<td><code>&lt;EVENT NAME&gt;</code>, then category on line 2</td>
+<td>category on line 1, as today</td>
+</tr>
+<tr>
+<td>Text export footer</td>
+<td><code>&lt;event name&gt; · Bracket Draw</code></td>
+<td><code>S.A.G.E. Bracket Draw</code></td>
+</tr>
+<tr>
+<td>Canvas header eyebrow</td>
+<td><code>&lt;EVENT NAME&gt; · BRACKET DRAW</code></td>
+<td><code>S.A.G.E. · BRACKET DRAW</code></td>
+</tr>
+<tr>
+<td>Canvas footer</td>
+<td><code>&lt;event name&gt; · Powered by S.A.G.E. Match Control Experts</code></td>
+<td><code>Powered by S.A.G.E. Match Control Experts</code></td>
+</tr>
+<tr>
+<td>Export filename</td>
+<td><code>&lt;event&gt;-&lt;category&gt;-brackets.{png,txt}</code></td>
+<td><code>&lt;category&gt;-brackets.{png,txt}</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The page's own chrome never takes the event name.</strong> Title, eyebrow, <code>h1</code> and
+footer are fixed S.A.G.E. branding — this is a tool, and it is the same tool
+whichever event is being drawn. The event name is <em>output</em> branding: it belongs
+on the artifact that leaves the page.</p>
+<p>The <code>#resultEvent</code> line exists so the operator can see what the export will say
+before they export it, without needing a separate preview.</p>
+<h3 id="34-the-canvas-needs-truncation-the-tokens-never-did">3.4 The canvas needs truncation the tokens never did<a class="headerlink" href="#34-the-canvas-needs-truncation-the-tokens-never-did" title="Permanent link">&para;</a></h3>
+<p><code>{{EVENT_TITLE}}</code> was replaced at instantiation with a known-short string. A
+typed event name is arbitrary, and <code>ctx.fillText</code> neither wraps nor clips — a
+long name paints straight off both edges of the PNG.</p>
+<p>Both canvas surfaces therefore run through the existing helper:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">eyebrowText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">currentEventName</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">currentEventName</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">' \u00b7 '</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">'S.A.G.E. \u00b7 '</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'BRACKET DRAW'</span><span class="p">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nx">ctx</span><span class="p">.</span><span class="nx">fillText</span><span class="p">(</span><span class="nx">truncateToWidth</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">eyebrowText</span><span class="p">,</span><span class="w"> </span><span class="nx">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">120</span><span class="p">),</span><span class="w"> </span><span class="nx">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">42</span><span class="p">);</span>
+</code></pre></div>
+<p>and likewise for the footer, measured at the footer's own font. <code>truncateToWidth</code>
+already exists and is already used for the category title; this is the same
+call, not new machinery.</p>
+<h3 id="35-escaping">3.5 Escaping<a class="headerlink" href="#35-escaping" title="Permanent link">&para;</a></h3>
+<p>The event name reaches three sinks, and all three are safe by construction:</p>
+<ul>
+<li><code>#resultEvent</code> — assigned with <code>textContent</code>, like <code>#resultTitle</code>.</li>
+<li><code>ctx.fillText</code> — canvas takes a string, not markup.</li>
+<li>the text export and the download filename — <code>slugify()</code> strips everything
+  outside <code>[a-z0-9-]</code>.</li>
+</ul>
+<p><strong>It must never be interpolated into an <code>innerHTML</code> string.</strong>
+<code>renderBracketGrid()</code> builds markup by template literal and is the one place in
+the file where that rule could be broken; it has no reason to reference the
+event name, and must not start.</p>
+<h3 id="36-persistence">3.6 Persistence<a class="headerlink" href="#36-persistence" title="Permanent link">&para;</a></h3>
+<p>An operator draws eight categories for one event in one sitting. Retyping the
+event name eight times is exactly the friction that makes them stop bothering,
+at which point the field has bought nothing.</p>
+<p>So the event name — and <strong>only</strong> the event name — is remembered:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">STORAGE_EVENT_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'sage-bracket-event-name'</span><span class="p">;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">function</span><span class="w"> </span><span class="nx">saveEventName</span><span class="p">(</span><span class="nx">v</span><span class="p">){</span><span class="w"> </span><span class="k">try</span><span class="p">{</span><span class="w"> </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="nx">STORAGE_EVENT_KEY</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">){}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kd">function</span><span class="w"> </span><span class="nx">loadEventName</span><span class="p">(){</span><span class="w"> </span><span class="k">try</span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="nx">STORAGE_EVENT_KEY</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">''</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s1">''</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Written on <code>change</code> (not on every keystroke), read on page load to prefill the
+input. Wrapped in <code>try/catch</code> because <code>localStorage</code> throws in some
+private-browsing modes — the same treatment <code>control-center.html</code> and
+<code>tournament-calculator.html</code> already give it.</p>
+<p>Category and pairs are <strong>not</strong> persisted. They change every draw, and a
+prefilled pair list is a live hazard: an operator who does not notice it draws
+the wrong category's brackets.</p>
+<h3 id="37-event-prefill">3.7 <code>?event=</code> prefill<a class="headerlink" href="#37-event-prefill" title="Permanent link">&para;</a></h3>
+<p>The input also accepts a query parameter:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>/tools/bracket-generator.html?event=BKL%20Pickleball%20Cup%202026
+</code></pre></div>
+<p><code>?event=</code> wins over the stored value and is itself stored, so a link handed to
+an operator sets them up for the whole session. This matches the deep-link
+convention <code>tools/scoresheet-generator.html</code> already established (see
+<a href="../scoresheet-event-picker-spec/">Scoresheet Generator event picker</a> §5.7) and
+costs four lines; specifying it now avoids reopening the file when Control
+Center or a workbook menu wants to link in.</p>
+<p>Nothing else is deep-linkable. Category and pairs stay typed.</p>
+<hr />
+<h2 id="4-branding">4. Branding<a class="headerlink" href="#4-branding" title="Permanent link">&para;</a></h2>
+<p>The page keeps its <strong>own hero</strong> — the paddle SVG, the oversized title, the
+subtitle — <em>and</em> takes the family identity the other tools carry.</p>
+<p>Keeping the hero matters because this page is a <em>stage</em>, not a form. The
+scoresheet generator is four numbered steps nobody watches; the ~3s shuffle
+exists so a room can watch a draw land, and <code>runShuffleAnimation()</code> scrolls the
+page to put the whole grid in view for exactly that reason. Collapsing it to a
+utility bar would undercut the one thing it is shaped around.</p>
+<p>But "its own hero" must not mean "looks like it came from somewhere else." So
+the hero gains the S.A.G.E. mark:</p>
+<ul>
+<li><code>&lt;title&gt;</code> → <code>Bracket Generator — S.A.G.E.</code></li>
+<li>The eyebrow row carries <code>/assets/logo.png</code> beside
+  <code>S.A.G.E. · Match Control Experts</code> — the same mark and the same words
+  <code>scoresheet-generator.html</code> opens with, in the hero's own proportions rather
+  than the bezel's.</li>
+<li><code>h1.title</code> → <code>Bracket &lt;span class="accent"&gt;Generator&lt;/span&gt;</code>, keeping the
+  display weight and the accent span</li>
+<li><code>&lt;footer&gt;</code> → <code>S.A.G.E. Bracket Generator</code> over
+  <code>Powered by S.A.G.E. Match Control Experts</code></li>
+<li>the shared favicon block the other tools carry (<code>/assets/favicons/…</code> plus
+  <code>site.webmanifest</code>), which the per-event copies never had</li>
+</ul>
+<p>Someone landing on any of the three tools sees the same mark and the same
+eyebrow in the first line; what differs below it is the shape of the work.</p>
+<h3 id="41-re-skinning-is-a-one-block-edit">4.1 Re-skinning is a one-block edit<a class="headerlink" href="#41-re-skinning-is-a-one-block-edit" title="Permanent link">&para;</a></h3>
+<p>The tool has to survive being re-skinned for a specific event on request, so
+<strong>every colour it paints — screen and export alike — resolves from one <code>:root</code>
+block.</strong> Today that is only half true: the CSS resolves through tokens, and the
+PNG export duplicates the palette in JS literals (§6).</p>
+<p>Requirements:</p>
+<ol>
+<li>One <code>THEME</code> banner at the top of the <code>&lt;style&gt;</code>, matching the banner the
+   event templates and the other tools carry, holding the brand tokens and the
+   role aliases (<code>--court</code>, <code>--cork</code>, <code>--amber</code>, <code>--muted</code>, …) that let the
+   rules below read by intent rather than by hue.</li>
+<li><strong>The four bracket badge colours become tokens</strong>, not JS literals —
+   <code>--badge-N-fill</code> / <code>--badge-N-text</code> for N in 0..3. The <code>.badge-*</code> CSS rules
+   and the canvas export both read them, so they cannot drift apart. Two of the
+   pairs ship deliberately darkened for contrast (§6); as tokens they keep those
+   values while staying in the one block a re-skin edits.</li>
+<li><strong>The canvas export reads the live values</strong> rather than restating them —
+   <code>getComputedStyle(document.documentElement).getPropertyValue('--navy')</code> and
+   so on for the background, glows, header and footer fills. Re-skinning
+   <code>:root</code> re-skins the exported PNG with no second edit.</li>
+<li>A short comment in that banner naming what a re-skin changes and what it must
+   not: the tokens, and nothing else.</li>
+</ol>
+<p>This is a strict improvement on the status quo even without a re-skin — it
+deletes the entire class of bug where the exported image stops matching the page
+it came from.</p>
+<p>The palette values themselves do not change. The default stays the S.A.G.E.
+house palette, and the accessibility floor in §6 is a property of whatever
+palette is loaded, not of these particular hex values.</p>
+<hr />
+<h2 id="5-what-does-not-change">5. What does not change<a class="headerlink" href="#5-what-does-not-change" title="Permanent link">&para;</a></h2>
+<p>Everything below the input panel is carried across as-is:</p>
+<ul>
+<li>the shuffle animation, its deceleration curve, and the
+  <code>prefers-reduced-motion</code> branch that skips it</li>
+<li><code>dealBrackets()</code> — shuffle, then round-robin into buckets, so bracket sizes
+  differ by at most one</li>
+<li>the bracket-count clamp to the pair count, and its inline message</li>
+<li><code>bracketLabel()</code>'s A, B, … Z, AA, AB spreadsheet-column naming</li>
+<li>the responsive <code>cols-2</code> / <code>cols-3</code> grid</li>
+<li>the canvas export's layout, word-wrapping and colour handling</li>
+</ul>
+<p><strong>No new dependency.</strong> The page keeps its two Google Fonts links and nothing
+else — no CDN, no bundler, no service worker.</p>
+<hr />
+<h2 id="6-the-canvas-reads-the-palette-instead-of-duplicating-it">6. The canvas reads the palette instead of duplicating it<a class="headerlink" href="#6-the-canvas-reads-the-palette-instead-of-duplicating-it" title="Permanent link">&para;</a></h2>
+<p>This is what makes §4.1's one-block re-skin real, and it deletes a standing
+hazard: <code>_templates/CLAUDE.md</code> §8 currently warns that the PNG export's palette
+lives in JS literals, is hand-kept in step with the <code>.badge-*</code> CSS rules above
+it, and that changing one without the other makes the exported image stop
+matching the page it came from. Reading the tokens removes the possibility
+rather than documenting it.</p>
+<h3 id="61-promote-the-badge-colours-to-tokens">6.1 Promote the badge colours to tokens<a class="headerlink" href="#61-promote-the-badge-colours-to-tokens" title="Permanent link">&para;</a></h3>
+<p>Four of the eight badge values are already tokens; four are inline literals.
+Replace <code>bracket-generator.html:353-356</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">.</span><span class="nc">badge-0</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--navy</span><span class="p">);</span><span class="w">   </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);}</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">.</span><span class="nc">badge-1</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--green</span><span class="p">);</span><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--navy</span><span class="p">);}</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">.</span><span class="nc">badge-2</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="mh">#4C7A19</span><span class="p">;</span><span class="w">       </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);}</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">.</span><span class="nc">badge-3</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="mh">#6C5CE0</span><span class="p">;</span><span class="w">       </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);}</span>
+</code></pre></div>
+<p>with rules that read eight new <code>:root</code> tokens:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">.</span><span class="nc">badge-0</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--badge-</span><span class="mi">0</span><span class="nv">-fill</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--badge-</span><span class="mi">0</span><span class="nv">-text</span><span class="p">);}</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">.</span><span class="nc">badge-1</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--badge-</span><span class="mi">1</span><span class="nv">-fill</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--badge-</span><span class="mi">1</span><span class="nv">-text</span><span class="p">);}</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">.</span><span class="nc">badge-2</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--badge-</span><span class="mi">2</span><span class="nv">-fill</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--badge-</span><span class="mi">2</span><span class="nv">-text</span><span class="p">);}</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">.</span><span class="nc">badge-3</span><span class="p">{</span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--badge-</span><span class="mi">3</span><span class="nv">-fill</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--badge-</span><span class="mi">3</span><span class="nv">-text</span><span class="p">);}</span>
+</code></pre></div>
+<p>declared in the <code>THEME</code> block with today's values:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">--badge-0-fill</span><span class="p">:</span><span class="nd">var</span><span class="o">(</span><span class="nt">--navy</span><span class="o">);</span><span class="w">  </span><span class="nt">--badge-0-text</span><span class="p">:</span><span class="nd">var</span><span class="o">(</span><span class="nt">--white</span><span class="o">);</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">--badge-1-fill</span><span class="p">:</span><span class="nd">var</span><span class="o">(</span><span class="nt">--green</span><span class="o">);</span><span class="w"> </span><span class="nt">--badge-1-text</span><span class="p">:</span><span class="nd">var</span><span class="o">(</span><span class="nt">--navy</span><span class="o">);</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">--badge-2-fill</span><span class="o">:</span><span class="p">#</span><span class="nn">4C7A19</span><span class="o">;</span><span class="w">      </span><span class="nt">--badge-2-text</span><span class="p">:</span><span class="nd">var</span><span class="o">(</span><span class="nt">--white</span><span class="o">);</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nt">--badge-3-fill</span><span class="o">:</span><span class="p">#</span><span class="nn">6C5CE0</span><span class="o">;</span><span class="w">      </span><span class="nt">--badge-3-text</span><span class="p">:</span><span class="nd">var</span><span class="o">(</span><span class="nt">--white</span><span class="o">);</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Keep the accessibility note with these four lines.</strong> Each fill is paired
+with a text colour clearing 4.5:1 against it. Two do not clear it at their
+natural values — <code>--green-dark</code> under white is 4.3:1, and the stock purple is
+3.3:1 — so <code>--badge-2-fill</code> and <code>--badge-3-fill</code> ship <strong>darkened</strong>. They are
+not <code>var(--green-dark)</code> and they are not the stock purple, on purpose. A
+re-skin may change them; it must re-check the contrast when it does.</p>
+</blockquote>
+<h3 id="62-the-canvas-resolves-tokens-at-export-time">6.2 The canvas resolves tokens at export time<a class="headerlink" href="#62-the-canvas-resolves-tokens-at-export-time" title="Permanent link">&para;</a></h3>
+<p>Add one helper and use it for every colour <code>exportAsImage</code> and
+<code>drawBracketCard</code> paint:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// The exported PNG is hand-drawn to a canvas, which takes colour strings, not</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1">// CSS variables — so it resolves the same :root tokens the page renders from.</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">// This is what keeps a re-skin a one-block edit (§4.1): change the tokens and</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">// the export follows, with no second list of colours to keep in step.</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1">// `fallback` matters: a token that resolves empty (a malformed re-skin) would</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1">// make `ctx.fillStyle = ''` a silent no-op, leaving whatever colour was set</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">// last. Falling back to the shipped value degrades to today's palette instead.</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="kd">const</span><span class="w"> </span><span class="nx">cssVar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">fallback</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">).</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="nx">name</span><span class="p">).</span><span class="nx">trim</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">fallback</span><span class="p">;</span>
+</code></pre></div>
+<p>Every literal below <code>bracket-generator.html:600</code> maps to an existing token:</p>
+<table>
+<thead>
+<tr>
+<th>Literal</th>
+<th>Token</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#14263C</code></td>
+<td><code>--navy</code></td>
+<td><code>BADGE_FILL[0]</code>, card title, header title</td>
+</tr>
+<tr>
+<td><code>#7CB92C</code></td>
+<td><code>--green</code></td>
+<td><code>BADGE_FILL[1]</code></td>
+</tr>
+<tr>
+<td><code>#4C7A19</code>, <code>#6C5CE0</code></td>
+<td><code>--badge-2-fill</code>, <code>--badge-3-fill</code></td>
+<td>§6.1</td>
+</tr>
+<tr>
+<td><code>#FFFFFF</code></td>
+<td><code>--white</code></td>
+<td><code>BADGE_TEXT</code>, card body, gradient midpoint</td>
+</tr>
+<tr>
+<td><code>#F6F7F2</code></td>
+<td><code>--paper</code></td>
+<td>background gradient stops</td>
+</tr>
+<tr>
+<td><code>#ECEEE6</code></td>
+<td><code>--paper-dim</code></td>
+<td>pair-number chip</td>
+</tr>
+<tr>
+<td><code>#D9DED2</code></td>
+<td><code>--line</code></td>
+<td>card border</td>
+</tr>
+<tr>
+<td><code>#5B6B74</code></td>
+<td><code>--ink-soft</code></td>
+<td>card count, header meta, footer</td>
+</tr>
+<tr>
+<td><code>#5C8F1F</code></td>
+<td><code>--green-dark</code></td>
+<td>header eyebrow</td>
+</tr>
+</tbody>
+</table>
+<p><code>BADGE_FILL</code> / <code>BADGE_TEXT</code> become functions of the tokens rather than literal
+arrays, built once per export rather than at module load — a token read at load
+time would miss a re-skin applied afterwards:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">badgeFills</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">cssVar</span><span class="p">(</span><span class="sb">`--badge-</span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">-fill`</span><span class="p">));</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">badgeTexts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">cssVar</span><span class="p">(</span><span class="sb">`--badge-</span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">-text`</span><span class="p">));</span>
+</code></pre></div>
+<p>The two glows are the one case needing more than a lookup — they are a token at
+low alpha (<code>rgba(124,185,44,.10)</code> is <code>--green</code> at 10%, <code>rgba(20,38,60,.05)</code> is
+<code>--navy</code> at 5%). Add a hex-to-rgba shim beside <code>cssVar</code> and pass the token
+through it, so a re-skinned green tints the export's glow too:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">cssVarAlpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">hex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cssVar</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sr">/^#?([0-9a-f]{6})$/i</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">hex</span><span class="p">);</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">m</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="sb">`rgba(0,0,0,</span><span class="si">${</span><span class="nx">a</span><span class="si">}</span><span class="sb">)`</span><span class="p">;</span><span class="w">   </span><span class="c1">// token isn't a plain hex — no glow rather than a wrong one</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">m</span><span class="p">[</span><span class="mf">1</span><span class="p">],</span><span class="w"> </span><span class="mf">16</span><span class="p">);</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="sb">`rgba(</span><span class="si">${</span><span class="nx">n</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mf">16</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mf">255</span><span class="si">}</span><span class="sb">,</span><span class="si">${</span><span class="nx">n</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mf">8</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mf">255</span><span class="si">}</span><span class="sb">,</span><span class="si">${</span><span class="nx">n</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mf">255</span><span class="si">}</span><span class="sb">,</span><span class="si">${</span><span class="nx">a</span><span class="si">}</span><span class="sb">)`</span><span class="p">;</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">};</span>
+</code></pre></div>
+<p>Every call site passes the literal it replaces as the fallback —
+<code>cssVar('--navy', '#14263C')</code> — so the mapping table above doubles as the
+fallback list and a broken token degrades to exactly today's export.</p>
+<hr />
+<h2 id="7-retiring-the-copies">7. Retiring the copies<a class="headerlink" href="#7-retiring-the-copies" title="Permanent link">&para;</a></h2>
+<h3 id="71-templates">7.1 Templates<a class="headerlink" href="#71-templates" title="Permanent link">&para;</a></h3>
+<p>Delete both <code>_templates/*/bracket-generator.html</code>. Neither template's
+<code>index.html</code> links to it, so nothing else in either folder changes.</p>
+<h3 id="72-the-live-event-copy">7.2 The live event copy<a class="headerlink" href="#72-the-live-event-copy" title="Permanent link">&para;</a></h3>
+<p><code>events/pnf-x-bup-dual-meet/bracket-generator.html</code> becomes a redirect stub to
+<code>/tools/bracket-generator.html</code>, following the precedent set by
+<code>tools/match-control.html</code> when the console was renamed — any bookmark or
+pasted link keeps working.</p>
+<p><code>events/archives/bkl-cup-2026/bracket-generator.html</code> is <strong>left exactly as it
+is.</strong> Archived events are frozen; a redirect there would send someone looking
+at a 2026 archive to a tool that no longer says 2026 on it.</p>
+<h3 id="73-_templatesclaudemd">7.3 <code>_templates/CLAUDE.md</code><a class="headerlink" href="#73-_templatesclaudemd" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>§8</strong> — deleted whole. Its canvas-palette warning is not relocated but
+  <em>superseded</em>: §6 removes the duplication the warning was about. Only the
+  contrast note survives, and it lives beside the tokens it constrains (§6.1).</li>
+<li><strong>§2 step 4</strong> — drop "<code>bracket-generator.html</code> needs no config at all."</li>
+<li><strong>§2 step 5</strong> — drop <code>bracket-generator.html</code> from the
+  two-places-that-don't-resolve-through-<code>:root</code> warning, leaving only
+  <code>schedule.html</code>'s <code>CAT_META</code>.</li>
+<li><strong>§3</strong> — the <code>{{EVENT_TITLE}}</code> row's meaning loses ", bracket generator", and
+  the intro line loses "and — for a few of these — <code>bracket-generator.html</code>".</li>
+</ul>
+<p>After this, <code>grep -r 'bracket-generator' _templates/</code> returns only the
+incidental <code>.badge-*</code> cross-reference in <code>index.html</code> and the canvas note in
+<code>schedule.html</code>, both of which stay accurate.</p>
+<hr />
+<h2 id="8-the-ops-roster-row">8. The ops roster row<a class="headerlink" href="#8-the-ops-roster-row" title="Permanent link">&para;</a></h2>
+<p>Add to <code>tools/index.html</code> under <strong>Pre-Tournament Prep</strong>, after Tournament Time
+Calculator:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"cap-row"</span><span class="p">&gt;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"cap-name"</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/tools/bracket-generator"</span><span class="p">&gt;</span>Bracket Generator<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"cap-desc"</span><span class="p">&gt;</span>Paste in a category's pairs, set how many brackets, and let the draw run on screen. Exports a printable image or a plain-text list, stamped with the event name.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>  <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"status"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"dot"</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>Live<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><strong>Pre-Tournament Prep, not day-of.</strong> A draw is run once per category before
+play starts; it reads nothing live and touches no event data.</p>
+<hr />
+<h2 id="9-decisions">9. Decisions<a class="headerlink" href="#9-decisions" title="Permanent link">&para;</a></h2>
+<h3 id="91-the-event-name-is-optional-and-blank-is-a-first-class-state">9.1 The event name is optional, and blank is a first-class state<a class="headerlink" href="#91-the-event-name-is-optional-and-blank-is-a-first-class-state" title="Permanent link">&para;</a></h3>
+<p>Making it required would be one line shorter and wrong. Two real cases have no
+event name to give: a practice or dry-run draw, and a club drawing an internal
+ladder that is not a tournament. Both should produce a clean S.A.G.E.-branded
+export, not a validation error or a PNG reading <code>UNTITLED EVENT</code>.</p>
+<h3 id="92-remembered-not-asked-for-again">9.2 Remembered, not asked for again<a class="headerlink" href="#92-remembered-not-asked-for-again" title="Permanent link">&para;</a></h3>
+<p>See §3.6. The alternative — a modal on first load — is worse: it interrupts the
+one case the tool must serve fastest, which is an operator who opened it to
+settle a draw with people waiting.</p>
+<h3 id="93-rejected-keep-a-per-event-copy-and-add-the-tool">9.3 Rejected — keep a per-event copy <em>and</em> add the tool<a class="headerlink" href="#93-rejected-keep-a-per-event-copy-and-add-the-tool" title="Permanent link">&para;</a></h3>
+<p>Suggested by the fact that an event's own folder is where an operator already
+has a tab open. Rejected: it keeps every cost in §1.3 while adding a second
+place the tool can be found in two different states. The redirect stub (§7.2)
+gets the same convenience with one copy.</p>
+<h3 id="94-rejected-a-pwa-like-the-calculator">9.4 Rejected — a PWA, like the calculator<a class="headerlink" href="#94-rejected-a-pwa-like-the-calculator" title="Permanent link">&para;</a></h3>
+<p><code>tournament-calculator.html</code> has a service worker and a manifest because venue
+wifi is unreliable and the calculator is used standing in a gym. The bracket
+generator has the same profile and would benefit — but <code>tools/sw.js</code> is
+deliberately scoped to the calculator's own page path, and its header comment
+is explicit that everything else in <code>/tools/</code> must pass straight to the
+network. Widening that scope is its own change with its own cache-invalidation
+questions. Out of scope here; noted as a candidate.</p>
+<h3 id="95-rejected-pulling-pairs-from-event-data">9.5 Rejected — pulling pairs from <code>event-data</code><a class="headerlink" href="#95-rejected-pulling-pairs-from-event-data" title="Permanent link">&para;</a></h3>
+<p>The snapshot holds matches and standings, not registration lists, so the pairs
+a draw needs are not in it. Even if they were, a draw happens before the event
+has published anything. Hand-pasting is correct here, not a limitation.</p>
+<hr />
+<h2 id="10-acceptance-checklist">10. Acceptance checklist<a class="headerlink" href="#10-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>The move</strong></p>
+<ul>
+<li>[ ] <code>/tools/bracket-generator.html</code> loads with no console errors and no
+      network request beyond the two Google Fonts stylesheets.</li>
+<li>[ ] <code>grep -r '{{' tools/bracket-generator.html</code> returns nothing.</li>
+<li>[ ] <code>/events/pnf-x-bup-dual-meet/bracket-generator.html</code> redirects to the
+      tool; the <code>bkl-cup-2026</code> archive copy still opens unchanged.</li>
+<li>[ ] Neither <code>_templates/</code> folder contains <code>bracket-generator.html</code>, and
+      instantiating either template still needs only <code>cp -r</code>.</li>
+<li>[ ] <code>_templates/CLAUDE.md</code> has no §8, and its §2/§3 no longer mention the
+      bracket generator.</li>
+<li>[ ] The Bracket Generator row appears on <code>/tools/</code> and its link resolves.</li>
+</ul>
+<p><strong>The event name field</strong></p>
+<ul>
+<li>[ ] Blank event name: draw, then export both formats. The PNG eyebrow reads
+      <code>S.A.G.E. · BRACKET DRAW</code>, the PNG footer omits any event name, the text
+      file starts with the category, and filenames are <code>&lt;category&gt;-brackets.*</code>.</li>
+<li>[ ] Event name set: both exports carry it, the <code>#resultEvent</code> line shows it,
+      and filenames are <code>&lt;event&gt;-&lt;category&gt;-brackets.*</code>.</li>
+<li>[ ] An 80-character event name is truncated with an ellipsis inside the PNG
+      canvas — nothing paints past either edge, at both the eyebrow and the
+      footer font size.</li>
+<li>[ ] Editing the event name <em>after</em> a draw does not change that draw's header
+      or its exports until the next draw.</li>
+<li>[ ] Reloading the page prefills the last event name; the category and pairs
+      fields come back <strong>empty</strong>.</li>
+<li>[ ] <code>?event=Foo</code> prefills and overrides the stored value, and persists to the
+      next visit without the parameter.</li>
+<li>[ ] An event name containing <code>&lt;script&gt;</code>, <code>&amp;</code> and <code>"</code> renders literally in the
+      results header and the PNG, and produces a slug-safe filename.</li>
+<li>[ ] With <code>localStorage</code> unavailable (private window, site data blocked) the
+      page still loads and draws; only the prefill is lost.</li>
+</ul>
+<p><strong>One palette source (§4.1, §6)</strong></p>
+<ul>
+<li>[ ] <code>grep -nE '#[0-9A-Fa-f]{6}' tools/bracket-generator.html</code> returns hits
+      only inside the <code>THEME</code> block and as <code>cssVar</code> fallbacks — no colour
+      literal survives anywhere else in the JS.</li>
+<li>[ ] The exported PNG's bracket-header colours match the on-page <code>.badge-*</code>
+      colours exactly, before and after a re-skin.</li>
+<li>[ ] Changing <code>--navy</code>, <code>--green</code> and <code>--paper</code> in <code>:root</code> alone re-skins the
+      page <strong>and</strong> the exported PNG — including both background glows — with no
+      second edit anywhere.</li>
+<li>[ ] Deleting a token's declaration leaves the export rendering in the shipped
+      palette rather than blank or mis-filled.</li>
+<li>[ ] <code>--badge-2-fill</code> and <code>--badge-3-fill</code> are still the darkened values, not
+      <code>var(--green-dark)</code> and not the stock purple.</li>
+</ul>
+<p><strong>Regression</strong></p>
+<ul>
+<li>[ ] The shuffle animation, its scroll-into-view, and the
+      <code>prefers-reduced-motion</code> skip all behave as they do today.</li>
+<li>[ ] Bracket sizes still differ by at most one; the count still clamps to the
+      pair count with its inline message.</li>
+</ul>
+<hr />
+<h2 id="11-docs-to-write">11. Docs to write<a class="headerlink" href="#11-docs-to-write" title="Permanent link">&para;</a></h2>
+<p>Part of the work, not a follow-up. Nine files, in three repos.</p>
+<p><strong>Present tense throughout.</strong> Describe what the system does, not what it used
+to do or when it changed — git history and this spec's §13 already carry that.
+No page in <code>features/</code> mentions a file path, a token, a CSS variable or a repo;
+that split is the whole point of the two sections.</p>
+<h3 id="111-new-sage-docsdocsfeaturesbracket-generatormd">11.1 New — <code>sage-docs/docs/features/bracket-generator.md</code><a class="headerlink" href="#111-new-sage-docsdocsfeaturesbracket-generatormd" title="Permanent link">&para;</a></h3>
+<p>The organizer-facing page. Cover, in this order:</p>
+<ul>
+<li><strong>What it's for</strong> — settling who plays in which bracket, in front of the room
+  if you want, without wrestling a spreadsheet into a diagram.</li>
+<li><strong>How you use it</strong> — type the category, paste the pairs one per line, say how
+  many brackets, press the button. The draw runs on screen and lands on a
+  result; <em>Randomize again</em> re-draws from the same pairs.</li>
+<li><strong>The event name</strong> — optional, remembered between draws, and what it changes:
+  it appears on the image and the text file you export, not on the tool itself.
+  Say plainly that leaving it blank is fine.</li>
+<li><strong>What comes out</strong> — an image to print or post, and a plain-text list. Name
+  the filenames, since that is how an operator finds them again after exporting
+  eight categories.</li>
+<li><strong>What it doesn't do</strong> — it doesn't know your event. Pairs are typed in, no
+  registration list is pulled, nothing is published anywhere, and the draw is
+  uniformly random with no seeding or protected pairings. This paragraph is
+  load-bearing: it is what stops someone expecting the draw to avoid pairing
+  club-mates.</li>
+</ul>
+<p>Same evergreen framing as <code>scoresheet-generator.md</code> and
+<code>tournament-calculator.md</code> — one tool, every event, not a per-event page. End
+with the house footer: <code>**Technical:** [bracket generator](../technical/bracket-generator.md)</code>.</p>
+<h3 id="112-new-sage-docsdocstechnicalbracket-generatormd">11.2 New — <code>sage-docs/docs/technical/bracket-generator.md</code><a class="headerlink" href="#112-new-sage-docsdocstechnicalbracket-generatormd" title="Permanent link">&para;</a></h3>
+<p>Every <code>features/</code> page has a <code>technical/</code> counterpart; this is it. Short — the
+tool has no pipeline. Cover:</p>
+<ul>
+<li>One self-contained static file, no build step, no dependency beyond two
+  Google Fonts stylesheets, no network call at run time.</li>
+<li>The deal: shuffle, then round-robin into buckets, so sizes differ by at most
+  one; the count clamps to the pair count.</li>
+<li><strong>The one-palette-source arrangement (§4.1, §6)</strong> — that the PNG is
+  hand-drawn to a canvas and resolves the same <code>:root</code> tokens the page renders
+  from, so re-skinning is a single block edit and the export cannot drift from
+  the page. Carry §6.1's contrast note here too: <code>--badge-2-fill</code> and
+  <code>--badge-3-fill</code> ship darkened and a re-skin must re-check them.</li>
+<li>Where the event name is stored (<code>localStorage</code>, per browser, best-effort) and
+  that <code>?event=</code> prefills it.</li>
+<li>That it replaced a per-event copy, and the redirect stub that keeps old links
+  working.</li>
+</ul>
+<p>Footer: <code>**Features:** [bracket generator](../features/bracket-generator.md)</code>,
+matching the direction the other technical pages point.</p>
+<h3 id="113-sage-docsdocsfeaturesreadmemd">11.3 <code>sage-docs/docs/features/README.md</code><a class="headerlink" href="#113-sage-docsdocsfeaturesreadmemd" title="Permanent link">&para;</a></h3>
+<p>Index the new page under <strong>For tournament organizers &amp; day-of operators</strong>,
+after Tournament Calculator, in the existing <code>- **[Name](file.md)** — one-line
+description</code> form.</p>
+<h3 id="114-sage-docsdocstechnicalreadmemd">11.4 <code>sage-docs/docs/technical/README.md</code><a class="headerlink" href="#114-sage-docsdocstechnicalreadmemd" title="Permanent link">&para;</a></h3>
+<p>Index the new technical page alongside <code>scoresheet-pipeline.md</code> and
+<code>tournament-calculator.md</code>, matching whatever grouping that file already uses.</p>
+<h3 id="115-sage-docsdocsfeaturestournament-hubmd">11.5 <code>sage-docs/docs/features/tournament-hub.md</code><a class="headerlink" href="#115-sage-docsdocsfeaturestournament-hubmd" title="Permanent link">&para;</a></h3>
+<p>Delete the <code>## Bracket Generator</code> section (currently at :51). The tool is not
+part of the public event page and never was — Tournament Hub is what players
+and spectators see, and this is an organizer tool. Do not leave a stub heading;
+if the surrounding prose reads as though something is missing, a single
+sentence pointing at the new page is enough.</p>
+<h3 id="116-sage-docsdocsfeaturespreparing-an-eventmd">11.6 <code>sage-docs/docs/features/preparing-an-event.md</code><a class="headerlink" href="#116-sage-docsdocsfeaturespreparing-an-eventmd" title="Permanent link">&para;</a></h3>
+<p>Add the draw to <strong>§1 Plan it</strong> or <strong>§2 Build the scoring workbook</strong>, wherever
+it sits in the real order of operations — brackets are drawn before the
+workbook's category tabs can be filled in, so it belongs early. One or two
+sentences and a link; this page is a sequence, not a tool description.</p>
+<h3 id="117-sage-docsdocsspecsimplementedevent-templates-specmd">11.7 <code>sage-docs/docs/specs/implemented/event-templates-spec.md</code><a class="headerlink" href="#117-sage-docsdocsspecsimplementedevent-templates-specmd" title="Permanent link">&para;</a></h3>
+<p>Two different kinds of edit in one file, and they are not treated the same:</p>
+<ul>
+<li><strong>Runbook content is corrected.</strong> §1's placement tree (:34, :38) drops
+  <code>bracket-generator.html</code> from both template folders, and §9's instantiation
+  steps (:514) drop the line about renaming its sibling QR image placeholder.
+  People follow these; they have to be true.</li>
+<li><strong>Decision records are annotated, not rewritten.</strong> §3's settled-up-front line
+  (:22) and <strong>D3</strong> (:114) recorded a decision that was correct when it was
+  made. Mark D3 superseded by this spec with a one-line note saying the tool
+  moved to <code>tools/</code> and why — the same treatment a divergences section gives.
+  Deleting it would erase the reasoning rather than update it.</li>
+<li>§1's "byte-identical in both templates… add a comment at the top of both
+  copies" paragraph (:55) goes with the copies.</li>
+</ul>
+<h3 id="118-dcoding-projectssageclaudemd">11.8 <code>D:\Coding Projects\SAGE\CLAUDE.md</code><a class="headerlink" href="#118-dcoding-projectssageclaudemd" title="Permanent link">&para;</a></h3>
+<p>Add <code>bracket-generator.html</code> to the <code>tools/</code> list in the
+<code>sage-match-control.github.io</code> section, in the same shape as its neighbours.
+Nothing in the <code>sage-tools-api</code> or <code>event-data</code> sections changes.</p>
+<h3 id="119-sage-match-controlgithubio_templatesclaudemd">11.9 <code>sage-match-control.github.io/_templates/CLAUDE.md</code><a class="headerlink" href="#119-sage-match-controlgithubio_templatesclaudemd" title="Permanent link">&para;</a></h3>
+<p>Already specified in §7.3 — §8 deleted, §2 steps 4 and 5 and §3's token table
+amended. Listed here so the doc pass has one complete inventory.</p>
+<hr />
+<h2 id="12-out-of-scope">12. Out of scope<a class="headerlink" href="#12-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Offline/PWA support (§9.4).</li>
+<li>Seeded or otherwise non-random draws — snake seeding, keeping club-mates
+  apart in round one, byes. The current deal is uniformly random by design;
+  anything else is a different feature with its own spec.</li>
+<li>Reading pairs from <code>event-data</code> (§9.5).</li>
+<li>Writing a draw back anywhere. The tool exports files; it publishes nothing.</li>
+<li>A standard-tournament variant. One tool serves both event shapes because
+  nothing in it knows about clubs.</li>
+</ul>
+<p>The last two — writing a draw back, and the event-shape split — are picked up
+in <a href="../../not-started/bracket-generator-workbook-handoff-spec/">workbook handoff</a>, which
+specifies a SAGE menu route into this tool and what a dual-meet workbook's
+roster scaffold actually wants from a draw. Not built: it waits on a
+standard-tournament sheet generator.</p>
+<hr />
+<h2 id="13-divergences">13. Divergences<a class="headerlink" href="#13-divergences" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>§4's hero mark placement is inverted.</strong> The spec called for keeping the
+  hero's own paddle-and-shield crest and adding <code>/assets/logo.png</code> beside the
+  eyebrow text. Built the other way instead: the crest is replaced outright by
+  <code>/assets/logo.png</code> in the hero-mark position, and the eyebrow stays plain
+  text (<code>S.A.G.E. · Match Control Experts</code>) with no image in it. One S.A.G.E.
+  mark appears once, at the top of the hero, rather than twice at two sizes.</li>
+<li><strong>§10's 80-character truncation check doesn't exercise the mechanism at
+  that length.</strong> <code>truncateToWidth()</code> is wired exactly as specified and does
+  truncate with an ellipsis once text actually overflows the canvas width
+  (verified with an artificially wide string) — but at the eyebrow/footer's
+  actual font size (12px/11px Barlow Condensed), even an 80-character,
+  all-caps, all-wide-letter name measures under half the available width, so
+  no real 80-character event name reaches the truncation branch. Not a code
+  gap: the guard is in place and fires correctly when a name (plus the
+  <code>· BRACKET DRAW</code> / <code>· Powered by…</code> suffix) is actually wide enough to
+  need it.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../calculator-pwa-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Calculator PWA">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Calculator PWA
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../dual-meet-sheet-generator-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Sheet generator (Phase 1)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Sheet generator (Phase 1)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

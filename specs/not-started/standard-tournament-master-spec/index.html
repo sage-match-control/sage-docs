@@ -1,0 +1,5048 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/not-started/standard-tournament-master-spec/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../fast-data-delivery-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Standard Tournament Master - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-standard-tournament-master-workbook" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Standard Tournament Master
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-orientation-read-this-first-if-you-have-no-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Orientation — read this first if you have no context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-reference-events-reconcile-against-the-calculator-exactly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 The reference events reconcile against the calculator exactly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-this-is-a-second-master-not-a-mode-of-the-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why this is a second master, not a mode of the first
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Why this is a second master, not a mode of the first">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-the-hand-built-workbooks-get-wrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What the hand-built workbooks get wrong
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-unit-of-generation-is-a-facility-day-not-an-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The unit of generation is a facility-day, not an event
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-input-the-plan-csv-in-standard-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Input — the plan CSV in standard format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-every-playoff-shape-the-calculator-can-produce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Every playoff shape the calculator can produce
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Every playoff shape the calculator can produce">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-teams-2-best-of-3-no-round-robin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 teams == 2 — best-of-3, no round robin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-brackets-1-round-robin-then-a-twice-to-beat-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 brackets == 1 — round robin then a twice-to-beat final
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-brackets-2-brackets-advance-2-a-bare-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 brackets &gt;= 2 &amp;&amp; brackets * advance == 2 — a bare final
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-brackets-2-the-tiered-single-elimination-ladder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 brackets &gt;= 2 — the tiered single-elimination ladder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-the-shapes-as-a-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 The shapes, as a table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-bracket-sizes-are-uneven-and-that-is-load-bearing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Bracket sizes are uneven, and that is load-bearing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-inputs-the-csv-does-not-carry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Inputs the CSV does not carry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Inputs the CSV does not carry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-court-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Court labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-first-match-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 First match number
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-categories-and-the-plan-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Categories, and the plan block
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-category-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The category tab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The category tab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-column-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Column map
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-group-blocks-one-continuous-list-brackets-marked-in-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Group blocks — one continuous list, brackets marked in K
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-variablesab-is-a-counter-not-a-draw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Variables!AB is a counter, not a draw
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-the-score-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 The score grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-the-playoff-ladder-forward-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 The playoff ladder — forward propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76-two-scaffolds-two-draws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 Two scaffolds, two draws
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#77-the-awards-block-stays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7 The Awards block stays
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-team-code-grammar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Team code grammar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-the-other-tabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. The other tabs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. The other tabs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 SCHEDULE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-court-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Court Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-standingscsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 STANDINGSCSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#105-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#106-timeline-timeline-individual-and-standings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6 Timeline, Timeline (Individual) and Standings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#107-awards-title-reference-for-players-qa-checklist-poster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7 Awards, Title, Reference for Players, QA Checklist, Poster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#108-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.8 Charts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-the-named-function-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. The Named Function library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-where-the-code-goes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Where the code goes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-what-to-copy-from-sheet-generatorgs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 What to copy from sheet-generator.gs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-rebuilt-in-place" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Rebuilt in place
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#124-ordering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 Ordering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#125-tracing-and-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5 Tracing and failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Build order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-what-the-master-workbook-must-carry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. What the master workbook must carry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="14. What the master workbook must carry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#141-building-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14.1 Building it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#142-decisions-taken-in-the-master-not-in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14.2 Decisions taken in the master, not in code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Open questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. Divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-workbook-handoff-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator workbook handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-orientation-read-this-first-if-you-have-no-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Orientation — read this first if you have no context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-reference-events-reconcile-against-the-calculator-exactly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 The reference events reconcile against the calculator exactly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-why-this-is-a-second-master-not-a-mode-of-the-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Why this is a second master, not a mode of the first
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Why this is a second master, not a mode of the first">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-the-hand-built-workbooks-get-wrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What the hand-built workbooks get wrong
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-unit-of-generation-is-a-facility-day-not-an-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The unit of generation is a facility-day, not an event
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-input-the-plan-csv-in-standard-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Input — the plan CSV in standard format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-every-playoff-shape-the-calculator-can-produce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Every playoff shape the calculator can produce
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Every playoff shape the calculator can produce">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-teams-2-best-of-3-no-round-robin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 teams == 2 — best-of-3, no round robin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-brackets-1-round-robin-then-a-twice-to-beat-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 brackets == 1 — round robin then a twice-to-beat final
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-brackets-2-brackets-advance-2-a-bare-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 brackets &gt;= 2 &amp;&amp; brackets * advance == 2 — a bare final
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-brackets-2-the-tiered-single-elimination-ladder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 brackets &gt;= 2 — the tiered single-elimination ladder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-the-shapes-as-a-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 The shapes, as a table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-bracket-sizes-are-uneven-and-that-is-load-bearing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Bracket sizes are uneven, and that is load-bearing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-inputs-the-csv-does-not-carry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Inputs the CSV does not carry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Inputs the CSV does not carry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-court-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Court labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-first-match-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 First match number
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-categories-and-the-plan-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Categories, and the plan block
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-category-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The category tab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The category tab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-column-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Column map
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-group-blocks-one-continuous-list-brackets-marked-in-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Group blocks — one continuous list, brackets marked in K
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-variablesab-is-a-counter-not-a-draw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Variables!AB is a counter, not a draw
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-the-score-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 The score grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-the-playoff-ladder-forward-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 The playoff ladder — forward propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76-two-scaffolds-two-draws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 Two scaffolds, two draws
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#77-the-awards-block-stays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7 The Awards block stays
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-team-code-grammar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Team code grammar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-the-other-tabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. The other tabs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. The other tabs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 SCHEDULE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-court-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Court Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-standingscsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 STANDINGSCSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#105-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#106-timeline-timeline-individual-and-standings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6 Timeline, Timeline (Individual) and Standings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#107-awards-title-reference-for-players-qa-checklist-poster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7 Awards, Title, Reference for Players, QA Checklist, Poster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#108-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.8 Charts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-the-named-function-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. The Named Function library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-where-the-code-goes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Where the code goes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-what-to-copy-from-sheet-generatorgs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 What to copy from sheet-generator.gs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-rebuilt-in-place" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Rebuilt in place
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#124-ordering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 Ordering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#125-tracing-and-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5 Tracing and failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Build order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-what-the-master-workbook-must-carry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. What the master workbook must carry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="14. What the master workbook must carry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#141-building-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14.1 Building it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#142-decisions-taken-in-the-master-not-in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14.2 Decisions taken in the master, not in code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Open questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Acceptance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. Divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/not-started/standard-tournament-master-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-standard-tournament-master-workbook">Spec — Standard Tournament Master workbook<a class="headerlink" href="#spec-standard-tournament-master-workbook" title="Permanent link">&para;</a></h1>
+<p>Generate a <strong>standard-format</strong> tournament workbook from a Tournament Time
+Calculator CSV export, the way <code>dual-meet-sheet-generator-spec.md</code> already
+does for dual meets — instead of duplicating last event's facility
+spreadsheet and find-replacing every category key, court label and match
+number by hand.</p>
+<blockquote>
+<p><strong>Status: not built.</strong> Nothing in this document exists yet. It specifies
+both the <strong>SAGE Standard Tournament Master</strong> workbook (the thing a copy is
+made of) and the bound Apps Script that fills a copy in.</p>
+<p>This is the "standard-tournament equivalent" the root <code>CLAUDE.md</code> and
+<code>bracket-generator-workbook-handoff-spec.md</code> §2 have both been waiting on.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where the code goes</td>
+<td><code>sage-tools-api/scripts/standard-generator.gs</code> (new file, §12.1)</td>
+</tr>
+<tr>
+<td>How it ships</td>
+<td>Bound Apps Script in the master workbook — paste, not deploy</td>
+</tr>
+<tr>
+<td>New infra</td>
+<td>none</td>
+</tr>
+<tr>
+<td>New credentials</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>sage-tools-api</code> change</td>
+<td>none — no version bump, no Cloud Run deploy</td>
+</tr>
+<tr>
+<td>Reuses</td>
+<td><code>sheet-generator.gs</code>'s pure helpers verbatim where the shape matches (§12.2)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read the three dual-meet specs first.</strong> This one inherits their delivery
+story, their Apps Script mechanics and most of their vocabulary, and only
+writes down what is <em>different</em>. Where a section here says "same as Phase N",
+it means exactly that and is not restated.</p>
+<hr />
+<h2 id="0-orientation-read-this-first-if-you-have-no-context">0. Orientation — read this first if you have no context<a class="headerlink" href="#0-orientation-read-this-first-if-you-have-no-context" title="Permanent link">&para;</a></h2>
+<p><strong>What this is.</strong> SAGE runs pickleball tournaments. A <strong>standard tournament</strong>
+is the ordinary open-entry shape: pairs enter a category, get drawn into
+round-robin brackets, and the top finishers from each bracket advance into a
+single-elimination playoff. It is not a dual meet — there are no clubs, no
+cross-product group stage, and no fixed two-entrant playoff.</p>
+<p>Each <strong>facility, each day</strong> runs off its own Google Sheets workbook. BKL Cup
+2026 Day 2 had three: Main, Annex and Dreamcourts. That is the single biggest
+structural difference from a dual meet, which is one workbook for one venue,
+and §3 is about it.</p>
+<p><strong>Vocabulary.</strong> Same as the dual-meet specs, minus clubs, plus:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>category</td>
+<td>A division, keyed <code>LI40MD</code>, <code>LI18XD</code>, … — one tab each</td>
+</tr>
+<tr>
+<td>pair</td>
+<td>Two players who play together; the atomic competitor</td>
+</tr>
+<tr>
+<td>bracket</td>
+<td>A round-robin pool inside a category. Sizes may be <strong>uneven</strong></td>
+</tr>
+<tr>
+<td>slot</td>
+<td>One start time across all courts — two <code>SCHEDULE</code> rows</td>
+</tr>
+<tr>
+<td>stage</td>
+<td>One playoff round: <code>R32</code>, <code>R16</code>, <code>QF</code>, <code>SF</code>, <code>B</code>, <code>F</code></td>
+</tr>
+<tr>
+<td>playoff slot</td>
+<td>One numbered seat in a stage, e.g. <code>SF_3</code> — gets its own team code</td>
+</tr>
+<tr>
+<td>team code</td>
+<td><code>&lt;KEY&gt;_&lt;i&gt;</code> for a group pair, <code>&lt;KEY&gt;_&lt;STAGE&gt;_&lt;k&gt;</code> for a playoff slot</td>
+</tr>
+<tr>
+<td>facility</td>
+<td>One venue running one subset of the day's categories</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Section-reference convention.</strong> A bare <code>§n</code> means this document. A
+reference into another spec always names it — "Phase 1 spec §11.1", "Phase 3
+spec §5.4".</p>
+<hr />
+<h2 id="1-sources">1. Sources<a class="headerlink" href="#1-sources" title="Permanent link">&para;</a></h2>
+<p>None of the workbook structure is in source control. Everything below was
+read directly out of two played BKL Cup 2026 workbooks, exported as <code>.xlsx</code>
+and unzipped (Phase 3 spec §1.1 has the technique):</p>
+<table>
+<thead>
+<tr>
+<th>Workbook</th>
+<th>File ID</th>
+<th>What it gave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BKL Day 2 · <strong>Main</strong> (LI40)</td>
+<td><code>1resKkD3e8kjxJEcQkruzKW8N93NFjuqgtmD9_hwYHQs</code></td>
+<td>3 categories, 41 matches, 12 court blocks, the twice-to-beat case</td>
+</tr>
+<tr>
+<td>BKL Day 2 · <strong>Dreamcourts</strong> (LI18)</td>
+<td><code>1H5aHgogxauIgbb3xoBSuLQjVZCCdZcI_9iBXUMp_9SI</code></td>
+<td>3 categories, 84 matches, 15 court blocks, a 4-stage playoff ladder and two extra tabs</td>
+</tr>
+</tbody>
+</table>
+<p>Both are registered in <code>event-data/config/events.json</code> under
+<code>bkl-cup-2026 → day3</code>, alongside a third (Annex) not read here.</p>
+<p><strong>Read coverage.</strong> Every tab of both workbooks was read as cell values plus
+formulas, and both <code>&lt;definedNames&gt;</code> libraries in full. The <code>Poster</code> tab holds
+only images and was not inspected further.</p>
+<h3 id="11-the-reference-events-reconcile-against-the-calculator-exactly">1.1 The reference events reconcile against the calculator exactly<a class="headerlink" href="#11-the-reference-events-reconcile-against-the-calculator-exactly" title="Permanent link">&para;</a></h3>
+<p>Worth stating up front, because it is what licenses §5: the calculator's
+<code>calcCategory()</code> reproduces both reference workbooks' match counts to the
+match, from nothing but pair count, bracket count and <code>advance: 2</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Workbook</th>
+<th>Category</th>
+<th>Pairs</th>
+<th>Brackets</th>
+<th>RR</th>
+<th>Playoff</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main</td>
+<td><code>LI40MD</code></td>
+<td>9</td>
+<td>2 (5-4)</td>
+<td>16</td>
+<td>4</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Main</td>
+<td><code>LI40WD</code></td>
+<td>4</td>
+<td>1</td>
+<td>6</td>
+<td>2 (twice-to-beat)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Main</td>
+<td><code>LI40XD</code></td>
+<td>7</td>
+<td>2 (4-3)</td>
+<td>9</td>
+<td>4</td>
+<td>13</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>Main total</strong></td>
+<td><strong>41</strong></td>
+</tr>
+<tr>
+<td>Dreamcourts</td>
+<td><code>LI18MD</code></td>
+<td>15</td>
+<td>3 (5-5-5)</td>
+<td>30</td>
+<td>6</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Dreamcourts</td>
+<td><code>LI18WD</code></td>
+<td>8</td>
+<td>2 (4-4)</td>
+<td>12</td>
+<td>4</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Dreamcourts</td>
+<td><code>LI18XD</code></td>
+<td>16</td>
+<td>4 (4-4-4-4)</td>
+<td>24</td>
+<td>8</td>
+<td>32</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>Dreamcourts total</strong></td>
+<td><strong>84</strong></td>
+</tr>
+</tbody>
+</table>
+<p>41 is <code>Timeline!C2</code> and the <code>CSV</code> row count in Main; 84 is the same in
+Dreamcourts. The bracket sizes reconcile against the <code>bracket</code> column's own
+<code>A</code>/<code>B</code>/<code>C</code>/<code>D</code> tallies (13/13/9/4 across the three Dreamcourts categories).</p>
+<p><code>LI18MD</code> is the one that proves the tiered-bye machinery: 3 brackets × top 2
+= 6 qualifiers, which <code>tieredRounds([3,3])</code> reduces as <strong>1 + 1 + 2 + 1</strong>
+matches plus a bronze — and the workbook has exactly two <code>R16</code> slots, two
+<code>QF</code> slots, four <code>SF</code> slots, two <code>B</code> and two <code>F</code>. Even the <em>labels</em> match:
+the calculator names rounds by walking back from the Final and doubling, so
+a four-round ladder is <code>R16 · QF · SF · Final</code> regardless of how few pairs
+are actually in the early rounds.</p>
+<hr />
+<h2 id="2-why-this-is-a-second-master-not-a-mode-of-the-first">2. Why this is a second master, not a mode of the first<a class="headerlink" href="#2-why-this-is-a-second-master-not-a-mode-of-the-first" title="Permanent link">&para;</a></h2>
+<p>The category tabs run on <strong>Named Functions</strong> — workbook-level <code>LAMBDA</code>
+definitions under <code>Data → Named functions</code>, in no repo, uncreatable through
+the Sheets API. Phase 1 spec §1 works through why that forces
+generate-from-a-copy plus bound script. All of it applies here unchanged.</p>
+<p>What is new is that the standard workbooks carry a <strong>different, older
+library</strong> — 15 functions where the Dual Meet Master has 23, and none of them
+built on <code>STACKBLOCKS</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>main.xlsx        GETPLAYERSCOLUMN1 = LAMBDA({SCHEDULE!$E$6:$E ; …$M$6:$M ; … ; $CO$6:$CO})   12 blocks
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>dream.xlsx       GETPLAYERSCOLUMN1 = LAMBDA({SCHEDULE!$E$6:$E ; …$M$6:$M ; … ; $DM$6:$DM})   15 blocks
+</code></pre></div>
+<p><strong>The column list is hand-edited per workbook to match its court count.</strong>
+That is not a stylistic difference, it is the defect that makes a standard
+generator worth building at all — and it has already bitten (§2.1). §11
+replaces the whole library with the dual meet's, so a generated standard
+workbook derives its court count from the sheet's own width like every dual
+meet workbook already does.</p>
+<p>Two masters rather than one, for the same reason there are two site
+templates: the category tab is a genuinely different organism (§7), the
+playoff model is inverted (§8), and one workbook covers one facility rather
+than one event (§3). A shared master would be a mode switch on every tab.</p>
+<h3 id="21-what-the-hand-built-workbooks-get-wrong">2.1 What the hand-built workbooks get wrong<a class="headerlink" href="#21-what-the-hand-built-workbooks-get-wrong" title="Permanent link">&para;</a></h3>
+<p>Recorded because each one is a requirement in disguise — the generator's job
+is to make these unrepresentable, not to reproduce them.</p>
+<table>
+<thead>
+<tr>
+<th>Defect</th>
+<th>Where</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SCHEDULE</code> is 15 court blocks wide but <code>Variables!C5</code> says <code>courts: 6</code></td>
+<td>Dreamcourts</td>
+<td>Every pace estimate on <code>Court Control</code> divides by the wrong number</td>
+</tr>
+<tr>
+<td>Court labels repeat — <code>10 11 12 13 14 15 7 8 9 10 11 12 13 14 15</code></td>
+<td>Dreamcourts</td>
+<td><code>CSV!D</code> reports the wrong court for any match past block 9</td>
+</tr>
+<tr>
+<td><code>CSV!C2</code>/<code>D2</code> scan a hardcoded <code>SCHEDULE!$F$6:$BZ$78</code> — 10 blocks</td>
+<td>both</td>
+<td>Silently wrong for courts 11+; only survived because 6 were used</td>
+</tr>
+<tr>
+<td>Named-function column list (12) ≠ schedule width (15)</td>
+<td>Dreamcourts</td>
+<td>Courts 13-15 invisible to every standings formula</td>
+</tr>
+<tr>
+<td><code>Court Control!C42 = SUM(LI40MD!D:D)+SUM(LI40XD!D:D)+SUM(LI40WD!D:D)</code></td>
+<td>Main</td>
+<td>Add a category, forget the sum, "matches done" goes quietly stale</td>
+</tr>
+<tr>
+<td><code>Reference for Players!A377 = FILTER(HIMD!…)</code> → <code>#REF!</code></td>
+<td>Main</td>
+<td>A leftover anchor for a category this facility never ran</td>
+</tr>
+<tr>
+<td><code>Timeline</code> body is a 24-term <code>COUNTIFS</code> chain, one pair of terms per court</td>
+<td>both</td>
+<td>Unmaintainable; wrong the moment a court is added</td>
+</tr>
+<tr>
+<td><code>Variables!I38</code> reads <code>Low Intermediate 18+ Women's Doubles</code> on the <code>HI18WD</code> row</td>
+<td>Main</td>
+<td>Same class as the <code>LIMD</code>/<code>LIWD</code> typo Phase 1 spec §4.3 fixed structurally</td>
+</tr>
+<tr>
+<td>A playoff block's <code>C</code> cell claims the winner's next code is <code>&lt;KEY&gt;_F_SF-1</code></td>
+<td>both</td>
+<td>Not a real code — see §8.5</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-the-unit-of-generation-is-a-facility-day-not-an-event">3. The unit of generation is a facility-day, not an event<a class="headerlink" href="#3-the-unit-of-generation-is-a-facility-day-not-an-event" title="Permanent link">&para;</a></h2>
+<p>A dual meet is one workbook. A standard tournament is <strong>one workbook per
+facility per day</strong>, and the plan CSV describes the whole event. Three
+consequences, all of which the generator has to be told about because the
+CSV cannot carry them:</p>
+<p><strong>Categories are assigned to facilities by hand.</strong> BKL Day 2 put the LI40
+categories on Main and the LI18 categories on Dreamcourts. Nothing derives
+that. The operator picks.</p>
+<p><strong>Court numbering is facility-local and non-contiguous.</strong> Main ran courts
+1-12, Dreamcourts 7-15. The label is free text in <code>SCHEDULE!</code> row 5 and is
+what <code>CSV!D</code> publishes, so it has to be an input, not <code>"Court " &amp; c</code>.</p>
+<p><strong>Match numbers are facility-scoped and offset.</strong> Main starts at <code>1001</code>,
+Dreamcourts at <code>3001</code>, Annex (by the same rule) at <code>2001</code>. Three facilities'
+<code>CSV</code> tabs merge into one day snapshot in <code>event-data</code>, so a collision would
+silently overwrite a match. The offset is a required input.</p>
+<p>The full plan for every category of every day still goes into
+<code>Variables!H:P</code> (§6.3) — the workbook documents the whole event and generates
+tabs for its own slice.</p>
+<hr />
+<h2 id="4-input-the-plan-csv-in-standard-format">4. Input — the plan CSV in standard format<a class="headerlink" href="#4-input-the-plan-csv-in-standard-format" title="Permanent link">&para;</a></h2>
+<p>Same file as Phase 1 spec §2, same columns:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>type,key,value,teams,brackets,advance,fill,note,teams_a,teams_b,po_format
+</code></pre></div>
+<p>with the standard-format columns live and the dual ones inert. The mirror
+image of Phase 1 spec §2.1:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Standard format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>teams</code></td>
+<td><strong>Live.</strong> Total pairs in the category</td>
+</tr>
+<tr>
+<td><code>brackets</code></td>
+<td><strong>Live.</strong> Number of round-robin pools (<code>c.group</code>, 1-30)</td>
+</tr>
+<tr>
+<td><code>advance</code></td>
+<td><strong>Live.</strong> Top <code>k</code> per bracket qualify, 1-4</td>
+</tr>
+<tr>
+<td><code>fill</code></td>
+<td><strong>Live.</strong> <code>bye</code> or <code>wc</code> — how a short playoff field is filled (§5.4)</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>Free text, straight to <code>Variables!O</code></td>
+</tr>
+<tr>
+<td><code>teams_a</code>, <code>teams_b</code></td>
+<td><strong>Always ignore.</strong> The calculator still writes them (<code>c.teamsA</code>/<code>c.teamsB</code> persist across a format switch), and in standard format they are meaningless leftovers</td>
+</tr>
+<tr>
+<td><code>po_format</code></td>
+<td><strong>Always ignore.</strong> Written empty in standard format by <code>exportCSV</code>; older exports may carry <code>semis</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>setting format</code> must read <code>standard</code>. A <code>dual</code> file is rejected, not
+approximated — the exact converse of Phase 1 spec §3.</p>
+<p>Settings used: <code>title</code>, <code>date</code>, <code>start</code>, <code>duration_min</code>, <code>buffer_min</code>.
+<code>courts</code> is read but <strong>overridden</strong> by the per-facility court list (§6.1),
+since the calculator's number is the event's total across all venues.</p>
+<hr />
+<h2 id="5-every-playoff-shape-the-calculator-can-produce">5. Every playoff shape the calculator can produce<a class="headerlink" href="#5-every-playoff-shape-the-calculator-can-produce" title="Permanent link">&para;</a></h2>
+<p>This is the enumeration the generator's playoff builder has to cover. All of
+it is <code>playoffPlan(groups, adv, fill)</code> and its helpers in
+<code>tournament-calculator.html</code>; the branch order below is the code's own.</p>
+<h3 id="51-teams-2-best-of-3-no-round-robin">5.1 <code>teams == 2</code> — best-of-3, no round robin<a class="headerlink" href="#51-teams-2-best-of-3-no-round-robin" title="Permanent link">&para;</a></h3>
+<p><code>calcCategory</code> short-circuits before <code>groupSizes</code> is ever called.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>plan = { rounds: [{label:'Final · best of 3', matches:3, byes:0}], total:3, min:2, bestOf3:true }
+</code></pre></div>
+<p>No group stage, no bracket, no bronze. Three match slots, of which the third
+is played only if the series splits 1-1 — the plan counts the worst case, so
+the workbook must carry three.</p>
+<h3 id="52-brackets-1-round-robin-then-a-twice-to-beat-final">5.2 <code>brackets == 1</code> — round robin then a twice-to-beat final<a class="headerlink" href="#52-brackets-1-round-robin-then-a-twice-to-beat-final" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>plan = { rounds: [{label:'Final · twice-to-beat', matches:2}], single:true,
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>         qualifiers:2, bronzeText:'RR #3 automatic' }
+</code></pre></div>
+<p>RR #1 needs one win; RR #2 must win twice. Two match slots, and <strong>bronze is
+not a match</strong> — the third-placed pair takes it on record.</p>
+<p>Verified in Main's <code>LI40WD</code> (4 pairs, 6 RR + 2). Its codes are the ones to
+copy: <code>LI40WD_F_1_(1)</code>, <code>LI40WD_F_2_(1)</code> for game 1 and
+<code>LI40WD_F_1_(2)</code>, <code>LI40WD_F_2_(2)</code> for game 2. The <code>(n)</code> suffix is already
+understood by the site — <code>matchInstanceOf()</code> in the standard template parses
+it and <code>roundLabel()</code> renders "Final · Match 2".</p>
+<h3 id="53-brackets-2-brackets-advance-2-a-bare-final">5.3 <code>brackets &gt;= 2 &amp;&amp; brackets * advance == 2</code> — a bare final<a class="headerlink" href="#53-brackets-2-brackets-advance-2-a-bare-final" title="Permanent link">&para;</a></h3>
+<p>Two brackets, top 1 each. <code>playoffPlan</code> returns early:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>plan = { rounds:[{label:'Final', matches:1}], qualifiers:2, bronzeText:null }
+</code></pre></div>
+<p><strong>No bronze at all</strong>, not even an automatic one. Worth calling out because
+every other multi-bracket shape has one.</p>
+<h3 id="54-brackets-2-the-tiered-single-elimination-ladder">5.4 <code>brackets &gt;= 2</code> — the tiered single-elimination ladder<a class="headerlink" href="#54-brackets-2-the-tiered-single-elimination-ladder" title="Permanent link">&para;</a></h3>
+<p>The general case, and the one with the machinery. <code>tieredRounds(Array(adv).fill(groups))</code>:</p>
+<ul>
+<li><strong><code>advance == 1</code></strong> — one homogeneous tier of <code>groups</code> entrants, reduced by
+  <code>reduceToTarget</code> to 2 and then a final. Byes by lot, and they occur only in
+  the single earliest round.</li>
+<li><strong><code>advance &gt;= 2</code></strong> — tiered. All group <strong>winners</strong> outrank all runners-up,
+  which outrank 3rd places. Winners bye all the way to round
+  <code>R = smallest power of 2 strictly greater than groups</code>, skipping every
+  earlier round entirely. The remaining <code>R - groups</code> seats at that round are
+  played for by the lower tiers, flattened into one pool, through their own
+  preliminary round(s).</li>
+</ul>
+<p>Round labels are assigned <strong>backwards from the Final</strong>, doubling: the last
+round is <code>Final</code>, then <code>Semifinals</code>, <code>Quarterfinals</code>, <code>Round of 16</code>, <code>Round
+of 32</code>. The label describes the round's structural position, not how many
+pairs are in it — which is why <code>LI18MD</code>'s ladder of 1, 1, 2, 1 matches is
+labelled <code>R16 · QF · SF · Final</code>.</p>
+<p><strong>Bronze</strong>: a <code>Bronze match</code> round is spliced in before the Final when
+<code>qualifiers &gt;= 4</code>; below that <code>bronzeText</code> is <code>'losing semifinalist
+automatic'</code> and there is no match.</p>
+<p><strong><code>fill</code></strong>: <code>bye</code> leaves the first round's byes as byes. <code>wc</code> converts every
+bye into a wildcard entrant — <code>matches += byes; byes = 0</code> — so the field
+grows and the bracket has no byes at all. This changes the entrant count, so
+it changes the number of playoff slots the tab must carry.</p>
+<h3 id="55-the-shapes-as-a-table">5.5 The shapes, as a table<a class="headerlink" href="#55-the-shapes-as-a-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><code>teams</code></th>
+<th><code>brackets</code></th>
+<th><code>advance</code></th>
+<th>Shape</th>
+<th>Playoff matches</th>
+<th>Bronze</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>—</td>
+<td>—</td>
+<td>best of 3</td>
+<td>3 (min 2)</td>
+<td>none</td>
+</tr>
+<tr>
+<td>any</td>
+<td>1</td>
+<td>—</td>
+<td>RR + twice-to-beat</td>
+<td>2 (min 1)</td>
+<td>RR #3, no match</td>
+</tr>
+<tr>
+<td>any</td>
+<td>2</td>
+<td>1</td>
+<td>RR + Final</td>
+<td>1</td>
+<td><strong>none</strong></td>
+</tr>
+<tr>
+<td>any</td>
+<td>≥2</td>
+<td>1</td>
+<td>RR + flat single-elim, byes by lot</td>
+<td><code>reduceToTarget(groups,2)</code> + 1</td>
+<td>match iff <code>groups &gt;= 4</code></td>
+</tr>
+<tr>
+<td>any</td>
+<td>≥2</td>
+<td>≥2</td>
+<td>RR + tiered single-elim</td>
+<td><code>tieredRounds</code></td>
+<td>match iff <code>groups*adv + wc &gt;= 4</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="56-bracket-sizes-are-uneven-and-that-is-load-bearing">5.6 Bracket sizes are uneven, and that is load-bearing<a class="headerlink" href="#56-bracket-sizes-are-uneven-and-that-is-load-bearing" title="Permanent link">&para;</a></h3>
+<p><code>groupSizes(teams, brackets)</code> splits as evenly as possible and <strong>enlarges the
+first brackets</strong> with the remainder: 26 pairs over 6 brackets is <code>5-5-4-4-4-4</code>.
+Real: <code>LI40MD</code> is <code>5-4</code>, <code>LI40XD</code> is <code>4-3</code>.</p>
+<p>Everything downstream has to stop assuming a square block:</p>
+<ul>
+<li>Round-robin matches are <code>Σ n_b(n_b - 1)/2</code>, not one formula in one <code>n</code>.</li>
+<li>A group block is <code>2 · n_b</code> rows, and the four blocks of a category are
+  different heights.</li>
+<li>The completion gate for a bracket is <code>n_b(n_b - 1)/2</code> matches, i.e.
+  <code>SUM(J) = n_b(n_b - 1)</code> across the block.</li>
+<li>The <code>bracket</code> column cannot be <code>ceil(i / n)</code> the way Phase 3 spec §6.3
+  computes it. §10.4 replaces it.</li>
+</ul>
+<p><code>groupSizes</code> also floors the bracket count at <code>floor(teams/2)</code> — every
+bracket needs at least 2 pairs — and the calculator emits a note when it has
+to reduce. The generator must apply the same reduction rather than trusting
+<code>brackets</code> blindly, or a 5-pair, 4-bracket category generates four blocks and
+the calculator planned three.</p>
+<p>Likewise <code>advance</code> is capped at the <strong>smallest</strong> bracket's size
+(<code>adv = min(requestedAdv, min(sizes))</code>), so a category with a bracket of 2
+cannot advance 3.</p>
+<hr />
+<h2 id="6-inputs-the-csv-does-not-carry">6. Inputs the CSV does not carry<a class="headerlink" href="#6-inputs-the-csv-does-not-carry" title="Permanent link">&para;</a></h2>
+<p>A sidebar, same pattern as the dual-meet generator's:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Facility label</td>
+<td>empty</td>
+<td><code>Variables!C8</code>, <code>Title!B16</code> — e.g. <code>PCPH Main</code></td>
+</tr>
+<tr>
+<td>Court labels</td>
+<td>—</td>
+<td>§6.1</td>
+</tr>
+<tr>
+<td>First match number</td>
+<td><code>1001</code></td>
+<td>§6.2</td>
+</tr>
+<tr>
+<td>Categories in this workbook</td>
+<td>none selected</td>
+<td>Which tabs get built (§3)</td>
+</tr>
+<tr>
+<td>Day label</td>
+<td>empty</td>
+<td><code>Variables!P</code> on the selected rows</td>
+</tr>
+<tr>
+<td>Event key</td>
+<td>slugified <code>setting title</code></td>
+<td><code>Title!B17</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="61-court-labels">6.1 Court labels<a class="headerlink" href="#61-court-labels" title="Permanent link">&para;</a></h3>
+<p>A comma-separated list, in schedule order: <code>1,2,3,4</code> or <code>7,8,9,10,11,12</code>.
+Its <strong>length is the court count</strong> for this workbook — <code>Variables!C5</code>, the
+<code>SCHEDULE</code> width, the <code>Court Control</code> block count and the pace divisor all
+come from it, so the Dreamcourts mismatch in §2.1 cannot recur.</p>
+<p>Labels render as <code>Court &lt;label&gt;</code> in <code>SCHEDULE!</code> row 5 and are what <code>CSV!D</code>
+publishes. Duplicates are rejected (§9).</p>
+<h3 id="62-first-match-number">6.2 First match number<a class="headerlink" href="#62-first-match-number" title="Permanent link">&para;</a></h3>
+<p>The base for this workbook's match numbering. Numbers run densely from it.
+The convention the reference event used — facility index × 1000, plus 1 — is
+a <strong>suggestion in the field's help text, not a rule the generator enforces</strong>;
+nothing in <code>events.json</code> orders facilities, so the generator cannot derive
+it. It <em>can</em> and must check that the range does not collide with any other
+facility's, which it cannot see — so instead it states the range it used in
+the completion toast, loudly, for the operator to check against the other
+workbooks.</p>
+<h3 id="63-categories-and-the-plan-block">6.3 Categories, and the plan block<a class="headerlink" href="#63-categories-and-the-plan-block" title="Permanent link">&para;</a></h3>
+<p><code>Variables!H:P</code> gets <strong>every</strong> category row from the CSV, plus a <code>day</code> column
+(<code>P</code>) and a <code>facility</code> column (<code>Q</code>, new — §10.1) that the generator fills in
+for the rows it selected and leaves blank for the rest. Tabs are built only
+for the selected keys, in CSV order.</p>
+<p>That is what the reference workbooks do (Main's <code>Variables</code> lists all 40-odd
+categories of the whole five-day event while carrying three tabs), and it is
+worth keeping: <code>B1</code> on each category tab reads its display name back out of
+that block by key, and the operator can see at a glance which slice of the
+event this workbook is.</p>
+<hr />
+<h2 id="7-the-category-tab">7. The category tab<a class="headerlink" href="#7-the-category-tab" title="Permanent link">&para;</a></h2>
+<h3 id="71-column-map">7.1 Column map<a class="headerlink" href="#71-column-map" title="Permanent link">&para;</a></h3>
+<p>Verified cell by cell against <code>LI40MD</code> and <code>LI18MD</code>. Columns never move; only
+row counts vary.</p>
+<table>
+<thead>
+<tr>
+<th>Col</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A</code></td>
+<td>Team code — <strong>repeated on both rows</strong> of a pair</td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>Player name — a lookup on the pair's first row, mirrored on the second</td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td>Seed/marker text (<code>!</code>, <code>!!</code>, <code>!!!</code>) — hand-typed, generator leaves blank</td>
+</tr>
+<tr>
+<td><code>D</code> <code>E</code></td>
+<td>W, L</td>
+</tr>
+<tr>
+<td><code>F</code> <code>G</code></td>
+<td>Points for, points against</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td>Quotient</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td>Free-text note (<code>Replaced Guy Godoy</code>) — hand-typed</td>
+</tr>
+<tr>
+<td><code>J</code></td>
+<td>Matches Done, <code>=D+E</code> — group rows only</td>
+</tr>
+<tr>
+<td><code>K</code></td>
+<td><strong>Bracket</strong> on group rows; <strong>Next Round</strong> and the podium label on playoff rows (§7.5)</td>
+</tr>
+<tr>
+<td><code>L</code></td>
+<td>Bracket rank — hand-typed</td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td>Score-grid row labels</td>
+</tr>
+<tr>
+<td><code>O</code>–…</td>
+<td>Score-grid body (§7.4)</td>
+</tr>
+<tr>
+<td><code>AB</code></td>
+<td>Notes column header for the roster scaffold</td>
+</tr>
+<tr>
+<td><code>AC</code> <code>AD</code> <code>AE</code></td>
+<td>Roster scaffold: pair index, <strong>STEP 1 · NAMES</strong>, code link</td>
+</tr>
+<tr>
+<td><code>AG</code> <code>AH</code> <code>AI</code></td>
+<td>Roster scaffold: number, <strong>STEP 2 · CODES</strong>, <strong>STEP 3 · RANDOMIZED CODES</strong></td>
+</tr>
+<tr>
+<td><code>AM</code> <code>AN</code> <code>AO</code> <code>AP</code></td>
+<td>Qualifier scaffold — the playoff draw (§7.6)</td>
+</tr>
+<tr>
+<td><code>AT</code> <code>AU</code> <code>AV</code></td>
+<td>Playoff slot table (§7.6)</td>
+</tr>
+<tr>
+<td><code>BA</code> <code>BB</code> <code>BC</code></td>
+<td>Awards block — Gold / Silver / Bronze (§7.7). <strong>Kept</strong>, unlike the dual meet</td>
+</tr>
+</tbody>
+</table>
+<p>Header chrome: <code>A1</code> is the raw key; <code>B1 = FILTER(Variables!J:J, Variables!I:I=A1)</code>
+is the display name; <code>AD1 = A1</code> is what every scaffold formula concatenates
+against. Rows 2-4 carry the <code>STEP 1/2/3</code> labels and the scaffold headers;
+row 5 carries <code>W</code>, <code>L</code>, <code>Team Scr</code>, <code>Opp\nScr</code>, <code>Q</code>, <code>Matches Done</code>,
+<code>Bracket</code>, <code>Br Rank</code>. Group pairs start at row 6.</p>
+<h3 id="72-group-blocks-one-continuous-list-brackets-marked-in-k">7.2 Group blocks — one continuous list, brackets marked in <code>K</code><a class="headerlink" href="#72-group-blocks-one-continuous-list-brackets-marked-in-k" title="Permanent link">&para;</a></h3>
+<p>Unlike a dual meet, <strong>the brackets of a category are not separate blocks</strong>.
+All <code>teams</code> pairs run continuously from row 6, two rows each, and bracket
+membership is carried only by column <code>K</code>: <code>LI40MD</code> has <code>K = 1</code> on pairs 1-5
+and <code>K = 2</code> on pairs 6-9, with no gap, no second header row and no banner
+between them.</p>
+<p>Keep that. It makes the block geometry independent of the bracket split, and
+it means codes stay <code>&lt;KEY&gt;_1 … &lt;KEY&gt;_&lt;teams&gt;</code> in one unbroken run — which is
+what the roster scaffold, the <code>Reference for Players</code> spill and the bracket
+generator's own output all assume.</p>
+<p>Per-pair formulas, filled down:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>A6  = A$1&amp;"_"&amp;Variables!AB91          LI40MD_1     (the reference-number ladder, §7.3)
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>A7  = A6                              second row of the pair
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>B6  = IFNA(FILTER($AD$5:$AD178,$AE$5:$AE178=A6),A6)
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>D6  = GETTOTALWINS(A6)      E6 = GETTOTALLOSES(A6)
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>F6  = GETTOTALSCORE(A6)     G6 = GETTOTALOPPONENTSCORE(A6)
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>H6  = GETSCOREQUOTIENT(A6)  J6 = D6+E6
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>K6  = &lt;bracket number&gt;                literal, written by the generator
+</code></pre></div>
+<p><code>D</code>–<code>H</code> and <code>J</code> are merged vertically across the pair's two rows. <code>K</code> is
+merged on group rows; on playoff rows it is <strong>not</strong>, because its two rows
+hold different formulas (§7.5) — the same rule Phase 1 spec §4.0.4 states for
+column <code>I</code> there.</p>
+<h3 id="73-variablesab-is-a-counter-not-a-draw">7.3 <code>Variables!AB</code> is a counter, not a draw<a class="headerlink" href="#73-variablesab-is-a-counter-not-a-draw" title="Permanent link">&para;</a></h3>
+<p><code>A6 = A$1&amp;"_"&amp;Variables!AB91</code>, <code>A8 = A$1&amp;"_"&amp;Variables!AB93</code>, and so on. The
+<code>AB</code> column is a ladder — <code>AB91 = 1</code>, <code>AB93 = AB91+1</code>, every second row — so
+the effect is simply <code>_1</code>, <code>_2</code>, <code>_3</code>. It is the standard workbook's
+counterpart to the dual meet's <code>Variables!A2</code> ladder, spaced to the two-row
+pair stride so a fill-down works.</p>
+<p>It looks like an indirection worth removing and it is not: the <code>Standings</code>
+tab (§10.6) concatenates against the <em>same</em> ladder cells, so ten categories'
+codes stay row-aligned across that board for free.</p>
+<h3 id="74-the-score-grid">7.4 The score grid<a class="headerlink" href="#74-the-score-grid" title="Permanent link">&para;</a></h3>
+<p>One grid per bracket, anchored on that bracket's first pair row. For a
+bracket of <code>n_b</code> pairs whose first pair row is <code>first</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Cell</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>O&lt;first&gt;</code> … <code>&lt;n_b</code>-th col<code>&gt;&lt;first&gt;</code></td>
+<td><code>=N&lt;first+1&gt;</code> … <code>=N&lt;first+n_b&gt;</code> — the column headers</td>
+</tr>
+<tr>
+<td><code>N&lt;first+1+k&gt;</code></td>
+<td><code>=A&lt;first + 2k&gt;</code> — one row per pair, <strong>not</strong> two</td>
+</tr>
+<tr>
+<td>body <code>(r, c)</code></td>
+<td><code>=GETSCOREAGAINSTPAIR($N&lt;r&gt;, &lt;c&gt;$&lt;first&gt;)</code>, diagonal left blank</td>
+</tr>
+</tbody>
+</table>
+<p>Verified at <code>n_b = 5</code> (<code>O:S</code>) and <code>n_b = 4</code> (<code>O:R</code>). Note the offset from the
+dual meet: labels are in <code>N</code> and the body starts at <code>O</code>, where the dual meet
+uses <code>M</code> and <code>N</code>.</p>
+<p>Both triangles are filled. Unlike a dual meet's cross-club grid, a
+round-robin grid is genuinely two-sided — <code>(i,j)</code> is i's score against j and
+<code>(j,i)</code> is j's — so a <code>GETSCOREAGAINSTPAIR</code> goes in every off-diagonal cell.</p>
+<blockquote>
+<p>Several cells in the reference grids are hardcoded numbers rather than
+formulas, from operators typing over them mid-event. Do not read that as
+structure.</p>
+</blockquote>
+<p>Playoff blocks carry a grid too, on the same mechanism, condensing each
+entrant's two rows into one grid row exactly as Phase 1 spec §13.2 describes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>N102 = A101       the block label, e.g. "SF-1"
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>O102 = N103       P102 = N104          entrant headers
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>N103 = A103       N104 = A105          one grid row per entrant, pointing at its SECOND row
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>P103 = GETSCOREAGAINSTPAIR($N103,P102)
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>O104 = GETSCOREAGAINSTPAIR($N104,O102)
+</code></pre></div>
+<p>The grid's header row is <code>block.header + 1</code>, one below the block's <code>A</code>-column
+label.</p>
+<h3 id="75-the-playoff-ladder-forward-propagation">7.5 The playoff ladder — forward propagation<a class="headerlink" href="#75-the-playoff-ladder-forward-propagation" title="Permanent link">&para;</a></h3>
+<p><strong>This is the inversion.</strong> A dual meet's playoff entrants are pulled
+backwards by feeder formulas that sort a group block (<code>INDEX(SORTBYWINS(…),1)</code>).
+A standard tournament's are pushed <strong>forwards</strong>: each playoff block computes
+where its winner goes, writes that code into column <code>K</code>, and the next round's
+block finds its own occupants by searching the previous block's <code>K</code> for its
+own code.</p>
+<p>It has to work that way. A dual meet's bronze and final entrants are a
+deterministic function of two group blocks. A standard ladder's are a
+function of a draw plus a chain of results with byes in it — there is no
+range for <code>SORTBYWINS</code> to sort.</p>
+<p><strong>Stage banner.</strong> One row per stage, carrying the stage keyword in <code>A</code> and
+the <em>next</em> stage in <code>K</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>A99 : SF        H99 : "before:"   I99 : QF     J99 : "next:"   K99 : F
+</code></pre></div>
+<p><strong>Per-match sub-block</strong>, two entrants, four rows, one per match in the stage:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>A101 = A99&amp;"-1"                             SF-1              block label
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>B101 : "winner's next code -&gt;"
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>C101 = &lt;the next round's slot cell&gt;         see the note below
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>K101 : "Next Round"
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>D101..H101 : W / L / Team Scr / Opp Scr / Q headers
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>A102 = A$1&amp;"_"&amp;A99&amp;"_1"                     LI40MD_SF_1
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>B102 = &lt;name lookup, see below&gt;
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>D102..H102 = GETTOTAL*/GETSCOREQUOTIENT(A102)
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>K102 = &lt;advance formula, see below&gt;
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>A103 = A102   B103 = mirror   K103 = K102
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>A104 = A$1&amp;"_"&amp;A99&amp;"_2"                     LI40MD_SF_2
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>… same shape
+</code></pre></div>
+<p><strong>Name lookup</strong> — two forms, and which one a slot gets is the whole point:</p>
+<table>
+<thead>
+<tr>
+<th>Slot is</th>
+<th><code>B</code> formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>fresh</strong> — drawn in from the group stage, or byeing into this round</td>
+<td><code>=IFNA(FILTER(AO:AO, AP:AP=A&lt;r&gt;), A&lt;r&gt;)</code> — the qualifier scaffold (§7.6)</td>
+</tr>
+<tr>
+<td><strong>fed</strong> — the winner of a previous-round match</td>
+<td><code>=IFNA(FILTER(B&lt;prevLo&gt;:B&lt;prevHi&gt;, K&lt;prevLo&gt;:K&lt;prevHi&gt;=A&lt;r&gt;), A&lt;r&gt;)</code></td>
+</tr>
+</tbody>
+</table>
+<p>A single stage mixes both. <code>LI18MD</code>'s <code>QF-2</code> has <code>QF_3</code> fed from <code>R16</code> and
+<code>QF_4</code> fresh — which is precisely §5.4's tiered bye, rendered in formulas.</p>
+<p><strong>Advance formula</strong> in <code>K</code>, three variants:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>early rounds   K69  = IF(D69&gt;0, C68, "-")                              winner only
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>semifinals     K111 = IFNA(IFS(D111&gt;0, A131, E111&gt;0, A125), "-")       winner -&gt; F, loser -&gt; B
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>bronze         K116 = IF(D116&gt;0, "BRONZE", "-")
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>final          K122 = IFNA(IFS(D122&gt;0, "GOLD", E122&gt;0, "SILVER"), "-")
+</code></pre></div>
+<p>The second row of each entrant mirrors: <code>K103 = K102</code>.</p>
+<blockquote>
+<p><strong>The <code>C</code> cell is inconsistent in the reference and the generator must pick
+one form.</strong> Early-round blocks point it at the real destination cell
+(<code>C68 = A91</code>, resolving to <code>LI18MD_QF_3</code>), which is what <code>K</code> then uses.
+Semifinal blocks instead synthesise a label — <code>C110 = $A$1&amp;"_"&amp;K108&amp;"_"&amp;A110</code>
+→ <code>LI40MD_F_SF-1</code> — which is <strong>not a team code that exists anywhere</strong>. It is
+harmless only because the SF's own <code>K</code> formula ignores <code>C</code> and names the
+destination cells directly. Generate the early-round form everywhere.</p>
+</blockquote>
+<p><strong>Finals stage.</strong> A <code>FINALS</code> banner row, then a <code>B</code> block and an <code>F</code> block,
+each two entrants, whose <code>B</code> lookups read the semifinal blocks' <code>K</code> range.
+Codes are <code>&lt;KEY&gt;_B_1</code> / <code>&lt;KEY&gt;_B_2</code> and <code>&lt;KEY&gt;_F_1</code> / <code>&lt;KEY&gt;_F_2</code>.</p>
+<h3 id="76-two-scaffolds-two-draws">7.6 Two scaffolds, two draws<a class="headerlink" href="#76-two-scaffolds-two-draws" title="Permanent link">&para;</a></h3>
+<p>The roster scaffold (<code>AC</code>–<code>AI</code>) is the same three-step shape as the dual
+meet's, one column set instead of two:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Col</th>
+<th>State on a fresh workbook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>index</td>
+<td><code>AC</code></td>
+<td><code>1 … teams</code>, one per pair, generator-written</td>
+</tr>
+<tr>
+<td><strong>STEP 1 · NAMES</strong></td>
+<td><code>AD</code></td>
+<td>blank — operator pastes, 2 rows per pair</td>
+</tr>
+<tr>
+<td>link</td>
+<td><code>AE</code></td>
+<td><code>=FILTER($AI$5:$AI&lt;end&gt;, $AG$5:$AG&lt;end&gt;=AC&lt;r&gt;)</code>, mirrored on the second row</td>
+</tr>
+<tr>
+<td>number</td>
+<td><code>AG</code></td>
+<td><code>1 … teams</code>, generator-written</td>
+</tr>
+<tr>
+<td><strong>STEP 2 · CODES</strong></td>
+<td><code>AH</code></td>
+<td><code>=$AD$1&amp;"_"&amp;AG&lt;r&gt;</code></td>
+</tr>
+<tr>
+<td><strong>STEP 3 · RANDOMIZED</strong></td>
+<td><code>AI</code></td>
+<td><strong>blank</strong> — operator pastes the codes back shuffled</td>
+</tr>
+</tbody>
+</table>
+<p>STEP 3 stays blank for the reason <code>sheet-generator.gs:1869</code> gives and
+<code>bracket-generator-workbook-handoff-spec.md</code> §1 quotes: pre-seeding it makes
+an undone step look done, and an unshuffled STEP 3 maps every pair to its own
+roster slot, defeating the blinding.</p>
+<p>The <strong>qualifier scaffold</strong> (<code>AM</code>–<code>AP</code>) is the second draw, and has no
+dual-meet equivalent — a dual meet's playoff entrants are decided by record,
+so there is nothing to draw. Here the group-stage qualifiers are drawn by lot
+into the playoff slots ("PLACE 1ST PLAYOFFS BUNUTAN HERE" in the reference):</p>
+<table>
+<thead>
+<tr>
+<th>Col</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AM</code></td>
+<td>The <strong>drawn slot number</strong> for this qualifier, or <code>-</code> if this ordinal has no slot — operator-written</td>
+</tr>
+<tr>
+<td><code>AN</code></td>
+<td>Qualifier ordinal, <code>=Variables!AB&lt;row&gt;</code> (§7.3)</td>
+</tr>
+<tr>
+<td><code>AO</code></td>
+<td>Qualifier player names, 2 rows per pair — operator-written</td>
+</tr>
+<tr>
+<td><code>AP</code></td>
+<td><code>=IFNA(FILTER(AV:AV, AT:AT=AM&lt;r&gt;), "-")</code>, mirrored on the second row</td>
+</tr>
+</tbody>
+</table>
+<p>and the <strong>playoff slot table</strong> (<code>AT</code>–<code>AV</code>) is what <code>AP</code> resolves against:</p>
+<table>
+<thead>
+<tr>
+<th>Col</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AT</code></td>
+<td>Slot index, <code>1 … slots</code></td>
+</tr>
+<tr>
+<td><code>AU</code></td>
+<td>The stage the slot belongs to — <code>SF</code>, <code>QF</code>, <code>R16</code>, <code>R32</code></td>
+</tr>
+<tr>
+<td><code>AV</code></td>
+<td><code>=$AD$1&amp;"_"&amp;AU&lt;r&gt;&amp;"_"&amp;AT&lt;r&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The generator writes <code>AU</code>.</strong> It is the one column that encodes the whole
+tiered structure: the reference <code>LI40MD</code> has <code>SF SF SF SF QF QF QF QF R32 …</code>
+running down it, and that ordering is exactly what §5.4 computes. Leaving it
+to the operator is what makes today's build error-prone.</p>
+<p>Note that <code>AV</code> numbers slots <strong>globally across stages</strong> — <code>LI40MD_QF_5</code>
+follows <code>LI40MD_SF_4</code> — rather than restarting at 1 per stage. Preserve that:
+the site's <code>roundKeyword()</code> matches on the keyword, not the number, and
+<code>Reference for Players</code> sorts naturally.</p>
+<h3 id="77-the-awards-block-stays">7.7 The Awards block stays<a class="headerlink" href="#77-the-awards-block-stays" title="Permanent link">&para;</a></h3>
+<p><code>BA:BC</code>, three rows, reading the tab's own podium out of column <code>K</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>BA4 : "Gold"      BB4 = IFNA(FILTER(A:A, K:K=BA4), "-")    BC4 = GETPLAYERNAMESBYTEAMCODE(BB4)
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>BA6 : "Silver"    BB6 = IFNA(FILTER(A:A, K:K=BA6), "-")    BC6 = …
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>BA8 : "Bronze"    BB8 = IFNA(FILTER(A:A, K:K=BA8), "-")    BC8 = …
+</code></pre></div>
+<p>Phase 1 spec §4.2 <strong>deletes</strong> this block from the dual-meet template. Do not
+carry that decision across: here it has a live consumer, the <code>Awards</code> tab
+(§10.7), which reads <code>BB4</code>/<code>BC4</code>/<code>BB6</code>/… through <code>INDIRECT</code> on the category
+key. The dual meet could delete it because the console's Awards tab derives
+the podium from the day snapshot instead.</p>
+<p>Fix the same typo Phase 1 spec §4.2 found, though — the reference's Silver
+cell reads <code>=IFNA(IFS(D35,A33,D33,A735),"-")</code> in some tabs, where <code>A735</code> is a
+typo for <code>A35</code>. The <code>FILTER</code> form above is the one to generate.</p>
+<p><strong>The bronze case that has no bronze match.</strong> Under §5.2 nothing ever writes
+<code>"BRONZE"</code> into a playoff row's <code>K</code>, because there is no bronze match — the
+third-placed group pair takes it on record. The reference handles this by the
+operator typing <code>Bronze</code> into that pair's <strong>group-row <code>K</code></strong>, the same column
+that otherwise holds the bracket number. That overload works but is invisible
+and undocumented; §14.2 records the decision to keep it, with the generator
+writing an explicit <code>Bronze:</code> prompt into <code>I</code> on the finals banner row.</p>
+<hr />
+<h2 id="8-team-code-grammar">8. Team code grammar<a class="headerlink" href="#8-team-code-grammar" title="Permanent link">&para;</a></h2>
+<p>One category key, one underscore-delimited suffix. No club segment.</p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Code</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Group pair</td>
+<td><code>&lt;KEY&gt;_&lt;i&gt;</code>, <code>i = 1 … teams</code></td>
+<td><code>teams</code></td>
+</tr>
+<tr>
+<td>Playoff slot</td>
+<td><code>&lt;KEY&gt;_&lt;STAGE&gt;_&lt;k&gt;</code> where <code>STAGE ∈ {R32, R16, QF, SF}</code> and <code>k</code> is the global slot index</td>
+<td>2 per playoff match</td>
+</tr>
+<tr>
+<td>Bronze</td>
+<td><code>&lt;KEY&gt;_B_1</code>, <code>&lt;KEY&gt;_B_2</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>Final</td>
+<td><code>&lt;KEY&gt;_F_1</code>, <code>&lt;KEY&gt;_F_2</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>Twice-to-beat final</td>
+<td><code>&lt;KEY&gt;_F_1_(g)</code>, <code>&lt;KEY&gt;_F_2_(g)</code> for <code>g = 1, 2</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td>Best-of-3 final</td>
+<td><code>&lt;KEY&gt;_F_1_(g)</code>, <code>&lt;KEY&gt;_F_2_(g)</code> for <code>g = 1, 2, 3</code></td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total codes per category = <code>teams</code> + 2 × playoff matches.</strong> Verified across
+all six reference categories, including the twice-to-beat one.</p>
+<p>Every form above is already parsed by the standard-tournament site template —
+<code>roundKeyword()</code> matches <code>R16</code>/<code>QF</code>/<code>SF</code>/<code>F</code>/<code>B</code>, <code>matchInstanceOf()</code> reads
+the <code>(g)</code> suffix, and <code>STAGE_ORDER</code> is <code>['R16','QF','SF','BRONZE','FINAL']</code>.
+<strong><code>R32</code> is in the code grammar but not in <code>STAGE_ORDER</code> or
+<code>ROUND_KEYWORD_LABELS</code></strong>; a category deep enough to need it renders its R32
+rows under an unsorted trailing stage. That is a site fix, tracked in §15,
+not a reason to rename the codes.</p>
+<hr />
+<h2 id="9-validation">9. Validation<a class="headerlink" href="#9-validation" title="Permanent link">&para;</a></h2>
+<p>All checks run <strong>before</strong> anything is written, and every failure is reported
+at once — Phase 1 spec §3's rule, and Phase 1 spec §9.2's abort-on-collision
+policy, both unchanged.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>setting format == standard</code></td>
+<td>A dual file describes a different geometry</td>
+</tr>
+<tr>
+<td><code>key</code> unique, <code>[A-Z0-9]{2,8}</code>, legal tab name</td>
+<td>Tab name is the key</td>
+</tr>
+<tr>
+<td>at least one category selected</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>teams</code> in <code>2..100</code></td>
+<td>The calculator's own bound</td>
+</tr>
+<tr>
+<td><code>brackets</code> reduced to <code>floor(teams/2)</code> if larger, with a warning</td>
+<td>Matches <code>groupSizes</code> (§5.6)</td>
+</tr>
+<tr>
+<td><code>advance</code> capped at the smallest bracket, with a warning</td>
+<td>Matches <code>calcCategory</code> (§5.6)</td>
+</tr>
+<tr>
+<td>total playoff entrants ≤ 32</td>
+<td>The <code>Charts</code> reference tree tops out at 32 (§10.8), and no real category has come close</td>
+</tr>
+<tr>
+<td>court labels non-empty, unique, ≤ 24</td>
+<td>§6.1, and the Dreamcourts defect in §2.1</td>
+</tr>
+<tr>
+<td><code>firstMatchNumber</code> a positive integer</td>
+<td>§6.2</td>
+</tr>
+<tr>
+<td><code>courts &lt;= Σ over categories of (matches in one RR round)</code></td>
+<td>Phase 2 spec §4.4's no-double-booking guarantee, restated for round robins (§10.2)</td>
+</tr>
+<tr>
+<td>no existing tab collides</td>
+<td>Phase 1 spec §9.2</td>
+</tr>
+<tr>
+<td>every rebuilt-in-place tab is pristine</td>
+<td>Phase 3 spec §8.2</td>
+</tr>
+</tbody>
+</table>
+<p>A failure aborts with the offending rows named and the workbook untouched.
+Emitting a tab whose geometry does not match the plan it came from is the
+failure this section exists to prevent: it produces plausible-looking wrong
+medalists rather than an obvious error.</p>
+<hr />
+<h2 id="10-the-other-tabs">10. The other tabs<a class="headerlink" href="#10-the-other-tabs" title="Permanent link">&para;</a></h2>
+<h3 id="101-variables">10.1 <code>Variables</code><a class="headerlink" href="#101-variables" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Cells</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A2:C8</code></td>
+<td><code>setting</code> rows: <code>title</code>, <code>date</code>, <code>start</code>, <code>courts</code>, <code>duration_min</code>, <code>buffer_min</code>, <code>location</code></td>
+</tr>
+<tr>
+<td><code>C5</code></td>
+<td><strong>court count from the label list</strong> (§6.1), not the CSV's <code>courts</code></td>
+</tr>
+<tr>
+<td><code>C6</code></td>
+<td><strong>slot pitch</strong> — <code>(duration_min + buffer_min)/1440</code>, per Phase 3 spec §4.1, labelled "Slot Pitch"</td>
+</tr>
+<tr>
+<td><code>C8</code></td>
+<td>Facility label</td>
+</tr>
+<tr>
+<td><code>H:P</code></td>
+<td>The full plan block — <code>type, key, value, teams, brackets, advance, fill, note, day</code></td>
+</tr>
+<tr>
+<td><code>Q</code></td>
+<td><strong>New — <code>facility</code>.</strong> Filled for the rows this workbook generated tabs for, blank otherwise</td>
+</tr>
+<tr>
+<td><code>R</code></td>
+<td><strong>New — court labels</strong>, one per row from <code>R2</code>, so <code>SCHEDULE</code>'s row 5 can be a formula rather than 12 literals</td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td><strong>New — the bracket map</strong> (§10.4): every group code, one per row</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td><strong>New —</strong> the bracket letter for the code in <code>S</code></td>
+</tr>
+<tr>
+<td><code>AB90…</code></td>
+<td>The reference-number ladder (§7.3), every second row</td>
+</tr>
+</tbody>
+</table>
+<p><code>H:P</code> is written from the CSV verbatim, which structurally fixes the
+<code>HI18WD</code>-labelled-as-Low-Intermediate defect in §2.1 the same way Phase 1
+spec §4.3 fixed its counterpart.</p>
+<h3 id="102-schedule">10.2 <code>SCHEDULE</code><a class="headerlink" href="#102-schedule" title="Permanent link">&para;</a></h3>
+<p>Geometry is <strong>identical to the dual meet's</strong> — Phase 2 spec §2 in full: rows
+1-4 blank, row 5 the header band, data from row 6, a repeating 8-column court
+block from column <code>D</code>, a slot is two rows, width is <code>8 · courts + 2</code>, unused
+courts carry <code>-</code> in <code>E</code>/<code>F</code>/<code>G</code>, and the grid runs one row-pair past the last
+slot to carry the end time (Phase 3 spec §3.2).</p>
+<p>Four differences:</p>
+<p><strong>Rows 1-3 carry a title band</strong> — <code>=Title!$B$15</code>, <code>=Title!$B$16</code>, and the
+literal <code>Powered by SAGE Match Control Experts</code> — repeated at a second
+column part-way across so it stays visible when scrolled. Cosmetic, but it is
+what the venue screenshots.</p>
+<p><strong>Row 7 of each slot carries <code>vs</code></strong> at the match-number column's offset,
+between the two name rows.</p>
+<p><strong>Match numbers chain rather than being written.</strong> <code>F6</code> is the literal first
+match number and every subsequent one is <code>= &lt;previous block's F cell&gt; + 1</code>,
+reading left to right and wrapping down. That is worth keeping: renumbering
+after an insert is then a single edit.</p>
+<p><strong>Court labels come from <code>Variables!R</code></strong>, so row 5 reads
+<code>="Court "&amp;Variables!R2</code> rather than a literal.</p>
+<p><strong>The match list</strong> is the piece with no dual-meet counterpart. Phase 2 spec
+§4's cross-product rotation does not apply; a standard group stage is a
+round robin <em>within</em> each bracket.</p>
+<ul>
+<li>Generate each bracket's rounds by the <strong>circle method</strong>: fix pair 1, rotate
+  the rest; a bracket of odd <code>n_b</code> gets a phantom entrant, and whoever draws
+  it sits that round out. <code>n_b</code> (or <code>n_b - 1</code> if even) rounds, each with at
+  most <code>floor(n_b/2)</code> matches, and within a round no pair appears twice.</li>
+<li><strong>Interleave by round across brackets and categories</strong>, exactly as Phase 2
+  spec §4.2 does — rounds outer, categories inner, brackets inner to that —
+  so a pair's own matches stay far apart.</li>
+<li>Playoff stages each <strong>start a fresh slot</strong> and are emitted stage by stage
+  in <code>STAGE_ORDER</code>, categories inner. A stage cannot overlap the one before
+  it: its entrants are the previous stage's winners.</li>
+<li>Partial slots are <strong>centred</strong>, per Phase 2 spec §4.3.</li>
+<li>Match numbers are the position in placement order, offset by
+  <code>firstMatchNumber - 1</code>.</li>
+</ul>
+<p>Hard constraint: no pair twice in one slot. Soft preference, not enforced:
+at least one idle slot between a pair's matches — the reference violates it
+freely (<code>LI40MD_1</code> plays slots 1 and 2) and no operator has asked for it.</p>
+<p><strong>Category colours</strong> carry over from Phase 2 spec §6 unchanged, including the
+conditional-format mechanism and the <code>INDEX(SPLIT(code,"_"),2)</code> test — which
+happens to be <em>simpler</em> here, since a standard code's second token is already
+the key with no club segment to skip. The level ladder in Phase 2 spec §6.2
+needs two rungs added for the BKL level codes (<code>B</code> beginner, <code>AB</code> advanced
+beginner) and the age-band keys (<code>LI40MD</code> → level <code>LI40</code>, type <code>MD</code>) mean
+§6.4's parse has to strip a trailing digit run from the level before looking
+it up. A key that still does not resolve gets no fill, per that section.</p>
+<h3 id="103-court-control">10.3 <code>Court Control</code><a class="headerlink" href="#103-court-control" title="Permanent link">&para;</a></h3>
+<p>Court blocks are the dual meet's: 3 rows each from row 5, <code>B</code> the court
+number, <code>C</code> the operator-typed match number, <code>D</code>/<code>E</code> the codes via
+<code>GETTEAM1CODEBYMATCH</code>/<code>GETTEAM2CODEBYMATCH</code>, and the names spilling below.</p>
+<p>Everything else differs:</p>
+<ul>
+<li><strong>The stats block sits below the court blocks</strong>, not beside them, so both
+  regions grow downward and the stats block's row is
+  <code>3 · courts + &lt;gap&gt;</code>. (Phase 3 spec §5.1's fixed <code>G:M</code> rows 5-10 is a
+  dual-meet-only arrangement.)</li>
+<li><code>Court Control!C41</code> reads total matches from <code>Timeline!$C$2</code>.</li>
+<li><strong>Matches done must become <code>=SUM(STANDINGSCSV!$D:$D)</code></strong>, replacing the
+  hand-listed per-category sum in §2.1.</li>
+<li>The pace maths is otherwise Phase 3 spec §5.1's, reading <code>Variables!$C$6</code>
+  (pitch) and <code>Variables!$C$5</code> (courts), with <code>Blank Slots</code> / <code>Blank Slots
+  Done</code> beside it.</li>
+<li>Below the court blocks the reference carries a <strong>standby strip</strong> — <code>Next
+  Stand By</code>, <code>TBA Stand By</code>, and six <code>Match to Record</code> rows, each the same
+  three-row <code>GETTEAM1CODEBYMATCH</code> block with no court number. Keep it; it is
+  how the desk queues the next matches, and it is fixed-size.</li>
+</ul>
+<h3 id="104-standingscsv">10.4 <code>STANDINGSCSV</code><a class="headerlink" href="#104-standingscsv" title="Permanent link">&para;</a></h3>
+<p>Phase 3 spec §5.4's seven columns, unchanged, with one column that needs a
+new derivation.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>A2 = UNIQUE(FILTER('Reference for Players'!$A$3:$A,
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>                   REGEXMATCH('Reference for Players'!$A$3:$A, "_")))
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>B2 = INDEX(GETPLAYERNAMESBYTEAMCODE($A2),1)      C2 = …,2)
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>D2 = GETTOTALWINS($A2)   E2 = GETTOTALLOSES($A2)   F2 = ROUND(GETSCOREQUOTIENT($A2),4)
+</code></pre></div>
+<p><strong><code>G</code> — the bracket.</strong> Phase 3 spec §6.3 computes <code>ceil(i / n)</code> from a single
+<code>n</code>. Uneven bracket sizes (§5.6) make that wrong, so it becomes a lookup into
+the map the generator writes at <code>Variables!S:T</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>G2 = IF($A2="", "", IFERROR(VLOOKUP($A2, Variables!$S:$T, 2, FALSE), ""))
+</code></pre></div>
+<p>A playoff code is not in the map, <code>VLOOKUP</code> fails, <code>IFERROR</code> blanks it —
+correct, since a bronze entrant belongs to no bracket. The letters are
+<code>A</code>, <code>B</code>, <code>C</code>, … matching the reference and the bracket generator's own
+lettered cards; the dual meet's numeric <code>1</code>/<code>2</code> is a different convention and
+both are fine by the site, which treats the column as an opaque grouping
+label.</p>
+<p>Row count is <code>Σ (teams + 2 × playoff matches)</code> (§8) — 75 for Dreamcourts, 41
+pairs' worth plus playoff slots for Main.</p>
+<h3 id="105-csv">10.5 <code>CSV</code><a class="headerlink" href="#105-csv" title="Permanent link">&para;</a></h3>
+<p>Phase 3 spec §5.3's tab plus one column: the reference has a literal <code>v</code>
+between the two teams at column <code>I</code>, pushing <code>teamCode2</code> to <code>J</code> and the
+second team's cells to <code>K</code>/<code>L</code>/<code>M</code>. <strong>13 columns, not 12.</strong> Keep it — the
+<code>GvizCsvFetcher</code> reads by header name, and the column is what makes the tab
+readable to a human scanning it mid-event.</p>
+<table>
+<thead>
+<tr>
+<th>Col</th>
+<th>Header</th>
+<th>Row 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A</code></td>
+<td><code>matchNumber</code></td>
+<td>literal, <code>firstMatchNumber …</code></td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td><code>court</code></td>
+<td><code>=IFNA(FILTER('Court Control'!$B$5:$B$&lt;lastCourtRow&gt;,'Court Control'!$C$5:$C$&lt;lastCourtRow&gt;=$A2),"")</code></td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td><code>Schedule</code></td>
+<td><code>=MATCHTIME($A2)</code></td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td><code>CourtAssignment</code></td>
+<td><code>=MATCHCOURT($A2)</code></td>
+</tr>
+<tr>
+<td><code>E</code></td>
+<td><code>teamCode1</code></td>
+<td><code>=GETTEAM1CODEBYMATCH($A2)</code></td>
+</tr>
+<tr>
+<td><code>F</code> <code>G</code></td>
+<td><code>team1Player1/2</code></td>
+<td><code>=INDEX(GETPLAYERNAMESBYTEAMCODE($E2),1)</code> / <code>,2)</code></td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>team1Score</code></td>
+<td><code>=GETSCOREAGAINSTPAIR($E2,$J2)</code></td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td><code>v</code></td>
+<td>literal <code>v</code></td>
+</tr>
+<tr>
+<td><code>J</code></td>
+<td><code>teamCode2</code></td>
+<td><code>=GETTEAM2CODEBYMATCH($A2)</code></td>
+</tr>
+<tr>
+<td><code>K</code> <code>L</code></td>
+<td><code>team2Player1/2</code></td>
+<td>as <code>F</code>/<code>G</code> off <code>$J2</code></td>
+</tr>
+<tr>
+<td><code>M</code></td>
+<td><code>team2Score</code></td>
+<td><code>=GETSCOREAGAINSTPAIR($J2,$E2)</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>C</code> and <code>D</code> <strong>must</strong> become the <code>MATCHTIME</code>/<code>MATCHCOURT</code> named functions
+(§11). The reference's <code>BYROW</code>/<code>BYCOL</code> scan over a hardcoded
+<code>SCHEDULE!$F$6:$BZ$78</code> is the third defect in §2.1 and cannot survive a court
+count it was not typed for.</p>
+<p><code>MATCHCOURT</code> returns <code>"Court " &amp; &lt;block index&gt;</code>, which is the block's
+<em>position</em>, not its label. With non-contiguous court labels (§6.1) that is
+wrong: Dreamcourts' block 1 is Court 10. Redefine it against <code>Variables!R</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>MATCHCOURT = LAMBDA(match_number, IFERROR(
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  LET(h,   ROWS(SCHEDULE!$B$6:$B),
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>      pos, MATCH(match_number, GETMATCHNUMBERS(), 0),
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>      "Court " &amp; INDEX(Variables!$R:$R, INT((pos - 1) / h) + 2)),
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>  "Not found"))
+</code></pre></div>
+<h3 id="106-timeline-timeline-individual-and-standings">10.6 <code>Timeline</code>, <code>Timeline (Individual)</code> and <code>Standings</code><a class="headerlink" href="#106-timeline-timeline-individual-and-standings" title="Permanent link">&para;</a></h3>
+<p><strong><code>Timeline</code></strong> is Phase 3 spec §5.2's pair × slot conflict grid, with the
+columns shuffled: <code>B</code> is <code>TOTAL</code>, <code>C</code> is the spilled label column, and the
+time headers run from <code>D</code>. Its body must become <code>=COUNTPAIRAT(D$2,$C3)</code>,
+replacing the 24-term <code>COUNTIFS</code> chain in §2.1. <code>C2 = SUM($D$3:&lt;last&gt;)/2</code> is
+the match count, and the <code>/2</code> is because every match appears twice.</p>
+<p><strong><code>Timeline (Individual)</code></strong> has no dual-meet counterpart and is required
+here. It is the same idea <strong>transposed and keyed by player</strong>: row 3 is a
+transposed <code>UNIQUE</code> spill of <code>'Reference for Players'!B&amp;" "&amp;C</code>, column <code>A</code> is
+the slot times, and the body is</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>=COUNTIF(SCHEDULE!&lt;slotRow1&gt;:&lt;slotRow1&gt;, B$3) + COUNTIF(SCHEDULE!&lt;slotRow2&gt;:&lt;slotRow2&gt;, B$3)
+</code></pre></div>
+<p>with a per-player <code>COUNTIF(&lt;column&gt;, "&gt;1")</code> conflict tally on row 2.</p>
+<p>It exists because <code>Timeline</code> <strong>cannot</strong> catch the conflict that actually
+happens. A pair's playoff entry gets a <em>new</em> team code (§8), so a human
+playing <code>LI18MD_4</code>'s last group match and <code>LI18MD_SF_2</code> in the same slot
+shows as two different rows, each reading 1. Only the name matches. A dual
+meet has the same code change but a much thinner playoff, and its schedule is
+generated in one pass from a cross product; a standard tournament's playoff
+entrants are drawn, so this is the check that catches a bad draw.</p>
+<p>Whole-row <code>COUNTIF</code> makes it court-count-independent, which is worth
+preserving over anything cleverer.</p>
+<p><strong><code>Standings</code></strong> is a wall-display board: up to ten categories side by side in
+an 8-column period from <code>E</code>, each <code>Br / code / names / RR / W / L / Q</code>, with
+<code>E4</code> etc. holding the category key and the codes built by concatenating
+against the same <code>Variables!AB</code> ladder (§7.3). Present in Dreamcourts, absent
+from Main. Generate it for every workbook — the reference's ten fixed slots
+become <code>categories</code> slots — and read the display name with the same
+<code>FILTER(Variables!$J:$J, Variables!$I:$I = &lt;key&gt;)</code> the category tabs use.</p>
+<h3 id="107-awards-title-reference-for-players-qa-checklist-poster">10.7 <code>Awards</code>, <code>Title</code>, <code>Reference for Players</code>, <code>QA Checklist</code>, <code>Poster</code><a class="headerlink" href="#107-awards-title-reference-for-players-qa-checklist-poster" title="Permanent link">&para;</a></h3>
+<p><strong><code>Awards</code></strong> — one block per category, three podium rows each, reading the
+category tab's own <code>BA:BC</code> block (§7.7) through <code>INDIRECT</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>F10 : LI40MD                                     the key, generator-written
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>F9  = FILTER(Variables!$J:$J, Variables!$I:$I=F10)
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>G11 = indirect("'"&amp;F10&amp;"'!BB4")     H11 = indirect("'"&amp;F10&amp;"'!BC4")     Gold
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>G13 = indirect("'"&amp;F10&amp;"'!BB6")     H13 = …!BC6")                       Silver
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>G15 = indirect("'"&amp;F10&amp;"'!BB8")     H15 = …!BC8")                       Bronze
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>B4  = Title!B15&amp;" - "&amp;Variables!C8
+</code></pre></div>
+<p>Blocks stack at a fixed 9-row stride. This is the printable podium sheet, and
+is unrelated to the console's Awards tab (<code>awards-podium-tab-spec.md</code>), which
+derives its own podium from the published snapshot.</p>
+<p><strong><code>Title</code></strong> — <code>B15 = Variables!C2</code>, <code>B16 = TEXT(Variables!C3,"MMM DD")&amp;" - "&amp;Variables!C8</code>,
+<code>B17</code> the public URL. The generator writes only <code>Variables</code>; all three are
+formulas and need no touching.</p>
+<p><strong><code>Reference for Players</code></strong> — Phase 1 spec §4.5's tab, one <code>FILTER</code> anchor per
+category tab, at <strong>cumulative offsets computed from each tab's actual
+height</strong> rather than the reference's hand-placed <code>A3, A106, A262, A377</code>
+(the last of which is a <code>#REF!</code> to a category this facility never ran).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>A3 = FILTER(LI40MD!$A$1:$C&lt;end&gt;, LI40MD!$A$1:A&lt;end&gt; &gt; "")
+</code></pre></div>
+<p>Both downstream spills (<code>STANDINGSCSV!A2</code>, <code>Timeline!C3</code>) must read
+<code>$A$3:$A</code> open-ended, per Phase 3 spec §7. The reference reads <code>A2:A1553</code>,
+which is bounded and starts a row early.</p>
+<p><strong><code>QA Checklist</code></strong> — a static 27-row pre/post-schedule checklist with tick
+boxes. Ships in the master; the generator does not touch it, except to fix
+the row that reads <code>Does it follow the correct tournament type?</code> with <code>Dual
+Meet</code> prefilled in <code>C5</code>.</p>
+<p><strong><code>Poster</code></strong> — images only. Ships blank in the master.</p>
+<h3 id="108-charts">10.8 <code>Charts</code><a class="headerlink" href="#108-charts" title="Permanent link">&para;</a></h3>
+<p>A static parent → child bracket tree, <code>PARENT</code>/<code>CHILD</code> pairs down <code>B</code>/<code>C</code>,
+for a 32-pair ladder and for the irregular ladders the tiered byes produce
+(<code>PLAYOFFS OF 23 PAIRS</code>, with slot names like <code>QF_R16-3</code> where a bye spans
+two rounds).</p>
+<p><strong>Ships in the master unchanged and is not generated.</strong> It is a reference the
+operator reads while filling the playoff slot table by hand. Once the
+generator writes <code>AU</code> itself (§7.6) the tab becomes documentation rather than
+a working surface, which is the right direction — but deleting it is out of
+scope here, and the irregular trees on it are the clearest existing statement
+of what §5.4 produces.</p>
+<hr />
+<h2 id="11-the-named-function-library">11. The Named Function library<a class="headerlink" href="#11-the-named-function-library" title="Permanent link">&para;</a></h2>
+<p>Replace the standard workbooks' 15-function library with the Dual Meet
+Master's 23, plus <code>COUNTPAIRAT</code>, and take the whole
+<code>technical/named-function-library.md</code> contract as-is. The three additions
+that matter:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>STACKBLOCKS(first_col, step, first_row)</code></td>
+<td>Derives the court count from the sheet's own width. Removes the hand-edited column lists in §2.1 and the whole class of bug behind them</td>
+</tr>
+<tr>
+<td><code>MATCHTIME(m)</code> / <code>MATCHCOURT(m)</code></td>
+<td>Replace <code>CSV!C</code>/<code>D</code>'s hardcoded <code>BYROW</code>/<code>BYCOL</code> window. <code>MATCHCOURT</code> needs the <code>Variables!R</code> variant in §10.5</td>
+</tr>
+<tr>
+<td><code>COUNTPAIRAT(time, code)</code></td>
+<td>Replaces <code>Timeline</code>'s 24-term <code>COUNTIFS</code> chain</td>
+</tr>
+</tbody>
+</table>
+<p>Two the standard library has that the dual meet's does not — keep both, they
+cost nothing and the reference's formulas use them:</p>
+<ul>
+<li><code>GETTEAM1SCOREBYMATCH(m)</code> / <code>GETTEAM2SCOREBYMATCH(m)</code></li>
+<li><code>GETWINSCORE()</code> → <code>11</code>, and <code>GETPLAYERBYRANK(range)</code> → <code>SORTBYWINS(range)</code></li>
+</ul>
+<p><code>SORTBYWINS</code> is <code>INDEX(SORT({range}, 4, FALSE, 8, FALSE), 0, 1)</code> — sort by
+column 4 (W) descending, then column 8 (Q) descending. Note this is relative
+to the range's own first column, so a category tab's <code>A:H</code> block sorts by
+<code>D</code> then <code>H</code>. Identical in both libraries.</p>
+<p><code>Timeline</code>'s time headers, <code>SCHEDULE</code>'s slot times and <code>COUNTPAIRAT</code> all have
+to be the <strong>same chained computation</strong> off <code>Variables!C4</code> and <code>Variables!C6</code>,
+for the float-equality reason in Phase 2 spec §8.7. Do not compute slot times
+in JavaScript and write literals.</p>
+<hr />
+<h2 id="12-implementation">12. Implementation<a class="headerlink" href="#12-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="121-where-the-code-goes">12.1 Where the code goes<a class="headerlink" href="#121-where-the-code-goes" title="Permanent link">&para;</a></h3>
+<p>A <strong>new file</strong>, <code>sage-tools-api/scripts/standard-generator.gs</code>, bound to the
+SAGE Standard Tournament Master. Not a mode inside <code>sheet-generator.gs</code>:</p>
+<ul>
+<li>The two masters are different workbooks, so neither script ever needs the
+  other's code at runtime; a shared file would ship dual-meet code into the
+  standard master and vice versa.</li>
+<li><code>sheet-generator.gs</code> is 2,800 lines and its layout engine is written around
+  square, per-club blocks. Every one of §7's differences would be a branch.</li>
+<li>The <code>onOpen</code> block is already duplicated verbatim across <code>sheets-sync.gs</code>
+  and <code>sheet-generator.gs</code> with a "Change one, change both" note. This adds a
+  third copy of that block and nothing else.</li>
+</ul>
+<p>Menu: <code>SAGE → Generate event tabs</code>, same sidebar pattern, same
+<code>logStep_</code>-polled progress, same self-removing menu item once
+<code>PROP_TABS_GENERATED_FOR</code> is set.</p>
+<h3 id="122-what-to-copy-from-sheet-generatorgs">12.2 What to copy from <code>sheet-generator.gs</code><a class="headerlink" href="#122-what-to-copy-from-sheet-generatorgs" title="Permanent link">&para;</a></h3>
+<p>Verbatim, as pure functions — these have no dual-meet assumptions in them:</p>
+<p><code>parseCsvRows_</code>, <code>parsePlanCsv</code>, <code>slugifyTitle_</code>, <code>colLetter_</code>,
+<code>parseTimeToMinutes_</code>, <code>minutesToClock_</code>, <code>trace_</code>, <code>logStep_</code>, <code>resetLog_</code>,
+<code>getGenerationLog</code>, <code>ensureRowCount_</code>, <code>ensureColumnCount_</code>, <code>mergeVertical_</code>,
+<code>stampFormat_</code>, <code>assertTabsPristine_</code> and the <code>REBUILT_IN_PLACE_TABS</code> shape,
+<code>categoryColor_</code> and <code>colorFormulaFor_</code> (with §10.2's level-ladder
+extension), and the whole <code>buildScheduleTab_</code> tiling strategy — <code>copyTo</code> on
+both axes, grow down then across, flush between stages, copy column widths
+and row heights explicitly (Phase 2 spec §8.5, §8.10, §8.11).</p>
+<p>Rewritten for this shape: <code>computeLayout</code>, <code>buildCategoryTab</code>,
+<code>buildMatchList</code>, every <code>write*Block*_</code>, every feeder builder, and
+<code>readoutGeometry_</code>.</p>
+<h3 id="123-rebuilt-in-place">12.3 Rebuilt in place<a class="headerlink" href="#123-rebuilt-in-place" title="Permanent link">&para;</a></h3>
+<p>Same registry and same pristine guard as Phase 3 spec §8.2. <code>SCHEDULE</code> and
+<code>Court Control</code> keep the hard constraint that makes it necessary: their tab
+GIDs are what the live sync trigger watches, stored in that workbook's
+<code>SYNC_WATCHED_GIDS</code> Script Property (<code>sync-script-configuration-spec.md</code> §5),
+so replacing either kills the sync while the sheet still looks correct.</p>
+<table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>Prototype</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SCHEDULE</code></td>
+<td>1 court block, 1 slot</td>
+</tr>
+<tr>
+<td><code>Court Control</code></td>
+<td>2 court blocks + the stats block + the standby strip</td>
+</tr>
+<tr>
+<td><code>Timeline</code></td>
+<td>header row + 1 body row, stripped to <code>A:E</code></td>
+</tr>
+<tr>
+<td><code>Timeline (Individual)</code></td>
+<td>header rows + 1 body row, stripped to <code>A:C</code></td>
+</tr>
+<tr>
+<td><code>Standings</code></td>
+<td>1 category column</td>
+</tr>
+<tr>
+<td><code>CSV</code></td>
+<td>header row + 1 match row, <code>A:M</code></td>
+</tr>
+<tr>
+<td><code>STANDINGSCSV</code></td>
+<td>header row + 1 pair row, <code>A:G</code></td>
+</tr>
+<tr>
+<td><code>Awards</code></td>
+<td>1 category block</td>
+</tr>
+<tr>
+<td><code>Reference for Players</code></td>
+<td>1 anchor</td>
+</tr>
+</tbody>
+</table>
+<p>Phase 3 spec §8.2's warning about <code>Timeline</code>'s width applies to both Timeline
+tabs and to <code>Standings</code>: their built column count scales with the event, so a
+prototype left wide lets an already-built tab read as pristine and get tiled
+twice.</p>
+<h3 id="124-ordering">12.4 Ordering<a class="headerlink" href="#124-ordering" title="Permanent link">&para;</a></h3>
+<p>Category tabs → <code>Variables</code> → <code>Title</code> → <code>Reference for Players</code> →
+<code>SCHEDULE</code> → the readouts. <code>Reference for Players</code> needs each category tab's
+final spill height; everything else needs <code>SCHEDULE</code>'s returned geometry.
+<code>SCHEDULE</code> runs late for the blast-radius reason in Phase 2 spec §8.1.</p>
+<h3 id="125-tracing-and-failure">12.5 Tracing and failure<a class="headerlink" href="#125-tracing-and-failure" title="Permanent link">&para;</a></h3>
+<p>Phase 2 spec §8.9 and Phase 1 spec §11.3, unchanged. Every computed extent,
+every block anchor, the full match list, and — new here — the resolved
+playoff ladder per category as <code>&lt;KEY&gt; &lt;STAGE&gt; slot &lt;k&gt; &lt;- fresh | winner of &lt;STAGE&gt;-&lt;j&gt;</code>.
+A wrong ladder is invisible in a finished tab unless you already know which
+slot was expected.</p>
+<p>On failure mid-build: no rollback, no continuing. Report which tabs were
+written.</p>
+<hr />
+<h2 id="13-build-order">13. Build order<a class="headerlink" href="#13-build-order" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>parsePlanCsv</code> + §9 validation, reporting every failure together</li>
+<li><strong><code>planCategory(cat)</code></strong> — pure. Bracket sizes, RR match list per bracket,
+   and the full playoff ladder from §5. Verified by hand against §1.1's six
+   reference categories before any Sheets code exists</li>
+<li>The master workbook (§14.1) — the larger half of the work</li>
+<li><code>buildCategoryTab</code> — group blocks, score grids, the playoff ladder,
+   both scaffolds, the awards block</li>
+<li><code>Variables</code> (§10.1), <code>Title</code>, <code>Reference for Players</code></li>
+<li><code>buildMatchList</code> + <code>buildScheduleTab_</code> (§10.2)</li>
+<li><code>CSV</code> and <code>STANDINGSCSV</code> — the two the live sync needs</li>
+<li><code>Court Control</code>, both <code>Timeline</code>s, <code>Standings</code>, <code>Awards</code></li>
+</ol>
+<p>Steps 1-2 are worth doing and checking on their own: <code>planCategory</code> is where
+every §5 branch lives, it is the only part with real logic, and it can be
+verified against two played events without a workbook.</p>
+<hr />
+<h2 id="14-what-the-master-workbook-must-carry">14. What the master workbook must carry<a class="headerlink" href="#14-what-the-master-workbook-must-carry" title="Permanent link">&para;</a></h2>
+<p>A one-time manual job, and the larger half of the work — Phase 1 spec §6's
+counterpart.</p>
+<h3 id="141-building-it">14.1 Building it<a class="headerlink" href="#141-building-it" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Copy the BKL Day 2 <strong>Main</strong> workbook — 3 categories, the twice-to-beat
+   case, and the smaller of the two schedules.</li>
+<li>Replace the Named Function library with §11's.</li>
+<li>Reduce the three category tabs to a single hidden <code>_CATEGORY_TEMPLATE</code>
+   carrying <strong>one prototype of each block type</strong>: one group pair, one playoff
+   sub-block (two entrants), one group score grid cell set, one playoff score
+   grid cell set, and the scaffold and awards chrome with values cleared.</li>
+<li>Rewrite <code>CSV!C2</code>/<code>D2</code> as <code>=MATCHTIME($A2)</code> / <code>=MATCHCOURT($A2)</code>, and
+   <code>Timeline</code>'s body as <code>=COUNTPAIRAT(D$2,$C3)</code>.</li>
+<li>Point both spills at <code>'Reference for Players'!$A$3:$A</code>.</li>
+<li>Add <code>Variables</code> columns <code>Q</code> (facility), <code>R</code> (court labels), <code>S</code>/<code>T</code> (the
+   bracket map), with headers.</li>
+<li>Relabel <code>Variables!C6</code> "Slot Pitch"; fix the <code>QA Checklist</code> <code>Dual Meet</code>
+   prefill.</li>
+<li>Add <code>Standings</code> and <code>Timeline (Individual)</code> (Main has neither; copy from
+   Dreamcourts).</li>
+<li>Delete the <code>#REF!</code> anchor from <code>Reference for Players</code>.</li>
+<li>Strip every rebuilt-in-place tab to §12.3's prototype shape — <strong>last</strong>,
+    then generate once immediately, per Phase 3 spec §12.</li>
+<li>Name it <strong>SAGE Standard Tournament Master</strong>.</li>
+</ol>
+<h3 id="142-decisions-taken-in-the-master-not-in-code">14.2 Decisions taken in the master, not in code<a class="headerlink" href="#142-decisions-taken-in-the-master-not-in-code" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>The awards block stays</strong> on the category tab (§7.7), because the <code>Awards</code>
+  tab reads it. This deliberately diverges from Phase 1 spec §4.2.</li>
+<li><strong>Column <code>K</code> keeps its double duty</strong> — bracket number on group rows,
+  next-round code and podium label on playoff rows. It is genuinely two
+  columns' worth of meaning in one, but the whole forward-propagation chain
+  (§7.5) and the awards block both key off it, and splitting it would touch
+  every playoff formula to fix nothing that is broken. The generator writes a
+  <code>Bronze:</code> prompt into <code>I</code> on the finals banner row of a §5.2 category, so
+  the one case where a human has to type into a group row's <code>K</code> says so.</li>
+<li><strong><code>Charts</code> ships as-is</strong> (§10.8).</li>
+</ul>
+<hr />
+<h2 id="15-open-questions">15. Open questions<a class="headerlink" href="#15-open-questions" title="Permanent link">&para;</a></h2>
+<p><strong><code>R32</code> is not in the site's <code>STAGE_ORDER</code>.</strong> The standard template's
+<code>STAGE_ORDER</code> is <code>['R16','QF','SF','BRONZE','FINAL']</code> and
+<code>ROUND_KEYWORD_LABELS</code> has no <code>R32</code> entry, so a category deep enough to reach
+one renders those rows in an unsorted trailing stage with no label. Adding
+both is a two-line site change, but it needs an event that actually reaches
+R32 to test against, and none has. Validation caps entrants at 32 (§9)
+partly for this reason.</p>
+<p><strong>Bracket letters versus numbers.</strong> This spec generates <code>A</code>/<code>B</code>/<code>C</code> to match
+the reference workbooks and the bracket generator's lettered cards; the dual
+meet generates <code>1</code>/<code>2</code>. The site treats the column as opaque, so both work,
+but one convention would be better. Not settled here because changing the
+dual meet's would rewrite published snapshots' meaning mid-archive.</p>
+<p><strong>Whether the qualifier scaffold should be filled by the bracket generator.</strong>
+<code>bracket-generator-workbook-handoff-spec.md</code> §5 is about STEP 3 of the roster
+scaffold. §7.6's <code>AM</code> column is a <em>second</em> draw with the same shape and the
+same hand-shuffling problem, and that spec explicitly deferred its design
+until a standard tournament existed. It now does. Deciding it is that spec's
+job, not this one's — but it should be decided against both scaffolds.</p>
+<p><strong>Per-facility court label ordering.</strong> §6.1 takes the labels in schedule
+order and assumes the operator lists them in the order they want courts
+filled. Whether a partial slot should centre on the <em>label</em> order or on the
+physical court order is undecided and has never mattered.</p>
+<hr />
+<h2 id="16-acceptance">16. Acceptance<a class="headerlink" href="#16-acceptance" title="Permanent link">&para;</a></h2>
+<p>Run against a plan CSV reconstructed from BKL Cup 2026 Day 2 and confirm:</p>
+<ul>
+<li>Selecting <code>LI40MD LI40WD LI40XD</code>, facility <code>PCPH Main</code>, courts <code>1..12</code>,
+  first match <code>1001</code> produces three category tabs and a <code>CSV</code> with <strong>41</strong>
+  rows numbered <code>1001</code>-<code>1041</code></li>
+<li>Selecting <code>LI18MD LI18WD LI18XD</code>, facility <code>PCPH Dreamcourts</code>, courts
+  <code>7..15</code>, first match <code>3001</code> produces <strong>84</strong> rows numbered <code>3001</code>-<code>3084</code></li>
+<li><code>LI40MD</code>'s group block is 9 pairs in one run with <code>K = 1</code> on pairs 1-5 and
+  <code>K = 2</code> on pairs 6-9, and two score grids, <code>5×5</code> and <code>4×4</code></li>
+<li><code>LI40WD</code> generates a twice-to-beat final — four codes,
+  <code>LI40WD_F_1_(1) … LI40WD_F_2_(2)</code> — and <strong>no bronze match</strong></li>
+<li><code>LI18MD</code> generates the tiered ladder from §1.1: two <code>R16</code> slots, two <code>QF</code>,
+  four <code>SF</code>, two <code>B</code>, two <code>F</code>, with <code>QF_3</code> fed from <code>R16</code> and <code>QF_4</code> fresh</li>
+<li><code>AU</code> on every category tab carries the stage keywords the ladder implies,
+  in slot order, with no operator input</li>
+<li><code>STANDINGSCSV</code> has one row per pair <strong>and per playoff slot</strong> — 75 rows for
+  Dreamcourts — with <code>G</code> reading <code>A</code>/<code>B</code>/<code>C</code>/<code>D</code> on group rows and blank on
+  playoff rows</li>
+<li><code>CSV!D</code> reads <code>Court 10</code> for Dreamcourts' first match, not <code>Court 1</code></li>
+<li>No <code>#NAME?</code> and no <code>#REF!</code> anywhere</li>
+<li>Every named function resolves at both 12 and 15 court blocks with no edit
+  to any column list</li>
+<li><code>Timeline</code>'s grand total equals the match count; no body cell exceeds 1</li>
+<li><code>Timeline (Individual)</code> flags a deliberately-broken draw that puts one
+  human in two slots at once, where <code>Timeline</code> does not</li>
+<li>Running the generator twice is <strong>refused</strong>, not half-applied</li>
+<li>A <code>format: dual</code> CSV is rejected with a clear message and the workbook
+  untouched</li>
+<li>The sync publishes a generated workbook with no hand-editing</li>
+</ul>
+<hr />
+<h2 id="17-out-of-scope">17. Out of scope<a class="headerlink" href="#17-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Any change to <code>sheet-generator.gs</code> or the Dual Meet Master</li>
+<li>Player name import — rosters stay a paste, both scaffolds (§7.6)</li>
+<li>Filling STEP 3 or the qualifier draw automatically (§15)</li>
+<li>Seeded or non-random draws</li>
+<li>Cross-facility match-number allocation (§6.2 reports, it does not coordinate)</li>
+<li>Categories split across two facilities in one day</li>
+<li><code>R32</code> site support (§15)</li>
+</ul>
+<hr />
+<h2 id="18-divergences">18. Divergences<a class="headerlink" href="#18-divergences" title="Permanent link">&para;</a></h2>
+<p><em>(None — nothing here is built. Record departures when it is.)</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../fast-data-delivery-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Fast data delivery">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Fast data delivery
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
