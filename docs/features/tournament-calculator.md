@@ -20,6 +20,21 @@ you — total matches, court-hours needed, and a finish time.
   and a bracket count, and the calculator accounts for the cross-club
   Bronze/Final matches that format produces.
 
+## Single-bracket categories
+
+A category with only one bracket has no semifinal to play, so it offers a
+choice of how the medals get decided:
+
+- **Twice-to-beat final** — the round robin's #1 and #2 meet in a final that
+  #1 only has to win once and #2 has to win twice. #3 takes bronze with no
+  match. Adds up to two matches on top of the round robin.
+- **Round robin only** — no playoff at all. The final standings decide gold,
+  silver and bronze outright.
+
+The choice is per category, so one division can run a final while another
+settles on standings. Round robin only is the shorter option, and the
+projected finish time updates as soon as you switch.
+
 ## Exporting
 
 A **Breakdown** sheet exports to `.xlsx` — a full match-by-match schedule you

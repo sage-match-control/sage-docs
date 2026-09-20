@@ -21,6 +21,36 @@ A dual-meet category exposes two inputs: **Pairs per club** (default 5) and
   instant someone peeked at dual mode, with no undo. Two fields make
   toggling formats lossless. Standard mode's `group` default is 4.
 
+## Standard mode: single-bracket format
+
+A one-bracket category carries `soloFormat` — `'ttb'` (twice-to-beat final,
+the default) or `'rr'` (no playoff, standings decide every medal).
+`playoffPlan()` reads it only when `groups === 1`, and the `'rr'` plan is an
+empty `rounds` array with `rrOnly: true` rather than a zero-match round, so
+every consumer that maps over `rounds` produces nothing instead of a phantom
+line item.
+
+- **`rrOnly` is a separate flag from `single`, not a replacement.** Both
+  single-bracket shapes still set `single: true` — that is what keeps the
+  format toggle rendered in both states, so `'rr'` is reversible from the
+  UI rather than a one-way door. Anything that means *twice-to-beat
+  specifically* (the "counted at full length" footnote, the playoff chart)
+  tests `single && !rrOnly`.
+- **`soloFormat` is its own field, not folded into `poFormat`.** The two
+  apply to different formats (`poFormat` is dual-only, 2+ brackets;
+  `soloFormat` is standard-only, exactly 1 bracket) and the format toggle is
+  global, so sharing a field would let a dual-meet setting silently rewrite
+  a standard-mode one — the same losslessness argument as `group` vs.
+  `groupDual` above.
+- **A 2-team category is unaffected.** `calcCategory()` short-circuits to
+  the best-of-3 series before bracket math runs, so no toggle appears there.
+
+The CSV gains a trailing `solo_format` column, written only for standard
+categories that actually resolve to one bracket. `sheet-generator.gs` parses
+the plan CSV positionally and is dual-only, so a trailing column is inert
+there; an older 11-column export imports with `soloFormat` defaulting to
+`'ttb'`, preserving what those files meant when they were written.
+
 ## PWA (installable, offline)
 
 **The only page with offline support.** [Control
