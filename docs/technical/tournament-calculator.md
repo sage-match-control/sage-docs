@@ -81,6 +81,19 @@ rather than against the ladder's short play-in round is the point: 3 brackets
 collapses from four rounds (`R16 · QF · SF · Final`) to three (`QF · SF ·
 Final`). See `standard-tournament-master-spec.md` §5.4.
 
+**The toggle's label and visibility must not depend on which fill is
+active.** `plan.wcFill` (what choosing wildcards *would* add) and
+`plan.tieredByes` (what the tiered ladder holds) are therefore computed the
+same way in both modes — the ladder is built even in `wc` mode purely for
+that count. Deriving either from the live plan is how the button came to
+read "+1 wildcard" and then deliver 2, and how it could vanish mid-click:
+at 2 brackets × top 4 the active `wc` plan has no byes and no wildcards, so
+a live-plan test hid the control and stranded the operator in `wc` mode.
+The two counts are independent — either can be zero while the other isn't
+(2 brackets × top 3 has no ladder byes but 2 wildcards to add; 2 brackets ×
+top 4 is the reverse) — so the control is offered when *either* is non-zero,
+which is exactly when the two fills produce different shapes.
+
 Consequences worth knowing before changing this: the two fills can differ in
 round count, so anything sizing a tab from the round list must read the plan
 rather than assume. `advance == 1` is unaffected — a flat bracket's
