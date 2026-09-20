@@ -21,6 +21,29 @@ A dual-meet category exposes two inputs: **Pairs per club** (default 5) and
   instant someone peeked at dual mode, with no undo. Two fields make
   toggling formats lossless. Standard mode's `group` default is 4.
 
+## Scheduling floors
+
+Court capacity is not the only limit on how fast a phase can run — a pair
+can't be on two courts at once. `seqParts()` returns the per-category slot
+floor as the **max** of the capacity estimate (`ceil(matches / courts)`) and
+the dependency floor, never the capacity estimate alone:
+
+- **Round robin** (`rrRoundFloor()`) — a bracket of `n` needs `n-1` rounds
+  when `n` is even and `n` when it's odd (the bye rotates). Three pairs in
+  one bracket is 3 matches that all share a pair, so it needs 3 slots even
+  on 4 free courts, not `ceil(3/4) = 1`.
+- **Dual brackets** are a cross-product rather than a round robin, so the
+  floor is the *larger* club's pair count: a 2v5 bracket is 10 matches, but
+  the two-pair club plays 5 each, so 5 rounds. Taking `max(a, b)` rather
+  than the bracket's combined size is what makes the asymmetric case right.
+- **Brackets interleave**, so a category's floor is its biggest bracket's,
+  not the sum — separate brackets share no pairs and can run concurrently.
+
+The same `max` shape already governs playoff rounds and best-of-3/
+twice-to-beat series, and `calcAll()` folds every category's floor into the
+day's total via `maxSeq`. The practical consequence is that a small bracket
+leaves courts idle, and the projected finish now says so.
+
 ## Standard mode: single-bracket format
 
 A one-bracket category carries `soloFormat` — `'ttb'` (twice-to-beat final,
