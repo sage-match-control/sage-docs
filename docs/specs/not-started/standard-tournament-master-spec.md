@@ -282,10 +282,29 @@ labelled `R16 · QF · SF · Final`.
 `qualifiers >= 4`; below that `bronzeText` is `'losing semifinalist
 automatic'` and there is no match.
 
-**`fill`**: `bye` leaves the first round's byes as byes. `wc` converts every
-bye into a wildcard entrant — `matches += byes; byes = 0` — so the field
-grows and the bracket has no byes at all. This changes the entrant count, so
-it changes the number of playoff slots the tab must carry.
+**`fill`**: the two options answer the same question — the field doesn't fill
+a bracket cleanly, so what do we do with the empty seats? — but they measure
+those seats against different things.
+
+`bye` keeps the tiered ladder above untouched: the empty seats are byes in
+the earliest round, and group winners keep their skip ahead.
+
+`wc` abandons the ladder and fills the draw out to a **complete** bracket:
+enough wildcard entrants to reach the next power of two, so every qualifier
+starts in the same round, nobody byes, and nobody has a longer road to gold
+than anyone else. The count is measured against the bracket, not against the
+one play-in round the ladder happened to leave short — 3 brackets × top 2 is
+6 qualifiers in a draw of 8, so **2** wildcards, not the 1 bye the tiered
+ladder's first round contained. `wc = 2^ceil(log2(direct)) - direct`, and the
+rounds are the plain halving from that bracket size down to the Final.
+
+This changes the entrant count, so it changes the number of playoff slots the
+tab must carry. Note the two fills can differ in round *count* as well as
+size: `LI18MD` under `bye` is the four-round ladder `R16 · QF · SF · Final`,
+and under `wc` is the three-round `QF · SF · Final` of a full draw of 8.
+For `advance == 1` the two rules agree — a flat bracket's first-round byes
+already number `2^ceil(log2(groups)) - groups` — so only tiered categories
+(`advance >= 2`) see any change.
 
 ### 5.5 The shapes, as a table
 

@@ -44,6 +44,56 @@ twice-to-beat series, and `calcAll()` folds every category's floor into the
 day's total via `maxSeq`. The practical consequence is that a small bracket
 leaves courts idle, and the projected finish now says so.
 
+## Playoff round naming
+
+Round names are **positional and stay positional**: the last round is the
+Final, and walking backward the structural size doubles — SF, QF, R16, R32.
+A four-round ladder is `R16 · QF · SF · Final` *however few pairs are
+actually in the early rounds*, so a tiered ladder can legitimately show
+"Round of 16: 1 match".
+
+This looks wrong and isn't. These names are stage identifiers, not
+descriptions of field size: the standard-tournament workbook keys playoff
+slots as `<KEY>_<STAGE>_<k>` with `STAGE ∈ {R32, R16, QF, SF}`, its
+`STAGE_ORDER` is `['R16','QF','SF','BRONZE','FINAL']`, and Control Center
+and the schedule board parse the same vocabulary. Renaming the sparse early
+rounds to anything else breaks all three.
+`standard-tournament-master-spec.md` §1.1 fixes this contract against a
+worked example: `LI18MD` (15 pairs, 3 brackets, top 2) reduces as
+**1 + 1 + 2 + 1** matches, and the workbook holds exactly two `R16` slots,
+two `QF`, four `SF`, two `B` and two `F` — which is what the calculator
+emits. Treat that example as the regression test for any change here.
+
+`plan.prelims` and `plan.prelimSpots` count the rounds the lower tiers play
+before the top tier enters. They drive `legendTxt()` and the chart's
+`freshIndex` (which round the group winners enter at), never the labels. The
+legend previously inferred "are there extra rounds?" from `plan.byes`, which
+is a bye count rather than a round count, and which wildcards zero out — so
+it claimed "no preliminary rounds needed" directly above a chart showing two.
+
+## The two fill modes are different shapes, not just different counts
+
+`bye` keeps the tiered ladder. `wc` fills the draw out to a complete bracket
+— `2^ceil(log2(direct)) - direct` wildcards — so every qualifier starts in
+the same round and no one byes. Measuring wildcards against the *bracket*
+rather than against the ladder's short play-in round is the point: 3 brackets
+× top 2 is 6 qualifiers in a draw of 8, so 2 wildcards, and the ladder
+collapses from four rounds (`R16 · QF · SF · Final`) to three (`QF · SF ·
+Final`). See `standard-tournament-master-spec.md` §5.4.
+
+Consequences worth knowing before changing this: the two fills can differ in
+round count, so anything sizing a tab from the round list must read the plan
+rather than assume. `advance == 1` is unaffected — a flat bracket's
+first-round byes already equal `2^ceil(log2(groups)) - groups` — so only
+tiered categories move. And filling a large field is not free: 5 brackets ×
+top 2 is 10 qualifiers, which fills to 16, pulling in 6 wildcards and taking
+the playoff from 10 matches to 16.
+
+`buildChart()` seeds the earliest round from `groups × (adv-1)` **plus
+`plan.wc`** for the same reason: a wildcard is an extra body in the
+lower-ranked pool, and omitting it left that round one occupant short of its
+own slots, rendering a literal `undefined` into the draw.
+
 ## Standard mode: single-bracket format
 
 A one-bracket category carries `soloFormat` — `'ttb'` (twice-to-beat final,
