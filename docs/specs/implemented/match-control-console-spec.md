@@ -261,7 +261,9 @@ that wanted ~1100px inside the page's 920px `.wrap`, plus the "Advanced
 overflow column" §8 checks for — has been replaced. On desktop the board spans
 the full viewport width, as one horizontally scrolling row of fixed 360px
 category columns. Pair names never wrap: each table scrolls sideways on its
-own. A Round Robin split into brackets shows one mini table per bracket.
+own. A Round Robin split into brackets shows one mini table per bracket,
+two to a row in a double-width column; a **1 col** toggle in that category's
+header stacks them in a single normal-width column instead.
 The built layout is in
 [Control Center technical](../../technical/control-center.md#the-tabs).
 
