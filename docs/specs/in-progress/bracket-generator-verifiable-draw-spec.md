@@ -1380,5 +1380,19 @@ Walk §11's checklist. The four that catch the most likely mistakes:
 
 ## 14. Divergences
 
-*(None — this spec is written before the work. Record here anything the built
-tool deliberately does differently.)*
+### 14.1 A Seeded / Random switch
+
+The built tool has a **Draw type** switch above the Seed field. **Random**
+forces a fresh auto-seed on every press, with the field disabled, so "a new
+result each press" takes one click where Seeded needs you to clear the field
+first. Underneath it is the same fingerprint draw, labelled `(auto)`, so the
+opening promise still holds: every draw has a seed and is reproducible. A
+seedless, unverifiable shuffle was considered and rejected. It would only have
+saved a seed that costs nothing to keep.
+
+### 14.2 The app's own seed, re-drawn, stays `(auto)`
+
+§3.3 labels any non-blank field `(entered)`. That mislabelled a second press
+after an auto-seeded draw: the generated seed is written back to the field and
+would be re-drawn as `(entered)`. The tool remembers the last seed it
+generated and keeps the `(auto)` label for it.

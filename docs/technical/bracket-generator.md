@@ -13,6 +13,17 @@ many buckets were requested, so bracket sizes differ by at most one. The
 requested bracket count clamps to the pair count — you can't ask for more
 brackets than you have pairs.
 
+## Draw types
+
+A `drawMode` radio group picks only where the seed comes from:
+
+- `seeded` (default) — the typed seed, or an auto seed if the field is blank.
+- `random` — always a fresh auto seed; the field is disabled and just displays
+  it.
+
+Both then run the same fingerprint draw below, so both are equally
+verifiable. There is no unverified mode: a seed costs nothing to keep.
+
 ## The draw is verifiable
 
 The ordering is not `Math.random()` — it is a deterministic function of the
@@ -52,6 +63,11 @@ so it survives being read aloud), fills the field with it and draws — so every
 draw is reproducible whether or not anyone asked for a ceremony. Both exports
 label the source, `(entered)` or `(auto)`, because only a seed supplied by a
 person shows the organiser did not go looking for one they liked.
+
+The last generated seed is kept in `lastAutoSeed`. If the field still holds it
+at the next seeded draw, that draw is labelled `(auto)`, not `(entered)` —
+nobody typed it. Switching back to `seeded` with that seed still in the field
+clears the field, so a public draw starts from an empty box.
 
 ### Secure context required
 
