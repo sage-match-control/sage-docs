@@ -43,10 +43,14 @@ It's unlisted (nothing on Tournament Hub links to it) — an operator launches
 it from Mission Control and hands the URL to whoever's running the venue's
 screen. See [Control Center § Mission Control](control-center.md#mission-control).
 
-It supports splitting by court range (so a two-screen venue can show
-different courts on each), collapsing its header down to just the essentials
-for a screen that needs every pixel, and printing/exporting to PDF for a
-paper copy at the front desk.
+When a day is played at more than one venue, a **Venue** picker at the top
+narrows the board to one venue's matches and courts, so each venue's screen
+shows only its own. The board also supports splitting by court range (so a
+two-screen venue can show different courts on each), collapsing its header
+down to just the essentials for a screen that needs every pixel, and
+printing/exporting to PDF for a paper copy at the front desk. The venue and
+court choices stay in the page address, so bookmark each screen's page once
+and it comes back the same after a restart.
 
 ## What you *won't* see here
 

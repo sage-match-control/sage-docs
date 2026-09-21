@@ -56,14 +56,41 @@ setup bookmarks one URL per screen (`?courts=1-5` on screen A,
 `?courts=6-9` on screen B), and each boots straight into its range after a
 refresh or power cycle with nobody touching the machine. Clicking a court
 pill rewrites the URL live (`history.replaceState`). The **legend** follows
-the filter (it keys what's visible); the **match count** does not — it's
-event-wide on every screen, so the same label doesn't mean different things
-on two split screens; only the scope text changes.
+the filter (it keys what's visible). The **match count** doesn't: it covers
+the whole board on every screen, so the same label doesn't mean different
+things on two split screens. Only the scope text changes.
+
+## Venue filter — `?venue=`
+
+On a day with more than one venue, a **Venue** row (All + one button per
+venue) sits before the court filter. The venue list comes from the
+snapshot's `facilities[].name`, so there's nothing to configure. With one
+venue the row is hidden. `?venue=PCPH%20Annex` narrows the board to that
+facility's matches. It is bookmarkable like `?courts=` and composes with it
+(`?venue=PCPH%20Annex&courts=6-7`). A name the snapshot doesn't have shows
+every venue.
+
+Court numbers run on across a day's venues (Main 1–4, Annex 5–9), so the
+grid is still sized from every venue's highest `CourtAssignment`. A venue
+view shows the span of courts its own matches use (5–9), and the court
+filter offers only those. A match with no usable court falls into one of
+the venue's own lanes. Switching venue clears the court selection, since
+one venue's court numbers mean nothing at another. It rebuilds from the
+last fetched snapshot, with no new request. The sub line, the print
+header and the match count all name and count the chosen venue. A venue
+with nothing published yet shows a message instead of an empty grid.
+
+A venue view also sidesteps a limit of the all-venues board. Slots are
+ordered by first appearance in `matchNumber` order. Within one venue,
+numbers rise with time. Across venues numbered in separate ranges (1001…,
+2001…) they don't, so the all-venues board takes its slot order from the
+first-numbered venue and adds any time only a later venue uses at the
+bottom.
 
 A collapsible header (chevron, state also carried in the URL as
-`?compact=1`, composable with `?courts=`) hides operator chrome — the court
-filter and the PDF button — while keeping the color legend, since a viewer
-still needs that to read the board at all.
+`?compact=1`, composable with `?courts=` and `?venue=`) hides operator
+chrome — the venue and court filters and the PDF button — while keeping the
+color legend, since a viewer still needs that to read the board at all.
 
 ## Category colors are organizer-owned, not invented
 

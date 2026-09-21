@@ -124,11 +124,20 @@ A base exists so a multi-venue event can give each venue's workbook its own
 range (1000 → 1001…, 2000 → 2001…). A day's venues merge into one snapshot,
 and the site treats `matchNumber` as unique within a day. The numbers stay
 plain integers because every page parses them with `parseInt` and drops a
-row that doesn't parse. The tool only writes `SCHEDULE`. Afterwards it
-checks the `CSV` tab's `matchNumber` column and warns if any new number is
-missing there: a generated workbook fills that column with literal numbers,
-and the site only shows matches listed in it. Script writes don't fire the
-`onEdit` trigger, so nothing publishes until the next sync.
+row that doesn't parse.
+
+It then writes the same numbers down the `CSV` tab's `matchNumber` column,
+one per row from row 2. That column is what every other `CSV` column looks
+its match up by, and the site only shows matches listed in it. A generated
+workbook fills it with literal numbers, so it doesn't follow `SCHEDULE` by
+itself. Rows past the last match are blanked, and the site skips them. If
+there are more matches than rows, row 2 is copied down first, so the new
+rows carry the same relative lookup formulas the generator tiles. The tab
+is left alone when that column holds formulas (it already follows
+`SCHEDULE`) or when it has only a header row (there are no formulas to
+copy). A final check warns if any new number is still missing from the
+column. Script writes don't fire the `onEdit` trigger, so nothing
+publishes until the next sync.
 
 Pausing is for editing a watched tab (rosters, a mid-event schedule fix) without
 publishing every intermediate state — it leaves the saved configuration and

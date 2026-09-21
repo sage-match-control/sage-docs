@@ -69,10 +69,9 @@ looks wrong.
 
 **Fill match numbers** renumbers the matches on SCHEDULE from a number you
 give it: enter 0 to start at 1, or 2000 to start at 2001. Only slots with a
-team on both sides count as matches, and empty slots show `-`. A generated
-workbook already has its matches numbered from 1, and its CSV tab lists those
-same numbers. So if you renumber, the tool tells you to update the CSV tab's
-`matchNumber` column to match.
+team on both sides count as matches, and empty slots show `-`. It also
+writes the same numbers into the CSV tab's `matchNumber` column, which is
+what the website reads. You don't need to touch that tab yourself.
 
 **Set up live sync**/**Live sync settings** is safe and repeatable to click
 any time; so is **Generate Scoresheets**, which just opens the [Scoresheet

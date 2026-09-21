@@ -35,7 +35,9 @@ their schedule the moment they arrive, click **Force live**.
 ## Setting up the venue screens
 
 - Click **Open schedule** to launch the wall display, and put that on
-  whatever screen is mounted at the venue.
+  whatever screen is mounted at the venue. If the day is split across
+  venues, pick that venue's button in the **Venue** row at the top, then
+  bookmark the page. The bookmark reopens straight to that venue.
 - Click **Open Tournament Hub** for the event's public page — useful on a
   second screen (showing Standings or Live Matches, whichever fits — the
   schedule board already covers the court-by-court view), or just to
