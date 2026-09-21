@@ -61,7 +61,12 @@ it draws one mini table per bracket, each under a colored `Bracket <n>`
 label, in `.rr-bracket-grid` — at most two per row, a third wraps. It
 returns `{ html, hasMultiBracket }`; a `standard` category card with two or
 more brackets gets `.standings-col--wide` on desktop, exactly two columns'
-width (740px = 360 × 2 + the 20px gap). A `dual-meet` club subsection uses
+width (740px = 360 × 2 + the 20px gap). Its header carries a desktop-only
+`.bracket-cols-toggle` button; clicking it adds the category to
+`stackedCategories`, which swaps `--wide` for `.standings-col--stacked` (a
+normal 360px column with the brackets in one grid column). The set lives in
+memory, so the choice survives each poll's re-render but not a page reload.
+A `dual-meet` club subsection uses
 the same grid but never widens its column. The standard template's
 `index.html` renders standings the same way; the dual-meet template does not
 split by bracket.

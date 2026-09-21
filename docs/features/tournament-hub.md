@@ -30,7 +30,9 @@ happening on Court 6.
 sorted by division and category, so the board on your phone is never a stale
 printout. At a standard tournament, a division whose round robin is split
 into brackets shows one small table per bracket, labelled **Bracket 1**,
-**Bracket 2**…, side by side.
+**Bracket 2**…, side by side. On a computer screen, the **1 col** button in
+that division's header stacks them in one narrower column instead, and
+**2 cols** puts them back.
 
 **Club Showdown** *(dual-meet events only)* — a running head-to-head win
 count between the two clubs sits front and center on Standings, updated

@@ -50,7 +50,10 @@ either club.
 
 When a category's round robin is split into brackets, each bracket gets its
 own small table under a colored **Bracket 1**, **Bracket 2**… label, two
-side by side, so parallel pools read as pools. On a desktop screen every
+side by side, so parallel pools read as pools. On desktop, the **1 col**
+button in that category's header stacks its brackets in a single, normal-width
+column instead (**2 cols** puts them back); the choice lasts until the page is
+reloaded. On a desktop screen every
 category is its own column in one row; scroll sideways for the rest. A long
 player name is never cut off — its table scrolls sideways instead.
 
