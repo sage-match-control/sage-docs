@@ -721,11 +721,9 @@ medalists rather than an obvious error.
 | `C5` | **court count from the label list** (§6.1), not the CSV's `courts` |
 | `C6` | **slot pitch** — `(duration_min + buffer_min)/1440`, per Phase 3 spec §4.1, labelled "Slot Pitch" |
 | `C8` | Facility label |
-| `H:P` | The full plan block — `type, key, value, teams, brackets, advance, fill, note, day` |
+| `H:P` | The full plan block — `type, key, value, teams, brackets, advance, fill, note, day`. `STANDINGSCSV!G` reads `I` (key), `K` (teams) and `L` (brackets) to work out each pair's bracket (§10.4), so these columns must stay in place |
 | `Q` | **New — `facility`.** Filled for the rows this workbook generated tabs for, blank otherwise |
 | `R` | **New — court labels**, one per row from `R2`, so `SCHEDULE`'s row 5 can be a formula rather than 12 literals |
-| `S` | **New — the bracket map** (§10.4): every group code, one per row |
-| `T` | **New —** the bracket letter for the code in `S` |
 | `AB90…` | The reference-number ladder (§7.3), every second row |
 
 `H:P` is written from the CSV verbatim, which structurally fixes the
@@ -792,7 +790,9 @@ it up. A key that still does not resolve gets no fill, per that section.
 ### 10.3 `Court Control`
 
 Court blocks are the dual meet's: 3 rows each from row 5, `B` the court
-number, `C` the operator-typed match number, `D`/`E` the codes via
+number — the block's label from `Variables!R` (§6.1), not its position,
+since `CSV!B` publishes it as the live court (§10.5) — `C` the
+operator-typed match number, `D`/`E` the codes via
 `GETTEAM1CODEBYMATCH`/`GETTEAM2CODEBYMATCH`, and the names spilling below.
 
 Everything else differs:
@@ -825,19 +825,62 @@ D2 = GETTOTALWINS($A2)   E2 = GETTOTALLOSES($A2)   F2 = ROUND(GETSCOREQUOTIENT($
 ```
 
 **`G` — the bracket.** Phase 3 spec §6.3 computes `ceil(i / n)` from a single
-`n`. Uneven bracket sizes (§5.6) make that wrong, so it becomes a lookup into
-the map the generator writes at `Variables!S:T`:
+`n`. Uneven bracket sizes (§5.6) make that wrong. Instead it recomputes
+`groupSizes` from the category's plan row: `teams` in `Variables!K` and
+`brackets` in `Variables!L`, keyed by `Variables!I` (§10.1):
 
 ```
-G2 = IF($A2="", "", IFERROR(VLOOKUP($A2, Variables!$S:$T, 2, FALSE), ""))
+G2 = IF($A2 = "", "",
+  IFERROR(
+    LET(
+      key,   INDEX(SPLIT($A2, "_"), 1),
+      idx,   VALUE(REGEXEXTRACT($A2, "^[^_]+_(\d+)$")),
+      pairs, VLOOKUP(key, Variables!$I:$K, 3, FALSE),
+      want,  VLOOKUP(key, Variables!$I:$L, 4, FALSE),
+      nb,    MAX(1, MIN(IF(want = "", 1, want), INT(pairs / 2))),
+      size,  INT(pairs / nb),
+      extra, MOD(pairs, nb),
+      big,   extra * (size + 1),
+      CHAR(64 + IF(idx <= big,
+        ROUNDUP(idx / (size + 1), 0),
+        extra + ROUNDUP((idx - big) / size, 0)))
+    ),
+  "")
+)
 ```
 
-A playoff code is not in the map, `VLOOKUP` fails, `IFERROR` blanks it —
-correct, since a bronze entrant belongs to no bracket. The letters are
-`A`, `B`, `C`, … matching the reference and the bracket generator's own
-lettered cards; the dual meet's numeric `1`/`2` is a different convention and
-both are fine by the site, which treats the column as an opaque grouping
-label.
+It rests on two facts from earlier sections:
+
+- **Codes run in bracket order.** Group codes are `<KEY>_1 … <KEY>_<teams>`
+  in one unbroken run, with bracket 1's pairs first (§7.2). So a pair's
+  bracket follows from its index `i` alone.
+- **The split is `groupSizes`'s.** `nb` applies the same `floor(teams/2)`
+  cap (§5.6), with a blank `brackets` meaning one bracket. The first `extra`
+  brackets take `size + 1` pairs and the rest take `size`. 26 pairs over 6
+  brackets is `5-5-4-4-4-4`, `LI40MD`'s 9 over 2 is `5-4`, and `LI40XD`'s 7
+  over 2 is `4-3`. So `G` agrees with the category tab's `K` column.
+
+Worked through for `LIMD_11` at 26 pairs over 6 brackets: `size = 4`,
+`extra = 2`, `big = 10`. Pairs 1–10 fill the two brackets of 5, and pair 11
+is the first of the brackets of 4: `2 + ceil(1/4) = 3`, so `C`.
+
+**Only group codes get a bracket.** The pattern `^[^_]+_(\d+)$` matches a
+code that is exactly `<KEY>_<number>`. It is anchored at both ends because
+playoff codes such as `<KEY>_SF_1`, `<KEY>_QF_2` or `<KEY>_R16_3` also end
+in a number, and an unanchored `_(\d+)$` would give them a bracket. They
+fail to match, as do `<KEY>_B_1`, `<KEY>_F_1` and `<KEY>_F_1_(2)`, and
+`IFERROR` blanks them. That is correct, since a playoff entrant belongs to no bracket.
+
+The `CHAR(64 + …)` turns bracket `1`, `2`, `3` into `A`, `B`, `C`, matching
+the reference and the bracket generator's own lettered cards. The dual
+meet's numeric `1`/`2` is a different convention (§15). Both are fine by the
+site, which treats the column as an opaque grouping label. Drop the `CHAR`
+wrapper for numbers. The `LET` names are letters only, since a name like
+`b1` parses as a cell reference and `LET` rejects it.
+
+The generator writes nothing extra for this. The formula reads the plan row
+the generator already writes, so there is no separate code → bracket map to
+keep in step with the split.
 
 Row count is `Σ (teams + 2 × playoff matches)` (§8) — 75 for Dreamcourts, 41
 pairs' worth plus playoff slots for Main.
@@ -871,15 +914,40 @@ count it was not typed for.
 
 `MATCHCOURT` returns `"Court " & <block index>`, which is the block's
 *position*, not its label. With non-contiguous court labels (§6.1) that is
-wrong: Dreamcourts' block 1 is Court 10. Redefine it against `Variables!R`:
+wrong: Dreamcourts' block 1 is Court 10, and a PCPH Annex workbook whose
+courts are 5–9 reports its block 1 as Court 1. Redefine it to read the label
+the block itself carries in `SCHEDULE` row 5:
 
 ```
 MATCHCOURT = LAMBDA(match_number, IFERROR(
-  LET(h,   ROWS(SCHEDULE!$B$6:$B),
-      pos, MATCH(match_number, GETMATCHNUMBERS(), 0),
-      "Court " & INDEX(Variables!$R:$R, INT((pos - 1) / h) + 2)),
+  LET(
+    h,     ROWS(SCHEDULE!$B$6:$B),
+    pos,   MATCH(match_number, GETMATCHNUMBERS(), 0),
+    blk,   INT((pos - 1) / h),
+    label, INDEX(SCHEDULE!$5:$5, 1, 6 + 8 * blk),
+    "Court " & REGEXEXTRACT(TO_TEXT(label), "\d+")
+  ),
   "Not found"))
 ```
+
+- `blk` is the 0-based block index, as before. `GETMATCHNUMBERS()` is
+  `STACKBLOCKS(6, 8, 6)`, so block `blk`'s match-number column is
+  `6 + 8 * blk`. That is the `F` offset, where row 5 carries the court
+  heading (Phase 2 spec §2.2).
+- It reads row 5 rather than `Variables!R` directly, so the result is
+  always the label the operator sees on `SCHEDULE`. Row 5 is itself
+  `="Court "&Variables!R<n>` in a generated workbook, so the two agree. A
+  hand-edited heading, or a hand-built workbook with no `Variables!R`, still
+  resolves correctly.
+- `REGEXEXTRACT(..., "\d+")` normalises the heading to `Court <n>` whether
+  row 5 reads `Court 5` or a bare `5`. `Court <n>` is the form the site
+  parses: it takes the trailing integer of `CourtAssignment`.
+- The `LET` names are letters only. A name like `b1` parses as a cell
+  reference and `LET` rejects it.
+
+`Court Control`'s column `B` (§10.3) must carry the same labels, not
+`1..courts`: it is what `CSV!B` publishes as the live `court`. A 5–9 venue
+numbered 1–5 there shows its live matches on another venue's courts.
 
 ### 10.6 `Timeline`, `Timeline (Individual)` and `Standings`
 
@@ -987,7 +1055,7 @@ that matter:
 | Function | Why |
 | --- | --- |
 | `STACKBLOCKS(first_col, step, first_row)` | Derives the court count from the sheet's own width. Removes the hand-edited column lists in §2.1 and the whole class of bug behind them |
-| `MATCHTIME(m)` / `MATCHCOURT(m)` | Replace `CSV!C`/`D`'s hardcoded `BYROW`/`BYCOL` window. `MATCHCOURT` needs the `Variables!R` variant in §10.5 |
+| `MATCHTIME(m)` / `MATCHCOURT(m)` | Replace `CSV!C`/`D`'s hardcoded `BYROW`/`BYCOL` window. `MATCHCOURT` needs the row-5 label variant in §10.5 |
 | `COUNTPAIRAT(time, code)` | Replaces `Timeline`'s 24-term `COUNTIFS` chain |
 
 Two the standard library has that the dual meet's does not — keep both, they
@@ -1127,8 +1195,8 @@ counterpart.
 4. Rewrite `CSV!C2`/`D2` as `=MATCHTIME($A2)` / `=MATCHCOURT($A2)`, and
    `Timeline`'s body as `=COUNTPAIRAT(D$2,$C3)`.
 5. Point both spills at `'Reference for Players'!$A$3:$A`.
-6. Add `Variables` columns `Q` (facility), `R` (court labels), `S`/`T` (the
-   bracket map), with headers.
+6. Add `Variables` columns `Q` (facility) and `R` (court labels), with
+   headers.
 7. Relabel `Variables!C6` "Slot Pitch"; fix the `QA Checklist` `Dual Meet`
    prefill.
 8. Add `Standings` and `Timeline (Individual)` (Main has neither; copy from
