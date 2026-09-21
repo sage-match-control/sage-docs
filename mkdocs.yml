@@ -84,10 +84,10 @@ nav:
       - In progress:
           - Overview: specs/in-progress/README.md
           - Verifiable draw: specs/in-progress/bracket-generator-verifiable-draw-spec.md
+          - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Standard Tournament Master: specs/not-started/standard-tournament-master-spec.md
-          - CLSO Pickle for Sight: specs/not-started/pickle-for-sight-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
           - Bracket Generator workbook handoff: specs/not-started/bracket-generator-workbook-handoff-spec.md

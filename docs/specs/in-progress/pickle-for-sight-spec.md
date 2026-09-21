@@ -1,9 +1,11 @@
 # Spec — CLSO Pickle for Sight tournament
 
-> **Status: not started.** The mascot image is staged at
-> `events/pickle-for-sight-2026/assets/mascot.webp` in
-> `sage-match-control.github.io` (uncommitted), and both venue workbooks
-> exist (§2). Nothing else exists yet.
+> **Status: in progress.** The site (§3–§9) is built and committed, both
+> venue workbooks are built, and live sync is set up and publishing for both
+> `PCPH Main` and `PCPH Annex` (§10, §12.1, §12.2). Still open: the dry run
+> (§12.4), due by Friday 25 September, and setting `pickle-for-sight-day1`'s
+> `isLive` back to `"auto"` in `event-data/config/events.json` — it is
+> currently hardcoded `true` from go-live testing.
 
 Build the event site for **Pickle for Sight**, a one-day open-entry
 pickleball tournament on **Sunday, 27 September 2026**. It is played across

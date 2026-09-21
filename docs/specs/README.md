@@ -114,6 +114,10 @@ to the `...` form rather than repointing it.
   — proving a draw wasn't rigged: a seed, a hash sort anyone can re-check on
   any SHA-256 site, and a plain-language *How it works* dialog. **Written and
   working, but uncommitted** — the deployed tool does not have it yet.
+- **[CLSO Pickle for Sight](in-progress/pickle-for-sight-spec.md)** — the
+  first standard-template event site: one day across two venues (PCPH Main
+  and Annex), three divisions × three events, 27 September 2026. Site built
+  and live sync running for both venues; the dry run is still open.
 
 ---
 
@@ -123,9 +127,6 @@ to the `...` form rather than repointing it.
   — the dual-meet generator's counterpart for open-entry tournaments: one
   workbook per facility per day, uneven round-robin brackets, and a
   forward-propagating single-elimination ladder.
-- **[CLSO Pickle for Sight](not-started/pickle-for-sight-spec.md)** — the
-  first standard-template event site: one day across two venues (PCPH Main
-  and Annex), three divisions × three events, 27 September 2026.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling.
