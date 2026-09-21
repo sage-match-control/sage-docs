@@ -62,9 +62,17 @@ A generated workbook carries the live sync script already, so the **SAGE**
 menu always has both features in it: **Generate event tabs**, and — once
 [live sync is set up](preparing-an-event.md) — **Generate Scoresheets**,
 **Sync now**, **Pause live sync** (or **Resume live sync**), and **Live sync
-settings**. Before setup it's just **Set up live sync** instead. **Help** is
-always there either way, with a workflow refresher, this workbook's current
-status, and what to check when something looks wrong.
+settings**. Before setup it's just **Set up live sync** instead. **Fill match
+numbers** and **Help** are always there either way. Help has a workflow
+refresher, this workbook's current status, and what to check when something
+looks wrong.
+
+**Fill match numbers** renumbers the matches on SCHEDULE from a number you
+give it: enter 0 to start at 1, or 2000 to start at 2001. Only slots with a
+team on both sides count as matches, and empty slots show `-`. A generated
+workbook already has its matches numbered from 1, and its CSV tab lists those
+same numbers. So if you renumber, the tool tells you to update the CSV tab's
+`matchNumber` column to match.
 
 **Set up live sync**/**Live sync settings** is safe and repeatable to click
 any time; so is **Generate Scoresheets**, which just opens the [Scoresheet

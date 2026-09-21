@@ -109,6 +109,12 @@ Two connections, and the event is inert until both exist:
 - **Register the event** in `event-data/config/events.json` — its type,
   title, and one entry per day with that day's venues. This takes effect
   within minutes of the commit; nothing needs redeploying.
+- **Number the matches** in each venue's spreadsheet with **SAGE → Fill match
+  numbers**. It numbers every match on SCHEDULE, starting after the number
+  you enter. When a day has more than one venue, give each venue's workbook
+  its own range, for example 1000 for one (1001, 1002, …) and 2000 for the
+  other. All of a day's venues show together on the site, so two matches
+  must never share a number.
 - **Wire up the sync** in each venue's spreadsheet, once per workbook: reload
   it and run **SAGE → Set up live sync**, entering that workbook's day key
   and facility name. This is what makes typing a score publish it.

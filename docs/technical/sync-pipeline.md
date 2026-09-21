@@ -102,11 +102,33 @@ Scoresheets** (deep-links into the Scoresheet Generator with this workbook's
 day and venue preselected — a link only, no HTTP request and no new OAuth
 scope), **Sync now**, **Pause live sync** / **Resume live sync**, **Live
 sync settings** once configured (or **Set up live sync** otherwise),
-**Set shared secret** where it applies (see above), and
-**Help** — always present regardless of configuration state, since this is
-the one file guaranteed to be in every workbook. Help shows a workflow
-refresher plus this workbook's live status (configured/not, paused/not) in
-one dialog, written for organizers rather than developers.
+**Set shared secret** where it applies (see above), **Fill match numbers**,
+and **Help**. The last two are always present regardless of configuration
+state, since this is the one file guaranteed to be in every workbook. Help
+shows a workflow refresher plus this workbook's live status (configured/not,
+paused/not) in one dialog, written for organizers rather than developers.
+
+**Fill match numbers** numbers the matches on `SCHEDULE`. It asks for a base
+and gives the first match base + 1. It reads the grid by its fixed shape:
+`Court <n>` headings on row 5 mark each court's match-number column, with
+`teamCode1` one column left and `teamCode2` one column right. Slots are
+two-row pairs from row 6. A slot is a match when both codes are filled in
+(`-` counts as empty). Matches are numbered left to right across courts,
+then down the slots, and every other slot's number cell gets `-`, so no
+leftover number collides with a new one. It writes nothing if any slot has a
+code on one side only, or if a code sits on a slot's second row (a grid that
+doesn't start at row 6). The planning step, `planMatchNumbers_`, is pure and
+separate from the Sheets reads and writes.
+
+A base exists so a multi-venue event can give each venue's workbook its own
+range (1000 → 1001…, 2000 → 2001…). A day's venues merge into one snapshot,
+and the site treats `matchNumber` as unique within a day. The numbers stay
+plain integers because every page parses them with `parseInt` and drops a
+row that doesn't parse. The tool only writes `SCHEDULE`. Afterwards it
+checks the `CSV` tab's `matchNumber` column and warns if any new number is
+missing there: a generated workbook fills that column with literal numbers,
+and the site only shows matches listed in it. Script writes don't fire the
+`onEdit` trigger, so nothing publishes until the next sync.
 
 Pausing is for editing a watched tab (rosters, a mid-event schedule fix) without
 publishing every intermediate state — it leaves the saved configuration and
