@@ -12,16 +12,16 @@ shuffle for a few seconds, then land in their brackets — and the result stays
 up for you to read off or export. **Randomize again** re-draws the same pairs
 from scratch if you want a different split.
 
-## Seeded or Random
+## Verifiable Draw or Random Draw
 
-A switch above the Seed field picks how the draw is made:
+The **Draw type** switch above the Seed field picks how the draw is made:
 
-- **Seeded** (the default) — the draw comes from a seed you type or leave
-  blank. Pressing again with the same seed gives the same brackets. This is
-  the one for a draw people are watching — see below.
-- **Random** — nothing to type, and every press gives a fresh split. The tool
-  still makes up a seed for each draw behind the scenes and the exports mark
-  it `(auto)`, so a Random draw can be checked afterwards too.
+- **Verifiable Draw** (the default) — the draw comes from a seed you type or
+  leave blank. Pressing again with the same seed gives the same brackets.
+  This is the one for a draw people are watching — see below.
+- **Random Draw** — nothing to type, and every press gives a fresh split. The
+  tool still makes up a seed for each draw behind the scenes and the exports
+  mark it `(auto)`, so a Random Draw can be checked afterwards too.
 
 ## The event name
 
@@ -35,7 +35,7 @@ comes out with plain S.A.G.E. branding instead of an event name.
 ## Running a draw people can trust
 
 Every draw is checkable afterwards, and for a draw people are watching there is
-a way to run it that makes that obvious. Use **Seeded** for this.
+a way to run it that makes that obvious. Use **Verifiable Draw** for this.
 
 **Show the list first, then take the seed.** Put the pairs up on screen before
 anyone supplies a seed. That order matters: once the list is visible it can't be
@@ -56,7 +56,7 @@ draw is still checkable later. The exported files say which happened —
 `(entered)` if a person supplied it, `(auto)` if the app did — so a bracket
 never implies a ceremony that didn't happen. The made-up seed stays in the
 field, so pressing again redraws the same brackets (still marked `(auto)`);
-clear the field, or switch to **Random**, for a fresh one.
+clear the field, or switch to **Random Draw**, for a fresh one.
 
 If you do have to re-draw — a pair was missing, the list was wrong — say so out
 loud, fix it, and ask for a new seed. The exports carry a draw number, so a

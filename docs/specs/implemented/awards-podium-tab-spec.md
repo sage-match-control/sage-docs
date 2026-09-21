@@ -4,8 +4,11 @@ A fifth tab on `tools/match-control.html` that shows each category's podium —
 gold, silver, bronze — and exports them as SAGE-branded PNGs: one card per
 category, or the whole tournament as a single sheet.
 
-**Status: built.** `tools/match-control.html` has the Awards tab, bye handling,
-and both export paths implemented per this spec.
+**Status: built.** The console's Awards tab, bye handling, and both export
+paths are implemented per this spec. The console was renamed after this spec
+was written: it lives at `tools/control-center.html`, and
+`tools/match-control.html` is only a redirect stub. Everywhere below that
+says `match-control.html`, read `control-center.html`.
 
 The podium is already decided by data the console has loaded. Every category
 plays a Final (`_F`) and a Bronze match (`_B`), both carrying scores in the

@@ -517,7 +517,7 @@ constraints they put on the data are written down.
 ### 12.1 Two workbooks, built by hand
 
 There is no generator for standard tournaments yet
-([Standard Tournament Master](standard-tournament-master-spec.md) is not
+([Standard Tournament Master](../not-started/standard-tournament-master-spec.md) is not
 started). Build one workbook per venue by duplicating a bkl-cup-2026
 facility workbook, then:
 

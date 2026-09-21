@@ -14,16 +14,12 @@ The draw is already fair — `shuffle()` is a correct, unbiased Fisher-Yates.
 What it cannot do is *prove* that to a skeptical player. This spec changes
 nothing about the odds and everything about the evidence.
 
-**Status: written and working, but not committed or deployed.** The working
-copy of `tools/bracket-generator.html` carries the seed field, the SHA-256
-fingerprint sort, the auto-seed generator with its read-aloud-safe alphabet,
-the verification payload on both exports, and the *How it works* dialog, and
-both doc pages (§10) carry the algorithm and the draw ceremony.
-
-None of it is committed, so **the live tool has none of it** — the committed
-copy contains no `seedInput` and no SHA-256. Shipping this is a commit and a
-push, not more building. Verify against §11's acceptance checklist first,
-since it has never run anywhere but a working tree.
+**Status: built and deployed.** The live `tools/bracket-generator.html`
+has the seed field, the SHA-256 fingerprint sort, the auto-seed generator
+with its read-aloud-safe alphabet, the verification payload on both exports,
+and the *How it works* dialog, and both doc pages (§10) carry the algorithm
+and the draw ceremony. Where the built tool departs from this text, §14
+records it — read that before trusting a label or a line of §13.
 
 | File | Repo | Change |
 | --- | --- | --- |
@@ -1036,8 +1032,8 @@ Insert immediately **before** it:
 // The draw is a deterministic function of (seed, pair list): each pair is
 // fingerprinted with SHA-256 and the list sorted by that fingerprint, so anyone
 // can reproduce it without this tool — including on a third-party SHA-256 site,
-// which is the whole point. Spec: sage-docs/docs/specs/
-// bracket-generator-verifiable-draw-spec.md
+// which is the whole point. Spec:
+// sage-docs/docs/specs/.../bracket-generator-verifiable-draw-spec.md
 const SEED_ALPHABET = '23456789ABCDEFGHJKMNPQRSTVWXYZ'; // no I/O/0/1 — read aloud safely
 const AUTO_SEED_LENGTH = 8;
 
@@ -1380,12 +1376,15 @@ Walk §11's checklist. The four that catch the most likely mistakes:
 
 ## 14. Divergences
 
-### 14.1 A Seeded / Random switch
+### 14.1 A Verifiable Draw / Random Draw switch
 
-The built tool has a **Draw type** switch above the Seed field. **Random**
-forces a fresh auto-seed on every press, with the field disabled, so "a new
-result each press" takes one click where Seeded needs you to clear the field
-first. Underneath it is the same fingerprint draw, labelled `(auto)`, so the
+The built tool has a **Draw type** switch above the Seed field, labelled
+**Verifiable Draw** (`value="seeded"`, the default) and **Random Draw**
+(`value="random"`). Random Draw forces a fresh auto-seed on every press,
+with the field disabled, so "a new result each press" takes one click where
+Verifiable Draw needs you to clear the field first. Switching back to
+Verifiable Draw while the field still holds the app's own seed clears it,
+so a public draw starts from an empty box. Underneath it is the same fingerprint draw, labelled `(auto)`, so the
 opening promise still holds: every draw has a seed and is reproducible. A
 seedless, unverifiable shuffle was considered and rejected. It would only have
 saved a seed that costs nothing to keep.

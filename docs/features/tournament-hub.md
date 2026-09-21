@@ -28,7 +28,9 @@ happening on Court 6.
 
 **Live standings** — win/loss records and rankings — update the same way,
 sorted by division and category, so the board on your phone is never a stale
-printout.
+printout. At a standard tournament, a division whose round robin is split
+into brackets shows one small table per bracket, labelled **Bracket 1**,
+**Bracket 2**…, side by side.
 
 **Club Showdown** *(dual-meet events only)* — a running head-to-head win
 count between the two clubs sits front and center on Standings, updated

@@ -256,10 +256,14 @@ breakpoint, so a tablet gets them too. The organizer secondary buttons had
 `padding:0 16px` with no vertical padding, leaving them 16px tall — awkward
 with a mouse and unusable with a thumb.
 
-Still outstanding, and **desktop** rather than mobile: the standings grid
-wants ~1100px inside a 920px `.wrap`, which squeezes the pair-name cells to
-16px so player names overflow them. Pre-existing, unrelated to the mobile
-work, not yet fixed.
+The desktop standings layout the console started with — a 4-column grid
+that wanted ~1100px inside the page's 920px `.wrap`, plus the "Advanced
+overflow column" §8 checks for — has been replaced. On desktop the board spans
+the full viewport width, as one horizontally scrolling row of fixed 360px
+category columns. Pair names never wrap: each table scrolls sideways on its
+own. A Round Robin split into brackets shows one mini table per bracket.
+The built layout is in
+[Control Center technical](../../technical/control-center.md#the-tabs).
 
 ---
 

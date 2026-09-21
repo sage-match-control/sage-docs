@@ -23,6 +23,7 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Calculator dual-meet fixes](calculator-dual-meet-spec.md) | "Pairs per club" and the dual bracket default |
 | [Calculator PWA](calculator-pwa-spec.md) | `tools/sw.js` + `tournament-calculator.webmanifest` |
 | [Bracket Generator](bracket-generator-spec.md) | `tools/bracket-generator.html` |
+| [Verifiable draw](bracket-generator-verifiable-draw-spec.md) | Its seed, SHA-256 fingerprint draw, and *How it works* dialog |
 | [Sheet generator (Phase 1)](dual-meet-sheet-generator-spec.md) | `sheet-generator.gs` — category tabs, `Variables`, `Title`, `Reference for Players` |
 | [Schedule generator (Phase 2)](dual-meet-schedule-generator-spec.md) | Its `SCHEDULE` tab |
 | [Readouts generator (Phase 3)](dual-meet-readouts-generator-spec.md) | Its `Court Control`, `Timeline`, `CSV`, `STANDINGSCSV` |

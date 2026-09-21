@@ -1218,6 +1218,16 @@ data**. No change needed.
   pausing is scoped to. Surfaced in the setup dialog too
   (`getSyncSetupState`'s `paused` field) so reopening `Live sync settings` on
   a paused workbook doesn't silently hide that saving there won't resume it.
+- **`Fill match numbers` menu item, added post-spec.** Always contributed by
+  `addSyncMenuItems_`, next to `Help`, whatever the configuration state. It
+  numbers the matches on `SCHEDULE` from an operator-entered base (base + 1
+  onward), so the venues of a multi-venue day get non-overlapping ranges,
+  and writes the same numbers down the `CSV` tab's `matchNumber` column
+  unless that column holds formulas. It lives in `sheets-sync.gs` for the
+  same reason `Help` does: it's the one file in every workbook. It doesn't
+  touch Script Properties or the trigger, and script writes don't fire
+  `onEdit`, so nothing publishes until the next sync. Full rules:
+  [sync pipeline](../../technical/sync-pipeline.md).
 - **§4.3 ordering when §4.1 itself is unreachable.** §6.3 lists §4.1 then §4.2
   as steps 3 and 4 but doesn't say what happens to step 4 when step 3 comes
   back `unreachable` rather than `ok`/`blocking`. The built `saveSyncSetup`

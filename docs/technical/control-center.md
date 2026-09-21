@@ -55,8 +55,30 @@ cross-club Bronze/Final shown as one block spanning both clubs (see
 `CROSS_CLUB_STAGE_KEYS`); `standard` gets flat category cards with a
 desktop toggle bar and a mobile category-search filter.
 
-**Awards** is a fifth tab, added later — full derivation and export
-architecture in its own section below.
+**Round Robin brackets.** `renderStageTables` groups a category's Round
+Robin rows by bracket label. With no labels it draws one table; with labels
+it draws one mini table per bracket, each under a colored `Bracket <n>`
+label, in `.rr-bracket-grid` — at most two per row, a third wraps. It
+returns `{ html, hasMultiBracket }`; a `standard` category card with two or
+more brackets gets `.standings-col--wide` on desktop, exactly two columns'
+width (740px = 360 × 2 + the 20px gap). A `dual-meet` club subsection uses
+the same grid but never widens its column. The standard template's
+`index.html` renders standings the same way; the dual-meet template does not
+split by bracket.
+
+**Desktop standings** (≥980px) break out of the page's `.wrap` to the full
+viewport width. Every category is one fixed 360px column
+(`flex:0 0 360px`) in a single row that scrolls horizontally, always
+`justify-content:flex-start` — a centred flex row that overflows cuts off
+its first columns in Chromium. Each column is capped at `92vh` and scrolls
+on its own. These sizes match the public event pages' standings board.
+Pair names never wrap or truncate: each table sits in a `.br-table-wrap`
+that scrolls horizontally if a name is wider than the card. The desktop
+row and every `.br-table-wrap` are in `SCROLLABLE_SELECTOR`, so their
+scroll positions survive the 15-second re-render.
+
+**Awards** is the fifth tab — full derivation and export architecture in its
+own section below.
 
 **Mission Control** — see [Mission Control usage](../features/control-center.md#mission-control)
 for what it does; scoped to whichever event is selected. The go-live states are `auto`
@@ -131,10 +153,6 @@ at 320px on the smallest common handsets. Three pieces carry that:
 Tap targets key off `@media (pointer:coarse)` rather than a width
 breakpoint, so a tablet gets them too — it is wide but still driven by a
 thumb.
-
-**Known gap, desktop rather than mobile:** the standings grid wants ~1100px
-inside a 920px `.wrap`, squeezing the pair-name cells to 16px so player
-names overflow them.
 
 ## Theme
 

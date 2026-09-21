@@ -8,6 +8,10 @@ Built and reviewed as a mockup against real synced data from
 `pnf-x-bup-dual-meet` (126 matches / 15 slots / 9 courts). This spec records the
 decisions that mockup settled and what still has to be built to ship it.
 
+**Status: built.** It ships as `events/<event-key>/schedule.html` and is
+backported into both templates, so every new event gets one. The built board
+adds a venue filter this spec doesn't cover — see §11 before relying on §4.
+
 **Scope note.** This is the *first* instantiation. Once it is working, the
 intent is to fold the reusable parts back into
 `_templates/dual-meet-template/`. That backport is explicitly **out of scope
@@ -493,3 +497,29 @@ intended answer on smaller screens — fewer courts means wider cells.
   schedule and nothing else.
 - Writing anything back to the spreadsheet. The mock-score generator used
   during review (`--mock-scores=N`) is a review aid only and ships with nothing.
+
+---
+
+## 11. Divergences
+
+### 11.1 Backported to both templates
+
+§10 defers the backport. It is done: `schedule.html` is in both
+`_templates/dual-meet-template/` and `_templates/standard-tournament-template/`,
+and the Mission Control launcher lives in `tools/control-center.html` rather
+than a per-event `match-control.html`.
+
+### 11.2 A venue filter
+
+On a day with more than one venue, a **Venue** row (All + one button per
+facility in the snapshot) sits before the court filter, carried in the URL
+as `?venue=<name>` and composable with `?courts=` and `?compact=1`. A venue
+view shows only that venue's matches and the span of courts they use, and
+switching venue clears the court selection. With one venue the row is
+hidden, so a single-venue event behaves exactly as §4 describes. Full rules:
+[schedule board § Venue filter](../../technical/schedule-board.md#venue-filter-venue).
+
+### 11.3 Link-preview tags
+
+The page's `<head>` carries a meta description and `og:` tags naming the
+event, so a shared link to the board previews as that event's schedule.

@@ -17,9 +17,10 @@ brackets than you have pairs.
 
 A `drawMode` radio group picks only where the seed comes from:
 
-- `seeded` (default) — the typed seed, or an auto seed if the field is blank.
-- `random` — always a fresh auto seed; the field is disabled and just displays
-  it.
+- `seeded` (default, labelled **Verifiable Draw**) — the typed seed, or an
+  auto seed if the field is blank.
+- `random` (labelled **Random Draw**) — always a fresh auto seed; the field
+  is disabled and just displays it.
 
 Both then run the same fingerprint draw below, so both are equally
 verifiable. There is no unverified mode: a seed costs nothing to keep.

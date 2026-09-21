@@ -88,6 +88,9 @@ to the `...` form rather than repointing it.
 - **[Bracket Generator](implemented/bracket-generator-spec.md)** — promoting
   the per-event bracket draw page into one evergreen tool, with an optional
   event name.
+- **[Verifiable draw](implemented/bracket-generator-verifiable-draw-spec.md)**
+  — proving a draw wasn't rigged: a seed, a hash sort anyone can re-check on
+  any SHA-256 site, and a plain-language *How it works* dialog.
 
 ### Dual Meet Sheet Generator
 
@@ -110,10 +113,6 @@ to the `...` form rather than repointing it.
 
 ## In progress
 
-- **[Verifiable draw](in-progress/bracket-generator-verifiable-draw-spec.md)**
-  — proving a draw wasn't rigged: a seed, a hash sort anyone can re-check on
-  any SHA-256 site, and a plain-language *How it works* dialog. **Written and
-  working, but uncommitted** — the deployed tool does not have it yet.
 - **[CLSO Pickle for Sight](in-progress/pickle-for-sight-spec.md)** — the
   first standard-template event site: one day across two venues (PCPH Main
   and Annex), three divisions × three events, 27 September 2026. Site built

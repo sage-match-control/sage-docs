@@ -48,6 +48,7 @@ nav:
       - Running an event, day of: features/running-an-event-day.md
       - Scoresheet Generator: features/scoresheet-generator.md
       - Tournament Calculator: features/tournament-calculator.md
+      - Bracket Generator: features/bracket-generator.md
       - Dual Meet Sheet Generator: features/dual-meet-sheet-generator.md
   - Technical:
       - Overview: technical/README.md
@@ -61,6 +62,7 @@ nav:
       - Control Center: technical/control-center.md
       - Schedule board: technical/schedule-board.md
       - Tournament Calculator: technical/tournament-calculator.md
+      - Bracket Generator: technical/bracket-generator.md
       - Event registry schema: technical/event-data-config.md
       - Adding a new event: technical/adding-a-new-event.md
   - Specs:
@@ -76,6 +78,7 @@ nav:
           - Calculator dual-meet fixes: specs/implemented/calculator-dual-meet-spec.md
           - Calculator PWA: specs/implemented/calculator-pwa-spec.md
           - Bracket Generator: specs/implemented/bracket-generator-spec.md
+          - Verifiable draw: specs/implemented/bracket-generator-verifiable-draw-spec.md
           - Sheet generator (Phase 1): specs/implemented/dual-meet-sheet-generator-spec.md
           - Schedule generator (Phase 2): specs/implemented/dual-meet-schedule-generator-spec.md
           - Readouts generator (Phase 3): specs/implemented/dual-meet-readouts-generator-spec.md
@@ -83,7 +86,6 @@ nav:
           - PNF x BUP dual meet: specs/implemented/pnf-x-bup-dual-meet-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
-          - Verifiable draw: specs/in-progress/bracket-generator-verifiable-draw-spec.md
           - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
       - Not started:
           - Overview: specs/not-started/README.md

@@ -39,6 +39,12 @@ top), and the Bronze/Final rounds — since those pit one club against the
 other — are shown as a single head-to-head block rather than nested under
 either club.
 
+When a category's round robin is split into brackets, each bracket gets its
+own small table under a colored **Bracket 1**, **Bracket 2**… label, two
+side by side, so parallel pools read as pools. On a desktop screen every
+category is its own column in one row; scroll sideways for the rest. A long
+player name is never cut off — its table scrolls sideways instead.
+
 If a match's team code doesn't match any configured category, a visible
 warning banner names it rather than silently lumping it into an "Other"
 bucket — so a data problem in the spreadsheet gets noticed instead of hidden.
