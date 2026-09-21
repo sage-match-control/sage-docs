@@ -29,3 +29,4 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Readouts generator (Phase 3)](dual-meet-readouts-generator-spec.md) | Its `Court Control`, `Timeline`, `CSV`, `STANDINGSCSV` |
 | [Event site templates](event-templates-spec.md) | `_templates/dual-meet-template/` and `_templates/standard-tournament-template/` |
 | [PNF × BUP dual meet](pnf-x-bup-dual-meet-spec.md) | The first real run of the dual-meet template |
+| [Facility progress](facility-progress-spec.md) | Live Matches' per-facility progress cards and Mission Control's progress line |

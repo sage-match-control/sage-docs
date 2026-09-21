@@ -24,6 +24,15 @@ there, both teams' names, and the live score — or "No match playing" for an
 idle court. This is the same view a wall-mounted screen at the venue would
 show.
 
+Above the courts, a card per venue shows how many matches are done, how many
+are left, and — on the day itself — an estimated finish time and how far
+ahead of or behind schedule that venue is. The estimate is the operators'
+own formula: matches left plus idle court slots left, times the scheduled
+match length, divided by the number of courts. It never counts less than one
+match length per match still queued on the busiest court, and it keeps
+working past midnight until 6:00 AM. If a venue's sheet stops syncing, the
+card says so, because no new scores means the estimate drifts later on its own.
+
 ## Match Finder
 
 Identical to Tournament Hub's Match Finder — search a pair's name, see
@@ -99,6 +108,9 @@ signing in.
   without having to go find it in Drive. Whether it opens editable
   depends on that sheet's own Google sharing settings, not on Control
   Center.
+  Under each venue, a second line repeats its matches done and estimated
+  finish from Live Matches, and adds "stale — may read late" when that
+  venue's data is old enough to make the estimate unreliable.
 - **Resync this day now** — pulls a fresh copy from the spreadsheet(s)
   immediately, instead of waiting for the next automatic sync.
 - **Public pages** — launchers for the venue's schedule board and the

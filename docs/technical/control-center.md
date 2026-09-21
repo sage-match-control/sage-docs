@@ -102,6 +102,23 @@ registry schema](event-data-config.md) § Sheet IDs are effectively
 public). The link is omitted for a facility with no `sheetId` yet, the
 same "not set up" condition the sync pipeline itself skips.
 
+## Facility progress
+
+`computeFacilityProgress(matches, isEventDay, nowMin)` turns one facility's
+matches into done/left counts, a schedule grid (slot length, rows, courts,
+blank cells) and an estimated finish. `renderFacilityProgress` draws a card
+per facility on Live Matches (called from `renderLiveMatches`), and
+`facilityStatusProgressHTML` adds a line to each Mission Control sync row
+(called from `renderOrganizerStatus`). Both go through `facilityProgressFor`
+and `facilityFinishParts`, so the two can't disagree.
+
+Times are *event-day minutes*: minutes since midnight at the start of the
+day's `date`, which keep counting past 1440 after midnight. Schedule times
+before `DAY_ROLLOVER_MIN` (6:00 AM) are read as the night after the event
+day. The stale test in `facilityDataIsStale` is the same rule as the sync
+row's `isWarn`; change both or neither. Design and worked examples:
+[facility progress spec](../specs/implemented/facility-progress-spec.md).
+
 ## Installability
 
 Installable via its own manifest, `tools/control-center.webmanifest`, the

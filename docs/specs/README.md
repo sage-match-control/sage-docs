@@ -70,6 +70,9 @@ to the `...` form rather than repointing it.
   and image export.
 - **[Schedule screen](implemented/schedule-screen-spec.md)** — the venue wall
   display.
+- **[Facility progress](implemented/facility-progress-spec.md)** — matches
+  done, matches left and estimated finish per facility, on Live Matches and
+  in Mission Control.
 
 ### Scoresheet Generator
 
@@ -135,7 +138,3 @@ to the `...` form rather than repointing it.
   — a SAGE menu route from a scoring workbook into the tool, and the roster
   scaffold's unfilled STEP 3. Was deferred until a standard tournament
   existed; one now does.
-- **[Facility progress](not-started/facility-progress-spec.md)** — matches
-  done, matches left and an estimated finish time per facility on the
-  Control Center's Live Matches tab, plus a one-line version with a
-  stale-data flag in Mission Control.

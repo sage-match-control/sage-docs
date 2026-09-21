@@ -84,6 +84,7 @@ nav:
           - Readouts generator (Phase 3): specs/implemented/dual-meet-readouts-generator-spec.md
           - Event site templates: specs/implemented/event-templates-spec.md
           - PNF x BUP dual meet: specs/implemented/pnf-x-bup-dual-meet-spec.md
+          - Facility progress: specs/implemented/facility-progress-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
           - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
@@ -93,4 +94,3 @@ nav:
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
           - Bracket Generator workbook handoff: specs/not-started/bracket-generator-workbook-handoff-spec.md
-          - Facility progress: specs/not-started/facility-progress-spec.md

@@ -6,7 +6,7 @@ places in the Control Center: as a **card per facility** on the Live Matches
 tab, and as **one line per facility** in Mission Control's *Facility sync
 status*. Both places flag the estimate when that facility's data is stale.
 
-**Status: not started.**
+**Status: built.**
 
 Everything here runs in the browser, using data the page already loads every
 10 s. There is no server change, no data change, no spreadsheet change, and
