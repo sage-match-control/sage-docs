@@ -5,6 +5,32 @@ day, using [Control Center](control-center.md). This assumes the event is
 already set up — categories, days and venues registered, workbooks built and
 wired to the sync. That half is [preparing an event](preparing-an-event.md).
 
+## Quickstart
+
+The whole day on one screen, for when you've done this before. Each step
+links to its full section below.
+
+1. **[Before doors open](#before-doors-open):** join the venue wifi, open
+   Control Center, pick the event and today's day, sign in under **Mission
+   Control**, then click **Check connection** and **Resync this day now**.
+   Every venue in **Facility sync status** should read a fresh "Synced".
+2. **Open each venue's Google Sheet** from its Facility sync status row and
+   keep it open all day — that's where scores and Court Control go.
+3. **[Public site](#deciding-when-the-public-site-goes-live):** leave it on
+   `Auto` (live about 4 hours before the first match), or click **Force
+   live** to show it sooner.
+4. **[Venue screens](#setting-up-the-venue-screens):** **Open schedule** on
+   the wall display (pick the venue first if the day is split), and
+   optionally **Open Tournament Hub** on a second screen.
+5. **[During play](#during-play),** in the sheet: put the next match on a
+   court in Court Control the moment the court frees up, then enter the
+   finished match's score. Never leave a court blank.
+6. **Keep an eye on Facility sync status.** If a venue goes stale, click
+   **Resync this day now**. For a quiet fix, **Force hidden**, correct,
+   resync, then set it back.
+7. **[End of day](#end-of-day):** once Finals and Bronze are scored, check
+   the **Awards** tab and export the images. Nothing needs turning off.
+
 ## Before doors open
 
 1. Get on the venue's wifi.

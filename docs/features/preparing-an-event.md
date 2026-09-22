@@ -9,6 +9,32 @@ you're handing the job to someone else. Each step links to the page that
 covers it properly — the value here is the *sequence*, and knowing what
 depends on what.
 
+## Quickstart
+
+The whole sequence on one screen, for when you've done this before. Each
+step links to its full section below.
+
+1. **Pick the event key** — e.g. `pnf-x-bup-dual-meet` — and use it
+   byte-identically everywhere from here on.
+2. **[Plan it](#1-plan-it)** in the Tournament Calculator: format,
+   categories, courts, match duration, one plan per day. Draw any brackets
+   in the Bracket Generator. Dual meet: click **Copy plan & open generator**.
+3. **[Build the scoring workbook](#2-build-the-scoring-workbook)**, one per
+   venue per day. Dual meet: copy the master, run **SAGE → Generate event
+   tabs**, paste the plan, then paste the rosters. Standard tournament:
+   build or copy it by hand, with the exact column names the sync expects.
+4. **[Build the event site](#3-build-the-event-site)**: copy the matching
+   template into `events/<event-key>/`, replace the tokens, add the QR code
+   (and both clubs' logos for a dual meet).
+5. **[Register it and wire up the sync](#4-register-it-and-wire-up-the-sync)**:
+   add the event to `event-data/config/events.json`, then in every workbook
+   run **SAGE → Fill match numbers** (a separate range per venue) and
+   **SAGE → Set up live sync**.
+6. **[Rehearse it](#5-rehearse-it)** with the dry-run checklist: a fake
+   score per venue reaches Control Center and the public page, then gets
+   reverted. Generate scoresheets if you print them.
+7. **Check it against [what "ready" looks like](#what-ready-looks-like).**
+
 ## The four resources
 
 Every event, whatever its shape, needs these four things. They are separate
