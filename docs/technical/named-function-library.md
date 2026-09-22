@@ -110,7 +110,7 @@ row against 4 today.
 | `GETTOTALOPPONENTSCORE(paircode)` | points conceded | category tab col `G` |
 | `GETSCOREQUOTIENT(paircode)` | for / against, `0` on error | category tab col `H`, `STANDINGSCSV` (rounded to 4) |
 | `GETSCOREAGAINSTPAIR(pair1, pair2)` | `pair1`'s score in that match, else `"No Match Found"` | the score grids |
-| `SORTBYWINS(range)` | an `A:H` block's codes ranked by wins then quotient | playoff feeders, always inside `INDEX(…, k)` |
+| `SORTBYWINS(range)` | an `A:H` block's codes ranked by wins then quotient — no head-to-head, unlike the site's `rankStandings()` | playoff feeders, always inside `INDEX(…, k)` |
 | `GETPLAYERNAMESBYTEAMCODE(teamcode)` | **2-element array**, spills two rows | `Court Control` |
 | `GETTEAM1CODEBYMATCH(n)` / `GETTEAM2CODEBYMATCH(n)` | team code, else `"-"` | `CSV`, `Court Control` |
 | `COUNTPAIRAT(time_value, pair_code)` | a pair's match count at one slot time | `Timeline` body |

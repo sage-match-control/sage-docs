@@ -34,6 +34,14 @@ into brackets shows one small table per bracket, labelled **Bracket 1**,
 that division's header stacks them in one narrower column instead, and
 **2 cols** puts them back.
 
+Within each round-robin table, pairs are ranked by **wins**, then
+**head-to-head** (among pairs level on wins, whoever won the matches
+between them), then **quotient**. When three or more pairs are level and
+their results against each other go in a circle, quotient decides. This is
+the website's ranking only: the organizer's spreadsheet picks who advances
+to the playoffs by wins and then quotient, so on a head-to-head tie the
+two can differ.
+
 **Club Showdown** *(dual-meet events only)* — a running head-to-head win
 count between the two clubs sits front and center on Standings, updated
 after every match, with whichever club is ahead visually highlighted.

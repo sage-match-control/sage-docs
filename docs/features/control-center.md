@@ -48,6 +48,12 @@ top), and the Bronze/Final rounds — since those pit one club against the
 other — are shown as a single head-to-head block rather than nested under
 either club.
 
+Round-robin pairs are ranked by wins, then head-to-head among pairs level
+on wins, then quotient — the same order as the public event page. The
+Awards tab's standings fallback uses it too. The workbook's playoff feeders
+don't: they rank by wins then quotient, so on a head-to-head tie the pair
+the sheet advances can differ from the one listed first here.
+
 When a category's round robin is split into brackets, each bracket gets its
 own small table under a colored **Bracket 1**, **Bracket 2**… label, two
 side by side, so parallel pools read as pools. On desktop, the **1 col**
