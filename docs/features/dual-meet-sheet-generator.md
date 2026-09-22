@@ -38,6 +38,11 @@ the public event page — one row per match, one row per pair's record).
 These are what make a generated workbook able to run an event end to end,
 not just look like one.
 
+When it finishes, it renames the workbook itself to the plan's date and
+title followed by the venue label in capitals, e.g.
+`2026-09-12 PNF x BUP Dual Meet - PPC`. With no venue label the dash part is
+left off. A run that fails partway leaves the name as it was.
+
 ## How to use it
 
 1. Build the plan in the [Tournament Calculator](tournament-calculator.md)

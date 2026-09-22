@@ -58,6 +58,11 @@ It also fills in `Variables`, `Title` and `Reference for Players`, and builds
 the readout tabs — `Court Control`, `Timeline`, and the `CSV` and
 `STANDINGSCSV` tabs the live sync publishes.
 
+When it finishes, it renames the workbook to the plan's date and title
+followed by the facility label in capitals, e.g.
+`2026-09-27 Pickle For Sight Tournament - PCPH ANNEX`. A run that fails
+partway leaves the name as it was.
+
 ## Packing the schedule
 
 The generator doesn't place matches on courts; you do, by copying from
