@@ -130,7 +130,7 @@ both clubs' logos for a dual meet.
 
 ## 4. Register it, and wire up the sync
 
-Two connections, and the event is inert until both exist:
+Three connections, and the event is inert until all of them exist:
 
 - **Register the event** in `event-data/config/events.json` — its type,
   title, and one entry per day with that day's venues. This takes effect
