@@ -41,20 +41,23 @@ A **Breakdown** sheet exports to `.xlsx` — a full match-by-match schedule you
 can hand to whoever's running registration, or use as a starting point for
 the actual matches CSV.
 
-## Handing a dual meet to the sheet generator
+## Handing the plan to a sheet generator
 
-Once the format is set to **Dual meet**, a **Copy plan & open generator**
-button appears under the export buttons. It copies the plan to your clipboard
-and opens the copy dialog for the master scoring workbook, so you can make
-your own copy and paste the plan straight into the
-[Dual Meet Sheet Generator](dual-meet-sheet-generator.md) — no file to
-download and re-open.
+Under the export buttons, **Copy plan & open generator** copies the plan to
+your clipboard and opens the copy dialog for the master scoring workbook, so
+you can make your own copy and paste the plan straight into its generator —
+no file to download and re-open. Which master it opens follows the format:
+
+- **Dual meet** — the Dual Meet Master, for the
+  [Dual Meet Sheet Generator](dual-meet-sheet-generator.md).
+- **Standard tournament** — the Standard Tournament Master, for the
+  [Standard Tournament Generator](standard-tournament-generator.md). Make one
+  copy per venue per day; in each, tick that venue's categories and enter its
+  court labels in the sidebar.
 
 If the clipboard is unavailable (some browsers block it on non-secure pages),
 the button says so and you can fall back to **Export CSV** and paste the
 file's contents instead.
-
-The equivalent for standard tournaments doesn't exist yet.
 
 ## Works offline
 

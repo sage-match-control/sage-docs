@@ -7,7 +7,10 @@ spreadsheet and find-replacing every category key, court number and team
 code by hand.
 
 It runs in the **SAGE Standard Tournament Master** workbook: make a copy of
-it for each venue-day, then **SAGE → Generate event tabs** in the copy.
+it for each venue-day, then **SAGE → Generate event tabs** in the copy. The
+calculator's **Copy plan & open generator** button, with the format on
+Standard tournament, does both halves of the handoff at once: it copies the
+plan to your clipboard and opens the master's copy dialog.
 
 **Standard tournaments only.** A dual-meet plan is rejected; that belongs in
 the [Dual Meet Sheet Generator](dual-meet-sheet-generator.md).

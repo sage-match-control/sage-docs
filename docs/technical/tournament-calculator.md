@@ -178,13 +178,18 @@ visits in a plain browser tab. They also retain a `window.storage` branch —
 a claude.ai artifacts runtime API that is undefined on GitHub Pages — so the
 page still works if opened as an artifact.
 
-## Dual Meet Sheet Generator handoff
+## Sheet generator handoff
 
-Selecting the Dual meet format reveals a box under the export buttons whose
-button copies the plan CSV to the clipboard and opens the master workbook's
-`/copy` URL, so the operator lands in Google's "Make a copy" dialog and
-pastes into the
-[generator's](dual-meet-sheet-generator.md) sidebar.
+A box under the export buttons holds one button that copies the plan CSV to
+the clipboard and opens a master workbook's `/copy` URL, so the operator
+lands in Google's "Make a copy" dialog and pastes into that master's
+generator sidebar. The master follows the format: the Dual Meet Master for
+the [Dual Meet Sheet Generator](dual-meet-sheet-generator.md), the Standard
+Tournament Master for the
+[Standard Tournament Generator](standard-tournament-generator.md).
+`GENERATOR_MASTERS` holds each one's file ID and help text, and
+`toggleDualClubsVisibility()` swaps the link and text when the format
+changes.
 
 Three implementation details that are easy to get wrong:
 
@@ -198,10 +203,9 @@ Three implementation details that are easy to get wrong:
   API is secure-context only. If both fail, the message points at Export CSV
   rather than failing silently.
 
-The master's file ID is hard-coded in the anchor's `href`. A Drive file ID is
-stable across folder moves, so only replacing the workbook itself breaks the
-link. The show/hide becomes a swap once a standard-tournament generator
-exists.
+Both masters' file IDs are hard-coded in `GENERATOR_MASTERS`. A Drive file
+ID is stable across folder moves, so only replacing a workbook itself breaks
+its link.
 
 ---
 **Features:** [Tournament Calculator usage](../features/tournament-calculator.md)
