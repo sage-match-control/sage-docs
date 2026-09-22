@@ -750,11 +750,12 @@ amended. Listed here so the doc pass has one complete inventory.
 - A standard-tournament variant. One tool serves both event shapes because
   nothing in it knows about clubs.
 
-The last two — writing a draw back, and the event-shape split — are picked up
-in [workbook handoff](../not-started/bracket-generator-workbook-handoff-spec.md), which
-specifies a SAGE menu route into this tool and what a dual-meet workbook's
-roster scaffold actually wants from a draw. Not built: it waits on a
-standard-tournament sheet generator.
+The first of those — writing a draw back — is picked up in
+[bracket draw name import](../not-started/bracket-draw-name-import-spec.md),
+from the other end: the workbook reads this tool's exported text file, so the
+tool still publishes nothing and still knows nothing about the sheet. The
+event-shape split stays as it is; that spec's §11 explains why a dual meet
+does not use a bracket draw at all.
 
 ---
 

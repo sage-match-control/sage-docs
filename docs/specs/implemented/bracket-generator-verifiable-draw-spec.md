@@ -753,9 +753,10 @@ carries the instructions with it.
 - Publishing a draw anywhere. The tool exports files; it publishes nothing.
 - Any change to the shuffle animation's timing, curve or reduced-motion branch.
   Its meaning changes (§1); its code does not.
-- The workbook handoff — see
-  [workbook handoff](../not-started/bracket-generator-workbook-handoff-spec.md), which is
-  independent of this and still waiting on a standard tournament.
+- Anything the workbook does with a draw — see
+  [bracket draw name import](../not-started/bracket-draw-name-import-spec.md),
+  which reads the exported text file (this spec's own audit trail included)
+  into a generated workbook's roster.
 
 ---
 

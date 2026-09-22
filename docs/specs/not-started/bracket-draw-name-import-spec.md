@@ -20,11 +20,14 @@ each category tab's `STEP 1 · NAMES` column and then hand-shuffling
 **Read first:**
 [`standard-tournament-master-spec.md`](../implemented/standard-tournament-master-spec.md)
 §7.2 (group pairs and bracket order), §7.3 (the code ladder) and §7.6 (the two
-scaffolds), and
-[`bracket-generator-workbook-handoff-spec.md`](bracket-generator-workbook-handoff-spec.md),
-which asked for a route in the other direction — workbook out to the tool —
-and deferred the shuffled-codes half until a standard tournament existed. This
-is that half, arriving as an import rather than an export.
+scaffolds).
+
+This replaces a spec that went the other way round. `bracket-generator-workbook-handoff-spec.md`
+proposed a SAGE menu route *into* the tool plus a new tool output shaped like
+`STEP 3`, and was deferred until a standard-tournament generator existed. Once
+one did, the import direction turned out to need nothing new from the tool —
+the exported text file already carries everything — so that spec was retired
+and its two surviving ideas are recorded here, in §11 and §12.
 
 ---
 
@@ -249,16 +252,68 @@ how a re-draw gets applied.
 - The **qualifier draw** (`AM`, master spec §7.6). It is a second draw, made
   after the round robin, and has no file to import from yet.
 - The Bracket Generator's **image** export, which stays a human artifact.
-- Any change to the Bracket Generator itself, including
-  `bracket-generator-workbook-handoff-spec.md`'s menu route *into* the tool.
-  The two are independent: this spec needs only the file the tool already
-  writes.
-- The **Dual Meet Master**. A dual meet's rosters are per club and its draw is
-  not a bracket draw.
+- Any change to the Bracket Generator itself (§11). This spec needs only the
+  file the tool already writes.
+- The **Dual Meet Master** (§12). A dual meet's rosters are per club and its
+  draw is not a bracket draw.
 - Re-verifying the draw's fingerprints (§2).
 
 ---
 
-## 11. Divergences
+## 11. Parked: a menu route into the tool
+
+A SAGE menu item in the workbook could open the Bracket Generator with
+`?event=` from `Title!B6` and `?category=` from the active tab's display
+label (`B1`), in a dialog copying `showScoresheetLink`'s pattern — Apps Script
+cannot open a URL from server code, so the navigation has to come from a click
+on an anchor. About 40 lines in `sheets-sync.gs` plus four in the tool, and
+`?category=` must **not** persist to `localStorage`, unlike `?event=`: a
+category resurrected on a later visit is how someone draws the wrong one.
+
+**Not worth building on its own.** A standard tournament's roster comes from
+registration, not from the workbook, so the operator is in the tool with a
+list of pairs the workbook has never seen and no reason to have it open. The
+prefill saves typing a category name the tool needs anyway, and buys one thing
+for this spec: the file's category line would then match its tab exactly, so
+§4 would never reach its dropdown. That is a nicety, not a reason.
+
+Worth revisiting only if operators find §4's dropdown a nuisance in practice.
+
+## 12. Parked: a dual meet's STEP 3
+
+A dual meet gets no benefit from this spec: its draw is a per-club roster
+blind, not a bracket draw, and the tool's bracket cards are the wrong artifact
+for it. Its `STEP 3` (`AG`/`AV`, two independent columns) is still shuffled by
+hand, or with a throwaway `SORT(…, RANDARRAY(…))` off to one side.
+
+If that ever becomes annoying, the answer is a `SAGE → Shuffle roster codes`
+item that reads `STEP 2` and writes the shuffled codes straight into `STEP 3`
+on the active category tab — no browser, no clipboard, no paste errors. It
+should refuse on a non-category tab, and refuse a `STEP 3` that already holds
+anything unless the operator confirms a replace, since reshuffling a live
+workbook re-points every pair.
+
+What it gives up is an audience: an in-sheet shuffle produces no artifact and
+nobody watches it land, which is the whole point of the tool's ~3s shuffle
+(bracket generator spec §4). That trade is right for a roster blind, which is
+bookkeeping, and wrong for a bracket draw, which is a moment in a room. Two
+dual meets exist in the system's history and both hand-shuffled without
+complaint, so this stays parked.
+
+Rejected along the way, and worth not re-proposing:
+
+- **A shuffled-codes output mode in the tool** — a second export shape, plus a
+  club dimension the tool deliberately lacks (bracket generator spec §12), to
+  move codes through the clipboard for the rarer event shape, when the sheet
+  can write them itself.
+- **A club-aware bracket card** — teaching the tool about clubs forks the one
+  thing both event shapes currently share.
+- **Prefilling the tool's pairs from `STEP 1`** — the timing works (names land
+  before the shuffle), but the tool would hand back bracket cards, still not
+  the column `STEP 3` wants.
+
+---
+
+## 13. Divergences
 
 *(None — nothing here is built. Record departures when it is.)*

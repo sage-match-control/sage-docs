@@ -14,8 +14,8 @@ number by hand.
 > mocked master fed both Pickle for Sight plan CSVs. §18 records where the
 > code departs from this document; read it before trusting a cell reference.
 >
-> This is the "standard-tournament equivalent" the root `CLAUDE.md` and
-> `bracket-generator-workbook-handoff-spec.md` §2 have both been waiting on.
+> This is the "standard-tournament equivalent" the root `CLAUDE.md` had been
+> waiting on.
 
 | | |
 | --- | --- |
@@ -843,10 +843,11 @@ meet's, one column set instead of two:
 | **STEP 2 · CODES** | `AH` | `=$AD$1&"_"&AG<r>`, one row per pair |
 | **STEP 3 · RANDOMIZED** | `AI` | **blank** — operator pastes the codes back shuffled, one row per pair |
 
-STEP 3 stays blank for the reason `sheet-generator.gs:1869` gives and
-`bracket-generator-workbook-handoff-spec.md` §1 quotes: pre-seeding it makes
-an undone step look done, and an unshuffled STEP 3 maps every pair to its own
-roster slot, defeating the blinding. Every Pickle for Sight category tab
+STEP 3 stays blank for the reason `sheet-generator.gs:1869` gives:
+pre-seeding it makes an undone step look done, and an unshuffled STEP 3 maps
+every pair to its own roster slot, defeating the blinding.
+`bracket-draw-name-import-spec.md` is the one thing allowed to fill it, since
+there the order comes from a seeded, published draw. Every Pickle for Sight category tab
 shows the cost of getting this wrong: STEP 3 prefilled in order (§2.1).
 
 The **qualifier scaffold** (`AM`–`AP`) is the second draw, and has no
@@ -1762,12 +1763,13 @@ which is which, but nothing stops a runner-up being given seat `1`. A check
 column beside `AM` that flags a seat outside its row's tier would catch it;
 whether that is worth the extra formulas has not been decided.
 
-**Whether the qualifier scaffold should be filled by the bracket generator.**
-`bracket-generator-workbook-handoff-spec.md` §5 is about STEP 3 of the roster
-scaffold. §7.6's `AM` column is a *second* draw with the same shape and the
-same hand-shuffling problem, and that spec explicitly deferred its design
-until a standard tournament existed. It now does. Deciding it is that spec's
-job, not this one's — but it should be decided against both scaffolds.
+**Whether the qualifier scaffold should be drawn in a tool.**
+`bracket-draw-name-import-spec.md` fills STEP 3 of the roster scaffold from a
+Bracket Generator draw. §7.6's `AM` column is a *second* draw with the same
+shape and the same hand-shuffling problem, but no artifact to import: it
+happens after the round robin, on the day, from the standings. Whether it
+should go through the tool at all, or get its own in-sheet draw, is open —
+that spec's §10 keeps it out of scope.
 
 **Per-facility court label ordering.** Only matters if §10.2.4's packer is
 ever built. §6.1 takes the labels in schedule order, and the packer would
