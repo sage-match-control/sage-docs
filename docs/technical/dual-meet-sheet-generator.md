@@ -222,5 +222,14 @@ count, the roster's position, the feeder formulas, and an entire undocumented
 score grid on the playoff blocks. Read §13 before trusting a cell reference
 anywhere else in it.
 
+## Renaming the workbook
+
+After a successful run, `workbookName_` renames the spreadsheet to
+`<date> <title> - <VENUE>`, e.g. `2026-09-12 PNF x BUP Dual Meet - PPC`:
+the plan's date and title, then the sidebar's venue label uppercased, with
+the dash part dropped when the label is blank. It runs last, so a failed or
+rejected run leaves the copy's name alone. `standard-generator.gs` carries
+the same helper.
+
 ---
 **Features:** [what the generator does for you](../features/dual-meet-sheet-generator.md)

@@ -132,10 +132,13 @@ line item.
   the best-of-3 series before bracket math runs, so no toggle appears there.
 
 The CSV gains a trailing `solo_format` column, written only for standard
-categories that actually resolve to one bracket. `sheet-generator.gs` parses
-the plan CSV positionally and is dual-only, so a trailing column is inert
-there; an older 11-column export imports with `soloFormat` defaulting to
-`'ttb'`, preserving what those files meant when they were written.
+categories that actually resolve to one bracket. `standard-generator.gs`
+reads it to choose between the twice-to-beat final and round robin only;
+`sheet-generator.gs` parses the plan CSV positionally and is dual-only, so
+the column is inert there. An older 11-column export imports with
+`soloFormat` defaulting to `'ttb'`, preserving what those files meant when
+they were written, and the standard generator reads a missing column the
+same way.
 
 ## PWA (installable, offline)
 

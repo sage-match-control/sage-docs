@@ -18,11 +18,12 @@ step links to its full section below.
    byte-identically everywhere from here on.
 2. **[Plan it](#1-plan-it)** in the Tournament Calculator: format,
    categories, courts, match duration, one plan per day. Draw any brackets
-   in the Bracket Generator. Dual meet: click **Copy plan & open generator**.
+   in the Bracket Generator. Then click **Copy plan & open generator**.
 3. **[Build the scoring workbook](#2-build-the-scoring-workbook)**, one per
-   venue per day. Dual meet: copy the master, run **SAGE → Generate event
-   tabs**, paste the plan, then paste the rosters. Standard tournament:
-   build or copy it by hand, with the exact column names the sync expects.
+   venue per day: copy the format's master, run **SAGE → Generate event
+   tabs**, paste the plan, then paste the rosters. A standard tournament
+   also needs its `SCHEDULE` packed from the `MATCHES` tab and its matches
+   numbered.
 4. **[Build the event site](#3-build-the-event-site)**: copy the matching
    template into `events/<event-key>/`, replace the tokens, add the QR code
    (and both clubs' logos for a dual meet).
@@ -69,15 +70,17 @@ Settle these before moving on, because everything downstream is sized from
 them:
 
 - **Format** — dual meet, or standard tournament. This decides which site
-  template you use and whether the sheet generator can help you at all.
+  template you use and which master workbook and generator build the
+  scoring workbook.
 - **Categories**, with pairs per club (dual meet) or team counts (standard).
 - **Courts** and **match duration**, including any buffer between matches.
 - **Days and venues** — one plan per tournament day, if the event runs
   across several.
 
-Export the plan when it's right. For a dual meet, use **Copy plan & open
-generator** rather than the file export — it puts the plan on your clipboard
-and opens the master workbook's copy dialog in one step.
+Export the plan when it's right. Use **Copy plan & open generator** rather
+than the file export — it puts the plan on your clipboard and opens the copy
+dialog of the master for the plan's format, dual meet or standard, in one
+step.
 
 If any category needs pairs split into brackets, draw them now with the
 [Bracket Generator](bracket-generator.md) — before the workbook exists, so
@@ -186,8 +189,9 @@ At that point the event is ready, and the rest is
 
 ## Where dual meets differ
 
-- The scoring workbook can be **generated** from the plan; standard
-  tournaments are still hand-built.
+- The scoring workbook comes from the **Dual Meet Master** and its
+  generator, which also places every match on `SCHEDULE`. A standard
+  tournament's generator leaves `SCHEDULE` for you to pack from `MATCHES`.
 - The site uses `dual-meet-template/`, which frames every category, the
   standings, and the Awards tab's "Overall Champion" line as Club A vs Club B.
 - The plan needs **pairs per club** and a bracket count per category, and the
@@ -197,4 +201,5 @@ At that point the event is ready, and the rest is
 
 ---
 **Technical:** [adding a new event](../technical/adding-a-new-event.md) ·
-[dual meet sheet generator](../technical/dual-meet-sheet-generator.md)
+[dual meet sheet generator](../technical/dual-meet-sheet-generator.md) ·
+[standard tournament generator](../technical/standard-tournament-generator.md)

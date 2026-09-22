@@ -16,14 +16,15 @@ handle any number of tournament days and divisions/events.
 `dual-meet-template/` additionally handles exactly two clubs; it's not a
 general multi-club template.
 
-> **Dual meets: generate the scoring workbook, don't copy last event's.**
-> These steps instantiate the *site*; they assume the event's Google Sheets
-> already exist (step 8 installs the sync trigger into them). For a dual
-> meet, build that workbook with the
-> [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) — it produces
-> every tab the event needs from the Tournament Calculator plan, and the
-> workbook is ready to score once player names are pasted in. The full
-> sequence, from planning to dry run, is
+> **Generate the scoring workbook, don't copy last event's.** These steps
+> instantiate the *site*; they assume the event's Google Sheets already exist
+> (step 8 installs the sync trigger into them). Build them from the
+> Tournament Calculator plan with the format's generator: the
+> [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) for a dual meet,
+> which produces every tab the event needs, or the
+> [Standard Tournament Generator](standard-tournament-generator.md), one
+> workbook per venue per day, which leaves `SCHEDULE` to be packed from its
+> `MATCHES` tab. The full sequence, from planning to dry run, is
 > [preparing an event](../features/preparing-an-event.md).
 
 ## The steps, in order

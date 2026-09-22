@@ -42,10 +42,12 @@ one is not a deploy and doesn't bump the API version.
 | --- | --- | --- |
 | `sheets-sync.gs` | each facility spreadsheet | the debounced onEdit trigger that calls `POST /sync/:day` (the diagram above) |
 | `sheet-generator.gs` | the SAGE Dual Meet Master workbook | builds a dual meet's category tabs from a Tournament Calculator CSV — see [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) |
+| `standard-generator.gs` | the SAGE Standard Tournament Master workbook | builds one venue-day's standard-tournament workbook from a Tournament Calculator CSV — see [Standard Tournament Generator](standard-tournament-generator.md) |
 
 They sit at opposite ends: `sheets-sync.gs` is the *entry point* to the sync
-pipeline, while `sheet-generator.gs` touches no server at all and only
-prepares the workbook that pipeline will later read from.
+pipeline, while the two generators touch no server at all and only prepare
+the workbook that pipeline will later read from. A generated workbook
+carries `sheets-sync.gs` and one of the two generators, never both.
 
 ## Why the registry lives in `event-data`, not in code
 

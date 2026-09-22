@@ -147,14 +147,15 @@ safeguard: the trigger doesn't exist at all until `Set up live sync` has run
 once, so the normal workflow — finish rosters and schedule fixes, wire up
 sync last — never needs it. `Sync now` still works while paused, since
 that's an explicit manual action rather than the automatic edit-triggered
-path pausing is scoped to. A generated dual-meet workbook carries both this file
-and `sheet-generator.gs`, and Apps Script silently lets the last-loaded
-file's `onOpen` win when two are declared — so both files declare a
-**byte-identical** `onOpen` body that delegates to feature-detected builders
-(`addSyncMenuItems_` in this file, `addGeneratorMenuItems_` in
-`sheet-generator.gs`), each contributing only its own items and its own
-leading separator. Which declaration wins can't matter, since both bodies are
-the same text. Change one file's `onOpen`, change the other's to match — see
+path pausing is scoped to. A generated workbook carries both this file and
+one generator — `sheet-generator.gs` or `standard-generator.gs` — and Apps
+Script silently lets the last-loaded file's `onOpen` win when two are
+declared. So all three files declare a **byte-identical** `onOpen` body that
+delegates to feature-detected builders (`addSyncMenuItems_` in this file,
+`addGeneratorMenuItems_` in each generator), each contributing only its own
+items and its own leading separator. Which declaration wins can't matter,
+since the bodies are the same text. Change one file's `onOpen`, change the
+other two to match — see
 `sage-docs/docs/specs/implemented/sync-script-configuration-spec.md` §7 for the full
 contract, and the divergences/design notes in
 `sage-docs/docs/specs/implemented/scoresheet-event-picker-spec.md` §8.3 for why a

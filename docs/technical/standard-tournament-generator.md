@@ -69,6 +69,20 @@ holds (which sizes `STANDINGSCSV`), and any validation error: a ladder
 deeper than `R32`, more than 32 entrants, or a code or label that would
 repeat.
 
+### Formats come from the template
+
+Nothing in the script sets a colour or a font. `buildCategoryTab` copies the
+template tab, lays its all-black row 34 over everything below the chrome,
+then copies each block's format from its fixed prototype cell in
+`TEMPLATE_PROTO`: pair rows, grid cells, banners, match blocks, the roster,
+the draw and the slot table. `checkTemplate_` refuses to run unless
+`_CATEGORY_TEMPLATE` shows the reference `HIMD` tab's banner labels where
+`TEMPLATE_PROTO` expects them. Merges are broken in two pieces that cut
+through none of the template's — A:AA from row 6, AB onward from row 4 —
+since Sheets refuses to unmerge a range that splits a merge.
+`applyTemplateRules_` stretches the template's own conditional formats to
+each tab's height and drops the two pinned to `HIMD`'s cells.
+
 ### Forward propagation
 
 A standard ladder can't pull its entrants from a sorted group block the way
@@ -86,7 +100,15 @@ crossover.
 `MATCHES` is a copy of the pristine `SCHEDULE` prototype, tiled to one
 band per category, so pasting from it into `SCHEDULE` is a plain copy.
 Nothing reads it. Row labels sit in the separator column left of each band,
-out of the way of a paste.
+out of the way of a paste. Block headers come from `blockLabels`: a bracket's
+round-robin matches always sit under that bracket's `floor(n_b / 2)` blocks,
+because every round of a bracket fills exactly that many and brackets run
+largest first.
+
+`SCHEDULE` and `MATCHES` both lift their conditional formats off before
+tiling and restore them afterwards with one range per block column; tiled
+with `copyTo`, each rule would list every cell separately and
+`setConditionalFormatRules` fails outright past a few hundred.
 
 `packSchedule_` places every match in waves, taking turns between categories,
 never reordering a category's queue, holding each playoff stage until the one
@@ -103,6 +125,11 @@ Pickle for Sight days at 33 and 29 slots.
 `Court Control`'s GIDs. A second run is refused before anything is written —
 by the pristine check, and by the category tabs and `MATCHES` colliding by
 name.
+
+After every tab is built, `workbookName_` renames the spreadsheet to
+`<date> <title> - <FACILITY>` from the plan and the facility label; a failed
+or rejected run leaves the copy's name alone. `sheet-generator.gs` carries
+the same helper, with the venue label.
 
 `CSV` gets its header and one formula row with `A2` blank. `SAGE → Fill match
 numbers` (in `sheets-sync.gs`) copies that row down to one row per match.

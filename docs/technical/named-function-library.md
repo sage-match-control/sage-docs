@@ -14,6 +14,13 @@ makes it the one part of the system with no greppable source.
 cannot be created through the Sheets API, which is the constraint that forces
 the whole generate-from-a-copy design.
 
+**The standard-tournament library is this one, with two changes.** The SAGE
+Standard Tournament Master carries 22 functions: these 23 less `SORTBYWINS`
+(a standard playoff's entrants are drawn, not sorted), with `MATCHCOURT`
+reading the court label from `SCHEDULE` row 5 instead of the block's
+position. `standard-tournament-master-spec.md` §10.5 and §11 give the
+definition and the reasoning.
+
 ## Reading the library out of a workbook
 
 Two routes, both awkward:

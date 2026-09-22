@@ -51,8 +51,10 @@ For each ticked category, a tab with:
   filled in and you only type the names.
 
 Plus a **`MATCHES`** tab, laying out every category's matches side by side,
-one row per round, and an **empty `SCHEDULE`** grid sized for the day, with
-court headings and start times but no matches in it.
+one row per round. Each block's header names the bracket whose matches it
+holds (`HIMD Br 1`, `HIMD Br 2`, …), and the round robins run in the order
+of SAGE's bracket guide. And an **empty `SCHEDULE`** grid sized for the day,
+with court headings and start times but no matches in it.
 
 It also fills in `Variables`, `Title` and `Reference for Players`, and builds
 the readout tabs — `Court Control`, `Timeline`, and the `CSV` and
