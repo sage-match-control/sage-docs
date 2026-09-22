@@ -132,6 +132,10 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
+- **[Bracket draw name import](not-started/bracket-draw-name-import-spec.md)**
+  — uploading the Bracket Generator's text exports into a generated workbook,
+  so each category's rosters and its `STEP 3` codes come from the verifiable
+  draw instead of being typed and hand-shuffled.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling.

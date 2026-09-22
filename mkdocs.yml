@@ -93,6 +93,7 @@ nav:
           - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
+          - Bracket draw name import: specs/not-started/bracket-draw-name-import-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
           - Bracket Generator workbook handoff: specs/not-started/bracket-generator-workbook-handoff-spec.md

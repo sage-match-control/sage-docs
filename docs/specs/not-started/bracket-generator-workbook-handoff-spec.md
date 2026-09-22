@@ -8,6 +8,13 @@ what the workbook's roster scaffold actually asks for.
 > **Status: not implemented. Deliberately deferred until a standard
 > tournament exists** — see §2. Nothing in this document has been built; it is
 > written now so the reasoning survives the wait.
+>
+> A standard tournament now exists, and the standard half of §5 is answered
+> from the other direction:
+> [`bracket-draw-name-import-spec.md`](bracket-draw-name-import-spec.md)
+> imports the tool's existing text export into the workbook, filling STEP 1
+> and STEP 3 together, so no shuffled-codes output mode is needed there. The
+> dual-meet case, and §3's menu route into the tool, are still open.
 
 | File | Repo | Change |
 | --- | --- | --- |

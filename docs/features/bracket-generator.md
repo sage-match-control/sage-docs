@@ -81,7 +81,14 @@ carries the instructions with it.
 Two export options, once a draw has landed:
 
 - **Export as image** — a printable PNG, laid out as a card per bracket.
-- **Export as text** — a plain-text list of every bracket and its pairs.
+- **Export as text** — a plain-text list of every bracket and its pairs,
+  followed by the seed and every pair's fingerprint.
+
+**Save both, for every category.** The image is what you post and print; the
+text file is what you read the names off when filling the scoring workbook,
+and what anyone re-checking the draw needs. Where this sits in the setup
+sequence is step 3 of
+[preparing an event](preparing-an-event.md#3-draw-the-brackets-and-enter-the-names).
 
 Filenames include the category (and the event name, if you set one), so
 they're easy to find again after exporting eight categories in a row —
@@ -97,4 +104,5 @@ itself is uniformly random with no rankings and no protected pairings:
 it won't keep training partners or club-mates apart, and it doesn't try to.
 
 ---
+**Features:** [preparing an event](preparing-an-event.md) ·
 **Technical:** [bracket generator](../technical/bracket-generator.md)
