@@ -95,7 +95,9 @@ A few things the Awards tab is careful about:
   card shows a warning naming the match number instead of guessing a winner.
 - A category with no playoff bracket at all (pure round robin) falls back to
   its top-three standings, tagged **By standings** so it's clear where that
-  podium came from.
+  podium came from. All three placings read **Pending** until every
+  round-robin match in that category has a score — before then the top three
+  are only the current leaders.
 
 ## Mission Control
 

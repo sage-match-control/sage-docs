@@ -186,14 +186,20 @@ than the superseded first result.
 A `standard`-type event can have a category that never plays a Final — pure
 round robin, standings decide it. When **no `F` match exists at all** for a
 category, fall back to the top three `RR` standings rows, using the identical
-sort Standings already applies:
+sort Standings already applies (`rankStandings()`):
 
 ```
-wins desc, then quotient desc
+wins desc, then head-to-head among pairs level on wins, then quotient desc
 ```
 
 Rows failing `isEmptyStanding()` (placeholder rows where `player1` equals the
 team code) are excluded before taking the top three.
+
+The fallback only fills the podium once **every** non-bye `RR` match in the
+category is played (`categoryRoundRobinDone()`). Until then all three
+placings are pending: mid-round-robin, the top three are only the current
+leaders, and showing them as medalists would be the finished-looking wrong
+podium §2.7 forbids.
 
 > Mark these podiums visibly as **"by standings"** rather than presenting them
 > as a bracket result. An operator reading the card should never have to
@@ -235,6 +241,7 @@ Two rules, applied in that order, cover all of it:
 |---|---|
 | Final not yet played | Gold/Silver slots read **"Pending"**; Bronze fills independently if resolved |
 | Bronze not yet played and not bye-decided | Bronze slot reads **"Pending"** |
+| No `F` match, round robin not finished (§2.5) | All three slots read **"Pending"**, still tagged "by standings" |
 | Final played, scores equal | Podium suppressed for that category; visible **"Check the score for match #N"** warning naming the match number |
 | Both sides of a match are `BYE` | Same warning treatment, naming the match number |
 | Team slot still a placeholder (`isEmptyStanding` shape) | Names render as **"TBD"**, consistent with `pairCell()` elsewhere |
