@@ -136,12 +136,12 @@ to the `...` form rather than repointing it.
   — uploading the Bracket Generator's text exports into a generated workbook,
   so each category's rosters and its `STEP 3` codes come from the verifiable
   draw instead of being typed and hand-shuffled.
+- **[Bracket Generator workbook handoff](not-started/bracket-generator-workbook-handoff-spec.md)**
+  — the outbound half: a SAGE menu route from a scoring workbook into the
+  tool, and how a dual meet's STEP 3 gets filled. Pairs with the import spec
+  above, which covers the standard tournament's inbound half.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling.
   - **[Plain-language explainer](not-started/fast-data-delivery-explainer.md)**
     — the same, without the implementation detail.
-- **[Bracket Generator workbook handoff](not-started/bracket-generator-workbook-handoff-spec.md)**
-  — a SAGE menu route from a scoring workbook into the tool, and the roster
-  scaffold's unfilled STEP 3. Was deferred until a standard tournament
-  existed; one now does.

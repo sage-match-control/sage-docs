@@ -1,20 +1,25 @@
 # Spec — Bracket Generator × scoring workbook handoff
 
 Connect `tools/bracket-generator.html` to the scoring workbooks that need a
-draw: a **SAGE menu item** that deep-links into the tool with the event and
-category already filled in, and — for dual meets — an output mode that emits
-what the workbook's roster scaffold actually asks for.
+draw, in the outbound direction: a **SAGE menu item** that deep-links into the
+tool with the event and category already filled in, and — for dual meets — an
+output mode that emits what the workbook's roster scaffold actually asks for.
+The inbound direction, a standard tournament's draw files going back into its
+workbook, is
+[`bracket-draw-name-import-spec.md`](bracket-draw-name-import-spec.md).
 
-> **Status: not implemented. Deliberately deferred until a standard
-> tournament exists** — see §2. Nothing in this document has been built; it is
-> written now so the reasoning survives the wait.
+> **Status: not implemented.** Nothing in this document has been built.
 >
-> A standard tournament now exists, and the standard half of §5 is answered
-> from the other direction:
-> [`bracket-draw-name-import-spec.md`](bracket-draw-name-import-spec.md)
-> imports the tool's existing text export into the workbook, filling STEP 1
-> and STEP 3 together, so no shuffled-codes output mode is needed there. The
-> dual-meet case, and §3's menu route into the tool, are still open.
+> It was written while it still waited on a standard-tournament generator.
+> That generator exists now, and the standard tournament's inbound half is
+> specified separately, in
+> [`bracket-draw-name-import-spec.md`](bracket-draw-name-import-spec.md):
+> the tool's existing text export is imported into the workbook, filling
+> STEP 1 and STEP 3 from the draw, so no new tool output is needed there.
+>
+> What remains here: **§3-§4**, the menu route from a workbook into the tool
+> (both formats, buildable now), and **§5-§6**, how a dual meet's STEP 3 gets
+> filled, which is still undecided. §2 sets out the split.
 
 | File | Repo | Change |
 | --- | --- | --- |
@@ -33,7 +38,10 @@ either.
 ## 1. Current state — the STEP 3 hole
 
 Every generated dual-meet category tab carries a roster scaffold, built by
-`writeRosterScaffold_` (`sheet-generator.gs:1826`), once per club:
+`writeRosterScaffold_` (`sheet-generator.gs:1826`), once per club. (A standard
+tournament's tab carries the same three steps once, in `AD`/`AH`/`AI` —
+standard master spec §7.6 — and its STEP 3 is filled from the draw file
+instead; see the import spec.)
 
 | Step | Column (club A / club B) | State on a fresh workbook |
 | --- | --- | --- |
@@ -77,11 +85,11 @@ a shuffle — but not in *shape*, which is what §5 is about.
 
 ---
 
-## 2. Why this waits for a standard tournament
+## 2. What each event shape needs from the tool
 
-The tool has one output today — bracket cards, a PNG or text list of pairs
-grouped under lettered brackets — and that artifact fits the two event shapes
-very differently:
+The tool has one output — bracket cards, a PNG or text list of pairs grouped
+under lettered brackets — and that artifact fits the two event shapes very
+differently:
 
 | | Standard tournament | Dual meet |
 | --- | --- | --- |
@@ -89,25 +97,29 @@ very differently:
 | Bracket count | arbitrary | 1 or 2 |
 | Club dimension | none | two clubs, drawn separately |
 | Does the tool's current output fit? | **yes, exactly** | no — wrong artifact |
-| Is there a generator workbook to link from? | **not yet** | yes |
+| Is there a generator workbook to link from? | yes — the Standard Tournament Master | yes — the Dual Meet Master |
 
-The irony is exact: the event shape the tool's output already serves has no
-workbook to put a menu in, and the one with the workbook needs an output the
-tool doesn't have.
+That asymmetry is why this spec was deferred, and why only half of it is still
+open. When it was written there was no standard-tournament generator, so the
+event shape the tool's output already served had no workbook to put a menu in,
+and the one with a workbook needed an output the tool doesn't have.
 
-Building the dual-meet half first would mean designing the deep-link contract
-against the only generator that exists, then retrofitting it when the
-standard-tournament sheet generator lands — which is already planned (see the
-calculator's dual-meet handoff note in the root `CLAUDE.md`: "A standard-
-tournament equivalent is planned, at which point the show/hide becomes a
-swap"). Worse, the *natural* dual-meet-first implementation is "menu item →
-bracket cards", which ships something that looks finished and doesn't actually
-close the operator's loop. A feature that appears done and isn't is more
-expensive than one that doesn't exist yet.
+Both masters exist now, and the standard tournament's inbound half is settled
+elsewhere:
+[`bracket-draw-name-import-spec.md`](bracket-draw-name-import-spec.md) reads
+the text file the tool already exports into the workbook's roster, filling
+STEP 1 and STEP 3 from the draw. So the tool needs no new output for a
+standard tournament, and this spec's remaining scope is:
 
-Waiting costs nothing: STEP 3 has been filled by hand for every event so far,
-and one menu contract designed against both generators at once is cheaper than
-two.
+- **§3, §4 — the menu route into the tool**, for both formats. Worth doing
+  either way: the import spec still expects the operator to get to the tool
+  with the event and category filled in, and to come back with a file.
+- **§5 — the shuffled-codes output mode**, for dual meets only, where the
+  bracket-card artifact is the wrong shape and there is no file to import.
+- **§6 — the in-sheet shuffle**, still the strongest competitor to §5.
+
+Waiting cost nothing: STEP 3 has been filled by hand for every event so far,
+and one menu contract designed against both generators is cheaper than two.
 
 ---
 
@@ -163,20 +175,30 @@ Add `BRACKET_GENERATOR_URL` beside `SCORESHEET_GENERATOR_URL`
 
 | Parameter | Source | Note |
 | --- | --- | --- |
-| `?event=` | `Title!B6` | the event title the generator wrote there (`sheet-generator.gs:2465`) |
-| `?category=` | the active category tab's **`A1`** | the display label, uppercased (`sheet-generator.gs:1241`) |
+| `?event=` | `Title!B6` | the event title, which both generators write there (`sheet-generator.gs:2465`, `standard-generator.gs`'s `writeTitleTab_`) |
+| `?category=` | the active category tab's **display label** — see below | uppercased |
 
-**`A1`, not the tab name.** Tabs are named by the raw category key — `LIWD`,
-matching `^[A-Z0-9]{2,8}$` — while `A1` carries the human label
-("LOW INTERMEDIATE WOMEN'S DOUBLES"). The raw key is the wrong thing to print
-on a bracket card handed to players.
+**The display label, not the tab name.** Tabs are named by the raw category
+key — `LIWD`, matching `^[A-Z0-9]{2,8}$` — and the raw key is the wrong thing
+to print on a bracket card handed to players. Which cell holds the label
+differs by master, so the item has to read the right one:
+
+| Master | Label cell | What the other cell holds |
+| --- | --- | --- |
+| Dual Meet | `A1` — the label, uppercased (`sheet-generator.gs:1241`) | no key cell; the tab name is the key |
+| Standard Tournament | `B1` — `=FILTER(Variables!J:J, Variables!I:I=A1)`, the plan's `value` (standard master spec §7.1) | `A1` is the raw key |
+
+Read `B1` when it holds a non-empty value different from `A1`, else `A1`. That
+covers both masters without the script having to know which one it is in — and
+a standard tab whose `B1` hasn't resolved (a category missing from the plan
+block) degrades to the key rather than sending an empty parameter.
 
 **Open question:** how the item behaves when the active sheet isn't a category
-tab. Options are to fall back to no `?category=` at all, or to offer a picker.
-The cheap version — prefill from the active sheet when it looks like a category
-tab, omit the parameter otherwise — is probably right, but it needs deciding
-against the standard-tournament generator's tab naming, which doesn't exist
-yet.
+tab. Both masters name category tabs by the raw key, so "looks like a category
+tab" is testable: the sheet name matches `^[A-Z0-9]{2,8}$` and appears in
+`Variables`' plan block. The cheap version — prefill from the active sheet when
+it passes that test, omit the parameter otherwise — is probably right; a picker
+is the alternative if operators turn out to run the item from `SCHEDULE`.
 
 ---
 
@@ -275,6 +297,12 @@ roster into a tool and gotten back something they cannot paste. Name prefill
 becomes worth doing **together with** §5's shuffled-codes mode, and is
 pointless without it.
 
+For a standard tournament the direction is reversed and the rejection stands
+for a second reason: names travel *out* of the draw and into the sheet
+([`bracket-draw-name-import-spec.md`](bracket-draw-name-import-spec.md)), where
+the bracket cards are exactly the right artifact. Prefilling the tool from
+STEP 1 there would feed it the roster it is about to produce.
+
 ### 7.2 Rejected — a club-aware bracket card
 
 Grouping a dual meet's cards by club would make the card output fit the dual
@@ -294,8 +322,10 @@ See §3.1. It would vanish after generation, which is before the draw.
   stays blank; this spec fills it, it does not redesign it.
 - Reading rosters or pairs from `event-data` (§7.1).
 - Seeded or non-random draws — still a different feature with its own spec.
-- A standard-tournament sheet generator. This spec *waits* on one; it does not
-  specify one.
+- The standard tournament's inbound half — its draw files going back into its
+  workbook. That is
+  [`bracket-draw-name-import-spec.md`](bracket-draw-name-import-spec.md), and
+  it needs nothing from this spec.
 
 ---
 
@@ -303,19 +333,22 @@ See §3.1. It would vanish after generation, which is before the draw.
 
 *(To be worked through when this is built, not before.)*
 
-- [ ] The SAGE menu shows the bracket item in the Master, in a fresh copy, and
+- [ ] The SAGE menu shows the bracket item in each master, in a fresh copy, and
       in a generated workbook — before and after `Generate event tabs`.
 - [ ] It appears in a workbook with no sync configured.
 - [ ] The dialog's link opens the tool in a new tab with `?event=` from
-      `Title!B6` and `?category=` from the active category tab's `A1`.
+      `Title!B6` and `?category=` from the active category tab's display
+      label — `A1` in a dual-meet workbook, `B1` in a standard one (§3.4).
 - [ ] Opening it from a non-category tab still works, with whatever §3.4's open
       question settles on.
 - [ ] `?category=` fills the field and is **not** written to `localStorage`;
       a later visit with no parameter comes back with the category empty and
       the event name still remembered.
 - [ ] `onOpen`'s shared block is byte-identical in both `.gs` files.
-- [ ] `node scripts/verify-sheet-generator.mjs` still passes (it covers
-      `sheet-generator.gs` only, but the shared menu block lives in both).
+- [ ] `node scripts/verify-sheet-generator.mjs` and
+      `node scripts/verify-standard-generator.mjs` still pass (the shared
+      menu block lives in all three `.gs` files, and the standard harness
+      loads `sheets-sync.gs`).
 
 ---
 
