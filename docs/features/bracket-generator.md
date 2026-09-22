@@ -12,6 +12,14 @@ shuffle for a few seconds, then land in their brackets — and the result stays
 up for you to read off or export. **Randomize again** re-draws the same pairs
 from scratch if you want a different split.
 
+**Opening it from the workbook.** If you're drawing for an event you've
+already built a scoring workbook for, open the category's tab and choose
+**SAGE → Open Bracket Generator**. The tool opens with the event name and
+that category already filled in, so the names on the export match the tab
+they're going back into. The category is filled in for that visit only and is
+never remembered — a category carried over to a later visit is how someone
+draws the wrong one.
+
 ## Verifiable Draw or Random Draw
 
 The **Draw type** switch above the Seed field picks how the draw is made:
@@ -85,9 +93,12 @@ Two export options, once a draw has landed:
   followed by the seed and every pair's fingerprint.
 
 **Save both, for every category.** The image is what you post and print; the
-text file is what you read the names off when filling the scoring workbook,
-and what anyone re-checking the draw needs. Where this sits in the setup
-sequence is step 3 of
+text file is what fills the scoring workbook, and what anyone re-checking the
+draw needs. A standard tournament takes those text files straight into the
+workbook — every category at once — with
+[**SAGE → Import bracket draws**](standard-tournament-generator.md#filling-the-rosters-from-the-draw),
+which reads the names, the bracket order and the seed off them, so nothing is
+typed twice. Where this sits in the setup sequence is step 3 of
 [preparing an event](preparing-an-event.md#3-draw-the-brackets-and-enter-the-names).
 
 Filenames include the category (and the event name, if you set one), so

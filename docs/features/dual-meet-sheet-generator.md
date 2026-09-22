@@ -86,6 +86,26 @@ venue already selected and makes no changes to the spreadsheet. **Generate
 event tabs** is the opposite — it runs once per workbook and then disappears
 from the menu, since a second run can only fail.
 
+## Drawing the roster codes
+
+A dual meet's blind is a per-club roster draw rather than a bracket draw, so
+there is no draw file to import: `STEP 3 · RANDOMIZED CODES` is drawn in the
+sheet.
+
+Paste each club's players into its `STEP 1 · NAMES` column, then choose
+**SAGE → Shuffle roster codes** on that tab. It reads the codes from
+`STEP 2` and writes a shuffled order into `STEP 3`, drawing each club's
+column independently — the two clubs are separate rosters and never mix.
+
+`STEP 3` ships blank on purpose. Filling it in order is not a no-op: it maps
+every pair to its own roster slot, which quietly undoes the blinding the
+shuffle exists to provide.
+
+The item refuses a tab that has no roster on it, and asks before replacing
+codes that are already there, since reshuffling re-points every pair on the
+tab. It stays in the menu after the workbook is generated, because that is
+when the roster arrives.
+
 ## What it does *not* do
 
 **Player names.** The plan has no roster in it, so the name columns come out
@@ -93,8 +113,8 @@ empty for you to paste into. The generator says so when it finishes — that
 is the one piece of hand work a generated workbook still needs before it can
 run an event.
 
-Treat the generated workbook as ready to run once rosters are in, not as a
-finished, already-scored event.
+Treat the generated workbook as ready to run once rosters are in and their
+codes are drawn, not as a finished, already-scored event.
 
 ## If it refuses to run
 

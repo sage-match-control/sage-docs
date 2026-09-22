@@ -111,6 +111,21 @@ the on-page result line, `ctx.fillText` for the canvas (which takes a string,
 not markup), and `slugify()` for the filename. It's never interpolated into
 an `innerHTML` string.
 
+## `?category=`, and why it is not remembered
+
+`initCategoryFromQuery` prefills the category field from `?category=` and
+stops there — no `localStorage` write, no fallback read, nothing carried to
+the next visit. That asymmetry with `?event=` above is deliberate: an event
+name is the same all day and worth remembering, while a category resurrected
+on a later visit is how someone draws the wrong one.
+
+It is what `SAGE → Open Bracket Generator` in a scoring workbook sends, along
+with `?event=`, so the export's category line matches the tab it will be
+imported back into. That link is built in `sheets-sync.gs`
+(`showBracketGeneratorLink`) and reaches every workbook, dual meets included;
+see [bracket draw name import](../specs/not-started/bracket-draw-name-import-spec.md)
+§11.
+
 ## Replaced a per-event copy
 
 Four near-identical copies of this file used to exist — two event-site

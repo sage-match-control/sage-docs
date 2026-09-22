@@ -42,9 +42,9 @@ For each ticked category, a tab with:
 - The whole playoff ladder the calculator planned, including the byes it
   gives group winners, down to the bronze and final. Each match works out
   where its winner goes, so the ladder fills itself in as results come in.
-- Two paste-in areas: the roster (names, then codes shuffled by hand), and
-  the **qualifier draw**, where group-stage qualifiers are drawn by lot into
-  playoff slots. The draw lists which finisher each row is waiting for, and
+- Two fill-in areas: the roster, which **SAGE → Import bracket draws** fills
+  from the Bracket Generator's text files (see below), and the **qualifier
+  draw**, where group-stage qualifiers are drawn by lot into playoff slots. The draw lists which finisher each row is waiting for, and
   the slot table beside it lists every slot the draw can land on. A
   category with **two brackets** has no draw: its semifinals are a
   crossover (Br 1 #1 v Br 2 #2, Br 2 #1 v Br 1 #2), so the slots come
@@ -89,6 +89,46 @@ the courts when.
 
 The generator's execution log carries a suggested layout that follows those
 rules, if you'd rather copy one than work one out.
+
+## Filling the rosters from the draw
+
+Once the brackets are drawn, **SAGE → Import bracket draws** fills the
+rosters from the [Bracket Generator](bracket-generator.md)'s text exports, so
+no pair is typed in twice. Drop in every category's `.txt` file at once — they
+are read in your browser and never uploaded anywhere.
+
+Per category it writes three things and nothing else:
+
+- **`STEP 1 · NAMES`** — both players of every pair, in draw order: bracket
+  A's pairs first, then bracket B's. That order is what puts each pair in the
+  right bracket on the tab, in the standings and in its score grid.
+- **`STEP 3 · RANDOMIZED CODES`** — that category's codes, in order. Unlike a
+  hand-built roster, filling these in order is correct here: the draw has
+  already done the randomising, and shuffling again would break the bracket
+  assignment it made.
+- Three lines beside the roster recording the **seed, the draw number and the
+  filename**, so a tab can be traced back to the draw it came from.
+
+Each file is matched to a tab by its category line — the key (`HIMD`) or the
+display name (`High Intermediate Men's Doubles`), either case. Anything it
+can't place gets a dropdown to pick the tab yourself; a file left unassigned
+is skipped rather than guessed.
+
+Everything is checked before anything is written, and every problem is
+reported at once: the wrong number of pairs, the wrong number of brackets,
+bracket sizes that don't match how the tab was built (`5-5-3, but tab "HIMD"
+was built for 5-4-4`), an empty bracket, the same pair twice, or two files
+claiming one tab. A tab that already has names is refused unless you tick
+**Replace existing names**, which is how a re-draw gets applied.
+
+A pair line with no separator between the two players — a team name, say —
+lands whole on the pair's first row, leaves the second blank, and warns.
+
+The item stays in the menu after a successful import, so it can be run again.
+
+**Where's the qualifier draw?** Untouched. That is a second draw, made after
+the round robin from the standings, with no file to import — you still fill it
+in on the day.
 
 ## If it refuses to run
 

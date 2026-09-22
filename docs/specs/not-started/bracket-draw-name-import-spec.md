@@ -5,25 +5,25 @@ exported **text files**, one per category, instead of typing every pair into
 each category tab's `STEP 1 · NAMES` column and then hand-shuffling
 `STEP 3 · RANDOMIZED CODES`.
 
-> **Status: not built.** Nothing in this document exists yet. §9 is a
-> ready-to-apply implementation guide: exact insertions, anchored on quoted
-> text, with a runnable check after each one.
+> **Status: written, not yet in any workbook.** §9, §11 and §12 are all
+> applied in `sage-tools-api/scripts/` and every harness is green — §9.8's 31
+> checks, §12's 13, and both verify scripts. §9 remains a ready-to-apply guide:
+> exact insertions, anchored on quoted text, with a runnable check after each.
 >
-> §9's blocks were applied mechanically to a scratch copy of `scripts/` while
-> this was written, so the anchors match, the code parses, §9.8's 31 checks
-> pass, and both verify scripts stay green. What that does **not** prove is
-> anything a real workbook does with the values — §9.9's step 3 is there for
-> that.
+> What that does **not** prove is anything a real workbook does with the
+> values, because the mock evaluates no formulas and nothing here has been
+> pasted into a master yet. §9.9's step 3 is the gap: until it passes against a
+> real generated workbook, treat this as unproven in production.
 
 | | |
 | --- | --- |
-| Where the code goes | `sage-tools-api/scripts/standard-generator.gs` — one menu item, one sidebar, nine new functions |
-| How it ships | Bound Apps Script in the SAGE Standard Tournament Master — paste, not deploy |
+| Where the code goes | `standard-generator.gs` (§9, the import), `sheets-sync.gs` + `tools/bracket-generator.html` (§11, the menu route), `sheet-generator.gs` (§12, the dual-meet shuffle) |
+| How it ships | Bound Apps Script in both masters — paste, not deploy. §11's tool half is a static-site commit |
 | New infra | none |
 | New credentials | none |
-| `sage-tools-api` change | none — no version bump, no Cloud Run deploy |
+| `sage-tools-api` change | none — no version bump, no Cloud Run deploy. Everything here is in `scripts/*.gs`, which is not part of the service |
 | Reads | the `.txt` files [`tools/bracket-generator.html`](../../features/bracket-generator.md) already exports |
-| Writes | each category tab's `AD` (names), `AI` (codes) and `AB2:AB4` (draw provenance) — nothing else |
+| Writes | each category tab's `AD` (names), `AI` (codes) and `AB2:AB4` (draw provenance); §12 writes a dual meet's `AG`/`AV` — nothing else |
 
 **Read first:**
 [`standard-tournament-master-spec.md`](../implemented/standard-tournament-master-spec.md)
@@ -49,8 +49,17 @@ and its two surviving ideas are recorded here, in §11 and §12.
 | `mock-apps-script.mjs` | one method, `MockRange.getValues` (§9.7) |
 | `verify-standard-generator.mjs` | one new scenario (§9.8) |
 
-No other file in any repo changes. Nothing is deployed and no version is
-bumped.
+**Implementer (§11, §12).** Three more, two of them outside `standard-generator.gs`:
+
+| File | Change |
+| --- | --- |
+| `sheets-sync.gs` | `BRACKET_GENERATOR_URL`, one menu item, `showBracketGeneratorLink` (§11) |
+| `tools/bracket-generator.html` | `initCategoryFromQuery` (§11) — the only change outside `sage-tools-api` |
+| `sheet-generator.gs` | the menu item and the shuffle functions (§12) |
+| `verify-sheet-generator.mjs` | one new scenario (§12) |
+
+Nothing is deployed and no version is bumped: `scripts/*.gs` is not part of the
+Cloud Run service, and the tool is a static page.
 
 **Operator, afterwards.** Paste the edited `standard-generator.gs` into the
 SAGE Standard Tournament Master's Apps Script project, replacing the file
@@ -59,14 +68,18 @@ each copy carries the script it was made from. Only copies taken after it do.
 
 **Do not touch:**
 
-- `sheet-generator.gs`, `sheets-sync.gs`, or anything in `src/`.
+- Anything in `src/`. `sheet-generator.gs` and `sheets-sync.gs` are off limits
+  to §9, which is confined to `standard-generator.gs`; §11 and §12 are the
+  only reason either is edited at all, and only where those sections say.
 - `generateEventTabs` and everything it calls. This runs *after* generation and
   shares only the trace and progress-log helpers.
 - The `onOpen` block — it is byte-identical across three `.gs` files with a
-  "Change one, change all three" note. §9.5 edits `addGeneratorMenuItems_`,
-  which `onOpen` already calls.
-- Any formatting, any other tab, and any cell outside `AD`, `AI`, `AB2:AB4`.
-  The generator already laid the scaffold out; this writes values into it.
+  "Change one, change all three" note. §9.5 and §12 edit
+  `addGeneratorMenuItems_` and §11 edits `addSyncMenuItems_`, all of which
+  `onOpen` already calls.
+- Any formatting, any other tab, and any cell outside `AD`, `AI`, `AB2:AB4`
+  (§9) or `AG`/`AV` (§12). The generator already laid the scaffold out; this
+  writes values into it.
 
 **Stop and ask** rather than inventing an answer if:
 
@@ -1085,45 +1098,62 @@ Report honestly if step 3 fails: it means `AI`'s values are not matching the
 - `SAGE → Import bracket draws` is present in a freshly generated workbook,
   where `Generate event tabs` has removed itself.
 
-## 11. Parked: a menu route into the tool
+## 11. Built: a menu route into the tool
 
-A SAGE menu item in the workbook could open the Bracket Generator with
-`?event=` from `Title!B6` and `?category=` from the active tab's display
-label (`B1`), in a dialog copying `showScoresheetLink`'s pattern — Apps Script
-cannot open a URL from server code, so the navigation has to come from a click
-on an anchor. About 40 lines in `sheets-sync.gs` plus four in the tool, and
-`?category=` must **not** persist to `localStorage`, unlike `?event=`: a
-category resurrected on a later visit is how someone draws the wrong one.
+`SAGE → Open Bracket Generator` opens the tool with `?event=` from `Title!B6`
+and `?category=` from the active tab's own label, in a dialog copying
+`showScoresheetLink`'s pattern — Apps Script cannot open a URL from server
+code, so the navigation comes from a click on an anchor. `?category=` is
+**not** persisted to `localStorage`, unlike `?event=`: a category resurrected
+on a later visit is how someone draws the wrong one.
 
-**Not worth building on its own.** A standard tournament's roster comes from
-registration, not from the workbook, so the operator is in the tool with a
-list of pairs the workbook has never seen and no reason to have it open. The
-prefill saves typing a category name the tool needs anyway, and buys one thing
-for this spec: the file's category line would then match its tab exactly, so
-§4 would never reach its dropdown. That is a nicety, not a reason.
+Where it lives:
 
-Worth revisiting only if operators find §4's dropdown a nuisance in practice.
+| File | Change |
+| --- | --- |
+| `sage-tools-api/scripts/sheets-sync.gs` | `BRACKET_GENERATOR_URL`, the menu item in `addSyncMenuItems_`, and `showBracketGeneratorLink` |
+| `sage-match-control.github.io/tools/bracket-generator.html` | `initCategoryFromQuery`, beside `initEventName` |
 
-## 12. Parked: a dual meet's STEP 3
+The item is in `sheets-sync.gs`, so it appears in **every** workbook, dual
+meets included. That is deliberate: the tool is still the way a dual meet's
+organiser draws anything they want bracket cards for, and gating the item on
+which master it is in would mean `sheets-sync.gs` having to know, which it
+otherwise never does.
 
-A dual meet gets no benefit from this spec: its draw is a per-club roster
-blind, not a bracket draw, and the tool's bracket cards are the wrong artifact
-for it. Its `STEP 3` (`AG`/`AV`, two independent columns) is still shuffled by
-hand, or with a throwaway `SORT(…, RANDARRAY(…))` off to one side.
+The original reasoning for parking it stands and is worth keeping: a standard
+tournament's roster comes from registration, not from the workbook, so the
+prefill saves typing a category name the tool needs anyway. What it buys this
+spec is that the file's category line then matches its tab exactly, so §4
+rarely reaches its dropdown.
 
-If that ever becomes annoying, the answer is a `SAGE → Shuffle roster codes`
-item that reads `STEP 2` and writes the shuffled codes straight into `STEP 3`
-on the active category tab — no browser, no clipboard, no paste errors. It
-should refuse on a non-category tab, and refuse a `STEP 3` that already holds
-anything unless the operator confirms a replace, since reshuffling a live
-workbook re-points every pair.
+## 12. Built: a dual meet's STEP 3
+
+A dual meet gets no benefit from the import itself: its draw is a per-club
+roster blind, not a bracket draw, and the tool's bracket cards are the wrong
+artifact for it. So its `STEP 3` (`AG`/`AV`, two independent columns) is drawn
+in the sheet instead.
+
+`SAGE → Shuffle roster codes`, in `sage-tools-api/scripts/sheet-generator.gs`,
+reads `STEP 2` and writes a shuffled permutation straight into `STEP 3` on the
+active category tab — no browser, no clipboard, no paste errors. Each club's
+column is drawn independently; they are separate rosters that never mix. It
+refuses a tab with no roster scaffold, and refuses a `STEP 3` that already
+holds anything unless the operator confirms a replace, since reshuffling a
+live workbook re-points every pair.
+
+The scaffold is located by its own `CODES` header rather than by recomputing
+the generator's geometry, so a tab edited since generation still works. Like
+`Import bracket draws` in the Standard master, the item sits **outside** the
+`PROP_TABS_GENERATED_FOR` guard: the roster is filled after generation, which
+is exactly when the shuffle is needed.
 
 What it gives up is an audience: an in-sheet shuffle produces no artifact and
 nobody watches it land, which is the whole point of the tool's ~3s shuffle
 (bracket generator spec §4). That trade is right for a roster blind, which is
-bookkeeping, and wrong for a bracket draw, which is a moment in a room. Two
-dual meets exist in the system's history and both hand-shuffled without
-complaint, so this stays parked.
+bookkeeping, and wrong for a bracket draw, which is a moment in a room — which
+is why this shuffles a dual meet's roster and nothing else. In particular it
+is never offered in the Standard master, where filling `STEP 3` without a draw
+file would defeat §8.1.
 
 Rejected along the way, and worth not re-proposing:
 
@@ -1141,9 +1171,11 @@ Rejected along the way, and worth not re-proposing:
 
 - The **qualifier draw** (`AM`, master spec §7.6) — §8.3.
 - The Bracket Generator's **image** export, which stays a human artifact.
-- Any change to the Bracket Generator itself (§11). This spec needs only the
-  file the tool already writes.
-- The **Dual Meet Master** (§12).
+- Any change to the Bracket Generator beyond §11's `?category=` prefill. The
+  import itself needs only the file the tool already writes.
+- The Dual Meet Master's **rosters and brackets**. §12 adds a roster-code
+  shuffle there and nothing else; no dual-meet tab is ever filled from a draw
+  file.
 - Re-verifying the draw's fingerprints (§8.2).
 - Filling `AI` on its own, without names from a draw file (§8.1).
 
@@ -1151,4 +1183,38 @@ Rejected along the way, and worth not re-proposing:
 
 ## 14. Divergences
 
-*(None — nothing here is built. Record departures when it is.)*
+§9 was applied as written; the departures below are all in §11 and §12, which
+were prose sketches rather than anchored steps.
+
+**§11 reads `B1` with an `A1` fallback, not `B1` alone.** §11 named `B1` as
+the category label, which is right for the Standard master (`writeChrome_`
+puts the key in `A1` and the display name in `B1`) but wrong for the dual-meet
+master, which writes the uppercased display value to `A1` and never touches
+`B1`. Since the item ships in both, `showBracketGeneratorLink` reads `B1` and
+falls back to `A1`, which covers each master without having to know which one
+it is in.
+
+**§11's dialog shows both values before the click.** Not in the sketch. It is
+what makes a wrong active tab visible: on a non-category tab the category
+simply reads as something the operator can see is wrong, so no tab-type
+refusal is needed.
+
+**§12 guards on `getMaxColumns()`.** `findRosterScaffold_` reads column `AU`
+for club B, and a narrow tab — `SCHEDULE`, `Timeline`, any readout — has no
+such column, so `getRange` throws instead of returning blanks. Without the
+guard the "refuse on a non-category tab" rule crashed rather than refusing.
+Caught by the verify scenario, not by inspection.
+
+**§12 shuffles both clubs in one action.** The sketch said "the active
+category tab" without saying how many of its columns. Both, independently: a
+tab carries two rosters and the operator thinks in tabs, not clubs.
+
+**Menu placement follows §9.5's pattern in both generators.** `sheet-generator.gs`'s
+`addGeneratorMenuItems_` got the same guard-move `standard-generator.gs` got,
+so the shuffle survives generation.
+
+Harness coverage added with them: `verify-sheet-generator.mjs` gains a
+`shuffle` scenario (13 checks). §11's tool half has no harness — it was
+verified in a browser against a local static server: `?event=` and
+`?category=` both prefill, and after a reload with no query string the event
+name returns from `localStorage` while the category comes back empty.

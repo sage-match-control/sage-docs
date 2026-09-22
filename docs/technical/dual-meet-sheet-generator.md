@@ -194,6 +194,39 @@ mechanism — `REBUILT_IN_PLACE_TABS`' pristine-shape check is what actually
 refuses a second run — but it stops a live event workbook from offering an
 action that can only produce an error.
 
+`Shuffle roster codes` sits **outside** that guard and stays in the menu for
+the workbook's whole life, because the roster arrives after generation and a
+re-draw is a legitimate repeat. The builder adds its leading separator once,
+before either item, so a generated workbook gets no stray divider where
+`Generate event tabs` used to be.
+
+## Shuffling the roster codes
+
+`shuffleRosterCodes` draws `STEP 3` in the sheet. A dual meet's blind is a
+per-club roster draw, not a bracket draw, so there is no export to import —
+see [bracket draw name import](../specs/not-started/bracket-draw-name-import-spec.md)
+§12 for why the shuffle lives here and the import does not.
+
+`findRosterScaffold_` locates each club's scaffold by its own `CODES` header
+in the code column (`AF` for club A, `AU` for club B) and reads the
+contiguous codes below it, rather than recomputing `writeRosterScaffold_`'s
+geometry — the tab may have been edited since it was generated, and the
+header is the thing the operator can see. It returns `null` when the column
+holds no scaffold, which is also how a non-category tab is refused. It guards
+on `getMaxColumns()` first: a narrow tab like `SCHEDULE` has no column `AU`
+at all, and `getRange` past the grid throws rather than returning blanks.
+
+`writeRosterShuffle_` Fisher-Yates each club's codes **independently** into
+the column immediately right of them (`AG`, `AV`) — two separate rosters that
+must never mix. Nothing else is written and no formatting is touched; the
+generator already laid the scaffold out.
+
+`shuffleRosterCodes` itself is only the UI wrapper: it refuses a tab with no
+scaffold, and puts a `YES_NO` in front of a `STEP 3` that already holds
+anything, since reshuffling a live workbook re-points every pair on the tab.
+The three helpers below it take a sheet and are exercised directly by the
+`shuffle` scenario in `verify-sheet-generator.mjs`.
+
 For the sync half — the setup dialog, its validation, and the
 spreadsheet-ID guard that keeps a copied workbook from inheriting another
 facility's day key — see [Sync pipeline](sync-pipeline.md).
@@ -203,8 +236,8 @@ facility's day key — see [Sync pipeline](sync-pipeline.md).
 Player names. Every other tab a generated workbook needs — category tabs,
 `SCHEDULE`, `Court Control`, `Timeline`, `CSV`, `STANDINGSCSV`, `Variables`,
 `Title`, `Reference for Players` — is built and wired together; the operator
-pastes rosters into each category tab's name-entry columns and the workbook
-is ready to run.
+pastes rosters into each category tab's name-entry columns, runs
+`Shuffle roster codes` on each, and the workbook is ready to run.
 
 The calculator's plan CSV carries match *counts* only; `buildMatchList` does
 the cross-product pairing and slot placement itself. See

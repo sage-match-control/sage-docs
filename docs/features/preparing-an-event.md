@@ -25,8 +25,9 @@ step links to its full section below.
    by hand from its `MATCHES` tab.
 4. **[Draw the brackets](#3-draw-the-brackets-and-enter-the-names)** in the
    Bracket Generator, one category at a time, saving both the image and the
-   text file. Enter each category's names from its text file, then paste the
-   codes back shuffled.
+   text file. A standard tournament imports those text files straight into the
+   workbook; a dual meet pastes its names in and shuffles the codes from the
+   menu.
 5. **[Build the event site](#4-build-the-event-site)**: copy the matching
    template into `events/<event-key>/`, replace the tokens, add the QR code
    (and both clubs' logos for a dual meet).
@@ -138,7 +139,10 @@ Now that the workbook exists, it says how many brackets each category has and
 how many pairs go in each. Draw them, one category at a time, in the
 [Bracket Generator](bracket-generator.md):
 
-1. Put the event name in, so every export is stamped with it.
+1. Open the tab you are drawing for and choose **SAGE → Open Bracket
+   Generator**. It opens the tool with the event name and that tab's category
+   already filled in. (Opening the tool directly works too — then you type
+   both.)
 2. Paste that category's pairs, set the bracket count to the one the workbook
    used, and run the draw — ideally with a seed called out in the room, which
    is what makes the draw checkable afterwards.
@@ -149,25 +153,40 @@ how many pairs go in each. Draw them, one category at a time, in the
 4. Repeat for every category. Eight categories means eight images and eight
    text files.
 
-Then fill each category tab in the workbook, from that category's text file:
+### A standard tournament: import the text files
 
-- **`STEP 1 · NAMES`** — each pair's two players, two rows per pair, in the
-  order the text file lists them: bracket A's pairs first, then bracket B's,
-  and so on. That order is what puts each pair in the right bracket on the
-  tab, in the standings, and in its score grid.
-- **`STEP 3 · RANDOMIZED CODES`** — the codes from `STEP 2`, pasted back in a
-  shuffled order. It ships blank on purpose: pasting them in order maps every
-  pair to its own slot and undoes the blinding.
+Choose **SAGE → Import bracket draws**, drop in every category's text file at
+once, and import. For each file it fills that category tab's
+**`STEP 1 · NAMES`** with the pairs in draw order and **`STEP 3 · RANDOMIZED
+CODES`** with its codes, and records the seed, the draw number and the
+filename beside the roster so you can tell months later which draw a tab came
+from.
+
+It matches each file to a tab by its category line, and asks you to pick a tab
+for any file it can't place. It checks every file before writing anything: a
+draw with the wrong number of pairs, the wrong number of brackets or the wrong
+bracket sizes is refused by name, with both shapes reported, and nothing is
+written. A tab that already has names is refused unless you tick **Replace
+existing names** — which is also how a re-draw gets applied.
+
+The menu item stays after a successful import, so you can run it again.
+
+### A dual meet: paste the names, then shuffle
+
+A dual meet's draw is a per-club roster blind rather than a bracket draw, so
+there is nothing to import. Paste each club's players into its
+**`STEP 1 · NAMES`** column, then choose **SAGE → Shuffle roster codes** on
+that tab. It draws each club's **`STEP 3 · RANDOMIZED CODES`** independently
+from the codes in `STEP 2`.
+
+`STEP 3` ships blank on purpose: filling it in order maps every pair to its
+own slot and undoes the blinding. The menu item refuses a tab with no roster,
+and asks before replacing codes that are already there — reshuffling a live
+workbook re-points every pair.
 
 Check as you go that each category tab's `B` column fills in with names once
 a pair's code is linked. A tab still showing codes instead of names means the
 roster and the codes haven't met.
-
-> **Coming later:** uploading those text files straight into the workbook,
-> so the names and the shuffled codes are filled in from the draw itself. The
-> design is written up in
-> [bracket draw name import](../specs/not-started/bracket-draw-name-import-spec.md);
-> until it's built, this step is typing and pasting.
 
 ## 4. Build the event site
 
@@ -259,8 +278,8 @@ number, court and time, so a reshuffle after printing means printing again.
 
 - The plan's finish time is one the venue will accept.
 - Every category has a drawn bracket, with its image and text file saved.
-- Every category tab has its rosters pasted in, its codes shuffled, and no
-  tab shows an error.
+- Every category tab has its roster filled and its codes drawn — imported from
+  the draw, or shuffled in the sheet — and no tab shows an error.
 - A standard tournament's `SCHEDULE` is packed and numbered in every venue's
   workbook.
 - The event page loads, shows the right days and categories, and lists every

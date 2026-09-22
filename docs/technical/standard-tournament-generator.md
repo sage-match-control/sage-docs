@@ -137,6 +137,47 @@ Slot times on `SCHEDULE` and `Timeline`'s headers both chain off
 `Variables!C4` + `Variables!$C$6`, never literals, so `COUNTPAIRAT`'s exact
 match holds.
 
+## Importing bracket draws
+
+`SAGE → Import bracket draws` runs *after* generation, shares nothing with
+`generateEventTabs` beyond the trace and progress-log helpers, and lives in
+the same file. It sits outside the `PROP_TABS_GENERATED_FOR` guard, so unlike
+`Generate event tabs` it stays in the menu — a re-draw is imported over the
+top with **Replace existing names**.
+
+The pipeline is pure up to the last step. `parseDrawText_` reads one of the
+Bracket Generator's `.txt` exports, anchored on the `Drawn …` line in the
+first six lines: the category is the line above it, brackets and pairs are
+read in file order, and parsing stops at `TO CHECK THIS DRAW YOURSELF`. It
+never throws — an unreadable file comes back carrying its own `errors`.
+`splitPairNames_` splits a pair line on the earliest of `/`, `&`, `+`, `,` or
+` and `, and reports when it found no separator rather than failing.
+
+`readPlanBlock_` reads `Variables!I11:L<last>` — key, display value, teams,
+brackets — and flags the rows that have a real tab, since `Variables` lists
+every category in the plan CSV including the other venue's.
+`resolveDrawCategory_` matches a file's category line against the key, then
+the display name, both normalised (trim, upper-case, collapse whitespace); an
+operator-picked assignment beats both.
+
+`validateDraws_` runs every check across every file before anything is
+written and returns all failures at once, including the emptiness of
+`AD5:AD<4 + 2 × teams>` unless `replace` is set, and bracket sizes against
+`groupSizes_(teams, brackets)` — the same function the tab was built with, so
+the comparison is against the tab as built. Only then does `writeDrawNames_`
+run, three `setValues` calls per category and no formatting: `AD` (names),
+`AI` (codes) and `AB2:AB4` (seed, draw, import stamp).
+
+`AI` is written in identity order, and only ever together with `AD` from the
+same file. That is safe *because* the rows arrive in the order a seeded,
+published draw produced — the randomising already happened, and shuffling
+again would break the bracket assignment. There is deliberately no code path
+that fills `AI` on its own.
+
+The fingerprints in the file are not re-verified; they are what an outsider
+checks the draw with. `AB2:AB4`'s provenance is the useful half — it ties the
+workbook to that file.
+
 ## Verifying a change
 
 ```bash
@@ -153,6 +194,13 @@ schedule through `sheets-sync.gs`'s real `planMatchNumbers_`.
 between the two files fails there. The mock does not evaluate formulas.
 Change a prototype shape in `REBUILT_IN_PLACE_TABS` and the fixture in the
 script has to change with it.
+
+The `import` scenario covers the draw import end to end against files built
+byte-shaped like the tool's real `exportAsText()` output: parsing, the five
+separators, the written cells, and each refusal in turn. Because the mock
+evaluates no formulas it proves the values and the geometry, not that the tab
+recalculates — that the `B` column resolves names through the `AE`/`AI` link
+needs a real workbook.
 
 ---
 **Features:** [Standard Tournament Generator usage](../features/standard-tournament-generator.md)
