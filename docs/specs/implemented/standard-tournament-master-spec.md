@@ -1873,6 +1873,14 @@ something they leave open.
 
 **Departures**
 
+- **`MATCHES` block headers name the bracket** (§10.2.2): row 5 reads
+  `<KEY> Br <b>` over the blocks that hold bracket `b`'s round-robin
+  matches — `HIMD Br 1`, `HIMD Br 1`, `HIMD Br 2`, … for a 5-4-4 split —
+  rather than `<KEY> <k>`. A block past the round robin's width, which only a
+  wide playoff row needs, keeps `<KEY> <k>`. Brackets sit left to right,
+  `floor(n_b / 2)` blocks each; every round of a bracket fills exactly that
+  many, and brackets run largest first, so a bracket's matches stay under
+  its own headers in every round-robin row.
 - **Two brackets play a crossover, not a draw** (§7.6). With two brackets
   the playoff seating is fixed, so the qualifier scaffold's slot column
   (`AM`) is written in rather than left `-` for a draw. Top 2: `Br 1 -
