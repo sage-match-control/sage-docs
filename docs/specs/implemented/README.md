@@ -27,6 +27,7 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Sheet generator (Phase 1)](dual-meet-sheet-generator-spec.md) | `sheet-generator.gs` — category tabs, `Variables`, `Title`, `Reference for Players` |
 | [Schedule generator (Phase 2)](dual-meet-schedule-generator-spec.md) | Its `SCHEDULE` tab |
 | [Readouts generator (Phase 3)](dual-meet-readouts-generator-spec.md) | Its `Court Control`, `Timeline`, `CSV`, `STANDINGSCSV` |
+| [Standard Tournament Master](standard-tournament-master-spec.md) | `standard-generator.gs` and the SAGE Standard Tournament Master workbook |
 | [Event site templates](event-templates-spec.md) | `_templates/dual-meet-template/` and `_templates/standard-tournament-template/` |
 | [PNF × BUP dual meet](pnf-x-bup-dual-meet-spec.md) | The first real run of the dual-meet template |
 | [Facility progress](facility-progress-spec.md) | Live Matches' per-facility progress cards and Mission Control's progress line |

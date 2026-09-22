@@ -5,8 +5,9 @@ from a plan you exported out of the Tournament Calculator. It replaces the
 old routine of duplicating last event's spreadsheet and find-replacing every
 team code by hand.
 
-**Dual meets only.** A standard-tournament version is planned; for now the
-generator rejects a standard-format plan rather than approximating one.
+**Dual meets only.** A standard-format plan is rejected rather than
+approximated; standard tournaments have their own
+[Standard Tournament Generator](standard-tournament-generator.md).
 
 ## What it does for you
 

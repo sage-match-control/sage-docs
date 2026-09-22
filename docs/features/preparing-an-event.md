@@ -107,8 +107,11 @@ A generated workbook carries the live-sync script already — it's built into
 the master — so it's ready for step 4's sync setup with no code-pasting step
 of its own.
 
-**Standard tournament:** there's no generator yet, so the workbook is built by
-hand or copied from a previous event. Whichever way, it has to end up with the
+**Standard tournament:** use the
+[Standard Tournament Generator](standard-tournament-generator.md), once per
+venue per day: copy the master, run `SAGE → Generate event tabs`, give it the
+plan, the venue's court labels and its categories, then pack `SCHEDULE` from
+the `MATCHES` tab it builds. A workbook built by hand instead has to end up with the
 exact column names the sync expects — see
 [adding a new event](../technical/adding-a-new-event.md) for the list. Getting
 one column name wrong is the single most common reason a new event's page

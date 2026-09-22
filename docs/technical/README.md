@@ -24,9 +24,9 @@ each page here.
 
 ## Bound Apps Script (in `sage-tools-api`, but not the API)
 
-Both live in `sage-tools-api/scripts/` for versioning, run inside a Google
-Sheet, and ship by being pasted into that sheet's own script project —
-changing either is not a deploy.
+All three live in `sage-tools-api/scripts/` for versioning, run inside a
+Google Sheet, and ship by being pasted into that sheet's own script project —
+changing any of them is not a deploy.
 
 - **[Dual Meet Sheet Generator](dual-meet-sheet-generator.md)** — builds a
   dual meet's category tabs from a Tournament Calculator CSV.
@@ -34,6 +34,9 @@ changing either is not a deploy.
     workbook-level `LAMBDA` definitions those generated formulas call. Not
     Apps Script: they live in the workbook itself, under
     Data → Named functions.
+- **[Standard Tournament Generator](standard-tournament-generator.md)** —
+  builds one facility-day's standard-tournament workbook from a calculator
+  CSV.
 - The sync trigger (`sheets-sync.gs`) is covered in
   [Sync pipeline](sync-pipeline.md).
 

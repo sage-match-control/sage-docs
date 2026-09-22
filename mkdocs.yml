@@ -50,6 +50,7 @@ nav:
       - Tournament Calculator: features/tournament-calculator.md
       - Bracket Generator: features/bracket-generator.md
       - Dual Meet Sheet Generator: features/dual-meet-sheet-generator.md
+      - Standard Tournament Generator: features/standard-tournament-generator.md
   - Technical:
       - Overview: technical/README.md
       - Architecture: technical/architecture.md
@@ -59,6 +60,7 @@ nav:
       - Deployment: technical/deployment.md
       - Dual Meet Sheet Generator: technical/dual-meet-sheet-generator.md
       - Named Function library: technical/named-function-library.md
+      - Standard Tournament Generator: technical/standard-tournament-generator.md
       - Control Center: technical/control-center.md
       - Schedule board: technical/schedule-board.md
       - Tournament Calculator: technical/tournament-calculator.md
@@ -82,6 +84,7 @@ nav:
           - Sheet generator (Phase 1): specs/implemented/dual-meet-sheet-generator-spec.md
           - Schedule generator (Phase 2): specs/implemented/dual-meet-schedule-generator-spec.md
           - Readouts generator (Phase 3): specs/implemented/dual-meet-readouts-generator-spec.md
+          - Standard Tournament Master: specs/implemented/standard-tournament-master-spec.md
           - Event site templates: specs/implemented/event-templates-spec.md
           - PNF x BUP dual meet: specs/implemented/pnf-x-bup-dual-meet-spec.md
           - Facility progress: specs/implemented/facility-progress-spec.md
@@ -90,7 +93,6 @@ nav:
           - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
-          - Standard Tournament Master: specs/not-started/standard-tournament-master-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
           - Bracket Generator workbook handoff: specs/not-started/bracket-generator-workbook-handoff-spec.md

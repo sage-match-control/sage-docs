@@ -33,6 +33,8 @@ bottom of each page here.
 - **[Dual Meet Sheet Generator](dual-meet-sheet-generator.md)** — turn a
   finished dual-meet plan into the event's scoring workbook, instead of
   copying last event's and find-replacing team codes.
+- **[Standard Tournament Generator](standard-tournament-generator.md)** — the
+  same for a standard tournament, one venue-day workbook at a time.
 
 ## Two kinds of event
 

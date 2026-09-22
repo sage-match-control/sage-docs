@@ -516,10 +516,10 @@ constraints they put on the data are written down.
 
 ### 12.1 Two workbooks, built by hand
 
-There is no generator for standard tournaments yet
-([Standard Tournament Master](../not-started/standard-tournament-master-spec.md) is not
-started). Build one workbook per venue by duplicating a bkl-cup-2026
-facility workbook, then:
+These two workbooks are built by hand, not generated: the
+[Standard Tournament Master](../implemented/standard-tournament-master-spec.md) generator
+takes them as its reference rather than producing them. Build one workbook
+per venue by duplicating a bkl-cup-2026 facility workbook, then:
 
 1. Rename every category key to the nine in §7. **Use `XD`, not the
    pubmat's `MXD`.** A code like `LIMXD_1` doesn't parse, and that pair

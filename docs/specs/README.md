@@ -104,6 +104,13 @@ to the `...` form rather than repointing it.
 - **[Readouts generator](implemented/dual-meet-readouts-generator-spec.md)** —
   Phase 3: `Court Control`, `Timeline`, `CSV`, `STANDINGSCSV`.
 
+### Standard Tournament Generator
+
+- **[Standard Tournament Master](implemented/standard-tournament-master-spec.md)**
+  — the dual-meet generator's counterpart for open-entry tournaments: one
+  workbook per facility per day, uneven round-robin brackets, and a
+  forward-propagating single-elimination ladder.
+
 ### Events & templates
 
 - **[Event site templates](implemented/event-templates-spec.md)** — the
@@ -125,10 +132,6 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
-- **[Standard Tournament Master](not-started/standard-tournament-master-spec.md)**
-  — the dual-meet generator's counterpart for open-entry tournaments: one
-  workbook per facility per day, uneven round-robin brackets, and a
-  forward-propagating single-elimination ladder.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling.
