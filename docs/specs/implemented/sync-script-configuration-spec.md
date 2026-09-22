@@ -708,6 +708,7 @@ As built — including the post-spec `Help`, `Pause`/`Resume` and
 | --- | --- |
 | Dual Meet Master, before the secret is set | `Set up live sync` · `Set shared secret` · `Help` · ─── · `Generate event tabs` |
 | Dual Meet Master, after | `Set up live sync` · `Replace shared secret` · `Help` · ─── · `Generate event tabs` |
+| Standard Tournament Master, secret inherited from the workbook it was copied from | `Set up live sync` · `Replace shared secret` · `Help` · ─── · `Generate event tabs` |
 | Fresh copy of the Master | `Set up live sync` · `Help` · ─── · `Generate event tabs` |
 | Generated, sync configured | `Generate Scoresheets` · `Sync now` · `Pause live sync` · `Live sync settings` · `Help` |
 | Generated, sync not yet configured | `Set up live sync` · `Help` |
@@ -727,11 +728,19 @@ branch and `Help`. It is shown when **either**:
 - no secret resolves at all — a hand-built workbook, where this is an
   alternative to typing the secret into the setup dialog; or
 - the carried secret's `origin` (§3.5) is this spreadsheet — which is true only
-  of the Dual Meet Master, and is where the label reads `Replace shared secret`.
+  of a master the secret was entered in, and is where the label reads
+  `Replace shared secret`; or
+- the spreadsheet is named like a master (`SAGE … Master`) and carries a
+  secret entered somewhere else — the Standard Tournament Master, a copy of an
+  event workbook, inherits that workbook's secret. The label reads
+  `Replace shared secret`, and using it once turns this case into the one
+  above.
 
-A copy of the Master satisfies neither: it resolves an inherited secret whose
-origin is the Master. So the item is absent there, which is the point — nobody
-setting up a facility workbook is asked about the secret at all.
+A copy of a master satisfies none: it resolves an inherited secret whose
+origin is not itself, and it is named `Copy of …` until generated and after
+that after its event. So the item is absent there, which is the point —
+nobody setting up a facility workbook is asked about the secret at all. The
+rule lives in `secretMenuItem_`, a pure function.
 
 The Master needs its own entry because it never runs `Set up live sync` and so
 never sees §6.2's **Replace secret** link. Without this item it would have no
@@ -1177,6 +1186,14 @@ data**. No change needed.
 
 ## 15. Divergences
 
+- **A master with an inherited secret can replace it (§7.3, §7.4).** The
+  Standard Tournament Master is a copy of an event workbook, so it carries a
+  secret whose `origin` is that workbook and matched neither of the original
+  two conditions: no menu item, and no way to rotate its secret. A third
+  condition shows `Replace shared secret` in a workbook named `SAGE … Master`
+  that carries someone else's secret. The name is what separates a master
+  from its copies here, since both carry the same inherited secret; renaming
+  a master loses only this third case.
 - **The secret's carrier, added post-spec (§3.5, §7.4).** The spec originally
   declined to depend on whether Script Properties survive a spreadsheet copy,
   calling both outcomes correct. Testing settled it: **they do not** — a copy

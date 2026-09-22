@@ -91,9 +91,17 @@ Only the secret is carried. Day key and facility name are deliberately excluded:
 metadata copying is the whole point of it, so putting identity there would hand
 every copy an inherited venue and defeat the guard above.
 
-The **Set shared secret** menu item appears only where it belongs — on the
-Master (labelled *Replace shared secret*, since that's the rotation path) and
+The **Set shared secret** menu item appears only where it belongs — on a
+master (labelled *Replace shared secret*, since that's the rotation path) and
 on a hand-built workbook that carries no secret at all. Copies don't show it.
+A master is recognised two ways: it is the spreadsheet the carried secret was
+entered in, or it is named `SAGE … Master` and carries a secret entered
+somewhere else. The second covers the Standard Tournament Master, which is a
+copy of an event workbook and so inherits that workbook's secret; using
+*Replace shared secret* there once makes the secret its own. A copy is told
+apart from its master by name: `Copy of …` until it is generated, then the
+event's own name. `secretMenuItem_` makes the decision and is checked by
+`scripts/verify-standard-generator.mjs`.
 The secret now travels inside the spreadsheet file, so sharing a copy of the
 Master shares the secret with it.
 
