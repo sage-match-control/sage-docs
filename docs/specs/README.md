@@ -124,6 +124,9 @@ to the `...` form rather than repointing it.
   from.
 - **[Pickle & Friends × 1Bataan United Picklers dual meet](implemented/pnf-x-bup-dual-meet-spec.md)**
   — the event that drove the dual-meet template's first real run.
+- **[Event attendance](implemented/event-attendance-spec.md)** — a
+  staff check-in page writing each player's arrival into the venue
+  workbook through an Apps Script web app; Pickle for Sight first.
 
 ---
 

@@ -51,6 +51,7 @@ nav:
       - Bracket Generator: features/bracket-generator.md
       - Dual Meet Sheet Generator: features/dual-meet-sheet-generator.md
       - Standard Tournament Generator: features/standard-tournament-generator.md
+      - Event attendance: features/event-attendance.md
   - Technical:
       - Overview: technical/README.md
       - Architecture: technical/architecture.md
@@ -61,6 +62,7 @@ nav:
       - Dual Meet Sheet Generator: technical/dual-meet-sheet-generator.md
       - Named Function library: technical/named-function-library.md
       - Standard Tournament Generator: technical/standard-tournament-generator.md
+      - Event attendance: technical/event-attendance.md
       - Control Center: technical/control-center.md
       - Schedule board: technical/schedule-board.md
       - Tournament Calculator: technical/tournament-calculator.md
@@ -89,6 +91,7 @@ nav:
           - Event site templates: specs/implemented/event-templates-spec.md
           - PNF x BUP dual meet: specs/implemented/pnf-x-bup-dual-meet-spec.md
           - Facility progress: specs/implemented/facility-progress-spec.md
+          - Event attendance: specs/implemented/event-attendance-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
           - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md

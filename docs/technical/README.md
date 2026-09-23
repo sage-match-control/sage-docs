@@ -24,7 +24,7 @@ each page here.
 
 ## Bound Apps Script (in `sage-tools-api`, but not the API)
 
-All three live in `sage-tools-api/scripts/` for versioning, run inside a
+All four live in `sage-tools-api/scripts/` for versioning, run inside a
 Google Sheet, and ship by being pasted into that sheet's own script project —
 changing any of them is not a deploy.
 
@@ -37,6 +37,8 @@ changing any of them is not a deploy.
 - **[Standard Tournament Generator](standard-tournament-generator.md)** —
   builds one facility-day's standard-tournament workbook from a calculator
   CSV.
+- **[Event attendance](event-attendance.md)** — `attendance.gs`, the web app
+  behind an event's staff check-in page, and the page itself.
 - The sync trigger (`sheets-sync.gs`) is covered in
   [Sync pipeline](sync-pipeline.md).
 

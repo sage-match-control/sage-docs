@@ -35,6 +35,8 @@ bottom of each page here.
   copying last event's and find-replacing team codes.
 - **[Standard Tournament Generator](standard-tournament-generator.md)** — the
   same for a standard tournament, one venue-day workbook at a time.
+- **[Event attendance](event-attendance.md)** — a staff-only check-in page
+  that marks each player in, with their arrival time, from any phone.
 
 ## Two kinds of event
 

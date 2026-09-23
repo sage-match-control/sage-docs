@@ -32,3 +32,4 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Event site templates](event-templates-spec.md) | `_templates/dual-meet-template/` and `_templates/standard-tournament-template/` |
 | [PNF × BUP dual meet](pnf-x-bup-dual-meet-spec.md) | The first real run of the dual-meet template |
 | [Facility progress](facility-progress-spec.md) | Live Matches' per-facility progress cards and Mission Control's progress line |
+| [Event attendance](event-attendance-spec.md) | `attendance.gs` and `events/pickle-for-sight-2026/attendance.html` |
