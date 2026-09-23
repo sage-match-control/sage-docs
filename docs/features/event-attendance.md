@@ -30,8 +30,12 @@ Several phones can mark at once. Each picks up the others' marks within about
   — usually a dropped connection. Try again.
 - **"… is not connected yet."** That venue's workbook hasn't been set up for
   attendance. Tell whoever runs the event's workbooks.
-- **A player is missing or misspelled.** The list comes from the scoring
-  workbook's roster. Fix it there; the page picks it up on the next refresh.
+- **A player is missing, or a name looks wrong.** Usually a last-minute
+  swap — a team code was reassigned to a different pair after this page's
+  list was set up. Fixing the roster alone isn't enough: whoever runs the
+  event's workbooks needs to re-run the resync (**Extensions → Apps Script →
+  pick `attendanceResync` → Run**) in that venue's workbook. The page picks
+  it up within a few seconds of that finishing.
 
 ## What it records
 

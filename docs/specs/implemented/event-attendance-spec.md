@@ -9,6 +9,10 @@ Sight, Sunday 27 September 2026**, first.
 > Pickle for Sight page exist, and every check in §5 passes. Reaching a
 > workbook is §6, a person's job: until it is done the page shows both
 > venues as "not connected".
+>
+> **Revised after §6 was done** — see §11. The page's reads no longer go
+> through `attendance.gs` at all; §5's code blocks below are the original
+> build and are left as history, not the current file contents.
 
 | | |
 | --- | --- |
@@ -17,7 +21,7 @@ Sight, Sunday 27 September 2026**, first.
 | New infra | two Apps Script web-app deployments, one per venue workbook |
 | New credentials | none |
 | `sage-tools-api` change | none to the service — no version bump, no Cloud Run deploy. `scripts/*.gs` is not part of it |
-| Reads | each venue workbook's `STANDINGSCSV`, columns A:C |
+| Reads | The page reads each venue workbook's `ATTENDANCE` tab straight from its published CSV export — `attendance.gs` is not involved (§11). `attendance.gs` itself still reads `STANDINGSCSV` columns A:C, to resolve the roster on write and on resync |
 | Writes | each venue workbook's `ATTENDANCE` tab, which the script creates — nothing else |
 
 Context: [Pickle for Sight event spec](../in-progress/pickle-for-sight-spec.md).
@@ -136,11 +140,17 @@ whose names repeat pairs already listed.
   someone else, the old mark does not carry over.
 - `timeIn` is `yyyy-MM-dd HH:mm` in the spreadsheet's time zone. Marking a
   player who is already in keeps the **first** time; unmarking clears it.
+- Since §11, the tab is also pre-filled with every player (not just those
+  marked) by `attendanceResync`, run once at setup — the page's read no
+  longer merges in `STANDINGSCSV` itself, so an unmarked player has to
+  already be a row for the page to show them at all.
 
 ## 3. The web app
 
 One per venue workbook, deployed with **Execute as: Me** and **Who has
-access: Anyone**.
+access: Anyone**. As built here, `doGet` is no longer read by the page
+(§11) — it's a diagnostic endpoint now, useful to eyeball from a browser,
+but `attendanceResync` (§11) is what the page's reads actually depend on.
 
 **GET** `…/exec` →
 
@@ -169,6 +179,10 @@ lock.
 `/events/pickle-for-sight-2026/attendance`. Self-contained like the event's
 `schedule.html`, with the same colour and font tokens; always light, like the
 staff tools. `noindex`, and linked from nowhere.
+
+As built here, reads described below go straight to the workbook's
+published CSV export of `ATTENDANCE`, not through the web app — see §11
+for why and what that changes.
 
 - A **venue switch** (PCPH Main / PCPH Annex), remembered per phone.
 - A **count** of players in at that venue, e.g. `84 / 118 in`.
@@ -1659,6 +1673,16 @@ server; a save in flight is protected from being overwritten by a reload.
 **Marking again keeps the first time.** A double tap or a second phone must
 not move someone's arrival time.
 
+**Reads via CSV export, not the web app (§11).** Every read counts against
+Apps Script's per-account simultaneous-execution quota, since the web app
+runs **Execute as: Me** — all staff phones' polling shares one account's
+budget with every write. The workbook's own published CSV export isn't
+subject to that quota at all, and (measured against the live workbook) it
+reflects a write in under a second, not the multi-second-to-minute lag
+Google's caching could have produced. The cost is that reads no longer
+self-heal a re-draw on every poll the way `attendanceRoster_` did — that
+now needs `attendanceResync` run again by hand (§11).
+
 ## 9. Out of scope
 
 - Other events. The page and constants are Pickle for Sight's; a second
@@ -1671,3 +1695,64 @@ not move someone's arrival time.
 ## 10. Divergences
 
 *(None.)*
+
+## 11. Revision — CSV reads and manual resync
+
+Applied after §6 was done and both venues were already live. Changes two
+things in `attendance.gs`, and the page's read path — §5's code blocks
+above are the original build's record and were **not** rewritten to match;
+the real current content of both files is the source of truth.
+
+**What changed:**
+
+- `attendance.gs` gained one function, `attendanceResync` — not reachable
+  through `doGet`/`doPost`, run by hand from the Apps Script editor's
+  function dropdown. It pre-fills `ATTENDANCE` with every player at
+  `present: FALSE`, and for any row whose stored name no longer matches the
+  current roster (a re-draw), resets that one row to the new name and
+  `present: FALSE`. A row whose name still matches is left completely
+  alone, so running it twice — or a hundred times — is always safe.
+- `attendance.html`'s reads (`load()`, on a timer and on refresh) no longer
+  call the web app's `doGet` at all. They fetch the venue workbook's own
+  published CSV export of `ATTENDANCE` directly —
+  `https://docs.google.com/spreadsheets/d/<sheetId>/gviz/tq?tqx=out:csv&sheet=ATTENDANCE`
+  — parse it client-side, and group by `teamCode` prefix for category, the
+  same way `attendanceTeams_` always did server-side. `doPost` (marking) is
+  unchanged; `VENUES` gained a `sheetId` per venue alongside the existing
+  `url`.
+
+**Why:** the web app runs **Execute as: Me**, so every phone's poll and
+every mark share one Google account's simultaneous-execution quota. A
+CSV export isn't part of that quota at all, which matters once several
+staff phones are polling a venue at once. This was only viable because the
+workbooks are already shared "Anyone with the link — Viewer" (so the CSV
+export needs no sign-in) and because `gviz` accepts a tab **name**
+(`sheet=ATTENDANCE`) instead of a numeric gid, so no gid needs discovering
+or hardcoding per venue.
+
+**What it costs:** `attendanceRoster_`'s per-read re-draw check — comparing
+a stored mark's name against the live roster on every single `doGet` — no
+longer runs on the page's read path at all. A swap (a team code and slot
+reassigned to a different player in `STANDINGSCSV`) now leaves the old name
+showing on the page, present or not, until someone runs `attendanceResync`
+again. The new player doesn't appear until then either — they're simply not
+a row in `ATTENDANCE` under a name anyone would search for. `doPost` still
+resolves the current roster on every mark, so a stray tap on the stale row
+would silently correct it, but nothing prompts staff to do that.
+
+**Operationally, this means:** if a swap happens after `ATTENDANCE` has
+been pre-filled, whoever manages the workbook re-runs `attendanceResync`
+(Extensions → Apps Script → pick `attendanceResync` from the function
+dropdown → Run). The page reflects it within about a second of the run
+finishing, per the same measurement above. `attendanceResync` does not
+prune a row for a pair that withdraws entirely — that row is left in
+`ATTENDANCE` as an inactive leftover rather than removed, since nothing in
+this revision reconciles the other direction (a code disappearing from
+`STANDINGSCSV`).
+
+Verified: `verify-attendance.mjs`'s resync section (pre-fill, a no-op
+re-run, a re-run after a mark, and a re-run after a swap — 10 checks, none
+touching `STANDINGSCSV`) against the mock; the CSV read path against the
+live PCPH Main workbook — cross-origin fetch from the real GitHub Pages
+origin, a mark round-tripped through a fresh page load, and the write
+reflected in the CSV export in 407ms and 702ms across two runs.
