@@ -204,7 +204,7 @@ before either item, so a generated workbook gets no stray divider where
 
 `shuffleRosterCodes` draws `STEP 3` in the sheet. A dual meet's blind is a
 per-club roster draw, not a bracket draw, so there is no export to import —
-see [bracket draw name import](../specs/not-started/bracket-draw-name-import-spec.md)
+see [bracket draw name import](../specs/implemented/bracket-draw-name-import-spec.md)
 §12 for why the shuffle lives here and the import does not.
 
 `findRosterScaffold_` locates each club's scaffold by its own `CODES` header

@@ -123,7 +123,7 @@ It is what `SAGE → Open Bracket Generator` in a scoring workbook sends, along
 with `?event=`, so the export's category line matches the tab it will be
 imported back into. That link is built in `sheets-sync.gs`
 (`showBracketGeneratorLink`) and reaches every workbook, dual meets included;
-see [bracket draw name import](../specs/not-started/bracket-draw-name-import-spec.md)
+see [bracket draw name import](../specs/implemented/bracket-draw-name-import-spec.md)
 §11.
 
 ## Replaced a per-event copy

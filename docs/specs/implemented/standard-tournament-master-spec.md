@@ -843,7 +843,7 @@ meet's, one column set instead of two:
 | **STEP 2 · CODES** | `AH` | `=$AD$1&"_"&AG<r>`, one row per pair |
 | **STEP 3 · RANDOMIZED** | `AI` | **blank** — operator pastes the codes back shuffled, one row per pair |
 
-STEP 3 stays blank for the reason `sheet-generator.gs:1869` gives:
+STEP 3 stays blank for the reason `sheet-generator.gs`'s `writeRosterScaffold_` gives:
 pre-seeding it makes an undone step look done, and an unshuffled STEP 3 maps
 every pair to its own roster slot, defeating the blinding.
 `bracket-draw-name-import-spec.md` is the one thing allowed to fill it, since
@@ -1769,7 +1769,7 @@ Bracket Generator draw. §7.6's `AM` column is a *second* draw with the same
 shape and the same hand-shuffling problem, but no artifact to import: it
 happens after the round robin, on the day, from the standings. Whether it
 should go through the tool at all, or get its own in-sheet draw, is open —
-that spec's §10 keeps it out of scope.
+that spec's §8.3 gives the reasoning and its §13 keeps it out of scope.
 
 **Per-facility court label ordering.** Only matters if §10.2.4's packer is
 ever built. §6.1 takes the labels in schedule order, and the packer would

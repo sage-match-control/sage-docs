@@ -81,6 +81,7 @@ nav:
           - Calculator PWA: specs/implemented/calculator-pwa-spec.md
           - Bracket Generator: specs/implemented/bracket-generator-spec.md
           - Verifiable draw: specs/implemented/bracket-generator-verifiable-draw-spec.md
+          - Bracket draw name import: specs/implemented/bracket-draw-name-import-spec.md
           - Sheet generator (Phase 1): specs/implemented/dual-meet-sheet-generator-spec.md
           - Schedule generator (Phase 2): specs/implemented/dual-meet-schedule-generator-spec.md
           - Readouts generator (Phase 3): specs/implemented/dual-meet-readouts-generator-spec.md
@@ -93,6 +94,5 @@ nav:
           - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
-          - Bracket draw name import: specs/not-started/bracket-draw-name-import-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md

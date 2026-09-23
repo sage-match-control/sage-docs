@@ -94,6 +94,12 @@ to the `...` form rather than repointing it.
 - **[Verifiable draw](implemented/bracket-generator-verifiable-draw-spec.md)**
   — proving a draw wasn't rigged: a seed, a hash sort anyone can re-check on
   any SHA-256 site, and a plain-language *How it works* dialog.
+- **[Bracket draw name import](implemented/bracket-draw-name-import-spec.md)**
+  — uploading the tool's text exports into a generated workbook, so each
+  category's rosters and its `STEP 3` codes come from the verifiable draw
+  instead of being typed and hand-shuffled. Also carries the workbook's menu
+  route into the tool (§11) and a dual meet's in-sheet roster shuffle (§12).
+  Replaces the retired Bracket Generator workbook handoff spec.
 
 ### Dual Meet Sheet Generator
 
@@ -132,12 +138,6 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
-- **[Bracket draw name import](not-started/bracket-draw-name-import-spec.md)**
-  — uploading the Bracket Generator's text exports into a generated workbook,
-  so each category's rosters and its `STEP 3` codes come from the verifiable
-  draw instead of being typed and hand-shuffled. Replaces the retired
-  Bracket Generator workbook handoff spec, whose two surviving ideas it
-  parks in its §11 and §12.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling.

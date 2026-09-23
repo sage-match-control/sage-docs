@@ -754,7 +754,7 @@ carries the instructions with it.
 - Any change to the shuffle animation's timing, curve or reduced-motion branch.
   Its meaning changes (§1); its code does not.
 - Anything the workbook does with a draw — see
-  [bracket draw name import](../not-started/bracket-draw-name-import-spec.md),
+  [bracket draw name import](../implemented/bracket-draw-name-import-spec.md),
   which reads the exported text file (this spec's own audit trail included)
   into a generated workbook's roster.
 

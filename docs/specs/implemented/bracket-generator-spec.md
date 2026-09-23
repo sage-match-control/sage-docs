@@ -751,11 +751,12 @@ amended. Listed here so the doc pass has one complete inventory.
   nothing in it knows about clubs.
 
 The first of those — writing a draw back — is picked up in
-[bracket draw name import](../not-started/bracket-draw-name-import-spec.md),
+[bracket draw name import](../implemented/bracket-draw-name-import-spec.md),
 from the other end: the workbook reads this tool's exported text file, so the
 tool still publishes nothing and still knows nothing about the sheet. The
-event-shape split stays as it is; that spec's §11 explains why a dual meet
-does not use a bracket draw at all.
+event-shape split stays as it is; that spec's §12 explains why a dual meet
+does not use a bracket draw at all, and its §11 adds the menu route from a
+workbook into this tool.
 
 ---
 

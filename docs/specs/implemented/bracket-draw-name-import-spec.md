@@ -5,15 +5,17 @@ exported **text files**, one per category, instead of typing every pair into
 each category tab's `STEP 1 · NAMES` column and then hand-shuffling
 `STEP 3 · RANDOMIZED CODES`.
 
-> **Status: written, not yet in any workbook.** §9, §11 and §12 are all
-> applied in `sage-tools-api/scripts/` and every harness is green — §9.8's 31
-> checks, §12's 13, and both verify scripts. §9 remains a ready-to-apply guide:
-> exact insertions, anchored on quoted text, with a runnable check after each.
+> **Status: built.** §9, §11 and §12 are all in `sage-tools-api/scripts/` and
+> every harness is green — §9.8's 31 checks, §12's 13, and both verify
+> scripts. §9 remains a ready-to-apply guide: exact insertions, anchored on
+> quoted text, with a runnable check after each, which is also how a change to
+> it should be made.
 >
-> What that does **not** prove is anything a real workbook does with the
-> values, because the mock evaluates no formulas and nothing here has been
-> pasted into a master yet. §9.9's step 3 is the gap: until it passes against a
-> real generated workbook, treat this as unproven in production.
+> Like every other Apps Script feature here, it reaches a workbook by being
+> pasted into the master, not deployed — so a workbook copied before that
+> paste does not have it. The mock evaluates no formulas, so §9.9's step 3
+> (the `B` column resolving names through the `AE`/`AI` link) is the one check
+> that needs a real workbook.
 
 | | |
 | --- | --- |
@@ -61,10 +63,19 @@ and its two surviving ideas are recorded here, in §11 and §12.
 Nothing is deployed and no version is bumped: `scripts/*.gs` is not part of the
 Cloud Run service, and the tool is a static page.
 
-**Operator, afterwards.** Paste the edited `standard-generator.gs` into the
-SAGE Standard Tournament Master's Apps Script project, replacing the file
-there. Workbooks generated *before* that paste do **not** get the feature:
-each copy carries the script it was made from. Only copies taken after it do.
+**Operator, afterwards.** Paste each edited file into the Apps Script project
+of the master that carries it, replacing the file there:
+
+| Master | Paste |
+| --- | --- |
+| SAGE Standard Tournament Master | `standard-generator.gs` (§9) and `sheets-sync.gs` (§11) |
+| SAGE Dual Meet Master | `sheet-generator.gs` (§12) and `sheets-sync.gs` (§11) |
+
+`tools/bracket-generator.html` needs nothing — it is a static page, live as
+soon as the commit deploys.
+
+Workbooks copied *before* that paste do **not** get any of it: each copy
+carries the script it was made from. Only copies taken after it do.
 
 **Do not touch:**
 
