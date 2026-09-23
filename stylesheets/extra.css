@@ -1,0 +1,149 @@
+/*
+  S.A.G.E. house palette — navy structure, green accent, off-white paper —
+  shared verbatim with tools/control-center.html, tools/index.html and the
+  rest of sage-match-control.github.io so every S.A.G.E. surface reads as
+  one product, docs included. Light-only: none of those pages follow system
+  dark mode either, so the Material scheme toggle is disabled in mkdocs.yml
+  and this file never defines a [data-md-color-scheme="slate"] override.
+*/
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root, [data-md-color-scheme="default"]{
+  --md-primary-fg-color: #14263C;
+  --md-primary-fg-color--light: #1E3A5A;
+  --md-primary-fg-color--dark: #0B1826;
+  --md-primary-bg-color: #F1F3EC;
+  --md-primary-bg-color--light: #F1F3EC;
+
+  --md-accent-fg-color: #5C8F1F;
+  --md-accent-fg-color--transparent: rgba(124,185,44,.14);
+  --md-accent-bg-color: #14263C;
+
+  --md-default-bg-color: #F6F7F2;
+  --md-default-fg-color: #14263C;
+  --md-default-fg-color--light: #5B6B74;
+  --md-default-fg-color--lighter: #8695A0;
+  --md-default-fg-color--lightest: #D9DED2;
+
+  --md-typeset-color: #14263C;
+  --md-typeset-a-color: #5C8F1F;
+
+  --md-code-bg-color: #0B1826;
+  --md-code-fg-color: #EAEFE6;
+  --md-code-hl-color: rgba(124,185,44,.25);
+
+  --md-footer-bg-color: #0B1826;
+  --md-footer-bg-color--dark: #0B1826;
+  --md-footer-fg-color: #F1F3EC;
+  --md-footer-fg-color--light: rgba(241,243,236,.7);
+
+  --md-text-font: 'Inter', system-ui, sans-serif;
+  --md-code-font: 'SFMono-Regular', Consolas, monospace;
+
+  --sage-line: #D9DED2;
+  --sage-shadow: 0 14px 30px -20px rgba(11,24,38,.25);
+}
+
+body, .md-typeset{ font-family: var(--md-text-font); }
+
+/* ---------- Headings: Barlow Condensed for the small stuff, Archivo Black for the big stuff ---------- */
+.md-typeset h1{
+  font-family:'Archivo Black', sans-serif;
+  font-weight:400;
+  text-transform:uppercase;
+  letter-spacing:.01em;
+  color: var(--md-primary-fg-color);
+  border-bottom:3px solid var(--md-accent-fg-color);
+  padding-bottom:14px;
+}
+.md-typeset h2{
+  font-family:'Barlow Condensed', sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color: var(--md-primary-fg-color);
+  border-bottom:1px solid var(--sage-line);
+  padding-bottom:8px;
+}
+.md-typeset h3{
+  font-family:'Barlow Condensed', sans-serif;
+  font-weight:600;
+  color: var(--md-primary-fg-color);
+}
+.md-typeset h4{
+  font-family:'Inter', sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  font-size:.78rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* ---------- Top app bar + tabs ---------- */
+.md-header{ box-shadow:none; border-bottom:1px solid rgba(0,0,0,.15); }
+.md-header__title{ font-family:'Archivo Black', sans-serif; text-transform:uppercase; font-size:.85rem; }
+.md-tabs{
+  background-color: var(--md-primary-fg-color--dark);
+}
+.md-tabs__link{
+  font-family:'Barlow Condensed', sans-serif;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.md-tabs__link--active{ color:#fff; }
+
+/* ---------- Sidebar nav ---------- */
+.md-nav__title{
+  font-family:'Barlow Condensed', sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.md-nav__link--active, .md-nav__link:focus, .md-nav__link:hover{ color: var(--md-accent-fg-color); }
+.md-nav__item .md-nav__link--active{ font-weight:600; }
+
+/* ---------- Body content ---------- */
+.md-typeset a{ color: var(--md-accent-fg-color); }
+.md-typeset a:hover{ color: var(--md-primary-fg-color); }
+.md-typeset strong{ color: var(--md-primary-fg-color); }
+
+.md-typeset code{
+  background-color:#ECEEE6;
+  color:#0B1826;
+  border-radius:5px;
+}
+.md-typeset pre>code{
+  background-color:transparent;
+}
+.md-typeset .highlight{
+  border-radius:12px;
+  box-shadow: var(--sage-shadow);
+}
+
+.md-typeset blockquote{
+  border-left:4px solid var(--md-accent-fg-color);
+  background: rgba(124,185,44,.08);
+  border-radius:0 10px 10px 0;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset table:not([class]){
+  border-radius:10px;
+  box-shadow: var(--sage-shadow);
+  overflow:hidden;
+}
+.md-typeset table:not([class]) th{
+  background-color: var(--md-primary-fg-color);
+  color:#F1F3EC;
+  font-family:'Barlow Condensed', sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.md-typeset table:not([class]) tr:nth-child(2n){ background-color:#ECEEE6; }
+
+.md-typeset hr{ border-top:2px dashed rgba(124,185,44,.5); }
+
+.md-footer-nav__link .md-ellipsis{ font-family:'Barlow Condensed', sans-serif; text-transform:uppercase; letter-spacing:.06em; }
+
+.md-search__input{ font-family:'Inter', sans-serif; }

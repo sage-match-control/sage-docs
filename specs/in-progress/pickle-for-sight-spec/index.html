@@ -1,0 +1,3864 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/in-progress/pickle-for-sight-spec/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../not-started/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>CLSO Pickle for Sight - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-clso-pickle-for-sight-tournament" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLSO Pickle for Sight
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-how-to-use-this-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. How to use this spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-event-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Event facts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-create-the-event-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Create the event folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-replace-the-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Replace the {{TOKENS}}
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-indexhtml-content-edits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. index.html — content edits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. index.html — content edits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-configuration-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Configuration block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-hero-title-accent-and-mascot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Hero — title accent and mascot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-footer-cause-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Footer cause line
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-example-text-left-over-from-the-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Example text left over from the template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-theme-colours-from-the-pubmat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Theme — colours from the pubmat
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Theme — colours from the pubmat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-the-palette" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 The palette
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-edit-the-root-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Edit the :root blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-replace-hard-coded-copies-of-the-old-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Replace hard-coded copies of the old colours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-update-the-contrast-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Update the contrast note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-schedulehtml-category-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. schedule.html — category colours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-dry-run-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Dry-run checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-verify-in-a-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Verify in a browser
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-register-the-event-in-event-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Register the event in event-data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-done-report-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Done — report back
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-operator-tasks-people-not-the-implementer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Operator tasks — people, not the implementer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Operator tasks — people, not the implementer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-two-workbooks-built-by-hand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Two workbooks, built by hand
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-live-sync-setup-once-per-workbook-last" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 Live sync setup — once per workbook, last
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-go-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Go-live
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#124-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 Dry run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-decisions-for-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Decisions, for reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. Decisions, for reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template-gap-found-not-fixed-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template gap found (not fixed here)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-how-to-use-this-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. How to use this spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-event-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Event facts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-create-the-event-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Create the event folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-replace-the-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Replace the {{TOKENS}}
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-indexhtml-content-edits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. index.html — content edits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. index.html — content edits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-configuration-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Configuration block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-hero-title-accent-and-mascot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Hero — title accent and mascot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-footer-cause-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Footer cause line
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-example-text-left-over-from-the-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Example text left over from the template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-theme-colours-from-the-pubmat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Theme — colours from the pubmat
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Theme — colours from the pubmat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-the-palette" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 The palette
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-edit-the-root-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Edit the :root blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-replace-hard-coded-copies-of-the-old-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Replace hard-coded copies of the old colours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-update-the-contrast-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Update the contrast note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-schedulehtml-category-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. schedule.html — category colours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-dry-run-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Dry-run checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-verify-in-a-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Verify in a browser
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-register-the-event-in-event-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Register the event in event-data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-done-report-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Done — report back
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-operator-tasks-people-not-the-implementer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Operator tasks — people, not the implementer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Operator tasks — people, not the implementer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-two-workbooks-built-by-hand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Two workbooks, built by hand
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-live-sync-setup-once-per-workbook-last" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 Live sync setup — once per workbook, last
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-go-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Go-live
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#124-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 Dry run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-decisions-for-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Decisions, for reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. Decisions, for reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template-gap-found-not-fixed-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template gap found (not fixed here)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/in-progress/pickle-for-sight-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-clso-pickle-for-sight-tournament">Spec — CLSO Pickle for Sight tournament<a class="headerlink" href="#spec-clso-pickle-for-sight-tournament" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: in progress.</strong> The site (§3–§9) is built and committed, both
+venue workbooks are built, and live sync is set up and publishing for both
+<code>PCPH Main</code> and <code>PCPH Annex</code> (§10, §12.1, §12.2). Still open: the dry run
+(§12.4), due by Friday 25 September, and setting <code>pickle-for-sight-day1</code>'s
+<code>isLive</code> back to <code>"auto"</code> in <code>event-data/config/events.json</code> — it is
+currently hardcoded <code>true</code> from go-live testing.</p>
+</blockquote>
+<p>Build the event site for <strong>Pickle for Sight</strong>, a one-day open-entry
+pickleball tournament on <strong>Sunday, 27 September 2026</strong>. It is played across
+two venues, <strong>PCPH Main</strong> and <strong>PCPH Annex</strong>, in Angeles City. The Central
+Luzon Society of Ophthalmology (CLSO) presents it in partnership with
+S.A.G.E.</p>
+<p>The site is an instance of <code>_templates/standard-tournament-template/</code>. The
+runbook for instantiating a template is
+<code>sage-match-control.github.io/_templates/CLAUDE.md</code>. This spec gives every
+value and every edit for this event, so you should not need to make any
+design decisions. If this spec and the runbook disagree, <strong>stop and ask</strong>.
+Don't pick one.</p>
+<hr />
+<h2 id="0-how-to-use-this-spec">0. How to use this spec<a class="headerlink" href="#0-how-to-use-this-spec" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Do sections 3–10 in order.</strong> Each section lists exact edits, then a
+  check to run. Don't move on until the check passes.</li>
+<li><strong>Where you work:</strong> <code>D:\Coding Projects\SAGE\sage-match-control.github.io</code>
+  (the site repo) for §3–§9. §10 edits <code>D:\Coding Projects\SAGE\event-data</code>.
+  All paths in §3–§9 are relative to the site repo.</li>
+<li><strong>Find edits by their anchor text, not line numbers.</strong> Every edit quotes
+  the exact text to find. The template changes over time, so line numbers
+  would drift.</li>
+<li><strong>Don't commit or push</strong> unless the user asks.</li>
+<li><strong>Don't edit anything under <code>_templates/</code>.</strong> If a template edit seems
+  necessary, stop and report it instead.</li>
+<li>Don't rename, "fix" or tidy anything this spec doesn't mention.</li>
+</ul>
+<hr />
+<h2 id="1-event-facts">1. Event facts<a class="headerlink" href="#1-event-facts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Presenter</td>
+<td>Central Luzon Society of Ophthalmology (CLSO)</td>
+</tr>
+<tr>
+<td>Event name</td>
+<td>Pickle for Sight</td>
+</tr>
+<tr>
+<td>Slogan</td>
+<td>Play Hard. Win Big. Restore Sight.</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>Sunday, 27 September 2026 — one day</td>
+</tr>
+<tr>
+<td>Venues</td>
+<td>PCPH Main (4 courts), PCPH Annex (5 courts), Angeles City</td>
+</tr>
+<tr>
+<td>Divisions</td>
+<td>Novice, Low Intermediate, High Intermediate</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>Men's, Women's and Mixed Doubles in every division — 9 categories</td>
+</tr>
+<tr>
+<td>Logo</td>
+<td>The mascot (eyeball pickleball with goggles, holding a CLSO paddle)</td>
+</tr>
+<tr>
+<td>Short link</td>
+<td><code>tinyurl.com/SAGExPickleForSight</code> → <code>https://sage-match-control.github.io/events/pickle-for-sight-2026/</code></td>
+</tr>
+<tr>
+<td>Beneficiary</td>
+<td>JBL Ophtha patients</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The site shows none of these:</strong> playing hours, registration fee, prizes,
+phone number, Facebook page, or the pubmat's QR (which points to
+registration). The site is a live results hub for players who have already
+entered.</p>
+<hr />
+<h2 id="2-inputs">2. Inputs<a class="headerlink" href="#2-inputs" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Status</th>
+<th>Used in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mascot image</td>
+<td><strong>Staged</strong> at <code>events/pickle-for-sight-2026/assets/mascot.webp</code> (1254×1254, white background). Use it as is: no conversion, no background removal</td>
+<td>§5.2</td>
+</tr>
+<tr>
+<td>QR image for the short link</td>
+<td><strong>Supplied by the user</strong> as <code>events/pickle-for-sight-2026/assets/qr.png</code>. If it isn't there, do everything else and report it missing. Don't generate one</td>
+<td>Template QR panel</td>
+</tr>
+<tr>
+<td>Sheet ID for the PCPH Main workbook</td>
+<td><code>1rNIlK2Zz3zTaLILlpq4rCGIQbtr0ECpG4A3OdP4v25A</code></td>
+<td>§10</td>
+</tr>
+<tr>
+<td>Sheet ID for the PCPH Annex workbook</td>
+<td><code>1ks84WK7vo5FAenpPbZocm9PLPpLoS6_SRPivVJqmS-0</code></td>
+<td>§10</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-create-the-event-folder">3. Create the event folder<a class="headerlink" href="#3-create-the-event-folder" title="Permanent link">&para;</a></h2>
+<p>The folder already exists, because it holds the staged mascot. Copy the
+template's <strong>contents</strong> into it. The trailing <code>/.</code> matters: without it,
+<code>cp</code> would create a nested <code>standard-tournament-template/</code> folder inside
+the existing one.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cp<span class="w"> </span>-r<span class="w"> </span>_templates/standard-tournament-template/.<span class="w"> </span>events/pickle-for-sight-2026/
+</code></pre></div>
+<p><strong>Check:</strong> <code>ls events/pickle-for-sight-2026</code> shows <code>index.html</code>,
+<code>schedule.html</code> and <code>assets/</code>, and <code>assets/</code> still contains
+<code>mascot.webp</code>.</p>
+<hr />
+<h2 id="4-replace-the-tokens">4. Replace the <code>{{TOKENS}}</code><a class="headerlink" href="#4-replace-the-tokens" title="Permanent link">&para;</a></h2>
+<p>Replace every occurrence in both <code>events/pickle-for-sight-2026/index.html</code>
+and <code>events/pickle-for-sight-2026/schedule.html</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Replace with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{EVENT_KEY}}</code></td>
+<td><code>pickle-for-sight-2026</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TITLE}}</code></td>
+<td><code>Pickle for Sight</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TAGLINE}}</code></td>
+<td><code>CLSO presents</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_HEADLINE}}</code></td>
+<td><code>Play Hard. Win Big. Restore Sight.</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_DATE_RANGE}}</code></td>
+<td><code>27 September 2026</code></td>
+</tr>
+<tr>
+<td><code>{{VENUE}}</code></td>
+<td><code>PCPH, Angeles City</code></td>
+</tr>
+<tr>
+<td><code>{{QR_IMAGE}}</code></td>
+<td><code>assets/qr.png</code></td>
+</tr>
+<tr>
+<td><code>{{QR_URL}}</code></td>
+<td><code>tinyurl.com/SAGExPickleForSight</code></td>
+</tr>
+<tr>
+<td><code>{{SCHEDULE_DAY_KEY}}</code></td>
+<td><code>pickle-for-sight-day1</code></td>
+</tr>
+</tbody>
+</table>
+<p>None of these values contain <code>&amp;</code>, so no HTML-entity escaping is needed.</p>
+<p><strong>Check:</strong> this must print nothing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>grep<span class="w"> </span>-rn<span class="w"> </span><span class="s1">'{{'</span><span class="w"> </span>events/pickle-for-sight-2026/
+</code></pre></div>
+<hr />
+<h2 id="5-indexhtml-content-edits">5. <code>index.html</code> — content edits<a class="headerlink" href="#5-indexhtml-content-edits" title="Permanent link">&para;</a></h2>
+<p>All edits are in <code>events/pickle-for-sight-2026/index.html</code>.</p>
+<h3 id="51-configuration-block">5.1 Configuration block<a class="headerlink" href="#51-configuration-block" title="Permanent link">&para;</a></h3>
+<p>Inside the <code>CONFIGURATION</code> section of the <code>&lt;script&gt;</code>, replace each of these
+four <code>// EXAMPLE — replace</code> blocks completely, including the
+<code>// EXAMPLE — replace</code> comment line.</p>
+<p><code>DAYS</code>: find</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAYS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="c1">// EXAMPLE — replace</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">'pickle-for-sight-2026-day1'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Day 1'</span><span class="p">,</span><span class="w"> </span><span class="nx">date</span><span class="o">:</span><span class="w"> </span><span class="s1">'2026-01-01'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">];</span>
+</code></pre></div>
+<p>(the token replacement in §4 has already filled in the key). Replace it
+with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAYS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">'pickle-for-sight-day1'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Sep 27'</span><span class="p">,</span><span class="w"> </span><span class="nx">date</span><span class="o">:</span><span class="w"> </span><span class="s1">'2026-09-27'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">];</span>
+</code></pre></div>
+<p><code>FACILITIES</code>: replace the whole array with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FACILITIES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'PCPH Main'</span><span class="p">,</span><span class="w">  </span><span class="nx">courts</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">4</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'PCPH Annex'</span><span class="p">,</span><span class="w"> </span><span class="nx">courts</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="mf">9</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">];</span>
+</code></pre></div>
+<p><code>DIVISIONS</code>: replace the whole object with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DIVISIONS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nx">N</span><span class="o">:</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'N'</span><span class="p">,</span><span class="w">  </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'Novice'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nx">LI</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'LI'</span><span class="p">,</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'Low Intermediate'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nx">HI</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'HI'</span><span class="p">,</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'High Intermediate'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>EVENTS</code>: replace the whole object with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nx">MD</span><span class="o">:</span><span class="w"> </span><span class="s2">"Men's Doubles"</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nx">WD</span><span class="o">:</span><span class="w"> </span><span class="s2">"Women's Doubles"</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nx">XD</span><span class="o">:</span><span class="w"> </span><span class="s2">"Mixed Doubles"</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">};</span>
+</code></pre></div>
+<p>Leave <code>DIVISION_ORDER</code>, <code>EVENT_ORDER</code>, <code>GO_LIVE_LEAD_HOURS</code>, <code>STAGE_META</code>
+and everything else in the block unchanged.</p>
+<p><strong>Check:</strong> <code>grep -n "EXAMPLE" events/pickle-for-sight-2026/index.html</code>
+prints nothing.</p>
+<h3 id="52-hero-title-accent-and-mascot">5.2 Hero — title accent and mascot<a class="headerlink" href="#52-hero-title-accent-and-mascot" title="Permanent link">&para;</a></h3>
+<p>Find:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Pickle for Sight<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Replace with these two lines. The mascot goes directly above the title:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"event-mascot"</span><span class="p">&gt;&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">"assets/mascot.webp"</span> <span class="na">alt</span><span class="o">=</span><span class="s">"Pickle for Sight mascot"</span> <span class="na">width</span><span class="o">=</span><span class="s">"1254"</span> <span class="na">height</span><span class="o">=</span><span class="s">"1254"</span> <span class="p">/&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"accent"</span><span class="p">&gt;</span>Pickle<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> for Sight<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>In the <code>&lt;style&gt;</code> block, find this line:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="w">  </span><span class="nt">h1</span><span class="p">.</span><span class="nc">title</span><span class="w"> </span><span class="p">.</span><span class="nc">accent</span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--green</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Directly below it, add:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="w">  </span><span class="c">/* Pickle for Sight — event mascot in a white circle badge. The source image</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c">     is square on a white background, so it is inset (not cropped) at 70% of</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c">     the circle: a square inside a circle is at most 1/√2 ≈ 70.7% of the</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c">     diameter, so its corners stay inside and nothing is clipped. The circle is</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c">     a wrapper, because a percentage padding on the &lt;img&gt; would resolve against</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c">     the hero's width, not the image's. */</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="p">.</span><span class="nc">event-mascot</span><span class="p">{</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">150</span><span class="kt">px</span><span class="p">,</span><span class="mi">38</span><span class="kt">vw</span><span class="p">,</span><span class="mi">230</span><span class="kt">px</span><span class="p">);</span><span class="w"> </span><span class="k">aspect-ratio</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="mi">0</span><span class="w"> </span><span class="kc">auto</span><span class="w"> </span><span class="mi">18</span><span class="kt">px</span><span class="p">;</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">place-items</span><span class="p">:</span><span class="kc">center</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="k">border</span><span class="p">:</span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nb">rgba</span><span class="p">(</span><span class="mi">94</span><span class="p">,</span><span class="mi">145</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mf">.55</span><span class="p">);</span><span class="w"> </span><span class="k">box-shadow</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--card-shadow</span><span class="p">);</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span><span class="p">.</span><span class="nc">event-mascot</span><span class="w"> </span><span class="nt">img</span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="mi">70</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">height</span><span class="p">:</span><span class="kc">auto</span><span class="p">;</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="kc">block</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>The hero now stacks: S.A.G.E. crown mark → "CLSO presents" → date · venue →
+mascot → title → slogan → subtitle. Leave the crown-mark SVG alone. It is
+S.A.G.E.'s mark and stays on every event page.</p>
+<h3 id="53-footer-cause-line">5.3 Footer cause line<a class="headerlink" href="#53-footer-cause-line" title="Permanent link">&para;</a></h3>
+<p>Find:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>  Pickle for Sight <span class="ni">&amp;middot;</span> 27 September 2026 <span class="ni">&amp;middot;</span> PCPH, Angeles City<span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  Powered by S.A.G.E. Match Control Experts
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Replace with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  Pickle for Sight <span class="ni">&amp;middot;</span> 27 September 2026 <span class="ni">&amp;middot;</span> PCPH, Angeles City<span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>  Every registration helps restore sight for JBL Ophtha patients.<span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>  Powered by S.A.G.E. Match Control Experts
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="54-example-text-left-over-from-the-template">5.4 Example text left over from the template<a class="headerlink" href="#54-example-text-left-over-from-the-template" title="Permanent link">&para;</a></h3>
+<p>Find:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>placeholder="e.g. Beginner 18+ Men's Doubles"
+</code></pre></div>
+<p>Replace with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>placeholder="e.g. Novice Men's Doubles"
+</code></pre></div>
+<p>Leave the code comments that mention <code>B18MD_1</code> / <code>B35XD_F_1_(1)</code> alone.
+They document the code format, not this event.</p>
+<hr />
+<h2 id="6-theme-colours-from-the-pubmat">6. Theme — colours from the pubmat<a class="headerlink" href="#6-theme-colours-from-the-pubmat" title="Permanent link">&para;</a></h2>
+<p>The pubmat is navy and grass green on white. These values were <strong>sampled
+from the pubmat image's pixels</strong> (dominant colour per region), not judged by
+eye:</p>
+<table>
+<thead>
+<tr>
+<th>Pubmat element</th>
+<th>Sampled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"SIGHT", the banners, the footer bar</td>
+<td>navy <code>#05133B</code></td>
+</tr>
+<tr>
+<td>Darkest navy edges</td>
+<td><code>#020B29</code></td>
+</tr>
+<tr>
+<td>"PICKLE"</td>
+<td>green <code>#588A05</code></td>
+</tr>
+<tr>
+<td>Bottom strip, "₱1,500"</td>
+<td>dark green <code>#3C6B02</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="61-the-palette">6.1 The palette<a class="headerlink" href="#61-the-palette" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Old (house)</th>
+<th>New</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--navy</code></td>
+<td><code>#14263C</code></td>
+<td><code>#05133B</code></td>
+<td>Pubmat navy</td>
+</tr>
+<tr>
+<td><code>--navy-deep</code></td>
+<td><code>#0B1826</code></td>
+<td><code>#020B29</code></td>
+<td>Pubmat's darkest navy</td>
+</tr>
+<tr>
+<td><code>--green</code></td>
+<td><code>#7CB92C</code></td>
+<td><code>#5E9106</code></td>
+<td>Pubmat green <code>#588A05</code>, lightened slightly. Navy text on the exact pubmat green is 4.35:1, which fails AA (4.5:1). On <code>#5E9106</code> it is 4.75:1 and passes. The two look the same</td>
+</tr>
+<tr>
+<td><code>--green-dark</code></td>
+<td><code>#5C8F1F</code></td>
+<td><code>#3C6B02</code></td>
+<td>Pubmat dark green</td>
+</tr>
+<tr>
+<td><code>--paper</code></td>
+<td><code>#F6F7F2</code></td>
+<td><code>#F5F6F8</code></td>
+<td>Pubmat's cool white, not the house palette's warm off-white</td>
+</tr>
+<tr>
+<td><code>--paper-dim</code></td>
+<td><code>#ECEEE6</code></td>
+<td><code>#E9ECF1</code></td>
+<td>Cool, to match</td>
+</tr>
+<tr>
+<td><code>--line</code></td>
+<td><code>#D9DED2</code></td>
+<td><code>#D3D9E3</code></td>
+<td>Cool, to match</td>
+</tr>
+<tr>
+<td><code>--ink</code></td>
+<td><code>#14263C</code></td>
+<td><code>#05133B</code></td>
+<td>Same as <code>--navy</code></td>
+</tr>
+<tr>
+<td><code>--ink-soft</code></td>
+<td><code>#5B6B74</code></td>
+<td><code>#4A5572</code></td>
+<td>Navy-tinted grey</td>
+</tr>
+<tr>
+<td><code>--white</code>, <code>--radius</code></td>
+<td>—</td>
+<td>unchanged</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Measured contrast (WCAG): <code>--green</code> on white 3.80:1, navy on <code>--green</code>
+4.75:1, <code>--green-dark</code> on white 6.37:1, <code>--ink</code> on paper 16.7:1,
+<code>--ink-soft</code> on paper 6.85:1, white on navy 18.1:1.</p>
+<p><strong>Not added: the pubmat's royal blue (<code>#0336C6</code>, the prize bars and the
+eye) or its yellow (<code>#FAE304</code>, the CLSO logo).</strong> The template has no role
+that a second accent colour would fill, so adding one means choosing which
+elements to recolour. That is a design change, not a token swap. The mascot
+already carries both colours onto the page.</p>
+<h3 id="62-edit-the-root-blocks">6.2 Edit the <code>:root</code> blocks<a class="headerlink" href="#62-edit-the-root-blocks" title="Permanent link">&para;</a></h3>
+<p>In <strong>both</strong> <code>index.html</code> and <code>schedule.html</code>, change the brand tokens in
+the <code>:root{ … }</code> block under the <code>THEME</code> banner to the "New" column above.
+Leave the role aliases in <code>index.html</code> (<code>--court:var(--green);</code> and the
+rest) unchanged. They resolve through the tokens automatically.</p>
+<h3 id="63-replace-hard-coded-copies-of-the-old-colours">6.3 Replace hard-coded copies of the old colours<a class="headerlink" href="#63-replace-hard-coded-copies-of-the-old-colours" title="Permanent link">&para;</a></h3>
+<p>Some rules in the template use the house colours as raw <code>rgba()</code>/hex instead
+of <code>var()</code>. Replace every occurrence below, in the file(s) listed. Keep each
+alpha value (the last number) as it is. Only the three colour channels
+change.</p>
+<table>
+<thead>
+<tr>
+<th>Find</th>
+<th>Replace with</th>
+<th>Files</th>
+<th>Is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rgba(124,185,44,</code></td>
+<td><code>rgba(94,145,6,</code></td>
+<td>both</td>
+<td>old <code>--green</code></td>
+</tr>
+<tr>
+<td><code>rgba(92,143,31,</code></td>
+<td><code>rgba(60,107,2,</code></td>
+<td><code>index.html</code></td>
+<td>old <code>--green-dark</code></td>
+</tr>
+<tr>
+<td><code>rgba(11,24,38,</code></td>
+<td><code>rgba(2,11,41,</code></td>
+<td>both</td>
+<td>old <code>--navy-deep</code></td>
+</tr>
+<tr>
+<td><code>rgba(20,38,60,</code></td>
+<td><code>rgba(5,19,59,</code></td>
+<td><code>index.html</code></td>
+<td>old <code>--navy</code></td>
+</tr>
+<tr>
+<td><code>rgba(246,247,242,</code></td>
+<td><code>rgba(245,246,248,</code></td>
+<td><code>index.html</code></td>
+<td>old <code>--paper</code></td>
+</tr>
+<tr>
+<td><code>.badge-2{background:#4C7A19;}</code></td>
+<td><code>.badge-2{background:var(--green-dark);}</code></td>
+<td><code>index.html</code></td>
+<td>Its comment says it was darkened because the old <code>--green-dark</code> failed with white text. The new one passes (6.37:1)</td>
+</tr>
+<tr>
+<td><code>'#14263C'</code> (in <code>readableOn()</code>)</td>
+<td><code>'#05133B'</code></td>
+<td><code>schedule.html</code></td>
+<td>navy chip text</td>
+</tr>
+<tr>
+<td><code>color:'#5B6B74'</code> (in <code>FALLBACK</code>)</td>
+<td><code>color:'#4A5572'</code></td>
+<td><code>schedule.html</code></td>
+<td>old <code>--ink-soft</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Leave these alone:</strong> <code>rgba(20,27,44,…)</code> (neutral shadow), the reds
+<code>#B3261E</code>/<code>#FFB4A2</code> and their <code>rgba(179,38,30,…)</code>/<code>rgba(255,180,162,…)</code>/
+<code>rgba(255,90,110,…)</code> (error states), <code>rgba(52,199,120,…)</code>, <code>#6C5CE0</code>
+(<code>.badge-3</code>), every <code>rgba(255,255,255,…)</code> and <code>rgba(0,0,0,…)</code>, and the
+<code>CAT_META</code> hues (§7).</p>
+<h3 id="64-update-the-contrast-note">6.4 Update the contrast note<a class="headerlink" href="#64-update-the-contrast-note" title="Permanent link">&para;</a></h3>
+<p>In <code>index.html</code>'s <code>THEME</code> banner comment, replace these lines:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>       - --green on white is ~2.3:1 and fails AA at any size. Use it as a
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>         background (with --navy text on top, ~5.4:1) or on a navy panel.
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>       - --green-dark on white is ~4.0:1 — still under the 4.5:1 body
+</code></pre></div>
+<p>and the line after them, up to and including</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>       - Small text on paper is --ink (~13.8:1) or --ink-soft (~5.9:1).
+</code></pre></div>
+<p>with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>       - --green on white is ~3.8:1 — large/display text only. As a fill,
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>         put --navy text on it (~4.75:1) or use it on a navy panel.
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>       - --green-dark on white is ~6.4:1 and is safe for body text.
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>       - Small text on paper is --ink (~16.7:1) or --ink-soft (~6.9:1).
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>     Pickle for Sight: palette sampled from the event pubmat (navy #05133B,
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>     green #588A05 lightened to #5E9106 for AA, dark green #3C6B02).
+</code></pre></div>
+<p><strong>Check:</strong> each of these must print nothing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"#14263C\|#0B1826\|#7CB92C\|#5C8F1F\|#F6F7F2\|#ECEEE6\|#D9DED2\|#5B6B74\|#4C7A19"</span><span class="w"> </span>events/pickle-for-sight-2026/*.html
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"rgba(124,185,44\|rgba(92,143,31\|rgba(11,24,38\|rgba(20,38,60\|rgba(246,247,242"</span><span class="w"> </span>events/pickle-for-sight-2026/*.html
+</code></pre></div>
+<hr />
+<h2 id="7-schedulehtml-category-colours">7. <code>schedule.html</code> — category colours<a class="headerlink" href="#7-schedulehtml-category-colours" title="Permanent link">&para;</a></h2>
+<p>In <code>events/pickle-for-sight-2026/schedule.html</code>, replace the <strong>entire</strong>
+<code>const CAT_META = { … };</code> object (it currently holds another event's seven
+categories, including <code>AMD</code>) with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">CAT_META</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="nx">NWD</span><span class="o">:</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'N WD'</span><span class="p">,</span><span class="w">  </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#D5A6BD'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="nx">LIWD</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'LI WD'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#C27BA0'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span><span class="nx">HIWD</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'HI WD'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#741B47'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="nx">NMD</span><span class="o">:</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'N MD'</span><span class="p">,</span><span class="w">  </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#A4C2F4'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span><span class="nx">LIMD</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'LI MD'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#6D9EEB'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span><span class="nx">HIMD</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'HI MD'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#1155CC'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">  </span><span class="nx">NXD</span><span class="o">:</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'N XD'</span><span class="p">,</span><span class="w">  </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#F9CB9C'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">  </span><span class="nx">LIXD</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'LI XD'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#F6B26B'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">  </span><span class="nx">HIXD</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'HI XD'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#B45F06'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="p">};</span>
+</code></pre></div>
+<p>These are the same colours PNF × BUP used, from the S.A.G.E. category
+ladder
+(<a href="../../implemented/dual-meet-schedule-generator-spec/"><code>dual-meet-schedule-generator-spec.md</code></a>
+§6). The hue follows the event (WD magenta, MD blue, XD orange), and the
+shade follows the level: Novice <em>lighter 2</em>, LI <em>lighter 1</em>, HI <em>darker 1</em>.
+They are <strong>not</strong> changed by the theme in §6. Leave the comment above
+<code>readableOn()</code> that mentions specific hexes as it is.</p>
+<p><strong>Check:</strong> <code>grep -n "AMD" events/pickle-for-sight-2026/schedule.html</code>
+prints nothing.</p>
+<hr />
+<h2 id="8-dry-run-checklist">8. Dry-run checklist<a class="headerlink" href="#8-dry-run-checklist" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>cp<span class="w"> </span>_templates/dry-run-checklist-template.md<span class="w"> </span>events/pickle-for-sight-2026/dry-run-checklist.md
+</code></pre></div>
+<p>Replace <code>{{EVENT_TITLE}}</code> with <code>Pickle for Sight</code> in the copy.</p>
+<p><strong>Check:</strong> <code>grep -rn '{{' events/pickle-for-sight-2026/</code> still prints
+nothing.</p>
+<hr />
+<h2 id="9-verify-in-a-browser">9. Verify in a browser<a class="headerlink" href="#9-verify-in-a-browser" title="Permanent link">&para;</a></h2>
+<p>Serve the <strong>repo root</strong>, not the event folder. The pages load
+root-absolute <code>/assets/…</code> paths, which fail from a sub-folder or from
+<code>file://</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+<p>Run it from <code>sage-match-control.github.io/</code>. Open
+<code>http://localhost:8000/events/pickle-for-sight-2026/</code> and
+<code>http://localhost:8000/events/pickle-for-sight-2026/schedule.html</code>.</p>
+<p><strong>Expected before the first sync:</strong> the fetch of
+<code>…/event-data/pickle-for-sight-2026/data/pickle-for-sight-day1.json</code> fails (404), so the
+page shows no match data. That is correct, not a bug.</p>
+<p>Check each of these at <strong>375px</strong> and <strong>desktop</strong> width:</p>
+<ul>
+<li>[ ] The hero reads, top to bottom: crown mark, "CLSO presents",
+      "27 SEPTEMBER 2026 · PCPH, ANGELES CITY", the mascot in a white circle,
+      "<strong>PICKLE</strong> FOR SIGHT" (with "PICKLE" green), "PLAY HARD. WIN BIG.
+      RESTORE SIGHT.", then the subtitle.</li>
+<li>[ ] The whole mascot is visible: the paddle top and both shoes are not
+      clipped, and no square edge shows inside the circle.</li>
+<li>[ ] The slogan wraps to at most three lines at 375px.</li>
+<li>[ ] The day picker is hidden. There is one day, so it auto-loads.</li>
+<li>[ ] The QR panel shows the image (if <code>qr.png</code> was supplied) and the text
+      <code>tinyurl.com/SAGExPickleForSight</code>.</li>
+<li>[ ] The footer shows three lines, with the JBL line in the middle.</li>
+<li>[ ] The navy is visibly deeper and bluer than the house navy. The paper is
+      cool white, not cream.</li>
+<li>[ ] The console shows no errors except the expected <code>pickle-for-sight-day1.json</code> fetch
+      failure. No 404s for <code>/assets/…</code> or <code>assets/mascot.webp</code>.</li>
+</ul>
+<p>Stop the server when you're done.</p>
+<hr />
+<h2 id="10-register-the-event-in-event-data">10. Register the event in <code>event-data</code><a class="headerlink" href="#10-register-the-event-in-event-data" title="Permanent link">&para;</a></h2>
+<p>In
+<code>D:\Coding Projects\SAGE\event-data\config\events.json</code>, add this entry
+inside <code>"events"</code>, after <code>"pnf-x-bup-dual-meet"</code>, and add a comma after the
+closing brace of the entry before it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nt">"pickle-for-sight-2026"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"standard"</span><span class="p">,</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pickle for Sight"</span><span class="p">,</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">  </span><span class="nt">"days"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">    </span><span class="nt">"pickle-for-sight-day1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">      </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sep 27"</span><span class="p">,</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">      </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-27"</span><span class="p">,</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="w">      </span><span class="nt">"isLive"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">,</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="w">      </span><span class="nt">"facilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PCPH Main"</span><span class="p">,</span><span class="w">  </span><span class="nt">"sheetId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1rNIlK2Zz3zTaLILlpq4rCGIQbtr0ECpG4A3OdP4v25A"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PCPH Annex"</span><span class="p">,</span><span class="w"> </span><span class="nt">"sheetId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1ks84WK7vo5FAenpPbZocm9PLPpLoS6_SRPivVJqmS-0"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="w">      </span><span class="p">]</span>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a><span class="w">  </span><span class="nt">"display"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="w">    </span><span class="nt">"divisions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"N"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Novice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"LI"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Low Intermediate"</span><span class="p">,</span><span class="w"> </span><span class="nt">"HI"</span><span class="p">:</span><span class="w"> </span><span class="s2">"High Intermediate"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="w">    </span><span class="nt">"events"</span><span class="p">:</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"MD"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Men's Doubles"</span><span class="p">,</span><span class="w"> </span><span class="nt">"WD"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Women's Doubles"</span><span class="p">,</span><span class="w"> </span><span class="nt">"XD"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mixed Doubles"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Before saving, confirm no other event already uses this day key:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s1">'"pickle-for-sight-day1"'</span><span class="w"> </span>config/events.json
+</code></pre></div>
+<p>This must print nothing. Day keys are validated as <strong>globally unique
+across every event</strong> in this file (<code>SyncConfigStore.mjs</code>), because the day
+key alone is the sync route (<code>POST /sync/:day</code>). A duplicate makes the
+whole file fail validation. Cloud Run then keeps serving the last good
+config, so this event never registers. If the key is taken, <strong>stop and
+ask</strong>. Don't pick a different key yourself.</p>
+<p><strong>Check:</strong> <code>node -e "JSON.parse(require('fs').readFileSync('config/events.json','utf8'))"</code>
+runs without error.</p>
+<hr />
+<h2 id="11-done-report-back">11. Done — report back<a class="headerlink" href="#11-done-report-back" title="Permanent link">&para;</a></h2>
+<p>Report:
+- which of §3–§9 passed,
+- whether <code>qr.png</code> was present,
+- whether §10 passed,
+- the uncommitted files, in both repos.</p>
+<hr />
+<h2 id="12-operator-tasks-people-not-the-implementer">12. Operator tasks — people, not the implementer<a class="headerlink" href="#12-operator-tasks-people-not-the-implementer" title="Permanent link">&para;</a></h2>
+<p>These happen in Google Sheets and on the day. They are listed so the
+constraints they put on the data are written down.</p>
+<h3 id="121-two-workbooks-built-by-hand">12.1 Two workbooks, built by hand<a class="headerlink" href="#121-two-workbooks-built-by-hand" title="Permanent link">&para;</a></h3>
+<p>These two workbooks are built by hand, not generated: the
+<a href="../../implemented/standard-tournament-master-spec/">Standard Tournament Master</a> generator
+takes them as its reference rather than producing them. Build one workbook
+per venue by duplicating a bkl-cup-2026 facility workbook, then:</p>
+<ol>
+<li>Rename every category key to the nine in §7. <strong>Use <code>XD</code>, not the
+   pubmat's <code>MXD</code>.</strong> A code like <code>LIMXD_1</code> doesn't parse, and that pair
+   silently disappears from the site.</li>
+<li><strong>Court numbers run continuously across the venues.</strong> Main uses
+   <code>Court 1</code>…<code>Court 4</code>, and the Annex uses <code>Court 5</code>…<code>Court 9</code> in both
+   <code>CourtAssignment</code> and <code>court</code>. The site works out a match's venue from
+   its court number, so an Annex "Court 1" would show up under Main. If the
+   Annex's own signs say Court 1–5, keep that mapping for scoresheets and
+   announcements only.</li>
+<li><strong>Match numbers must not overlap between the two workbooks.</strong> The
+   schedule screen merges both and sorts by <code>matchNumber</code>. Once each
+   workbook's SCHEDULE is final, run <strong>SAGE → Fill match numbers</strong> in it
+   (re-paste the current <code>sheets-sync.gs</code> first if the menu item is
+   missing). Enter <strong>1000</strong> in the Main workbook (1001, 1002, …) and
+   <strong>2000</strong> in the Annex workbook (2001, 2002, …). It fills the <code>CSV</code>
+   tab's <code>matchNumber</code> column with the same numbers. If it still warns
+   about the <code>CSV</code> tab, set that column to the range it gives. Run it again
+   after any schedule change.</li>
+</ol>
+<p>Keep both workbooks on the <strong>same time slots</strong> (same first time, same
+   slot length) if the schedule screen will be shown with <strong>All</strong> venues.
+   That view orders its rows by match number: Main's times come first, and
+   any time found only in the Annex is added at the bottom. Each venue's
+   own view (§12.4) isn't affected.
+4. Keep each category's round robin and playoff in <strong>one</strong> workbook.
+5. Name the readout tabs <code>CSV</code> and <code>STANDINGSCSV</code>, with the columns in
+   runbook §4. <code>Schedule</code> values must be <code>h:mm AM/PM</code>, or the day never
+   goes live automatically.
+6. Colour the SCHEDULE tab with the nine <code>CAT_META</code> hexes (§7). They are
+   all in Google Sheets' standard palette.
+7. Clear all previous-event data. Then set up live sync (§12.2).</p>
+<h3 id="122-live-sync-setup-once-per-workbook-last">12.2 Live sync setup — once per workbook, last<a class="headerlink" href="#122-live-sync-setup-once-per-workbook-last" title="Permanent link">&para;</a></h3>
+<p>Do this <strong>after</strong> the workbook is finished (rosters pasted, schedule
+final, match numbers filled). Until setup runs, nothing publishes, so you
+can edit freely before it.</p>
+<p><strong>Before you start:</strong> the <code>events.json</code> entry (§10) must be committed to
+<code>event-data</code>. Setup checks the day key and venue name against the server,
+so it rejects them if the event isn't registered yet. After committing,
+allow about a minute for the server to pick it up.</p>
+<p>In <strong>each</strong> workbook:</p>
+<ol>
+<li><strong>Extensions → Apps Script.</strong> Replace the whole script with the current
+   <code>sage-tools-api/scripts/sheets-sync.gs</code>, and save. Do this even if the
+   copied bkl workbook already has a script: an older copy has no <strong>Fill
+   match numbers</strong>.</li>
+<li>Reload the spreadsheet. The <strong>SAGE</strong> menu appears.</li>
+<li><strong>SAGE → Set up live sync</strong> (or <strong>Live sync settings</strong>, if the menu
+   shows that instead). Enter:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>PCPH Main workbook</th>
+<th>PCPH Annex workbook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day</td>
+<td><code>pickle-for-sight-day1</code></td>
+<td><code>pickle-for-sight-day1</code></td>
+</tr>
+<tr>
+<td>Venue</td>
+<td><code>PCPH Main</code></td>
+<td><code>PCPH Annex</code></td>
+</tr>
+<tr>
+<td>Tabs to watch</td>
+<td><code>SCHEDULE</code> and <code>Court Control</code> (pre-ticked)</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Secret</td>
+<td>Only if asked — see below</td>
+<td>same</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Venue is exact, including capitals.</strong> <code>PCPH Main</code>, not <code>PCPH main</code>
+     or <code>Main</code>. It must match <code>events.json</code> (§10).</li>
+<li><strong>Both workbooks use the same day.</strong> One day, two venues: the venue
+     is what tells them apart.</li>
+<li><strong>Secret:</strong> a copy of a bkl workbook doesn't carry the stored secret
+     over, so the dialog will probably ask for it. It is the value of
+     <code>SYNC_SHARED_SECRET</code> in the Cloud Run service's environment
+     variables. Get it from whoever manages Cloud Run. Never paste it into
+     chat, a doc or this spec. If the dialog shows <em>Secret stored</em>
+     instead, skip it.</li>
+<li><strong>Save.</strong> Setup checks the secret, the day and the venue, then sends
+   one real test update before saving. If anything is wrong it says what
+   and saves nothing. The usual cause is a venue typo, or §10 not being
+   live yet.</li>
+<li>Check the dialog's saved values show <code>pickle-for-sight-day1</code> and this
+   workbook's own venue, <strong>not</strong> the bkl workbook's old day or venue.</li>
+</ul>
+<p><strong>Confirm both are live:</strong> after setting up both workbooks, open
+<code>https://sage-match-control.github.io/event-data/pickle-for-sight-2026/data/pickle-for-sight-day1.json</code>.
+Give it about a minute after the second setup. It should list <strong>two</strong>
+facilities, <code>PCPH Main</code> and <code>PCPH Annex</code>. <strong>SAGE → Sync now</strong> in either
+workbook re-sends immediately and reports the result.</p>
+<p><strong>After setup:</strong> edits to SCHEDULE and Court Control publish on their own,
+about 10 seconds after typing stops. For a late roster or schedule fix you
+don't want shown mid-edit, use <strong>SAGE → Pause live sync</strong>, then <strong>Resume
+live sync</strong> and <strong>Sync now</strong> when done. Re-running <strong>Fill match numbers</strong>
+doesn't publish by itself. Follow it with <strong>Sync now</strong>.</p>
+<p><strong>SAGE → Help</strong> in the workbook has this procedure and a troubleshooting
+list, written for organizers.</p>
+<h3 id="123-go-live">12.3 Go-live<a class="headerlink" href="#123-go-live" title="Permanent link">&para;</a></h3>
+<p>The site shows scores and the Live/Standings tabs from <strong>4 hours before the
+earliest scheduled match</strong> in either workbook. It needs no configuration.
+To show them earlier or later, use the Control Center's go-live override.</p>
+<h3 id="124-dry-run">12.4 Dry run<a class="headerlink" href="#124-dry-run" title="Permanent link">&para;</a></h3>
+<p>Run the dry run against both real workbooks by <strong>Friday 25 September</strong>,
+using <code>dry-run-checklist.md</code>, with at least one match on an Annex court.
+Also check:</p>
+<ul>
+<li>The Live board shows <strong>PCPH Main</strong> and <strong>PCPH Annex</strong> heading rows, and
+  the Annex match sits under Annex.</li>
+<li>Mission Control shows a resync row for each venue.</li>
+<li>The Control Center renders this event with the <strong>standard</strong> layout. It is
+  the first registered <code>type: "standard"</code> event.</li>
+<li>The schedule screen draws 9 court columns, with Main on courts 1–4.</li>
+<li>Its <strong>Venue</strong> row shows All / PCPH Main / PCPH Annex. Choosing PCPH Annex
+  shows courts 5–9 and only Annex matches. Bookmark
+  <code>/events/pickle-for-sight-2026/schedule?venue=PCPH%20Main</code> on the Main
+  screen and <code>…?venue=PCPH%20Annex</code> on the Annex screen.</li>
+</ul>
+<hr />
+<h2 id="13-decisions-for-reference">13. Decisions, for reference<a class="headerlink" href="#13-decisions-for-reference" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Event key <code>pickle-for-sight-2026</code>.</strong> It is the name players see, and
+  the year leaves room for a second edition.</li>
+<li><strong>Day key <code>pickle-for-sight-day1</code>.</strong> Day keys must be globally unique
+  across every event (§10), so the key carries an event prefix, per runbook
+  §2 step 7. A bare <code>day1</code> would work only for the first event to claim it.
+  This follows the same pattern as PNF × BUP's <code>pnf-x-bup-day1</code>.</li>
+<li><strong>Division code <code>N</code> for Novice.</strong> The Tournament Time Calculator already
+  emits <code>NMD</code>/<code>NWD</code>/<code>NXD</code>. <code>N</code>, <code>LI</code> and <code>HI</code> don't prefix each other, so
+  the generated <code>CODE_REGEX</code> is unambiguous.</li>
+<li><strong><code>{{VENUE}}</code> is <code>PCPH, Angeles City</code>.</strong> Both venues are PCPH. The
+  Main/Annex split shows where the page separates venues.</li>
+<li><strong>The mascot is inset in a circle, not cropped.</strong> A circle crop would
+  clip the paddle, which carries the CLSO mark.</li>
+<li><strong>The mascot stays <code>.webp</code>.</strong> Every browser the site supports renders it,
+  and converting it would need tooling the repo doesn't have.</li>
+<li><strong>The mascot appears on <code>index.html</code> only.</strong> The schedule screen is a
+  wall display, and the whole screen goes to the court grid.</li>
+</ul>
+<h3 id="template-gap-found-not-fixed-here">Template gap found (not fixed here)<a class="headerlink" href="#template-gap-found-not-fixed-here" title="Permanent link">&para;</a></h3>
+<p><code>_templates/standard-tournament-template/schedule.html</code> ships PNF × BUP's
+seven <code>CAT_META</code> entries, not a neutral example. It could ship the full
+category ladder instead. That would be a separate change to <code>_templates/</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../not-started/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

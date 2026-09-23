@@ -1,0 +1,3083 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/features/preparing-an-event/">
+      
+      
+        <link rel="prev" href="../control-center/">
+      
+      
+        <link rel="next" href="../running-an-event-day/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Preparing an event - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#preparing-an-event" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Preparing an event
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../specs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-four-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-plan-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Plan it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-build-the-scoring-workbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Build the scoring workbook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-draw-the-brackets-and-enter-the-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Draw the brackets and enter the names
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Draw the brackets and enter the names">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-standard-tournament-import-the-text-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A standard tournament: import the text files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-dual-meet-paste-the-names-then-shuffle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A dual meet: paste the names, then shuffle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-build-the-event-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Build the event site
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-register-it-and-wire-up-the-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Register it, and wire up the sync
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-sync-and-check-the-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Sync, and check the site
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-export-the-schedule-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Export the schedule PDF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-rehearse-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Rehearse it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-generate-the-scoresheets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Generate the scoresheets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-ready-looks-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What "ready" looks like
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-dual-meets-differ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where dual meets differ
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-four-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-plan-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Plan it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-build-the-scoring-workbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Build the scoring workbook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-draw-the-brackets-and-enter-the-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Draw the brackets and enter the names
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Draw the brackets and enter the names">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-standard-tournament-import-the-text-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A standard tournament: import the text files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-dual-meet-paste-the-names-then-shuffle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A dual meet: paste the names, then shuffle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-build-the-event-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Build the event site
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-register-it-and-wire-up-the-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Register it, and wire up the sync
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-sync-and-check-the-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Sync, and check the site
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-export-the-schedule-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Export the schedule PDF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-rehearse-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Rehearse it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-generate-the-scoresheets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Generate the scoresheets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-ready-looks-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What "ready" looks like
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-dual-meets-differ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where dual meets differ
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/features/preparing-an-event.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="preparing-an-event">Preparing an event<a class="headerlink" href="#preparing-an-event" title="Permanent link">&para;</a></h1>
+<p>Everything that has to exist before tournament day, in the order it has to
+exist in. This is the setup half; the other half, once the doors open, is
+<a href="../running-an-event-day/">Running an event, day of</a>.</p>
+<p>Read this first if you're setting up an event for the first time, or if
+you're handing the job to someone else. Each step links to the page that
+covers it properly — the value here is the <em>sequence</em>, and knowing what
+depends on what.</p>
+<h2 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h2>
+<p>The whole sequence on one screen, for when you've done this before. Each
+step links to its full section below.</p>
+<ol>
+<li><strong>Pick the event key</strong> — e.g. <code>pnf-x-bup-dual-meet</code> — and use it
+   byte-identically everywhere from here on.</li>
+<li><strong><a href="#1-plan-it">Plan it</a></strong> in the Tournament Calculator: format,
+   categories, courts, match duration, one plan per day. Then click
+   <strong>Copy plan &amp; open generator</strong>.</li>
+<li><strong><a href="#2-build-the-scoring-workbook">Build the scoring workbook</a></strong>, one per
+   venue per day: copy the format's master, run <strong>SAGE → Generate event
+   tabs</strong>, paste the plan. A standard tournament's <code>SCHEDULE</code> is then packed
+   by hand from its <code>MATCHES</code> tab.</li>
+<li><strong><a href="#3-draw-the-brackets-and-enter-the-names">Draw the brackets</a></strong> in the
+   Bracket Generator, one category at a time, saving both the image and the
+   text file. A standard tournament imports those text files straight into the
+   workbook; a dual meet pastes its names in and shuffles the codes from the
+   menu.</li>
+<li><strong><a href="#4-build-the-event-site">Build the event site</a></strong>: copy the matching
+   template into <code>events/&lt;event-key&gt;/</code>, replace the tokens, add the QR code
+   (and both clubs' logos for a dual meet).</li>
+<li><strong><a href="#5-register-it-and-wire-up-the-sync">Register it and wire up the sync</a></strong>:
+   add the event to <code>event-data/config/events.json</code>, then in every workbook
+   run <strong>SAGE → Fill match numbers</strong> (a separate range per venue) and
+   <strong>SAGE → Set up live sync</strong>.</li>
+<li><strong><a href="#6-sync-and-check-the-site">Sync, and check the site</a></strong> — from the
+   workbook's SAGE menu or from Control Center.</li>
+<li><strong><a href="#7-export-the-schedule-pdf">Export the schedule PDF</a></strong> from the event's
+   schedule page, for the desk and the noticeboard.</li>
+<li><strong><a href="#8-rehearse-it">Rehearse it</a></strong> with the dry-run checklist: a fake score
+   per venue reaches Control Center and the public page, then gets reverted.</li>
+<li><strong><a href="#9-generate-the-scoresheets">Generate the scoresheets</a></strong> once the
+    schedule is final.</li>
+<li><strong>Check it against <a href="#what-ready-looks-like">what "ready" looks like</a>.</strong></li>
+</ol>
+<h2 id="the-four-resources">The four resources<a class="headerlink" href="#the-four-resources" title="Permanent link">&para;</a></h2>
+<p>Every event, whatever its shape, needs these four things. They are separate
+artifacts owned in separate places, which is why the order matters.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Resource</th>
+<th>Where it lives</th>
+<th>What it's for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>The plan</strong></td>
+<td>Tournament Calculator, exported as a CSV</td>
+<td>How many matches, how many courts, what time it ends</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>The scoring workbook</strong></td>
+<td>Google Sheets, one per event</td>
+<td>Where scores get typed and standings are computed</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>The event site</strong></td>
+<td><code>sage-match-control.github.io/events/&lt;event-key&gt;/</code></td>
+<td>What players and spectators see</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>The registration</strong></td>
+<td><code>event-data/config/events.json</code></td>
+<td>What tells the sync this event exists</td>
+</tr>
+</tbody>
+</table>
+<p>They chain: the plan sizes the workbook, the workbook feeds the site, and the
+registration is what connects the two. Skip ahead and you'll be back-filling.</p>
+<blockquote>
+<p><strong>Pick the event key once.</strong> <code>&lt;event-key&gt;</code> (e.g. <code>pnf-x-bup-dual-meet</code>) is
+the event's folder name in <em>both</em> the site repo and <code>event-data</code>, and it
+ends up in the workbook's <code>Title</code> tab. Choose it at step 1 and keep it
+byte-identical everywhere after that.</p>
+</blockquote>
+<h2 id="1-plan-it">1. Plan it<a class="headerlink" href="#1-plan-it" title="Permanent link">&para;</a></h2>
+<p>In the <a href="../tournament-calculator/">Tournament Calculator</a>: set the format,
+add the categories, set courts and match duration, and check the finish time
+is one the venue will tolerate.</p>
+<p>This is the cheapest place to discover the event doesn't fit — moving a
+number here costs nothing, moving it after the workbook is generated means
+regenerating.</p>
+<p>Settle these before moving on, because everything downstream is sized from
+them:</p>
+<ul>
+<li><strong>Format</strong> — dual meet, or standard tournament. This decides which site
+  template you use and which master workbook and generator build the
+  scoring workbook.</li>
+<li><strong>Categories</strong>, with pairs per club (dual meet) or team counts (standard).</li>
+<li><strong>Courts</strong> and <strong>match duration</strong>, including any buffer between matches.</li>
+<li><strong>Days and venues</strong> — one plan per tournament day, if the event runs
+  across several.</li>
+</ul>
+<p>Export the plan when it's right. Use <strong>Copy plan &amp; open generator</strong> rather
+than the file export — it puts the plan on your clipboard and opens the copy
+dialog of the master for the plan's format, dual meet or standard, in one
+step.</p>
+<p>The draw comes later, in step 3: the workbook is what tells you how many
+brackets each category ended up with, and how many pairs are in each.</p>
+<h2 id="2-build-the-scoring-workbook">2. Build the scoring workbook<a class="headerlink" href="#2-build-the-scoring-workbook" title="Permanent link">&para;</a></h2>
+<p><strong>Dual meet:</strong> use the
+<a href="../dual-meet-sheet-generator/">Dual Meet Sheet Generator</a>. Copy the master,
+run <code>SAGE → Generate event tabs</code>, paste the plan. You get every category tab,
+the schedule, and the four readout tabs the live sync publishes from.</p>
+<p><strong>Standard tournament:</strong> use the
+<a href="../standard-tournament-generator/">Standard Tournament Generator</a>, once per
+venue per day. Copy the master, run <code>SAGE → Generate event tabs</code>, paste the
+plan, then tick that venue's categories and enter its court labels. You get
+every category tab with its playoff ladder, a <code>MATCHES</code> tab holding every
+match, an empty <code>SCHEDULE</code>, and the readout tabs. <strong>Pack <code>SCHEDULE</code> now</strong>, by
+copying court blocks from <code>MATCHES</code> into its slots — that page has the rules
+and the paste-special step, and the generator's log suggests a layout you can
+follow.</p>
+<p>Either way the generator renames the workbook after the event and venue when
+it finishes, so a folder of fifteen of them stays readable.</p>
+<p>Two things to know before you run it:</p>
+<ul>
+<li><strong>Work in your copy, never the master.</strong> The generator builds several tabs
+  in place, so it can only run once per workbook — if a run fails partway, or
+  you want to change the plan, you start again from a fresh copy of the
+  master. That is deliberate: a half-regenerated workbook mid-event is the
+  worst outcome available.</li>
+<li><strong>The names come next, not now.</strong> The plan has no roster in it. The
+  generator leaves the name-entry columns blank and tells you so when it
+  finishes; until they're filled, the workbook is structurally complete but
+  has nobody in it.</li>
+</ul>
+<p>A generated workbook carries the live-sync script already — it's built into
+the master — so it's ready for step 5's sync setup with no code-pasting step
+of its own.</p>
+<p>One workbook per venue per day. An event with three venues across five days
+has fifteen of them.</p>
+<h2 id="3-draw-the-brackets-and-enter-the-names">3. Draw the brackets and enter the names<a class="headerlink" href="#3-draw-the-brackets-and-enter-the-names" title="Permanent link">&para;</a></h2>
+<p>Now that the workbook exists, it says how many brackets each category has and
+how many pairs go in each. Draw them, one category at a time, in the
+<a href="../bracket-generator/">Bracket Generator</a>:</p>
+<ol>
+<li>Open the tab you are drawing for and choose <strong>SAGE → Open Bracket
+   Generator</strong>. It opens the tool with the event name and that tab's category
+   already filled in. (Opening the tool directly works too — then you type
+   both.)</li>
+<li>Paste that category's pairs, set the bracket count to the one the workbook
+   used, and run the draw — ideally with a seed called out in the room, which
+   is what makes the draw checkable afterwards.</li>
+<li><strong>Save both exports:</strong> the <strong>image</strong>, which is what you post and print, and
+   the <strong>text file</strong>, which is the one you work from next. The text file also
+   carries the seed and every pair's fingerprint, so the draw can be
+   re-checked months later.</li>
+<li>Repeat for every category. Eight categories means eight images and eight
+   text files.</li>
+</ol>
+<h3 id="a-standard-tournament-import-the-text-files">A standard tournament: import the text files<a class="headerlink" href="#a-standard-tournament-import-the-text-files" title="Permanent link">&para;</a></h3>
+<p>Choose <strong>SAGE → Import bracket draws</strong>, drop in every category's text file at
+once, and import. For each file it fills that category tab's
+<strong><code>STEP 1 · NAMES</code></strong> with the pairs in draw order and <strong><code>STEP 3 · RANDOMIZED
+CODES</code></strong> with its codes, and records the seed, the draw number and the
+filename beside the roster so you can tell months later which draw a tab came
+from.</p>
+<p>It matches each file to a tab by its category line, and asks you to pick a tab
+for any file it can't place. It checks every file before writing anything: a
+draw with the wrong number of pairs, the wrong number of brackets or the wrong
+bracket sizes is refused by name, with both shapes reported, and nothing is
+written. A tab that already has names is refused unless you tick <strong>Replace
+existing names</strong> — which is also how a re-draw gets applied.</p>
+<p>The menu item stays after a successful import, so you can run it again.</p>
+<h3 id="a-dual-meet-paste-the-names-then-shuffle">A dual meet: paste the names, then shuffle<a class="headerlink" href="#a-dual-meet-paste-the-names-then-shuffle" title="Permanent link">&para;</a></h3>
+<p>A dual meet's draw is a per-club roster blind rather than a bracket draw, so
+there is nothing to import. Paste each club's players into its
+<strong><code>STEP 1 · NAMES</code></strong> column, then choose <strong>SAGE → Shuffle roster codes</strong> on
+that tab. It draws each club's <strong><code>STEP 3 · RANDOMIZED CODES</code></strong> independently
+from the codes in <code>STEP 2</code>.</p>
+<p><code>STEP 3</code> ships blank on purpose: filling it in order maps every pair to its
+own slot and undoes the blinding. The menu item refuses a tab with no roster,
+and asks before replacing codes that are already there — reshuffling a live
+workbook re-points every pair.</p>
+<p>Check as you go that each category tab's <code>B</code> column fills in with names once
+a pair's code is linked. A tab still showing codes instead of names means the
+roster and the codes haven't met.</p>
+<h2 id="4-build-the-event-site">4. Build the event site<a class="headerlink" href="#4-build-the-event-site" title="Permanent link">&para;</a></h2>
+<p>Copy the matching template — <code>dual-meet-template/</code> or
+<code>standard-tournament-template/</code> — into <code>events/&lt;event-key&gt;/</code>, replace the
+tokens, and fill in the days, facilities and categories.</p>
+<p>The step-by-step is <a href="../../technical/adding-a-new-event/">adding a new event</a>;
+the exhaustive version, with the full token table, is <code>_templates/CLAUDE.md</code>
+in the site repo. You'll also need the event's images ready: a QR code, and
+both clubs' logos for a dual meet.</p>
+<h2 id="5-register-it-and-wire-up-the-sync">5. Register it, and wire up the sync<a class="headerlink" href="#5-register-it-and-wire-up-the-sync" title="Permanent link">&para;</a></h2>
+<p>Three connections, and the event is inert until all of them exist:</p>
+<ul>
+<li><strong>Register the event</strong> in <code>event-data/config/events.json</code> — its type,
+  title, and one entry per day with that day's venues. This takes effect
+  within minutes of the commit; nothing needs redeploying.</li>
+<li><strong>Number the matches</strong> in each venue's spreadsheet with <strong>SAGE → Fill match
+  numbers</strong>. It numbers every match on SCHEDULE, starting after the number
+  you enter. When a day has more than one venue, give each venue's workbook
+  its own range, for example 1000 for one (1001, 1002, …) and 2000 for the
+  other. All of a day's venues show together on the site, so two matches
+  must never share a number.</li>
+<li><strong>Wire up the sync</strong> in each venue's spreadsheet, once per workbook: reload
+  it and run <strong>SAGE → Set up live sync</strong>, entering that workbook's day key
+  and facility name. This is what makes typing a score publish it.</li>
+</ul>
+<p>The facility names in the config and in each spreadsheet's own settings are
+compared exactly and are <strong>case-sensitive</strong> — but setup doesn't leave that to
+chance: it confirms the entered day key and facility name against the
+registry (and runs a real test sync) before saving, so a mismatch is caught
+on the spot rather than discovered as a venue that silently never publishes.</p>
+<h2 id="6-sync-and-check-the-site">6. Sync, and check the site<a class="headerlink" href="#6-sync-and-check-the-site" title="Permanent link">&para;</a></h2>
+<p>Scores publish on their own during the event, about ten seconds after the
+typing stops. Before the event there is nothing to wait for, so push the
+first copy up yourself. Either way works:</p>
+<ul>
+<li><strong>From the workbook</strong> — <strong>SAGE → Sync now</strong>, in each venue's spreadsheet.
+  It reports what it sent.</li>
+<li><strong>From <a href="../control-center/">Control Center</a></strong> — Mission Control's <strong>Resync
+  this day now</strong>, which pulls a fresh copy from every venue of that day at
+  once. Handy when you have several workbooks open and don't want to visit
+  each.</li>
+</ul>
+<p>Then open the event page and confirm what you'd expect: every day and
+category present, every venue listed, the schedule showing the matches you
+packed, and the standings listing every pair by name. This is the first point
+at which a wrong facility name or a missing column shows itself.</p>
+<h2 id="7-export-the-schedule-pdf">7. Export the schedule PDF<a class="headerlink" href="#7-export-the-schedule-pdf" title="Permanent link">&para;</a></h2>
+<p>The event's <strong>schedule page</strong> carries a <code>PDF</code> button. It lays the board out
+one sheet per group of courts and hands it to the browser's print dialog, so
+"Save as PDF" gives you a file and "Print" gives you the paper copy for the
+desk, the noticeboard and each court.</p>
+<p>Export it once the schedule is packed, numbered and synced, so the PDF, the
+website and the workbook all say the same thing. Re-export it if the schedule
+changes.</p>
+<h2 id="8-rehearse-it">8. Rehearse it<a class="headerlink" href="#8-rehearse-it" title="Permanent link">&para;</a></h2>
+<p>Copy the dry-run checklist into the event's folder and work through it, with
+the real workbooks and the real site, before the day.</p>
+<p>The rehearsal is the same shape as the day itself: enter a few fake scores,
+confirm they reach <a href="../control-center/">Control Center</a> and the public page,
+mark a match live and confirm it shows as live, then revert. It is the only
+step that exercises the whole chain end to end, and the only place a
+case-sensitive facility name or a missing column is cheap to find.</p>
+<h2 id="9-generate-the-scoresheets">9. Generate the scoresheets<a class="headerlink" href="#9-generate-the-scoresheets" title="Permanent link">&para;</a></h2>
+<p>Last, once the schedule is final and the rehearsal has proven a sync reaches
+the public page: print the match slips with the
+<a href="../scoresheet-generator/">Scoresheet Generator</a>. Because the event is
+registered and synced by now, the generator can pull the day's matches
+straight from that event/day/venue instead of you downloading a CSV out of
+the workbook.</p>
+<p>Generate them after the schedule stops moving. A scoresheet carries its match
+number, court and time, so a reshuffle after printing means printing again.</p>
+<h2 id="what-ready-looks-like">What "ready" looks like<a class="headerlink" href="#what-ready-looks-like" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The plan's finish time is one the venue will accept.</li>
+<li>Every category has a drawn bracket, with its image and text file saved.</li>
+<li>Every category tab has its roster filled and its codes drawn — imported from
+  the draw, or shuffled in the sheet — and no tab shows an error.</li>
+<li>A standard tournament's <code>SCHEDULE</code> is packed and numbered in every venue's
+  workbook.</li>
+<li>The event page loads, shows the right days and categories, and lists every
+  venue.</li>
+<li>A test score typed into each venue's workbook reaches Control Center and
+  the public page, and has been reverted.</li>
+<li>Every venue reports a recent successful sync.</li>
+<li>The schedule PDF matches the site, and the scoresheets are printed.</li>
+</ul>
+<p>At that point the event is ready, and the rest is
+<a href="../running-an-event-day/">day-of operations</a>.</p>
+<h2 id="where-dual-meets-differ">Where dual meets differ<a class="headerlink" href="#where-dual-meets-differ" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The scoring workbook comes from the <strong>Dual Meet Master</strong> and its
+  generator, which also places every match on <code>SCHEDULE</code>. A standard
+  tournament's generator leaves <code>SCHEDULE</code> for you to pack from <code>MATCHES</code>.</li>
+<li>The site uses <code>dual-meet-template/</code>, which frames every category, the
+  standings, and the Awards tab's "Overall Champion" line as Club A vs Club B.</li>
+<li>The plan needs <strong>pairs per club</strong> and a bracket count per category, and the
+  calculator accounts for the cross-club Bronze and Final matches that
+  produces.</li>
+<li>You need both clubs' logos among the event images.</li>
+</ul>
+<hr />
+<p><strong>Technical:</strong> <a href="../../technical/adding-a-new-event/">adding a new event</a> ·
+<a href="../../technical/dual-meet-sheet-generator/">dual meet sheet generator</a> ·
+<a href="../../technical/standard-tournament-generator/">standard tournament generator</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../control-center/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Control Center">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Control Center
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../running-an-event-day/" class="md-footer__link md-footer__link--next" aria-label="Next: Running an event, day of">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Running an event, day of
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
