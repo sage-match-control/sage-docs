@@ -97,5 +97,6 @@ nav:
           - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
+          - Attendance for every event: specs/not-started/multi-event-attendance-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md

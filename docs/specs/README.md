@@ -141,6 +141,9 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
+- **[Attendance for every event](not-started/multi-event-attendance-spec.md)**
+  — idea only: move attendance writes into `sage-tools-api`, keyed by the
+  event registry, so no workbook needs its own Apps Script web app.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling.
