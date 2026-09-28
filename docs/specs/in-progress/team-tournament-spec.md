@@ -9,6 +9,15 @@
 > page when last checked; and installing the sync script in the event
 > workbook and running the dry run. The event is **Saturday, 3 October
 > 2026**. The template (§15) follows the event.
+>
+> **Naming divergence.** Everywhere a page shows a reader "Group 1", "Group 2"
+> or "Group 3" (this spec's wording), the built pages say **Bracket 1**,
+> **Bracket 2**, **Bracket 3** (the schedule board's tight colour chip says
+> **BR 1**…). Only the visible labels changed; the code and the
+> `STANDINGSCSV` `bracket` column are as written here.
+>
+> **Letter chips.** The base-team letter chip (§4.1) is shown only in Control Center;
+> the public pages show the team name alone.
 
 Build the website for a **team tournament**. Named teams of eight players
 meet in **matchups**. A matchup is four doubles matches between the same two

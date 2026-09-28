@@ -52,10 +52,10 @@ A team event has named teams instead of pairs. Two teams meet in a
 **matchup** — four matches (men's doubles, women's doubles and two mixed
 doubles) between the same two teams — and **team names appear everywhere a
 team does**: Standings, Match Finder, Live Matches and the schedule board.
-Each team also carries a small letter chip (`A`, `B`…), its code in the
-organizer's workbook.
+The letter codes the organizer uses in the workbook (`A`, `B`…) are not shown here;
+Control Center still shows them beside each team name.
 
-**Reading a matchup card.** The header gives the stage (a group, Semifinal,
+**Reading a matchup card.** The header gives the stage (a bracket, Semifinal,
 Bronze or Final), the two time slots and the courts. Under it, both team names
 face each other around the **matchup score**, with the **pair count** (for
 example *pairs 3–1*, the matches each team won) in small type beneath. Below
@@ -71,13 +71,13 @@ matchup 33–38. That is why the pair count is only secondary information. If
 both teams finish on the same total, the matchup is a **tie** (equal points),
 shown as *Tie* with no winner named.
 
-**Standings** show a table per group, ranked by **quotient** (points scored
+**Standings** show a table per bracket, ranked by **quotient** (points scored
 divided by points conceded), highest first — nothing else breaks a tie, and
 teams level on quotient stay in the workbook's order. Before the first result
 the tables list the teams without rank numbers. The organizer decides who
 reaches the semifinals by typing the four qualifiers into the workbook; the
 site marks those teams **Advances** and never works it out for itself. Below
-the tables come the playoff matchups, then each group's matchups behind a
+the tables come the playoff matchups, then each bracket's matchups behind a
 collapsible heading.
 
 **Searching by team or player.** Match Finder takes a team name or a player's
@@ -111,7 +111,7 @@ court choices stay in the page address, so bookmark each screen's page once
 and it comes back the same after a restart.
 
 At a team event each card names both teams above their players and carries the
-pair label (MD, WD or XD), and cards are coloured by group rather than by
+pair label (MD, WD or XD), and cards are coloured by bracket rather than by
 category, with playoffs in their own colour.
 
 ## What you *won't* see here

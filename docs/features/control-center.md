@@ -64,9 +64,9 @@ category is its own column in one row; scroll sideways for the rest. A long
 player name is never cut off — its table scrolls sideways instead.
 
 At a **team event**, Standings has three parts, the same as on the public
-event page: a table per group ranked by quotient (with the semifinalists the
+event page: a table per bracket ranked by quotient (with the semifinalists the
 organizer entered in the workbook marked **Advances**), the playoff matchups
-as full cards, and each group's matchups behind a collapsible heading. A
+as full cards, and each bracket's matchups behind a collapsible heading. A
 matchup is won on total points across its four matches — see
 [Tournament Hub § Team events](tournament-hub.md#team-events). Live Matches
 names both teams on each court and shows the running matchup score, and Match

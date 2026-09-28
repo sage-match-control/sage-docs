@@ -54,7 +54,7 @@ inside each category with a shared club win-total summary bar and the
 cross-club Bronze/Final shown as one block spanning both clubs (see
 `CROSS_CLUB_STAGE_KEYS`); `standard` gets flat category cards with a
 desktop toggle bar and a mobile category-search filter; `team` gets
-group tables, playoff matchup cards and collapsible group matchups (see
+group tables, playoff matchup cards and collapsible bracket matchups (see
 [the team type](#the-team-type) below).
 
 **Round Robin brackets.** `renderStageTables` groups a category's Round
