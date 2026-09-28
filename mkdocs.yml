@@ -95,6 +95,7 @@ nav:
       - In progress:
           - Overview: specs/in-progress/README.md
           - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
+          - Team tournament: specs/in-progress/team-tournament-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Attendance for every event: specs/not-started/multi-event-attendance-spec.md

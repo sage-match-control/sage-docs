@@ -63,6 +63,15 @@ reloaded. On a desktop screen every
 category is its own column in one row; scroll sideways for the rest. A long
 player name is never cut off — its table scrolls sideways instead.
 
+At a **team event**, Standings has three parts, the same as on the public
+event page: a table per group ranked by quotient (with the semifinalists the
+organizer entered in the workbook marked **Advances**), the playoff matchups
+as full cards, and each group's matchups behind a collapsible heading. A
+matchup is won on total points across its four matches — see
+[Tournament Hub § Team events](tournament-hub.md#team-events). Live Matches
+names both teams on each court and shows the running matchup score, and Match
+Finder searches by team or player.
+
 If a match's team code doesn't match any configured category, a visible
 warning banner names it rather than silently lumping it into an "Other"
 bucket — so a data problem in the spreadsheet gets noticed instead of hidden.
@@ -85,6 +94,15 @@ hand to an emcee or post on social media. An **Export whole tournament**
 button at the top produces a single combined image covering every category
 at once, arranged as a grid so it stays a reasonable shape regardless of how
 many categories the event has.
+
+**Team events** have one podium, **Team Championship**. Gold is the winner of
+the Final matchup, silver its loser, and bronze the winner of the Bronze
+matchup, each decided on total points. A placing reads **Pending** until its
+matchup is finished. Each medal shows the team name with every player who
+played for that team listed beneath, A–Z. If the Final or Bronze matchup ends
+level on points, the card shows a warning naming the matchup's lowest match
+number and leaves all three placings Pending. **Export image** puts the team
+names on the picture, without the player lists.
 
 A few things the Awards tab is careful about:
 

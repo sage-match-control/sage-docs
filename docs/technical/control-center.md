@@ -22,7 +22,7 @@ renders.
 Selecting an event resolves three things fresh, every time:
 
 - `CURRENT_EVENT_KEY` / `EVENTS_REGISTRY` entry
-- `CURRENT_TYPE` — `"dual-meet"` or `"standard"`, **required and explicit**,
+- `CURRENT_TYPE` — `"dual-meet"`, `"standard"` or `"team"`, **required and explicit**,
   never inferred from the data. Guessing from team-code shape works most of
   the time and fails silently; an unrecognized/missing `type` shows a
   visible configuration error instead.
@@ -53,7 +53,9 @@ than erroring.
 inside each category with a shared club win-total summary bar and the
 cross-club Bronze/Final shown as one block spanning both clubs (see
 `CROSS_CLUB_STAGE_KEYS`); `standard` gets flat category cards with a
-desktop toggle bar and a mobile category-search filter.
+desktop toggle bar and a mobile category-search filter; `team` gets
+group tables, playoff matchup cards and collapsible group matchups (see
+[the team type](#the-team-type) below).
 
 **Round Robin brackets.** `renderStageTables` groups a category's Round
 Robin rows by bracket label. With no labels it draws one table; with labels
@@ -263,6 +265,49 @@ presents match data as something to watch or play, not just the podium:
 | Live Matches | Bye matches excluded from court grouping entirely |
 | Match Finder | A team's own bye match never appears in their schedule, and can never be flagged "Next Up" |
 | Team index / autocomplete | `BYE` is never indexed as a searchable name |
+
+### The team type
+
+`"team"` is for events of named teams meeting in four-match matchups (spec:
+`sage-docs/docs/specs/.../team-tournament-spec.md`). It is additive: every
+change to a shared function is either inside a `CURRENT_TYPE === 'team'`
+branch or an extra parsed field nothing else reads, so `dual-meet` and
+`standard` behave exactly as before. The team logic lives in one bannered
+block (`// ---- team type (...) ----`, just below `pairCell`), ported from the
+event page's `index.html` so the two agree on every rule.
+
+Data comes only from the two published CSVs. `rowsToMatches` reads a
+`matchUp` column and `rowsToStandings` reads `teamName`, `totalPoints` and
+`totalOpponentPoints` when present; matches are grouped into matchups by
+`matchUp` alone. `teamMatchupResult` decides a matchup on total points (equal
+points is a tie), and `sideLabel` / `teamNameOf` / `baseTeamOf` turn a code
+such as `SF-A_2` into a team name and letter, reading a playoff slot as its
+team once the organizer has typed the letter into the workbook.
+
+Functions that branch on `team`:
+
+| Function | Team behaviour |
+| --- | --- |
+| `selectEvent` | Accepts `type: "team"`; resets the team state |
+| `parseCode` | Returns `{ club: null, category: null, rest }` so no shared caller breaks |
+| `renderStandings` | Calls `renderTeamStandings()` before any category code runs; the category toggle bar and filter stay hidden |
+| `liveTableRowsHTML` | `teamLiveTableRowsHTML`: both team names, stage and pair label, running matchup score |
+| `rebuildTeamIndex`, `resolveTeam`, `runSearch`, `renderAutocomplete`, `selectAcItem`, `renderIntro` | The team-and-player index, its search and the intro's team list; a saved search is `team:<letter>` or `player:<name>`, never a playoff code |
+| `renderAwards` | `buildTeamPodium()` instead of `buildPodiums()` |
+| `categoryLabel` | `'__team__'` reads *Team Championship* |
+| `medalRowHTML`, `awardsCardHTML`, the image exports | Show the team name, with the roster under it on screen only |
+
+`buildTeamPodium()` returns one podium in the usual shape. Gold is the Final
+matchup's winner, silver its loser and bronze the Bronze matchup's winner; each
+is `null` (Pending) until that matchup is final. A tied Final or Bronze sets a
+`warning` naming the matchup's lowest match number and leaves all three
+placings null. `computeOverallChampion` still returns `null` outside a dual
+meet.
+
+On localhost, `?fixture=<name>` loads `/_fixtures/config.json` as the registry
+and `/_fixtures/<eventKey>/<name>.json` as the snapshot, for testing without
+publishing anything; the hostname check keeps it inert on the live site. The
+console keeps the house theme — only the event pages take a per-event palette.
 
 ### Overall Champion (dual-meet only)
 

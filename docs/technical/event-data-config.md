@@ -21,7 +21,7 @@ default).
   },
   "events": {
     "<event-key>": {
-      "type": "dual-meet",              // or "standard" — required, picks the console's layout
+      "type": "dual-meet",              // or "standard" or "team" — required, picks the console's layout
       "archived": false,                // optional, console-only: hides from the event picker
       "title": "PNF × BUP Dual Meet",   // optional, console-only: masthead label
       "days": {
@@ -49,6 +49,9 @@ default).
 - `type` is read **only** by Control Center — `sage-tools-api`
   never looks at it. Not inferred: an unmatched code would fail *silently*
   the moment the code shape ever changes, so it's required and explicit.
+- A `"team"` event takes its team names from `STANDINGSCSV` and needs no
+  `display` block. `sage-tools-api` never reads `type`, so it needs no
+  backend change.
 - `display` maps are all `code → label`; **order comes from key order**, so
   there's no separate ordering config to keep in step. No logo field —
   `display.clubs` maps to a plain name string only; the console shows the

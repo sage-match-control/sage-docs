@@ -46,6 +46,52 @@ two can differ.
 count between the two clubs sits front and center on Standings, updated
 after every match, with whichever club is ahead visually highlighted.
 
+## Team events
+
+A team event has named teams instead of pairs. Two teams meet in a
+**matchup** — four matches (men's doubles, women's doubles and two mixed
+doubles) between the same two teams — and **team names appear everywhere a
+team does**: Standings, Match Finder, Live Matches and the schedule board.
+Each team also carries a small letter chip (`A`, `B`…), its code in the
+organizer's workbook.
+
+**Reading a matchup card.** The header gives the stage (a group, Semifinal,
+Bronze or Final), the two time slots and the courts. Under it, both team names
+face each other around the **matchup score**, with the **pair count** (for
+example *pairs 3–1*, the matches each team won) in small type beneath. Below
+that, one row per match shows the pair (MD, WD or XD), the players on each
+side and the score. A match being played right now carries a live dot and its
+court. A pill marks a matchup that is *In progress*, *Final* or a *Tie*, and
+the team that won a finished matchup is marked **Winner**.
+
+**Why a matchup is won on total points.** The team with more points across
+all four matches wins the matchup — not the team that wins more matches. A team
+can win three matches 11–9 and lose the fourth 0–11, and still lose the
+matchup 33–38. That is why the pair count is only secondary information. If
+both teams finish on the same total, the matchup is a **tie** (equal points),
+shown as *Tie* with no winner named.
+
+**Standings** show a table per group, ranked by **quotient** (points scored
+divided by points conceded), highest first — nothing else breaks a tie, and
+teams level on quotient stay in the workbook's order. Before the first result
+the tables list the teams without rank numbers. The organizer decides who
+reaches the semifinals by typing the four qualifiers into the workbook; the
+site marks those teams **Advances** and never works it out for itself. Below
+the tables come the playoff matchups, then each group's matchups behind a
+collapsible heading.
+
+**Searching by team or player.** Match Finder takes a team name or a player's
+name. A team result lists every matchup that team plays, in schedule order,
+with the team on the left and *Next up* on its first matchup still to be
+played. A player result lists each match they play, each inside its matchup
+card with only their own match showing. With nothing typed, tapping a team
+in the list runs its search.
+
+**Lineup not set.** A team captain enters each matchup's players in the
+workbook before it is played. Until then its match rows read *Lineup not set*
+(the schedule board says *Lineup TBD*), and a player can't be found until
+their lineup is in. The same player may play a different pair in each matchup.
+
 ## At the venue: the schedule board
 
 A wall display meant for a screen at the venue, not a phone — courts as
@@ -63,6 +109,10 @@ down to just the essentials for a screen that needs every pixel, and
 printing/exporting to PDF for a paper copy at the front desk. The venue and
 court choices stay in the page address, so bookmark each screen's page once
 and it comes back the same after a restart.
+
+At a team event each card names both teams above their players and carries the
+pair label (MD, WD or XD), and cards are coloured by group rather than by
+category, with playoffs in their own colour.
 
 ## What you *won't* see here
 

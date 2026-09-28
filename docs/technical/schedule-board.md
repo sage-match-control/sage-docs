@@ -94,6 +94,14 @@ color legend, since a viewer still needs that to read the board at all.
 
 ## Category colors are organizer-owned, not invented
 
+*Team events colour by group, not category.* A team event's board keys its
+colour off the match's group (Group 1, Group 2, Group 3) or, for any playoff
+match, a single Playoffs colour, chosen from the event's own artwork because
+the organizer's SCHEDULE tab is uncoloured. Each card also names both teams
+above their players and carries the pair label; a side whose lineup isn't set
+reads *Lineup TBD*. The rest of this section describes category-coloured
+events.
+
 Read directly off the color-coded SCHEDULE tab of the source spreadsheet so
 the wall display and the organizer's own printed schedule agree. These are
 **not exportable** — cell fills are formatting, absent from both the CSV

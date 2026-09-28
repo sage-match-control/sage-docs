@@ -136,6 +136,12 @@ to the `...` form rather than repointing it.
   first standard-template event site: one day across two venues (PCPH Main
   and Annex), three divisions × three events, 27 September 2026. Site built
   and live sync running for both venues; the dry run is still open.
+- **[Team tournament](in-progress/team-tournament-spec.md)** — a third
+  event type for team events: named teams, four-match matchups, group
+  stage then playoffs. PickleDrive Club One Year Celebration, 3 October
+  2026. Site, schedule board, Control Center support and registry entry
+  built; the QR image, sync install and dry run are open, and the template
+  is extracted after the event.
 
 ---
 
