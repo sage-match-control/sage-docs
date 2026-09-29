@@ -90,15 +90,15 @@ nav:
           - Standard Tournament Master: specs/implemented/standard-tournament-master-spec.md
           - Event site templates: specs/implemented/event-templates-spec.md
           - PNF x BUP dual meet: specs/implemented/pnf-x-bup-dual-meet-spec.md
+          - CLSO Pickle for Sight: specs/implemented/pickle-for-sight-spec.md
           - Facility progress: specs/implemented/facility-progress-spec.md
           - Event attendance: specs/implemented/event-attendance-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
-          - CLSO Pickle for Sight: specs/in-progress/pickle-for-sight-spec.md
           - Team tournament: specs/in-progress/team-tournament-spec.md
+          - Piggleball Chairman's Cup: specs/in-progress/piggleball-chairmans-cup-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
-          - Piggleball Chairman's Cup: specs/not-started/piggleball-chairmans-cup-spec.md
           - Attendance for every event: specs/not-started/multi-event-attendance-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md

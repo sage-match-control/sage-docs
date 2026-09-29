@@ -16,5 +16,5 @@ Index and status-change procedure: [`../README.md`](../README.md).
 
 | Spec | Built | Not yet |
 | --- | --- | --- |
-| [Team tournament](team-tournament-spec.md) | The public site, schedule board, Control Center `team` type, registry entry and operator runbook (§5–§11), checked against the test fixtures | The QR image and the short link (both the organiser's), installing the sync script in the event workbook, the dry run, and the template (§15), which follows the event |
-| [CLSO Pickle for Sight](pickle-for-sight-spec.md) | The site (§3–§9), registered in `event-data` (§10), both venue workbooks (§12.1), and live sync publishing for both PCPH Main and PCPH Annex (§12.2) | The dry run (§12.4), due 25 September. `isLive` also needs to move from its current hardcoded `true` back to `"auto"` before the event |
+| [Team tournament](team-tournament-spec.md) | The public site, schedule board, Control Center `team` type, registry entry and operator runbook (§5–§11), checked against the test fixtures. Live sync installed and publishing for Kingcourts | The QR image and the short link (both the organiser's), the dry run, setting `isLive` back to `"auto"`, and the template (§15), which follows the event |
+| [Piggleball Chairman's Cup](piggleball-chairmans-cup-spec.md) | The site (§3–§9) and its registry entry (§11) | The QR image (the organiser's), the workbook fixes (§13.1), live sync setup (§13.2) and the dry run (§13.4), due 2 October |

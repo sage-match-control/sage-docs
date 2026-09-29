@@ -1,11 +1,12 @@
 # Spec — CLSO Pickle for Sight tournament
 
-> **Status: in progress.** The site (§3–§9) is built and committed, both
-> venue workbooks are built, and live sync is set up and publishing for both
-> `PCPH Main` and `PCPH Annex` (§10, §12.1, §12.2). Still open: the dry run
-> (§12.4), due by Friday 25 September, and setting `pickle-for-sight-day1`'s
-> `isLive` back to `"auto"` in `event-data/config/events.json` — it is
-> currently hardcoded `true` from go-live testing.
+> **Status: implemented.** The site (§3–§9), its registry entry (§10), both
+> venue workbooks (§12.1) and live sync for `PCPH Main` and `PCPH Annex`
+> (§12.2) are built. The event ran on Sunday 27 September 2026, with both
+> venues publishing until play ended. `pickle-for-sight-day1`'s `isLive` is
+> `"auto"` in `event-data/config/events.json`. The staff check-in page built
+> alongside it has its own spec,
+> [event attendance](event-attendance-spec.md).
 
 Build the event site for **Pickle for Sight**, a one-day open-entry
 pickleball tournament on **Sunday, 27 September 2026**. It is played across

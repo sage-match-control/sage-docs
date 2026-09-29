@@ -127,31 +127,32 @@ to the `...` form rather than repointing it.
 - **[Event attendance](implemented/event-attendance-spec.md)** — a
   staff check-in page writing each player's arrival into the venue
   workbook through an Apps Script web app; Pickle for Sight first.
+- **[CLSO Pickle for Sight](implemented/pickle-for-sight-spec.md)** — the
+  first standard-template event site: one day across two venues (PCPH Main
+  and Annex), three divisions × three events. Ran 27 September 2026.
 
 ---
 
 ## In progress
 
-- **[CLSO Pickle for Sight](in-progress/pickle-for-sight-spec.md)** — the
-  first standard-template event site: one day across two venues (PCPH Main
-  and Annex), three divisions × three events, 27 September 2026. Site built
-  and live sync running for both venues; the dry run is still open.
 - **[Team tournament](in-progress/team-tournament-spec.md)** — a third
   event type for team events: named teams, four-match matchups, group
   stage then playoffs. PickleDrive Club One Year Celebration, 3 October
-  2026. Site, schedule board, Control Center support and registry entry
-  built; the QR image, sync install and dry run are open, and the template
-  is extracted after the event.
+  2026. Site, schedule board, Control Center support, registry entry and
+  live sync built; the QR image, dry run and `isLive` reset are open, and
+  the template is extracted after the event.
+- **[Piggleball Chairman's Cup](in-progress/piggleball-chairmans-cup-spec.md)**
+  — the event site for NATFED's 1st Piggleball Chairman's Cup, part of the
+  Pig Sports Festival: one venue (Centro Atletico, 3 courts), Novice
+  Genderless Doubles plus Intermediate Men's and Mixed Doubles, 3 October
+  2026. Standard template, re-skinned from the pubmat. Site and registry
+  entry built; the QR image, workbook fixes, sync setup and dry run are
+  open.
 
 ---
 
 ## Not started
 
-- **[Piggleball Chairman's Cup](not-started/piggleball-chairmans-cup-spec.md)**
-  — the event site for NATFED's 1st Piggleball Chairman's Cup, part of the
-  Pig Sports Festival: one venue (Centro Atletico, 3 courts), Novice
-  Genderless Doubles plus Intermediate Men's and Mixed Doubles, 3 October
-  2026. Standard template, re-skinned from the pubmat.
 - **[Attendance for every event](not-started/multi-event-attendance-spec.md)**
   — idea only: move attendance writes into `sage-tools-api`, keyed by the
   event registry, so no workbook needs its own Apps Script web app.

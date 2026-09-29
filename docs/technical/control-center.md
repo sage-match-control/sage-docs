@@ -126,6 +126,30 @@ day. The stale test in `facilityDataIsStale` is the same rule as the sync
 row's `isWarn`; change both or neither. Design and worked examples:
 [facility progress spec](../specs/implemented/facility-progress-spec.md).
 
+### Actual end
+
+A finished facility (`left === 0`) shows when play actually wrapped, beside
+its scheduled end. `facilityActualEnd` supplies it, preferring the snapshot's
+own `facilities[].completedAt`, which `SyncService` stamps server-side (see
+[sync pipeline](sync-pipeline.md) § Facility completion). That stamp is set
+once and carried forward, so it survives a manual resync and reads the same
+on every device. `eventDayMinutesFromISO` converts it into event-day minutes
+for `facilityFinishParts`, which rounds it to 5 minutes and reports the
+difference from `plannedEnd` as "over", "under" or "on schedule".
+
+For a snapshot published before `completedAt` existed, the fallback is the
+earliest `syncedAt` this browser has seen while the facility was complete,
+kept in `localStorage` under `sage.facilityEnds` (keyed
+`event|day|facility`) and dropped when the facility reopens. It is
+per-device, so a device that first opens the page after a resync reads that
+resync's time instead. That is why the server stamp takes precedence.
+
+The "played" and "BYE" rules here (`rowsToMatches`, `sideIsBye`,
+`computeFacilityProgress`'s `left`) are duplicated in
+`sage-tools-api/src/sync/facilityCompletion.mjs`. If one copy changes and the
+other doesn't, the recorded end time disagrees with the card that announces
+it.
+
 ## Installability
 
 Installable via its own manifest, `tools/control-center.webmanifest`, the

@@ -63,7 +63,7 @@ about it.
 | The Tournament Time Calculator, source of the plan CSV and of `playoffPlan()` | `sage-match-control.github.io/tools/tournament-calculator.html` |
 | The named-function contract §11 adopts | `sage-docs/docs/technical/named-function-library.md` |
 | The console's Awards tab, which produces the podium (§7.7) | `sage-docs/docs/specs/implemented/awards-podium-tab-spec.md` |
-| The event these references come from | `sage-docs/docs/specs/in-progress/pickle-for-sight-spec.md` |
+| The event these references come from | `sage-docs/docs/specs/implemented/pickle-for-sight-spec.md` |
 | The public site template that parses the team codes (§8) | `sage-match-control.github.io/_templates/standard-tournament-template/index.html` |
 
 **Vocabulary.** Same as the dual-meet specs, minus clubs, plus:

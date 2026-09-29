@@ -3,12 +3,16 @@
 > **Status: in progress.** Every rule is settled (§14). The public site
 > (§5–§6), the schedule board (§7), Control Center's `team` type (§9), the
 > registry entry (§10) and the operator runbook (§11) are built and were
-> checked against the three test fixtures. Still open: the QR image, which the
-> organiser supplies (it needs no code change when it arrives — §5.2); the
-> short link, which the organiser owns and did not yet redirect to the event
-> page when last checked; and installing the sync script in the event
-> workbook and running the dry run. The event is **Saturday, 3 October
-> 2026**. The template (§15) follows the event.
+> checked against the test fixtures. The sync script is installed in the
+> event workbook, and `Kingcourts` has been publishing to
+> `event-data/pickledrive-anniversary-2026/` since 29 September. Still open:
+> the QR image, which the organiser supplies (it needs no code change when it
+> arrives — §5.2); the short link, which the organiser owns and did not yet
+> redirect to the event page when last checked; the dry run; and setting
+> `pickledrive-anniversary-2026-day1`'s `isLive` back to `"auto"` in
+> `event-data/config/events.json`, where it is hardcoded `true` from
+> go-live testing. The event is **Saturday, 3 October 2026**. The template
+> (§15) follows the event.
 >
 > **Naming divergence.** Everywhere a page shows a reader "Group 1", "Group 2"
 > or "Group 3" (this spec's wording), the built pages say **Bracket 1**,

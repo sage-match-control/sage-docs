@@ -1,5 +1,11 @@
 # Spec — Fast data delivery
 
+> **Status: not started**, with one exception. Step 16's debounce change is
+> already made: `scripts/sheets-sync.gs` has `DEBOUNCE_MS = 3000`, and a
+> workbook runs it once its copy of the file is the current one. Nothing
+> else here is built. Where the text below gives the debounce as `10000`,
+> it describes the code as it was when this spec was written.
+
 Replace the GitHub Pages build/deploy step in the live data path with Cloudflare
 R2, and replace full-payload polling with pointer polling.
 
@@ -8,7 +14,7 @@ R2, and replace full-payload polling with pointer polling.
 | Edit → visible | 40–60s | ~5–7s |
 | Client poll transfer | 4–6 KB gzipped | ~100 bytes |
 | Client poll interval | 10s | 3s |
-| Apps Script debounce | 10s | 3s |
+| Apps Script debounce | 3s (already — see status) | 3s |
 
 **Store:** Cloudflare R2 behind a custom domain.
 **Write path:** Cloud Run. Apps Script stays a thin trigger.

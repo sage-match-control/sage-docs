@@ -100,6 +100,21 @@ one. The reply follows Apps Script's redirect to
 `script.googleusercontent.com`, which is what makes it readable from the
 page.
 
+**Shirt size** is an optional, hand-added column of `ATTENDANCE`. The page
+looks for the first header matching `TShirt Size`, `T-Shirt Size`,
+`Shirt Size`, `tshirtSize` or `shirtSize` and shows the value as a chip
+beside the name. A search equal to a size (case-insensitive, exact) matches
+it. `attendance.gs` neither reads nor writes the column. It finds rows by
+team code and slot and writes only its own five columns, so the column
+survives marks and `attendanceResync`. A swap rewrites the row's name in
+place, so the size there still belongs to the old player until someone
+edits it by hand.
+
+`timeIn` is displayed through `clockTime`, which takes the clock off the end
+of whatever the cell holds (24-hour or already AM/PM) and shows it as
+`h:mm AM/PM`. A shape it doesn't recognise falls back to the last five
+characters.
+
 A switch updates at once and locks until the save replies; a failed save
 snaps back and says why. The page polls every 30 seconds while visible and
 reloads when it becomes visible again. A player with a save in flight keeps

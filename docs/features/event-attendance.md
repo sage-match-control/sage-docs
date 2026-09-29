@@ -12,8 +12,10 @@ event page — share the link with desk staff only.
 
 - **Pick your venue** at the top. The page remembers it on that phone.
 - **Find the player** by scrolling to their category, or type part of a name
-  or a team code into the search box.
-- **Flip their switch.** It shows *Saving…* for a moment, then *In 08:14*.
+  or a team code into the search box. If the venue's sheet records shirt
+  sizes, each player's size shows next to their name, and typing a size
+  exactly (`XL`) lists everyone who wears it, for handing out shirts.
+- **Flip their switch.** It shows *Saving…* for a moment, then *In 8:14 AM*.
   Each player has their own switch, so a pair with a partner still on the way
   shows exactly who is missing. Once both are in, the pair is marked
   **Ready**.
@@ -42,6 +44,10 @@ Several phones can mark at once. Each picks up the others' marks within about
 Each mark lands in an **ATTENDANCE** tab of that venue's scoring workbook:
 team code, which player, their name, whether they're in, and the time. None
 of it appears on the public event page.
+
+To show shirt sizes, add a column headed **TShirt Size** to that tab and fill
+it in. `T-Shirt Size` and `Shirt Size` work too. A venue without the column
+just shows no sizes.
 
 Anyone who has the link can change marks, so share it with desk staff only.
 

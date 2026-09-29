@@ -9,8 +9,9 @@ status*. Both places flag the estimate when that facility's data is stale.
 **Status: built.**
 
 Everything here runs in the browser, using data the page already loads every
-10 s. There is no server change, no data change, no spreadsheet change, and
-no new network request.
+10 s. There is no spreadsheet change and no new network request. The one
+server change came later: the actual end time for a finished facility,
+which §10 records.
 
 ## How to use this spec
 
@@ -1042,3 +1043,22 @@ Stop and report back instead of improvising if:
   (`earliestScheduleMinutes`) has the same 12:15 AM problem, because it reads
   `parseScheduleTimeToMinutes` directly. It's out of scope. This spec doesn't
   change `parseScheduleTimeToMinutes`, so go-live behaves exactly as before.
+
+## 10. Divergences
+
+- **A finished facility shows its actual end.** §4 has a finished facility
+  read a bare "All matches done". The built card adds the time play actually
+  ended, and underneath, the scheduled end with how far over or under it the
+  facility finished. That time comes from a new snapshot field,
+  `facilities[].completedAt`, which `sage-tools-api` stamps once, when the
+  facility first shows every match scored, and carries forward after that
+  (`src/sync/facilityCompletion.mjs`). So the feature is no longer purely
+  client-side, as the status note above says. `syncedAt` couldn't answer
+  the question: every fetch restamps it, including a manual full resync. For
+  snapshots published before the field existed, the console falls back to
+  the earliest `syncedAt` it saw while the facility was complete, held
+  per-device in `localStorage`. The console half is in
+  [technical/control-center.md](../../technical/control-center.md) § Actual
+  end, the server half in
+  [technical/sync-pipeline.md](../../technical/sync-pipeline.md) § Facility
+  completion.

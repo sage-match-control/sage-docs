@@ -33,6 +33,13 @@ match length per match still queued on the busiest court, and it keeps
 working past midnight until 6:00 AM. If a venue's sheet stops syncing, the
 card says so, because no new scores means the estimate drifts later on its own.
 
+Once every match at a venue has both scores in, its card reads **All matches
+done** with the **actual end** time, and underneath, the scheduled end and
+how far over or under it the venue finished. The actual end is recorded once,
+the moment the last score first arrives, and every phone and laptop reads the
+same time. A later **Resync this day now** doesn't move it. Clearing a score
+reopens the venue, and it gets a new actual end when the score goes back in.
+
 ## Match Finder
 
 Identical to Tournament Hub's Match Finder — search a pair's name, see
@@ -139,8 +146,9 @@ signing in.
   depends on that sheet's own Google sharing settings, not on Control
   Center.
   Under each venue, a second line repeats its matches done and estimated
-  finish from Live Matches, and adds "stale — may read late" when that
-  venue's data is old enough to make the estimate unreliable.
+  finish (or, once it's done, its actual end) from Live Matches, and adds
+  "stale — may read late" when that venue's data is old enough to make the
+  estimate unreliable.
 - **Resync this day now** — pulls a fresh copy from the spreadsheet(s)
   immediately, instead of waiting for the next automatic sync.
 - **Public pages** — launchers for the venue's schedule board and the

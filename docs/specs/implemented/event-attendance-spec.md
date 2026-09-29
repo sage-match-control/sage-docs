@@ -24,7 +24,7 @@ Sight, Sunday 27 September 2026**, first.
 | Reads | The page reads each venue workbook's `ATTENDANCE` tab straight from its published CSV export — `attendance.gs` is not involved (§11). `attendance.gs` itself still reads `STANDINGSCSV` columns A:C, to resolve the roster on write and on resync |
 | Writes | each venue workbook's `ATTENDANCE` tab, which the script creates — nothing else |
 
-Context: [Pickle for Sight event spec](../in-progress/pickle-for-sight-spec.md).
+Context: [Pickle for Sight event spec](pickle-for-sight-spec.md).
 The roster tab is described in the
 [Standard Tournament Master spec](../implemented/standard-tournament-master-spec.md) §10.4.
 
@@ -1756,3 +1756,20 @@ touching `STANDINGSCSV`) against the mock; the CSV read path against the
 live PCPH Main workbook — cross-origin fetch from the real GitHub Pages
 origin, a mark round-tripped through a fresh page load, and the write
 reflected in the CSV export in 407ms and 702ms across two runs.
+
+## 12. Revision — shirt sizes and clock times
+
+Applied to `attendance.html` only, after the event's first check-ins. No
+`attendance.gs` change.
+
+- **Shirt size.** `ATTENDANCE` may carry a hand-added size column, headed
+  `TShirt Size`, `T-Shirt Size`, `Shirt Size`, `tshirtSize` or `shirtSize`.
+  The page shows the value as a chip beside the player's name, and a search
+  exactly equal to a size lists everyone with it, for handing out shirts.
+  A venue without the column shows no sizes. `attendance.gs` writes only
+  columns A:E, so the column survives marks and `attendanceResync`. A
+  swap, though, leaves the old player's size on the row.
+- **Clock time.** §5.3 shows `timeIn.slice(-5)`, a 24-hour `08:14`. The
+  page now parses the clock off the end of the cell and shows `8:14 AM`,
+  whichever way the sheet formats it, and falls back to the last five
+  characters if it can't.

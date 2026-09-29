@@ -38,11 +38,47 @@ Both fetchers are pure functions of `(facility, sheets)` — neither imports
 config directly; `SyncService` resolves the day's sheet names once and
 passes them down.
 
+### Facility completion
+
+Each facility in a published snapshot carries `syncedAt` (restamped on every
+successful fetch) and `completedAt`, the moment it finished play, or `null`
+while matches are left. Nothing in the sheet timestamps a match, so
+`src/sync/facilityCompletion.mjs` infers "finished": every non-BYE match has
+both scores in. `resolveCompletedAt` then decides the value against what was
+already published:
+
+| Facility now | Previously stamped | Publishes |
+| --- | --- | --- |
+| not finished | anything | `null`. Clearing a score reopens the day |
+| finished | yes | the original stamp, carried forward |
+| finished | no | now |
+
+That is what lets `syncedAt` stay a "last heard from" time while
+`completedAt` stays a fixed end time. A manual full resync restamps every
+facility's `syncedAt` but leaves `completedAt` alone. An empty or header-only
+CSV is never "finished", and neither is a CSV whose only rows are BYEs.
+
+The rules copy Control Center's `rowsToMatches`, `sideIsBye` and
+`computeFacilityProgress` exactly: a match is played only when **both**
+scores are numbers, and a side is a BYE when its team code **or** either
+player name is `bye` (case-insensitive). Change one copy and you have to
+change the other (see [Control Center](control-center.md) § Actual end).
+
+```bash
+node scripts/verify-facility-completion.mjs
+```
+
+checks the completion rule (BYEs, zero scores, quoted names, missing
+columns) and the resync story (first finish, repeated resyncs, a cleared and
+re-entered score). Unlike the other `verify-*` scripts, it covers code in
+`src/`, not Apps Script.
+
 **Apps Script side:** `scripts/sheets-sync.gs`, installed once per facility
 spreadsheet, watches that workbook's configured tabs (SCHEDULE and Court
 Control by default) via an *installable* `onEdit` trigger (a bare `onEdit(e)`
 can't call `UrlFetchApp`, which is why it has to be installed rather than the
-default simple trigger), debounces edits, and POSTs to Cloud Run.
+default simple trigger), debounces edits (`DEBOUNCE_MS`, ~3 s of quiet),
+and POSTs to Cloud Run.
 
 The file itself is **identical in every workbook** and holds no
 spreadsheet-specific values. Everything that identifies a workbook — day key,

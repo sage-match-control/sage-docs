@@ -33,3 +33,4 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [PNF × BUP dual meet](pnf-x-bup-dual-meet-spec.md) | The first real run of the dual-meet template |
 | [Facility progress](facility-progress-spec.md) | Live Matches' per-facility progress cards and Mission Control's progress line |
 | [Event attendance](event-attendance-spec.md) | `attendance.gs` and `events/pickle-for-sight-2026/attendance.html` |
+| [CLSO Pickle for Sight](pickle-for-sight-spec.md) | `events/pickle-for-sight-2026/`, the first real run of the standard template, held 27 September 2026 |
