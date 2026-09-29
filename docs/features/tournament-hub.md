@@ -55,8 +55,8 @@ team does**: Standings, Match Finder, Live Matches and the schedule board.
 The letter codes the organizer uses in the workbook (`A`, `B`…) are not shown here;
 Control Center still shows them beside each team name.
 
-**Reading a matchup card.** The header gives the stage (a bracket, Semifinal,
-Bronze or Final), the two time slots and the courts. Under it, both team names
+**Reading a matchup card.** The header gives the stage (a bracket,
+Quarterfinal, Semifinal, Bronze or Final), the two time slots and the courts. Under it, both team names
 face each other around the **matchup score**, with the **pair count** (for
 example *pairs 3–1*, the matches each team won) in small type beneath. Below
 that, one row per match shows the pair (MD, WD or XD), the players on each
@@ -71,14 +71,23 @@ matchup 33–38. That is why the pair count is only secondary information. If
 both teams finish on the same total, the matchup is a **tie** (equal points),
 shown as *Tie* with no winner named.
 
-**Standings** show a table per bracket, ranked by **quotient** (points scored
-divided by points conceded), highest first — nothing else breaks a tie, and
-teams level on quotient stay in the workbook's order. Before the first result
-the tables list the teams without rank numbers. The organizer decides who
-reaches the semifinals by typing the four qualifiers into the workbook; the
-site marks those teams **Advances** and never works it out for itself. Below
-the tables come the playoff matchups, then each bracket's matchups behind a
-collapsible heading.
+**Standings** show a table per bracket, ranked by the organizer's
+tiebreakers, in order:
+
+1. **Points scored** across the team's bracket matches.
+2. **Quotient** — points scored divided by points conceded.
+3. **Head-to-head points** — among the teams still level, the points each
+   scored in its matches against the others.
+4. **Pair wins** — the number of matches the team won in its bracket.
+
+Teams level on all four stay in the workbook's order. Before the first result
+the tables list the teams without rank numbers. Eight teams reach the
+**quarterfinals**, seeded 1–8 and paired 3 v 6, 1 v 8, 2 v 7 and 4 v 5. The
+organizer decides who they are by typing their letters into the workbook
+against each seed; the site marks those teams **Advances** and never works it
+out for itself. Until a seed is filled in, its card reads *Seed 3 · TBD* and so
+on. Below the tables come the playoff matchups — Quarterfinals, Semifinals,
+Final, Bronze — then each bracket's matchups behind a collapsible heading.
 
 **Searching by team or player.** Match Finder takes a team name or a player's
 name. A team result lists every matchup that team plays, in schedule order,

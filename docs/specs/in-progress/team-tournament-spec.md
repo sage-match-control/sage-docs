@@ -18,6 +18,30 @@
 >
 > **Letter chips.** The base-team letter chip (§4.1) is shown only in Control Center;
 > the public pages show the team name alone.
+>
+> **Ranking (replaces §4.2's quotient-only rule and D1).** The organiser's
+> tiebreakers rank each bracket: (1) points scored, (2) quotient,
+> (3) head-to-head points among the teams still level, (4) pair wins in the
+> bracket; rows level on all four keep `STANDINGSCSV` order. One function,
+> `teamRankBracket`, in both `index.html` and Control Center. The §8.4
+> "Ranking" row no longer holds: the `edge` fixture's PF columns were never
+> recomputed, so it now ranks A, B, C, D, E by points scored. Advancement is
+> unchanged — still the workbook's entry (§4.3).
+>
+> **Quarterfinals (replaces the §1 playoff format and D4).** Eight teams reach
+> the playoffs, not four. The workbook adds a quarterfinal round —
+> `QF-3 v QF-6`, `QF-1 v QF-8`, `QF-2 v QF-7`, `QF-4 v QF-5`, matches #121–136 —
+> so the semifinals are #137–144, the Final #145–148 and Bronze #149–152:
+> 152 matches, 38 matchups. `STAGES` gains `QF` (Quarterfinal, first in
+> order), the Standings playoffs section starts with Quarterfinals, and the
+> schedule board reads a `QF-` side as its `QF` stage. **Advances** (§4.3) now
+> marks a team whose letter fills any playoff slot, so the eight
+> quarterfinalists. Seeding 1–8 is still the organiser's entry in the
+> workbook; the site never computes it. The `MatchUps` seed cells §3.4 lists
+> have moved: QF seeds 3, 6, 1, 8, 2, 7, 4, 5 are `D604`–`D674` in steps of
+> 10, SF seeds 1–4 `D684`–`D714`, Bronze `D724`/`D734`, Final `D744`/`D754`. `_fixtures/.../qf-pre.json` is a copy
+> of the published snapshot in this format, before any result; the older
+> `pre`, `finished` and `edge` fixtures predate it and have no QF round.
 
 Build the website for a **team tournament**. Named teams of eight players
 meet in **matchups**. A matchup is four doubles matches between the same two

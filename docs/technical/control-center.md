@@ -282,7 +282,11 @@ Data comes only from the two published CSVs. `rowsToMatches` reads a
 `matchUp` alone. `teamMatchupResult` decides a matchup on total points (equal
 points is a tie), and `sideLabel` / `teamNameOf` / `baseTeamOf` turn a code
 such as `SF-A_2` into a team name and letter, reading a playoff slot as its
-team once the organizer has typed the letter into the workbook.
+team once the organizer has typed the letter into the workbook. `STAGES`
+maps a playoff side's prefix to its label and order: `QF` Quarterfinal, `SF`
+Semifinal, `Br` Bronze, `Fi` Final. A team is marked **Advances** when its
+letter fills any playoff slot, which with quarterfinals means the eight
+`QF-*` qualifiers.
 
 Functions that branch on `team`:
 
@@ -290,7 +294,7 @@ Functions that branch on `team`:
 | --- | --- |
 | `selectEvent` | Accepts `type: "team"`; resets the team state |
 | `parseCode` | Returns `{ club: null, category: null, rest }` so no shared caller breaks |
-| `renderStandings` | Calls `renderTeamStandings()` before any category code runs; the category toggle bar and filter stay hidden |
+| `renderStandings` | Calls `renderTeamStandings()` before any category code runs; the category toggle bar and filter stay hidden. Each bracket table is ordered by `teamRankBracket`: points scored, quotient, head-to-head points, pair wins |
 | `liveTableRowsHTML` | `teamLiveTableRowsHTML`: both team names, stage and pair label, running matchup score |
 | `rebuildTeamIndex`, `resolveTeam`, `runSearch`, `renderAutocomplete`, `selectAcItem`, `renderIntro` | The team-and-player index, its search and the intro's team list; a saved search is `team:<letter>` or `player:<name>`, never a playoff code |
 | `renderAwards` | `buildTeamPodium()` instead of `buildPodiums()` |
