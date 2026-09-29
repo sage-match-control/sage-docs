@@ -98,6 +98,7 @@ nav:
           - Team tournament: specs/in-progress/team-tournament-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
+          - Piggleball Chairman's Cup: specs/not-started/piggleball-chairmans-cup-spec.md
           - Attendance for every event: specs/not-started/multi-event-attendance-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md

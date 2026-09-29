@@ -147,6 +147,11 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
+- **[Piggleball Chairman's Cup](not-started/piggleball-chairmans-cup-spec.md)**
+  — the event site for NATFED's 1st Piggleball Chairman's Cup, part of the
+  Pig Sports Festival: one venue (Centro Atletico, 3 courts), Novice
+  Genderless Doubles plus Intermediate Men's and Mixed Doubles, 3 October
+  2026. Standard template, re-skinned from the pubmat.
 - **[Attendance for every event](not-started/multi-event-attendance-spec.md)**
   — idea only: move attendance writes into `sage-tools-api`, keyed by the
   event registry, so no workbook needs its own Apps Script web app.
