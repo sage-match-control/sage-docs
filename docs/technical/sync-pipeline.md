@@ -8,11 +8,14 @@ redeploy.
 
 ```
 Facility Google Sheet
-   |  installable onEdit trigger, debounced  (scripts/sheets-sync.gs)
+   |  installable onEdit trigger, document-locked, syncs from the edit itself
+   |  (scripts/sheets-sync.gs)
    v
-POST /sync/:day?facility=<name>   (X-Sync-Secret header, or an operator's bearer token)
+POST /sync/:day?facility=<name>   (X-Sync-Secret header, or an operator's bearer token;
+   |                               X-Edit-At header carries the edit time)
    |  SheetsCsvFetcher (default) or GvizCsvFetcher (?method=csv fallback)
-   |  merge with the currently-published snapshot — never drop a facility on failure
+   |  merge with the currently-published snapshot — never drop a facility on failure;
+   |  re-read and re-merge on a 409 commit conflict (3 attempts)
    v
 GitHub Contents API commit -> event-data/<event-key>/data/<day>.json
    |  GitHub Pages redeploys on push (no cache-purge step)
@@ -32,11 +35,53 @@ Key pieces, in `sage-tools-api/src/sync/`:
   hands the result to the publisher.
 - **`GitHubPublisher`** — wraps the Contents API. Used both to publish a new
   snapshot and (shared with the config store below) to read
-  `config/events.json`.
+  `config/events.json`. A failed commit throws an error carrying the HTTP
+  `status`.
 
 Both fetchers are pure functions of `(facility, sheets)` — neither imports
 config directly; `SyncService` resolves the day's sheet names once and
 passes them down.
+
+### Commit conflicts
+
+Every facility of a day writes into the same `<event>/data/<day>.json`, and
+every commit of every event moves the one `main` branch of `event-data`. A
+commit made against a stale sha is rejected with `409`, which means another
+commit landed first — not necessarily that this file changed, since GitHub
+moves the branch one commit at a time, so two syncs of different files (two
+events on one day, or a sync and a Live/Hide override writing
+`config/events.json`) can collide too.
+
+`SyncService.syncDay` therefore reads, merges and commits in a loop of at
+most 3 attempts (`COMMIT_ATTEMPTS`). On a `409` it re-reads the file and
+re-merges the facility data it already fetched (the sheets are not read
+again), then commits again; any other error, or a third `409`, is thrown.
+`SyncService.setLiveOverride` and `SyncConfigStore.setIsLive` do the same,
+re-reading and re-applying their one change. The sync response carries
+`attempts`; each retry logs `commit conflict (attempt n/3)`.
+
+```bash
+node scripts/verify-sync-merge.mjs
+```
+
+### Edit timing
+
+Apps Script sends the edit's time as `X-Edit-At` (epoch ms). Cloud Run
+ignores it unless it is within the last hour and not in the future. A
+facility-scoped sync records it as that facility's `lastEditAt` in the
+snapshot; a full resync carries the published value forward. Each sync logs
+
+```
+timing edit→request=<n>ms fetch=<n>ms publish=<n>ms edit→published=<n>ms
+```
+
+(`edit→…` read `n/a` for a manual sync, which sends no edit time) and returns
+the same figures as `timing`. To read them afterwards (PowerShell, `gcloud`
+signed in; inner double quotes escaped as `\"`):
+
+```
+gcloud logging read 'resource.type=cloud_run_revision AND resource.labels.service_name=sage-tools-api AND textPayload:\"timing edit\"' --freshness=1d --format='value(timestamp,textPayload)' --project=sage-tools-api
+```
 
 ### Facility completion
 
@@ -77,8 +122,8 @@ re-entered score). Unlike the other `verify-*` scripts, it covers code in
 spreadsheet, watches that workbook's configured tabs (SCHEDULE and Court
 Control by default) via an *installable* `onEdit` trigger (a bare `onEdit(e)`
 can't call `UrlFetchApp`, which is why it has to be installed rather than the
-default simple trigger), debounces edits (`DEBOUNCE_MS`, ~3 s of quiet),
-and POSTs to Cloud Run.
+default simple trigger), and POSTs to Cloud Run straight from the edit. See
+[How an edit becomes a sync](#how-an-edit-becomes-a-sync) below.
 
 The file itself is **identical in every workbook** and holds no
 spreadsheet-specific values. Everything that identifies a workbook — day key,
@@ -103,6 +148,39 @@ workbook copied from an already-configured one reads as unconfigured rather
 than inheriting the source's day key and publishing over its snapshot. The
 shared secret is **not** guarded this way, since it's the same one Cloud Run
 env var for every workbook of every event.
+
+### How an edit becomes a sync
+
+Every edit to a watched tab records `PROP_LAST_EDIT`, then tries to take the
+workbook's **document lock** without waiting (`syncUntilSettled_`). The
+execution that gets the lock waits `SYNC_SETTLE_MS` (1.5 s, so the second
+score of a match usually lands in the same sync), syncs, and checks whether
+any edit was recorded after that sync started; if so it syncs again. An edit
+that cannot take the lock returns immediately — the lock holder covers it,
+and after releasing the lock the holder checks once more for an edit that
+arrived in between.
+
+A sync that fails with a `5xx`, a network error or a timeout is tried once
+more after `SYNC_RETRY_MS` (2 s); a `4xx` is not retried, since a bad secret,
+day or facility will not fix itself. Cloud Run retries its own commit
+conflicts (above), so this mostly covers a network error or a failed cold
+start.
+
+The lock is the *document* lock, not the script lock, because `attendance.gs`
+shares the project in live workbooks and holds the script lock while marking
+a player; sharing it would make edits made during a mark lose their sync.
+
+An edit storm that outlasts `SYNC_BUDGET_MS` hands over to a one-shot
+time-based trigger (`runIfSettled`, `DEBOUNCE_MS` later) instead of running
+past Apps Script's execution cap. That trigger is otherwise unused; a
+`runIfSettled` left scheduled by an older version fires once and runs the
+same loop.
+
+Installable triggers count against the installing account's daily trigger
+runtime (90 minutes on a consumer Google account, 6 hours on Workspace,
+shared by every workbook that account installed triggers in). A burst spends
+about the settle plus the Cloud Run round trip, so a day of a few hundred
+syncs lands around 20–30 minutes.
 
 ### How the secret reaches a workbook
 
@@ -186,7 +264,7 @@ publishes until the next sync.
 Pausing is for editing a watched tab (rosters, a mid-event schedule fix) without
 publishing every intermediate state — it leaves the saved configuration and
 the installed trigger alone, it just makes `onEditInstallable` and the
-debounce trigger no-op until resumed. It's a backstop, not the primary
+fallback trigger no-op until resumed. It's a backstop, not the primary
 safeguard: the trigger doesn't exist at all until `Set up live sync` has run
 once, so the normal workflow — finish rosters and schedule fixes, wire up
 sync last — never needs it. `Sync now` still works while paused, since

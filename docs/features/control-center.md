@@ -151,6 +151,10 @@ signing in.
   without having to go find it in Drive. Whether it opens editable
   depends on that sheet's own Google sharing settings, not on Control
   Center.
+  When a venue's latest sync came from an edit, its row also reads
+  "edit→sync <n>s" — how long that edit took to reach the published data.
+  It is a diagnostic for operators and is hidden when the figure is not a
+  plausible single edit (a full resync, for instance).
   Under each venue, a second line repeats its matches done and estimated
   finish (or, once it's done, its actual end) from Live Matches, and adds
   "stale — may read late" when that venue's data is old enough to make the
