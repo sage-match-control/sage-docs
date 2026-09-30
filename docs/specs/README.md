@@ -144,7 +144,7 @@ to the `...` form rather than repointing it.
 - **[Piggleball Chairman's Cup](in-progress/piggleball-chairmans-cup-spec.md)**
   — the event site for NATFED's 1st Piggleball Chairman's Cup, part of the
   Pig Sports Festival: one venue (Centro Atletico, 3 courts), Novice
-  Genderless Doubles plus Intermediate Men's and Mixed Doubles, 3 October
+  Open Doubles plus Intermediate Men's and Mixed Doubles, 3 October
   2026. Standard template, re-skinned from the pubmat. Site, registry
   entry, QR image and live sync built; the rosters, `isLive` reset and
   dry run are open.

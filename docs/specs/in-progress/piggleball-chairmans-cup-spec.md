@@ -68,7 +68,7 @@ Don't pick one.
 | Date | Saturday, 3 October 2026 — one day |
 | Venue | Centro Atletico, West Road, Cubao, Quezon City. One facility, 3 courts |
 | Divisions | Novice, Intermediate |
-| Categories | Novice Genderless Doubles (`ND`, 10 pairs), Intermediate Men's Doubles (`IMD`, 9 pairs), Intermediate Mixed Doubles (`IXD`, 5 pairs) |
+| Categories | Novice Open Doubles (`ND`, 10 pairs), Intermediate Men's Doubles (`IMD`, 9 pairs), Intermediate Mixed Doubles (`IXD`, 5 pairs) |
 | Matches | 56, numbered 1–56, first serve 9:00 AM, 25-minute slots, last slot 4:30 PM |
 | Slogan | "Let's rally and dink for fun, camaraderie and a stronger pig industry!" |
 | Closing line | "One Pig Industry. Stronger Together!" |
@@ -198,7 +198,7 @@ const DIVISIONS = {
 
 ```js
 const EVENTS = {
-  D:  'Genderless Doubles',
+  D:  'Open Doubles',
   MD: "Men's Doubles",
   XD: 'Mixed Doubles'
 };
@@ -658,7 +658,7 @@ entry), and add a comma after the closing brace of that entry:
   },
   "display": {
     "divisions": { "N": "Novice", "I": "Intermediate" },
-    "events":    { "D": "Genderless Doubles", "MD": "Men's Doubles", "XD": "Mixed Doubles" }
+    "events":    { "D": "Open Doubles", "MD": "Men's Doubles", "XD": "Mixed Doubles" }
   }
 }
 ```
@@ -666,7 +666,7 @@ entry), and add a comma after the closing brace of that entry:
 Control Center splits a category like `IMD` by matching the longest
 division key first, then looking the remainder up in `events`. `N` and `I`
 are both one letter and neither prefixes the other, so `ND` → Novice +
-Genderless Doubles and `IMD` → Intermediate + Men's Doubles. Key order sets
+Open Doubles and `IMD` → Intermediate + Men's Doubles. Key order sets
 display order: Novice first.
 
 **Before saving, confirm no other event already uses this day key:**
@@ -791,7 +791,7 @@ Run the dry run against the real workbook by **Friday 2 October**, using
 `dry-run-checklist.md`. Also check:
 
 - Control Center renders this event with the **standard** layout, and
-  labels the categories "Novice Genderless Doubles", "Intermediate Men's
+  labels the categories "Novice Open Doubles", "Intermediate Men's
   Doubles" and "Intermediate Mixed Doubles", with no *Unmapped category*
   warning.
 - The Live board shows three courts and no venue heading row (one
@@ -814,8 +814,10 @@ Run the dry run against the real workbook by **Friday 2 October**, using
   `<title>` or the Control Center masthead, and would date next year's
   page, so it sits only in the hero headline.
 - **Divisions `N`/`I`, events `D`/`MD`/`XD`.** These are the workbook's
-  own codes (`ND`, `IMD`, `IXD`), so nothing in the sheet changes. "Genderless
-  Doubles" is the workbook's own label for `ND`, from its `Variables` tab.
+  own codes (`ND`, `IMD`, `IXD`), so nothing in the sheet changes. "Open
+  Doubles" is the event's name for `ND`. The workbook's `Variables` tab
+  labels it "Genderless Doubles", but neither the site nor Control Center
+  reads that tab, so the two can differ.
 - **Yellow in the fill role, red in the text role.** The template's accent
   fill sits under navy text and on navy panels. Red fails there (2.82:1),
   and yellow passes (8.09:1). Red passes as text on white and under white
