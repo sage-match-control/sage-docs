@@ -1062,3 +1062,9 @@ Stop and report back instead of improvising if:
   end, the server half in
   [technical/sync-pipeline.md](../../technical/sync-pipeline.md) § Facility
   completion.
+- **The card's Left excludes matches in play.** The spec's card prints
+  `p.left` as Left, which counts in-play matches too. The built card prints
+  `left - inPlay`, so Done, Left and In play add up to the total. `p.left`
+  itself is unchanged: §3's estimate still treats an in-play match as half a
+  match left, and "all done" still means `left === 0`. Only the printed
+  number differs from the worked examples in §5.

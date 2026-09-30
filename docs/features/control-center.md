@@ -25,7 +25,8 @@ idle court. This is the same view a wall-mounted screen at the venue would
 show.
 
 Above the courts, a card per venue shows how many matches are done, how many
-are left, and — on the day itself — an estimated finish time and how far
+are left, how many are in play (on a court right now, so not counted as left;
+done, left and in play add up to the venue's total), and — on the day itself — an estimated finish time and how far
 ahead of or behind schedule that venue is. The estimate is the operators'
 own formula: matches left plus idle court slots left, times the scheduled
 match length, divided by the number of courts. It never counts less than one
@@ -35,7 +36,7 @@ card says so, because no new scores means the estimate drifts later on its own.
 
 Once every match at a venue has both scores in, its card reads **All matches
 done** with the **actual end** time, and underneath, the scheduled end and
-how far over or under it the venue finished. The actual end is recorded once,
+how early or late the venue finished (for example "1 h 15 min early"). The actual end is recorded once,
 the moment the last score first arrives, and every phone and laptop reads the
 same time. A later **Resync this day now** doesn't move it. Clearing a score
 reopens the venue, and it gets a new actual end when the score goes back in.

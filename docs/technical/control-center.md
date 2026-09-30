@@ -126,6 +126,15 @@ day. The stale test in `facilityDataIsStale` is the same rule as the sync
 row's `isWarn`; change both or neither. Design and worked examples:
 [facility progress spec](../specs/implemented/facility-progress-spec.md).
 
+### Left and In play
+
+`computeFacilityProgress` returns `left` as every unplayed match, in-play ones
+included, and `inPlay` separately. The estimate (`unitsLeft` counts an in-play
+match as half), the "all matches done" test (`left === 0`), the stale check
+and the server's `completedAt` all depend on that meaning. The card prints
+`left - inPlay` as **Left**, so Done + Left + In play equals the total. Change
+the printed number in `facilityProgressCardHTML`, never `left`.
+
 ### Actual end
 
 A finished facility (`left === 0`) shows when play actually wrapped, beside
@@ -135,7 +144,8 @@ own `facilities[].completedAt`, which `SyncService` stamps server-side (see
 once and carried forward, so it survives a manual resync and reads the same
 on every device. `eventDayMinutesFromISO` converts it into event-day minutes
 for `facilityFinishParts`, which rounds it to 5 minutes and reports the
-difference from `plannedEnd` as "over", "under" or "on schedule".
+difference from `plannedEnd` as "late", "early" or "on schedule". (An
+unfinished facility's estimate keeps "behind" and "ahead".)
 
 For a snapshot published before `completedAt` existed, the fallback is the
 earliest `syncedAt` this browser has seen while the facility was complete,
