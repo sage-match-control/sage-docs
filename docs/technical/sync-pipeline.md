@@ -107,6 +107,36 @@ parallel raced on that delete-and-create and left a stray trigger: the
 first, which is the same workbook syncing twice. The lock-based sync
 replaces all of this.
 
+#### Measured: the lock-based sync
+
+The same workbook, 1 October 2026, after the lock-based script was pasted
+in (about 20 syncs across a single edit, two edits 3 s apart, and two bursts
+of rapid edits; Cloud Run's `timing` lines plus the Executions page):
+
+| Leg | Range | Typical |
+| --- | --- | --- |
+| Edit → request reaches Cloud Run (`edit→request`) | 0.4–3.1 s | 1–2 s |
+| Cloud Run fetch | 0.2–1.4 s | ~0.3 s |
+| Cloud Run publish (read + commit) | 1.0–1.5 s | ~1.2 s |
+| Edit → published (`edit→published`) | 2.0–4.6 s | ~3.3 s |
+
+- A sync round takes about 3 s (the 1.5 s settle plus about 1.5 s of Cloud
+  Run), so a steady stream of edits produces about one sync every 3 s: a
+  26 s burst of about 16 edits produced seven syncs, and every edit was in
+  the last one. No `runIfSettled` ran, and no commit conflict occurred
+  (one workbook cannot collide with itself).
+- An `onEditInstallable` run that does not hold the lock still takes
+  0.6–2.2 s, median about 1.1 s, against 1.3–3.3 s before. That is the
+  figure trigger-runtime quota is spent at, so a busy three-facility day
+  lands nearer 50–60 minutes than the 20–30 an estimate of under a second
+  per edit gives.
+- `lastEditAt` is recorded when the script reads the edit, 1–2 s after the
+  trigger starts, so `edit→published` slightly understates the delay from
+  the keystroke.
+- The first **Sync now** after a quiet spell took about 11 s although Cloud
+  Run's own `fetch` and `publish` were about 1.5 s: with `--min-instances 0`
+  the first request after idle pays a cold start.
+
 ### Facility completion
 
 Each facility in a published snapshot carries `syncedAt` (restamped on every
