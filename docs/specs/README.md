@@ -160,8 +160,18 @@ to the `...` form rather than repointing it.
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger
   is tested too.
+- **[Immediate sync](not-started/immediate-sync-spec.md)** — measure every
+  sync from the edit, retry a sync that loses a GitHub commit race instead
+  of dropping it, and have Apps Script sync straight from the edit under a
+  lock instead of a delayed trigger. Stands alone, and both delivery specs
+  below build on it.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
-  full-payload polling with pointer polling.
+  full-payload polling with pointer polling. One of two alternatives.
   - **[Plain-language explainer](not-started/fast-data-delivery-explainer.md)**
+    — the same, without the implementation detail.
+- **[Live push delivery](not-started/durable-object-push-spec.md)** — the
+  other alternative: a Cloudflare Durable Object that pushes each snapshot
+  to open pages over WebSockets, with GitHub kept as archive and fallback.
+  - **[Plain-language explainer](not-started/durable-object-push-explainer.md)**
     — the same, without the implementation detail.

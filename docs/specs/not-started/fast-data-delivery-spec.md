@@ -3,26 +3,93 @@
 > **Status: not started**, with one exception. Step 16's debounce change is
 > already made: `scripts/sheets-sync.gs` has `DEBOUNCE_MS = 3000`, and a
 > workbook runs it once its copy of the file is the current one. Nothing
-> else here is built. Where the text below gives the debounce as `10000`,
-> it describes the code as it was when this spec was written.
+> else here is built.
+>
+> **This is one of two alternative designs.** The other is
+> [Live push delivery](durable-object-push-spec.md), which pushes each
+> snapshot to open pages over a WebSocket from a Cloudflare Durable Object
+> instead of having them poll R2. Build one, not both.
+>
+> **Prerequisite:** the [Immediate sync](immediate-sync-spec.md) spec — timing instrumentation, a retry for
+> syncs that lose a GitHub commit race, and an Apps Script trigger that
+> syncs straight away. Both delivery designs need it, and it is useful on
+> its own. Build it first; §0 lists what to check for.
+>
+> Revised 2026-10-01 against the code as of `sage-tools-api` 2.2.0: the
+> snapshot's new fields (§3, §4.1), the Live/Hide republish as a second
+> writer (§5), the client files that exist now (§8), and the Pickle for
+> Sight measurements (§1).
 
 Replace the GitHub Pages build/deploy step in the live data path with Cloudflare
 R2, and replace full-payload polling with pointer polling.
 
+## 0. Read this first (implementer orientation)
+
+Assume no knowledge of this project beyond this page and the prerequisite
+spec.
+
+**Repos.** `D:\Personal\SAGE` is a plain folder holding four git repos:
+
+| Repo | Role here |
+|---|---|
+| `sage-tools-api/` | Node 22 / Express backend on Google Cloud Run (`us-central1`). ESM `.mjs`, classes with constructor injection, no TypeScript, no build step, no test framework (plain-Node `scripts/verify-*.mjs` checks). Deploys automatically on push to `main`. The R2 publisher goes in `src/sync/` |
+| `sage-match-control.github.io/` | Static site on GitHub Pages. Every page is one self-contained HTML file (inline `<style>` and `<script>`), no shared JS files. Commit to deploy. The pages in §8 change |
+| `event-data/` | Public repo served by GitHub Pages: `config/events.json` (the event/day/facility registry) and every day's snapshot at `<event-key>/data/<day>.json`. Stays as the archive and fallback |
+| `sage-docs/` | Documentation (mkdocs). This spec lives here |
+
+**Rules for every change** (from the root `CLAUDE.md`):
+
+- A code change in `sage-tools-api` bumps `package.json`'s version (minor
+  for a feature) and adds a matching Changelog entry in its `README.md`.
+- Cite a spec from outside `sage-docs` as
+  `sage-docs/docs/specs/.../fast-data-delivery-spec.md` — literally `...`
+  where the status folder goes.
+- Documentation is written in the present tense.
+- **Never deploy any of this on an event day**, or within a few days
+  before one.
+
+**How the live data flows today:** a facility sheet's edit triggers
+`scripts/sheets-sync.gs` (Google Apps Script, pasted into each workbook by
+hand, not deployed with the service), which calls
+`POST /sync/:day?facility=<name>` on Cloud Run. `SyncService.syncDay` fetches
+that facility's tabs through the Sheets API, reads the published snapshot
+back from GitHub, merges, and commits it to `event-data`. GitHub Pages
+rebuilds, and every page polls
+`https://sage-match-control.github.io/event-data/<event-key>/data/<day>.json`
+every 10s. Control Center also calls `POST /sync/:day` for a full resync and
+`POST /sync/:day/live` for the Live/Hide override (§5).
+
+**Prerequisite check.** Confirm these exist before starting; if any is
+missing, build the [Immediate sync](immediate-sync-spec.md) spec first:
+
+| What | Where to look |
+|---|---|
+| `facilities[].lastEditAt` and a `timing` object in the sync response | `src/sync/SyncService.mjs` `syncDay` |
+| `GitHubPublisher.publish` throws errors carrying `status` | `src/sync/GitHubPublisher.mjs` |
+| 3-attempt re-read-and-re-merge on `409` in `syncDay`, `setLiveOverride`, `SyncConfigStore.setIsLive`, and a private `#buildSnapshot(...)` | `src/sync/SyncService.mjs`, `src/sync/SyncConfigStore.mjs` |
+| `scripts/verify-sync-merge.mjs` | `sage-tools-api/scripts/` — extend it for R2 the way §12's write-path checks describe |
+| Lock-based `syncUntilSettled_` / `syncWithRetry_` | `scripts/sheets-sync.gs` |
+
+This spec's R2 retry loop (§5) replaces the GitHub `409` loop as the
+correctness guarantee on the live path; the GitHub loop stays for the
+archive commit and for the fallback when R2 is unreachable.
+
 | | Now | Target |
 |---|---|---|
-| Edit → visible | 40–60s | ~5–7s |
+| Edit → visible | ~35–40s typical, 90s+ worst (§1 check 1) | ~5–7s, **only** with the Apps Script fix (§7) |
 | Client poll transfer | 4–6 KB gzipped | ~100 bytes |
 | Client poll interval | 10s | 3s |
-| Apps Script debounce | 3s (already — see status) | 3s |
+| Apps Script debounce | 3s (already — see status) | Replaced by a lock (§7) |
 
 **Store:** Cloudflare R2 behind a custom domain.
 **Write path:** Cloud Run. Apps Script stays a thin trigger.
 **Archive:** GitHub Pages retained as durability backup and aged-out fallback.
 
-The dominant term today is the GitHub Pages rebuild (~20–40s), which R2 removes
-entirely; the debounce and poll-interval changes are worth a further ~14s
-between them.
+The dominant measured term today is the GitHub Pages rebuild (p50 25s, p90
+52s), which R2 removes entirely. The poll-interval change is worth a further
+~3.5s on average. The Apps Script trigger's own delay is unmeasured and may be
+as large as the Pages build — R2 does nothing about it, which is why §7's
+prerequisite exists.
 
 **The custom domain is not cosmetic — it is what makes this affordable.** See
 §9.4: Cloudflare's CDN in front of R2 absorbs client polling, so billed reads are
@@ -41,12 +108,27 @@ commit message.
 
 | # | Check | Why it blocks |
 |---|---|---|
-| 1 | **Measure the real latency split** — time an edit through debounce → sync → Pages deploy → client poll | The 40–60s figure is an estimate. If the debounce dominates, §7 alone captures most of the win for a fraction of the work, and this project should be re-scoped or dropped |
+| 1 | **Measure the real latency split** — time an edit through debounce → sync → Pages deploy → client poll | **Partly done** (table below). The Apps Script leg is still unmeasured. If it dominates, §7 alone captures most of the win for a fraction of the work, and this project should be re-scoped or dropped |
 | 2 | **Confirm R2 supports `If-Match` / `If-None-Match` on `PutObject`** for this account, against the live bucket | **Hard gate.** Without conditional writes, §5 causes silent data loss. If unavailable, do not implement §6.3 — keep the merge-forward read on GitHub, where its `sha` CAS still applies, and accept the slower read |
 | 3 | **Confirm the Cache Rule actually caches the pointer** — fetch it twice through the custom domain and check for `cf-cache-status: HIT` | **Hard gate, and silent if wrong.** Cloudflare does not cache JSON by default. Without a working Cache Rule every client poll becomes a billed origin read and cost scales with viewers × time instead of staying flat (§9.4). Everything still *works*, which is why this must be checked explicitly rather than assumed |
 | 4 | **Confirm a suitable domain is available** as a zone in the same Cloudflare account | R2 custom domains require it; `r2.dev` is not an acceptable substitute — it is rate-limited and cannot carry Cache Rules, which forfeits check 3 entirely (§9.1) |
 | 5 | **Verify `@aws-sdk/client-s3` checksum behaviour** against the version actually installed | Recent versions send checksums R2 rejects (§6.1) |
 | 6 | **Measure the SDK's cold-start import cost** on a sync-only request | If significant, lazy-import it or drop the SDK for plain `fetch` + SigV4 (§6) |
+
+Check 1's measured legs, from CLSO Pickle for Sight (27 September 2026, 2
+facilities). Cloud Run from its request logs; Pages from the public Actions
+runs of `sage-match-control/event-data`, commit to completed deploy:
+
+| Leg | p50 | p90 | max | Source |
+|---|---|---|---|---|
+| Apps Script: edit → `runIfSettled` fires | ? | ? | ? | Each workbook's **Executions** page — kept only about a week |
+| Cloud Run `POST /sync/:day` (264 Apps Script calls) | 1.6s | 1.85s | 19s | `gcloud logging read`, `httpRequest.latency` |
+| GitHub commit → Pages deploy done (287 builds, 46 cancelled by a newer push) | 25s | 52s | 82s | `GET /repos/sage-match-control/event-data/actions/runs` |
+| Client poll | 5s | 10s | 10s | `POLL_INTERVAL_MS = 10000` |
+
+Cancelled builds matter: a push while a build is running cancels it and
+starts again, so during busy stretches nothing becomes visible until pushes
+pause for ~25s.
 
 Payload size is already measured and needs no further checking: the largest real
 day (`bkl-cup-2026/day2`, 3 facilities) is **45.2 KB raw / 6.3 KB gzipped**;
@@ -60,9 +142,12 @@ justify it on transfer volume.
 
 ```
 Facility Google Sheet  (one per venue per tournament day)
-   |  installable onEdit trigger, debounced  (scripts/sheets-sync.gs)
+   |  installable onEdit trigger, lock-based  (scripts/sheets-sync.gs, §7)
    v
 POST /sync/:day?facility=<name>   on Cloud Run   (X-Sync-Secret header)
+   ...or POST /sync/:day/live from Control Center (operator token) — the
+   Live/Hide override, which republishes the same snapshot with only
+   isLive changed and must go through the same steps 2 and 5–7 (§5)
    |  1. resolve event/day via SyncConfigStore  (event-data/config/events.json)
    |  2. read R2 pointer (+ETag) and the payload it names
    |  3. fetch facility CSVs (Sheets API, or gviz via ?method=csv)
@@ -115,9 +200,25 @@ warnings key off (§4.2). `hash` changes only when the rendered data does.
 
 ### Payload — `<event-key>/data/<day>-<hash>.json`
 
-The full day snapshot `SyncService` already builds (`day`, `label`,
-`generatedAt`, `facilities[]`, `failedFacilities[]`, `staleFacilities[]`). The
-filename is content-addressed, therefore immutable.
+The full day snapshot `SyncService.syncDay` already builds, unchanged in
+shape:
+
+```js
+{
+  day, label,
+  isLive,               // true | false | "auto" — from events.json; the Live/Hide override
+  generatedAt,          // ISO, every sync
+  facilities: [{
+    name, matchesCsv, standingsCsv,
+    syncedAt,           // ISO, restamped every time this facility is fetched
+    completedAt         // ISO or null — facilityCompletion.mjs; carried forward once set
+  }],
+  failedFacilities: [], // "name: error" strings from this attempt
+  staleFacilities: []   // names carried forward because this attempt failed them
+}
+```
+
+The filename is content-addressed, therefore immutable.
 
 ```
 Cache-Control: public, max-age=31536000, immutable
@@ -143,17 +244,33 @@ when no cell changed. The skip in §2 step 5 would never fire, every no-op edit
 would write a new immutable payload, and the lifecycle rule (§10) would fill R2
 with identical content under different names.
 
-Hash **only the rendered content**:
+Hash **only what the pages render**:
 
 ```js
-// Stable, order-independent, excludes timestamps.
-const hashInput = JSON.stringify(
-    snapshot.facilities
-        .map(f => [f.name, f.matchesCsv, f.standingsCsv])
-        .sort((a, b) => a[0].localeCompare(b[0]))
-);
+// Stable, order-independent, excludes sync-attempt timestamps.
+const hashInput = JSON.stringify({
+    label: snapshot.label,
+    isLive: snapshot.isLive,
+    facilities: snapshot.facilities
+        .map(f => [f.name, f.matchesCsv, f.standingsCsv, f.completedAt ?? null])
+        .sort((a, b) => a[0].localeCompare(b[0])),
+});
 const hash = createHash("sha256").update(hashInput).digest("hex").slice(0, 12);
 ```
+
+**`isLive` must be in the hash.** `setLiveOverride` republishes the snapshot
+with nothing but `isLive` changed. Leave it out and the Live/Hide override
+produces the same hash, the pointer never changes, no client refetches, and
+**Force hidden silently does nothing** on the public site — the one control an
+operator reaches for when a wrong score has gone public.
+
+`completedAt` is in it because Control Center's Facility Progress shows it,
+and it changes without either CSV changing (it is stamped against the
+previously published value). `label` is in it because the pages print it.
+
+Excluded: `generatedAt`, every `syncedAt`, `failedFacilities`,
+`staleFacilities`, and `lastEditAt` (added by the prerequisite spec) — all
+describe the sync attempt, not the data.
 
 **Use 12 hex chars (48 bits), not 8.** A collision serves the wrong day's board
 from an immutable, year-cached URL — the worst failure mode in this design, and
@@ -168,8 +285,17 @@ byte-identical rendered output and must not churn the payload.
 ### 4.2 Required client change: staleness must key off the pointer
 
 Skipping payload writes means `generatedAt` and per-facility `syncedAt` stop
-advancing during quiet periods. Both templates' `match-control.html` read those
-directly:
+advancing during quiet periods. They are read in these places (line numbers
+as of this revision — search by name):
+
+| File | Reads | For |
+|---|---|---|
+| `tools/control-center.html` `renderOrganizerStatus` area (~6634, ~6689) | `facilities[].syncedAt` | Mission Control's **Facility Sync Status**: amber after `STALE_WARNING_MS` (5 min) |
+| `tools/control-center.html` Facility Progress (`facilityInfo`-style helper ~5463, `facilityActualEnd` ~5439) | `facilities[].syncedAt`, `completedAt` | "Data from X ago" line when stale; actual-end fallback for pre-`completedAt` snapshots |
+| `tools/control-center.html` `loadLiveData` (~2861) | `generatedAt` | Top status line "last synced HH:MM:SS" |
+| Both templates' and every event's `index.html` `loadLiveData` | `generatedAt` | The same "last synced" status line on the public page |
+
+The Mission Control check:
 
 ```js
 const STALE_WARNING_MS = 5 * 60 * 1000;
@@ -192,8 +318,15 @@ Separate the two things the current UI conflates — *when data last changed* vs
   Cost is one ~100-byte PUT per sync; the client sees an unchanged hash and
   never refetches the payload, so the dedup benefit is fully preserved.
 - Drive "last synced" and the stale warning from **`pointer.updatedAt`**.
+  The pointer is per day, not per facility, so Mission Control loses
+  per-facility staleness. Either accept that (the red "Last attempt failed"
+  state still comes from `failedFacilities`), or add a
+  `facilities: { <name>: <ISO> }` map of last-fetch times to the pointer —
+  still well under 1 KB.
 - Keep per-facility `syncedAt`, but relabel it in the UI to mean "this
   facility's data last *changed*" — useful, and no longer alarming when old.
+  Facility Progress's "Data from X ago" line must move to the same source as
+  the stale warning, or it reads late during every quiet stretch.
 - `STALE_WARNING_MS` moves onto the pointer's age, where 5 minutes is the right
   threshold: a pointer that hasn't advanced in 5 minutes genuinely does mean the
   pipeline has stopped.
@@ -209,13 +342,23 @@ Control cry wolf on every quiet stretch of a tournament.
 **same** `/sync/:day`. Three facilities being scored simultaneously means three
 concurrent read-modify-write cycles against one payload. Cloud Run runs
 `--concurrency 4` and may have several instances live, so this is ordinary
-operation, not an edge case — and dropping `DEBOUNCE_MS` to 3000 (§7) makes
+operation, not an edge case — and a faster Apps Script trigger (§7) makes
 overlapping fires *more* likely, not less.
 
 The existing GitHub write is protected by accident: `GitHubPublisher.publish()`
-passes the `sha` it read, GitHub rejects a stale write with `409 Conflict`, and
-the losing sync fails loudly. Published state stays coherent; the loser's data
-lands on its next edit.
+passes the `sha` it read, and GitHub rejects a stale write with `409 Conflict`.
+Today the losing sync fails loudly and its data lands only on that
+facility's next edit — all four failed syncs at Pickle for Sight were this.
+The [Immediate sync](immediate-sync-spec.md) spec (this spec's step 0) makes the loser re-read, re-merge and
+retry instead. The R2 path must keep
+that guarantee, which is what the conditional pointer write below does.
+
+**There are two writers, not one.** `SyncService.setLiveOverride` (behind
+`POST /sync/:day/live`) reads the published snapshot, sets `isLive`, and
+publishes it again. It must take the same path as a sync: read the pointer
+with its ETag, write the payload, write the pointer with `If-Match`, and redo
+the read on `412`. Otherwise a Live/Hide click racing a sync can either lose
+that sync's scores or lose the override.
 
 **Plain `PutObjectCommand` has no such check:**
 
@@ -261,7 +404,7 @@ const r2 = new S3Client({
         accessKeyId: R2_ACCESS_KEY_ID,
         secretAccessKey: R2_SECRET_ACCESS_KEY,
     },
-    // Required: recent aws-sdk-js-v3 sends checksums R2 rejects (§1 check 4).
+    // Required: recent aws-sdk-js-v3 sends checksums R2 rejects (§1 check 5).
     requestChecksumCalculation: "WHEN_REQUIRED",
 });
 ```
@@ -342,6 +485,10 @@ read R2 pointer -> payload
 The GitHub fallback can be removed once every active day has synced at least
 once through R2.
 
+`setLiveOverride` reads through the same R2-first path. Its current
+`this.publisher.fetchExisting(path)` call against GitHub has to go, for the
+same reason.
+
 ### 6.4 `SyncService` constructor
 
 Currently positional and already five arguments:
@@ -358,31 +505,52 @@ call site.
 
 ## 7. Apps Script
 
-Stays a thin trigger — no sheet reading, no direct writes. One setting changes:
+Stays a thin trigger — no sheet reading, no direct writes. `DEBOUNCE_MS` is
+already `3000`. That is not the problem any more; the trigger mechanism is.
 
-| Setting | Now | Target | Location |
-|---|---|---|---|
-| `DEBOUNCE_MS` | `10000` | `3000` | `scripts/sheets-sync.gs`, per spreadsheet |
+Today `onEditInstallable` schedules a one-shot **time-based trigger**
+(`ScriptApp.newTrigger('runIfSettled').timeBased().after(DEBOUNCE_MS)`), and
+that trigger calls Cloud Run. `.after(ms)` is best-effort: the script's own
+comment says it can fire up to roughly a minute late. That delay sits in front
+of everything R2 speeds up, so without fixing it this project cannot reach its
+~5–7s target.
 
-The debounce must exceed the gap between a scorekeeper's keystrokes (~1–2s) so
-one match result produces one sync.
+**The fix is its own spec, [Immediate sync](immediate-sync-spec.md)** — timing instrumentation, a retry
+for syncs that lose a GitHub commit race, and a lock-based trigger that
+syncs straight from the edit. It is independent of the delivery store:
+build it first, then this spec. Its `edit→request` numbers also settle §1
+check 1.
 
-> `.after(ms)` is best-effort, not exact — the script's own header notes a fire
-> can land anywhere from ~`DEBOUNCE_MS` up to roughly a minute later. Measure
-> actual fire times before relying on 3s in any latency budget.
-
-There is no central push: changing this means editing each installed Apps Script
-project by hand, one per facility spreadsheet across every event registered in
-`event-data/config/events.json`. Budget for that. See `_templates/CLAUDE.md` §2
-step 7 for the install procedure.
+There is no central push: changing `sheets-sync.gs` means pasting it into each
+installed Apps Script project by hand — every live facility workbook, plus the
+**SAGE Dual Meet Master** and **SAGE Standard Tournament Master** — across
+every event registered in `event-data/config/events.json`. Budget for that.
+See `_templates/CLAUDE.md` §2 step 8 in `sage-match-control.github.io` for the
+install procedure.
 
 ---
 
 ## 8. Client implementation
 
-Four files, all of which must be changed identically:
-`_templates/standard-tournament-template/{index,match-control}.html` and
-`_templates/dual-meet-template/{index,match-control}.html`.
+Every file in `sage-match-control.github.io` that polls a day snapshot. There
+is no shared script file — each page is self-contained — so each copy is
+changed by hand, identically where the code is the same:
+
+| File | Loader to change | Notes |
+|---|---|---|
+| `tools/control-center.html` | `snapshotUrlFor(eventKey, dayKey)`, `fetchDaySnapshot`, `loadLiveData`, poll at the bottom | Switches event **and** day; has `FIXTURE` mode on localhost, which must keep reading `/_fixtures/` and never touch R2. Owns every staleness display in §4.2 |
+| `_templates/standard-tournament-template/index.html` | `snapshotUrlFor(dayKey)`, `fetchDaySnapshot`, `loadLiveData` | Public page; switches day |
+| `_templates/dual-meet-template/index.html` | same | same |
+| `_templates/standard-tournament-template/schedule.html` | `fetchDaySnapshot()` (URL built inline), `loadSchedule` | Wall board; one fixed `DAY_KEY`, no day switching |
+| `_templates/dual-meet-template/schedule.html` | same | same |
+| `events/<event-key>/index.html` and `schedule.html` for every event not yet archived | same as its template | Template changes do not reach instantiated events. As of this revision: `pickle-for-sight-2026`, `piggleball-2026`, `pnf-x-bup-dual-meet`, `pickledrive-anniversary-2026` (hand-built, not from a template; has its own `FIXTURE` mode). Update the ones still in use; leave finished ones on GitHub |
+
+Not changed: `tools/scoresheet-generator.html` (one fetch when an operator
+picks a day, not a poll — GitHub is fine), everything under
+`events/archives/`, and any `beta.html`.
+
+Per-event `match-control.html` pages no longer exist outside the BKL Cup 2026
+archive; the central Control Center replaced them.
 
 ### 8.1 Polling
 
@@ -481,6 +649,10 @@ const snapshotUrlFor = dayKey =>
 `R2_BASE_URL` is shared platform config, not per-event — treat it like
 `GHPAGES_REPO`: a hardcoded constant in both templates, **not** a `{{TOKEN}}`.
 
+Control Center's versions take the event key as an argument
+(`pointerUrlFor(eventKey, dayKey)`), like its existing `snapshotUrlFor`, and
+keep the `FIXTURE` branch in front of both.
+
 ---
 
 ## 9. Infrastructure
@@ -515,7 +687,8 @@ account-wide.
 ### 9.3 Cloud Run env vars
 
 Added alongside the existing set (`GITHUB_*`, `SYNC_SHARED_SECRET`,
-`GOOGLE_SHEETS_API_KEY`, `SHEETS_FETCH_TIMEOUT_MS`, `SYNC_CONFIG_TTL_MS`):
+`GOOGLE_SHEETS_API_KEY`, `SHEETS_FETCH_TIMEOUT_MS`, `SYNC_CONFIG_TTL_MS`,
+`AUTH_PASSWORD_HASH`, `AUTH_TOKEN_SECRET`, `AUTH_TOKEN_TTL_MS`, `CORS_ORIGIN`):
 
 ```
 R2_ACCOUNT_ID
@@ -582,9 +755,13 @@ read from the pre-migration Pages location and are updated by neither path.
 
 ## 11. Implementation order
 
-Steps 1–11 are inert until 12–15 ship. Steps 12–15 work with the old debounce.
-Step 16 is independently reversible. Nothing here requires a flag day.
+Step 0 comes first and ships on its own. Steps 1–11 are inert until 12–15
+ship. Steps 12–15 work with either Apps Script trigger. Nothing here requires
+a flag day.
 
+0. The [Immediate sync](immediate-sync-spec.md) spec, all of it (§7). Re-measure
+   before continuing: if Pages is no longer the largest term, stop and
+   re-scope
 1. Add the domain to Cloudflare as a zone
 2. Create the R2 bucket
 3. Connect the custom domain (R2 → bucket → Settings → Custom Domains)
@@ -603,10 +780,11 @@ Step 16 is independently reversible. Nothing here requires a flag day.
 12. Build `R2Publisher` including the CAS retry loop (§5, §6.1, §6.2); refactor
     `SyncService`'s constructor to an options object (§6.4)
 13. Move the merge-forward read to R2 with GitHub fallback (§6.3)
-14. Update all four template files: R2 fetch + fallback (§8), and move staleness
-    onto `pointer.updatedAt` (§4.2)
-15. Add env vars, deploy Cloud Run, verify (§12)
-16. Set `DEBOUNCE_MS = 3000` in every installed Apps Script project (§7)
+14. Update every file in §8's table: R2 fetch + fallback (§8), and move
+    staleness onto `pointer.updatedAt` (§4.2)
+15. Add env vars, bump `package.json` (minor) with a `README.md` Changelog
+    entry, push to `main` (Cloud Run deploys on push), verify (§12)
+16. ~~Set `DEBOUNCE_MS = 3000`~~ — done; superseded by step 0
 
 ---
 
@@ -627,6 +805,13 @@ Step 16 is independently reversible. Nothing here requires a flag day.
       rewrite, and gives up after 3 attempts with a normal upstream error.
 - [ ] A GitHub archive failure leaves R2 correct and the client unaffected.
 - [ ] `?method=csv` still works end to end.
+- [ ] **Live/Hide:** `POST /sync/:day/live` with `false` produces a new hash
+      and a pointer update; the public page hides within one poll. Then
+      `auto` restores it the same way.
+- [ ] A Live/Hide override fired at the same moment as a facility sync
+      keeps both the override and the sync's scores.
+- [ ] A change that only moves a facility's `completedAt` (clearing then
+      re-entering the last score) produces a new hash.
 
 **Client**
 
@@ -643,7 +828,12 @@ Step 16 is independently reversible. Nothing here requires a flag day.
       changes**, while the sync pipeline is still running (§4.2).
 - [ ] Mission Control *does* warn within ~5 minutes of the pipeline actually
       stopping.
-- [ ] All four template files are identical in every changed region.
+- [ ] Every file in §8's table is identical in every changed region to the
+      others of its kind (`index.html` pages, `schedule.html` pages).
+- [ ] Control Center on `localhost` with `?fixture=…` still loads the fixture
+      and makes no R2 request.
+- [ ] Facility Progress's "Data from X ago" line does not appear during a
+      10-minute quiet stretch while the pipeline runs.
 
 **Infrastructure**
 
@@ -676,7 +866,10 @@ Step 16 is independently reversible. Nothing here requires a flag day.
 - Migrating existing published `event-data` snapshots into R2. The client's
   fallback and §6.3's GitHub read cover the transition.
 - Retiring GitHub Pages as the archive tier.
-- Any change to the scoresheet half of `sage-tools-api`.
+- Any change to the scoresheet half of `sage-tools-api`, or to
+  `tools/scoresheet-generator.html`'s one-shot snapshot fetch — it stays on
+  GitHub Pages.
+- Pages under `events/archives/`.
 - Changing the `/sync/:day` route shape or its shared-secret auth.
 - Extending `/sync/config` to report R2 health. Worth doing later — it is the
   natural home for it — but not required to ship this.

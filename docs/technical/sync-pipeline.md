@@ -277,22 +277,28 @@ from another event's.
 ## Live delivery today, and a planned upgrade
 
 Today, the client polls the published GitHub Pages snapshot directly on a
-10-second interval (`POLL_INTERVAL_MS`), with a cache-busting query param
-(GitHub Pages caches responses for ~10 minutes with no purge API, so this is
-required, not optional). End-to-end, a score typed into a sheet takes
-roughly **40–60 seconds** to reach a viewer — almost all of it GitHub Pages
-rebuilding the site after the data commits.
+10-second interval (`POLL_INTERVAL_MS`). The URL carries a `?t=` query
+param, but GitHub's CDN ignores query strings in its cache key; what keeps
+the data fresh is that Pages purges its cache on every deploy.
 
-**Not yet built:** a spec (`fast-data-delivery-spec.md`) proposes cutting
-that to **~5–7 seconds** by adding Cloudflare R2 as a "hot" delivery path
-in front of a tiny 3-second-polled pointer file (a hash + timestamp) that
-only triggers a payload fetch when something actually changed, with GitHub
-kept as a durability backup and automatic fallback. It's a well-scoped
-addition to this pipeline, not a rewrite — the sheet→sync→GitHub half above
-is unchanged — but it does add its own failure modes (R2 outages, CDN cache
-misconfiguration, concurrent-write races) that the spec's acceptance
-checklist is built around. Not reflected anywhere in this doc site's
-architecture pages until it ships.
+Measured at Pickle for Sight (27 September 2026): Cloud Run's sync takes
+**1.6s** (p50), and GitHub Pages takes **25s** (p50) / **52s** (p90) from the
+data commit to a finished deploy — longer in busy stretches, because each
+new commit cancels the build in progress. With the poll, a score typed into
+a sheet reaches a viewer in roughly **35–40 seconds**, plus however long the
+Apps Script time-based trigger takes to fire, which is not yet measured.
+
+**Not yet built:** [Immediate sync](../specs/not-started/immediate-sync-spec.md)
+replaces the delayed Apps Script trigger with a sync straight from the edit,
+records how long each step takes, and retries a sync that loses a GitHub
+commit race instead of dropping it. On top of that, two alternative specs
+cut the GitHub Pages wait:
+[Live push delivery](../specs/not-started/durable-object-push-spec.md) has a
+Cloudflare Durable Object push each snapshot to open pages over WebSockets
+(~2–5s), and [Fast data delivery](../specs/not-started/fast-data-delivery-spec.md)
+puts Cloudflare R2 behind a CDN with pages polling a tiny pointer file every
+3 seconds (~5–7s). Both keep GitHub as archive and fallback. None of this is
+reflected in this doc site's architecture pages until it ships.
 
 ---
 **Features:** [Control Center's Mission Control tab](../features/control-center.md#mission-control) uses this pipeline's resync/go-live actions.

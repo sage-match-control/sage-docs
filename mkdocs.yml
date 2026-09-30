@@ -101,5 +101,8 @@ nav:
           - Overview: specs/not-started/README.md
           - Attendance for every event: specs/not-started/multi-event-attendance-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
+          - Immediate sync: specs/not-started/immediate-sync-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
+          - Live push delivery: specs/not-started/durable-object-push-spec.md
+          - Live push delivery - explainer: specs/not-started/durable-object-push-explainer.md
