@@ -88,7 +88,7 @@ files.
 | NFHFI logo | **Staged** at `events/piggleball-2026/assets/logo.webp` (960×958, white background). Use it as is: no conversion, no cropping | §4 `{{EVENT_LOGO}}` |
 | Pubmat | **Staged** at `events/piggleball-2026/assets/pubmat.webp` (1736×2000). Reference for §6–§7 only. No page loads it | — |
 | QR image for the short link | **To follow from the user** as `events/piggleball-2026/assets/qr.png`. The short link itself, `tinyurl.com/SAGExPiggleball`, is confirmed. If the image isn't there yet, do everything else and report it missing. Don't generate one | Template QR panel |
-| Event workbook | `1QX38GVquZjsha24BLJkx7tTWxc09sc6oWW99ALUsegE` ("2026-10-03 PiggleBall Tournament - CENTRO ATLETICO") | §11 |
+| Event workbook | `1zdmfKXpz9jrNLSU--3h-GhEueuSRH6IoSmtgfaliveM` (replaced the first workbook, `1QX38GVquZjsha24BLJkx7tTWxc09sc6oWW99ALUsegE`, on 30 September 2026) | §11 |
 
 ---
 
@@ -645,7 +645,7 @@ entry), and add a comma after the closing brace of that entry:
       "date": "2026-10-03",
       "isLive": "auto",
       "facilities": [
-        { "name": "Centro Atletico", "sheetId": "1QX38GVquZjsha24BLJkx7tTWxc09sc6oWW99ALUsegE" }
+        { "name": "Centro Atletico", "sheetId": "1zdmfKXpz9jrNLSU--3h-GhEueuSRH6IoSmtgfaliveM" }
       ]
     }
   },
