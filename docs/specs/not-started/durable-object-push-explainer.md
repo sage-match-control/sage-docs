@@ -13,13 +13,13 @@ pages checking every 3 seconds). Only one gets built.*
 ## The problem
 
 When a scorekeeper types a score into a facility's Google Sheet, players and
-wall screens see it **about 35–40 seconds later**, and a minute and a half or
-more in bad moments. At Pickle for Sight (27 September 2026) the measured
-steps were:
+wall screens see it **about 35 seconds later**, and a minute or more in bad
+moments. Measured at Pickle for Sight (27 September 2026) and on the
+Piggleball workbook (1 October 2026):
 
 | Step | Typical | Bad case |
 |---|---|---|
-| Google Apps Script notices the edit and starts the sync | ~74s (up to ~2 min) | ~2 min |
+| Google Apps Script notices the edit and starts the sync | ~1.5s (was ~74s before Immediate sync) | ~5s |
 | Our server (Cloud Run) reads the sheet and saves the result | 1.6s | ~2s |
 | GitHub Pages rebuilds the site with the new file | 25s | 52–82s |
 | The page checks for new data (every 10s) | 5s | 10s |
@@ -31,7 +31,7 @@ progress.
 ## What this plan does
 
 Steps 1 and 2 are their own spec, [Immediate sync](../implemented/immediate-sync-spec.md),
-built first: they speed up and repair today's system on their own, and the
+and are already built: they speed up and repair today's system on their own, and the
 R2 plan needs them too. Steps 3–5 are this plan.
 
 **1. Measure first, and fix a lost-update bug.** Every sync starts recording

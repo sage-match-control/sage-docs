@@ -1,25 +1,27 @@
 # Spec — Live push delivery (Durable Objects)
 
-> **Status: not started.** Nothing here is built. Written 2026-10-01 against
-> `sage-tools-api` 2.2.0 and the `sage-match-control.github.io` pages as of
-> that date.
+> **Status: not started.** Nothing here is built. Revised 2026-10-01 against
+> `sage-tools-api` 2.3.0 (the prerequisite below, built) and the
+> `sage-match-control.github.io` pages as of that date.
 >
 > **This is one of two alternative designs.** The other is
 > [Fast data delivery](fast-data-delivery-spec.md) (Cloudflare R2 behind a
 > CDN, pointer polling). Build one, not both.
 >
-> **Prerequisite:** the [Immediate sync](../implemented/immediate-sync-spec.md) spec — timing instrumentation, a retry for
-> syncs that lose a GitHub commit race, and an Apps Script trigger that
-> syncs straight away. It is written separately because it is useful on
-> its own and both delivery designs need it. Build it first.
+> **Prerequisite, already built:** the
+> [Immediate sync](../implemented/immediate-sync-spec.md) spec — timing
+> instrumentation, a retry for syncs that lose a GitHub commit race, and an
+> Apps Script trigger that syncs straight from the edit. It shipped in
+> `sage-tools-api` 2.3.0. §4 lists exactly what it left in the code for this
+> spec to build on; confirm that list before starting.
 >
 > Plain-language version: [explainer](durable-object-push-explainer.md).
 
 Make a score typed into a facility sheet appear on every open page within a
 few seconds, for free, by pushing each new snapshot to open pages over a
 WebSocket from a Cloudflare Durable Object, instead of waiting for GitHub
-Pages to rebuild and for pages to poll. (Making the Apps Script trigger sync
-immediately is the prerequisite spec's job.)
+Pages to rebuild and for pages to poll. (The Apps Script side already syncs
+straight from the edit: that was the prerequisite spec.)
 
 ---
 
@@ -46,37 +48,56 @@ Assume no knowledge of this project beyond this page. What you need:
   `sage-docs/docs/specs/.../durable-object-push-spec.md` — literally `...`
   where the status folder goes, never the real folder.
 - Documentation is written in the present tense: what the system does now.
-- **Never deploy any part of this during an event day.** It replaces the
-  live data path. Nothing in this spec ships before 3 October 2026 (two
-  events run that day).
+- **Never deploy any part of this on an event day, or in the few days
+  before one.** It replaces the live data path.
+- Working copies use CRLF line endings (Git's `autocrlf`). Keep them: an
+  editor that rewrites a whole file to LF turns a small diff into a
+  whole-file one.
 
 **How the live data flows today:**
 
 ```
 Facility Google Sheet (one per venue per tournament day)
-  | installable onEdit trigger -> onEditInstallable (scripts/sheets-sync.gs)
-  | schedules a one-shot time-based trigger ~3s later -> runIfSettled
+  | installable onEdit trigger -> onEditInstallable -> syncUntilSettled_
+  |   (scripts/sheets-sync.gs): takes the workbook's document lock, waits
+  |   SYNC_SETTLE_MS (1.5s) — stretched so syncs start at least
+  |   SYNC_MIN_GAP_MS (5s) apart — syncs, and repeats while newer edits keep
+  |   arriving. Edits that can't take the lock just record their time.
   v
-POST /sync/:day?facility=<name>   Cloud Run, X-Sync-Secret header
+POST /sync/:day?facility=<name>   Cloud Run, X-Sync-Secret + X-Edit-At headers
   | SyncService.syncDay: fetch that facility's CSV + STANDINGSCSV tabs
-  | (Sheets API), read the published snapshot back from GitHub, merge
+  | (Sheets API), then up to COMMIT_ATTEMPTS (3) times: read the published
+  | snapshot back from GitHub, merge (#buildSnapshot), commit with its sha;
+  | a 409 goes round again
   v
 GitHub Contents API commit -> event-data/<event-key>/data/<day>.json
-  | GitHub Pages build + deploy
+  | GitHub Pages build + deploy (25s p50, 52s p90)
   v
 Pages poll https://sage-match-control.github.io/event-data/<event-key>/data/<day>.json
 every 10s (POLL_INTERVAL_MS), paused while the tab is hidden
 ```
 
-Once the [Immediate sync](../implemented/immediate-sync-spec.md) spec is built, the first
-step is different: `onEditInstallable` syncs straight from the edit under a
-document lock (`syncUntilSettled_`) instead of scheduling a time-based
-trigger. Nothing else in the flow above changes.
-
 Control Center also calls `POST /sync/:day` (no `?facility=`, a full
 resync, operator bearer token) and `POST /sync/:day/live` (the Live/Hide
-override: `SyncService.setLiveOverride` commits `config/events.json`, then
-republishes the day's snapshot with only `isLive` changed).
+override: `SyncConfigStore.setIsLive` commits `config/events.json`, then
+`SyncService.setLiveOverride` republishes the day's snapshot with only
+`isLive` changed). Both commits retry a `409` the same way `syncDay` does.
+
+**Checks you can run** (from `sage-tools-api/`; plain Node, no framework,
+each exits non-zero on failure):
+
+```bash
+node scripts/verify-sync-merge.mjs
+```
+
+```bash
+node scripts/verify-facility-completion.mjs
+```
+
+The site has no tests. Serve `sage-match-control.github.io/` with any static
+file server (for example `npx http-server` from that folder) and open the
+page; Control Center and the PickleDrive pages also accept `?fixture=<name>`
+on localhost to load `_fixtures/` instead of live data.
 
 **The snapshot** (`SyncService.syncDay` builds it; `lastEditAt` comes from
 the prerequisite spec, and this spec adds `publishedAt`):
@@ -100,48 +121,57 @@ the prerequisite spec, and this spec adds `publishedAt`):
 
 ## 1. Why, in numbers
 
-Measured at CLSO Pickle for Sight, 27 September 2026 (2 facilities):
+Measured at CLSO Pickle for Sight (27 September 2026, 2 facilities) and on
+the Piggleball workbook after the prerequisite shipped (1 October 2026, ~30
+syncs; `technical/sync-pipeline.md` § Measured: the lock-based sync):
 
 | Leg | p50 | p90 | max | Source |
 |---|---|---|---|---|
-| Apps Script: edit → `runIfSettled` fires | 74s | 119s | 119s | Piggleball Executions page, 1 Oct 2026, five bursts (22–119s). See `technical/sync-pipeline.md` § Baseline |
-| Cloud Run `POST /sync/:day` (264 calls) | 1.6s | 1.85s | 19s | Cloud Run request logs |
-| GitHub commit → Pages deployed (287 builds, 46 cancelled by newer pushes) | 25s | 52s | 82s | `event-data` Actions runs |
+| Edit → request reaches Cloud Run (`edit→request`, includes the 1.5s settle) | ~1.5s | ~3s | 4.7s | Piggleball `timing` log lines. The old time-based trigger took 74s p50, 119s max |
+| Cloud Run `POST /sync/:day` (264 calls) | 1.6s | 1.85s | 19s | Pickle for Sight request logs |
+| Edit → committed to GitHub (`edit→published`) | ~3.5s | ~4.5s | 6.1s | Piggleball `timing` log lines |
+| GitHub commit → Pages deployed (287 builds, 46 cancelled by newer pushes) | 25s | 52s | 82s | `event-data` Actions runs, Pickle for Sight |
 | Page poll | 5s | 10s | 10s | `POLL_INTERVAL_MS = 10000` |
 
-Estimated edit → screen today: ~35–40s typical, 90s+ worst, plus the unknown
-Apps Script delay. Target after all phases: **~2–5s typical, ~8–10s worst**
-(a Cloud Run cold start plus a slow trigger).
+Edit → screen today: ~35s typical (3.5 + 25 + 5), ~65s at p90, 90s+ worst.
+Nearly all of it is the Pages build and the poll, the two legs this spec
+removes. Target after all phases: **~2–5s typical, ~8–10s worst** (a Cloud
+Run cold start).
 
 | Leg after this spec | Estimate |
 |---|---|
-| Edit → sync starts (Immediate sync spec) | 0.5–2s, plus a 1.5s settle |
+| Edit → sync starts (built, measured) | 1–2s including the 1.5s settle; up to ~5s more when a sync from the same workbook started just before (`SYNC_MIN_GAP_MS`) |
 | Cloud Run fetch + merge + push (Phase 2) | ~1.5–2.5s (Sheets fetch ~1s, plus two ~200ms round trips to the Durable Object) |
 | Durable Object → every open page (Phase 1, 5) | < 0.5s |
 
-**Concurrent writes already fail.** Every facility of a day writes into the
-same `<event>/data/<day>.json`. Each sync reads it, merges its own facility
-in and commits it back with the sha it read; GitHub rejects a commit whose
-sha is stale with `409 Conflict`, and today the losing sync just returns
-`500`. All four failed syncs at Pickle for Sight were this (Cloud Run logs,
-UTC): two same-workbook double fires (04:15:22, 11:07:56 — the old
-time-based trigger firing twice for one burst) and two console full
-resyncs colliding with a facility sync (06:44:41, 09:58:22). None lost data
-that day, but a collision **between two facilities** loses the loser's
-update until someone edits that facility's sheet again — minutes, if it was
-a match's final score. With three facilities, expect a handful a day, more
-as syncs get faster. The [Immediate sync](../implemented/immediate-sync-spec.md) spec fixes it for today's GitHub path (its
-§3.3 and §4.3), and Phase 2 here keeps the same guarantee for the Durable
-Object (§6.5).
+**Concurrent writes.** Every facility of a day writes into the same
+`<event>/data/<day>.json`, and every commit of every event moves the one
+`main` branch of `event-data`, so syncs race. A commit made with a stale sha
+is rejected with `409 Conflict`. Before the prerequisite the loser returned
+`500` and its update was lost until the next edit to that sheet (all four
+failed syncs at Pickle for Sight). The prerequisite made the GitHub path
+re-read, re-merge and retry (§4). The Durable Object has the same race — two
+syncs read version `n` and both publish with `expectedVersion: n` — and
+answers the loser with its own `409`; Phase 2 must retry that the same way
+(§6.5). A test that loses a facility's data here is a failed build.
+
+**Commit volume.** Every sync is a GitHub commit and a Pages build. GitHub
+allows 80 content-creating requests a minute and 500 an hour
+([rate limits](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api));
+`SYNC_MIN_GAP_MS` holds one workbook to about 12 commits a minute. Over the
+limit GitHub answers `403` or `429`. After Phase 2 those commits are only the
+archive: a rate-limited archive commit is logged and dropped without
+affecting what viewers see, and the next sync's archive catches GitHub up
+(§6.5).
 
 ## 2. Target architecture
 
 ```
 Facility Google Sheet
-  | installable onEdit -> onEditInstallable -> syncUntilSettled_ (Immediate sync spec)
-  |   takes a document lock, waits 1.5s, syncs; catches up if more edits land
+  | installable onEdit -> onEditInstallable -> syncUntilSettled_ (built)
+  |   document lock, 1.5s settle, syncs at least 5s apart; catches up if more edits land
   v
-POST /sync/:day?facility=<name>  + X-Edit-At header (Immediate sync spec)
+POST /sync/:day?facility=<name>  + X-Edit-At header (built)
   | SyncService.syncDay (Phase 2):
   |   1. fetch the facility's tabs (unchanged)
   |   2. read the current snapshot + version from the Durable Object
@@ -171,36 +201,43 @@ its own:
 
 | Phase | What | Where | Ships as |
 |---|---|---|---|
-| — | **Prerequisite:** [Immediate sync](../implemented/immediate-sync-spec.md) — timing, commit-conflict retry, lock-based Apps Script sync | `sage-tools-api`, `sheets-sync.gs`, `control-center.html` | Its own spec |
+| — | **Prerequisite, built:** [Immediate sync](../implemented/immediate-sync-spec.md) — timing, commit-conflict retry, lock-based Apps Script sync | `sage-tools-api`, `sheets-sync.gs`, `control-center.html` | `sage-tools-api` 2.3.0 |
 | 1 | Worker + Durable Object | `sage-tools-api/live-worker/` | `wrangler deploy` (manual) |
 | 2 | Cloud Run publishes to the object | `sage-tools-api/src/` | Minor version bump |
 | 3 | Pages subscribe | `sage-match-control.github.io` | Site commit |
 | 4 | Documentation and runbooks | `sage-docs`, `CLAUDE.md`s, checklist template | Commits |
 
-After the prerequisite ships, re-measure with its `edit→request` numbers at
-an event or rehearsal before starting Phase 1.
+The prerequisite has shipped and been measured (§1), so Phase 1 can start.
+Phase 2 is `sage-tools-api` 2.3.0 → **2.4.0**, unless another release has
+shipped in between (check `package.json`).
 
 ---
 
 ## 4. Prerequisite — Immediate sync
 
 Everything this spec builds on is in the
-[Immediate sync](../implemented/immediate-sync-spec.md) spec. Confirm each of these exists
-in the code before starting Phase 1; if any is missing, build that spec
-first:
+[Immediate sync](../implemented/immediate-sync-spec.md) spec, which is built.
+Confirm each of these exists in the code before starting Phase 1. If one is
+missing, stop and ask: it means the code has moved on since this revision.
 
 | What | Where to look |
 |---|---|
-| `X-Edit-At` header sent by Apps Script and read by Cloud Run | `scripts/sheets-sync.gs` `triggerSync_`; `src/sync/routes.mjs` `handleSync` |
-| `facilities[].lastEditAt` in the snapshot, and a `timing` object in the sync response | `src/sync/SyncService.mjs` `syncDay` |
-| `GitHubPublisher.publish` throws errors carrying `status` | `src/sync/GitHubPublisher.mjs` |
-| 3-attempt re-read-and-re-merge on `409` in `syncDay`, `setLiveOverride` and `SyncConfigStore.setIsLive` | `src/sync/SyncService.mjs`, `src/sync/SyncConfigStore.mjs` |
-| A private `#buildSnapshot(...)` holding the merge logic | `src/sync/SyncService.mjs` |
-| `scripts/verify-sync-merge.mjs` with its eight scenarios | `sage-tools-api/scripts/` |
-| Lock-based `syncUntilSettled_` and `syncWithRetry_` | `scripts/sheets-sync.gs` |
+| `X-Edit-At` header sent by Apps Script and read by Cloud Run (accepted only within the last hour and at most 5s in the future) | `scripts/sheets-sync.gs` `triggerSync_(opts)`; `src/sync/routes.mjs` `handleSync` |
+| `facilities[].lastEditAt`, and `attempts` plus `timing: { editToRequestMs, fetchMs, publishMs, editToPublishedMs }` in the sync response (the two `edit…` fields `null` without an edit time) | `src/sync/SyncService.mjs` `syncDay` |
+| `GitHubPublisher.publish` throws errors carrying `status`, and the module exports `COMMIT_ATTEMPTS = 3` | `src/sync/GitHubPublisher.mjs` |
+| The `COMMIT_ATTEMPTS` loop on `err.status === 409` in `syncDay`, `setLiveOverride` and `SyncConfigStore.setIsLive` | `src/sync/SyncService.mjs`, `src/sync/SyncConfigStore.mjs` |
+| `#buildSnapshot({ day, label, isLive, now, allFacilities, targetFacilities, freshByName, failed, existing, lastEditAt })` returning `{ snapshot, stale }`. `existing` is `{ json, sha }` as `fetchExisting` returns it (only `.json` is read); `lastEditAt` is an ISO string or `null` | `src/sync/SyncService.mjs` |
+| `scripts/verify-sync-merge.mjs`: eight scenarios built on its `FakePublisher` class (a `files` map, `set(path, json)`, `failNext(status, mutate)`, `publishCalls`), `makeService(publisher)` and `check(label, actual, expected)` | `sage-tools-api/scripts/` |
+| `syncUntilSettled_`, `syncWithRetry_`, `syncWaitMs_`, `SYNC_MIN_GAP_MS` | `scripts/sheets-sync.gs` — nothing in this spec changes it |
 
-Phase 2 below changes `syncDay` and `setLiveOverride` again, building on
-that retry loop and on `#buildSnapshot`.
+`syncDay` today runs, in order: resolve the day from `configStore`, pick the
+target facilities, fetch them (timed as `fetchMs`), build `freshByName` and
+`failed`, compute `lastEditAt` (only for a facility-scoped sync that has an
+`editAt`), run the read → `#buildSnapshot` → `publish` loop (timed as
+`publishMs`), then build `timing`, log
+`timing edit→request=… fetch=…ms publish=…ms edit→published=…` through a local
+`ms()` helper that prints `n/a` for `null`, and return. Phase 2 changes
+only the loop and what follows it.
 
 ---
 
@@ -523,9 +560,23 @@ arguments):
 constructor({ sheetsApiFetcher, gvizFetcher, publisher, livePublisher, configStore, logger })
 ```
 
-`index.mjs` is the only call site. Construct `LivePublisher` there from the
-three env vars and pass it in. Add `live: { enabled, baseUrl }` to the
-`GET /sync/config` diagnostics response in `routes.mjs` (never the secret).
+Store each as a same-named property (`this.livePublisher` and so on).
+Treat a missing `livePublisher` as disabled (`this.livePublisher?.enabled`),
+so a caller that passes none gets exactly today's behaviour.
+There are two call sites:
+
+- `index.mjs`, where `new SyncService(...)` is built after
+  `syncConfigStore`. Construct `LivePublisher` there from the three env
+  vars (`LIVE_PUSH_TIMEOUT_MS` parsed like `SHEETS_FETCH_TIMEOUT_MS` is, and
+  left `undefined` when unset so the default applies) with
+  `syncLogger.child("live")`, and pass it in.
+- `scripts/verify-sync-merge.mjs`'s `makeService` (§6.7).
+
+`SyncConfigStore` keeps its constructor. Add `live: { enabled, baseUrl }` to
+`handleConfigDiagnostics` in `routes.mjs`, read from
+`syncService.livePublisher` (the router already receives `syncService`);
+never include the secret. Document the field in that route's `@openapi`
+block.
 
 ### 6.5 `syncDay` flow
 
@@ -596,6 +647,32 @@ attempts) and `archiveMs`. `editToPublishedMs` is measured when the **live**
 publish succeeds — that is when pages see it — not after the archive. The
 log line gains `live=<liveMs>ms archive=<archiveMs>ms`.
 
+**Mapping the pseudo-code onto the current code:**
+
+- "today's GitHub path" is the existing read → `#buildSnapshot` → `publish`
+  loop in `syncDay`, unchanged. Move it into a private method (for example
+  `#publishViaGitHub(...)`, returning `{ snapshot, stale, publishResult,
+  attempts }`) so the live-disabled branch and the fallback branch both call
+  it.
+- `merge(fresh, existingJson)` is
+  `this.#buildSnapshot({ ..., existing: { json: existingJson }, lastEditAt })`
+  — the same method, with the Durable Object's snapshot wrapped the way
+  `fetchExisting` returns a file. It still throws `SyncUpstreamError` when
+  there is nothing to publish; let that propagate as it does today.
+- Set `snapshot.publishedAt = new Date().toISOString()` immediately before
+  **every** publish, live or GitHub, and in `setLiveOverride` too. Pages use
+  it to decide which of two copies is newer.
+- `attempts` counts live publish attempts when the live publish succeeded,
+  and the GitHub loop's attempts otherwise.
+- `timing` keeps its four fields and adds `liveMs` and `archiveMs` (`null`
+  when that step didn't run). `publishMs` stays the whole time from the first
+  read to the end of the archive. The log line becomes
+  `timing edit→request=… fetch=…ms publish=…ms live=…ms archive=…ms edit→published=…`,
+  with `n/a` for any `null`.
+- Archive failures include GitHub's rate-limit answers (`403` or `429`):
+  log them and return `{ committed: false, error }`; the request still
+  succeeds.
+
 Order matters: **the live publish comes before the GitHub commit**, and both
 happen before the response is sent. Never move the archive into
 fire-and-forget work after `res.json()`: Cloud Run throttles CPU after a
@@ -614,9 +691,13 @@ for attempt in 1..3:
     snapshot = { ...existingJson, isLive, publishedAt: new Date().toISOString() }
     res = await livePublisher.publish(event, day, snapshot, live.version)
     if res.ok: break
-archive as in 7.5
+archiveToGitHub(path, snapshot, message)   # the §6.5 helper
 return { day, label, isLive, republished: true, live, archive }
 ```
+
+"Today's GitHub path" here is `setLiveOverride`'s existing
+`COMMIT_ATTEMPTS` loop, unchanged, used when live push is disabled or a
+live call throws. Three live version conflicts in a row also fall back to it.
 
 Without this, a Live/Hide click would only reach GitHub, and every page
 connected by WebSocket would keep showing the old state until the next
@@ -624,9 +705,22 @@ score edit. **Force hidden must work through the push path.**
 
 ### 6.7 Extend `scripts/verify-sync-merge.mjs`
 
-The [Immediate sync](../implemented/immediate-sync-spec.md) spec created the script (its §3.3). Add a fake `LivePublisher` holding
-`{version, snapshot}` that can be told to return `409` once or to throw,
-keep its eight scenarios passing, and add:
+The [Immediate sync](../implemented/immediate-sync-spec.md) spec created
+the script (its §3.3). Read it first: its eight scenarios are numbered
+blocks, each building a `FakePublisher` and a service with
+`makeService(publisher)`.
+
+- Change `makeService` to `makeService(publisher, livePublisher = null)`
+  and construct `SyncService` with the options object, passing a disabled
+  fake (`enabled: false`) when none is given, so the eight existing
+  scenarios run unchanged on the GitHub path.
+- Add a `FakeLivePublisher` in the same style: `enabled`, a stored
+  `{ version, snapshot }`, `read()` and `publish()` with the
+  §6.2 return shapes, a `failNext(kind, mutate)` queue where `kind` is
+  `"conflict"` (return a `409`-shaped result after running `mutate`) or
+  `"throw"`, and a `publishCalls` counter.
+
+Keep the eight scenarios passing, and add:
 
 1. Live disabled → identical behaviour to the Immediate sync spec (GitHub read, merge,
    publish with sha, `409` retry).
@@ -641,7 +735,8 @@ keep its eight scenarios passing, and add:
    `isLive` is `false`; `publishedAt` is newer than before.
 7. `lastEditAt` survives a full resync (no `editAt`), with live enabled.
 
-Bump the minor version in `package.json` with a Changelog entry. Deploy by pushing to `main`, with
+Bump the minor version in `package.json` (2.3.0 → 2.4.0) with a Changelog
+entry in `README.md`. Deploy by pushing to `main`, with
 `LIVE_PUSH_URL` **unset** first. Then set the two env vars on the Cloud Run
 service (a new revision, no code push) when ready to turn it on.
 
@@ -660,10 +755,15 @@ service (a new revision, no code push) when ready to turn it on.
 | `_templates/dual-meet-template/schedule.html` | same | same |
 | `events/<key>/index.html`, `events/<key>/schedule.html` for each event still in use | as its template | as its template |
 
-Events that exist as of this spec: `pickle-for-sight-2026`,
-`piggleball-2026`, `pnf-x-bup-dual-meet` (instantiated from templates) and
-`pickledrive-anniversary-2026` (hand-built, has its own `FIXTURE` mode).
-Update only those still running events; finished ones stay on polling.
+Update the pages of every event that has not finished when Phase 3 ships;
+a finished event's pages stay on polling and keep working unchanged. As of
+this revision, `events/` holds `pickle-for-sight-2026` (27 September 2026)
+and `pnf-x-bup-dual-meet`, both finished, and `piggleball-2026` and
+`pickledrive-anniversary-2026` (both 3 October 2026). Each event's spec in
+`sage-docs/docs/specs/` gives its dates. `pickledrive-anniversary-2026` was
+hand-built, not instantiated from a template, and both its pages define
+`FIXTURE`. An event created after this revision is covered by the
+templates.
 
 Not changed: `tools/scoresheet-generator.html`, everything under
 `events/archives/`, `beta.html` files.
@@ -824,8 +924,12 @@ connected)`. Re-render it on connect and disconnect (call
 `renderOrganizerStatus()` from `onSnapshot` is enough for connect; for
 disconnect, have the page poll's existing call cover it).
 
-Also correct the stale comment above `POLL_INTERVAL_MS` in every file that
-says Apps Script's debounce is ~10s.
+Also correct the stale comments about the old Apps Script debounce in every
+file this phase touches: the one above `POLL_INTERVAL_MS` ("edit debounce is
+~10s" / "debounce is ~10s") and, in each `index.html` and Control Center, the
+one inside `loadLiveData` that says "its debounce settled". `grep -n -i
+debounce <file>` finds both. Apps Script now syncs within a few seconds of
+the edit (`SYNC_SETTLE_MS`, `SYNC_MIN_GAP_MS`).
 
 ### 7.4 Templates
 
@@ -852,7 +956,18 @@ Update, in the present tense:
   `dry-run-checklist.md`: in §2.1 add "Mission Control reads **Live updates:
   push connected**"; in §2.4 add "If it reads *polling GitHub*, updates
   still arrive, just 30–60s slower — keep going and tell whoever maintains
-  the system".
+  the system". The line "Each edit triggers Apps Script's own debounced
+  sync" (around line 95) is stale too: reword it to say each edit syncs
+  within a few seconds and reaches open pages by push.
+- Root `CLAUDE.md`'s "Things that must be kept in sync by hand": add the
+  live-channel block, which must stay byte-identical in every page that
+  carries it.
+- `scripts/sheets-sync.gs`'s Help dialog (`showSyncHelp`) tells operators
+  scores reach the website "about 10 seconds after you stop typing" and
+  take "40 to 60 seconds to appear". Once Phase 3 ships, change both to
+  "within a few seconds". A `.gs` change is not a deploy and bumps no
+  version: it ships by pasting the file into every live workbook and both
+  masters.
 - Move this spec to `implemented/` per `docs/specs/README.md`, and mark the
   R2 spec as superseded there.
 
@@ -915,15 +1030,20 @@ Other constraints:
 | 3 | Cloudflare keeps a socket open ≥ 60s with 50s pings | Phase 1, with a browser tab left open 10 min | Lower `LIVE_PING_MS` |
 | 4 | Whether auto-answered pings show up as Durable Object requests | After a day of real use, in the Cloudflare dashboard | Budget stays as §9 either way; if they don't count, the ceiling is ~5× higher |
 
-The prerequisite spec has its own checks (which Google account owns the
-triggers, and what its measurements show).
+The prerequisite's own checks are done: the account that owns the Apps
+Script triggers is a consumer Google account (90 minutes of trigger runtime
+a day), and its measurements are in §1.
 
 ## 11. Acceptance checklist
 
 **Prerequisite**
 
-- [ ] The [Immediate sync](../implemented/immediate-sync-spec.md) spec's acceptance
-      checklist passed when it shipped, and §4's table above holds.
+- [x] The [Immediate sync](../implemented/immediate-sync-spec.md) spec is
+      built and measured (Piggleball workbook, 1 October 2026). Its
+      multi-workbook and multi-event collision checks were never run on
+      real workbooks; Phase 2's **Concurrent race** check below covers the
+      same ground, so run that one with two real workbooks.
+- [ ] §4's table holds in the code.
 
 **Worker (Phase 1)**
 
@@ -963,8 +1083,8 @@ triggers, and what its measurements show).
 
 ## 12. Rollout order and rollback
 
-1. The [Immediate sync](../implemented/immediate-sync-spec.md) spec, shipped and measured
-   at an event or rehearsal.
+1. Done: the [Immediate sync](../implemented/immediate-sync-spec.md) spec,
+   shipped in 2.3.0 and measured on the Piggleball workbook.
 2. Phase 1: deploy the Worker; run `smoke.mjs`.
 3. Phase 2: deploy with `LIVE_PUSH_URL` unset; then set it. GitHub still
    gets every snapshot, so pages don't notice yet.
