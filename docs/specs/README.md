@@ -135,19 +135,19 @@ to the `...` form rather than repointing it.
 
 ## In progress
 
-- **[Team tournament](in-progress/team-tournament-spec.md)** — a third
+- **[Team tournament](in-progress/pickledrive-club-anniversary-team-tournament-spec.md)** — a third
   event type for team events: named teams, four-match matchups, group
   stage then playoffs. PickleDrive Club One Year Celebration, 3 October
   2026. Site, schedule board, Control Center support, registry entry and
-  live sync built; the QR image, dry run and `isLive` reset are open, and
-  the template is extracted after the event.
+  live sync and the QR image built; the short link, dry run and `isLive`
+  reset are open, and the template is extracted after the event.
 - **[Piggleball Chairman's Cup](in-progress/piggleball-chairmans-cup-spec.md)**
   — the event site for NATFED's 1st Piggleball Chairman's Cup, part of the
   Pig Sports Festival: one venue (Centro Atletico, 3 courts), Novice
   Genderless Doubles plus Intermediate Men's and Mixed Doubles, 3 October
-  2026. Standard template, re-skinned from the pubmat. Site and registry
-  entry built; the QR image, workbook fixes, sync setup and dry run are
-  open.
+  2026. Standard template, re-skinned from the pubmat. Site, registry
+  entry, QR image and live sync built; the rosters, `isLive` reset and
+  dry run are open.
 
 ---
 

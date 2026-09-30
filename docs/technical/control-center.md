@@ -303,7 +303,7 @@ presents match data as something to watch or play, not just the podium:
 ### The team type
 
 `"team"` is for events of named teams meeting in four-match matchups (spec:
-`sage-docs/docs/specs/.../team-tournament-spec.md`). It is additive: every
+`sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md`). It is additive: every
 change to a shared function is either inside a `CURRENT_TYPE === 'team'`
 branch or an extra parsed field nothing else reads, so `dual-meet` and
 `standard` behave exactly as before. The team logic lives in one bannered

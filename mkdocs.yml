@@ -95,7 +95,7 @@ nav:
           - Event attendance: specs/implemented/event-attendance-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
-          - Team tournament: specs/in-progress/team-tournament-spec.md
+          - Team tournament: specs/in-progress/pickledrive-club-anniversary-team-tournament-spec.md
           - Piggleball Chairman's Cup: specs/in-progress/piggleball-chairmans-cup-spec.md
       - Not started:
           - Overview: specs/not-started/README.md

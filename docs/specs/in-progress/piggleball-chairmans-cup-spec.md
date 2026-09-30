@@ -3,15 +3,22 @@
 > **Status: in progress.** The site is built and committed:
 > `events/piggleball-2026/` has `index.html`, `schedule.html` and
 > `dry-run-checklist.md` (§3–§9). The `piggleball-2026` entry is in
-> `event-data/config/events.json` (§11). Still open:
+> `event-data/config/events.json` (§11). `assets/qr.png` is committed, and
+> live sync is running from the second workbook (§1) and has published its 60
+> matches to `event-data/piggleball-2026/data/piggleball-day1.json`. Still
+> open:
 >
-> - **`assets/qr.png`.** The organiser hasn't supplied it yet. The page
->   already references it, so the desktop QR panel shows a broken image until
->   the file is committed. No code change is needed when it arrives.
-> - **The workbook fixes (§13.1)** and **live sync setup (§13.2).** Nothing
->   has published yet: there is no `event-data/piggleball-2026/` folder.
+> - **Rosters (§13.1).** Every pair still shows its code (`ND_1`, …) as its
+>   player names, so the names are yet to be pasted into the category tabs.
+> - **`isLive`.** Hardcoded `true` in `events.json` from go-live testing; set
+>   it back to `"auto"` before the event.
 > - **The dry run (§13.4)**, due Friday 2 October. The event is Saturday
 >   3 October.
+>
+> §13.1's other findings (the `Court Control` `#REF!`, the IXD bronze
+> placeholder, the 56 match numbers) were made on the first workbook. The IXD
+> bronze rows are no longer in the second one (`STANDINGSCSV` has none); the
+> rest are unchecked there.
 
 Build the event site for the **1st Piggleball Chairman's Cup**, a one-day
 open-entry pickleball tournament on **Saturday, 3 October 2026** at

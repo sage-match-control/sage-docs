@@ -5,10 +5,9 @@
 > registry entry (§10) and the operator runbook (§11) are built and were
 > checked against the test fixtures. The sync script is installed in the
 > event workbook, and `Kingcourts` has been publishing to
-> `event-data/pickledrive-anniversary-2026/` since 29 September. Still open:
-> the QR image, which the organiser supplies (it needs no code change when it
-> arrives — §5.2); the short link, which the organiser owns and did not yet
-> redirect to the event page when last checked; the dry run; and setting
+> `event-data/pickledrive-anniversary-2026/` since 29 September, and the QR
+> image is committed. Still open: the short link, which the organiser owns and
+> did not yet redirect to the event page when last checked; the dry run; and setting
 > `pickledrive-anniversary-2026-day1`'s `isLive` back to `"auto"` in
 > `event-data/config/events.json`, where it is hardcoded `true` from
 > go-live testing. The event is **Saturday, 3 October 2026**. The template
@@ -929,7 +928,7 @@ Port the logic from §5 rather than re-deriving it. Copy `teamMatchupResult`, th
 §5.5 helpers, `teamMatchupCardHTML` and their CSS into the console. Rename any that
 collide with an existing console function (`team`-prefix them), and keep
 them together in one clearly bannered block:
-`// ---- team type (sage-docs/docs/specs/.../team-tournament-spec.md) ----`.
+`// ---- team type (sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md) ----`.
 
 ### 9.1 Config and type
 

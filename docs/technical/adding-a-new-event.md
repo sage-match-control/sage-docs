@@ -15,8 +15,8 @@ is `_templates/CLAUDE.md` in that repo.
   is no template yet. The first one, PickleDrive Club One Year Celebration,
   was built by hand as `events/pickledrive-anniversary-2026/`, and the
   template is extracted from it after the event. See
-  `sage-docs/docs/specs/.../team-tournament-spec.md` (an
-  [in-progress spec](../specs/in-progress/team-tournament-spec.md)) for the
+  `sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md` (an
+  [in-progress spec](../specs/in-progress/pickledrive-club-anniversary-team-tournament-spec.md)) for the
   rules and the build; its `type` is `"team"` in `events.json`.
 
 Day count and category count don't affect this choice — both templates
