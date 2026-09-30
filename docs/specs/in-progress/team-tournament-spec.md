@@ -23,6 +23,14 @@
 > **Letter chips.** The base-team letter chip (§4.1) is shown only in Control Center;
 > the public pages show the team name alone.
 >
+> **Repeated pair labels are numbered.** Where §4's pair labels repeat a
+> doubles type, the built pages number the repeats in pair order: pair 3 is
+> **XD 1** / *Mixed Doubles 1* and pair 4 is **XD 2** / *Mixed Doubles 2*,
+> while MD and WD, which appear once, stay plain. `numberRepeatedPairs` works
+> it out from the pair table rather than hard-coding it. It lives in three
+> places: `PAIRS` in `index.html` and in Control Center's team block, and
+> `PAIR_SHORT` in `schedule.html`.
+>
 > **Ranking (replaces §4.2's quotient-only rule and D1).** The organiser's
 > tiebreakers rank each bracket: (1) points scored, (2) quotient,
 > (3) head-to-head points among the teams still level, (4) pair wins in the
