@@ -34,6 +34,10 @@ into brackets shows one small table per bracket, labelled **Bracket 1**,
 that division's header stacks them in one narrower column instead, and
 **2 cols** puts them back.
 
+A pair whose names aren't in the sheet yet still gets its round-robin row,
+listed under its team code (`ND_1`, `ND_2`…) until the names are filled in.
+Playoff spots that haven't been decided read **TBD**.
+
 Within each round-robin table, pairs are ranked by **wins**, then
 **head-to-head** (among pairs level on wins, whoever won the matches
 between them), then **quotient**. When three or more pairs are level and

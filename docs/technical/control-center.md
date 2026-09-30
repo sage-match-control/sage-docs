@@ -57,6 +57,18 @@ desktop toggle bar and a mobile category-search filter; `team` gets
 group tables, playoff matchup cards and collapsible bracket matchups (see
 [the team type](#the-team-type) below).
 
+**Unnamed pairs.** `isEmptyStanding` marks a row whose `player1` is blank or
+still equals its `teamCode` (the sheet fills names by formula, defaulting to
+the code). A twice-to-beat game's code carries its game number
+(`IXD_F_1_(2)`) but its placeholder name doesn't (`IXD_F_1`), so the name is
+also compared with the code minus that suffix. `renderStageTables` keeps such an RR row when
+`isUnnamedScheduledPair` holds: it is an RR code and appears in
+`MATCH_BY_CODE`, so it's a real pair on the schedule, and `pairCell` prints
+its code. A code with no match, an unused slot in a hand-built workbook with
+fixed-size rosters, is skipped. Playoff cards and the Awards podium keep using `isEmptyStanding`
+alone, so they show TBD and never award a code. The same pair of functions
+is in every standard and dual-meet event page and both templates.
+
 **Round Robin brackets.** `renderStageTables` groups a category's Round
 Robin rows by bracket label. With no labels it draws one table; with labels
 it draws one mini table per bracket, each under a colored `Bracket <n>`

@@ -62,6 +62,11 @@ Awards tab's standings fallback uses it too. The workbook's playoff feeders
 don't: they rank by wins then quotient, so on a head-to-head tie the pair
 the sheet advances can differ from the one listed first here.
 
+A pair whose names aren't in the sheet yet is listed under its team code
+(`ND_1`…) in the round-robin tables, so the standings are complete before the
+rosters are. Undecided playoff spots read **TBD**, and the Awards tab never
+puts a code on the podium.
+
 When a category's round robin is split into brackets, each bracket gets its
 own small table under a colored **Bracket 1**, **Bracket 2**… label, two
 side by side, so parallel pools read as pools. On desktop, the **1 col**
