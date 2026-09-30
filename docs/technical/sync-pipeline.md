@@ -110,21 +110,34 @@ replaces all of this.
 #### Measured: the lock-based sync
 
 The same workbook, 1 October 2026, after the lock-based script was pasted
-in (about 20 syncs across a single edit, two edits 3 s apart, and two bursts
-of rapid edits; Cloud Run's `timing` lines plus the Executions page):
+in, before and after `SYNC_MIN_GAP_MS` (Cloud Run's `timing` lines plus the
+Executions page). Without the gap: about 20 syncs across a single edit, two
+edits 3 s apart and two bursts of rapid edits. With the 5 s gap: 10 syncs
+across a single edit, a two-edit burst, a 22 s burst of about 14 edits and a
+short burst of four.
 
-| Leg | Range | Typical |
+| Leg | Without the gap | With the 5 s gap |
 | --- | --- | --- |
-| Edit → request reaches Cloud Run (`edit→request`) | 0.4–3.1 s | 1–2 s |
-| Cloud Run fetch | 0.2–1.4 s | ~0.3 s |
-| Cloud Run publish (read + commit) | 1.0–1.5 s | ~1.2 s |
-| Edit → published (`edit→published`) | 2.0–4.6 s | ~3.3 s |
+| Edit → request reaches Cloud Run (`edit→request`) | 0.4–3.1 s, typically 1–2 s | 0.4–4.7 s |
+| Cloud Run fetch | 0.2–1.4 s, ~0.3 s typical | 0.2–2.0 s |
+| Cloud Run publish (read + commit) | 1.0–1.5 s, ~1.2 s typical | 1.1–1.3 s |
+| Edit → published (`edit→published`) | 2.0–4.6 s, median ~3.3 s | 2.0–6.1 s, median ~3.5 s |
+| Syncs during steady typing | one every ~3 s | one every ~5 s |
+| Non-holder `onEditInstallable` run | 0.6–2.2 s, median ~1.1 s | 0.7–2.1 s, median ~1.2 s |
 
 - A sync round takes about 3 s (the 1.5 s settle plus about 1.5 s of Cloud
-  Run), so a steady stream of edits produces about one sync every 3 s: a
-  26 s burst of about 16 edits produced seven syncs, and every edit was in
-  the last one. No `runIfSettled` ran, and no commit conflict occurred
+  Run), so without the gap a steady stream of edits produced one sync every
+  3 s: a 26 s burst of about 16 edits produced seven syncs. With the gap a
+  22 s burst of about 14 edits produced five. Every edit was in the last
+  sync either way. No `runIfSettled` ran, and no commit conflict occurred
   (one workbook cannot collide with itself).
+- The gap costs latency only when an edit lands just after a sync started:
+  it then waits for the next one, up to about 5 s (the 6.1 s figure above).
+  The last edit of a burst published within 2.0 s when the gap had already
+  elapsed. A lone edit after a quiet spell is unaffected.
+- The lock holder's own run is longer with the gap (up to about 15 s for a
+  22 s burst) because sleeping counts as trigger runtime. That cost follows
+  the length of a burst, not the number of edits.
 - An `onEditInstallable` run that does not hold the lock still takes
   0.6–2.2 s, median about 1.1 s, against 1.3–3.3 s before. That is the
   figure trigger-runtime quota is spent at, so a busy three-facility day
@@ -209,7 +222,13 @@ Every edit to a watched tab records `PROP_LAST_EDIT`, then tries to take the
 workbook's **document lock** without waiting (`syncUntilSettled_`). The
 execution that gets the lock waits `SYNC_SETTLE_MS` (1.5 s, so the second
 score of a match usually lands in the same sync), syncs, and checks whether
-any edit was recorded after that sync started; if so it syncs again. An edit
+any edit was recorded after that sync started; if so it syncs again, waiting
+first so that the new sync starts at least `SYNC_MIN_GAP_MS` (5 s) after the
+previous one did. Every sync is a GitHub commit and a Pages build, so the
+gap caps steady typing at about one commit every 5 s instead of one every
+3 s; after a quiet spell a lone edit waits only the settle. (The start time
+of the last sync is kept in a script property, `lastSyncStartTime`, because a
+different execution may hold the lock next.) An edit
 that cannot take the lock returns immediately — the lock holder covers it,
 and after releasing the lock the holder checks once more for an edit that
 arrived in between.

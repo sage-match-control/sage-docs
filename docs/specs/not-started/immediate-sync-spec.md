@@ -513,6 +513,15 @@ Notes:
 - `DEBOUNCE_MS`'s comment and the file header (which describe the old
   "once edits go quiet for DEBOUNCE_MS" behaviour) must be rewritten to
   describe this design.
+- **Built differently: `SYNC_MIN_GAP_MS` (5000).** Not in the code above.
+  Measured on Piggleball, steady typing made a sync every ~3 s (seven
+  commits for a 26 s burst of ~16 edits), each one a GitHub commit and a Pages
+  build, which risks GitHub's commit rate limits. `syncUntilSettled_` waits
+  `syncWaitMs_` before every sync: `SYNC_SETTLE_MS`, stretched so the sync
+  starts at least `SYNC_MIN_GAP_MS` after the previous one began (kept in
+  the `lastSyncStartTime` script property). A lone edit after a quiet spell
+  still waits only the settle. The last edit of a burst can publish up to
+  ~5 s later than without the gap.
 - Nothing needs migrating: a `runIfSettled` trigger left over from the old
   version fires once, runs the new `runIfSettled`, and deletes itself.
 
