@@ -85,8 +85,15 @@ the same grid but never widens its column. The standard template's
 `index.html` renders standings the same way; the dual-meet template does not
 split by bracket.
 
-**Desktop standings** (≥980px) break out of the page's `.wrap` to the full
-viewport width. Every category is one fixed 360px column
+**Desktop standings** need a window at least 900px wide **and** 600px tall
+(`DESKTOP_STANDINGS_QUERY`, `(min-width:900px) and (min-height:600px)`).
+The height half keeps big phones turned sideways, up to about 956px wide but
+under about 450px tall, on the mobile layout. `isDesktopStandings()` reads
+the query through `matchMedia`, and the stylesheet's `@media` rules use the
+same query, with `(max-width:899px), (max-height:599px)` for the mobile
+side; change them together. The public event pages and both templates use
+the same query. Desktop standings break out of the page's `.wrap` to the
+full viewport width. Every category is one fixed 360px column
 (`flex:0 0 360px`) in a single row that scrolls horizontally, always
 `justify-content:flex-start` — a centred flex row that overflows cuts off
 its first columns in Chromium. Each column is capped at `92vh` and scrolls
