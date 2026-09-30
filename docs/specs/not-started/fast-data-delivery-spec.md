@@ -10,7 +10,7 @@
 > snapshot to open pages over a WebSocket from a Cloudflare Durable Object
 > instead of having them poll R2. Build one, not both.
 >
-> **Prerequisite:** the [Immediate sync](immediate-sync-spec.md) spec — timing instrumentation, a retry for
+> **Prerequisite:** the [Immediate sync](../implemented/immediate-sync-spec.md) spec — timing instrumentation, a retry for
 > syncs that lose a GitHub commit race, and an Apps Script trigger that
 > syncs straight away. Both delivery designs need it, and it is useful on
 > its own. Build it first; §0 lists what to check for.
@@ -60,7 +60,7 @@ every 10s. Control Center also calls `POST /sync/:day` for a full resync and
 `POST /sync/:day/live` for the Live/Hide override (§5).
 
 **Prerequisite check.** Confirm these exist before starting; if any is
-missing, build the [Immediate sync](immediate-sync-spec.md) spec first:
+missing, build the [Immediate sync](../implemented/immediate-sync-spec.md) spec first:
 
 | What | Where to look |
 |---|---|
@@ -349,7 +349,7 @@ The existing GitHub write is protected by accident: `GitHubPublisher.publish()`
 passes the `sha` it read, and GitHub rejects a stale write with `409 Conflict`.
 Today the losing sync fails loudly and its data lands only on that
 facility's next edit — all four failed syncs at Pickle for Sight were this.
-The [Immediate sync](immediate-sync-spec.md) spec (this spec's step 0) makes the loser re-read, re-merge and
+The [Immediate sync](../implemented/immediate-sync-spec.md) spec (this spec's step 0) makes the loser re-read, re-merge and
 retry instead. The R2 path must keep
 that guarantee, which is what the conditional pointer write below does.
 
@@ -515,7 +515,7 @@ comment says it can fire up to roughly a minute late. That delay sits in front
 of everything R2 speeds up, so without fixing it this project cannot reach its
 ~5–7s target.
 
-**The fix is its own spec, [Immediate sync](immediate-sync-spec.md)** — timing instrumentation, a retry
+**The fix is its own spec, [Immediate sync](../implemented/immediate-sync-spec.md)** — timing instrumentation, a retry
 for syncs that lose a GitHub commit race, and a lock-based trigger that
 syncs straight from the edit. It is independent of the delivery store:
 build it first, then this spec. Its `edit→request` numbers also settle §1
@@ -759,7 +759,7 @@ Step 0 comes first and ships on its own. Steps 1–11 are inert until 12–15
 ship. Steps 12–15 work with either Apps Script trigger. Nothing here requires
 a flag day.
 
-0. The [Immediate sync](immediate-sync-spec.md) spec, all of it (§7). Re-measure
+0. The [Immediate sync](../implemented/immediate-sync-spec.md) spec, all of it (§7). Re-measure
    before continuing: if Pages is no longer the largest term, stop and
    re-scope
 1. Add the domain to Cloudflare as a zone

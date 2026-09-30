@@ -30,7 +30,7 @@ progress.
 
 ## What this plan does
 
-Steps 1 and 2 are their own spec, [Immediate sync](immediate-sync-spec.md),
+Steps 1 and 2 are their own spec, [Immediate sync](../implemented/immediate-sync-spec.md),
 built first: they speed up and repair today's system on their own, and the
 R2 plan needs them too. Steps 3–5 are this plan.
 

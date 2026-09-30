@@ -1,12 +1,19 @@
 # Spec — Immediate sync
 
-> **Status: not started.** Nothing here is built. Written 2026-10-01 against
-> `sage-tools-api` 2.2.0 and `scripts/sheets-sync.gs` as of that date.
+> **Status: implemented.** Part 1 shipped in `sage-tools-api` 2.3.0 with
+> the Control Center `edit→sync` figure; Part 2 is in `scripts/sheets-sync.gs`
+> and runs in the Piggleball workbook, measured there on 1 October 2026 (see
+> [Sync pipeline](../../technical/sync-pipeline.md#measured-the-lock-based-sync)).
+> One divergence: a minimum gap between syncs, `SYNC_MIN_GAP_MS` (§4.3
+> notes). Not yet run from §5: the paused-workbook check and the
+> multi-workbook and multi-event collision checks, which need more than one
+> workbook; `scripts/verify-sync-merge.mjs` covers the retry they exercise.
+> Written 2026-10-01 against `sage-tools-api` 2.2.0.
 >
 > **Stands alone.** Build this on its own; it makes today's GitHub-based
 > pipeline faster and stops it losing updates. It is also the prerequisite
-> for both delivery designs, [Live push delivery](durable-object-push-spec.md)
-> and [Fast data delivery](fast-data-delivery-spec.md), which build on the
+> for both delivery designs, [Live push delivery](../not-started/durable-object-push-spec.md)
+> and [Fast data delivery](../not-started/fast-data-delivery-spec.md), which build on the
 > code this spec adds.
 
 Make a facility sheet's edit reach Cloud Run within about two seconds instead
@@ -634,8 +641,8 @@ workbooks. To undo Part 1, revert the commit and push.
 
 ## 8. What the delivery specs build on
 
-[Live push delivery](durable-object-push-spec.md) and
-[Fast data delivery](fast-data-delivery-spec.md) both assume this spec is
+[Live push delivery](../not-started/durable-object-push-spec.md) and
+[Fast data delivery](../not-started/fast-data-delivery-spec.md) both assume this spec is
 built. They rely on, by name:
 
 - `facilities[].lastEditAt` and the `timing` object in the sync response;

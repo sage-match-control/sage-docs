@@ -8,7 +8,7 @@
 > [Fast data delivery](fast-data-delivery-spec.md) (Cloudflare R2 behind a
 > CDN, pointer polling). Build one, not both.
 >
-> **Prerequisite:** the [Immediate sync](immediate-sync-spec.md) spec — timing instrumentation, a retry for
+> **Prerequisite:** the [Immediate sync](../implemented/immediate-sync-spec.md) spec — timing instrumentation, a retry for
 > syncs that lose a GitHub commit race, and an Apps Script trigger that
 > syncs straight away. It is written separately because it is useful on
 > its own and both delivery designs need it. Build it first.
@@ -68,7 +68,7 @@ Pages poll https://sage-match-control.github.io/event-data/<event-key>/data/<day
 every 10s (POLL_INTERVAL_MS), paused while the tab is hidden
 ```
 
-Once the [Immediate sync](immediate-sync-spec.md) spec is built, the first
+Once the [Immediate sync](../implemented/immediate-sync-spec.md) spec is built, the first
 step is different: `onEditInstallable` syncs straight from the edit under a
 document lock (`syncUntilSettled_`) instead of scheduling a time-based
 trigger. Nothing else in the flow above changes.
@@ -130,7 +130,7 @@ resyncs colliding with a facility sync (06:44:41, 09:58:22). None lost data
 that day, but a collision **between two facilities** loses the loser's
 update until someone edits that facility's sheet again — minutes, if it was
 a match's final score. With three facilities, expect a handful a day, more
-as syncs get faster. The [Immediate sync](immediate-sync-spec.md) spec fixes it for today's GitHub path (its
+as syncs get faster. The [Immediate sync](../implemented/immediate-sync-spec.md) spec fixes it for today's GitHub path (its
 §3.3 and §4.3), and Phase 2 here keeps the same guarantee for the Durable
 Object (§6.5).
 
@@ -171,7 +171,7 @@ its own:
 
 | Phase | What | Where | Ships as |
 |---|---|---|---|
-| — | **Prerequisite:** [Immediate sync](immediate-sync-spec.md) — timing, commit-conflict retry, lock-based Apps Script sync | `sage-tools-api`, `sheets-sync.gs`, `control-center.html` | Its own spec |
+| — | **Prerequisite:** [Immediate sync](../implemented/immediate-sync-spec.md) — timing, commit-conflict retry, lock-based Apps Script sync | `sage-tools-api`, `sheets-sync.gs`, `control-center.html` | Its own spec |
 | 1 | Worker + Durable Object | `sage-tools-api/live-worker/` | `wrangler deploy` (manual) |
 | 2 | Cloud Run publishes to the object | `sage-tools-api/src/` | Minor version bump |
 | 3 | Pages subscribe | `sage-match-control.github.io` | Site commit |
@@ -185,7 +185,7 @@ an event or rehearsal before starting Phase 1.
 ## 4. Prerequisite — Immediate sync
 
 Everything this spec builds on is in the
-[Immediate sync](immediate-sync-spec.md) spec. Confirm each of these exists
+[Immediate sync](../implemented/immediate-sync-spec.md) spec. Confirm each of these exists
 in the code before starting Phase 1; if any is missing, build that spec
 first:
 
@@ -511,7 +511,7 @@ Worker and the status.
 
 ### 6.3 `GitHubPublisher.publish` — status on errors
 
-Already done by the [Immediate sync](immediate-sync-spec.md) spec (its §3.3): a failed PUT throws an error carrying
+Already done by the [Immediate sync](../implemented/immediate-sync-spec.md) spec (its §3.3): a failed PUT throws an error carrying
 `status`, so `409 Conflict` can be told apart from other failures.
 
 ### 6.4 `SyncService` — constructor
@@ -624,7 +624,7 @@ score edit. **Force hidden must work through the push path.**
 
 ### 6.7 Extend `scripts/verify-sync-merge.mjs`
 
-The [Immediate sync](immediate-sync-spec.md) spec created the script (its §3.3). Add a fake `LivePublisher` holding
+The [Immediate sync](../implemented/immediate-sync-spec.md) spec created the script (its §3.3). Add a fake `LivePublisher` holding
 `{version, snapshot}` that can be told to return `409` once or to throw,
 keep its eight scenarios passing, and add:
 
@@ -922,7 +922,7 @@ triggers, and what its measurements show).
 
 **Prerequisite**
 
-- [ ] The [Immediate sync](immediate-sync-spec.md) spec's acceptance
+- [ ] The [Immediate sync](../implemented/immediate-sync-spec.md) spec's acceptance
       checklist passed when it shipped, and §4's table above holds.
 
 **Worker (Phase 1)**
@@ -963,7 +963,7 @@ triggers, and what its measurements show).
 
 ## 12. Rollout order and rollback
 
-1. The [Immediate sync](immediate-sync-spec.md) spec, shipped and measured
+1. The [Immediate sync](../implemented/immediate-sync-spec.md) spec, shipped and measured
    at an event or rehearsal.
 2. Phase 1: deploy the Worker; run `smoke.mjs`.
 3. Phase 2: deploy with `LIVE_PUSH_URL` unset; then set it. GitHub still

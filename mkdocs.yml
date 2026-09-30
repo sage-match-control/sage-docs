@@ -93,6 +93,7 @@ nav:
           - CLSO Pickle for Sight: specs/implemented/pickle-for-sight-spec.md
           - Facility progress: specs/implemented/facility-progress-spec.md
           - Event attendance: specs/implemented/event-attendance-spec.md
+          - Immediate sync: specs/implemented/immediate-sync-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
           - Team tournament: specs/in-progress/pickledrive-club-anniversary-team-tournament-spec.md
@@ -101,7 +102,6 @@ nav:
           - Overview: specs/not-started/README.md
           - Attendance for every event: specs/not-started/multi-event-attendance-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
-          - Immediate sync: specs/not-started/immediate-sync-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
           - Live push delivery: specs/not-started/durable-object-push-spec.md

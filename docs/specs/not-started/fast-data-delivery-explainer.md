@@ -33,7 +33,7 @@ that Google fires "about" three seconds after an edit, but sometimes much
 later. Nobody has measured how late yet. If it's often 20–60 seconds, R2 alone
 can't reach its target. So the first step of either plan is to measure that
 delay and replace the delayed trigger with one that syncs straight away. That
-work has its own spec, [Immediate sync](immediate-sync-spec.md), which both
+work has its own spec, [Immediate sync](../implemented/immediate-sync-spec.md), which both
 plans build on.
 
 ## The two mechanisms

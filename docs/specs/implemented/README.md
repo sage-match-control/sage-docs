@@ -16,6 +16,7 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | --- | --- |
 | [Runtime-fetched sync config](sync-config-runtime-spec.md) | `SyncConfigStore` fetching `event-data/config/events.json` at runtime |
 | [Sync script configuration](sync-script-configuration-spec.md) | `sheets-sync.gs`'s **SAGE → Set up live sync** and Script Properties |
+| [Immediate sync](immediate-sync-spec.md) | `sheets-sync.gs`'s lock-based sync from the edit, `SyncService`'s commit-conflict retry, `X-Edit-At` / `lastEditAt` timing, and Control Center's `edit→sync` figure |
 | [Match Control console](match-control-console-spec.md) | `tools/control-center.html` |
 | [Awards tab](awards-podium-tab-spec.md) | The console's podium tab and PNG export |
 | [Schedule screen](schedule-screen-spec.md) | `events/<key>/schedule.html`, since backported into both templates |

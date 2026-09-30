@@ -436,14 +436,14 @@ Measured at Pickle for Sight (27 September 2026): Cloud Run's sync takes
 **1.6s** (p50), and GitHub Pages takes **25s** (p50) / **52s** (p90) from the
 data commit to a finished deploy — longer in busy stretches, because each
 new commit cancels the build in progress. With the poll, a score typed into
-a sheet reaches a viewer in roughly **35–40 seconds**, plus however long the
-Apps Script time-based trigger takes to fire, which is not yet measured.
+a sheet reaches a viewer in roughly **35–40 seconds** once it is published.
+The edit itself reaches publication in about 2–6 s (see
+[Measured: the lock-based sync](#measured-the-lock-based-sync)).
 
-**Not yet built:** [Immediate sync](../specs/not-started/immediate-sync-spec.md)
-replaces the delayed Apps Script trigger with a sync straight from the edit,
-records how long each step takes, and retries a sync that loses a GitHub
-commit race instead of dropping it. On top of that, two alternative specs
-cut the GitHub Pages wait:
+[Immediate sync](../specs/implemented/immediate-sync-spec.md) is the spec
+behind the sync straight from the edit, the timing, and the commit-conflict
+retry described above. **Not yet built:** two alternative specs that cut the
+GitHub Pages wait:
 [Live push delivery](../specs/not-started/durable-object-push-spec.md) has a
 Cloudflare Durable Object push each snapshot to open pages over WebSockets
 (~2–5s), and [Fast data delivery](../specs/not-started/fast-data-delivery-spec.md)

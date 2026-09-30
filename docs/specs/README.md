@@ -61,6 +61,11 @@ to the `...` form rather than repointing it.
 - **[Sync script configuration](implemented/sync-script-configuration-spec.md)**
   — why `sheets-sync.gs` keeps its per-workbook config in Script Properties,
   and the validation the setup dialog runs before saving it.
+- **[Immediate sync](implemented/immediate-sync-spec.md)** — every sync
+  measured from the edit, a sync that loses a GitHub commit race re-read and
+  retried instead of dropped, and Apps Script syncing straight from the edit
+  under a document lock instead of a delayed trigger. Both delivery specs
+  build on it.
 
 ### Control Center
 
@@ -160,11 +165,6 @@ to the `...` form rather than repointing it.
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger
   is tested too.
-- **[Immediate sync](not-started/immediate-sync-spec.md)** — measure every
-  sync from the edit, retry a sync that loses a GitHub commit race instead
-  of dropping it, and have Apps Script sync straight from the edit under a
-  lock instead of a delayed trigger. Stands alone, and both delivery specs
-  below build on it.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling. One of two alternatives.
