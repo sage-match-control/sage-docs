@@ -87,8 +87,8 @@ archive commit and for the fallback when R2 is unreachable.
 
 The dominant measured term today is the GitHub Pages rebuild (p50 25s, p90
 52s), which R2 removes entirely. The poll-interval change is worth a further
-~3.5s on average. The Apps Script trigger's own delay is unmeasured and may be
-as large as the Pages build — R2 does nothing about it, which is why §7's
+~3.5s on average. The Apps Script trigger's own delay measured a median of ~74s (up to ~2 min) and is
+larger than the Pages build — R2 does nothing about it, which is why §7's
 prerequisite exists.
 
 **The custom domain is not cosmetic — it is what makes this affordable.** See
@@ -108,7 +108,7 @@ commit message.
 
 | # | Check | Why it blocks |
 |---|---|---|
-| 1 | **Measure the real latency split** — time an edit through debounce → sync → Pages deploy → client poll | **Partly done** (table below). The Apps Script leg is still unmeasured. If it dominates, §7 alone captures most of the win for a fraction of the work, and this project should be re-scoped or dropped |
+| 1 | **Measure the real latency split** — time an edit through debounce → sync → Pages deploy → client poll | **Partly done** (table below). The Apps Script leg measured a median of ~74s, so it dominates: §7 alone captures most of the win for a fraction of the work, and this project should be re-scoped or dropped |
 | 2 | **Confirm R2 supports `If-Match` / `If-None-Match` on `PutObject`** for this account, against the live bucket | **Hard gate.** Without conditional writes, §5 causes silent data loss. If unavailable, do not implement §6.3 — keep the merge-forward read on GitHub, where its `sha` CAS still applies, and accept the slower read |
 | 3 | **Confirm the Cache Rule actually caches the pointer** — fetch it twice through the custom domain and check for `cf-cache-status: HIT` | **Hard gate, and silent if wrong.** Cloudflare does not cache JSON by default. Without a working Cache Rule every client poll becomes a billed origin read and cost scales with viewers × time instead of staying flat (§9.4). Everything still *works*, which is why this must be checked explicitly rather than assumed |
 | 4 | **Confirm a suitable domain is available** as a zone in the same Cloudflare account | R2 custom domains require it; `r2.dev` is not an acceptable substitute — it is rate-limited and cannot carry Cache Rules, which forfeits check 3 entirely (§9.1) |
@@ -121,7 +121,7 @@ runs of `sage-match-control/event-data`, commit to completed deploy:
 
 | Leg | p50 | p90 | max | Source |
 |---|---|---|---|---|
-| Apps Script: edit → `runIfSettled` fires | ? | ? | ? | Each workbook's **Executions** page — kept only about a week |
+| Apps Script: edit → `runIfSettled` fires | 74s | 119s | 119s | Piggleball Executions page, 1 Oct 2026, five bursts (22–119s). See `technical/sync-pipeline.md` § Baseline |
 | Cloud Run `POST /sync/:day` (264 Apps Script calls) | 1.6s | 1.85s | 19s | `gcloud logging read`, `httpRequest.latency` |
 | GitHub commit → Pages deploy done (287 builds, 46 cancelled by a newer push) | 25s | 52s | 82s | `GET /repos/sage-match-control/event-data/actions/runs` |
 | Client poll | 5s | 10s | 10s | `POLL_INTERVAL_MS = 10000` |

@@ -83,6 +83,30 @@ signed in; inner double quotes escaped as `\"`):
 gcloud logging read 'resource.type=cloud_run_revision AND resource.labels.service_name=sage-tools-api AND textPayload:\"timing edit\"' --freshness=1d --format='value(timestamp,textPayload)' --project=sage-tools-api
 ```
 
+#### Baseline: the time-based trigger
+
+Before the lock-based sync, `sheets-sync.gs` scheduled a one-shot
+`.timeBased().after(DEBOUNCE_MS)` trigger (`runIfSettled`) from every edit.
+Measured on the Piggleball workbook on 1 October 2026 (five bursts, from the
+Executions page: start of the last `onEditInstallable` to start of the
+`runIfSettled` that followed):
+
+| Burst | Delay |
+| --- | --- |
+| single edit | 119 s |
+| single edit | 70 s |
+| 3 edits | 74 s |
+| 19 edits | 22 s |
+| 6 edits | 108 s |
+
+That is a median of about 74 s against the 3 s intended, and up to about two
+minutes before the sync even started. Each `onEditInstallable` run took
+1.3–3.3 s, mostly deleting and recreating triggers. Edits running in
+parallel raced on that delete-and-create and left a stray trigger: the
+19-edit burst produced a second `runIfSettled` about a minute after the
+first, which is the same workbook syncing twice. The lock-based sync
+replaces all of this.
+
 ### Facility completion
 
 Each facility in a published snapshot carries `syncedAt` (restamped on every

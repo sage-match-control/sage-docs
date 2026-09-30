@@ -19,7 +19,7 @@ steps were:
 
 | Step | Typical | Bad case |
 |---|---|---|
-| Google Apps Script notices the edit and starts the sync | not measured yet | possibly up to a minute |
+| Google Apps Script notices the edit and starts the sync | ~74s (up to ~2 min) | ~2 min |
 | Our server (Cloud Run) reads the sheet and saves the result | 1.6s | ~2s |
 | GitHub Pages rebuilds the site with the new file | 25s | 52–82s |
 | The page checks for new data (every 10s) | 5s | 10s |

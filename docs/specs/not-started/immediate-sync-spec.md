@@ -121,7 +121,7 @@ event that day):
 
 | Leg | p50 | p90 | max | Source |
 |---|---|---|---|---|
-| Apps Script: edit → `runIfSettled` fires | ? | ? | ? | Not measured. The code's own comment says `.after()` can fire up to ~1 min late. Part 1 measures it; Part 2 removes the wait |
+| Apps Script: edit → `runIfSettled` fires | 74s | 119s | 119s | Piggleball Executions page, 1 Oct 2026, five bursts (22–119s). See `technical/sync-pipeline.md` § Baseline |
 | Cloud Run `POST /sync/:day` (264 Apps Script calls) | 1.6s | 1.85s | 19s | Cloud Run request logs |
 | GitHub commit → Pages deployed (287 builds, 46 cancelled by newer pushes) | 25s | 52s | 82s | `event-data` Actions runs |
 | Page poll | 5s | 10s | 10s | `POLL_INTERVAL_MS = 10000` |
