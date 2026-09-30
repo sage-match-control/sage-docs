@@ -31,6 +31,11 @@
 > places: `PAIRS` in `index.html` and in Control Center's team block, and
 > `PAIR_SHORT` in `schedule.html`.
 >
+> **MXD on this event's pages.** PickleDrive's own `index.html` and
+> `schedule.html` abbreviate Mixed Doubles as **MXD** (so **MXD 1**,
+> **MXD 2**), at the organiser's request. Control Center keeps **XD** on
+> purpose: it serves every team event, so the difference is deliberate.
+>
 > **Ranking (replaces §4.2's quotient-only rule and D1).** The organiser's
 > tiebreakers rank each bracket: (1) points scored, (2) quotient,
 > (3) head-to-head points among the teams still level, (4) pair wins in the
