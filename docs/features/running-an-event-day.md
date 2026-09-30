@@ -39,8 +39,9 @@ links to its full section below.
 4. Click **Check connection** — confirms everything's reachable before a
    single match depends on it.
 5. Click **Resync this day now** — pulls a fresh copy of the schedule and
-   doubles as a check that each venue's spreadsheet is actually wired up
-   correctly before play starts.
+   confirms each venue's spreadsheet can be read. It doesn't prove the
+   spreadsheet sends its own updates: that only shows once the first real
+   edit in **Court Control** appears on the site without a resync.
 6. Confirm **Facility sync status** shows a fresh "Synced" for every venue
    this event uses.
 7. Open each venue's **Google Sheet** — the link sits right on its row in

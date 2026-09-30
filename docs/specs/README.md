@@ -156,6 +156,10 @@ to the `...` form rather than repointing it.
 - **[Attendance for every event](not-started/multi-event-attendance-spec.md)**
   — idea only: move attendance writes into `sage-tools-api`, keyed by the
   event registry, so no workbook needs its own Apps Script web app.
+- **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
+  only: run the Control Center runbook's rehearsal with one command,
+  including Puppeteer editing the real facility sheet so the onEdit trigger
+  is tested too.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling.
