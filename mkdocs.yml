@@ -104,6 +104,7 @@ nav:
       - Not started:
           - Overview: specs/not-started/README.md
           - Attendance for every event: specs/not-started/multi-event-attendance-spec.md
+          - Site test suite: specs/not-started/site-test-suite-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - sage-tools-api test suite: specs/not-started/sage-tools-api-test-suite-spec.md
           - sage-tools-api architecture hardening: specs/not-started/sage-tools-api-architecture-spec.md

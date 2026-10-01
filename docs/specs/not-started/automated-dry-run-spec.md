@@ -93,7 +93,7 @@ that each run on their own:
 | Layer | Does | Touches the live workbook? |
 | --- | --- | --- |
 | **Preflight** | `GET /ping` (version, config sha), `GET /sync/config` (event and day registered), `POST /sync/:day`, every facility in the snapshot recently synced, go-live state | No |
-| **Rendering** | Builds a fixture from the real snapshot with matches A/B/C applied, opens the console and public pages on localhost with `?fixture=`, asserts the runbook's §1.2–§1.3 checks against the real pages | No |
+| **Rendering** | Builds a fixture from the real snapshot with matches A/B/C applied, opens the console and public pages on localhost, and runs the [site test suite](site-test-suite-spec.md)'s runbook checks on them (`_tests/checks/runbook.mjs`) | No |
 | **Rehearsal** | Drives the real facility sheet in Puppeteer: records originals, makes the three edits, waits for the snapshot to change, runs the rendering checks against live data, then restores | **Yes** |
 
 Rendering assertions run against the real console code, never a Node
@@ -102,6 +102,15 @@ exist twice, and a checker must not become a third copy.
 
 With the rehearsal layer in place, the runbook's Part 1 shrinks to whatever
 the script can't cover.
+
+**The rendering layer is shared with the [site test suite](site-test-suite-spec.md)**
+(its §2). That suite owns the browser harness (Playwright, with the page's
+data URLs answered in the browser rather than through `?fixture=`, which only
+the console and PickleDrive's pages support), the runbook checks, and committed
+A/B/C fixtures per event type. This script contributes only the fixture
+generated from the real snapshot, and calls the same checks. That suite has no
+blocking spikes and is built first. Whether the rehearsal layer also moves
+from Puppeteer to Playwright is decided with the spikes in §4.
 
 ## 4. Before the full implementation
 
@@ -138,4 +147,5 @@ Then, before writing the full spec:
 - Should the rehearsal layer refuse to run once the day is live (`auto` past
   its go-live time, or `true`)?
 - Does the rendering layer need its own fixtures committed per event, or are
-  they always generated fresh and discarded?
+  they always generated fresh and discarded? (The site test suite commits
+  fixtures per event **type**; per-event ones would be this script's.)

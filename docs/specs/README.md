@@ -181,10 +181,15 @@ to the `...` form rather than repointing it.
   after the test suite: SOLID-aligned structure for the sync code, one error and
   config path, `/v1` resource-style routes with every existing URL kept, and a
   cleaner folder layout. `/ping` unchanged.
+- **[Site test suite](not-started/site-test-suite-spec.md)** — Control
+  Center and the current event pages tested in a real browser on fixture
+  data, with every hand-copied rule (the live channel block, played/BYE, the
+  team-event rules, go-live) checked across its copies. No page changes. It
+  provides the dry run's rendering layer.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger
-  is tested too.
+  is tested too. Its rendering checks come from the site test suite.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling. **Superseded** by Live push

@@ -645,7 +645,7 @@ dependency patch bump. The Changelog entry says so (§9.5).
 | Moved or renamed module | its test file moved with `git mv` to mirror the new path |
 | A new call to GitHub, Google Sheets or the Worker, or a change in how one is called | `fakeWorld.mjs` taught the new behaviour, with its own case in `fakeWorld.test.mjs`, before the pipeline test that uses it |
 | A new `throw` or error class | a test that reaches it, and its status in `errors.test.mjs` |
-| A change to the "played" or "BYE" rule | `facilityCompletion.test.mjs`, and the console's copy in `control-center.html` (root `CLAUDE.md`, "kept in sync by hand") |
+| A change to the "played" or "BYE" rule | `facilityCompletion.test.mjs`, and the console's copy in `control-center.html` (root `CLAUDE.md`, "kept in sync by hand"); the [site test suite](site-test-suite-spec.md)'s `played-bye` parity test runs both copies on the same cases |
 | A change to a template, a scoresheet type or an `@openapi` block | `npm run test:snapshots`, and the reviewed `.snapshot` diff committed with it (§3.5 rule 7) |
 | A new folder under `src/` that the §3.2 thresholds should cover | its `test:coverage:<folder>` script, added to `test:coverage` |
 | Coverage drops below a threshold | more tests, not a lower threshold |
