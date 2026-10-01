@@ -92,9 +92,10 @@ a minute.
 | A team event's `STANDINGSCSV` is `teamCode,teamName,totalPoints,…` with **no player columns**. Its players are in a tab named **`Teams`**, one row per player. The name is in the column headed **`FINAL LEVEL ORDER`** (confirmed by the owner). The other headers include `Team Code`, `Team Name`, `LEVEL`, `Gender` | PickleDrive's workbook |
 | Google's gviz CSV export can return a column **empty** when it guesses that column's type wrongly. PickleDrive's `NAMES` column comes back empty that way. The Sheets API (`values.get`) does not do this | observed 2026-10-02 |
 | Pickle for Sight's `attendance.gs` skips standings rows whose code doesn't match `^[A-Z0-9]+_\d+$` (playoff-seat rows like `HIMD_QF_1` repeat names), and names that equal the team code | `scripts/attendance.gs:78-97` |
-| Control Center: view tabs are `<button class="view-tab" data-view="…">` in `#viewTabsWrap`. The **Awards** view (`data-view="awards"`, container `#awardsResults`) is the pattern to copy. The operator token lives in `sessionStorage` under `sage.authToken`, read with `currentAuthToken()`. API calls use `CLOUD_RUN_BASE_URL`. The selected event's raw `events.json` entry is in `EVENTS_REGISTRY.get(CURRENT_EVENT_KEY)`, and its type is `CURRENT_TYPE` | `tools/control-center.html` lines ~2406, 2635, 2736, 6686 |
-| On `localhost`, Control Center's `?fixture=<name>` loads `/_fixtures/config.json` and `/_fixtures/<event>/<name>.json` instead of the published data (`const FIXTURE`) | `tools/control-center.html:2603-2615` |
-| Cloud Run's URL `sage-tools-api-811926984834.us-central1.run.app` puts the project **number** at `811926984834`. The project **ID** is not recorded anywhere in the repos | `tools/control-center.html:2562` |
+| Control Center: view tabs are `<button class="view-tab" data-view="…">` in `#viewTabsWrap`, in the order Mission Control, Awards, Live Matches, Match Finder, Standings. The console opens on Mission Control. **`showView(view)` is the one place that switches views**: it marks the tab active, shows that view's container and hides the rest, and renders it. Sign in is at the top of Mission Control. The operator token lives in `sessionStorage` under `sage.authToken`, read with `currentAuthToken()`. API calls use `CLOUD_RUN_BASE_URL`. The selected event's raw `events.json` entry is in `EVENTS_REGISTRY.get(CURRENT_EVENT_KEY)`, and its type is `CURRENT_TYPE` | `tools/control-center.html`; find each by name (`grep -n`), not by line number |
+| Control Center shows outcomes two ways. **`showToast(kind, text, key)`** (`kind` is `ok`, `warn`, `error` or `loading`) for short outcomes, pinned to the bottom of the screen, a later toast with the same `key` replacing the last. **`showResultRows(box, kind, title, rows)`** for results worth reading, as labelled rows in a box right under the button, scrolled into view (`rows: [{ label, value, kind?, list? }]`). **`friendlyApiMessage(raw)`** turns an API error string into plain words, including any `HTTP <status> <json>` inside it. **No raw JSON is ever shown** | `tools/control-center.html`, the "Showing outcomes" and "Readable API messages" blocks |
+| On `localhost`, Control Center's `?fixture=<name>` loads `/_fixtures/config.json` and `/_fixtures/<event>/<name>.json` instead of the published data (`const FIXTURE`) | `tools/control-center.html`, `const FIXTURE` |
+| Cloud Run's URL `sage-tools-api-811926984834.us-central1.run.app` puts the project **number** at `811926984834`. The project **ID** is not recorded anywhere in the repos | `tools/control-center.html`, `const CLOUD_RUN_BASE_URL` |
 
 ### 0.5 Glossary
 
@@ -435,6 +436,11 @@ instead (§4.6), so the API never inserts, deletes or moves a row.
   with `<email>` from `accessToken.email()`, or "the API's service account" when
   that is null.
 - Any other non-2xx throws `UpstreamError("Google Sheets: HTTP <status> <message>")`.
+- `<message>` is always words, never the raw body: Google's error body is
+  JSON (`{ "error": { "code", "message", "status" } }`), so take
+  `error.message`. If the body isn't JSON or has no message, use the HTTP
+  status text alone. Every error the attendance routes return is a
+  sentence a person can read in Control Center or on the desk page.
 
 ### 4.6 Roster update (reconcile)
 
@@ -711,7 +717,7 @@ Every top-level name the block declares starts with `att`, `ATTENDANCE_`,
 declaration of the same name is a `SyntaxError` that takes the whole console
 down.
 
-`createAttendanceView({ root, mode /* "console" | "desk" */, apiBase, getToken, event, day, facilities /* [{ name, sheetId }] */, type, teamName /* code -> string|null */, categoryLabel /* code -> string */, fixture })`
+`createAttendanceView({ root, mode /* "console" | "desk" */, apiBase, getToken, event, day, facilities /* [{ name, sheetId }] */, type, teamName /* code -> string|null */, categoryLabel /* code -> string */, notify /* optional (kind, text) */, fixture })`
 renders into `root` and returns `{ refresh(), destroy() }`:
 
 - **Header:** a venue picker when there's more than one facility (remembered
@@ -745,11 +751,18 @@ renders into `root` and returns `{ refresh(), destroy() }`:
 - **Toggling** marks optimistically: the switch flips at once and shows
   `Saving…`, then calls `markPerson`. The person's key is added to a `saving`
   set, so a poll that lands meanwhile doesn't flip it back. On success the
-  stored values are applied. On failure the switch reverts and a message
-  appears: `Not saved (<player>): <error>`. On `403` the message adds `Ask
+  stored values are applied. On failure the switch reverts and the view
+  reports `Not saved (<player>): <error>`. On `403` the message adds `Ask
   the operator for a new desk link.`; on `401` it adds `Sign in again.`
   (console) or `This desk link has expired.` (desk). Toggling someone who
   appears in two categories updates both places, because they are one person.
+- **Where messages appear:** through `opts.notify(kind, text)` when the host
+  passes one, otherwise in the view's own status line, which sits inside the
+  sticky category bar so it is on screen wherever the list is scrolled.
+  Control Center passes `notify: (kind, text) => showToast(kind, text, 'attendance')`;
+  the desk page passes nothing. A network failure (`fetch` rejects) reads
+  `Couldn't reach the server. Check this device's connection.`; an API error
+  shows the response's `error` text as it is (§4.5 keeps it in words).
 - **Polling:** load on start, every `ATTENDANCE_POLL_MS` while
   `!document.hidden`, on `visibilitychange` to visible, and right after the
   page's own successful mark. A load that finishes after a newer load started
@@ -768,31 +781,44 @@ renders into `root` and returns `{ refresh(), destroy() }`:
 ### 6.2 Control Center: the **Attendance** tab
 
 - Add `<button class="view-tab" data-view="attendance" type="button" hidden>Attendance</button>`
-  after **Awards**, and a results container `<div id="attendanceResults">`
-  beside `#awardsResults`. Find every place the `awards` view is handled
-  (search for `awards` and `awardsResultsEl`) and add the `attendance`
-  equivalent.
+  directly after **Awards**, so the tabs read Mission Control, Awards,
+  Attendance, Live Matches, Match Finder, Standings. Add a results container
+  `<div id="attendanceResults" style="display:none;">` beside `#awardsResults`.
+- Wire it **in `showView(view)` only**: one line showing or hiding
+  `#attendanceResults`, like the other containers, and an `attendance` branch
+  that creates the view (below). Leaving the tab, which is any other
+  `showView` call, destroys it. The console still opens on Mission Control;
+  don't change `revealLiveTabsAfterLoad`.
 - Show the tab only when `EVENTS_REGISTRY.get(CURRENT_EVENT_KEY).attendance`
   is `"console"` or `"desks"`, and a day is selected. Re-check on event and
   day change. Hide it, and destroy any view, otherwise.
 - On entering the tab, `createAttendanceView({ root: <#attendanceResults list area>, mode: "console", apiBase: CLOUD_RUN_BASE_URL, getToken: currentAuthToken, event: CURRENT_EVENT_KEY, day: <selected day key>, facilities: <the day's facilities with sheetId from the registry entry>, type: CURRENT_TYPE, teamName: code => (CURRENT_TYPE === 'team' ? teamNameOf(code) : null), categoryLabel: code => categoryLabel(code), fixture: FIXTURE })`.
-  `teamNameOf` (line ~3361) and `categoryLabel` (line ~3110) are the
-  console's existing functions; reuse them, don't copy them into the block.
-  Destroy the view on leaving the tab.
-- Not signed in: show the list read-only, with `Sign in under Mission Control
-  to mark attendance.`, and switches disabled.
+  `teamNameOf` and `categoryLabel` are the
+  console's existing functions (find them by name); reuse them, don't copy
+  them into the block. Pass `notify` as in §6.1.
+- Not signed in: show the list read-only, with `Sign in at the top of
+  Mission Control to mark attendance.`, and switches disabled.
 
 ### 6.3 Control Center: operator extras (above the list, console mode only)
 
 - **Counts per facility:** `<venue>: <present> / <total>`.
 - **Update roster:** `POST /v1/days/{day}/attendance/reconciliations`, then
-  show each facility's result (`+3 added, 1 updated, 2 withdrawn` or its error)
-  and refresh.
+  refresh. Show the result with `showResultRows` in a box directly under the
+  button (`#attendanceRosterResult`), one row per facility: `ok` with
+  `3 added · 1 updated · 2 withdrawn` (`No changes` when all are zero,
+  `skipped` never applies to a manual update), or `error` with its message.
+  The box's kind is `ok`, `warn` (some facilities failed) or `error` (all
+  failed). Roster `warnings` (§3.4) add a `warn` row each. A request that
+  fails outright (`401`, network) is a toast via `showToast`, with the text
+  passed through `friendlyApiMessage`.
 - **Desk link** (only when the event's `attendance` is `"desks"`): calls
   `POST …/attendance/desk-links`, then shows the URL
   `https://sage-match-control.github.io/events/<event>/attendance?desk=<token>`
   with **Copy**, **Share** (`navigator.share` when available) and **Show QR**
-  (§6.6), plus `Valid until <date> 11:59 PM`.
+  (§6.6), plus `Valid until <date> 11:59 PM`, in a box directly under the
+  button. It's content to use, not a message, so it stays until the tab is
+  left. **Copy** confirms with a toast (`Link copied.`). A failure (desks
+  off, no date, day over, `401`) is a toast with the API's message.
 - **Needs attention** (collapsed when empty): `possibleDuplicates` pairs,
   `sameNameSameCategory` people, and a **Show withdrawn** toggle that passes
   `showWithdrawn` to the view. Each item says what to do: `Fix the spelling in
@@ -911,6 +937,13 @@ built yet. Until it is:
     reload; **All** with `Jump to…` scrolls to a section without filtering;
     the chip counts match the header's
   - search inside a filtered category narrows within it
+  - the tabs read Mission Control, Awards, Attendance, …; picking a day still
+    lands on Mission Control; switching away from Attendance and back
+    recreates the view without errors
+  - in the console, a failed mark (fixture mode: make `markPerson` reject
+    once) shows a toast; on the desk page it shows in the status line
+  - **Update roster**'s result appears as rows under the button, and no
+    message anywhere contains `{` or `HTTP 4`/`HTTP 5` followed by JSON
   - withdrawn people are hidden until **Show withdrawn**
   - the duplicate row is ignored
   - the desk page shows the desk-off message when the fixture config says

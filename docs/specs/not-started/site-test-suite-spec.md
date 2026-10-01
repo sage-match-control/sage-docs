@@ -411,12 +411,17 @@ fixture):
 | Area | Cases |
 |---|---|
 | Event and day | the registry's events and days are listed from `config`; picking one loads its snapshot URL (asserted in `page.requests`) |
+| Tabs and landing | the tabs read Mission Control, Awards, Live Matches, Match Finder, Standings, in that order; picking a day lands on **Mission Control** (its tab active, only `#organizerResults` shown); each tab shows only its own container; a later poll does not move the operator off the tab they chose |
+| Mission Control layout | top to bottom: Sign in, Facility sync status, **Resync this day now** directly under the venues, the CSV fallback checkbox and the one-facility row, the resync result box, **Check connection** and its own result box, Public site status, Sync method, Public pages (assert DOM order) |
 | Facility progress | `pre`: done 0 / left = total; `mid`: the counts from the fixture; `finished`: "All matches done", and with `completedAt` the actual end; a facility whose `syncedAt` is old on event day shows the stale warning; BYE matches are not counted |
 | Live Matches, Standings, Match Finder, Awards | the runbook checks (§5.4) on the `runbook` fixture, plus: every configured court shows a row; Awards reads "Pending" before any Final/Bronze is played and names finishers on `finished` |
-| Sign-in | a wrong password (router answers `401`) shows an error and no token is stored; a right one enables the operator controls |
-| Resync | posts `POST /sync/<day>` to `CLOUD_RUN_BASE_URL` with the bearer token (asserted in `page.requests`), and shows the result |
-| Live/Hide | choosing **false** opens the `confirm` prompt; dismissing it sends nothing; accepting it sends `POST /sync/<day>/live` with `{"isLive":false}`; **auto** and **true** send without a prompt |
-| Sync method | switching to GitHub only opens its `confirm` prompt and sends `POST /sync/live-push` `{"enabled":false}` only when accepted; **Check connection** shows the router's `/ping` version and the `live` block from `/sync/config` |
+| Sign-in | a wrong password (router answers `401`) shows an error **toast** reading "wrong username or password" and no token is stored; a right one shows a `Signed in until …` toast and enables the operator controls; **Sign out** shows a `Signed out.` toast |
+| Resync | posts `POST /sync/<day>` to `CLOUD_RUN_BASE_URL` with the bearer token (asserted in `page.requests`). The result appears in the box under the buttons, **scrolled into view**, as one labelled row per facility: `Synced`; `This attempt failed. Still showing its previous data.` (in `facilitiesStale`); `Failed. Nothing published for it yet.` (failed, not stale). Then a live-push row (`Pushed to open pages (version n)`, or its fallback with the reason), a GitHub archive row only when `archive.committed` is false, and `Took <n> s`. The box is `ok`, `warn` (some stale) or `error` (any hard failure). A `502` whose `error` is `Could not sync …: a; b` lists `a` and `b` as separate items. Not signed in, or no day: an error toast, and nothing is sent |
+| Live/Hide | choosing **false** opens the `confirm` prompt; dismissing it sends nothing; accepting it sends `POST /sync/<day>/live` with `{"isLive":false}`; **auto** and **true** send without a prompt. The outcome is a **toast**, not a box: a `loading` toast replaced by the result (one toast per action, same key), and the current-state line updates |
+| Sync method | switching to GitHub only opens its `confirm` prompt and sends `POST /sync/live-push` `{"enabled":false}` only when accepted; the outcome is a toast |
+| Check connection | the result appears in `#orgConnResultBox`, **directly under the button**, scrolled into view, as rows: Response time, Version (from the router's `X-App-Version`), Event registry (`events.json, version <sha>` for `<sha>/remote`; the fallback wording, as `warn`, for `seed/fallback`), and Live push (from `/sync/config`'s `live`) |
+| Toasts | stack at the bottom of the viewport (inside it at 375 × 812 and 1280 × 800, whatever the scroll position); at most three; a toast with the same key replaces the last; `ok` disappears after about 4.5 s and `error` after about 9 s (`clock.runFor`), and the close button removes one at once; an `error` toast has `role="alert"` |
+| Readable errors | for each of these router replies, the text on screen contains the words, never `{` or a raw `HTTP 4xx`/`HTTP 5xx` followed by JSON: a Google body (`HTTP 403 {"error":{"code":403,"message":"The caller does not have permission"}}` → "refused access (403) — The caller does not have permission"), a GitHub body (`{"message": …}`), a Worker body (`{"error":"unauthorized"}`), a bare `HTTP 500` ("Cloud Run had a server error (500)"), and `timed out after 8000ms` ("8 s"). Checked on resync, Live/Hide and sign-in |
 | Schedule board link | **Open schedule** opens `/events/<key>/schedule` (extensionless) |
 
 **Public pages and boards** (`pages/public.test.mjs`):
@@ -526,6 +531,8 @@ in the commit message.
 8. Drop the `confirm` before Live/Hide **false** in the console.
 9. Make the live channel ignore pushed snapshots.
 10. Leave `{{VENUE}}` in a page under `events/`.
+11. In the console, make `revealLiveTabsAfterLoad` land on Live Matches again,
+    or show a resync error's raw `body.error` without `friendlyApiMessage`.
 
 ---
 
@@ -651,7 +658,7 @@ against `main` shows no `.html` file.
 - [ ] `npm test --prefix _tests` passes on unmodified pages, on Node 22.23.3 or
       later, with no network access beyond `127.0.0.1` (test it offline).
 - [ ] Every case in §5 exists.
-- [ ] All ten sabotage breakages were caught (§7).
+- [ ] All eleven sabotage breakages were caught (§7).
 - [ ] `git diff --stat` against `main` shows no `.html` file, and nothing
       outside the files listed in §9's rule.
 - [ ] `pages.mjs` lists every `.html` file; the manifest guards pass and each
