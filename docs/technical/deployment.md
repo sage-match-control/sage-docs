@@ -93,6 +93,12 @@ failed step. `npx wrangler dev` runs the Worker locally on
 `http://localhost:8787`, reading secrets from `live-worker/.dev.vars`
 (git-ignored).
 
+Logs: `wrangler.jsonc` enables Workers Logs at 10 % sampling (one event per
+sampled request: URL, method, status; never headers or snapshot bodies), read in
+the Cloudflare dashboard under the Worker's **Logs**. It is included on the free
+plan within a daily event allowance and is dropped, not billed, beyond it.
+`npx wrangler tail` streams live requests for free without storing anything.
+
 **Never deploy the Worker during an event, or in the few days before one.** A
 deploy restarts every Durable Object and drops every WebSocket; pages
 reconnect on their own, but it is the live data path.
