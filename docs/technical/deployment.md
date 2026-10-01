@@ -34,7 +34,7 @@ The build/deploy trigger runs the equivalent of:
 gcloud run deploy sage-tools-api --source . --use-http2 --region us-central1 \
   --memory 2Gi --cpu 2 --timeout 900 --concurrency 4 --min-instances 0 \
   --allow-unauthenticated \
-  --service-account=sage-tools-api-runtime@<PROJECT_ID>.iam.gserviceaccount.com
+  --service-account=sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com
 ```
 
 — this exact command is kept as a comment at the top of the `Dockerfile`,
