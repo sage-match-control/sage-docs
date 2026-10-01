@@ -93,6 +93,12 @@ Use a **filter view**, not Sort, to rearrange the ATTENDANCE tab by hand.
 Anything you add in columns to the right of **withdrawn** (a `TShirt Size`
 column, say) is left alone, and shows beside each name.
 
+A tab the API creates also has a **Not yet in** list in column J: the names of
+everyone who is not yet in and not withdrawn, shrinking as people are marked.
+It is for the person running the workbook. A tab that already exists is left as
+it is, so put the formula in `J2` by hand there
+(`=IFNA(FILTER(TRIM(B2:B1000), E2:E1000=FALSE, G2:G1000=FALSE, B2:B1000<>""))`).
+
 The tab can be read by anyone who has the workbook's ID, so keep phone numbers
 and emails out of it.
 

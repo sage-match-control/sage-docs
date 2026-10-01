@@ -45,6 +45,12 @@ collapsed, lower-cased), the only definition of identity. `teams` and
 (Asia/Manila). Columns H onward belong to people; the API never reads or
 writes them.
 
+One exception to "never past G": when the API creates the tab it also writes a
+**Not yet in** list in column J (`J1` the header, `J2` a `FILTER` formula listing
+everyone neither present nor withdrawn). That write is fixed in
+`SheetsClient.createAttendanceTab` and entered as a formula; `updateValues`
+still refuses anything outside A to G. A tab that already exists is not changed.
+
 Cells are written with `valueInputOption: RAW`, and `present` and `withdrawn`
 are always booleans, so a column never mixes types (gviz's CSV export empties
 a column whose type it guesses wrongly). The API refuses to touch a tab whose

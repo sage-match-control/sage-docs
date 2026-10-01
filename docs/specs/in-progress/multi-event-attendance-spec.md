@@ -1229,6 +1229,11 @@ Built on the `attendance` branches. Where it departs from the text above:
 - **A tab that exists but is empty** (no header row) is an
   `AttendanceLayoutError`, as the header rule reads. Only a missing tab is
   created.
+- **A "Not yet in" list is written to column J of a new tab** (`J1` header,
+  `J2` a `FILTER` formula; `sage-tools-api` 2.6.1), as Pickle for Sight's
+  workbooks had by hand. §3.2's rule that the API never writes past G now has
+  this one exception, made only by `createAttendanceTab`; `updateValues`
+  still refuses column J.
 - **The package lock** still says 2.0.0 and was left alone.
 - **QR library:** cdnjs has `qrcode-generator` files only up to **1.4.4**, so that
   is the pinned version (SRI `sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1`).
