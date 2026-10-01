@@ -63,6 +63,11 @@ the one in the verifiable-draw spec.
   adds a group card; each card has a picker over the entered pairs not yet in a
   group, a chip per member, a status line, and a remove button. Editing the pair
   list drops members that no longer match and says so.
+- Each group can be renamed with a pencil beside its title (Enter saves, Escape
+  cancels, blank returns to "Group N", 40 characters). The name is a label only:
+  it never reaches the hash and is not part of the draw counter's input key. It
+  shows on the card, on the result tags (instead of `G1`), in refusal messages
+  and in the text export's group heading, which still begins `Group <n>`.
 - The draw is refused, before a seed is generated or the draw count moves, when a
   group has fewer than 2 members or more members than brackets.
 - The draw counter's input key includes the groups.

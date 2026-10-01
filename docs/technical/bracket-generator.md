@@ -15,7 +15,7 @@ brackets than you have pairs.
 
 ## Keep-apart groups
 
-`keepApartGroups` is UI state: a list of `{ members: [pair, ...] }`, each member
+`keepApartGroups` is UI state: a list of `{ name, members: [pair, ...] }`, each member
 picked from the entered pairs (never typed) so it always equals the string the
 draw hashes. Spec:
 [keep-apart groups](../specs/implemented/bracket-generator-keep-apart-spec.md).
@@ -41,10 +41,20 @@ Rules the code enforces:
   a bracket. It cannot fire while `orderForDraw` is correct; it is there so a
   later edit to either cannot publish a broken draw.
 - The groups are part of `inputKey`, so changing them resets the draw counter.
+  Their names are not: a name is a label and never reaches the hash.
+- A name (`''` means "Group N") is cleaned by `cleanGroupName`: whitespace
+  collapsed, trimmed, 40 characters at most. The pencil swaps just the name area
+  of the card (`refreshGroupName`), not the whole list, so a click on the
+  card's other buttons is not lost when the field blurs. Enter or leaving the
+  field saves, Escape cancels. Names go into the DOM only through
+  `escapeHtml` or `setAttribute`. `currentGroupNames` snapshots them at draw
+  time, like the category and event name.
 
 **Text export.** With groups, the `DRAW VERIFICATION` block lists the
-fingerprints group by group (`Group 1 (keep apart, 4 pairs)`, …, `Everyone
-else`) and the method and check instructions say groups are dealt first. The
+fingerprints group by group (`Group 1 (keep apart, 4 pairs)`, or
+`Group 1 "Top seeds" (keep apart, 4 pairs)` for a named one, …, `Everyone
+else`; a heading always starts with `Group <n>`, so no name can be read as the
+`Seed:` or `Draw:` line the importer looks for) and the method and check instructions say groups are dealt first. The
 `BRACKET` lines are never annotated: `SAGE → Import bracket draws` reads
 every numbered line under a `BRACKET` heading as a pair name. The image export
 only gains a count in its verification line. Result cards tag grouped pairs

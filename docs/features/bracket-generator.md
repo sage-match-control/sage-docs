@@ -32,8 +32,11 @@ bracket.
 2. Under **Keep apart**, press **+ Add a keep-apart group**, then choose the
    pairs from the **Add a pair…** list. Press × on a pair to take it out again.
 3. Add more groups if you need them. A pair can be in only one group.
-4. Draw as usual. Each group's pairs are tagged `G1`, `G2`… on the result
-   cards.
+4. To name a group (say "Top seeds" or "Club A"), press the pencil beside its
+   title, type the name and press Enter. Escape cancels, and clearing the name
+   goes back to "Group 2" and so on. Names are up to 40 characters.
+5. Draw as usual. Each group's pairs are tagged on the result cards with the
+   group's name, or `G1`, `G2`… if it has none.
 
 A group can't have more pairs than there are brackets, and needs at least two.
 The tool says so on the group and won't draw until it's fixed. If you edit or
@@ -41,7 +44,9 @@ remove a pair that is in a group, it drops out of the group and the group tells
 you. A pair entered on two lines can't be put in a group.
 
 Which of the group's pairs lands in which bracket is still decided by the seed,
-and the draw is just as checkable: the text export lists every group. Groups
+and the draw is just as checkable: the text export lists every group, by name
+if you gave it one. The names are only labels for you; they have no effect on
+the draw. Groups
 are dealt first, in the order they're numbered, then everyone else, so the
 sizes stay even (within one pair). When a group has fewer pairs than there are
 brackets, the last brackets get none of it. The brackets are otherwise
