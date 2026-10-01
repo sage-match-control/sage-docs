@@ -2,7 +2,8 @@
 
 How a score typed into a Google Sheet ends up on the public site, and how
 `sage-tools-api` knows which spreadsheets belong to which event without a
-redeploy.
+redeploy. [Live push delivery](#live-push-delivery) covers the last hop, from
+Cloud Run to open pages.
 
 ## The sheet → GitHub path
 
@@ -14,14 +15,23 @@ Facility Google Sheet
 POST /sync/:day?facility=<name>   (X-Sync-Secret header, or an operator's bearer token;
    |                               X-Edit-At header carries the edit time)
    |  SheetsCsvFetcher (default) or GvizCsvFetcher (?method=csv fallback)
-   |  merge with the currently-published snapshot — never drop a facility on failure;
-   |  re-read and re-merge on a 409 commit conflict (3 attempts)
+   |  read the day's snapshot + version from the live Worker (GitHub only if it holds none),
+   |  merge — never drop a facility on failure — and publish with expectedVersion;
+   |  re-read and re-merge on a 409 version conflict (3 attempts)
    v
-GitHub Contents API commit -> event-data/<event-key>/data/<day>.json
+Cloudflare Worker "sage-live": one Durable Object per <event>/<day>
+   |  stores {version, snapshot}; pushes every accepted publish to its WebSockets
+   |     +--> every open page, over wss://.../live/<event>/<day>
+   v
+GitHub Contents API commit -> event-data/<event-key>/data/<day>.json   (the archive)
    |  GitHub Pages redeploys on push (no cache-purge step)
    v
-Event page fetches https://sage-match-control.github.io/event-data/<event-key>/data/<day>.json
+A page with no open socket fetches https://sage-match-control.github.io/event-data/<event-key>/data/<day>.json
 ```
+
+With `LIVE_PUSH_URL` unset the Worker steps are skipped: the merge reads the
+file from GitHub and the commit is the publish. The same happens for a single
+sync whose Worker calls fail.
 
 Key pieces, in `sage-tools-api/src/sync/`:
 
@@ -32,7 +42,12 @@ Key pieces, in `sage-tools-api/src/sync/`:
   fetches each facility (in parallel, via `ConcurrencyPool`), merges results
   with whatever's already published (a facility that fails to fetch keeps
   its last-known-good data rather than vanishing from the snapshot), and
-  hands the result to the publisher.
+  hands the result to the publishers.
+- **`LivePublisher`** — the client for the live Worker: `read(event, day)`
+  returns the day's `{ version, snapshot }`, and `publish(event, day,
+  snapshot, expectedVersion)` answers `{ ok: true, version }` or, when
+  another publish got there first, `{ ok: false, conflict: true }`. It is
+  `enabled` only when both `LIVE_PUSH_URL` and `LIVE_PUSH_SECRET` are set.
 - **`GitHubPublisher`** — wraps the Contents API. Used both to publish a new
   snapshot and (shared with the config store below) to read
   `config/events.json`. A failed commit throws an error carrying the HTTP
@@ -60,6 +75,12 @@ again), then commits again; any other error, or a third `409`, is thrown.
 re-reading and re-applying their one change. The sync response carries
 `attempts`; each retry logs `commit conflict (attempt n/3)`.
 
+The live Worker has the same race: two syncs read version `n` and both publish
+with `expectedVersion: n`. The Durable Object answers the loser `409`, and the
+sync re-reads, re-merges and publishes again, up to 3 times, logging
+`live version conflict (attempt n/3)`. The merge that follows is against the
+snapshot that won, so neither facility's data is lost.
+
 ```bash
 node scripts/verify-sync-merge.mjs
 ```
@@ -72,11 +93,15 @@ facility-scoped sync records it as that facility's `lastEditAt` in the
 snapshot; a full resync carries the published value forward. Each sync logs
 
 ```
-timing edit→request=<n>ms fetch=<n>ms publish=<n>ms edit→published=<n>ms
+timing edit→request=<n>ms fetch=<n>ms publish=<n>ms live=<n>ms archive=<n>ms edit→published=<n>ms
 ```
 
-(`edit→…` read `n/a` for a manual sync, which sends no edit time) and returns
-the same figures as `timing`. To read them afterwards (PowerShell, `gcloud`
+(`edit→…` read `n/a` for a manual sync, which sends no edit time; `live` and
+`archive` read `n/a` when that step did not run) and returns the same figures
+as `timing`. `publish` runs from the first read to the end of the archive
+commit; `live` is the reads and publishes to the Worker, all attempts.
+`edit→published` is measured when the live publish succeeds, since that is
+when open pages see the edit, not after the archive. To read them afterwards (PowerShell, `gcloud`
 signed in; inner double quotes escaped as `\"`):
 
 ```
@@ -417,6 +442,11 @@ immediately republishes that day's snapshot with the new value stamped in
 since every sync re-reads `isLive` from the registry each time. See
 [Auth](auth.md) for the token vs. shared-secret distinction.
 
+The republish goes through the live Worker when live push is on (then is
+archived to GitHub), so pages holding a WebSocket hide or show the day within
+a second or two instead of waiting for the next score edit. If the Worker
+cannot be reached it is a GitHub commit, as without live push.
+
 ## Sheet tabs are addressed by name, not GID
 
 Both fetch paths address a facility's matches/standings tabs by name
@@ -425,31 +455,112 @@ Both fetch paths address a facility's matches/standings tabs by name
 per-workbook and doesn't carry over if a spreadsheet is ever duplicated
 from another event's.
 
-## Live delivery today, and a planned upgrade
+## Live push delivery
 
-Today, the client polls the published GitHub Pages snapshot directly on a
-10-second interval (`POLL_INTERVAL_MS`). The URL carries a `?t=` query
-param, but GitHub's CDN ignores query strings in its cache key; what keeps
-the data fresh is that Pages purges its cache on every deploy.
+Without push, a page polls the published GitHub Pages snapshot every 10
+seconds (`POLL_INTERVAL_MS`). Measured at Pickle for Sight (27 September
+2026), Cloud Run's sync takes **1.6s** (p50) but GitHub Pages takes **25s**
+(p50) / **52s** (p90) from the data commit to a finished deploy, longer in busy
+stretches because each new commit cancels the build in progress. With the poll,
+a score reached a viewer in roughly **35–40 seconds** once it was published,
+although the edit itself reaches publication in about 2–6 s (see
+[Measured: the lock-based sync](#measured-the-lock-based-sync)). Live push
+removes both the Pages build and the poll from the path: an edit reaches an
+open page in about **2–5 seconds**.
 
-Measured at Pickle for Sight (27 September 2026): Cloud Run's sync takes
-**1.6s** (p50), and GitHub Pages takes **25s** (p50) / **52s** (p90) from the
-data commit to a finished deploy — longer in busy stretches, because each
-new commit cancels the build in progress. With the poll, a score typed into
-a sheet reaches a viewer in roughly **35–40 seconds** once it is published.
-The edit itself reaches publication in about 2–6 s (see
-[Measured: the lock-based sync](#measured-the-lock-based-sync)).
+[Live push delivery](../specs/in-progress/durable-object-push-spec.md) is the
+spec; [Immediate sync](../specs/implemented/immediate-sync-spec.md) is the
+prerequisite it builds on.
 
-[Immediate sync](../specs/implemented/immediate-sync-spec.md) is the spec
-behind the sync straight from the edit, the timing, and the commit-conflict
-retry described above. **Not yet built:** two alternative specs that cut the
-GitHub Pages wait:
-[Live push delivery](../specs/not-started/durable-object-push-spec.md) has a
-Cloudflare Durable Object push each snapshot to open pages over WebSockets
-(~2–5s), and [Fast data delivery](../specs/not-started/fast-data-delivery-spec.md)
-puts Cloudflare R2 behind a CDN with pages polling a tiny pointer file every
-3 seconds (~5–7s). Both keep GitHub as archive and fallback. None of this is
-reflected in this doc site's architecture pages until it ships.
+### The Worker
+
+`sage-tools-api/live-worker/` is a Cloudflare Worker, `sage-live`, plus a
+Durable Object class, `DayChannel`: one object per `<event>/<day>`, holding
+`{ version, snapshot }`. The Cloud Run image never contains it, and it does not
+deploy on push — see [Deployment](deployment.md#live-worker-cloudflare).
+
+| Request | Auth | Response |
+| --- | --- | --- |
+| `GET /health` | none | `200 ok` |
+| `GET /live/<event>/<day>` (WebSocket upgrade) | `Origin` must be the site, localhost, or absent | `101`, then `{type:"snapshot"\|"empty"}` messages; `403` wrong origin, `426` no upgrade |
+| `GET /snapshot/<event>/<day>` | `X-Publish-Secret` | `200 {version, snapshot}`, or `404 {version: 0}` |
+| `POST /publish/<event>/<day>` `{expectedVersion, snapshot}` | `X-Publish-Secret` | `200 {version, clients}`; `409` if `expectedVersion` is not the current version; `400` bad body |
+
+Event and day keys match `^[a-z0-9][a-z0-9-]{0,63}$`; anything else is `404`.
+A wrong or missing secret is `401`. A socket receives the current snapshot
+(or `empty`) on connect and another after every accepted publish. Clients
+send only the text `ping`, which Cloudflare answers `pong` without waking the
+object, so an idle object hibernates and is not billed for duration. The
+version check and the write happen with no other request in between, which is
+what makes `expectedVersion` a safe compare-and-set.
+
+### How `syncDay` publishes
+
+After fetching the facilities, with live push on:
+
+1. Read the day's snapshot and version from the object (from GitHub only if
+   the object holds none yet — the first sync since it was created).
+2. Merge (the same `#buildSnapshot` as without live push), stamp
+   `publishedAt`, and publish with the version just read. On `409`, go back to
+   step 1, up to 3 attempts.
+3. **Archive**: commit the same snapshot to GitHub. A `409` there is retried
+   with the object's current snapshot, which is the newest there is. Any other
+   failure — including GitHub's `403`/`429` rate limits — is logged and
+   reported as `archive: { committed: false }`; the request still succeeds,
+   because the live copy is correct and already visible. The next sync's
+   archive commit catches GitHub up.
+
+If a Worker call throws, or three publishes conflict, the sync publishes
+through GitHub alone and reports `live: { published: false, error }`. The
+response otherwise gains `live`, `archive` and `timing.liveMs` / `archiveMs`;
+`commitSha` is the archive commit's, or `null` if it failed. The live publish
+comes before the GitHub commit and both finish before the response is sent:
+Cloud Run throttles CPU after a response, so the archive is never
+fire-and-forget.
+
+Every snapshot carries `publishedAt`, restamped on every publish (live, GitHub
+and Live/Hide). Pages use it to decide which of two copies is newer.
+
+`LIVE_PUSH_URL` (the Worker's base URL), `LIVE_PUSH_SECRET` (its
+`PUBLISH_SECRET`) and `LIVE_PUSH_TIMEOUT_MS` (default 4000) configure it.
+Clearing `LIVE_PUSH_URL` on the Cloud Run service is the rollback switch: a
+new revision, no code change. `GET /sync/config` reports
+`live: { enabled, baseUrl }`, never the secret.
+
+### Pages
+
+Each page that shows live data carries one identical block, marked
+`LIVE CHANNEL`, which opens a WebSocket to `/live/<event>/<day>` for the day
+it is showing and reconnects with backoff. The pages are Control Center, both
+templates' `index.html` and `schedule.html`, and the same pair of every event
+that has not finished. The block must stay byte-identical in every copy.
+
+`fetchDaySnapshot` keeps its name and callers. While the socket is open it
+returns the pushed snapshot without touching the network; every
+`LIVE_SAFETY_POLL_MS` (60 s) it fetches GitHub once and keeps whichever copy
+has the later `publishedAt`, which catches a push path that has quietly
+stopped while the socket stays open. If GitHub fails (a `404` before a day's
+first archive, say) but a pushed copy exists, the pushed copy is used. With
+the socket down, the page polls GitHub every 10 seconds exactly as it did
+before push existed. A hidden tab closes its socket and reopens it when shown.
+Pages opened with `?fixture=` on localhost never connect.
+
+`LIVE_BASE_URL` is one constant, inside the block, in every page. Empty
+disables push for that page. Control Center's Mission Control reads **Live
+updates: push connected** or **Live updates: polling GitHub (push not
+connected)**.
+
+### Limits
+
+On Cloudflare's free plan a Worker and its Durable Objects are capped at
+100,000 requests a day per account, counting one per connect, publish or read
+and 1 per 20 client pings (every 50 s per open page). That is about 10k a day
+for 200 viewers all day and about 93k for 2,000. At the cap, requests fail and
+pages stay on GitHub polling: today's speed, not an outage. The limit resets
+at 00:00 UTC, which is 08:00 in Manila. Some venue networks block WebSockets;
+those pages stay on polling. Anyone can open a socket to a valid-looking key
+(the data is already public on GitHub Pages); the `Origin` check stops other
+websites embedding the feed, not scripts.
 
 ---
 **Features:** [Control Center's Mission Control tab](../features/control-center.md#mission-control) uses this pipeline's resync/go-live actions.

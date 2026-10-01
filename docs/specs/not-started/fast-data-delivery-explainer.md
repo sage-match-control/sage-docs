@@ -4,8 +4,10 @@
 file is for understanding what the project does and why; it has no
 instructions an implementer should follow — read the spec for that.*
 
+*Superseded: Live push delivery was chosen and built instead; this plan will not be built.*
+
 *This is one of two alternative plans for the same problem. The other is
-[Live push delivery](durable-object-push-explainer.md), which pushes each
+[Live push delivery](../in-progress/durable-object-push-explainer.md), which pushes each
 update to open pages instead of having them check for one. Only one gets
 built.*
 

@@ -1,12 +1,22 @@
 # Spec — Live push delivery (Durable Objects)
 
-> **Status: not started.** Nothing here is built. Revised 2026-10-01 against
+> **Status: built, not yet deployed.** All four phases are written
+> (2026-10-01: `sage-tools-api` 2.4.0, `live-worker/`, the pages, these
+> docs) and were checked locally: the Worker under `wrangler dev`,
+> `scripts/verify-sync-merge.mjs`, and the pages in a browser against that
+> Worker. Not done: deploying the Worker to Cloudflare, setting
+> `LIVE_PUSH_URL` and `LIVE_PUSH_SECRET` on Cloud Run, setting
+> `LIVE_BASE_URL` in the pages (it ships empty, so every page polls GitHub
+> exactly as before), and the real-workbook checks in §11. The spec moves to
+> `implemented/` when those are done. [§14](#14-as-built-divergences) records
+> where the build departs from the text below. Revised 2026-10-01 against
 > `sage-tools-api` 2.3.0 (the prerequisite below, built) and the
 > `sage-match-control.github.io` pages as of that date.
 >
 > **This is one of two alternative designs.** The other is
-> [Fast data delivery](fast-data-delivery-spec.md) (Cloudflare R2 behind a
-> CDN, pointer polling). Build one, not both.
+> [Fast data delivery](../not-started/fast-data-delivery-spec.md) (Cloudflare R2
+> behind a CDN, pointer polling), which this one supersedes. Build one, not
+> both.
 >
 > **Prerequisite, already built:** the
 > [Immediate sync](../implemented/immediate-sync-spec.md) spec — timing
@@ -1043,7 +1053,7 @@ a day), and its measurements are in §1.
       multi-workbook and multi-event collision checks were never run on
       real workbooks; Phase 2's **Concurrent race** check below covers the
       same ground, so run that one with two real workbooks.
-- [ ] §4's table holds in the code.
+- [x] §4's table holds in the code.
 
 **Worker (Phase 1)**
 
@@ -1053,7 +1063,7 @@ a day), and its measurements are in §1.
 
 **Cloud Run (Phase 2)**
 
-- [ ] `node scripts/verify-sync-merge.mjs` passes (the Immediate sync scenarios and Phase 2's).
+- [x] `node scripts/verify-sync-merge.mjs` passes (the Immediate sync scenarios and Phase 2's).
 - [ ] With `LIVE_PUSH_URL` unset, a real sync behaves exactly as before.
 - [ ] With it set, a real sync returns `live.published: true` and a new
       GitHub commit (`archive.committed: true`).
@@ -1075,10 +1085,10 @@ a day), and its measurements are in §1.
 - [ ] Block the Worker's host (DevTools request blocking) → the page keeps
       updating from GitHub at the old speed; unblock → push resumes without
       a reload.
-- [ ] Control Center on `localhost?fixture=…` makes no WebSocket connection.
+- [x] Control Center on `localhost?fixture=…` makes no WebSocket connection.
 - [ ] Mission Control shows **Live updates: push connected**.
 - [ ] Wall board keeps its scroll position across pushed updates.
-- [ ] Every copy of the live-channel block is byte-identical
+- [x] Every copy of the live-channel block is byte-identical
       (compare them with `diff`).
 
 ## 12. Rollout order and rollback
@@ -1111,3 +1121,52 @@ Rolling this spec back never requires undoing the prerequisite.
 - Per-viewer authentication for the live socket (the data is public).
 - A GitHub Action to deploy the Worker; it is deployed by hand.
 - Sending diffs instead of whole snapshots (≤ 45 KB is fine).
+
+## 14. As built: divergences
+
+Where the built code departs from the text above. Everything else was built
+as written.
+
+- **`LIVE_BASE_URL` ships empty.** §7.2's block has
+  `wss://sage-live.<subdomain>.workers.dev`, but the subdomain does not exist
+  until the Worker is deployed, and that literal is not a valid WebSocket URL:
+  `new WebSocket` would throw inside `selectDay`. The constant is `''` in all
+  nine pages, which the block treats as "push disabled". After Phase 1 is
+  deployed, set it in every page in one pass and confirm the copies still
+  match (§11's `diff` check).
+- **§7.3's "fetch failed but a push exists" case** uses
+  `liveChannel.newer(event, day, null)`, which returns the pushed snapshot
+  (or `null`), so the block itself is unchanged and stays identical across
+  files.
+- **`LIVE_PUSH_TIMEOUT_MS`** is read with a truthiness test, not
+  `!== undefined` as `SHEETS_FETCH_TIMEOUT_MS` is. A variable that is set but
+  empty, as `.env.example` leaves it, would otherwise parse to `0` and abort
+  every Worker call immediately.
+- **The sync response omits `live` and `archive` when live push is
+  disabled**, rather than returning nulls, so a disabled service answers
+  exactly as it did before. `archive` is also omitted when the sync fell back
+  to GitHub (that commit is the publish, reported as `commitSha`).
+  `setLiveOverride` likewise returns `live: { published: false, error }` when
+  the Worker failed and the republish went through GitHub.
+- **Archive retry when the Durable Object cannot be re-read.** §6.5 retries a
+  `409` with the object's current snapshot. If that read itself fails, the
+  retry commits the snapshot it already has; the next sync's archive catches
+  GitHub up either way.
+- **A failed GitHub seed read propagates.** When the object is empty, the merge
+  seeds from GitHub as §6.5 says; if that read throws, the sync fails as it
+  would without live push rather than falling back (the fallback would need the
+  same read).
+- **The Mission Control line** is an ordinary status row: green dot for
+  **push connected**, grey for **polling GitHub**, below the facility rows. It
+  is grey rather than a warning colour because polling is correct, only slower.
+- **`timing.liveMs`** covers the whole live loop: the reads, the merge and the
+  publishes of every attempt, including a GitHub seed read on the first sync
+  of a day.
+- **Checked locally, not in production.** `smoke.mjs` passed against
+  `wrangler dev`, which also confirmed §10 check 2 (the on-connect message
+  arrives) and that a wrong `Origin` gets `403`, a missing secret `401` and a
+  plain request `426`. Checks 1, 3 and 4 need the deployed Worker. In a
+  browser, a pushed snapshot reached the public page, the schedule board and
+  Control Center within about a second, and pushing `isLive: false` flipped the
+  public page hidden at once. The two-workbook race and the stopwatch checks in
+  §11 have not been run.

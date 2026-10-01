@@ -1,12 +1,16 @@
 # Spec — Fast data delivery
 
-> **Status: not started**, with one exception. Step 16's debounce change is
+> **Status: superseded, not going to be built.** [Live push delivery](../in-progress/durable-object-push-spec.md)
+> was chosen and built instead; this spec is kept for its reasoning and its
+> measurements. It was written as "not started, with one exception".
+>
+> **Status as written: not started**, with one exception. Step 16's debounce change is
 > already made: `scripts/sheets-sync.gs` has `DEBOUNCE_MS = 3000`, and a
 > workbook runs it once its copy of the file is the current one. Nothing
 > else here is built.
 >
 > **This is one of two alternative designs.** The other is
-> [Live push delivery](durable-object-push-spec.md), which pushes each
+> [Live push delivery](../in-progress/durable-object-push-spec.md), which pushes each
 > snapshot to open pages over a WebSocket from a Cloudflare Durable Object
 > instead of having them poll R2. Build one, not both.
 >

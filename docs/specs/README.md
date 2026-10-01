@@ -156,6 +156,13 @@ to the `...` form rather than repointing it.
   2026. Standard template, re-skinned from the pubmat. Site, registry
   entry, QR image and live sync built; the rosters, `isLive` reset and
   dry run are open.
+- **[Live push delivery](in-progress/durable-object-push-spec.md)** — a
+  Cloudflare Durable Object that pushes each snapshot to open pages over
+  WebSockets, with GitHub kept as archive and fallback. Built and checked
+  locally; the Worker is not deployed and the pages ship with push off until
+  it is.
+  - **[Plain-language explainer](in-progress/durable-object-push-explainer.md)**
+    — the same, without the implementation detail.
 
 ---
 
@@ -170,11 +177,7 @@ to the `...` form rather than repointing it.
   is tested too.
 - **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
-  full-payload polling with pointer polling. One of two alternatives.
+  full-payload polling with pointer polling. **Superseded** by Live push
+  delivery, which was built instead; it will not be built.
   - **[Plain-language explainer](not-started/fast-data-delivery-explainer.md)**
-    — the same, without the implementation detail.
-- **[Live push delivery](not-started/durable-object-push-spec.md)** — the
-  other alternative: a Cloudflare Durable Object that pushes each snapshot
-  to open pages over WebSockets, with GitHub kept as archive and fallback.
-  - **[Plain-language explainer](not-started/durable-object-push-explainer.md)**
     — the same, without the implementation detail.

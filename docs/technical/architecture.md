@@ -1,10 +1,11 @@
 # Architecture
 
-S.A.G.E. is three independent git repos, not one monorepo.
+S.A.G.E. is three independent git repos, not one monorepo, plus a Cloudflare
+Worker that lives inside one of them.
 
 | Repo | What it is |
 | --- | --- |
-| [`sage-tools-api`](https://github.com/sage-match-control/sage-tools-api) | Node/Express backend on Google Cloud Run. Two features: scoresheet PDF generation and the Google Sheets → GitHub live-data sync. |
+| [`sage-tools-api`](https://github.com/sage-match-control/sage-tools-api) | Node/Express backend on Google Cloud Run. Two features: scoresheet PDF generation and the Google Sheets → GitHub live-data sync. Its `live-worker/` folder holds the Cloudflare Worker that pushes snapshots to open pages; that folder is not part of the Cloud Run service. |
 | [`sage-match-control.github.io`](https://github.com/sage-match-control/sage-match-control.github.io) | GitHub Pages static site. Self-contained HTML pages (no build step, no framework) for the public tools and per-event pages. |
 | [`event-data`](https://github.com/sage-match-control/event-data) | Shared GitHub Pages target every event's sync writes snapshots to, and the runtime-fetched event/day/facility registry. |
 
@@ -18,13 +19,20 @@ POST /sync/:day?facility=<name>   on Cloud Run   (X-Sync-Secret header)
    |  SheetsCsvFetcher (default) or GvizCsvFetcher (?method=csv fallback)
    |  merge with published snapshot — never drop a facility on failure
    v
-GitHub Contents API commit -> event-data : <event-key>/data/<day>.json
+Cloudflare Worker "sage-live" (live-worker/): one Durable Object per <event>/<day>
+   |  stores the snapshot, pushes it to every open page over a WebSocket
+   |  wss://.../live/<event>/<day>
+   v
+GitHub Contents API commit -> event-data : <event-key>/data/<day>.json   (archive + fallback)
    |  GitHub Pages redeploys on push (no cache-purge step)
    v
-Event page fetches https://sage-match-control.github.io/event-data/<event-key>/data/<day>.json
+A page with no open socket fetches https://sage-match-control.github.io/event-data/<event-key>/data/<day>.json
 ```
 
-Full detail on each hop: [Sync pipeline](sync-pipeline.md).
+Full detail on each hop: [Sync pipeline](sync-pipeline.md). GitHub stays the
+archive and the fallback read path: with `LIVE_PUSH_URL` unset, or when the
+Worker cannot be reached, a sync publishes through GitHub alone and pages poll
+it.
 
 The scoresheet feature is independent of all of the above: the site's
 `tools/scoresheet-generator.html` posts a CSV to
@@ -78,6 +86,11 @@ not code:
   lives in developer metadata on the spreadsheet so that copies of the Dual
   Meet Master inherit it. See
   [sync pipeline](sync-pipeline.md#how-the-secret-reaches-a-workbook).
+- The `LIVE CHANNEL` block of JavaScript in `tools/control-center.html` and
+  both templates' and every unfinished event's `index.html` and
+  `schedule.html` must stay byte-identical in every page that carries it, and
+  its `LIVE_BASE_URL` constant points at the deployed Worker. See
+  [sync pipeline](sync-pipeline.md#pages).
 - Adding a scoresheet type = a new `templates/<name>.{html,css}` pair in
   `sage-tools-api` **and** an entry in `ScoresheetConfig.mjs`. Nothing else
   needs touching.

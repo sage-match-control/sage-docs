@@ -159,6 +159,10 @@ signing in.
   finish (or, once it's done, its actual end) from Live Matches, and adds
   "stale — may read late" when that venue's data is old enough to make the
   estimate unreliable.
+  Below the venues, a **Live updates** line reads **push connected** when
+  this page is receiving scores the moment they are published, or **polling
+  GitHub (push not connected)** when it is not. In the second case updates
+  still arrive, just 30–60 seconds slower.
 - **Resync this day now** — pulls a fresh copy from the spreadsheet(s)
   immediately, instead of waiting for the next automatic sync.
 - **Public pages** — launchers for the venue's schedule board and the

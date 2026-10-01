@@ -5,7 +5,7 @@ file is for understanding what the project does and why; it has no
 instructions an implementer should follow — read the spec for that.*
 
 *This is one of two alternative plans for the same problem. The other is
-[Fast data delivery](fast-data-delivery-explainer.md) (Cloudflare R2 with
+[Fast data delivery](../not-started/fast-data-delivery-explainer.md) (Cloudflare R2 with
 pages checking every 3 seconds). Only one gets built.*
 
 ---

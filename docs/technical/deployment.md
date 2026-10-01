@@ -1,7 +1,8 @@
 # Deployment
 
 Every repo deploys the same way: **push to `main`.** No manual deploy step
-for any of them. `sage-match-control.github.io` and `event-data` are plain
+for any of them — except the live Worker in `sage-tools-api/live-worker/`,
+which only ever deploys by hand (see [Live Worker](#live-worker-cloudflare)). `sage-match-control.github.io` and `event-data` are plain
 GitHub Pages, so a push is their entire story with no build. `sage-tools-api`
 runs on Google Cloud Run behind a build trigger watching the repo — pushing
 to `main` builds and deploys the new revision automatically; nobody runs
@@ -54,6 +55,55 @@ Cloud Run: `GET /ping`'s `X-App-Version` header reads straight from it. Add
 a matching Changelog entry in `sage-tools-api/README.md` alongside the
 bump.
 
+## Live Worker (Cloudflare)
+
+`sage-tools-api/live-worker/` is the Cloudflare Worker `sage-live` and its
+`DayChannel` Durable Object (see [sync pipeline](sync-pipeline.md#live-push-delivery)).
+The Cloud Run image never contains it and pushing to `main` never deploys it.
+It needs a free Cloudflare account, with the `workers.dev` subdomain chosen
+when prompted, so the Worker is at `https://sage-live.<subdomain>.workers.dev`.
+
+From `sage-tools-api/live-worker/`:
+
+```bash
+npm install
+```
+
+```bash
+npx wrangler login
+```
+
+```bash
+npx wrangler secret put PUBLISH_SECRET
+```
+
+```bash
+npx wrangler deploy
+```
+
+`PUBLISH_SECRET` is a long random value, and the same value is Cloud Run's
+`LIVE_PUSH_SECRET`. Check a deploy with:
+
+```bash
+node smoke.mjs https://sage-live.<subdomain>.workers.dev <the publish secret>
+```
+
+which uses a throwaway `smoke-test/run-<timestamp>` key and exits non-zero on a
+failed step. `npx wrangler dev` runs the Worker locally on
+`http://localhost:8787`, reading secrets from `live-worker/.dev.vars`
+(git-ignored).
+
+**Never deploy the Worker during an event, or in the few days before one.** A
+deploy restarts every Durable Object and drops every WebSocket; pages
+reconnect on their own, but it is the live data path.
+
+Turning live push on, in order: deploy the Worker and run `smoke.mjs`; deploy
+Cloud Run with `LIVE_PUSH_URL` unset, then set `LIVE_PUSH_URL` and
+`LIVE_PUSH_SECRET` on the service (a new revision, no code push); then set
+`LIVE_BASE_URL` (`wss://sage-live.<subdomain>.workers.dev`) in the pages. To
+turn it off, empty `LIVE_BASE_URL` in the pages and/or clear `LIVE_PUSH_URL` on
+Cloud Run; pages fall back to polling GitHub.
+
 ## What does *not* need a redeploy
 
 Changing anything in `event-data/config/events.json` — adding an event, a
@@ -72,4 +122,6 @@ running Cloud Run instance within `SYNC_CONFIG_TTL_MS` (~60s default). See
   so it can't drift from the actual routes. Public, no auth. Importable
   straight into Postman via **Import → Link**.
 - `GET /sync/config` (secret- or token-gated) — full diagnostic view of the
-  currently-loaded event registry.
+  currently-loaded event registry, plus `live: { enabled, baseUrl }` for live
+  push.
+- `GET <worker>/health` — the live Worker's health check.
