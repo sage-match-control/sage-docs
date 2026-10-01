@@ -158,9 +158,8 @@ to the `...` form rather than repointing it.
   dry run are open.
 - **[Live push delivery](in-progress/durable-object-push-spec.md)** — a
   Cloudflare Durable Object that pushes each snapshot to open pages over
-  WebSockets, with GitHub kept as archive and fallback. Built and checked
-  locally; the Worker is not deployed and the pages ship with push off until
-  it is.
+  WebSockets, with GitHub kept as archive and fallback. Deployed and switched
+  on; the real-workbook checks are still open.
   - **[Plain-language explainer](in-progress/durable-object-push-explainer.md)**
     — the same, without the implementation detail.
 

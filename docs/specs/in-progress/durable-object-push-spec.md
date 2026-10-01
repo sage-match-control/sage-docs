@@ -1,14 +1,17 @@
 # Spec — Live push delivery (Durable Objects)
 
-> **Status: built, not yet deployed.** All four phases are written
-> (2026-10-01: `sage-tools-api` 2.4.0, `live-worker/`, the pages, these
-> docs) and were checked locally: the Worker under `wrangler dev`,
-> `scripts/verify-sync-merge.mjs`, and the pages in a browser against that
-> Worker. Not done: deploying the Worker to Cloudflare, setting
-> `LIVE_PUSH_URL` and `LIVE_PUSH_SECRET` on Cloud Run, setting
-> `LIVE_BASE_URL` in the pages (it ships empty, so every page polls GitHub
-> exactly as before), and the real-workbook checks in §11. The spec moves to
-> `implemented/` when those are done. [§14](#14-as-built-divergences) records
+> **Status: deployed and switched on; the real-use checks are open.** All four
+> phases are built and live (2026-10-01 to 02: `sage-tools-api` 2.5.0,
+> the `sage-live` Worker on Cloudflare, `LIVE_PUSH_URL` and
+> `LIVE_PUSH_SECRET` on Cloud Run, `LIVE_BASE_URL` set in all nine pages).
+> Checked live: the Worker's `smoke.mjs`, a sync from each event publishing to
+> the Worker and archiving to GitHub with the same `publishedAt`, and the three
+> kinds of page (public, schedule board, Control Center) holding an open socket
+> to the production Worker. Not done: the real-workbook checks in §11 (the
+> two-workbook race, stopwatch timings, **Force hidden**, the blocked-Worker
+> fallback, the 10-minute tab, the ping-count check, and the **Sync method**
+> switch with a real sign-in). The spec moves to `implemented/` when those are
+> done. [§14](#14-as-built-divergences) records
 > where the build departs from the text below. Revised 2026-10-01 against
 > `sage-tools-api` 2.3.0 (the prerequisite below, built) and the
 > `sage-match-control.github.io` pages as of that date.
@@ -1127,13 +1130,13 @@ Rolling this spec back never requires undoing the prerequisite.
 Where the built code departs from the text above. Everything else was built
 as written.
 
-- **`LIVE_BASE_URL` ships empty.** §7.2's block has
-  `wss://sage-live.<subdomain>.workers.dev`, but the subdomain does not exist
-  until the Worker is deployed, and that literal is not a valid WebSocket URL:
-  `new WebSocket` would throw inside `selectDay`. The constant is `''` in all
-  nine pages, which the block treats as "push disabled". After Phase 1 is
-  deployed, set it in every page in one pass and confirm the copies still
-  match (§11's `diff` check).
+- **`LIVE_BASE_URL` was set after the Worker existed.** §7.2's block has
+  `wss://sage-live.<subdomain>.workers.dev`, which is not a valid WebSocket URL
+  (`new WebSocket` would throw inside `selectDay`), so the pages shipped with
+  `''`, which the block treats as "push disabled". Once the Worker was deployed
+  the constant was set to `wss://sage-live.sagematchcontrol.workers.dev` in all
+  nine pages in one pass, and the copies were confirmed identical (§11's `diff`
+  check).
 - **§7.3's "fetch failed but a push exists" case** uses
   `liveChannel.newer(event, day, null)`, which returns the pushed snapshot
   (or `null`), so the block itself is unchanged and stays identical across
