@@ -61,9 +61,9 @@ paths.
 
 **Tooling facts.**
 
-- Node 22 (the `Dockerfile` pins `node:22-slim`). `node --test` with a glob,
-  `node:assert/strict`, `mock.fn`, `mock.timers` and
-  `--experimental-test-coverage` all work on Node 22.1.
+- Node 22 (the `Dockerfile` pins `node:22-slim`, the latest 22.x); work
+  locally on 22.23.3 or later. The test-suite spec §0 lists what was checked
+  on it, including enforced coverage thresholds and snapshot assertions.
 - There is no linter and no TypeScript, by design. Phase 2 adds JSDoc types
   checked with `// @ts-check`, which needs no build step.
 - `GitHubPublisher`, `LivePublisher` and both CSV fetchers call the global
@@ -526,7 +526,7 @@ ordered; do not start one before the previous is green.
 
 | Phase | What | Version | Production code touched |
 |---|---|---|---|
-| 0 | The test suite, **its own spec** ([test-suite spec](sage-tools-api-test-suite-spec.md)) | none | none (only `package.json` scripts, `test/`, one script, README) |
+| 0 | The test suite, **its own spec** ([test-suite spec](sage-tools-api-test-suite-spec.md)) | none | none (only `package.json` scripts, `test/`, one script, the pre-push hook, README) |
 | 1 | Folder moves | 2.5.1 | paths and imports only |
 | 2 | Hardening | 2.5.2 | secret compare, errors, config, auth middleware, CORS, jsconfig |
 | 3 | One retry loop, store interface, domain extraction | 2.5.3 | `sync/` internals |
@@ -610,6 +610,8 @@ Do these in order; for each, write the failing test first.
 2. **`config/loadConfig.mjs`** (F9, B6) per §4.7; `index.mjs` calls it once, passes
    the pieces on, and logs the one warning line for unset secrets. A
    `ConfigError` prints every problem and exits with code 1 before listening.
+   Add `test:coverage:config` (`src/config/**`, lines ≥ 95) to `package.json`
+   and to `test:coverage` in the same commit (test-suite spec §3.2).
 3. **Errors** (F6, B2): add `code` to `AppError` and each subclass (§4.6), add
    `ConflictError` and `ConfigError`, write `server/errorHandler.mjs` and
    `server/asyncHandler.mjs`, register the handler last in `Server`. Convert
@@ -783,7 +785,7 @@ test suite still green untouched.
    ```bash
    gcloud builds triggers list --project=sage-tools-api
    gcloud builds triggers update github <TRIGGER_NAME> --project=sage-tools-api \
-     --ignored-files='live-worker/**,apps-script/**,test/**,scripts/run-appscript-verifies.mjs,**/*.md'
+     --ignored-files='live-worker/**,apps-script/**,test/**,.githooks/**,scripts/run-appscript-verifies.mjs,**/*.md'
    ```
 
    Verify by pushing a README-only commit to a branch the trigger watches and
@@ -798,9 +800,10 @@ test suite still green untouched.
    owner creates the GitHub repo (`sage-match-control/sage-workspace`) and pushes.
    The file stays at the same path, so Claude Code keeps finding it.
 4. **Docs**, present tense (§7).
-5. **CLAUDE.md rules.** Add to the root `CLAUDE.md`: the test commands, "no
-   production change without a failing test first", the `/v1` rule, the
-   dependency rules of §4.3, and that `apps-script/` is not part of the service.
+5. **CLAUDE.md rules.** The test-maintenance rule is already there (test-suite
+   spec §9.4). Extend it with "no production change without a failing test
+   first", and add the `/v1` rule, the dependency rules of §4.3, and that
+   `apps-script/` is not part of the service.
 
 **Acceptance.** A markdown-only push does not rebuild Cloud Run; the root
 `CLAUDE.md` is tracked; the doc grep in Phase 1 still returns nothing.

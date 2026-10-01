@@ -174,7 +174,9 @@ to the `...` form rather than repointing it.
   unit and integration tests (and an opt-in PDF end-to-end) that pin what the
   service does today, with an in-memory fake of GitHub, Google Sheets and the
   live Worker. Built first, with no production change; the gate for the
-  architecture spec below.
+  architecture spec below. Kept current from then on: every API change
+  updates its tests in the same commit, enforced by guard tests and a
+  pre-push hook.
 - **[sage-tools-api architecture hardening](not-started/sage-tools-api-architecture-spec.md)** —
   after the test suite: SOLID-aligned structure for the sync code, one error and
   config path, `/v1` resource-style routes with every existing URL kept, and a

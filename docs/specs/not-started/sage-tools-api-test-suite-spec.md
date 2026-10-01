@@ -11,6 +11,11 @@
 > The architecture spec's Phases 1 to 7 start only after this one's acceptance
 > checklist (§7) is complete, and every one of them has to leave this suite
 > green.
+>
+> **The suite is kept, not just built.** From the commit it lands in, every
+> change to the API changes its tests in the same commit (§9). The suite
+> carries guard tests that fail when a module or route has none, and the
+> rule goes into the root `CLAUDE.md` and the README as part of this spec.
 
 Pin what `sage-tools-api` does today, in tests, so the refactor in the
 architecture spec can change its insides without anyone having to take it on
@@ -25,7 +30,9 @@ Assume no knowledge of this project beyond this page.
 **Repos.** `D:\Personal\SAGE` is a plain folder holding four git repos. This
 spec changes `sage-tools-api/` (Node 22, Express, ESM `.mjs`, deployed to Google
 Cloud Run by a build trigger on every push to `main`) and adds a **Testing**
-section to its README. It changes nothing in the other repos.
+section to its README. Outside the repos it adds the test rule to the root
+`D:\Personal\SAGE\CLAUDE.md` (§9.4), which no repo tracks. It changes nothing in
+the other repos.
 
 **Rules that apply to every change** (from the root `CLAUDE.md`):
 
@@ -45,9 +52,16 @@ section to its README. It changes nothing in the other repos.
 
 **Tooling facts.**
 
-- Node 22 (the `Dockerfile` pins `node:22-slim`). `node --test` with a glob,
-  `node:assert/strict`, `mock.fn`, `mock.timers` and
-  `--experimental-test-coverage` all work on Node 22.1.
+- Node 22. The `Dockerfile` pins `node:22-slim`, which is the latest 22.x;
+  work locally on **22.23.3 or later** (installed with nvm-windows:
+  `nvm install 22.23.3`, then `nvm use 22.23.3` from an Administrator
+  terminal). Anything below 22.12 is too old for puppeteer, and below 22.8 has
+  no coverage thresholds. Checked on 22.23.3: `node --test` with a glob,
+  `node:assert/strict`, `mock.fn`, `mock.timers` (including `Date`; it prints
+  an `ExperimentalWarning`, which is expected), `t.assert.snapshot` with no
+  flag, and `--experimental-test-coverage` with `--test-coverage-include` and
+  `--test-coverage-lines`, which fails the run when a threshold is missed.
+  Coverage still needs the `--experimental-` flag on Node 22.
 - `GitHubPublisher`, `LivePublisher` and both CSV fetchers call the global
   `fetch`, so tests replace `globalThis.fetch`. They have no injection point
   today and this spec does not add one.
@@ -88,13 +102,14 @@ mark it `// CHARACTERIZATION` (§3.6), and tell the owner.
 3. The two ad hoc `verify-*` scripts that cover `src/` ported to the same
    runner, with no loss of coverage.
 4. Evidence the suite can fail: ten deliberate breakages, each caught.
+5. A suite that stays current: every later change to the API updates its tests
+   in the same commit, and forgetting to fails a test (§9).
 
 **Non-goals**
 
 - Changing production code. No refactor, no seam, no new option on any class.
 - Tests for the Apps Script files or the live Worker (they keep their own
   harnesses, §3.1).
-- Enforcing a coverage threshold.
 - Tests for modules the architecture spec creates; those are written in the
   phase that creates them (architecture spec §5.2).
 
@@ -176,9 +191,13 @@ beside the new suite.
   "test:unit": "node --test \"test/unit/**/*.test.mjs\"",
   "test:integration": "node --test \"test/integration/**/*.test.mjs\"",
   "test:e2e": "node --test \"test/e2e/**/*.test.mjs\"",
-  "test:coverage": "node --test --experimental-test-coverage \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+  "test:snapshots": "node --test --test-update-snapshots \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+  "test:coverage": "npm run test:coverage:sync && npm run test:coverage:auth && npm run test:coverage:server",
+  "test:coverage:sync": "node --test --experimental-test-coverage --test-coverage-include=\"src/sync/**\" --test-coverage-lines=90 \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+  "test:coverage:auth": "node --test --experimental-test-coverage --test-coverage-include=\"src/auth/**\" --test-coverage-lines=95 \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+  "test:coverage:server": "node --test --experimental-test-coverage --test-coverage-include=\"src/server/**\" --test-coverage-lines=90 \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
   "test:appscript": "node scripts/run-appscript-verifies.mjs",
-  "verify": "npm test && npm run test:appscript"
+  "verify": "npm test && npm run test:coverage && npm run test:appscript"
 }
 ```
 
@@ -189,9 +208,19 @@ scripts that cover `src/` (`verify-sync-merge`, `verify-facility-completion`) ar
 ported to `node:test` here; the originals are removed in the architecture spec's
 Phase 6.
 
-Coverage is reported, not enforced (Node 22.1 has no threshold flag). Targets
-for the owner to eyeball in the report: `src/sync` ≥ 90 % of lines,
-`src/auth` ≥ 95 %, `src/server` ≥ 90 %, `src/config` ≥ 95 %.
+Coverage is **enforced** by line, per folder: `src/sync` ≥ 90 %, `src/auth`
+≥ 95 %, `src/server` ≥ 90 %. A threshold applies to everything one run
+includes, so each folder is its own run of the whole suite (the suite is fast;
+§3.5 rule 1). `npm run verify` includes it, so a push to `main` that follows
+the rule in §9.4 cannot lower coverage below the floor. Other folders are
+reported but have no threshold: `src/scoresheets` is mostly Chromium, covered by
+the opt-in E2E, and `src/shared` and `src/docs` are small. The architecture
+spec's Phase 2 creates `src/config` and adds `test:coverage:config` at ≥ 95 %
+in the same commit (§9.2). If a run falls short, write the missing tests.
+Never lower a threshold to make a change pass without the owner agreeing.
+
+`test:snapshots` rewrites the snapshot files (§3.5 rule 7). It is the only
+script that changes files under `test/`.
 
 ### 3.3 Layout and naming
 
@@ -203,7 +232,11 @@ test/
     fakes.mjs          # FakePublisher, FakeLivePublisher (moved from verify-sync-merge.mjs)
     fakeWorld.mjs      # in-memory GitHub + Sheets + Worker behind globalThis.fetch
     http.mjs           # startApp(), multipart()
+    routes.mjs         # registeredRoutes(app): walks server.app._router.stack
+    coveredElsewhere.mjs  # modules with no unit test file, and where they are tested (§9.3)
+    routeManifest.mjs  # every route and the integration test file that covers it (§9.3)
   unit/<area>/<Module>.test.mjs
+  unit/guards/         # the suite-maintenance guards (§9.3)
   integration/<feature>.test.mjs
   e2e/pdf.e2e.test.mjs
 ```
@@ -328,6 +361,16 @@ in the service:
 5. **Failure paths get as many tests as success paths.** Every `throw` in a
    module has a test that reaches it.
 6. **Secrets never appear in test output.** Use obviously fake values.
+7. **Snapshots only for large generated output.** `t.assert.snapshot` is for
+   output too big to write out by hand and meant to change only on purpose:
+   the OpenAPI document and each scoresheet type's rendered HTML (§4). Small
+   things, like response bodies, status codes and headers, are asserted
+   explicitly (rule 4), so the expectation can be read in the test.
+   Snapshot input must be deterministic, with a fixed version (`"9.9.9"`),
+   fixture and clock. The `.snapshot` files sit beside their tests, are
+   committed, and are never edited by hand. When output changes on purpose,
+   run `npm run test:snapshots`, read the `.snapshot` diff, and commit it with
+   the change. A snapshot diff nobody read is a test nobody ran.
 
 ### 3.6 Characterization policy
 
@@ -397,14 +440,24 @@ unknown type throws `UnknownScoresheetTypeError` naming the valid types) and
 `ScoresheetService.generate` with fakes for the browser, renderer and merger:
 the progress events in order (`parsing`, `rendering` with `completed`/`total`,
 `merging`), blank-row padding, a missing CSV or unknown type is a
-`ValidationError`, concurrency is passed through.
+`ValidationError`, concurrency is passed through. `TemplateService` also
+renders every type registered in `ScoresheetConfig` from one fixed fixture CSV
+and snapshots the HTML (§3.5 rule 7). This is the only check on `templates/`
+short of the opt-in E2E, so a template edit shows up as a snapshot diff.
 
 **Unit: other**
 
 | Module | Cases |
 |---|---|
-| `openapiSpec.mjs` | the spec is OpenAPI `3.0.3`, has the four tags and two security schemes, and documents exactly these paths today: `/ping`, `/scoresheets/generate`, `/scoresheets/generate/stream`, `/sync/{day}`, `/sync/{day}/live`, `/sync/live-push`, `/sync/config`, `/auth/login`; it is cached after the first build; `info.version` is the version passed in |
+| `openapiSpec.mjs` | the spec is OpenAPI `3.0.3`, has the four tags and two security schemes, and documents exactly these paths today: `/ping`, `/scoresheets/generate`, `/scoresheets/generate/stream`, `/sync/{day}`, `/sync/{day}/live`, `/sync/live-push`, `/sync/config`, `/auth/login`; it is cached after the first build; `info.version` is the version passed in; the whole document from `getOpenApiSpec("9.9.9")` (its `servers` is empty; `Server` fills it in per request) matches its snapshot (§3.5 rule 7) |
 | every `src/**/*.mjs` | one test imports each module dynamically, so a broken import path after a move fails here first (`test/unit/imports.test.mjs`) |
+
+**Unit: guards** (`test/unit/guards/`; what they check is in §9.3)
+
+| File | Cases |
+|---|---|
+| `every-module-tested.test.mjs` | every `src/**/*.mjs` has a mirrored unit test file or an entry in `coveredElsewhere.mjs`; every entry names a module that exists and a test file that exists; no module has both |
+| `every-route-tested.test.mjs` | the routes `registeredRoutes(server.app)` finds equal the routes in `routeManifest.mjs`, as sets; each manifest entry's test file exists and contains the route's path text |
 
 **Integration: HTTP contract** (`startApp` with faked services; real routes and middleware)
 
@@ -412,7 +465,7 @@ the progress events in order (`parsing`, `rendering` with `completed`/`total`,
 |---|---|
 | `ping.test.mjs` | `200` and body `PONG!`; `X-App-Version`; `X-Sync-Config` is `abc1234/remote`, `seed/fallback`, or absent (config store `peek()` returning those); `/ping` never calls `get()` |
 | `headers.test.mjs` | CORS headers on every route, including a `401` and a `404`; `OPTIONS` on any path answers `204` with the allow headers; `Access-Control-Expose-Headers` lists `X-App-Version, X-Sync-Config`; a `corsOrigin` other than `*` is echoed |
-| `openapi.test.mjs` | `GET /openapi.json` is `200` JSON; `servers[0].url` is the request's host; every documented path answers something other than `404` to an unauthenticated request (it exists); every route registered on the app is documented, except `/openapi.json` itself, found by walking `server.app._router.stack` (Express 4 internal; the helper has its own test that it finds the nine routes registered today: `/ping`, `/openapi.json`, the two `/scoresheets`, `/auth/login` and the four `/sync`) |
+| `openapi.test.mjs` | `GET /openapi.json` is `200` JSON; `servers[0].url` is the request's host; every documented path answers something other than `404` to an unauthenticated request (it exists); every route registered on the app is documented, except `/openapi.json` itself, found by `registeredRoutes(server.app)` from `test/helpers/routes.mjs`, which walks `server.app._router.stack` (Express 4 internal; the helper has its own test that it finds the nine routes registered today: `/ping`, `/openapi.json`, the two `/scoresheets`, `/auth/login` and the four `/sync`) |
 | `auth.test.mjs` | missing `username` or `password` or a non-string is `400`; wrong password `401`; unconfigured auth `401`; success `200 { token, expiresAt }` and the token then works on a token-only route |
 | `sync-routes.test.mjs` | `POST /sync/:day` is `401` with neither header; works with the secret and with a token; a wrong secret is `401`; `?facility=` and `?method=csv` reach the service; `X-Edit-At` reaches it only inside the window (cases from `editAt`); the service result is returned as JSON `200`; an `UnknownSyncDayError` is `400`, `SyncUpstreamError` `502`, `SyncConfigUnavailableError` `503`, a plain `Error` `500` with its message. `POST /sync/:day/live`: the secret is refused (`401`), a token works, an invalid body is `400`, each of `true`/`false`/`"auto"` reaches the service and its result, including `live.published` (which Control Center reads), is returned unchanged. `POST /sync/live-push`: token only, body must be boolean, result passed through, **registered before `/:day`** (a test posts to it and expects the switch handler, not the sync handler). `GET /sync/config`: secret or token, `401` otherwise, payload as §2 with no secret in it |
 | `scoresheets-routes.test.mjs` | `/generate` with a fake service: PDF headers and body, field mapping (`evt`, `type`, `out`, `blanks`), a service error is `err.statusCode ?? 500`; `/generate/stream`: a missing field is `400 { error }`, a good run writes the NDJSON lines in order and ends with `done` carrying base64, a failing service writes an `error` line after a `200` and ends the response |
@@ -487,7 +540,9 @@ reverts it. The list goes in the commit message.
 production code.
 
 **Rule.** The only non-test files this spec may touch are `package.json`
-(scripts), the new `scripts/run-appscript-verifies.mjs` and `README.md`. If a
+(scripts), the new `scripts/run-appscript-verifies.mjs`, the new
+`.githooks/pre-push`, `README.md`, and (outside the repo) the root
+`CLAUDE.md`. If a
 module cannot be tested without changing it, stop and note it in the hand-off
 report (§8). Today none needs it (`Server.app` is public, the clients use the
 global `fetch`, services take their dependencies in their constructors).
@@ -506,23 +561,40 @@ Steps:
 7. Write the opt-in E2E: with `RUN_PDF_E2E=1`, post a three-row CSV to the real
    pipeline (`createScoresheetService`) and assert the response starts with
    `%PDF-` and is more than 1 KB. Without the variable the test is `skip`ped.
-8. Run the sabotage list (§5).
-9. README: add a **Testing** section (commands, layout, the characterization
-   marker). Do not bump the version.
+8. Write the guards (§9.3): `coveredElsewhere.mjs`, `routeManifest.mjs` and
+   the two tests in `test/unit/guards/`, and confirm each fails when a module's
+   test file is renamed away or a route's manifest line is deleted.
+9. Run the sabotage list (§5).
+10. Add `.githooks/pre-push` (§9.4) and run `git config core.hooksPath
+    .githooks` in this clone; confirm a push with a failing test is refused.
+11. README: add a **Testing** section (commands, layout, the characterization
+    marker, the maintenance rule and table from §9.1–9.2, the hook setup line).
+    Do not bump the version.
+12. Root `CLAUDE.md`: add the rule from §9.4. This is the last step, so the
+    rule never names tests that do not exist yet.
 
 ---
 
 ## 7. Acceptance checklist
 
-- [ ] `npm test` and `npm run verify` pass on unmodified production code.
+- [ ] `npm test` and `npm run verify` pass on unmodified production code, on
+      Node 22.23.3 or later (`verify` includes the per-folder coverage
+      thresholds of §3.2).
+- [ ] The OpenAPI and template snapshot files are committed, and
+      `npm test` passes without `--test-update-snapshots`.
 - [ ] Every case in §4 exists, for every module that exists today.
 - [ ] The ported sync-merge suite has at least the 70 original assertions, and the
       ported facility-completion suite every original assertion.
 - [ ] `test/helpers/fakeWorld.mjs` has its own passing tests (§3.4).
 - [ ] All ten sabotage breakages were caught (§5).
 - [ ] `git diff --stat` against `main` shows changes only under `test/`,
-      `package.json` (scripts only), `scripts/run-appscript-verifies.mjs` and
-      `README.md`.
+      `package.json` (scripts only), `scripts/run-appscript-verifies.mjs`,
+      `.githooks/pre-push` and `README.md`.
+- [ ] Both guards in `test/unit/guards/` pass, and each was seen to fail when
+      its rule was broken (§6 step 8).
+- [ ] The pre-push hook refuses a push with a failing test (§6 step 10).
+- [ ] The README's **Testing** section and the root `CLAUDE.md` carry the
+      maintenance rule (§9).
 - [ ] `grep -rn "CHARACTERIZATION B" test/` lists B1 to B4 and nothing else.
 - [ ] `npm run test:e2e` with `RUN_PDF_E2E=1` passes on a machine with Chromium;
       without the variable it is skipped, not failed.
@@ -535,10 +607,167 @@ should know about, and any module that could not be tested without a production
 change (none is expected). The architecture spec's Phase 1 starts from this
 branch. This spec then moves to `implemented/` per `docs/specs/README.md`.
 
-## 9. Out of scope
+## 9. Keeping the suite current
+
+Building the suite once is half the job. It only stays a net if every later
+change to the API changes its tests too. This section is the standing rule from
+the commit the suite lands in onward, for the owner, for anyone else, and for
+Claude Code sessions alike.
+
+### 9.1 The rule
+
+**A change to the API is not finished until its tests are.** The test change
+goes in the **same commit** as the code change, never a follow-up. It is the
+same kind of rule as the version bump: a commit that touches what runs on
+Cloud Run without touching `test/` is incomplete, unless it is one of the
+exceptions below.
+
+"The API" here means everything that ships to Cloud Run: `index.mjs`, every
+file under `src/`, `templates/`, and `package.json`'s dependencies. It does
+**not** mean the Apps Script files, the live Worker or the site, which keep
+their own harnesses (§3.1). A change to a `.gs` file updates its own `verify-*`
+script in the same way, but that is outside this suite.
+
+The only changes that may skip a test edit are ones no test can observe: a
+comment, a log line that is not part of the contract (§3.5 rule 4), a
+dependency patch bump. The Changelog entry says so (§9.5).
+
+### 9.2 What each kind of change requires
+
+| Change | Tests in the same commit |
+|---|---|
+| New module | its mirrored unit test file `test/unit/<area>/<Module>.test.mjs`, with every `throw` reached (§3.5 rule 5). If it is only testable through HTTP or Chromium, an entry in `coveredElsewhere.mjs` naming that test instead |
+| New route | its cases in the matching `test/integration/*-routes.test.mjs` (auth, success, every error status), a `routeManifest.mjs` line, its `@openapi` block, and the route count in the `registeredRoutes` helper test and in `openapiSpec.test.mjs` |
+| New behaviour in an existing module or route | a new `it` describing it |
+| Changed behaviour that a deployed client can see (status, body, a §2.1 header) | the pinned test edited to the new expectation, and the Changelog entry says which client-visible thing changed. If §2.1 lists it, update §2.1 too: the table describes the API as it is |
+| Bug fix | a test that fails on the code before the fix and passes after it. If a test pinned the bug (`// CHARACTERIZATION`), that test is the one that changes |
+| Removed behaviour, module or route | its tests, manifest line or `coveredElsewhere.mjs` entry removed in the same commit |
+| Moved or renamed module | its test file moved with `git mv` to mirror the new path |
+| A new call to GitHub, Google Sheets or the Worker, or a change in how one is called | `fakeWorld.mjs` taught the new behaviour, with its own case in `fakeWorld.test.mjs`, before the pipeline test that uses it |
+| A new `throw` or error class | a test that reaches it, and its status in `errors.test.mjs` |
+| A change to the "played" or "BYE" rule | `facilityCompletion.test.mjs`, and the console's copy in `control-center.html` (root `CLAUDE.md`, "kept in sync by hand") |
+| A change to a template, a scoresheet type or an `@openapi` block | `npm run test:snapshots`, and the reviewed `.snapshot` diff committed with it (§3.5 rule 7) |
+| A new folder under `src/` that the §3.2 thresholds should cover | its `test:coverage:<folder>` script, added to `test:coverage` |
+| Coverage drops below a threshold | more tests, not a lower threshold |
+
+### 9.3 The guards: tests that fail when a test is missing
+
+Two guard tests make the most common omissions fail `npm test`, so the rule
+does not rest on memory alone.
+
+- **`every-module-tested.test.mjs`.** Lists `src/**/*.mjs` and, for each,
+  expects `test/unit/<path under src>/<Name>.test.mjs`. A module with no unit
+  test file must be in `test/helpers/coveredElsewhere.mjs`, a map from module
+  path to the test file that covers it and a one-line reason:
+
+  ```js
+  export const coveredElsewhere = {
+      "src/server/Server.mjs":               ["test/integration/headers.test.mjs", "middleware and mounting; only observable over HTTP"],
+      "src/sync/routes.mjs":                 ["test/integration/sync-routes.test.mjs", "route handlers"],
+      "src/auth/routes.mjs":                 ["test/integration/auth.test.mjs", "route handlers"],
+      "src/scoresheets/routes.mjs":          ["test/integration/scoresheets-routes.test.mjs", "route handlers"],
+      "src/scoresheets/index.mjs":           ["test/e2e/pdf.e2e.test.mjs", "composes the Chromium pipeline"],
+      "src/scoresheets/BrowserManager.mjs":  ["test/e2e/pdf.e2e.test.mjs", "drives real Chromium"],
+      "src/scoresheets/PdfRenderer.mjs":     ["test/e2e/pdf.e2e.test.mjs", "drives real Chromium"],
+      "src/scoresheets/PdfMergerService.mjs":["test/e2e/pdf.e2e.test.mjs", "merges real PDFs"],
+      "src/scoresheets/Workspace.mjs":       ["test/e2e/pdf.e2e.test.mjs", "temp-directory lifecycle of a real run"],
+  };
+  ```
+
+  (The implementer confirms each entry while writing it; a module that turns
+  out to be unit-testable gets a unit test instead.) The guard also fails on a
+  stale entry: a module that no longer exists, a test file that does not
+  exist, or a module that has both an entry and a unit test file.
+
+- **`every-route-tested.test.mjs`.** Builds the app with `startApp()` and
+  compares `registeredRoutes(server.app)` with `test/helpers/routeManifest.mjs`
+  as sets of `"<METHOD> <path>"`:
+
+  ```js
+  export const routeManifest = [
+      { route: "GET /ping",                         test: "test/integration/ping.test.mjs" },
+      { route: "GET /openapi.json",                 test: "test/integration/openapi.test.mjs" },
+      { route: "POST /auth/login",                  test: "test/integration/auth.test.mjs" },
+      { route: "POST /sync/live-push",              test: "test/integration/sync-routes.test.mjs" },
+      { route: "POST /sync/:day",                   test: "test/integration/sync-routes.test.mjs" },
+      { route: "POST /sync/:day/live",              test: "test/integration/sync-routes.test.mjs" },
+      { route: "GET /sync/config",                  test: "test/integration/sync-routes.test.mjs" },
+      { route: "POST /scoresheets/generate",        test: "test/integration/scoresheets-routes.test.mjs" },
+      { route: "POST /scoresheets/generate/stream", test: "test/integration/scoresheets-routes.test.mjs" },
+  ];
+  ```
+
+  A route on the app and not in the manifest fails; so does a manifest line
+  for a route that no longer exists, or whose test file is missing or never
+  mentions the route's path text. Together with `openapi.test.mjs` (every
+  route documented), adding a route without its tests and its documentation
+  cannot pass.
+
+The guards check that a test **exists**, not that it is good. What a test must
+cover is §9.2, and review checks that.
+
+### 9.4 Where the rule lives
+
+- **Root `CLAUDE.md`**, in the `sage-tools-api` section beside the version-bump
+  rule (§6 step 12), so every Claude Code session in the workspace sees it.
+  The text to add:
+
+  > Every change to `index.mjs`, `src/` or `templates/` changes `test/` in the
+  > same commit: a new module gets its mirrored unit test file, a new route
+  > its integration cases and a `test/helpers/routeManifest.mjs` line, a bug
+  > fix a test that failed before it, a client-visible change its pinned test
+  > edited. The full table is in the README's **Testing** section. Run
+  > `npm test` before every commit; `npm run verify` before every push to
+  > `main`. Never weaken or delete a test to make a change pass. A failing
+  > test means the change is wrong until shown otherwise; if the test is the
+  > one that is wrong, say so in the commit message.
+
+- **`sage-tools-api/README.md`**, in the **Testing** section (§6 step 11):
+  the rule, the §9.2 table, and the hook setup line.
+
+- **`.githooks/pre-push`**, a POSIX `sh` script that runs `npm test` and
+  refuses the push if it fails (Git for Windows runs it too; commit it with
+  `git update-index --chmod=+x .githooks/pre-push` so it is executable on a
+  Mac or Linux clone). Git does not
+  enable a versioned hook by itself, so each clone runs this once, and the
+  README says so:
+
+  ```bash
+  git config core.hooksPath .githooks
+  ```
+
+  The hook is the last check before a push to `main` deploys to Cloud Run. It
+  can be bypassed with `git push --no-verify`. Do that only when the owner
+  says so, for an emergency fix during an event, and follow it with the
+  missing tests before anything else is pushed.
+
+### 9.5 The Changelog shows it
+
+Every Changelog entry for a code change ends with a **Tests:** line naming
+the test files added or changed, for example
+`Tests: sync-routes.test.mjs (X-Edit-At window), editAt.test.mjs (new)`. An
+entry that changes no test says why: `Tests: none, comment-only`. A version
+bump whose entry has no **Tests:** line is the visible sign that the rule was
+skipped.
+
+### 9.6 The architecture spec's phases follow it too
+
+Every phase of the architecture spec is a change to the API, so the rule
+applies there unchanged. The architecture spec's own "write the failing test
+first" instruction is stricter and takes precedence. When a phase moves or
+adds modules or routes, `coveredElsewhere.mjs` and `routeManifest.mjs` change
+in that phase's commit. Phase 5's `/v1` routes each get a manifest line
+pointing at `test/integration/v1.test.mjs`.
+
+## 10. Out of scope
 
 - Any production-code change, including adding injection points.
 - Tests for the Apps Script files, the live Worker, or the site.
-- Coverage thresholds, mutation-testing tools, load tests.
+- Coverage thresholds for `src/scoresheets`, `src/shared` and `src/docs`
+  (§3.2), mutation-testing tools, load tests.
+- Running the suite in the Cloud Run build (a `RUN npm test` in the
+  `Dockerfile`) or in GitHub Actions. That would change the deploy pipeline,
+  which this spec does not touch. The pre-push hook (§9.4) is the gate
+  instead.
 - Tests for the modules and routes the architecture spec adds (architecture spec
   §5.2 and Phase 5).
