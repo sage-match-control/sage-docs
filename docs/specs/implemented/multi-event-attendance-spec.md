@@ -7,7 +7,7 @@ desk page, written by `sage-tools-api` straight into each facility workbook's
 > **Status: implemented.** Built, merged and deployed (`sage-tools-api` 2.6.1). In
 > use at Piggleball and PickleDrive in `"desks"` mode: Update roster, marking and
 > desk links work against the real workbooks as the service account. The checks in
-> §8.4 marked not checked (C3, C4, C5, C7) were not needed to get there.
+> §8.4 marked not checked (C3, C4, C5) were not needed to get there.
 > Decisions settled with the owner on
 > 2026-10-02 (§1). Written against `sage-tools-api` 2.5.0,
 > `sage-match-control.github.io` at `89a7476` and `event-data`'s
@@ -1100,9 +1100,9 @@ not deployed: C1 and C2 are shown by the real service doing the same calls.
 | C3 | the check's writes do **not** fire `onEdit`; a hand edit does | none / one | Not checked. No sync loop seen at Piggleball | |
 | C4 | `recalc` reads `42` immediately | `42` (needed later for Court Control, not for attendance) | Not checked | |
 | C4b | `writeText` values stay strings | strings | Not checked directly. Names and `timeIn` strings were written with RAW and read back correctly in Control Center | 2026-10-02 |
-| C5 | a copy made into, or moved into, the shared folder lists the service account | yes / no | Not checked. Until it is, §6.5's per-workbook sharing step stands | |
+| C5 | a copy made into, or moved into, the shared folder lists the service account | yes / no | Not checked. The owner expects a workbook copied into the shared folder to inherit the share, unconfirmed. Until it is confirmed, §6.5's per-workbook sharing step stands | |
 | C6 | Sheets API quotas: read/min/user, write/min/user, per project | ≥ 60 writes/min/user | Per project: 300 reads and 300 writes per minute. Per user: 60 reads and 60 writes per minute. Not adjustable. Meets the 60 writes/min/user threshold exactly; planning figure about 30 marks a minute sustained | 2026-10-02 |
-| C7 | Teams `Team Code` = standings `teamCode`; header row number | same; row 1 | Not checked. Do this before turning attendance on for a team event | |
+| C7 | Teams `Team Code` = standings `teamCode`; header row number | same; row 1 | Same. PickleDrive's Update roster read the `Teams` tab and built the roster from it, so its `Team Code` column matches the standings codes and the header is where the rule finds it | 2026-10-02 |
 
 **What changes the plan:**
 - C1 fails → stop; the token comes another way (owner decision).
@@ -1249,5 +1249,5 @@ Built on the `attendance` branches. Where it departs from the text above:
   is the pinned version (SRI `sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1`).
 - Fixtures add a standard `console` demo event (`attendance-demo-2026`, in
   `_fixtures/config.json` only) beside the PickleDrive `desks` one.
-- Not yet checked by hand: Control Center's read-only state when signed out
-  (the tab hiding for an event with no `attendance` setting was checked).
+- Checked by hand, as expected: Control Center's read-only state when signed out,
+  and the tab hiding for an event with no `attendance` setting.
