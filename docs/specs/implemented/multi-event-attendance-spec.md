@@ -4,10 +4,10 @@ Staff check-in for any registered event, marked in Control Center or on a
 desk page, written by `sage-tools-api` straight into each facility workbook's
 `ATTENDANCE` tab. One check-in per person covers every category they play.
 
-> **Status: in progress.** Built, merged and deployed (`sage-tools-api` 2.6.1). In
-> use at Piggleball (`"attendance": "console"`): Update roster and marking work
-> against the real workbook as the service account. Still open: the checks in §8.4
-> marked not checked, desk links (`"desks"`) on a real device.
+> **Status: implemented.** Built, merged and deployed (`sage-tools-api` 2.6.1). In
+> use at Piggleball and PickleDrive in `"desks"` mode: Update roster, marking and
+> desk links work against the real workbooks as the service account. The checks in
+> §8.4 marked not checked (C3, C4, C5, C7) were not needed to get there.
 > Decisions settled with the owner on
 > 2026-10-02 (§1). Written against `sage-tools-api` 2.5.0,
 > `sage-match-control.github.io` at `89a7476` and `event-data`'s
@@ -17,7 +17,7 @@ desk page, written by `sage-tools-api` straight into each facility workbook's
 > proves on Google's side what this design assumes. If a result in §8.4
 > contradicts the spec, stop and report. Do not work around it.
 >
-> Builds on [Event attendance](../implemented/event-attendance-spec.md), the
+> Builds on [Event attendance](event-attendance-spec.md), the
 > Pickle for Sight version (one event, an Apps Script web app per workbook).
 > That event keeps its own page and script; nothing here changes it.
 

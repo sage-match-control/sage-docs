@@ -135,6 +135,11 @@ to the `...` form rather than repointing it.
 - **[Event attendance](implemented/event-attendance-spec.md)** — a
   staff check-in page writing each player's arrival into the venue
   workbook through an Apps Script web app; Pickle for Sight first.
+- **[Attendance for every event](implemented/multi-event-attendance-spec.md)** —
+  staff check-in for any event, marked in Control Center or on a desk page, one
+  check-in per person. `sage-tools-api` writes each workbook's `ATTENDANCE` tab
+  as a service account and keeps the roster current after every sync. In use at
+  Piggleball and PickleDrive.
 - **[CLSO Pickle for Sight](implemented/pickle-for-sight-spec.md)** — the
   first standard-template event site: one day across two venues (PCPH Main
   and Annex), three divisions × three events. Ran 27 September 2026.
@@ -156,10 +161,6 @@ to the `...` form rather than repointing it.
   2026. Standard template, re-skinned from the pubmat. Site, registry
   entry, QR image and live sync built; the rosters, `isLive` reset and
   dry run are open.
-- **[Attendance for every event](in-progress/multi-event-attendance-spec.md)**
-  — staff check-in for any event, marked in Control Center or on a desk page,
-  one check-in per person. Merged, deployed and in use at Piggleball; desk links
-  on a real device and a few Google-side checks are still open.
 - **[Live push delivery](in-progress/durable-object-push-spec.md)** — a
   Cloudflare Durable Object that pushes each snapshot to open pages over
   WebSockets, with GitHub kept as archive and fallback. Deployed and switched

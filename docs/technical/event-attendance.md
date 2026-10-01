@@ -4,7 +4,7 @@ Staff check-in for any registered event, written by `sage-tools-api` straight
 into each facility workbook's `ATTENDANCE` tab, as a dedicated service
 account. One row per person, covering every category they play.
 
-Spec: [attendance for every event](../specs/in-progress/multi-event-attendance-spec.md).
+Spec: [attendance for every event](../specs/implemented/multi-event-attendance-spec.md).
 The earlier, Pickle for Sight design is at the end of this page.
 
 ## Flow

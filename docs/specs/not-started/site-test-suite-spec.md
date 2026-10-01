@@ -79,7 +79,7 @@ are never published.
 
   Today the only check on any of these is a person remembering to run `diff`.
 
-  The [attendance spec](../in-progress/multi-event-attendance-spec.md) adds one more
+  The [attendance spec](../implemented/multi-event-attendance-spec.md) adds one more
   byte-identical block, `ATTENDANCE CLIENT`, in `tools/control-center.html`,
   `_templates/attendance/attendance.html` and every `events/<key>/attendance.html`.
   It also adds a Control Center **Attendance** tab, and fixtures named

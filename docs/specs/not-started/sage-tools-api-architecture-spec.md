@@ -624,7 +624,7 @@ Do these in order; for each, write the failing test first.
 4. **`auth/middleware.mjs`** (F8): move `requireAuthToken` and
    `requireSyncSecretOrAuthToken` out of the sync routes factory into factories
    taking `authService` (and the shared secret). Routes import them. The
-   [attendance spec](../in-progress/multi-event-attendance-spec.md)'s operator-or-desk check
+   [attendance spec](../implemented/multi-event-attendance-spec.md)'s operator-or-desk check
    in `src/attendance/routes.mjs` moves here too, as
    `requireAuthTokenOrDeskToken`.
 5. **`server/cors.mjs`** (F14, B3): move the CORS middleware out of `Server`;
@@ -764,7 +764,7 @@ src/sync/SyncService.mjs` finds nothing; there is exactly one place that reads
    `POST /v1/sessions` is `201`; an unknown `/v1/...` path is `404 { error,
    code: "not_found" }`; `/ping` has no `/v1` alias.
    The `/v1` prefix already exists: the
-   [attendance spec](../in-progress/multi-event-attendance-spec.md) (2.6.0) mounts its three
+   [attendance spec](../implemented/multi-event-attendance-spec.md) (2.6.0) mounts its three
    routes there. They and their tests stay as they are; this phase adds
    routes beside them.
 2. `sync/v1Routes.mjs`, `auth` and `scoresheets` get `/v1` routers calling the
