@@ -1234,5 +1234,5 @@ Built on the `attendance` branches. Where it departs from the text above:
   is the pinned version (SRI `sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1`).
 - Fixtures add a standard `console` demo event (`attendance-demo-2026`, in
   `_fixtures/config.json` only) beside the PickleDrive `desks` one.
-- Not yet checked by hand: Control Center's read-only state when signed out, and
-  the tab hiding for an event with no `attendance` setting.
+- Not yet checked by hand: Control Center's read-only state when signed out
+  (the tab hiding for an event with no `attendance` setting was checked).
