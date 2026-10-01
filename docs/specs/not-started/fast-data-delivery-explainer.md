@@ -28,6 +28,21 @@ live data path, aiming for **~5–7 seconds** — and it's not a rewrite of the
 sync logic, just a change to where the data lands and how the client asks for
 it.
 
+### The three pipelines side by side
+
+![Three ways a score reaches a screen: the old delayed-trigger and GitHub Pages pipeline at about 105 seconds, the proposed Cloudflare R2 pipeline at about 5 to 7 seconds (not built), and the running Cloudflare Worker push at about 2 to 5 seconds, with a bar chart of the three drawn to one scale.](../../images/sync-pipelines-compared.svg)
+
+How to read it: each row is one score's journey from the sheet edit to a screen.
+**Before** is measured (Pickle for Sight and Piggleball). **Proposed** is the
+Fast data delivery plan's estimates; it was never built. **Running now** is the
+Worker push: the Cloud Run leg and the edit-to-published time are measured, and
+the push leg is expected to be well under a second, to be confirmed by the
+real-use checks. In the two newer rows Cloud Run also saves the snapshot to
+GitHub afterwards as the archive, which is off the viewers' path, and a page
+whose live connection is down falls back to polling GitHub at the old speed.
+The old row's biggest delays were the delayed Apps Script trigger and the GitHub
+Pages build; the two newer plans both remove them.
+
 ## One thing it doesn't fix on its own
 
 Before the sync even starts, Google Apps Script waits for a delayed trigger

@@ -1,5 +1,9 @@
 # Live push delivery — plain-language explainer
 
+*Status (2 October 2026): built and running. The wording below was written
+before the build, so it still speaks of a plan; the implementation spec has the
+as-built details.*
+
 *Companion to `durable-object-push-spec.md` (the implementation spec). This
 file is for understanding what the project does and why; it has no
 instructions an implementer should follow — read the spec for that.*
@@ -77,6 +81,21 @@ About **2–5 seconds** from pressing Enter to the score appearing on a phone or
 wall screen, and around 8–10 seconds in a bad moment (the server waking from
 idle plus a slow Google step). Each part of the plan helps on its own, but
 the full speed needs both the quicker sheet trigger and the live push.
+
+### The three pipelines side by side
+
+![Three ways a score reaches a screen: the old delayed-trigger and GitHub Pages pipeline at about 105 seconds, the proposed Cloudflare R2 pipeline at about 5 to 7 seconds (not built), and the running Cloudflare Worker push at about 2 to 5 seconds, with a bar chart of the three drawn to one scale.](../../images/sync-pipelines-compared.svg)
+
+How to read it: each row is one score's journey from the sheet edit to a screen.
+**Before** is measured (Pickle for Sight and Piggleball). **Proposed** is the
+Fast data delivery plan's estimates; it was never built. **Running now** is the
+Worker push: the Cloud Run leg and the edit-to-published time are measured, and
+the push leg is expected to be well under a second, to be confirmed by the
+real-use checks. In the two newer rows Cloud Run also saves the snapshot to
+GitHub afterwards as the archive, which is off the viewers' path, and a page
+whose live connection is down falls back to polling GitHub at the old speed.
+The old row's biggest delays were the delayed Apps Script trigger and the GitHub
+Pages build; the two newer plans both remove them.
 
 ## What it costs
 
