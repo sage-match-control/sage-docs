@@ -158,8 +158,8 @@ to the `...` form rather than repointing it.
   dry run are open.
 - **[Attendance for every event](in-progress/multi-event-attendance-spec.md)**
   — staff check-in for any event, marked in Control Center or on a desk page,
-  one check-in per person. Built and tested on branches; the owner's checks on
-  Google's side, the service-account switch and the first real run are open.
+  one check-in per person. Merged, deployed and in use at Piggleball; desk links
+  on a real device and a few Google-side checks are still open.
 - **[Live push delivery](in-progress/durable-object-push-spec.md)** — a
   Cloudflare Durable Object that pushes each snapshot to open pages over
   WebSockets, with GitHub kept as archive and fallback. Deployed and switched

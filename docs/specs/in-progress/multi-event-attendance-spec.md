@@ -4,9 +4,12 @@ Staff check-in for any registered event, marked in Control Center or on a
 desk page, written by `sage-tools-api` straight into each facility workbook's
 `ATTENDANCE` tab. One check-in per person covers every category they play.
 
-> **Status: in progress.** Phases 1 and 3 to 7 are built and tested on the
-> `attendance` branches, not merged or deployed. Phase 2 (the owner's checks on
-> Google's side, §8) and Phase 8 are open. Decisions settled with the owner on
+> **Status: in progress.** Built, merged and deployed (`sage-tools-api` 2.6.1). In
+> use at Piggleball (`"attendance": "console"`): Update roster and marking work
+> against the real workbook as the service account. Still open: the checks in §8.4
+> marked not checked, desk links (`"desks"`) on a real device, pasting the
+> updated generators into the masters, and `<PROJECT_ID>` in the `Dockerfile`
+> comment. Decisions settled with the owner on
 > 2026-10-02 (§1). Written against `sage-tools-api` 2.5.0,
 > `sage-match-control.github.io` at `89a7476` and `event-data`'s
 > `config/events.json` as of that date.
@@ -1086,18 +1089,21 @@ the project ID. Afterwards, confirm `GET /ping` still answers and a sync from
 Control Center's **Resync this day now** still succeeds. Logs keep working:
 writing to stdout needs no role.
 
-### 8.4 Results (the owner fills this in)
+### 8.4 Results
+
+Filled in 2026-10-02 from what the owner reported. The one-off check service was
+not deployed: C1 and C2 are shown by the real service doing the same calls.
 
 | # | Check | Expected | Result | Date |
 |---|---|---|---|---|
-| C1 | `token` with the Sheets scope works on Cloud Run | success | | |
-| C2 | `write` and `addTab` succeed on a workbook shared with the account | success; note the write ms | | |
-| C3 | the check's writes do **not** fire `onEdit`; a hand edit does | none / one | | |
-| C4 | `recalc` reads `42` immediately | `42` (needed later for Court Control, not for attendance) | | |
-| C4b | `writeText` values stay strings | strings | | |
-| C5 | a copy made into, or moved into, the shared folder lists the service account | yes / no | | |
-| C6 | Sheets API quotas: read/min/user, write/min/user, per project | ≥ 60 writes/min/user | | |
-| C7 | Teams `Team Code` = standings `teamCode`; header row number | same; row 1 | | |
+| C1 | `token` with the Sheets scope works on Cloud Run | success | Success: Update roster got a token from the metadata server as the service account and wrote | 2026-10-02 |
+| C2 | `write` and `addTab` succeed on a workbook shared with the account | success; note the write ms | Success on Piggleball's Centro Atletico workbook (roster written, tab filled). Write time not measured. First attempt failed with the "can't edit this workbook" message because Cloud Run was still running as the default compute account | 2026-10-02 |
+| C3 | the check's writes do **not** fire `onEdit`; a hand edit does | none / one | Not checked. No sync loop seen at Piggleball | |
+| C4 | `recalc` reads `42` immediately | `42` (needed later for Court Control, not for attendance) | Not checked | |
+| C4b | `writeText` values stay strings | strings | Not checked directly. Names and `timeIn` strings were written with RAW and read back correctly in Control Center | 2026-10-02 |
+| C5 | a copy made into, or moved into, the shared folder lists the service account | yes / no | Not checked. Until it is, §6.5's per-workbook sharing step stands | |
+| C6 | Sheets API quotas: read/min/user, write/min/user, per project | ≥ 60 writes/min/user | Per project: 300 reads and 300 writes per minute. Per user: 60 reads and 60 writes per minute. Not adjustable. Meets the 60 writes/min/user threshold exactly; planning figure about 30 marks a minute sustained | 2026-10-02 |
+| C7 | Teams `Team Code` = standings `teamCode`; header row number | same; row 1 | Not checked. Do this before turning attendance on for a team event | |
 
 **What changes the plan:**
 - C1 fails → stop; the token comes another way (owner decision).
