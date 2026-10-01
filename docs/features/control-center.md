@@ -82,10 +82,15 @@ signing in, and the tab it opens on. From top to bottom:
   where it is.
 
 Quick outcomes, like signing in or out, switching the public site or the
-sync method, or "pick a day first", appear as a short message at the bottom
+sync method, or "pick a day first", appear as a short message at the top
 of the screen, wherever you are on the page. Errors stay until you close
 them or for about nine seconds. Messages from Cloud Run, Google or GitHub are
 shown in plain words, never as raw data.
+
+The result boxes (resync, Check connection) have a close button, and they
+clear themselves when you change the event, the day or the tab, so a result
+never sits under a different day. A resync that finishes after you've moved
+on reports as a short message at the top instead.
 
 ## Awards
 

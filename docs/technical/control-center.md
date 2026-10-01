@@ -141,7 +141,7 @@ views (the tab buttons call it), and `revealLiveTabsAfterLoad()` calls
 Control.
 
 **How outcomes are shown.** Short outcomes go to `showToast(kind, text, key)`,
-a stack pinned to the bottom of the screen (`#toastStack`, `aria-live`), so
+a stack pinned to the top of the screen (newest first) (`#toastStack`, `aria-live`), so
 they are seen wherever the button sits: the go-live and sync-method switches
 (their current state is already on screen), sign-in and sign-out, and
 "pick a day first" / "sign in first". A toast with the same `key` replaces
@@ -154,6 +154,17 @@ from the sync response via `resyncResultRows()`). Error text from
 {...}}` from Google, `{"message": ...}` from GitHub, `{"error": ...}` from the
 live Worker); `friendlyApiMessage()` turns each `HTTP <status> <json>` into
 words plus the JSON's own message before anything is shown.
+
+Every finished result box gets a close button (`addResultClose()`); one still
+showing its `loading` message doesn't. `clearResultBoxes()` hides and empties
+every `.organizer-result` and bumps `resultEpoch`; `selectEvent()`,
+`selectDay()` and `showView()` (only when the view actually changes) call it.
+A box records the epoch on its `loading` message, and a result arriving under
+a later epoch (a resync still running when the operator switched day) goes to
+`showToast()` instead, keyed by the box's id, so it is neither lost nor shown
+under the wrong day. Toasts are made visible by flushing styles
+(`void toast.offsetWidth`) before adding `show`, not with
+`requestAnimationFrame`, which never fires while the page isn't painting.
 
 ## Facility progress
 
