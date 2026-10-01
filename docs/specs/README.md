@@ -171,6 +171,10 @@ to the `...` form rather than repointing it.
 - **[Attendance for every event](not-started/multi-event-attendance-spec.md)**
   — idea only: move attendance writes into `sage-tools-api`, keyed by the
   event registry, so no workbook needs its own Apps Script web app.
+- **[sage-tools-api architecture hardening](not-started/sage-tools-api-architecture-spec.md)** —
+  a unit and integration test suite first, then SOLID-aligned structure for
+  the sync code, one error and config path, `/v1` resource-style routes with
+  every existing URL kept, and a cleaner folder layout. `/ping` unchanged.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger

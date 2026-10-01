@@ -105,5 +105,6 @@ nav:
           - Overview: specs/not-started/README.md
           - Attendance for every event: specs/not-started/multi-event-attendance-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
+          - sage-tools-api architecture hardening: specs/not-started/sage-tools-api-architecture-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
