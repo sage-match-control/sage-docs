@@ -1234,6 +1234,11 @@ Built on the `attendance` branches. Where it departs from the text above:
   workbooks had by hand. §3.2's rule that the API never writes past G now has
   this one exception, made only by `createAttendanceTab`; `updateValues`
   still refuses column J.
+- **Both generators create the empty `ATTENDANCE` tab** (header A1:G1, the Not
+  yet in list in J, row 1 frozen) as the last step of a run, so Update roster only
+  fills it in. The API still creates the tab when it is missing. A tab already
+  named `ATTENDANCE` is left alone. Their verify scripts import the API's
+  `HEADERS`. Apps Script, so pasting it into the masters is the only deploy.
 - **The package lock** still says 2.0.0 and was left alone.
 - **QR library:** cdnjs has `qrcode-generator` files only up to **1.4.4**, so that
   is the pinned version (SRI `sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1`).

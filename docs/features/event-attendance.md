@@ -19,6 +19,13 @@ Each venue's workbook must be shared with the API's service account as
 **Editor**, so it can write the tab. See
 [Preparing an event](preparing-an-event.md#5-register-it-and-wire-up-the-sync).
 
+## The tab
+
+The workbook generators add an empty **ATTENDANCE** tab to every workbook they
+build, so it is there from the start with its header and the **Not yet in** list.
+**Update roster** then only fills it in. A workbook without one gets the tab
+created on the first Update roster.
+
 ## The roster
 
 The roster is made for you. After every sync the API compares each venue's

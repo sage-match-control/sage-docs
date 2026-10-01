@@ -45,6 +45,15 @@ collapsed, lower-cased), the only definition of identity. `teams` and
 (Asia/Manila). Columns H onward belong to people; the API never reads or
 writes them.
 
+Both generators (`sheet-generator.gs`, `standard-generator.gs`) create this tab
+empty when they build a workbook: the header, a frozen first row, and the
+column J list below. `verify-sheet-generator.mjs` and
+`verify-standard-generator.mjs` import `HEADERS` from `attendanceTab.mjs`, so
+the generated header cannot drift from the one the API requires. A tab of that
+name already in the workbook is left alone. The API creates the tab itself only
+when it is missing (a workbook made before this, or a hand-built one such as
+PickleDrive's).
+
 One exception to "never past G": when the API creates the tab it also writes a
 **Not yet in** list in column J (`J1` the header, `J2` a `FILTER` formula listing
 everyone neither present nor withdrawn). That write is fixed in
