@@ -20,6 +20,33 @@ they're going back into. The category is filled in for that visit only and is
 never remembered — a category carried over to a later visit is how someone
 draws the wrong one.
 
+## Keeping certain pairs apart
+
+Some categories have pairs that shouldn't meet in the round robin: say four
+strong pairs in a category drawn into four brackets. Add them as a
+**keep-apart group** and the draw puts every pair of the group in a different
+bracket.
+
+1. Paste the pairs first. The group pickers list the pairs you've entered, so a
+   name can never be mistyped.
+2. Under **Keep apart**, press **+ Add a keep-apart group**, then choose the
+   pairs from the **Add a pair…** list. Press × on a pair to take it out again.
+3. Add more groups if you need them. A pair can be in only one group.
+4. Draw as usual. Each group's pairs are tagged `G1`, `G2`… on the result
+   cards.
+
+A group can't have more pairs than there are brackets, and needs at least two.
+The tool says so on the group and won't draw until it's fixed. If you edit or
+remove a pair that is in a group, it drops out of the group and the group tells
+you. A pair entered on two lines can't be put in a group.
+
+Which of the group's pairs lands in which bracket is still decided by the seed,
+and the draw is just as checkable: the text export lists every group. Groups
+are dealt first, in the order they're numbered, then everyone else, so the
+sizes stay even (within one pair). When a group has fewer pairs than there are
+brackets, the last brackets get none of it. The brackets are otherwise
+interchangeable, so that is not an advantage to anyone.
+
 ## Verifiable Draw or Random Draw
 
 The **Draw type** switch above the Seed field picks how the draw is made:
@@ -110,9 +137,10 @@ they're easy to find again after exporting eight categories in a row —
 
 It doesn't know your event. Pairs are typed in by hand — nothing is pulled
 from a registration list or `event-data` — and nothing the tool produces is
-published anywhere; you export a file and post or print it yourself. The draw
-itself is uniformly random with no rankings and no protected pairings:
-it won't keep training partners or club-mates apart, and it doesn't try to.
+published anywhere; you export a file and post or print it yourself. Apart
+from the [keep-apart groups](#keeping-certain-pairs-apart) you set up, the draw
+is uniformly random with no rankings: it won't keep training partners or
+club-mates apart unless you tell it to.
 
 ---
 **Features:** [preparing an event](preparing-an-event.md) ·

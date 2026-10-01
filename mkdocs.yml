@@ -94,6 +94,7 @@ nav:
           - Facility progress: specs/implemented/facility-progress-spec.md
           - Event attendance: specs/implemented/event-attendance-spec.md
           - Immediate sync: specs/implemented/immediate-sync-spec.md
+          - Bracket Generator keep-apart groups: specs/implemented/bracket-generator-keep-apart-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
           - Team tournament: specs/in-progress/pickledrive-club-anniversary-team-tournament-spec.md

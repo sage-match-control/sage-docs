@@ -105,6 +105,9 @@ to the `...` form rather than repointing it.
   instead of being typed and hand-shuffled. Also carries the workbook's menu
   route into the tool (§11) and a dual meet's in-sheet roster shuffle (§12).
   Replaces the retired Bracket Generator workbook handoff spec.
+- **[Keep-apart groups](implemented/bracket-generator-keep-apart-spec.md)** —
+  keeping chosen pairs out of the same bracket while the draw stays checkable
+  from the seed.
 
 ### Dual Meet Sheet Generator
 

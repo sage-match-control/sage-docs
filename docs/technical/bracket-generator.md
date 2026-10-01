@@ -13,6 +13,43 @@ many buckets were requested, so bracket sizes differ by at most one. The
 requested bracket count clamps to the pair count — you can't ask for more
 brackets than you have pairs.
 
+## Keep-apart groups
+
+`keepApartGroups` is UI state: a list of `{ members: [pair, ...] }`, each member
+picked from the entered pairs (never typed) so it always equals the string the
+draw hashes. Spec:
+[keep-apart groups](../specs/implemented/bracket-generator-keep-apart-spec.md).
+
+The fingerprints and their sort are untouched. `orderForDraw(sorted, groups)`
+then builds the list the deal runs on: each group's members in fingerprint
+order, group 1 first, then every pair not in a group, also in fingerprint
+order. `dealBrackets` deals that list round-robin as before. Any run of up to
+`N` consecutive pairs lands in `N` different brackets, so a group no larger
+than the bracket count is always split, with no search or retry involved. With
+no groups the list is unchanged, so a draw without groups is byte-for-byte what
+it was before groups existed (the text export included).
+
+Rules the code enforces:
+
+- A group has at least 2 and at most `numBrackets` members. The bracket count
+  is the capped one (never more brackets than pairs). A violation refuses the
+  draw before a seed is generated or the draw counter moves.
+- A member must be entered exactly once. `reconcileGroups()` drops members whose
+  line was edited, removed or duplicated, on every change to the pair list, and
+  the group says so.
+- `groupsApart()` re-checks the finished deal and refuses it if a group shares
+  a bracket. It cannot fire while `orderForDraw` is correct; it is there so a
+  later edit to either cannot publish a broken draw.
+- The groups are part of `inputKey`, so changing them resets the draw counter.
+
+**Text export.** With groups, the `DRAW VERIFICATION` block lists the
+fingerprints group by group (`Group 1 (keep apart, 4 pairs)`, …, `Everyone
+else`) and the method and check instructions say groups are dealt first. The
+`BRACKET` lines are never annotated: `SAGE → Import bracket draws` reads
+every numbered line under a `BRACKET` heading as a pair name. The image export
+only gains a count in its verification line. Result cards tag grouped pairs
+`G1`, `G2`…
+
 ## Draw types
 
 A `drawMode` radio group picks only where the seed comes from:

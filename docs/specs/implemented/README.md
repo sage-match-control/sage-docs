@@ -22,6 +22,7 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Schedule screen](schedule-screen-spec.md) | `events/<key>/schedule.html`, since backported into both templates |
 | [Scoresheet event picker](scoresheet-event-picker-spec.md) | `tools/scoresheet-generator.html`'s snapshot picker |
 | [Calculator dual-meet fixes](calculator-dual-meet-spec.md) | "Pairs per club" and the dual bracket default |
+| [Bracket Generator keep-apart groups](bracket-generator-keep-apart-spec.md) | `tools/bracket-generator.html`'s keep-apart groups: chosen pairs dealt into different brackets, still verifiable from the seed |
 | [Calculator PWA](calculator-pwa-spec.md) | `tools/sw.js` + `tournament-calculator.webmanifest` |
 | [Bracket Generator](bracket-generator-spec.md) | `tools/bracket-generator.html` |
 | [Verifiable draw](bracket-generator-verifiable-draw-spec.md) | Its seed, SHA-256 fingerprint draw, and *How it works* dialog |
