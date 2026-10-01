@@ -23,8 +23,8 @@ Each match card ("ticket") shows:
 ## For spectators: watch it happen
 
 **Live scores and court assignments** update on their own while play is
-underway — no refreshing, no flagging down a volunteer to ask what's
-happening on Court 6.
+underway, usually within a few seconds of the score being entered — no
+refreshing, no flagging down a volunteer to ask what's happening on Court 6.
 
 **Live standings** — win/loss records and rankings — update the same way,
 sorted by division and category, so the board on your phone is never a stale

@@ -13,8 +13,8 @@ each page here.
 ## Backend (`sage-tools-api`)
 
 - **[Sync pipeline](sync-pipeline.md)** — Sheets → GitHub, the runtime-fetched
-  event registry, and the live-delivery path (poll interval, staleness
-  guards).
+  event registry, and the live-delivery path (the live push Worker, the
+  GitHub archive and polling fallback, the operator switch).
 - **[Scoresheet pipeline](scoresheet-pipeline.md)** — CSV → Handlebars →
   Chromium → merged PDF.
 - **[Auth](auth.md)** — the operator sign-in and how it interacts with the

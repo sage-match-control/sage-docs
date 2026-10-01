@@ -101,7 +101,7 @@ on its own. These sizes match the public event pages' standings board.
 Pair names never wrap or truncate: each table sits in a `.br-table-wrap`
 that scrolls horizontally if a name is wider than the card. The desktop
 row and every `.br-table-wrap` are in `SCROLLABLE_SELECTOR`, so their
-scroll positions survive the 15-second re-render.
+scroll positions survive the re-render that every update triggers (a pushed snapshot, or the 10-second poll).
 
 **Awards** is the fifth tab — full derivation and export architecture in its
 own section below.
@@ -112,7 +112,13 @@ for what it does; scoped to whichever event is selected. The go-live states are 
 from the synced `Schedule` column — no hour to configure), `true` (force
 live), and `false` (Live/Standings hidden, scores suppressed on Tournament
 Hub only — this console's own tabs stay live regardless, so an operator can
-verify a fix before un-hiding). The connection-check line also surfaces the
+verify a fix before un-hiding). **Check connection** also reports whether Cloud Run is publishing to live push
+(`GET /sync/config`'s `live`, which needs the sign-in), and **Sync method** is
+the emergency switch between live push and GitHub only (`POST
+/sync/live-push`, which writes `livePush` into `config/events.json`). The page
+itself holds the same live channel block as the public pages, and the
+**Live updates** row in Facility sync status reports whether its own socket is
+open. The connection-check line also surfaces the
 currently-cached sync config's short SHA (see [sync
 pipeline](sync-pipeline.md) § Observability), so an operator can see at a
 glance whether a just-committed `events.json` change has actually taken

@@ -224,8 +224,8 @@ on the spot rather than discovered as a venue that silently never publishes.
 
 ## 6. Sync, and check the site
 
-Scores publish on their own during the event, about ten seconds after the
-typing stops. Before the event there is nothing to wait for, so push the
+Scores publish on their own during the event, within a few seconds of each
+edit. Before the event there is nothing to wait for, so push the
 first copy up yourself. Either way works:
 
 - **From the workbook** — **SAGE → Sync now**, in each venue's spreadsheet.

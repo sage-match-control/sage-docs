@@ -15,6 +15,7 @@ default).
 ```jsonc
 {
   "version": 1,
+  "livePush": true,                   // optional: false turns live push off (written by Control Center's Sync method switch)
   "defaults": {
     "matchesSheetName": "CSV",
     "standingsSheetName": "STANDINGSCSV"
@@ -84,6 +85,10 @@ bundled fallback seed) rather than partially applying a broken commit:
   empty).
 - `isLive`, if present, must be `true`, `false`, or the literal string
   `"auto"`.
+- `livePush`, if present, must be `true` or `false`. `false` makes every
+  sync and Live/Hide publish to GitHub alone; absent or `true` leaves live
+  push to Cloud Run's environment. Normally written by Control Center's
+  **Sync method** switch, not by hand.
 - Facility names must be unique within a day.
 - At least one event, each with at least one day.
 

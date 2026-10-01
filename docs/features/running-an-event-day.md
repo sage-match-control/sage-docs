@@ -83,8 +83,7 @@ blank, since a blank court just shows as idle instead of telling anyone
 what's coming up next. Enter the finished match's score right after.
 
 Everything else happens on its own — scores and court status reach the
-public site and the wall display within about ten seconds, with no extra
-steps.
+public site and the wall display within a few seconds, with no extra steps.
 
 What to actually watch for:
 
@@ -96,6 +95,13 @@ What to actually watch for:
   Tournament Hub; Control Center itself keeps showing everything the whole
   time, so you can verify the fix before putting it back in front of
   spectators.
+- **Live updates misbehaving** (pages stop updating, or show stale scores) —
+  open Mission Control and check that **Live updates** reads *push connected*
+  and **Check connection** says *Live push: on*. If the live service is the
+  problem, switch **Sync method** to **GitHub only**: every score then goes
+  through GitHub and pages catch up within 30–60 seconds, as before live push.
+  Switch it back once things are healthy. It takes effect within about a
+  minute.
 - **A player asking where their match is** — use Match Finder right there in
   Control Center.
 

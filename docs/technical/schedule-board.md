@@ -145,9 +145,10 @@ appear to work — row order often does line up with courts — and that is
 exactly what makes it dangerous: an undocumented contract that breaks
 silently the first time someone reorders a row.
 
-Polls on the same interval and cache-busting convention as the rest of the
-site (see [sync pipeline](sync-pipeline.md)); a failed poll leaves the last
-good board on screen rather than showing an error — a wall display showing
+Receives pushed snapshots over the same live channel as the event pages and
+falls back to the same poll interval and cache-busting convention as the rest
+of the site (see [sync pipeline](sync-pipeline.md#live-push-delivery)); a
+failed poll leaves the last good board on screen rather than showing an error — a wall display showing
 stale data beats one showing an error message. Re-rendering preserves the
 current court filter and scroll position.
 

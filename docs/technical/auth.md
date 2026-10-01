@@ -26,13 +26,14 @@ every sheet edit) has no browser to sign into, so it authenticates with the
 raw secret directly; Control Center authenticates with the
 token it got from signing in. Same for `GET /sync/config`.
 
-`POST /sync/:day/live` (the go-live override) accepts the **operator
-token only** — no shared-secret fallback, since Apps Script never calls
-this endpoint. This is what makes the shared secret safe to bake into 15+
-installed Apps Script projects: it can only ever trigger a data sync, never
-flip the public site's visibility.
+`POST /sync/:day/live` (the go-live override) and `POST /sync/live-push`
+(the live push switch) accept the **operator token only** — no shared-secret
+fallback, since Apps Script never calls these endpoints. This is what makes
+the shared secret safe to bake into 15+ installed Apps Script projects: it
+can only ever trigger a data sync, never flip the public site's visibility or
+turn live push off.
 
-Both routes **fail closed** if neither auth path is configured or valid —
+All of these routes **fail closed** if neither auth path is configured or valid —
 there's no unauthenticated fallback.
 
 ## What the console does with it

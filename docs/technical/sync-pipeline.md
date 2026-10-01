@@ -249,8 +249,8 @@ execution that gets the lock waits `SYNC_SETTLE_MS` (1.5 s, so the second
 score of a match usually lands in the same sync), syncs, and checks whether
 any edit was recorded after that sync started; if so it syncs again, waiting
 first so that the new sync starts at least `SYNC_MIN_GAP_MS` (5 s) after the
-previous one did. Every sync is a GitHub commit and a Pages build, so the
-gap caps steady typing at about one commit every 5 s instead of one every
+previous one did. Every sync is a GitHub commit (the archive; a Pages build
+follows each one), so the gap caps steady typing at about one commit every 5 s instead of one every
 3 s; after a quiet spell a lone edit waits only the settle. (The start time
 of the last sync is kept in a script property, `lastSyncStartTime`, because a
 different execution may hold the lock next.) An edit
@@ -430,7 +430,8 @@ facility names unique within a day. Full shape and rules:
   a load itself, since Cloud Run's health checks hit this endpoint and it
   must stay fast even when GitHub is unreachable.
 - `GET /sync/config` (secret- or token-gated) returns the full resolved
-  view for debugging: SHA, source, age, every registered event/day.
+  view for debugging: SHA, source, age, every registered event/day, and the
+  live push state (`live: { enabled, baseUrl, switch, active }`).
 
 ## `/sync/:day/live` — the go-live override
 
