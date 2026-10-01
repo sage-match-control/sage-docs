@@ -103,7 +103,7 @@ that scrolls horizontally if a name is wider than the card. The desktop
 row and every `.br-table-wrap` are in `SCROLLABLE_SELECTOR`, so their
 scroll positions survive the re-render that every update triggers (a pushed snapshot, or the 10-second poll).
 
-**Awards** is the fifth tab — full derivation and export architecture in its
+**Awards** is the second tab — full derivation and export architecture in its
 own section below.
 
 **Mission Control** — see [Mission Control usage](../features/control-center.md#mission-control)
@@ -133,6 +133,27 @@ same `config/events.json` fetch the console already makes (see [event
 registry schema](event-data-config.md) § Sheet IDs are effectively
 public). The link is omitted for a facility with no `sheetId` yet, the
 same "not set up" condition the sync pipeline itself skips.
+
+**Tab order and landing.** The tabs run Mission Control, Awards, Live Matches,
+Match Finder, Standings. `showView(view)` is the one place that switches
+views (the tab buttons call it), and `revealLiveTabsAfterLoad()` calls
+`showView('organizer')` once a day loads, so the console opens on Mission
+Control.
+
+**How outcomes are shown.** Short outcomes go to `showToast(kind, text, key)`,
+a stack pinned to the bottom of the screen (`#toastStack`, `aria-live`), so
+they are seen wherever the button sits: the go-live and sync-method switches
+(their current state is already on screen), sign-in and sign-out, and
+"pick a day first" / "sign in first". A toast with the same `key` replaces
+the last one; errors stay about nine seconds and can be closed. Results worth
+reading go in a box directly under their button, rendered as labelled rows by
+`showResultRows()` and scrolled into view: **Check connection**
+(`#orgConnResultBox`) and the resyncs (`#orgResultBox`, one row per facility
+from the sync response via `resyncResultRows()`). Error text from
+`sage-tools-api` embeds the upstream service's raw reply (`HTTP 403 {"error":
+{...}}` from Google, `{"message": ...}` from GitHub, `{"error": ...}` from the
+live Worker); `friendlyApiMessage()` turns each `HTTP <status> <json>` into
+words plus the JSON's own message before anything is shown.
 
 ## Facility progress
 
