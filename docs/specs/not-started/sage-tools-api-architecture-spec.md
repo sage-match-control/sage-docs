@@ -1,17 +1,23 @@
 # Spec — `sage-tools-api` architecture hardening (tests first)
 
-> **Status: not started.** Nothing here is built. Written 2026-10-01 against
-> `sage-tools-api` 2.5.0 (live push 2.4.0 plus the operator switch 2.5.0, both
-> in the working tree) and the review recorded in §2.
+> **Status: not started.** Nothing here is built. Written 2026-10-01 and
+> revised 2026-10-02 against `sage-tools-api` 2.5.0 (live push 2.4.0 plus the
+> operator switch 2.5.0) and the review recorded in §2.
 >
-> **Prerequisite:** the [Live push delivery](../in-progress/durable-object-push-spec.md)
-> code is committed to `main` of `sage-tools-api` and its 70-check
+> **Prerequisite, met:** the [Live push delivery](../in-progress/durable-object-push-spec.md)
+> code is committed to `main` of `sage-tools-api`, deployed to Cloud Run
+> (2.5.0) and running against the `sage-live` Worker, and its 70-check
 > `scripts/verify-sync-merge.mjs` passes. This spec refactors that code, so
-> start from it, not before it.
+> start from it, not before it. The test suite describes the code **as it is on
+> `main` when it is written**; if the code has moved since this revision, the
+> numbers in §2 and in the test-suite spec's §2 (line counts, route list, the 70
+> checks) are the first thing to re-check.
 >
-> **Order is the point.** Phase 0 builds a unit and integration test suite
-> against the code **as it is today** and ends green. No production file
-> changes until it does. Every later phase has to leave that suite green.
+> **Order is the point.** A unit and integration test suite is built first,
+> from its own spec, [`sage-tools-api-test-suite-spec.md`](sage-tools-api-test-suite-spec.md)
+> (this spec's Phase 0), against the code **as it is today**, and ends green.
+> No production file changes until it does. Every later phase has to leave that
+> suite green.
 
 Bring `sage-tools-api` to a shape that follows SOLID, has no duplicated
 conflict-retry logic, handles errors in one place, is configured and validated
@@ -92,7 +98,7 @@ production change is wrong until proven otherwise; change a test only where
 **Goals**
 
 1. A unit and integration test suite that pins today's behaviour, written
-   before any refactor, and kept green throughout.
+   before any refactor (its own spec, [§5](#5-tests)), and kept green throughout.
 2. `SyncService` split along its real responsibilities, with the conflict-retry
    loop written once.
 3. One error-handling path, one auth-middleware module, one validated
@@ -119,9 +125,14 @@ production change is wrong until proven otherwise; change a test only where
 - `scripts/sheets-sync.gs` is pasted into live Google Sheets workbooks and
   calls `POST /sync/:day?facility=<name>` with `X-Sync-Secret` and
   `X-Edit-At`. Control Center calls `/sync/:day`, `/sync/:day/live`,
-  `/sync/config`, `/auth/login`. The scoresheet generator calls
-  `/scoresheets/generate/stream`. None of those can be renamed without
-  breaking something already deployed, so they are aliases forever.
+  `/sync/live-push`, `/sync/config`, `/auth/login`, and reads specific
+  fields from them: `live.published` in the Live/Hide response (its
+  confirmation message), and `live.enabled`, `live.switch` and `live.baseUrl`
+  in `/sync/config` (the Sync method switch and **Check connection**; a service
+  without `live.switch` is reported as "older than 2.5.0"). The scoresheet
+  generator calls `/scoresheets/generate/stream`. None of those can be renamed
+  or reshaped without breaking something already deployed, so they are aliases
+  forever and their fields are part of the contract (test-suite spec §2.1).
 - Operators read error bodies: Apps Script's **Sync now** shows
   `Sync failed (<status>): <body>`. Error messages stay as they are.
 
@@ -144,7 +155,7 @@ The findings of the architecture review (2026-10-01). Each maps to a phase.
 | F9 | `index.mjs` parses environment variables ad hoc with no validation | five `Number(process.env…)`; an empty `LIVE_PUSH_TIMEOUT_MS` would become `0` | 2 |
 | F10 | `jsconfig.json` checks nothing | includes `**/*.js` (the code is `.mjs`), target ES2015, `checkJs: false` | 2 |
 | F11 | The server comment and docs say HTTP/1.1 fallback works over cleartext; it does not | `http2.createServer({ allowHTTP1: true })` | 2 |
-| F12 | No test runner; checks are ad hoc scripts | `scripts/verify-*.mjs` | 0 |
+| F12 | No test runner; checks are ad hoc scripts | `scripts/verify-*.mjs` | 0 (test-suite spec) |
 | F13 | The API is RPC-style: verbs in paths, `POST` used to set state, no versioning | `/scoresheets/generate`, `/sync/:day/live`, `/sync/live-push`, `/auth/login` | 5 |
 | F14 | CORS allows `GET, POST, OPTIONS` only | `Server.mjs` | 2, 5 |
 | F15 | Three failed GitHub commits return `500`; `409` is the accurate status | `SyncService` rethrows the raw GitHub error, which has no `statusCode` | 3 |
@@ -160,35 +171,20 @@ The findings of the architecture review (2026-10-01). Each maps to a phase.
 
 ### 3.1 What must not change
 
-For every existing route, the **status code, response body, and the response
-headers listed here** are identical before and after the refactor. Phase 0 pins
-them; later phases may not move them.
-
-| Route | Pinned |
-|---|---|
-| `GET /ping` | `200`, body exactly `PONG!`, `X-App-Version` equal to `package.json`'s version, `X-Sync-Config` as `<7-char sha>/remote`, `seed/fallback`, or absent when nothing is cached. No config fetch. Remains in `Server.mjs`. |
-| `GET /openapi.json` | `200`, a valid OpenAPI 3.0.3 document, `servers[0].url` built from the request host |
-| `POST /auth/login` | `400` for a missing field, `401` for bad credentials or missing server config, `200 { token, expiresAt }` |
-| `POST /sync/:day` | the sync response shape: `day, label, method, facilitiesSynced, facilitiesFailed, facilitiesStale, commitSha, attempts, live?, archive?, timing` (`timing`: `editToRequestMs, fetchMs, publishMs, editToPublishedMs, liveMs, archiveMs`); `X-Edit-At` accepted only within the last hour and at most 5 s in the future; `?facility=`, `?method=csv`; auth by `X-Sync-Secret` **or** a bearer token |
-| `POST /sync/:day/live` | bearer token only (the secret is refused); body `{ isLive: true \| false \| "auto" }`; `400` otherwise; `{ day, label, isLive, republished, live?, archive? }` |
-| `POST /sync/live-push` | bearer token only; body `{ enabled: boolean }`; `{ enabled, changed, available }` |
-| `GET /sync/config` | secret or token; `{ sha, source, loadedAt, ageMs, events, days, live: { enabled, baseUrl, switch, active } }`, never the secret |
-| `POST /scoresheets/generate` | multipart `csv` + `evt`, `type`, `out`, `blanks`; `200` PDF with `Content-Type: application/pdf` and `Content-Disposition: attachment; filename="<name>.pdf"` |
-| `POST /scoresheets/generate/stream` | `400 { error }` before streaming for a missing field; otherwise `200 application/x-ndjson` lines `parsing`, `rendering`, `merging`, then `done` (with `pdfBase64`) or `error` |
-| every response | `X-App-Version`, `Access-Control-Allow-Origin`, `Access-Control-Expose-Headers: X-App-Version, X-Sync-Config`; `OPTIONS` answers `204` |
-| error statuses | validation `400`, unauthorized `401`, unknown day `400`, upstream failure `502`, config unavailable `503`, anything else `500` |
-
-Sync semantics that are pinned by the existing `verify-sync-merge.mjs` (70
-checks) are part of the contract: facility merge and carry-forward,
-`completedAt`, `lastEditAt` survival across a full resync, live-first
-publishing with GitHub archive, fallback to GitHub on any Worker failure, the
-`409` retries, the operator switch, the stale-object rule (merge into the
-newer of the Worker's and GitHub's copy by `publishedAt`).
+For every existing route, the **status code, response body and the response
+headers that deployed clients read** are identical before and after the
+refactor. That contract is defined once, in the
+[test-suite spec §2.1](sage-tools-api-test-suite-spec.md#21-what-must-not-change),
+and enforced by that suite. Nothing in it changes except the items in §3.2.
+`GET /ping` stays exactly as it is: `200`, body `PONG!`, `X-App-Version` and
+`X-Sync-Config`, no config fetch, in `Server.mjs`, with no alias.
 
 ### 3.2 What changes on purpose
 
-Nothing else changes. These do, and each has a test that is updated in the
-phase named.
+Nothing else changes. These do, and each is pinned as today's behaviour by a
+test marked `// CHARACTERIZATION B<n>` in the test suite
+([test-suite spec §2.2](sage-tools-api-test-suite-spec.md#22-behaviour-pinned-now-that-a-later-phase-changes-on-purpose)),
+which is edited in the phase named.
 
 | # | Change | Phase |
 |---|---|---|
@@ -218,8 +214,9 @@ sage-tools-api/
   live-worker/                   # unchanged
   scripts/
     hash-password.mjs            # the only dev tool left here
+    run-appscript-verifies.mjs   # runs the three Apps Script verify scripts (test-suite spec)
   templates/                     # scoresheet HTML/CSS, unchanged
-  test/                          # Phase 0
+  test/                          # built by the test-suite spec
     helpers/  unit/  integration/  e2e/
   src/
     config/
@@ -477,337 +474,47 @@ The site and Apps Script keep calling the legacy URLs. Moving Control Center to
 spec.
 
 ---
-## 5. Test strategy
+## 5. Tests
 
-### 5.1 Layers
+### 5.1 The suite that comes first
 
-| Layer | What it is | What is real | What is faked |
-|---|---|---|---|
-| **Unit** | one module in isolation | the module | its collaborators (hand-written fakes), or `globalThis.fetch` for the four HTTP clients |
-| **Integration** | the real wiring, driven over HTTP | `Server`, routes, middleware, `SyncService`, `SyncConfigStore`, publishers, fetchers | the three outside services (GitHub, Google Sheets, the live Worker), replaced at `globalThis.fetch` by one in-memory `FakeWorld` (§5.4) |
-| **End-to-end (opt-in)** | real Chromium renders a real PDF | the scoresheet pipeline | nothing; skipped unless `RUN_PDF_E2E=1` |
+The unit and integration suite for everything that exists today (helpers, the
+`FakeWorld`, the characterization policy, the coverage matrix, the ten sabotage
+checks, the build steps and acceptance checklist) is its own spec:
+[`sage-tools-api-test-suite-spec.md`](sage-tools-api-test-suite-spec.md). It is
+this spec's Phase 0 and a **gate**: Phase 1 does not start until that spec's
+acceptance checklist is complete and `npm run verify` is green. After that, every
+phase here leaves it green. Its helpers (`startApp`, `createFakeWorld`, builders, the
+fakes) are what the tests in §5.2 are written with.
 
-The Apps Script harnesses (`verify-attendance`, `verify-standard-generator`,
-`verify-sheet-generator`) and the live Worker's `smoke.mjs` stay as they are;
-they test code that is not the Cloud Run service. `npm run verify` runs them
-beside the new suite.
+### 5.2 Tests for the modules this spec creates
 
-### 5.2 Tooling and scripts
-
-`node:test` and `node:assert/strict`. No test dependency is added.
-
-```jsonc
-// package.json "scripts" — added in Phase 0; "start" is unchanged
-{
-  "start": "node index.mjs",
-  "test": "node --test \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
-  "test:unit": "node --test \"test/unit/**/*.test.mjs\"",
-  "test:integration": "node --test \"test/integration/**/*.test.mjs\"",
-  "test:e2e": "node --test \"test/e2e/**/*.test.mjs\"",
-  "test:coverage": "node --test --experimental-test-coverage \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
-  "test:appscript": "node scripts/run-appscript-verifies.mjs",
-  "verify": "npm test && npm run test:appscript"
-}
-```
-
-`scripts/run-appscript-verifies.mjs` is a ten-line script that runs the three
-Apps Script verify scripts in turn and exits non-zero if any does. (After
-Phase 1 it points at `apps-script/`.) The two `verify-*` scripts that cover
-`src/` (`verify-sync-merge`, `verify-facility-completion`) are ported to
-`node:test` in Phase 0 and removed in Phase 6.
-
-Coverage is reported, not enforced (Node 22.1 has no threshold flag). Targets
-for the owner to eyeball in the report: `src/sync` ≥ 90 % of lines,
-`src/auth` ≥ 95 %, `src/server` ≥ 90 %, `src/config` ≥ 95 %.
-
-### 5.3 Layout and naming
-
-```
-test/
-  helpers/
-    logger.mjs         # silentLogger, capturingLogger()
-    builders.mjs       # snapshot, facility, config builders (§5.4)
-    fakes.mjs          # FakePublisher, FakeLivePublisher (moved from verify-sync-merge.mjs)
-    fakeWorld.mjs      # in-memory GitHub + Sheets + Worker behind globalThis.fetch
-    http.mjs           # startApp(), multipart()
-  unit/<area>/<Module>.test.mjs
-  integration/<feature>.test.mjs
-  e2e/pdf.e2e.test.mjs
-```
-
-- A test file mirrors the module it covers; after Phase 1 and 4 moves it
-  moves with it (`git mv`).
-- `describe(<module or route>)` then `it("<observable behaviour in plain words>")`.
-  Names read as a specification: `it("answers 401 when neither a secret nor a token is sent")`.
-- One behaviour per `it`. Arrange, act, assert, in that order, with no logic
-  in the assertion.
-
-### 5.4 Helpers (specified so every test builds on the same ones)
-
-**`logger.mjs`**
-
-```js
-export const silentLogger = { info() {}, warn() {}, error() {}, child() { return silentLogger; } };
-export function capturingLogger() {
-    const lines = [];
-    const log = {
-        lines,
-        info: m => lines.push(["info", m]), warn: m => lines.push(["warn", m]),
-        error: (m, e) => lines.push(["error", m, e]), child: () => log,
-    };
-    return log;
-}
-```
-
-**`builders.mjs`**: `facilityRow(name, csv, extra)`, `snapshot({ day, facilities, publishedAt, isLive })`,
-`registryConfig({ livePush })` returning a valid `events.json` object with one
-event `evt`, days `day1` (facilities `A`, `B`) and `day2`, and `configSnapshot(raw)`
-wrapping it in `SyncConfigSnapshot`. Defaults match the fixtures in
-`verify-sync-merge.mjs` (`PATH = "evt/data/day1.json"`, facility CSVs
-`A-old`/`B-old`, fresh `A-new`/`B-new`).
-
-**`http.mjs`**
-
-```js
-import http from "node:http";
-import { Server } from "../../src/server/Server.mjs";   // path updates when Server moves
-
-/** Builds the real Server with fakes for whatever is passed, listens on an ephemeral port. */
-export async function startApp({ services = {}, version = "9.9.9", corsOrigin = "*", syncSharedSecret = "test-secret" } = {}) {
-    const server = new Server({
-        getScoresheetService: async () => { throw new Error("scoresheet service not faked"); },
-        syncService: {}, syncConfigStore: { peek: () => null, get: async () => { throw new Error("no config"); } },
-        authService: { verify: () => false, login: () => null },
-        logger: silentLogger, port: 0, corsOrigin, syncSharedSecret, version,
-        ...services,
-    });
-    const listener = http.createServer(server.app);
-    await new Promise(r => listener.listen(0, "127.0.0.1", r));
-    const baseUrl = `http://127.0.0.1:${listener.address().port}`;
-    return { baseUrl, close: () => new Promise(r => listener.close(r)), server };
-}
-```
-
-After Phase 2/4 the `Server` constructor takes the composed modules rather than
-these arguments; `startApp` is updated in the same commit so tests do not change.
-`multipart(fields, file)` builds a `FormData` with a `Blob` for the `csv` part.
-
-**`fakeWorld.mjs`**: one object that replaces `globalThis.fetch` and behaves like
-the three outside services. It is the riskiest helper, so its contract is exact:
-
-```js
-export function createFakeWorld({
-    github = { owner: "o", repo: "r", branch: "main" },
-    sheets = {},                 // { "<sheetId>": { CSV: [[...]], STANDINGSCSV: [[...]] } }  (tab name -> 2D values)
-    worker = { baseUrl: "https://worker.test", secret: "pub-secret" },
-} = {}) { /* returns world */ }
-
-world.install()   // sets globalThis.fetch, returns an uninstall function; call in before/after
-world.github.files        // Map<path, { json, sha }>   — seed with world.github.set(path, json)
-world.worker.objects      // Map<"event/day", { version, snapshot }>
-world.calls               // [{ service: "github"|"sheets"|"gviz"|"worker", method, key, status }]
-world.fail(service, { method, status = 500, times = 1, mutate })   // next N matching calls answer `status` after running mutate(world)
-world.worker.down = true  // every Worker call rejects with TypeError("fetch failed")
-world.hold(service, { method })  // the next matching call waits: returns { release() } and, once called, proceeds
-```
-
-Behaviour it must reproduce, each pinned by its own test in
-`test/unit/helpers/fakeWorld.test.mjs` so a bug in the helper cannot hide a bug
-in the service:
-
-- **GitHub Contents API** at
-  `https://api.github.com/repos/<owner>/<repo>/contents/<path>`:
-  `GET ?ref=<branch>` returns `200 { content: <base64 of the JSON text>, sha }`
-  or `404`; `PUT { message, content, branch, sha? }` returns `409` when the file
-  exists and `sha` is missing or differs, `422` when `sha` is given but the file
-  does not exist, otherwise stores the file with a new sha and returns
-  `200 { commit: { sha }, content: { html_url } }`. Requires an
-  `Authorization: Bearer` header, else `401`.
-- **Google Sheets** `GET https://sheets.googleapis.com/v4/spreadsheets/<id>/values:batchGet`
-  with repeated `ranges=` and `key=`: `{ valueRanges: [{ values }, …] }` in the
-  order asked; `400` with no `key`; `404` for an unknown id; fewer ranges than
-  asked when a tab is missing.
-- **Google gviz** `GET https://docs.google.com/spreadsheets/d/<id>/gviz/tq?tqx=out:csv&sheet=<tab>`:
-  the tab as CSV text.
-- **Live Worker** `GET <base>/snapshot/<event>/<day>` → `200 { version, snapshot }`
-  or `404 { version: 0 }`; `POST <base>/publish/<event>/<day>` with
-  `{ expectedVersion, snapshot }` → `200 { version, clients: 0 }`, `409 { error:
-  "version conflict", version }` when `expectedVersion` is stale, `400` on a bad
-  body. Both `401` without the right `X-Publish-Secret`.
-- `hold` is what makes races deterministic: start sync A, let it reach its
-  GitHub `PUT` (held), run sync B to completion, then `release()` A and observe A
-  get `409` and retry. No test may rely on timing or `setTimeout` to interleave.
-
-### 5.5 Rules for every test
-
-1. **No real network, no real clock waits.** Tests that exercise the fetchers'
-   retry back-off (1 s, then 2 s) use `mock.timers.enable({ apis: ["setTimeout"] })`
-   and `tick`. Nothing sleeps for more than 50 ms.
-2. **Independent and order-free.** Each test builds its own fixtures. Anything
-   that installs `globalThis.fetch` restores it in `afterEach`.
-3. **Deterministic.** No `Math.random`, no dependence on `Date.now()` ordering
-   without `mock.timers`'s `Date` control (`apis: ["Date"]`) or a tolerance
-   stated in the test.
-4. **Assert exactly.** Compare whole response bodies with `assert.deepEqual`.
-   `JSON.stringify` equality for contract tests is fine. Do not assert on log
-   text except where the log line is itself the contract (the three conflict
-   log lines, §4.5).
-5. **Failure paths get as many tests as success paths.** Every `throw` in a
-   module has a test that reaches it.
-6. **Secrets never appear in test output.** Use obviously fake values.
-
-### 5.6 Characterization policy
-
-Phase 0 tests describe **what the code does today**, including behaviour that
-is a known defect. A test that pins a behaviour §3.2 will change is written as
-it passes today and carries a marker comment:
-
-```js
-// CHARACTERIZATION B1 (Phase 3): today three GitHub 409s surface as HTTP 500.
-```
-
-In the phase that changes it, the test is edited to the new expectation in the
-same commit, and the commit message names the B-number. `grep -rn
-"CHARACTERIZATION B" test/` lists what is still pending; after Phase 3 that
-grep returns nothing.
-
-### 5.7 Coverage matrix: what each module's tests must reach
-
-`✔` means a test for that behaviour is required in Phase 0 (or, for modules
-that do not exist yet, in the phase that creates them, **written before the
-module**).
-
-**Unit: shared**
+These modules do not exist when the suite is built, so their tests are written
+**first, in the phase that creates the module**: write them, watch them fail
+(the module is missing), then implement. They follow the test-suite spec's
+rules (§3.5) and layout (§3.3), and live under `test/unit/` mirroring `src/`.
 
 | Module | Cases |
 |---|---|
-| `errors.mjs` | each class's `statusCode`, `name` and message; `UnknownSyncDayError` lists the valid days; `SyncUpstreamError` joins reasons with `; `; default `AppError` is `500`; subclass `instanceof` chain |
-| `Logger.mjs` | `info`→`console.log`, `warn`→`console.warn`, `error`→`console.error` with the error as second argument; line is `<ISO timestamp> :: [<scope>] <msg>`; `child("b")` of `a` has scope `a:b`; a `null` message prints empty |
-| `ConcurrencyPool.mjs` | never more than `limit` tasks in flight; results keep input order; a rejection propagates; `limit` of 1 is sequential |
 | `safeEqual.mjs` (Phase 2) | equal strings true; different strings of equal and of unequal length false; `undefined` or non-string false; does not throw on empty strings |
 | `conflictRetry.mjs` (Phase 3) | returns on first success with `attempts: 1`; retries on `{ ok: false }`, calls `onConflict(n, max)`; throws `ConflictError` (status and `statusCode` 409, code `conflict`) after the limit; a thrown error from `attemptFn` propagates unretried; custom `attempts` honoured |
-
-**Unit: auth**
-
-| Module | Cases |
-|---|---|
-| `AuthService.mjs` | `login`: valid `username:password` against a hash produced the way `scripts/hash-password.mjs` does (scrypt, 16-byte salt, 64-byte key, `<saltHex>:<hashHex>`) returns `{ token, expiresAt }` with `expiresAt = now + ttl`; wrong password, wrong username, malformed hash and a missing `passwordHash` or `tokenSecret` all return `null` (the last logs an error); `verify`: a fresh token true, an expired token false, a tampered payload or signature false, a token with no `.` false, a non-string false, a token signed with another secret false; default TTL is 12 h; the username is never stored (changing it breaks login) |
 | `middleware.mjs` (Phase 2) | `requireAuthToken`: valid bearer passes, missing/garbled/expired `401 { error: "Unauthorized", code: "unauthorized" }`; `requireSyncSecretOrAuthToken`: secret passes, token passes, neither `401`, an empty configured secret never matches an empty header |
-
-**Unit: sync domain** (existing code, then the extracted modules)
-
-| Module | Cases |
-|---|---|
-| `facilityCompletion.mjs` | every case in `scripts/verify-facility-completion.mjs`, 1:1: all non-BYE matches scored, partial, BYE by team code, by either player name, case-insensitive `bye`, stamp kept once set, cleared when a score is removed, an empty CSV |
-| `SyncService` merge | every scenario in `scripts/verify-sync-merge.mjs`, 1:1 (the 70 checks): scoped sync, carry-forward, conflict retry, three 409s, non-409, `setLiveOverride` retry, `lastEditAt` survival, branch-level conflict, live disabled, empty live object, live conflict, live read/publish throws, three live conflicts, archive 409 and 403, `setLiveOverride` through the Worker and its fallbacks, switch off, stale live object, newer live object, GitHub read failing |
-| `mergeSnapshot.mjs` (Phase 3) | the merge cases above exercised directly on the pure function: fresh wins; untargeted carried forward; failed facility carried forward and listed `stale`; facility never seen and failed is omitted; nothing to publish throws `SyncUpstreamError`; `completedAt` stamped once and carried; `lastEditAt` from the edit or carried; `publishedAt` starts as `now` |
+| `mergeSnapshot.mjs` (Phase 3) | the merge cases in the test-suite spec §4 (`SyncService` merge) exercised directly on the pure function: fresh wins; untargeted carried forward; failed facility carried forward and listed `stale`; facility never seen and failed is omitted; nothing to publish throws `SyncUpstreamError`; `completedAt` stamped once and carried; `lastEditAt` from the edit or carried; `publishedAt` starts as `now` |
 | `snapshotStamp.mjs` (Phase 3) | `publishedAt` preferred over `generatedAt`; neither gives `0`; `newer(a, b)` picks the later, prefers `a` on a tie, handles `null` on either side |
 | `syncTiming.mjs` (Phase 3) | `editToRequestMs`/`editToPublishedMs` are `null` without an edit time; `liveMs`/`archiveMs` `null` when that step did not run; the log line prints `n/a` for `null` and otherwise `<n>ms` in the order `edit→request=… fetch=… publish=… live=… archive=… edit→published=…` |
 | `editAt.mjs` (Phase 3) | `parseEditAt(header, now)`: a value within the last hour and at most 5 s ahead is returned; older than an hour, more than 5 s ahead, `NaN`, empty, negative and missing are `null` (today's inline rule in `handleSync`) |
-
-**Unit: sync config**
-
-| Module | Cases |
-|---|---|
-| `SyncConfigSnapshot.mjs` | `getDay` returns only facilities with a non-blank `sheetId`, `isLive` defaults to `"auto"`, includes `event`; unknown day throws `UnknownSyncDayError`; `repoPathFor` is `<event>/data/<day>.json`; `sheetsFor` falls back day → `defaults` → `CSV`/`STANDINGSCSV`; `knownDays`, `eventKeys`; `livePushOn` is `false` only for an explicit `false` |
-| `SyncConfigStore.mjs` | one case per validation rule: wrong `version`; no `events`; event key not a slug; event with no days; day key not a slug; day key declared by two events; missing/blank label; `facilities` not an array; invalid `isLive`; duplicate facility name; blank facility name; non-boolean `livePush`; reserved day keys (Phase 2). Caching: a second `get` inside the TTL does not fetch; after the TTL it does; concurrent `get`s share one fetch. Failure: a remote failure serves the last good config and renews its TTL; no cache and a failure serves the bundled seed (`source: "fallback"`, `sha: "seed"`); no cache and no seed throws `SyncConfigUnavailableError`; an invalid remote keeps the last good config. `peek()` never fetches. `setIsLive`: sets the value and returns `{ event, label }`; unknown day throws; a 409 is retried keeping a concurrent change to another day; three 409s throw; success clears the cache. `setLivePush`: commits `livePush`, an unchanged value commits nothing, a 409 is retried, a non-boolean in the file is rejected |
-
-**Unit: sync infrastructure** (stub `globalThis.fetch`)
-
-| Module | Cases |
-|---|---|
-| `GitHubPublisher.mjs` | `publish`: `PUT` to `…/contents/<path>` with `Authorization: Bearer`, `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, a `User-Agent`; body has `message`, `branch`, `content` (base64 of `JSON.stringify(json, null, 2)`) and `sha` only when known; a `null` sha triggers a `GET ?ref=<branch>` lookup first, a `404` lookup sends no sha; failure throws `GitHub commit failed: HTTP <status> <detail>` with `err.status`; success returns `{ committed: true, commitSha, htmlUrl }`. `fetchExisting`: `404` gives `{ json: null, sha: null }`; success decodes and parses; another failure throws `GitHub lookup failed: HTTP …` |
-| `LivePublisher.mjs` | `enabled` needs both URL and secret; a trailing slash on the URL is dropped; `read`: `404` is `{ version: 0, snapshot: null }`, `200` is `{ version, snapshot }`, `401` and `5xx` throw `live Worker read failed: HTTP <status> <body>`, a network error throws `live Worker read failed: <message>`, a stalled call throws `live Worker read timed out after <n>ms`; `publish`: `200` is `{ ok: true, version }`, `409` is `{ ok: false, conflict: true, version }`, other statuses and network errors throw; event and day are URL-encoded; `X-Publish-Secret` on every call, `Content-Type` only on `POST` |
-| `SheetsCsvFetcher.mjs` | URL has two `ranges` (matches tab then standings tab), `key`, `valueRenderOption=FORMATTED_VALUE`; no API key throws before any request; values become CSV with rows padded to the header width and fields quoted when they contain `,`, `"` or a newline, `null` as empty; HTTP error message `<facility>: HTTP <status> <detail>`; fewer than two ranges throws the tab-name hint; a timeout throws `<facility>: timed out after <n>ms`; three attempts in total with 1 s then 2 s waits (mock timers) and the last error thrown; `timeoutMs: 0` sends no abort signal |
-| `GvizCsvFetcher.mjs` | the export URL it builds for each tab; both tabs fetched in parallel; same retry and timeout rules as above; same `{ name, matchesCsv, standingsCsv }` shape |
-
-**Unit: scoresheets** (read the file, then pin it)
-
-`CsvService`, `TemplateService`, `PageChunkBuilder`, `ScoresheetConfig` (registry,
-unknown type throws `UnknownScoresheetTypeError` naming the valid types) and
-`ScoresheetService.generate` with fakes for the browser, renderer and merger:
-the progress events in order (`parsing`, `rendering` with `completed`/`total`,
-`merging`), blank-row padding, a missing CSV or unknown type is a
-`ValidationError`, concurrency is passed through.
-
-**Unit: other**
-
-| Module | Cases |
-|---|---|
-| `openapiSpec.mjs` | the spec is OpenAPI `3.0.3`, has the four tags and two security schemes, and documents exactly these paths today: `/ping`, `/scoresheets/generate`, `/scoresheets/generate/stream`, `/sync/{day}`, `/sync/{day}/live`, `/sync/live-push`, `/sync/config`, `/auth/login`; it is cached after the first build; `info.version` is the version passed in |
-| every `src/**/*.mjs` | one test imports each module dynamically, so a broken import path after a move fails here first (`test/unit/imports.test.mjs`) |
 | `loadConfig.mjs` (Phase 2) | each rule in §4.7: empty means unset, `NaN`/negative/fractional throw, `SHEETS_FETCH_TIMEOUT_MS=0` allowed, bad `LIVE_PUSH_URL` throws, all problems reported in one error, unset secrets are `undefined` and listed by the helper that builds the warning, the result is frozen |
 | `errorHandler.mjs` (Phase 2) | each class in §4.6 gives its status and `{ error, code }`; an unknown `Error` is `500 internal_error` with its message; `res.headersSent` delegates and writes nothing; the error is logged once |
+| `SyncConfigStore` reserved day keys (Phase 2) | a day key of `config` or `live-push` is rejected with a message naming it (flips the `CHARACTERIZATION B4` pin) |
 
-**Integration: HTTP contract** (`startApp` with faked services; real routes and middleware)
+The `/v1` parity tests are specified in §6.5. The store, `mergeIntoStore` and
+publishing-strategy tests are specified in §6.3 and §6.4.
 
-| File | Cases |
-|---|---|
-| `ping.test.mjs` | `200` and body `PONG!`; `X-App-Version`; `X-Sync-Config` is `abc1234/remote`, `seed/fallback`, or absent (config store `peek()` returning those); `/ping` never calls `get()` |
-| `headers.test.mjs` | CORS headers on every route, including a `401` and a `404`; `OPTIONS` on any path answers `204` with the allow headers; `Access-Control-Expose-Headers` lists `X-App-Version, X-Sync-Config`; a `corsOrigin` other than `*` is echoed |
-| `openapi.test.mjs` | `GET /openapi.json` is `200` JSON; `servers[0].url` is the request's host; every documented path answers something other than `404` to an unauthenticated request (it exists); every route registered on the app is documented, except `/openapi.json` itself, found by walking `server.app._router.stack` (Express 4 internal; the helper has its own test that it finds the nine routes registered today: `/ping`, `/openapi.json`, the two `/scoresheets`, `/auth/login` and the four `/sync`) |
-| `auth.test.mjs` | missing `username` or `password` or a non-string is `400`; wrong password `401`; unconfigured auth `401`; success `200 { token, expiresAt }` and the token then works on a token-only route |
-| `sync-routes.test.mjs` | `POST /sync/:day` is `401` with neither header; works with the secret and with a token; a wrong secret is `401`; `?facility=` and `?method=csv` reach the service; `X-Edit-At` reaches it only inside the window (cases from `editAt`); the service result is returned as JSON `200`; an `UnknownSyncDayError` is `400`, `SyncUpstreamError` `502`, `SyncConfigUnavailableError` `503`, a plain `Error` `500` with its message. `POST /sync/:day/live`: the secret is refused (`401`), a token works, an invalid body is `400`, each of `true`/`false`/`"auto"` reaches the service. `POST /sync/live-push`: token only, body must be boolean, result passed through, **registered before `/:day`** (a test posts to it and expects the switch handler, not the sync handler). `GET /sync/config`: secret or token, `401` otherwise, payload as §3.1 with no secret in it |
-| `scoresheets-routes.test.mjs` | `/generate` with a fake service: PDF headers and body, field mapping (`evt`, `type`, `out`, `blanks`), a service error is `err.statusCode ?? 500`; `/generate/stream`: a missing field is `400 { error }`, a good run writes the NDJSON lines in order and ends with `done` carrying base64, a failing service writes an `error` line after a `200` and ends the response |
+### 5.3 Pins resolved along the way
 
-**Integration: the sync pipeline** (`test/integration/sync-pipeline.test.mjs`; real services, `FakeWorld`)
-
-Wired exactly as `index.mjs` wires them (a `buildApp({ world, env })` helper
-calls the same composition code `index.mjs` uses; until Phase 4 that is a
-copy of those lines, and Phase 4 replaces it with the shared function).
-
-1. GitHub only (no `LIVE_PUSH_*`): a scoped sync of facility A commits
-   `evt/data/day1.json` with A fresh and B carried forward; response shape
-   matches §3.1; `publishedAt` is stamped.
-2. Live on: the Worker object gets the snapshot (version 1), then GitHub gets
-   the same snapshot (archive); the response has `live.published: true` and an
-   `archive.committed: true`; the order of `world.calls` is Sheets, Worker read,
-   GitHub read, Worker publish, GitHub write.
-3. Worker down: the sync still succeeds through GitHub, `live.published:
-   false` with the reason; no archive field.
-4. Worker returns `401` (wrong secret): same fallback, reason names the status.
-5. Switch off through `POST /sync/live-push` (token): the next sync does not
-   touch the Worker; `GET /sync/config` reports `switch: "off"`, `active:
-   false`; the config file in the fake GitHub has `livePush: false`; switching
-   back on restores live publishing.
-6. Stale Worker object: sync A and B with the switch off, switch on, sync A:
-   B's newer data survives (the stale-object rule), in the Worker and in GitHub.
-7. **Race:** two facilities' syncs, GitHub `PUT` of the first held; the second
-   completes; release; the first gets `409`, re-reads, re-merges, and the final
-   file holds both facilities' new data; `attempts` is `2` on the first.
-8. **Race on the Worker:** same, holding the Worker publish; both facilities
-   survive; `live.version` is `2`.
-9. Three conflicts in a row on the Worker fall back to GitHub; three on GitHub
-   answer `409` (B1: `500` until Phase 3).
-10. Archive fails with `403`: the request succeeds, `archive.committed: false`,
-    `commitSha: null`, the Worker holds the data.
-11. Live/Hide through the Worker: version increments, `isLive` set, `publishedAt`
-    newer, archived; with the Worker down it goes through GitHub with `live.published: false`.
-12. Live/Hide on a day never published: `republished: false`, config updated.
-13. Full resync keeps `lastEditAt`; `X-Edit-At` inside the window is recorded.
-14. A failed fetch (Sheets `500`, after the retry delays with mock timers)
-    carries the facility's previous data forward and lists it in
-    `facilitiesStale`; every facility failing on an empty day is `502`.
-15. Config change takes effect: editing `config/events.json` in the fake GitHub
-    (a new sheet id) is used by the next sync after the TTL (mock timers).
-
-### 5.8 Proof that the net works
-
-Before Phase 1, with the suite green, the implementer makes each of these
-deliberate breakages one at a time, confirms **at least one test fails**, and
-reverts it. The list goes in the Phase 0 commit message.
-
-1. In `SyncService`, change the stale-object comparison `>` to `>=`.
-2. In `handleSync`, widen the `X-Edit-At` window from `3600_000` to `36_000_000`.
-3. In `GitHubPublisher`, drop the `sha` from the `PUT` body.
-4. In `routes.mjs`, register `/live-push` after `/:day`.
-5. In `Server.mjs`, remove `X-Sync-Config` from the exposed headers.
-6. In `AuthService.verify`, skip the expiry check.
-7. In `SyncConfigStore`, stop clearing the cache after `setIsLive`.
-8. In `LivePublisher.publish`, treat `409` as success.
-9. In `#buildSnapshot` (`mergeSnapshot` after Phase 3), stop carrying forward
-   `completedAt`.
-10. In `handleSetLive`, accept the shared secret.
+`grep -rn "CHARACTERIZATION B" test/` lists what is still pending. Each marker
+is edited to the new expectation in the commit of the phase named in §3.2, and
+the commit message names the B-number. After Phase 3 the grep returns nothing.
 
 ---
 
@@ -819,7 +526,7 @@ ordered; do not start one before the previous is green.
 
 | Phase | What | Version | Production code touched |
 |---|---|---|---|
-| 0 | Test infrastructure and characterization suite | none | none (only `package.json` scripts, `test/`, and one script) |
+| 0 | The test suite, **its own spec** ([test-suite spec](sage-tools-api-test-suite-spec.md)) | none | none (only `package.json` scripts, `test/`, one script, README) |
 | 1 | Folder moves | 2.5.1 | paths and imports only |
 | 2 | Hardening | 2.5.2 | secret compare, errors, config, auth middleware, CORS, jsconfig |
 | 3 | One retry loop, store interface, domain extraction | 2.5.3 | `sync/` internals |
@@ -828,45 +535,14 @@ ordered; do not start one before the previous is green.
 | 6 | Build, docs and workspace | none | none |
 | 7 | Site shared-JS decision | n/a | none |
 
-### 6.0 Phase 0 — tests before code
+### 6.0 Phase 0 — tests before code (a separate spec)
 
-**Goal.** A suite that describes today's behaviour, green on the unmodified
-production code.
-
-**Rule.** The only non-test file this phase may touch is `package.json`
-(scripts) and the new `scripts/run-appscript-verifies.mjs`. If a module cannot be
-tested without changing it, stop and note it in §6.0's report: today none needs
-it (`Server.app` is public, the clients use the global `fetch`, services take
-their dependencies in their constructors).
-
-Steps:
-
-1. Create `test/` per §5.3 and add the `package.json` scripts from §5.2.
-2. Write the helpers (§5.4), including `fakeWorld.test.mjs` for the helper itself.
-3. Move the fakes out of `scripts/verify-sync-merge.mjs` into `test/helpers/fakes.mjs`
-   unchanged.
-4. Port `verify-sync-merge.mjs` and `verify-facility-completion.mjs` to
-   `node:test`, 1:1: same scenarios, same assertions, one `it` per `check`. The
-   old scripts stay in place and keep passing; they are removed in Phase 6.
-5. Write every unit test in §5.7 for modules that exist today.
-6. Write the integration tests in §5.7 (HTTP contract, then the pipeline).
-7. Write the opt-in E2E: with `RUN_PDF_E2E=1`, post a three-row CSV to the real
-   pipeline (`createScoresheetService`) and assert the response starts with
-   `%PDF-` and is more than 1 KB. Without the variable the test is `skip`ped.
-8. Run the sabotage list (§5.8).
-9. README: add a **Testing** section (commands, layout, the characterization
-   marker). Do not bump the version.
-
-**Acceptance.**
-
-- `npm test` passes, with every case in §5.7 present for the existing modules.
-- `npm run verify` passes.
-- The ported suites contain at least as many assertions as the two scripts
-  they replace (70 for sync-merge).
-- All ten sabotage breakages were caught.
-- `git diff --stat` for the phase shows changes only under `test/`,
-  `package.json`, `scripts/run-appscript-verifies.mjs` and `README.md`.
-- `grep -rn "CHARACTERIZATION B" test/` lists the B1–B4 pins still to change.
+Built from [`sage-tools-api-test-suite-spec.md`](sage-tools-api-test-suite-spec.md)
+on its own branch (`test-suite`), with no production change. **Gate:** its §7
+acceptance checklist is complete, `npm test` and `npm run verify` are green, and
+`arch-refactor` is created from that branch. The version and Changelog are not
+touched. If the code on `main` has moved since that spec was written, bring it
+up to date first (its §2 lists the contract it pins).
 
 ### 6.1 Phase 1 — folder moves (2.5.1)
 
@@ -966,7 +642,7 @@ no handler contains `res.status(err.statusCode`.
 
 ### 6.3 Phase 3 — one retry loop, one store interface, domain extraction (2.5.3)
 
-Write the unit tests for each new module from §5.7 **first**, watch them fail
+Write the unit tests for each new module from §5.2 **first**, watch them fail
 (the module does not exist), then implement.
 
 1. `shared/conflictRetry.mjs` (§4.5). Move `COMMIT_ATTEMPTS` here; keep
@@ -1039,9 +715,10 @@ fallback.
    `ConflictError`, hands over to `fallback.publish` and returns its result with
    `live: { published: false, error }`. `republish` mirrors it. Every log line
    keeps today's text.
-4. **`PublishingSelector`**: `select(config)` returns `LiveFirstPublishing`
-   when `livePublisher.enabled && config.livePushOn`, else the GitHub-only one.
-   This is the only place that decision lives.
+4. **`PublishingSelector`**: constructed with the two strategies and the
+   `LivePublisher` (only to ask `enabled`); `select(config)` returns
+   `LiveFirstPublishing` when `livePublisher.enabled && config.livePushOn`,
+   else the GitHub-only one. This is the only place that decision lives.
 5. **Services.**
    - `SyncService({ sheetsApiFetcher, gvizFetcher, publishing, configStore, logger })`:
      resolve the day, fetch, build `freshByName`/`failed`/`lastEditAt`, call
@@ -1063,7 +740,7 @@ fallback.
    `buildApp` is replaced by this same function.
 8. Delete the Phase 3 re-export of `COMMIT_ATTEMPTS`.
 
-**Acceptance.** Every Phase 0 test passes unchanged except import paths and
+**Acceptance.** Every test from the test suite passes unchanged except import paths and
 constructor wiring; `SyncService.mjs` is under 150 lines and
 `SyncService.syncDay` under 60; `grep -n "livePublisher\|GitHubPublisher"
 src/sync/SyncService.mjs` finds nothing; there is exactly one place that reads
@@ -1075,7 +752,7 @@ src/sync/SyncService.mjs` finds nothing; there is exactly one place that reads
 1. Write the parity tests first (`test/integration/v1.test.mjs`). They are
    table-driven: for each row of §4.8, the legacy and the `/v1` request produce
    the same status (except `201` for sessions), the same body and the same
-   headers listed in §3.1. Plus: `PUT` visibility twice is idempotent;
+   headers listed in the test-suite spec §2.1. Plus: `PUT` visibility twice is idempotent;
    `PUT` live-push twice gives `changed: false` the second time; `POST
    /v1/scoresheets` with `Accept: application/x-ndjson` streams, with
    `application/pdf` or none returns a PDF, with `text/html` is `406`;
@@ -1095,8 +772,8 @@ src/sync/SyncService.mjs` finds nothing; there is exactly one place that reads
    client uses `/v1`; the old URLs never go away".
 
 **Acceptance.** Parity tests green; the OpenAPI document validates (import it
-into Postman: **Import → Link** on `/openapi.json`); every Phase 0 legacy test
-still green untouched.
+into Postman: **Import → Link** on `/openapi.json`); every legacy test from the
+test suite still green untouched.
 
 ### 6.6 Phase 6 — build, docs and workspace
 
@@ -1158,7 +835,7 @@ Present tense, in the same commit as the phase that changes the thing.
 
 | File | Change |
 |---|---|
-| `sage-tools-api/README.md` | Changelog entry per versioned phase; **Testing** section (Phase 0); updated layout |
+| `sage-tools-api/README.md` | Changelog entry per versioned phase; **Testing** section (added by the test-suite spec); updated layout |
 | root `CLAUDE.md` | `sage-tools-api` layout (`apps-script/`, `test/`, the new `src/` tree), the verify and test commands, the dependency rules, the `/v1` rule, the deprecated-alias note, the live-push entries that name moved files |
 | `sage-docs/docs/technical/architecture.md` | the layering and dependency rules (§4.1–4.3) |
 | `sage-docs/docs/technical/sync-pipeline.md` | the publishing strategies and the store interface replace the `SyncService` description; file paths |
@@ -1172,13 +849,9 @@ Present tense, in the same commit as the phase that changes the thing.
 
 ## 8. Acceptance checklist
 
-**Phase 0**
+**Phase 0** (the test-suite spec)
 
-- [ ] `npm test` and `npm run verify` pass on unmodified production code.
-- [ ] Every §5.7 case exists for the modules that exist today.
-- [ ] The ported sync-merge suite has at least the 70 original assertions.
-- [ ] All ten sabotage breakages were caught.
-- [ ] Only `test/`, `package.json`, `scripts/run-appscript-verifies.mjs` and `README.md` changed.
+- [ ] The [test-suite spec](sage-tools-api-test-suite-spec.md)'s §7 checklist is complete, and `npm run verify` is green.
 
 **Phase 1**
 
