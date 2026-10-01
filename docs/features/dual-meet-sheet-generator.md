@@ -38,6 +38,10 @@ the public event page — one row per match, one row per pair's record).
 These are what make a generated workbook able to run an event end to end,
 not just look like one.
 
+It also adds an empty **ATTENDANCE** tab, ready for
+[event attendance](event-attendance.md): pressing **Update roster** in Control
+Center fills it in.
+
 When it finishes, it renames the workbook itself to the plan's date and
 title followed by the venue label in capitals, e.g.
 `2026-09-12 PNF x BUP Dual Meet - PPC`. With no venue label the dash part is

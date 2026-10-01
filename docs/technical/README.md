@@ -37,15 +37,18 @@ changing any of them is not a deploy.
 - **[Standard Tournament Generator](standard-tournament-generator.md)** —
   builds one facility-day's standard-tournament workbook from a calculator
   CSV.
-- **[Event attendance](event-attendance.md)** — `attendance.gs`, the web app
-  behind an event's staff check-in page, and the page itself.
+- **[Event attendance](event-attendance.md)** — `src/attendance/` in
+  `sage-tools-api` (roster, the `ATTENDANCE` tab, desk tokens, the `/v1`
+  routes), the shared client block, and Pickle for Sight's earlier
+  `attendance.gs` version.
 - The sync trigger (`sheets-sync.gs`) is covered in
   [Sync pipeline](sync-pipeline.md).
 
 ## Frontend (`sage-match-control.github.io`)
 
 - **[Control Center](control-center.md)** — the single-page operator
-  console: config resolution, theming, the five tabs (including the Awards
+  console: config resolution, theming, the tabs (including the Attendance
+  tab around the shared attendance client, the Awards
   tab's podium derivation, bye/walkover handling, and Canvas 2D image
   export).
 - **[Schedule board](schedule-board.md)** — the venue wall display.

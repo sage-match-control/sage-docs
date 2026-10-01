@@ -147,8 +147,8 @@ The notes below describe `scripts/attendance.gs` and
 `events/pickle-for-sight-2026/attendance.html`, which are unchanged.
 
 
-A staff check-in page that writes to Google Sheets — the only place a GitHub
-Pages page writes into a scoring workbook. Two parts:
+Pickle for Sight's check-in page wrote to Google Sheets through a web app in
+each workbook. Two parts:
 
 - `sage-tools-api/scripts/attendance.gs` — bound Apps Script, pasted into
   each of an event's **live** workbooks (never a master) beside
@@ -156,8 +156,8 @@ Pages page writes into a scoring workbook. Two parts:
   part of the Cloud Run service: changing it is not a deploy and does not
   bump `package.json`. Also holds `attendanceResync`, run by hand from the
   Apps Script editor once at setup and again after any player swap.
-- `events/<event>/attendance.html` — a self-contained static page, like the
-  event's `schedule.html`. Pickle for Sight's is the first.
+- `events/pickle-for-sight-2026/attendance.html` — a self-contained static
+  page, like the event's `schedule.html`.
 
 Spec: [event attendance](../specs/implemented/event-attendance-spec.md).
 

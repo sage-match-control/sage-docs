@@ -74,6 +74,12 @@ general multi-club template.
     catches them correctly, revert) and day-of runbook. See [Running an
     event, day of](../features/running-an-event-day.md) for the plain-
     language version of the day-of half.
+11. **Attendance, if the event uses it.** Add `"attendance": "console"` or
+    `"desks"` to its entry in `events.json`, and share every facility
+    workbook with `sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com`
+    as Editor. For `"desks"`, also copy `_templates/attendance/attendance.html`
+    to `events/<event-key>/attendance.html` and replace `{{EVENT_KEY}}` and
+    `{{EVENT_TITLE}}`. See [event attendance](event-attendance.md).
 
 ## Required spreadsheet columns
 
@@ -115,7 +121,8 @@ to re-prefix.
   Properties (not in `sheets-sync.gs`'s source, which is identical in every
   workbook). Facility names are compared exactly, case-sensitive.
 - `EVENT_KEY` — identical across the site-repo folder name, the
-  `event-data` folder name, and the registry key.
+  `event-data` folder name, and the registry key (and the attendance desk
+  page's `EVENT_KEY`, when there is one).
 
 ---
 **Full runbook:** `_templates/CLAUDE.md` in the site repo (complete token

@@ -37,8 +37,11 @@ parsePlanCsv ─► validatePlan ─► planCategory (per ticked category)
                      computeTabLayout_ ─► packSchedule_ (in memory: sizes SCHEDULE)
                                      │
 category tabs → Variables → Title → Reference for Players → MATCHES → SCHEDULE
-             → CSV → STANDINGSCSV → Court Control → Timeline
+             → CSV → STANDINGSCSV → Court Control → Timeline → ATTENDANCE
 ```
+
+`ATTENDANCE` is created empty, in the format [event attendance](event-attendance.md)
+fills (`buildAttendanceTab_`); a tab of that name already there is left alone.
 
 Everything left of the Sheets writes is pure. `planCategory` is where every
 playoff shape lives, and the only part with real logic.

@@ -134,8 +134,10 @@ registry schema](event-data-config.md) § Sheet IDs are effectively
 public). The link is omitted for a facility with no `sheetId` yet, the
 same "not set up" condition the sync pipeline itself skips.
 
-**Tab order and landing.** The tabs run Mission Control, Awards, Live Matches,
-Match Finder, Standings. `showView(view)` is the one place that switches
+**Tab order and landing.** The tabs run Mission Control, Awards, Attendance,
+Live Matches, Match Finder, Standings. Attendance is hidden unless the event's
+`attendance` is `"console"` or `"desks"` (`syncAttendanceTab()`, called on
+every event change, day change and tab reveal). `showView(view)` is the one place that switches
 views (the tab buttons call it), and `revealLiveTabsAfterLoad()` calls
 `showView('organizer')` once a day loads, so the console opens on Mission
 Control.
@@ -165,6 +167,28 @@ a later epoch (a resync still running when the operator switched day) goes to
 under the wrong day. Toasts are made visible by flushing styles
 (`void toast.offsetWidth`) before adding `show`, not with
 `requestAnimationFrame`, which never fires while the page isn't painting.
+
+## Attendance tab
+
+The list is the shared `ATTENDANCE CLIENT` block (`createAttendanceView`),
+byte-identical in this file, `_templates/attendance/attendance.html` and each
+event's `attendance.html`. It injects its own `.att-*` styles, reads each
+facility's `ATTENDANCE` tab through the gviz CSV export every 10 s while
+visible, and marks through `PUT /v1/…/attendance/:key` with the operator
+token. In this console it loads every facility of the day, so the counts are
+complete.
+
+Around it, the console's own `attConsole*` section adds the per-facility
+counts, **Update roster** (`POST /v1/days/:day/attendance/reconciliations`),
+**Issue desk link** (`POST …/desk-links`, QR drawn in a canvas from
+`qrcode-generator` 1.4.4 on cdnjs, SRI-pinned, loaded on first click) and
+**Needs attention**. `showView()` mounts the view on entering the tab and
+destroys it (and its poll) on leaving. Messages go through `showToast` and
+`showResultRows` like the rest of the console. With `?fixture=` on localhost
+everything reads `_fixtures/` and makes no API call; `?attfail` makes the first
+mark fail.
+
+Full design: [event attendance](event-attendance.md).
 
 ## Facility progress
 

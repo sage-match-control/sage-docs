@@ -529,6 +529,13 @@ fire-and-forget.
 Every snapshot carries `publishedAt`, restamped on every publish (live, GitHub
 and Live/Hide). Pages use it to decide which of two copies is newer.
 
+**After publishing**, `syncDay` awaits its optional `onFacilitiesSynced` hook
+with the facilities fetched fresh this round. That is
+[attendance's](event-attendance.md) roster update: nothing for an event without
+attendance, and no Sheets call when a facility's roster is unchanged. It is
+bounded to 6 seconds and never changes the sync's response; a failure there is
+logged and the next sync tries again. Live/Hide does not call it.
+
 ### The sync-method switch
 
 Control Center's Mission Control has a **Sync method** switch between **Live

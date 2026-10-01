@@ -5,7 +5,7 @@ Worker that lives inside one of them.
 
 | Repo | What it is |
 | --- | --- |
-| [`sage-tools-api`](https://github.com/sage-match-control/sage-tools-api) | Node/Express backend on Google Cloud Run. Two features: scoresheet PDF generation and the Google Sheets → GitHub live-data sync. Its `live-worker/` folder holds the Cloudflare Worker that pushes snapshots to open pages; that folder is not part of the Cloud Run service. |
+| [`sage-tools-api`](https://github.com/sage-match-control/sage-tools-api) | Node/Express backend on Google Cloud Run. Three features: scoresheet PDF generation, the Google Sheets → GitHub live-data sync, and event attendance. Its `live-worker/` folder holds the Cloudflare Worker that pushes snapshots to open pages; that folder is not part of the Cloud Run service. |
 | [`sage-match-control.github.io`](https://github.com/sage-match-control/sage-match-control.github.io) | GitHub Pages static site. Self-contained HTML pages (no build step, no framework) for the public tools and per-event pages. |
 | [`event-data`](https://github.com/sage-match-control/event-data) | Shared GitHub Pages target every event's sync writes snapshots to, and the runtime-fetched event/day/facility registry. |
 
@@ -39,6 +39,13 @@ The scoresheet feature is independent of all of the above: the site's
 `/scoresheets/generate/stream` and gets NDJSON progress lines plus a base64
 PDF back. See [Scoresheet pipeline](scoresheet-pipeline.md).
 
+Attendance is the one feature that writes into the facility workbooks. After
+every sync, `sage-tools-api` brings each workbook's `ATTENDANCE` tab up to date
+with its roster, and Control Center and the desk pages mark people through
+`PUT /v1/days/:day/facilities/:facility/attendance/:key`. It writes as its own
+service account, and only ever inside `ATTENDANCE!A:G`. See
+[event attendance](event-attendance.md).
+
 ## A fourth kind of code: bound Apps Script
 
 `sage-tools-api/scripts/` holds Google Apps Script that is versioned in that
@@ -51,10 +58,12 @@ one is not a deploy and doesn't bump the API version.
 | `sheets-sync.gs` | each facility spreadsheet | the lock-based onEdit trigger that calls `POST /sync/:day` (the diagram above) |
 | `sheet-generator.gs` | the SAGE Dual Meet Master workbook | builds a dual meet's category tabs from a Tournament Calculator CSV — see [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) |
 | `standard-generator.gs` | the SAGE Standard Tournament Master workbook | builds one venue-day's standard-tournament workbook from a Tournament Calculator CSV — see [Standard Tournament Generator](standard-tournament-generator.md) |
+| `attendance.gs` | Pickle for Sight's live workbooks | the earlier, per-workbook attendance web app — see [Event attendance](event-attendance.md#earlier-version-pickle-for-sight). Newer events need no script for attendance |
 
 They sit at opposite ends: `sheets-sync.gs` is the *entry point* to the sync
 pipeline, while the two generators touch no server at all and only prepare
-the workbook that pipeline will later read from. A generated workbook
+the workbook that pipeline will later read from. Both generators also add
+an empty `ATTENDANCE` tab in the format the API fills. A generated workbook
 carries `sheets-sync.gs` and one of the two generators, never both.
 
 ## Why the registry lives in `event-data`, not in code
@@ -91,6 +100,9 @@ not code:
   `schedule.html` must stay byte-identical in every page that carries it, and
   its `LIVE_BASE_URL` constant points at the deployed Worker. See
   [sync pipeline](sync-pipeline.md#pages).
+- The `ATTENDANCE CLIENT` block of JavaScript in `tools/control-center.html`,
+  `_templates/attendance/attendance.html` and every `events/<key>/attendance.html`
+  must stay byte-identical. See [event attendance](event-attendance.md#the-client).
 - Adding a scoresheet type = a new `templates/<name>.{html,css}` pair in
   `sage-tools-api` **and** an entry in `ScoresheetConfig.mjs`. Nothing else
   needs touching.

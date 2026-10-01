@@ -58,7 +58,8 @@ with court headings and start times but no matches in it.
 
 It also fills in `Variables`, `Title` and `Reference for Players`, and builds
 the readout tabs — `Court Control`, `Timeline`, and the `CSV` and
-`STANDINGSCSV` tabs the live sync publishes.
+`STANDINGSCSV` tabs the live sync publishes — and an empty **ATTENDANCE** tab,
+ready for [event attendance](event-attendance.md) to fill in.
 
 When it finishes, it renames the workbook to the plan's date and title
 followed by the facility label in capitals, e.g.

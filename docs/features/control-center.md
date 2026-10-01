@@ -3,14 +3,16 @@
 Control Center is the operator's console for running a tournament day —
 one page, covering every registered event, always showing live data (unlike
 Tournament Hub, it never hides scores while previewing a day before it's
-publicly live). Open it, pick an event and a day, and five tabs appear, in
-this order: **Mission Control** (where it opens), **Awards**, **Live
-Matches**, **Match Finder** and **Standings**.
+publicly live). Open it, pick an event and a day, and the tabs appear, in
+this order: **Mission Control** (where it opens), **Awards**, **Attendance**,
+**Live Matches**, **Match Finder** and **Standings**. **Attendance** shows only
+for an event with attendance turned on.
 
 No sign-in is needed to view Awards, Live Matches, Match Finder or
 Standings — they're read-only.
 Only the actions inside Mission Control (resyncing, forcing the public site
-live or hidden) need an operator to sign in.
+live or hidden) and marking people in on the Attendance tab need an operator to
+sign in. Signed out, the Attendance list is read-only.
 
 **Installable** — from Chrome's install prompt on Android, or "Add to Home
 Screen" on iOS Safari — so an operator's device can launch straight into
@@ -91,6 +93,24 @@ The result boxes (resync, Check connection) have a close button, and they
 clear themselves when you change the event, the day or the tab, so a result
 never sits under a different day. A resync that finishes after you've moved
 on reports as a short message at the top instead.
+
+## Attendance
+
+Staff check-in, for an event whose entry in `events.json` has an
+`attendance` setting. The tab lists everyone playing at each venue that day,
+grouped by category (or by team, for a team event), with a switch per person.
+Flip it to mark someone in; it records the time. Above the list:
+
+- the number of people in at each venue
+- **Update roster**, to bring the list up to date with the workbook now
+  instead of waiting for the next sync
+- **Issue desk link**, for an event set to `"desks"`: a link for one day that
+  lets desk staff mark people in from their own phones, with **Copy**,
+  **Share** and **Show QR**
+- **Needs attention**: names that might be the same person written two ways,
+  people listed twice in one category, and **Show withdrawn**
+
+Full usage: [event attendance](event-attendance.md).
 
 ## Awards
 
@@ -208,4 +228,4 @@ warning banner names it rather than silently lumping it into an "Other"
 bucket — so a data problem in the spreadsheet gets noticed instead of hidden.
 
 ---
-**Technical:** [Control Center architecture, incl. Awards tab internals](../technical/control-center.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md)
+**Technical:** [Control Center architecture, incl. Awards tab internals](../technical/control-center.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md) · [event attendance](../technical/event-attendance.md)

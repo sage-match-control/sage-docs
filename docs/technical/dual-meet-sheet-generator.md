@@ -2,8 +2,9 @@
 
 `sage-tools-api/scripts/sheet-generator.gs` — bound Apps Script that builds a
 dual meet event's whole workbook from a Tournament Calculator CSV: every
-category tab, `SCHEDULE`, and the four readout tabs the live sync and the
-operator both depend on. Implements
+category tab, `SCHEDULE`, the four readout tabs the live sync and the
+operator both depend on, and an empty `ATTENDANCE` tab (`buildAttendanceTab_`,
+the last step; see [event attendance](event-attendance.md)). Implements
 [`dual-meet-sheet-generator-spec.md`](../specs/implemented/dual-meet-sheet-generator-spec.md)
 Phase 1 (category tabs),
 [`dual-meet-schedule-generator-spec.md`](../specs/implemented/dual-meet-schedule-generator-spec.md)
