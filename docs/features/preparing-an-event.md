@@ -209,7 +209,11 @@ Three connections, and the event is inert until all of them exist:
 - **Turn on attendance** if the event wants check-in: add
   `"attendance": "console"` (operators mark people in Control Center) or
   `"desks"` (desk staff also get a link) to the event's entry, and share
-  every venue's workbook with the API's service account as **Editor**. See
+  every venue's workbook with the API's service account
+  (`sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com`) as
+  **Editor**. A `"desks"` event also needs its desk page,
+  `events/<event-key>/attendance.html`, made from the attendance template;
+  without it the desk link opens a missing page. See
   [event attendance](event-attendance.md).
 - **Number the matches** in each venue's spreadsheet with **SAGE → Fill match
   numbers**. It numbers every match on SCHEDULE, starting after the number
@@ -292,6 +296,9 @@ number, court and time, so a reshuffle after printing means printing again.
 - A test score typed into each venue's workbook reaches Control Center and
   the public page, and has been reverted.
 - Every venue reports a recent successful sync.
+- If the event has attendance: **Update roster** reports every venue's people,
+  a test mark appears in the workbook's `ATTENDANCE` tab and has been undone,
+  and for `"desks"` a desk link opens on a phone.
 - The schedule PDF matches the site, and the scoresheets are printed.
 
 At that point the event is ready, and the rest is
