@@ -8,8 +8,8 @@ desk page, written by `sage-tools-api` straight into each facility workbook's
 > use at Piggleball (`"attendance": "console"`): Update roster and marking work
 > against the real workbook as the service account. Still open: the checks in §8.4
 > marked not checked, desk links (`"desks"`) on a real device, pasting the
-> updated generators into the masters.
-> comment. Decisions settled with the owner on
+> updated generators into the masters. 
+> Decisions settled with the owner on
 > 2026-10-02 (§1). Written against `sage-tools-api` 2.5.0,
 > `sage-match-control.github.io` at `89a7476` and `event-data`'s
 > `config/events.json` as of that date.
