@@ -527,11 +527,11 @@ ordered; do not start one before the previous is green.
 | Phase | What | Version | Production code touched |
 |---|---|---|---|
 | 0 | The test suite, **its own spec** ([test-suite spec](sage-tools-api-test-suite-spec.md)) | none | none (only `package.json` scripts, `test/`, one script, the pre-push hook, README) |
-| 1 | Folder moves | 2.5.1 | paths and imports only |
-| 2 | Hardening | 2.5.2 | secret compare, errors, config, auth middleware, CORS, jsconfig |
-| 3 | One retry loop, store interface, domain extraction | 2.5.3 | `sync/` internals |
-| 4 | Publishing strategies and the `SyncService` split | 2.5.4 | `sync/` internals |
-| 5 | The `/v1` API | 2.6.0 | routes, controllers, OpenAPI |
+| 1 | Folder moves | 2.6.1 | paths and imports only |
+| 2 | Hardening | 2.6.2 | secret compare, errors, config, auth middleware, CORS, jsconfig |
+| 3 | One retry loop, store interface, domain extraction | 2.6.3 | `sync/` internals |
+| 4 | Publishing strategies and the `SyncService` split | 2.6.4 | `sync/` internals |
+| 5 | The `/v1` API | 2.7.0 | routes, controllers, OpenAPI |
 | 6 | Build, docs and workspace | none | none |
 | 7 | Site shared-JS decision | n/a | none |
 
@@ -544,7 +544,7 @@ acceptance checklist is complete, `npm test` and `npm run verify` are green, and
 touched. If the code on `main` has moved since that spec was written, bring it
 up to date first (its §2 lists the contract it pins).
 
-### 6.1 Phase 1 — folder moves (2.5.1)
+### 6.1 Phase 1 — folder moves (2.6.1)
 
 Mechanical, with the test suite as the guard. Do all moves with `git mv`, update
 imports, and run `npm run verify` after each group.
@@ -601,7 +601,7 @@ bump the version and ships by pasting, so only the comment moves).
 owner's build trigger on the branch) succeeds; `git log --follow` on a moved
 file shows its history.
 
-### 6.2 Phase 2 — hardening (2.5.2)
+### 6.2 Phase 2 — hardening (2.6.2)
 
 Do these in order; for each, write the failing test first.
 
@@ -623,7 +623,10 @@ Do these in order; for each, write the failing test first.
    tests' expected bodies to include `code` (B2).
 4. **`auth/middleware.mjs`** (F8): move `requireAuthToken` and
    `requireSyncSecretOrAuthToken` out of the sync routes factory into factories
-   taking `authService` (and the shared secret). Routes import them.
+   taking `authService` (and the shared secret). Routes import them. The
+   [attendance spec](multi-event-attendance-spec.md)'s operator-or-desk check
+   in `src/attendance/routes.mjs` moves here too, as
+   `requireAuthTokenOrDeskToken`.
 5. **`server/cors.mjs`** (F14, B3): move the CORS middleware out of `Server`;
    methods become `GET, POST, PUT, PATCH, DELETE, OPTIONS`. Fix the comment on
    `start()` (F11): cleartext HTTP/1.1 does not work; Cloud Run talks h2c.
@@ -642,7 +645,7 @@ local instance with `SHEETS_FETCH_TIMEOUT_MS=abc` exits 1 with a readable
 message; with `LIVE_PUSH_TIMEOUT_MS=` (empty) it starts and uses the default;
 no handler contains `res.status(err.statusCode`.
 
-### 6.3 Phase 3 — one retry loop, one store interface, domain extraction (2.5.3)
+### 6.3 Phase 3 — one retry loop, one store interface, domain extraction (2.6.3)
 
 Write the unit tests for each new module from §5.2 **first**, watch them fail
 (the module does not exist), then implement.
@@ -673,7 +676,7 @@ Write the unit tests for each new module from §5.2 **first**, watch them fail
 defined once and used by `conflictRetry` and the stores;
 `SyncConfigStore` has no hand-written retry loop left.
 
-### 6.4 Phase 4 — publishing strategies and the `SyncService` split (2.5.4)
+### 6.4 Phase 4 — publishing strategies and the `SyncService` split (2.6.4)
 
 Goal: `SyncService` knows nothing about GitHub, the Worker, the archive or the
 fallback.
@@ -749,7 +752,7 @@ src/sync/SyncService.mjs` finds nothing; there is exactly one place that reads
 `livePushOn`; adding a hypothetical third strategy requires no edit to
 `SyncService` (state which files a new strategy would touch in the Changelog).
 
-### 6.5 Phase 5 — the `/v1` API (2.6.0)
+### 6.5 Phase 5 — the `/v1` API (2.7.0)
 
 1. Write the parity tests first (`test/integration/v1.test.mjs`). They are
    table-driven: for each row of §4.8, the legacy and the `/v1` request produce
@@ -760,6 +763,10 @@ src/sync/SyncService.mjs` finds nothing; there is exactly one place that reads
    `application/pdf` or none returns a PDF, with `text/html` is `406`;
    `POST /v1/sessions` is `201`; an unknown `/v1/...` path is `404 { error,
    code: "not_found" }`; `/ping` has no `/v1` alias.
+   The `/v1` prefix already exists: the
+   [attendance spec](multi-event-attendance-spec.md) (2.6.0) mounts its three
+   routes there. They and their tests stay as they are; this phase adds
+   routes beside them.
 2. `sync/v1Routes.mjs`, `auth` and `scoresheets` get `/v1` routers calling the
    **same** controller functions as the legacy routes. No handler logic is
    duplicated. Mount in `Server`: legacy at `/sync`, `/scoresheets`, `/auth`;

@@ -168,8 +168,10 @@ to the `...` form rather than repointing it.
 ## Not started
 
 - **[Attendance for every event](not-started/multi-event-attendance-spec.md)**
-  — idea only: move attendance writes into `sage-tools-api`, keyed by the
-  event registry, so no workbook needs its own Apps Script web app.
+  — staff check-in for any event, marked in Control Center or on a desk page,
+  one check-in per person. `sage-tools-api` writes each workbook's
+  `ATTENDANCE` tab as a service account and keeps the roster current after
+  every sync, so no workbook needs its own Apps Script web app.
 - **[sage-tools-api test suite](not-started/sage-tools-api-test-suite-spec.md)** —
   unit and integration tests (and an opt-in PDF end-to-end) that pin what the
   service does today, with an in-memory fake of GitHub, Google Sheets and the

@@ -16,6 +16,17 @@
 > change to the API changes its tests in the same commit (§9). The suite
 > carries guard tests that fail when a module or route has none, and the
 > rule goes into the root `CLAUDE.md` and the README as part of this spec.
+>
+> **Attendance lands before this suite.** The
+> [attendance spec](multi-event-attendance-spec.md) (2.6.0) is built first and
+> already creates `test/`, the `test`/`test:unit`/`test:integration` scripts,
+> `test/helpers/logger.mjs` and its own tests, in this spec's layout. Extend
+> them; do not recreate or rewrite them. Its consequences for this spec:
+> `Access-Control-Allow-Methods` is `GET, POST, PUT, OPTIONS` (B3); the
+> contract in §2.1 includes its three `/v1` routes as that spec's §4.8
+> defines them; the OpenAPI path list and the route manifest gain them (11
+> documented paths, 12 registered routes); and `src/attendance/` modules
+> already have unit test files, so none of them goes in `coveredElsewhere.mjs`.
 
 Pin what `sage-tools-api` does today, in tests, so the refactor in the
 architecture spec can change its insides without anyone having to take it on
@@ -157,7 +168,7 @@ the phase that changes it edits one named test in the same commit.
 |---|---|---|---|
 | B1 | Three conflicting GitHub commits in a row surface as HTTP `500` (the raw GitHub error has no `statusCode`), for `syncDay`'s GitHub path, `setIsLive` and `setLivePush` | 3 | the pipeline case "three conflicts on GitHub" and the `SyncConfigStore` "three 409s throw" cases |
 | B2 | Error bodies are exactly `{ "error": "<message>" }` | 2 | every whole-body assertion on an error response |
-| B3 | `Access-Control-Allow-Methods` is exactly `GET, POST, OPTIONS` | 2 | `headers.test.mjs` |
+| B3 | `Access-Control-Allow-Methods` is exactly `GET, POST, PUT, OPTIONS` (`PUT` since the attendance spec) | 2 | `headers.test.mjs` |
 | B4 | A day key of `config` or `live-push` passes config validation | 2 | the `SyncConfigStore` validation cases |
 
 Everything else in §2.1 must still pass unchanged after every later phase.

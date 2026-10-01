@@ -78,6 +78,19 @@ are never published.
   | Shared constants | `POLL_INTERVAL_MS = 10000`, `LIVE_SAFETY_POLL_MS = 60000`, `GHPAGES_OWNER`/`GHPAGES_REPO`, `CLOUD_RUN_BASE_URL` | partly (`CLAUDE.md`'s "hard-coded constants") |
 
   Today the only check on any of these is a person remembering to run `diff`.
+
+  The [attendance spec](multi-event-attendance-spec.md) adds one more
+  byte-identical block, `ATTENDANCE CLIENT`, in `tools/control-center.html`,
+  `_templates/attendance/attendance.html` and every `events/<key>/attendance.html`.
+  It also adds a Control Center **Attendance** tab, and fixtures named
+  `_fixtures/<event>/attendance-<facility>-<name>.csv`. If it has landed,
+  `live-channel-identical.test.mjs` gets a sibling,
+  `attendance-client-identical.test.mjs`, with the same rules. The attendance
+  template joins §3's pages. The console's attendance tab and the desk page
+  get page tests: the category filter and jump, a two-team person toggling in
+  both places, withdrawn people hidden, and the desk-off and expired-link
+  messages. The router answers the gviz `ATTENDANCE` export and the API's
+  `PUT` like any other routed request.
 - **Live/Hide and the sync-method switch are real writes.** The console's
   `window.confirm` prompts guard `POST /sync/:day/live` (`isLive: false`) and
   `POST /sync/live-push` (`enabled: false`). A test that reached Cloud Run would
