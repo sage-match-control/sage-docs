@@ -33,7 +33,8 @@ The build/deploy trigger runs the equivalent of:
 ```bash
 gcloud run deploy sage-tools-api --source . --use-http2 --region us-central1 \
   --memory 2Gi --cpu 2 --timeout 900 --concurrency 4 --min-instances 0 \
-  --allow-unauthenticated
+  --allow-unauthenticated \
+  --service-account=sage-tools-api-runtime@<PROJECT_ID>.iam.gserviceaccount.com
 ```
 
 — this exact command is kept as a comment at the top of the `Dockerfile`,
@@ -45,6 +46,18 @@ Chromium installed via `apt` rather than Puppeteer's own bundled download
 (`PUPPETEER_SKIP_DOWNLOAD` + `PUPPETEER_EXECUTABLE_PATH` in the
 Dockerfile). See [Scoresheet pipeline](scoresheet-pipeline.md) for why the
 Puppeteer import itself is lazy despite this.
+
+### Runtime service account
+
+The service runs as a dedicated service account, `sage-tools-api-runtime`,
+with no project roles. [Event attendance](event-attendance.md) uses its
+access token (from the metadata server) to write to each facility workbook,
+so every workbook is shared with it as **Editor**, or sits in a Drive folder
+that is. The `--service-account` flag above keeps it set on later deploys.
+It is set once on the existing service with
+`gcloud run services update sage-tools-api --service-account=…`; logging
+needs no role. For local development, `GOOGLE_ACCESS_TOKEN` stands in for
+the metadata server (see `.env.example`).
 
 ## Versioning
 

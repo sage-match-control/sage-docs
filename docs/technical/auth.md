@@ -36,6 +36,23 @@ turn live push off.
 All of these routes **fail closed** if neither auth path is configured or valid —
 there's no unauthenticated fallback.
 
+## Desk tokens
+
+Attendance adds a second, narrower kind of token for desk staff
+(`issueDeskToken` / `verifyDeskToken` in `AuthService`). A desk token
+carries a day, expires at the end of that day in Manila time, and is accepted
+only by the attendance mark route, and only while the event's `attendance`
+setting is `"desks"`.
+
+- It is signed with a key derived from `AUTH_TOKEN_SECRET`, so its signature
+  never verifies as an operator token. Its payload also carries a `scope`,
+  and `verify()` rejects any token with one, as a second guard.
+- It is therefore a 401 on every `/sync/*` route and on the operator-only
+  attendance routes (issuing desk links, updating the roster).
+- Only an operator can issue one: `POST /v1/days/:day/attendance/desk-links`.
+
+See [event attendance](event-attendance.md).
+
 ## What the console does with it
 
 Signing in exchanges the operator's password for a session token held only

@@ -99,11 +99,11 @@ nav:
           - Overview: specs/in-progress/README.md
           - Team tournament: specs/in-progress/pickledrive-club-anniversary-team-tournament-spec.md
           - Piggleball Chairman's Cup: specs/in-progress/piggleball-chairmans-cup-spec.md
+          - Attendance for every event: specs/in-progress/multi-event-attendance-spec.md
           - Live push delivery: specs/in-progress/durable-object-push-spec.md
           - Live push delivery - explainer: specs/in-progress/durable-object-push-explainer.md
       - Not started:
           - Overview: specs/not-started/README.md
-          - Attendance for every event: specs/not-started/multi-event-attendance-spec.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - sage-tools-api test suite: specs/not-started/sage-tools-api-test-suite-spec.md

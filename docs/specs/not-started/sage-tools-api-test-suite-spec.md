@@ -18,7 +18,7 @@
 > rule goes into the root `CLAUDE.md` and the README as part of this spec.
 >
 > **Attendance lands before this suite.** The
-> [attendance spec](multi-event-attendance-spec.md) (2.6.0) is built first and
+> [attendance spec](../in-progress/multi-event-attendance-spec.md) (2.6.0) is built first and
 > already creates `test/`, the `test`/`test:unit`/`test:integration` scripts,
 > `test/helpers/logger.mjs` and its own tests, in this spec's layout. Extend
 > them; do not recreate or rewrite them. Its consequences for this spec:

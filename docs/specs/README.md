@@ -156,6 +156,10 @@ to the `...` form rather than repointing it.
   2026. Standard template, re-skinned from the pubmat. Site, registry
   entry, QR image and live sync built; the rosters, `isLive` reset and
   dry run are open.
+- **[Attendance for every event](in-progress/multi-event-attendance-spec.md)**
+  — staff check-in for any event, marked in Control Center or on a desk page,
+  one check-in per person. Built and tested on branches; the owner's checks on
+  Google's side, the service-account switch and the first real run are open.
 - **[Live push delivery](in-progress/durable-object-push-spec.md)** — a
   Cloudflare Durable Object that pushes each snapshot to open pages over
   WebSockets, with GitHub kept as archive and fallback. Deployed and switched
@@ -167,11 +171,6 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
-- **[Attendance for every event](not-started/multi-event-attendance-spec.md)**
-  — staff check-in for any event, marked in Control Center or on a desk page,
-  one check-in per person. `sage-tools-api` writes each workbook's
-  `ATTENDANCE` tab as a service account and keeps the roster current after
-  every sync, so no workbook needs its own Apps Script web app.
 - **[sage-tools-api test suite](not-started/sage-tools-api-test-suite-spec.md)** —
   unit and integration tests (and an opt-in PDF end-to-end) that pin what the
   service does today, with an in-memory fake of GitHub, Google Sheets and the

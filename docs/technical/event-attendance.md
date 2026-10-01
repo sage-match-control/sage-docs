@@ -1,5 +1,137 @@
 # Event attendance
 
+Staff check-in for any registered event, written by `sage-tools-api` straight
+into each facility workbook's `ATTENDANCE` tab, as a dedicated service
+account. One row per person, covering every category they play.
+
+Spec: [attendance for every event](../specs/in-progress/multi-event-attendance-spec.md).
+The earlier, Pickle for Sight design is at the end of this page.
+
+## Flow
+
+```
+Control Center "Attendance" tab          events/<key>/attendance.html (desk page, "desks" mode)
+        |   the same ATTENDANCE CLIENT block in both
+        | read:  ATTENDANCE tab CSV export (gviz), every 10 s while visible
+        | write: PUT /v1/days/{day}/facilities/{facility}/attendance/{key}
+        |        Authorization: Bearer <operator token | desk token>
+        v
+sage-tools-api   src/attendance/
+        | reads:  Sheets API, existing API key (GOOGLE_SHEETS_API_KEY)
+        | writes: Sheets API, the service account's token (metadata server)
+        v
+Facility workbook -- ATTENDANCE tab
+        ^
+        | after every sync of a facility, only when the roster changed
+POST /sync/:day (Apps Script, unchanged) -- SyncService -- onFacilitiesSynced hook
+```
+
+The live Worker is not used: its channel is public.
+
+## The setting
+
+`events[<event>].attendance` in `event-data/config/events.json`:
+`"console"`, `"desks"`, or absent. Validated by `SyncConfigStore`;
+`SyncConfigSnapshot.getEvent()` returns it and `getDay()` returns the day's
+`date`. See [event registry schema](event-data-config.md).
+
+## The ATTENDANCE tab
+
+Row 1 is `key | player | teams | categories | present | timeIn | withdrawn`
+(columns A to G). One row per person from row 2. `key` is the person key:
+`personKey()` in `src/attendance/personKey.mjs` (accents stripped, whitespace
+collapsed, lower-cased), the only definition of identity. `teams` and
+`categories` are comma-joined and parallel. `timeIn` is `yyyy-MM-dd HH:mm`
+(Asia/Manila). Columns H onward belong to people; the API never reads or
+writes them.
+
+Cells are written with `valueInputOption: RAW`, and `present` and `withdrawn`
+are always booleans, so a column never mixes types (gviz's CSV export empties
+a column whose type it guesses wrongly). The API refuses to touch a tab whose
+first row is not exactly this header (`AttendanceLayoutError`, 409).
+
+## The roster
+
+`src/attendance/roster.mjs` (pure): standard from `STANDINGSCSV` (team code
+`^[A-Z0-9]+_\d+$`, category before the first `_`), dual meet likewise
+(`^[A-Z0-9]+_[A-Z0-9]+_\d+$`, the middle segment), team events from the
+`Teams` tab (`Team Code`, and `Player` or `FINAL LEVEL ORDER`). Playoff-seat
+rows, names equal to the team code and `bye` are skipped. The same name twice
+in one category is one person with a warning.
+
+`attendanceTab.mjs` plans a **roster update** (`planReconcile`): rows are only
+updated in place or added below the last row, never inserted or deleted; every
+change goes in one `values:batchUpdate`. Duplicate keys are merged into the
+first row and the later one blanked. A person not on the roster gets
+`withdrawn = TRUE` and keeps `present` and `timeIn`.
+
+`AttendanceService.reconcileAfterSync` is the sync hook. It does nothing for an
+event without attendance, skips a facility whose roster fingerprint (sha1) is
+unchanged since this instance's last successful update, caches the `Teams` tab
+for 5 minutes, and is bounded to 6 seconds. It never throws. After writing
+new rows it re-reads them, and leaves the fingerprint unrecorded if another
+instance overwrote them, so the next sync adds the missing people.
+`reconcileDay` is the manual one: forced, never cached.
+
+## Marking
+
+`AttendanceService.mark` finds the first row with the key and writes `E:F`.
+It is idempotent, so a repeat keeps the first `timeIn`. No lock: two people
+marking different people write different rows.
+
+## Routes
+
+Mounted at `/v1` (`src/attendance/routes.mjs`):
+
+| Route | Auth |
+| --- | --- |
+| `PUT /v1/days/:day/facilities/:facility/attendance/:key`, body `{ present }` | operator token, or a desk token |
+| `POST /v1/days/:day/attendance/desk-links` | operator token only |
+| `POST /v1/days/:day/attendance/reconciliations`, optional `?facility=` | operator token only |
+
+CORS allows `PUT`. Errors are `{ error }` in words, never raw Google JSON.
+
+## Writing to the workbook
+
+`SheetsClient` reads with the API key and writes with the service account's
+token (`GoogleAccessToken`, from the metadata server; `GOOGLE_ACCESS_TOKEN`
+overrides it for local development). **Every write range must be inside
+`ATTENDANCE!A:G`**; anything else throws before a request is made, so a bug
+here cannot overwrite scores or formulas. There is no append call. Google
+`429` is retried once after a second, then answers 503.
+
+## Desk tokens
+
+See [auth](auth.md). A desk token carries a day and expires at the end of that
+day in Manila time; it is accepted only while the event is `"desks"`.
+
+## The client
+
+One block of plain JavaScript, `ATTENDANCE CLIENT`, byte-identical in
+`tools/control-center.html` and `_templates/attendance/attendance.html` (and
+each event's `attendance.html` made from it). It injects its own styles, so a
+host needs no CSS for the list. `createAttendanceView` renders the list, the
+category bar and search, polls, and marks optimistically.
+
+Control Center loads every facility of the day so counts are complete; the
+desk page loads only the venue being shown. With `?fixture=<name>` on
+localhost both read `_fixtures/` CSVs and mark in memory; `?attfail` makes the
+first mark fail.
+
+## Tests
+
+`npm test` in `sage-tools-api` (`node:test`): unit tests for each module
+under `test/unit/attendance/` and an HTTP test of the routes. The site has
+fixtures and manual checks (spec section 7.3).
+
+---
+
+# Earlier version: Pickle for Sight
+
+The notes below describe `scripts/attendance.gs` and
+`events/pickle-for-sight-2026/attendance.html`, which are unchanged.
+
+
 A staff check-in page that writes to Google Sheets — the only place a GitHub
 Pages page writes into a scoring workbook. Two parts:
 
@@ -14,7 +146,7 @@ Pages page writes into a scoring workbook. Two parts:
 
 Spec: [event attendance](../specs/implemented/event-attendance-spec.md).
 
-## The web app
+### The web app
 
 Deployed per workbook with **Execute as: Me** and **Who has access: Anyone**,
 so desk staff need no Google account. One `/exec` URL per venue; the page
@@ -42,7 +174,7 @@ the version it was given. `attendanceResync` runs from the editor, not
 through `/exec`, so it needs no redeploy — only the file's latest content
 pasted in.
 
-### Where the roster and the marks live
+#### Where the roster and the marks live
 
 Names are read from `STANDINGSCSV` columns A:C. Only pair rows count — codes
 like `HIMD_3`. The tab also lists playoff seats (`HIMD_QF_1`) that repeat the
@@ -67,13 +199,13 @@ Nothing re-checks it on every read any more (see below), so a re-draw needs
 `timeIn` is `yyyy-MM-dd HH:mm` in the spreadsheet's time zone, stored as
 text; marking an already-present player keeps the first time.
 
-### Concurrency
+#### Concurrency
 
 Every POST holds the script lock, so two phones marking at once cannot both
 append a row for the same player. Script writes don't fire the installable
 `onEdit`, so a mark never triggers a sync.
 
-## The page
+### The page
 
 Reads and writes go to two different places. **Reads** fetch the venue
 workbook's own published CSV export of `ATTENDANCE` directly —
@@ -120,7 +252,7 @@ snaps back and says why. The page polls every 30 seconds while visible and
 reloads when it becomes visible again. A player with a save in flight keeps
 its local state through a reload, since the sheet may not have it yet.
 
-## Verifying a change
+### Verifying a change
 
     node scripts/verify-attendance.mjs
 

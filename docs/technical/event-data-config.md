@@ -25,6 +25,7 @@ default).
       "type": "dual-meet",              // or "standard" or "team" — required, picks the console's layout
       "archived": false,                // optional, console-only: hides from the event picker
       "title": "PNF × BUP Dual Meet",   // optional, console-only: masthead label
+      "attendance": "desks",            // optional: "console" | "desks" — staff check-in; absent means none
       "days": {
         "<day-key>": {
           "label": "Day 1 · Aug 15",
@@ -57,6 +58,10 @@ default).
   there's no separate ordering config to keep in step. No logo field —
   `display.clubs` maps to a plain name string only; the console shows the
   3-letter code, not a logo, on every row.
+- `attendance` turns on [event attendance](event-attendance.md):
+  `"console"` lets operators mark people in Control Center, `"desks"` also
+  allows desk links. Anything else is rejected on load. A day used with desk
+  links needs a `date`.
 - A facility with an empty/missing `sheetId` is treated as "not set up yet"
   and skipped rather than fetched — lets you add a day's entry before its
   spreadsheet exists.

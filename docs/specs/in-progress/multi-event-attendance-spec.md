@@ -4,8 +4,10 @@ Staff check-in for any registered event, marked in Control Center or on a
 desk page, written by `sage-tools-api` straight into each facility workbook's
 `ATTENDANCE` tab. One check-in per person covers every category they play.
 
-> **Status: not started.** Nothing here is built. Decisions settled with the
-> owner on 2026-10-02 (§1). Written against `sage-tools-api` 2.5.0,
+> **Status: in progress.** Phases 1 and 3 to 7 are built and tested on the
+> `attendance` branches, not merged or deployed. Phase 2 (the owner's checks on
+> Google's side, §8) and Phase 8 are open. Decisions settled with the owner on
+> 2026-10-02 (§1). Written against `sage-tools-api` 2.5.0,
 > `sage-match-control.github.io` at `89a7476` and `event-data`'s
 > `config/events.json` as of that date.
 >
@@ -885,7 +887,7 @@ list of the site's allowed external dependencies.
 
 ### 7.1 `sage-tools-api`: set up the test runner now
 
-The [API test-suite spec](sage-tools-api-test-suite-spec.md) has not been
+The [API test-suite spec](../not-started/sage-tools-api-test-suite-spec.md) has not been
 built yet. Set up exactly the parts of its layout that attendance needs, so
 that spec extends this work rather than redoing it:
 
@@ -920,7 +922,7 @@ scripts must still pass, untouched.
 
 ### 7.3 The site
 
-The site test suite ([site test suite spec](site-test-suite-spec.md)) isn't
+The site test suite ([site test suite spec](../not-started/site-test-suite-spec.md)) isn't
 built yet. Until it is:
 
 - Add fixtures: `_fixtures/config.json` gains `"attendance": "desks"` on the
@@ -1180,17 +1182,17 @@ spec turns out wrong, and report it.
 
 ## 11. Relationship to other specs
 
-- **[`sage-tools-api` test suite](sage-tools-api-test-suite-spec.md):** this
+- **[`sage-tools-api` test suite](../not-started/sage-tools-api-test-suite-spec.md):** this
   spec creates `test/`, the `test` scripts and `test/helpers/logger.mjs` in
   that spec's layout. That spec then pins attendance's routes too (its §2.1
   gains them). Its characterization B3 changes from `GET, POST, OPTIONS` to
   `GET, POST, PUT, OPTIONS`. The spec is updated with this one.
-- **[Architecture hardening](sage-tools-api-architecture-spec.md):** Phase 2
+- **[Architecture hardening](../not-started/sage-tools-api-architecture-spec.md):** Phase 2
   moves attendance's auth checks into `src/auth/middleware.mjs` and adds
   `code` to its error bodies. Phase 5 adds the other `/v1` routes beside
   attendance's, on the same prefix. Phase 4's `SyncService` split keeps the
   `onFacilitiesSynced` hook.
-- **[Site test suite](site-test-suite-spec.md):** the `ATTENDANCE CLIENT`
+- **[Site test suite](../not-started/site-test-suite-spec.md):** the `ATTENDANCE CLIENT`
   block joins its consistency layer, and the console tab and desk page join
   its page tests. The spec is updated with this one.
 - **Next, on the same foundation (not in this spec):** Court Control and
@@ -1209,4 +1211,28 @@ spec turns out wrong, and report it.
 
 ## 13. Divergences
 
-None yet. When the built feature departs from this spec, record it here.
+Built on the `attendance` branches. Where it departs from the text above:
+
+- **`createAttendanceView` returns `setShowWithdrawn(v)` and takes `onData`.**
+  Control Center needs both for §6.3: the counts per facility, **Needs
+  attention** and **Show withdrawn** are computed from the people the view has
+  loaded. In console mode the view loads every facility of the day (so counts
+  are complete); on the desk page it loads only the venue shown.
+- **Messages through `notify`** skip "Loading…" and successes: only errors and
+  warnings are toasted, because a loading toast would never be replaced.
+- **Fixture mode** also covers Update roster and Issue desk link in Control
+  Center (no API call; a canned result and a fake token), and `?attfail` makes
+  the first mark fail, to exercise the failure paths. The QR code still loads
+  from cdnjs when clicked.
+- **`possibleDuplicates`** ignores withdrawn people and returns pairs of person
+  objects, not keys.
+- **A tab that exists but is empty** (no header row) is an
+  `AttendanceLayoutError`, as the header rule reads. Only a missing tab is
+  created.
+- **The package lock** still says 2.0.0 and was left alone.
+- **QR library:** cdnjs has `qrcode-generator` files only up to **1.4.4**, so that
+  is the pinned version (SRI `sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1`).
+- Fixtures add a standard `console` demo event (`attendance-demo-2026`, in
+  `_fixtures/config.json` only) beside the PickleDrive `desks` one.
+- Not yet checked by hand: Control Center's read-only state when signed out, and
+  the tab hiding for an event with no `attendance` setting.

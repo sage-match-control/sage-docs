@@ -206,6 +206,11 @@ Three connections, and the event is inert until all of them exist:
 - **Register the event** in `event-data/config/events.json` — its type,
   title, and one entry per day with that day's venues. This takes effect
   within minutes of the commit; nothing needs redeploying.
+- **Turn on attendance** if the event wants check-in: add
+  `"attendance": "console"` (operators mark people in Control Center) or
+  `"desks"` (desk staff also get a link) to the event's entry, and share
+  every venue's workbook with the API's service account as **Editor**. See
+  [event attendance](event-attendance.md).
 - **Number the matches** in each venue's spreadsheet with **SAGE → Fill match
   numbers**. It numbers every match on SCHEDULE, starting after the number
   you enter. When a day has more than one venue, give each venue's workbook

@@ -1,55 +1,107 @@
 # Event attendance
 
-A check-in page for the staff at an event's desk. Open it on any phone, find a
-player, and flip their switch: they're marked in, with the time they arrived.
-No app, no sign-in.
+Staff check-in for any event. A person is marked in once, and that covers
+every category they play that day at that venue. Marks are made in
+[Control Center](control-center.md), or on a desk page opened from a link, and
+land in an **ATTENDANCE** tab of each venue's scoring workbook.
 
-Pickle for Sight is the first event with one, at
-`/events/pickle-for-sight-2026/attendance`. It isn't linked from the public
-event page — share the link with desk staff only.
+## Turning it on
+
+Attendance is a setting on the event, in `event-data/config/events.json`:
+
+| Setting | What it means |
+| --- | --- |
+| `"attendance": "console"` | Operators mark people in the **Attendance** tab of Control Center. |
+| `"attendance": "desks"` | Operators can do that too, and desk staff can mark people from their own phones with a **desk link**. |
+| *(absent)* | The event has no attendance. The tab does not appear. |
+
+Each venue's workbook must be shared with the API's service account as
+**Editor**, so it can write the tab. See
+[Preparing an event](preparing-an-event.md#5-register-it-and-wire-up-the-sync).
+
+## The roster
+
+The roster is made for you. After every sync the API compares each venue's
+players with its ATTENDANCE tab and brings the tab up to date: people missing
+from it are added, a changed team or category is corrected, and someone who is
+no longer on the roster is flagged **withdrawn**. A person who has been
+withdrawn keeps their row and any check-in, and is hidden from the list. If
+they come back, they are restored.
+
+To do it right now instead of waiting for a sync, press **Update roster** in
+the Attendance tab. It reports, for each venue, how many people were added,
+updated or withdrawn.
+
+Two names count as the same person when they match once spacing, capitals
+and accents are ignored (`José Rizal` and `jose  rizal`). Names that are
+*nearly* the same are never merged for you. They appear under **Needs
+attention** so you can fix the spelling in the category tab; the roster
+follows on the next sync. A person listed twice in the same category appears
+there too.
+
+Standard and dual-meet rosters come from the standings tab. A team event's
+comes from its **Teams** tab.
 
 ## Using it
 
-- **Pick your venue** at the top. The page remembers it on that phone.
-- **Find the player** by scrolling to their category, or type part of a name
-  or a team code into the search box. If the venue's sheet records shirt
-  sizes, each player's size shows next to their name, and typing a size
-  exactly (`XL`) lists everyone who wears it, for handing out shirts.
+- **Pick the venue** at the top, if the day has more than one.
+- **Find the person** with the search box (a name, a team code or an exact
+  shirt size), by tapping a category (or team) chip to show only that one, or
+  with **Jump to…** to scroll to a section while still showing everything.
 - **Flip their switch.** It shows *Saving…* for a moment, then *In 8:14 AM*.
-  Each player has their own switch, so a pair with a partner still on the way
-  shows exactly who is missing. Once both are in, the pair is marked
-  **Ready**.
+  A person who plays in two categories is one switch, shown in both places.
+  When everyone on a team is in, it shows **Ready**.
 - **Marked the wrong person?** Flip it back. That clears the time.
-- The count at the top shows how many players are in at that venue.
 
-Several phones can mark at once. Each picks up the others' marks within about
-30 seconds, straight away when you come back to the page, or when you press
+Marks made on other devices appear within about 10 seconds, or when you press
 **Refresh**.
+
+## Control Center extras
+
+The Attendance tab, for operators, also has:
+
+- the count of people in at each venue
+- **Update roster** (above)
+- **Issue desk link** (events set to `"desks"`): a link for one day, with
+  **Copy**, **Share** and **Show QR**. It works until the end of that day in
+  Manila time. Send it to the desks, or let them scan the QR code.
+- **Needs attention**: possible duplicate names, people listed twice in a
+  category, and a **Show withdrawn** switch.
+
+Sign in at the top of Mission Control first. Without signing in the list is
+read-only.
+
+## Desk links
+
+A desk link opens that event's attendance page on a phone and can do one
+thing: mark people in or out, on that day. It cannot reach anything else.
+Switching the event to `"console"` stops every link already handed out, within
+about a minute. A link that has stopped working shows *Ask the operator for a
+new desk link.*
 
 ## When something goes wrong
 
-- **A switch flips back with a message at the top.** That mark was not saved
-  — usually a dropped connection. Try again.
-- **"… is not connected yet."** That venue's workbook hasn't been set up for
-  attendance. Tell whoever runs the event's workbooks.
-- **A player is missing, or a name looks wrong.** Usually a last-minute
-  swap — a team code was reassigned to a different pair after this page's
-  list was set up. Fixing the roster alone isn't enough: whoever runs the
-  event's workbooks needs to re-run the resync (**Extensions → Apps Script →
-  pick `attendanceResync` → Run**) in that venue's workbook. The page picks
-  it up within a few seconds of that finishing.
+- **A switch flips back and a message says it was not saved.** Usually a
+  dropped connection. Try again. If the message names the service account,
+  the venue's workbook is not shared with it.
+- **"No roster yet."** Press **Update roster**.
+- **"The ATTENDANCE tab's header row is not …"** Someone changed or replaced
+  the tab's first row. Put it back, or delete the tab and press **Update
+  roster** to build a new one.
 
-## What it records
+Use a **filter view**, not Sort, to rearrange the ATTENDANCE tab by hand.
+Anything you add in columns to the right of **withdrawn** (a `TShirt Size`
+column, say) is left alone, and shows beside each name.
 
-Each mark lands in an **ATTENDANCE** tab of that venue's scoring workbook:
-team code, which player, their name, whether they're in, and the time. None
-of it appears on the public event page.
+The tab can be read by anyone who has the workbook's ID, so keep phone numbers
+and emails out of it.
 
-To show shirt sizes, add a column headed **TShirt Size** to that tab and fill
-it in. `T-Shirt Size` and `Shirt Size` work too. A venue without the column
-just shows no sizes.
+## The earlier version: Pickle for Sight
 
-Anyone who has the link can change marks, so share it with desk staff only.
+Pickle for Sight 2026 used an older page and a per-workbook Apps Script. They
+stay as they were, and are not affected by the above. That version keeps one
+row per pair slot, has its own page at `/events/pickle-for-sight-2026/attendance`
+and does not use desk links or the Attendance tab.
 
 ---
 **Technical:** [event attendance](../technical/event-attendance.md)

@@ -52,6 +52,13 @@ links to its full section below.
    the schedule board, and Tournament Hub — so it's worth opening this
    now and keeping it up throughout the day, not just visiting it once.
 
+## Attendance
+
+If the event has attendance, open the **Attendance** tab and press **Update
+roster** once the rosters are final; it also updates itself after every sync.
+For an event set to `"desks"`, press **Issue desk link** and send the link,
+or the QR code, to each desk. See [event attendance](event-attendance.md).
+
 ## Deciding when the public site goes live
 
 Under **Public site status**: by default (`Auto`) the public site goes live
