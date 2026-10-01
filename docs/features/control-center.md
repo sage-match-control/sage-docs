@@ -165,6 +165,21 @@ signing in.
   still arrive, just 30–60 seconds slower.
 - **Resync this day now** — pulls a fresh copy from the spreadsheet(s)
   immediately, instead of waiting for the next automatic sync.
+- **Sync method** — an emergency switch between **Live push + GitHub** (the
+  normal way: scores reach open pages in a few seconds) and **GitHub only**
+  (every score goes through GitHub, so pages catch up within 30–60 seconds, as
+  before live push). Use it if live updates misbehave: pages stop updating, or
+  show stale scores. Switching to GitHub only asks you to confirm, and either
+  way it takes effect within about a minute. It shows the current method, and it
+  is hidden until you sign in. If Cloud Run has no live push configured at all,
+  it says so and there is nothing to switch.
+- **Check connection** — confirms Cloud Run is reachable and shows its
+  version. When you're signed in it adds a **Live push** line saying whether
+  Cloud Run is publishing scores to the live push service (**on**, **off**,
+  **switched off in Control Center**, or **not available** on an older
+  version). Signed out, the line asks you to sign
+  in. This is about Cloud Run's side; the **Live updates** line under Facility
+  sync status is about this page's own connection.
 - **Public pages** — launchers for the venue's schedule board and the
   event's Tournament Hub, both opening in a new tab so the console stays
   where it is.

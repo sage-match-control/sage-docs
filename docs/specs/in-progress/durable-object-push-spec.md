@@ -1162,6 +1162,17 @@ as written.
 - **`timing.liveMs`** covers the whole live loop: the reads, the merge and the
   publishes of every attempt, including a GitHub seed read on the first sync
   of a day.
+- **An operator switch (2.5.0).** Control Center's **Sync method** switch
+  (`POST /sync/live-push`, `livePush` in `config/events.json`) turns live
+  push off and on without clearing `LIVE_PUSH_URL` on Cloud Run. It lives in the
+  config rather than the Worker so it works when the Worker is the problem.
+- **The live merge builds on the newer of the object's and GitHub's snapshot
+  (2.5.0), not the object's alone.** §6.5 reads GitHub only when the object is
+  empty. After syncs that went through GitHub alone (the switch off, a Worker
+  outage), the object holds an older copy; merging into it would republish, and
+  archive over GitHub, facility data GitHub already has newer. The two are now
+  read together, so it costs no extra time, and the newer by `publishedAt` wins.
+  Live/Hide does the same.
 - **Checked locally, not in production.** `smoke.mjs` passed against
   `wrangler dev`, which also confirmed §10 check 2 (the on-connect message
   arrives) and that a wrong `Origin` gets `403`, a missing secret `401` and a

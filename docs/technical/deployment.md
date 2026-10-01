@@ -101,8 +101,9 @@ Turning live push on, in order: deploy the Worker and run `smoke.mjs`; deploy
 Cloud Run with `LIVE_PUSH_URL` unset, then set `LIVE_PUSH_URL` and
 `LIVE_PUSH_SECRET` on the service (a new revision, no code push); then set
 `LIVE_BASE_URL` (`wss://sage-live.<subdomain>.workers.dev`) in the pages. To
-turn it off, empty `LIVE_BASE_URL` in the pages and/or clear `LIVE_PUSH_URL` on
-Cloud Run; pages fall back to polling GitHub.
+turn it off in an emergency, use Control Center's **Sync method** switch (GitHub
+only), which needs no deploy; to remove it, empty `LIVE_BASE_URL` in the pages
+and/or clear `LIVE_PUSH_URL` on Cloud Run. Pages fall back to polling GitHub.
 
 ## What does *not* need a redeploy
 

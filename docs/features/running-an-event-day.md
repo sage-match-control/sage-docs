@@ -37,7 +37,7 @@ links to its full section below.
 2. Open Control Center, select the event and today's day.
 3. Sign in, under **Mission Control**.
 4. Click **Check connection** — confirms everything's reachable before a
-   single match depends on it.
+   single match depends on it. Its second line should read **Live push: on**.
 5. Click **Resync this day now** — pulls a fresh copy of the schedule and
    confirms each venue's spreadsheet can be read. It doesn't prove the
    spreadsheet sends its own updates: that only shows once the first real

@@ -498,8 +498,15 @@ what makes `expectedVersion` a safe compare-and-set.
 
 After fetching the facilities, with live push on:
 
-1. Read the day's snapshot and version from the object (from GitHub only if
-   the object holds none yet — the first sync since it was created).
+1. Read the day's snapshot and version from the object, and GitHub's copy
+   alongside it. Merge into whichever is newer by `publishedAt`. They differ
+   after any stretch where syncs went through GitHub alone (the switch below, a
+   Worker outage, live push unconfigured): merging into the object's older copy
+   would republish, and then archive over GitHub, facility data GitHub already
+   has newer. The object's version is still what the publish checks. With an
+   empty object (the first sync since it was created) GitHub's copy is what is
+   merged into. GitHub's read failing only matters when the object holds
+   nothing.
 2. Merge (the same `#buildSnapshot` as without live push), stamp
    `publishedAt`, and publish with the version just read. On `409`, go back to
    step 1, up to 3 attempts.
@@ -520,6 +527,24 @@ fire-and-forget.
 
 Every snapshot carries `publishedAt`, restamped on every publish (live, GitHub
 and Live/Hide). Pages use it to decide which of two copies is newer.
+
+### The sync-method switch
+
+Control Center's Mission Control has a **Sync method** switch between **Live
+push + GitHub** and **GitHub only**, for an emergency where live updates
+misbehave and waiting to clear `LIVE_PUSH_URL` on Cloud Run is too slow. It
+calls `POST /sync/live-push` (operator token only), which writes a top-level
+`livePush` boolean into `event-data/config/events.json`. `false` makes every
+sync and every Live/Hide publish to GitHub alone, exactly as with live push
+unconfigured; absent or `true` leaves it to the environment. It is stored in
+the config, not in the Worker, so it works when the Worker is the thing that is
+broken. The instance that takes the request applies it at once; the others
+within `SYNC_CONFIG_TTL_MS`. Pages with an open socket notice within a minute:
+GitHub's copies carry newer `publishedAt` values, which the safety poll
+prefers, and from then on they poll GitHub as before push existed. The switch
+cannot turn on live push the environment does not configure.
+`GET /sync/config` reports it as `live.switch` (`on`/`off`) and `live.active`
+(configured and switched on).
 
 `LIVE_PUSH_URL` (the Worker's base URL), `LIVE_PUSH_SECRET` (its
 `PUBLISH_SECRET`) and `LIVE_PUSH_TIMEOUT_MS` (default 4000) configure it.
