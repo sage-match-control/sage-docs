@@ -889,8 +889,8 @@ list of the site's allowed external dependencies.
 
 ### 7.1 `sage-tools-api`: set up the test runner now
 
-The [API test-suite spec](../not-started/sage-tools-api-test-suite-spec.md) has not been
-built yet. Set up exactly the parts of its layout that attendance needs, so
+The [API test-suite spec](sage-tools-api-test-suite-spec.md) was built
+after this one. Set up exactly the parts of its layout that attendance needs, so
 that spec extends this work rather than redoing it:
 
 - `package.json` `scripts`: `"test"`, `"test:unit"` and `"test:integration"`
@@ -1187,7 +1187,7 @@ spec turns out wrong, and report it.
 
 ## 11. Relationship to other specs
 
-- **[`sage-tools-api` test suite](../not-started/sage-tools-api-test-suite-spec.md):** this
+- **[`sage-tools-api` test suite](sage-tools-api-test-suite-spec.md):** this
   spec creates `test/`, the `test` scripts and `test/helpers/logger.mjs` in
   that spec's layout. That spec then pins attendance's routes too (its §2.1
   gains them). Its characterization B3 changes from `GET, POST, OPTIONS` to

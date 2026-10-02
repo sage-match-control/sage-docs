@@ -37,3 +37,4 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Event attendance](event-attendance-spec.md) | `attendance.gs` and `events/pickle-for-sight-2026/attendance.html` |
 | [Attendance for every event](multi-event-attendance-spec.md) | `sage-tools-api/src/attendance/`, Control Center's Attendance tab, `_templates/attendance/` and each event's `attendance.html` |
 | [CLSO Pickle for Sight](pickle-for-sight-spec.md) | `events/pickle-for-sight-2026/`, the first real run of the standard template, held 27 September 2026 |
+| [`sage-tools-api` test suite](sage-tools-api-test-suite-spec.md) | `sage-tools-api/test/`: unit and integration tests for every module and route, the sync pipeline against an in-memory GitHub/Sheets/Worker, an opt-in PDF end-to-end, guard tests and the pre-push hook |

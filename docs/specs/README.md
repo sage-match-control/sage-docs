@@ -61,6 +61,12 @@ to the `...` form rather than repointing it.
 - **[Sync script configuration](implemented/sync-script-configuration-spec.md)**
   — why `sheets-sync.gs` keeps its per-workbook config in Script Properties,
   and the validation the setup dialog runs before saving it.
+- **[sage-tools-api test suite](implemented/sage-tools-api-test-suite-spec.md)** —
+  unit and integration tests (and an opt-in PDF end-to-end) that pin what the
+  service does today, against an in-memory fake of GitHub, Google Sheets and the
+  live Worker, built with no production change. Kept current: every API change
+  updates its tests in the same commit, enforced by guard tests and a pre-push
+  hook. The gate for the architecture spec, which is now open.
 - **[Immediate sync](implemented/immediate-sync-spec.md)** — every sync
   measured from the edit, a sync that loses a GitHub commit race re-read and
   retried instead of dropped, and Apps Script syncing straight from the edit
@@ -172,13 +178,6 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
-- **[sage-tools-api test suite](not-started/sage-tools-api-test-suite-spec.md)** —
-  unit and integration tests (and an opt-in PDF end-to-end) that pin what the
-  service does today, with an in-memory fake of GitHub, Google Sheets and the
-  live Worker. Built first, with no production change; the gate for the
-  architecture spec below. Kept current from then on: every API change
-  updates its tests in the same commit, enforced by guard tests and a
-  pre-push hook.
 - **[sage-tools-api architecture hardening](not-started/sage-tools-api-architecture-spec.md)** —
   after the test suite: SOLID-aligned structure for the sync code, one error and
   config path, `/v1` resource-style routes with every existing URL kept, and a

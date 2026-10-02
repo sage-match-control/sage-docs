@@ -6,7 +6,7 @@
 > the console's **Attendance** tab, and team rosters (the **Teams** tab in
 > PickleDrive's hub and the console, level and gender in Match Finder) are
 > on `main`, and this page covers them. The sibling of the
-> [`sage-tools-api` test suite](sage-tools-api-test-suite-spec.md), which
+> [`sage-tools-api` test suite](../implemented/sage-tools-api-test-suite-spec.md), which
 > covers the Cloud Run service and stops at its HTTP boundary.
 >
 > **Overlaps the [automated dry run](automated-dry-run-spec.md).** §2 is the
@@ -574,7 +574,7 @@ in the commit message.
 ## 8. Keeping the suite current
 
 The same principle as the
-[`sage-tools-api` test suite's §9](sage-tools-api-test-suite-spec.md#9-keeping-the-suite-current),
+[`sage-tools-api` test suite's §9](../implemented/sage-tools-api-test-suite-spec.md#9-keeping-the-suite-current),
 applied to the site.
 
 ### 8.1 The rule

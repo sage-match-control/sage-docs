@@ -19,7 +19,7 @@
 > checks) are the first thing to re-check.
 >
 > **Order is the point.** A unit and integration test suite is built first,
-> from its own spec, [`sage-tools-api-test-suite-spec.md`](sage-tools-api-test-suite-spec.md)
+> from its own spec, [`sage-tools-api-test-suite-spec.md`](../implemented/sage-tools-api-test-suite-spec.md)
 > (this spec's Phase 0), against the code **as it is today**, and ends green.
 > No production file changes until it does. Every later phase has to leave that
 > suite green.
@@ -182,7 +182,7 @@ The findings of the architecture review (2026-10-01). Each maps to a phase.
 For every existing route, the **status code, response body and the response
 headers that deployed clients read** are identical before and after the
 refactor. That contract is defined once, in the
-[test-suite spec §2.1](sage-tools-api-test-suite-spec.md#21-what-must-not-change),
+[test-suite spec §2.1](../implemented/sage-tools-api-test-suite-spec.md#21-what-must-not-change),
 and enforced by that suite. Nothing in it changes except the items in §3.2.
 `GET /ping` stays exactly as it is: `200`, body `PONG!`, `X-App-Version` and
 `X-Sync-Config`, no config fetch, in `Server.mjs`, with no alias.
@@ -191,7 +191,7 @@ and enforced by that suite. Nothing in it changes except the items in §3.2.
 
 Nothing else changes. These do, and each is pinned as today's behaviour by a
 test marked `// CHARACTERIZATION B<n>` in the test suite
-([test-suite spec §2.2](sage-tools-api-test-suite-spec.md#22-behaviour-pinned-now-that-a-later-phase-changes-on-purpose)),
+([test-suite spec §2.2](../implemented/sage-tools-api-test-suite-spec.md#22-behaviour-pinned-now-that-a-later-phase-changes-on-purpose)),
 which is edited in the phase named.
 
 | # | Change | Phase |
@@ -496,7 +496,7 @@ spec.
 The unit and integration suite for everything that exists today (helpers, the
 `FakeWorld`, the characterization policy, the coverage matrix, the eleven sabotage
 checks, the build steps and acceptance checklist) is its own spec:
-[`sage-tools-api-test-suite-spec.md`](sage-tools-api-test-suite-spec.md). It is
+[`sage-tools-api-test-suite-spec.md`](../implemented/sage-tools-api-test-suite-spec.md). It is
 this spec's Phase 0 and a **gate**: Phase 1 does not start until that spec's
 acceptance checklist is complete and `npm run verify` is green. After that, every
 phase here leaves it green. Its helpers (`startApp`, `createFakeWorld`, builders, the
@@ -541,7 +541,7 @@ ordered; do not start one before the previous is green.
 
 | Phase | What | Version | Production code touched |
 |---|---|---|---|
-| 0 | The test suite, **its own spec** ([test-suite spec](sage-tools-api-test-suite-spec.md)) | none | none (only `package.json` scripts, `test/`, one script, the pre-push hook, README) |
+| 0 | The test suite, **its own spec** ([test-suite spec](../implemented/sage-tools-api-test-suite-spec.md)) | none | none (only `package.json` scripts, `test/`, one script, the pre-push hook, README) |
 | 1 | Folder moves | 2.7.1 | paths and imports only |
 | 2 | Hardening | 2.7.2 | secret compare, errors, config, auth middleware, CORS, jsconfig |
 | 3 | One retry loop, store interface, domain extraction | 2.7.3 | `sync/` internals |
@@ -552,7 +552,7 @@ ordered; do not start one before the previous is green.
 
 ### 6.0 Phase 0 — tests before code (a separate spec)
 
-Built from [`sage-tools-api-test-suite-spec.md`](sage-tools-api-test-suite-spec.md)
+Built from [`sage-tools-api-test-suite-spec.md`](../implemented/sage-tools-api-test-suite-spec.md)
 on its own branch (`test-suite`), with no production change. **Gate:** its §7
 acceptance checklist is complete, `npm test` and `npm run verify` are green, and
 `arch-refactor` is created from that branch. The version and Changelog are not
@@ -880,7 +880,7 @@ Present tense, in the same commit as the phase that changes the thing.
 
 **Phase 0** (the test-suite spec)
 
-- [ ] The [test-suite spec](sage-tools-api-test-suite-spec.md)'s §7 checklist is complete, and `npm run verify` is green.
+- [ ] The [test-suite spec](../implemented/sage-tools-api-test-suite-spec.md)'s §7 checklist is complete, and `npm run verify` is green.
 
 **Phase 1**
 

@@ -95,6 +95,7 @@ nav:
           - Event attendance: specs/implemented/event-attendance-spec.md
           - Attendance for every event: specs/implemented/multi-event-attendance-spec.md
           - Immediate sync: specs/implemented/immediate-sync-spec.md
+          - sage-tools-api test suite: specs/implemented/sage-tools-api-test-suite-spec.md
           - Bracket Generator keep-apart groups: specs/implemented/bracket-generator-keep-apart-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
@@ -106,7 +107,6 @@ nav:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
-          - sage-tools-api test suite: specs/not-started/sage-tools-api-test-suite-spec.md
           - sage-tools-api architecture hardening: specs/not-started/sage-tools-api-architecture-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
           - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md

@@ -1,11 +1,13 @@
 # Spec — `sage-tools-api` test suite (unit and integration tests first)
 
-> **Status: not started.** Nothing here is built. Written 2026-10-02 against
+> **Status: implemented** (2026-10-03). Written 2026-10-02 against
 > `sage-tools-api` 2.5.0 (live push, the operator switch, the Apps Script
 > verify scripts), split out of the
-> [architecture hardening spec](sage-tools-api-architecture-spec.md), whose
+> [architecture hardening spec](../not-started/sage-tools-api-architecture-spec.md), whose
 > Phase 0 this is. Revised 2026-10-03 against 2.7.0: attendance (2.6.0,
 > 2.6.1) and team rosters (2.7.0) are on `main`, and this page covers both.
+> Built the same day with no production file changed; §11 records where the
+> built suite departs from the text below.
 >
 > **This spec comes first.** It builds a unit and integration test suite against
 > the code **as it is today** and ends green, with no production file changed.
@@ -19,7 +21,7 @@
 > rule goes into the root `CLAUDE.md` and the README as part of this spec.
 >
 > **Part of `test/` already exists.** The
-> [attendance spec](../implemented/multi-event-attendance-spec.md) (2.6.0) created `test/`,
+> [attendance spec](multi-event-attendance-spec.md) (2.6.0) created `test/`,
 > the `test`/`test:unit`/`test:integration` scripts, `test/helpers/logger.mjs`
 > and `test/helpers/fakeSheets.mjs`, in this spec's layout, and team rosters
 > (2.7.0) added to them. At 2.7.0, `npm test` runs 192 tests in 13 files,
@@ -160,7 +162,7 @@ pins them; the architecture spec's later phases may not move them.
 | `POST /sync/:day/live` | bearer token only (the secret is refused); body `{ isLive: true \| false \| "auto" }`; `400` otherwise; `{ day, label, isLive, republished, live?, archive? }` |
 | `POST /sync/live-push` | bearer token only; body `{ enabled: boolean }`; `{ enabled, changed, available }` |
 | `GET /sync/config` | secret or token; `{ sha, source, loadedAt, ageMs, events, days, live: { enabled, baseUrl, switch, active } }`, never the secret. Control Center reads `live.enabled`, `live.switch` (`"on"`/`"off"`) and `live.baseUrl` |
-| `PUT /v1/days/:day/facilities/:facility/attendance/:key` | operator or desk token; body `{ present: boolean }`, `400` otherwise; `200 { key, player, present, timeIn, withdrawn }` ([attendance spec](../implemented/multi-event-attendance-spec.md) §4.8) |
+| `PUT /v1/days/:day/facilities/:facility/attendance/:key` | operator or desk token; body `{ present: boolean }`, `400` otherwise; `200 { key, player, present, timeIn, withdrawn }` ([attendance spec](multi-event-attendance-spec.md) §4.8) |
 | `POST /v1/days/:day/attendance/desk-links` | operator token only (a desk token is `401`); `201 { token, expiresAt, day }` |
 | `POST /v1/days/:day/attendance/reconciliations` | operator token only; optional `?facility=`; `200 { day, facilities: [result] }` |
 | `POST /scoresheets/generate` | multipart `csv` + `evt`, `type`, `out`, `blanks`; `200` PDF with `Content-Type: application/pdf` and `Content-Disposition: attachment; filename="<name>.pdf"` |
@@ -701,7 +703,7 @@ dependency patch bump. The Changelog entry says so (§9.5).
 | Moved or renamed module | its test file moved with `git mv` to mirror the new path |
 | A new call to GitHub, Google Sheets or the Worker, or a change in how one is called | `fakeWorld.mjs` taught the new behaviour, with its own case in `fakeWorld.test.mjs`, before the pipeline test that uses it |
 | A new `throw` or error class | a test that reaches it, and its status in `errors.test.mjs` |
-| A change to the "played" or "BYE" rule | `facilityCompletion.test.mjs`, and the console's copy in `control-center.html` (root `CLAUDE.md`, "kept in sync by hand"); the [site test suite](site-test-suite-spec.md)'s `played-bye` parity test runs both copies on the same cases |
+| A change to the "played" or "BYE" rule | `facilityCompletion.test.mjs`, and the console's copy in `control-center.html` (root `CLAUDE.md`, "kept in sync by hand"); the [site test suite](../not-started/site-test-suite-spec.md)'s `played-bye` parity test runs both copies on the same cases |
 | A change to a template, a scoresheet type or an `@openapi` block | `npm run test:snapshots`, and the reviewed `.snapshot` diff committed with it (§3.5 rule 7) |
 | A new folder under `src/` that the §3.2 thresholds should cover | its `test:coverage:<folder>` script, added to `test:coverage` |
 | Coverage drops below a threshold | more tests, not a lower threshold |
@@ -831,3 +833,49 @@ pointing at `test/integration/v1.test.mjs`.
   instead.
 - Tests for the modules and routes the architecture spec adds (architecture spec
   §5.2 and Phase 5).
+
+## 11. As built
+
+Where the suite as built departs from the text above. Everything else is as
+written.
+
+- **Size.** 777 tests in 43 test files under `test/unit/` and
+  `test/integration/`, plus the opt-in end-to-end test. Line coverage is 99.6 %
+  for `src/sync`, 99.0 % for `src/auth` and 92.1 % for `src/server`.
+- **Two modules are unit-tested instead of listed in `coveredElsewhere.mjs`.**
+  `Workspace.mjs` (a real temp directory) and `PdfRenderer.mjs` (a fake page)
+  turned out to be unit-testable, which §9.3 says to prefer, and the guard fails
+  on a module that has both. `coveredElsewhere.mjs` lists eight modules: the
+  five route files and `Server.mjs` over HTTP, and `BrowserManager`,
+  `PdfMergerService` and `scoresheets/index.mjs` through the end-to-end test.
+- **Helpers beyond §3.4.** `buildApp.mjs` (the pipeline's copy of `index.mjs`'s
+  composition), `auth.mjs` (a real `AuthService` with token shortcuts) and
+  `timers.mjs` (`withTimers`, `settle`, `waitFor`). `FakeWorld`'s `hold()`
+  also returns a `reached` promise, so a test can wait for the held call to
+  arrive, and a Sheets entry in `world.calls` records its `ranges`.
+  `http.mjs`'s `call()` keeps a reference to the real `fetch`, because a
+  `FakeWorld` replaces `globalThis.fetch` and would otherwise intercept the test's
+  own requests to the app.
+- **Retry delays in the pipeline tests.** Case 14 releases the fetchers' waits
+  with `mock.timers.tick` only after `waitFor` has seen the next Sheets call
+  arrive, because the request crosses a real socket and a free-running tick would
+  race it. Case 15 mocks `Date` for the config's TTL.
+- **Snapshots.** The scoresheet templates inline their logo as base64, so the
+  template snapshot collapses each data URI to a hash of its bytes: a changed
+  image still changes the snapshot, which stays about 150 KB.
+- **Calls are listed in invocation order.** In the GitHub race case the held
+  `PUT` is the first entry (it answered 409), then the second sync's, then the
+  retry.
+- **A test the checklist did not ask for.** The sabotage run found that nothing
+  caught dropping `completedAt`'s carry-forward in the merge (breakage 9), so
+  `SyncService.test.mjs` gained a `completedAt` group.
+- **The hook runs `node --test` directly, not `npm test`.** From GitHub Desktop
+  on Windows, `npm` resolves to its shell-script wrapper, which runs through WSL
+  bash and fails on a `D:\` path. The command in `.githooks/pre-push` has to be
+  kept the same as the `test` script.
+- **A defect, pinned and not fixed.** `AuthService.login` accepts any username and
+  password when `AUTH_PASSWORD_HASH`'s key part is not hex (for example
+  `zz:zz`): `Buffer.from("zz", "hex")` is empty, scrypt of a zero-length key is
+  empty, and two empty buffers compare equal. The test is marked
+  `// CHARACTERIZATION` with no B-number. It needs its own change, with a version
+  bump.
