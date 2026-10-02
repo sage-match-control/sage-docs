@@ -107,8 +107,8 @@ card. It shows before the day goes live too, since rosters give nothing away,
 and it updates when the organizer changes the workbook's `Teams` tab. Match
 Finder uses the roster as well: a team result starts with that team's roster,
 and a player can be found by name before any lineup is in, showing the team
-they play for and their teammates. A player's level and gender show beside
-their name, in the suggestions as you type and on their result.
+they play for and their teammates. A player's result shows their level and
+gender beside their name.
 
 **Lineup not set.** A team captain enters each matchup's players in the
 workbook before it is played. Until then its match rows read *Lineup not set*
