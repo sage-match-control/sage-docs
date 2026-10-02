@@ -66,7 +66,9 @@ default).
   and skipped rather than fetched — lets you add a day's entry before its
   spreadsheet exists.
 - `matchesSheetName`/`standingsSheetName` can be overridden per day, if that
-  spreadsheet's tabs are literally named something else. **Deliberately no
+  spreadsheet's tabs are literally named something else. So can
+  `rosterSheetName`, the team roster tab a `"team"` event publishes (default
+  `Teams`; other types publish no roster). **Deliberately no
   GID equivalent** — a GID is assigned per-workbook and doesn't carry over
   if a spreadsheet is ever duplicated from another event's; a tab name
   does.

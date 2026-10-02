@@ -529,6 +529,16 @@ fire-and-forget.
 Every snapshot carries `publishedAt`, restamped on every publish (live, GitHub
 and Live/Hide). Pages use it to decide which of two copies is newer.
 
+**Team rosters.** For a `"type": "team"` day, `sheetsFor(day)` also names a
+roster tab (`Teams`, or the day's `rosterSheetName`). `SheetsCsvFetcher` adds
+it as a third range to the same `batchGet`, and
+`rosterCsvFromTeamsValues` (`src/sync/teamRoster.mjs`) turns it into
+`facilities[].rosterCsv`: `teamCode,player,level,gender`, and no other
+column of the tab. A workbook without the tab is fetched again without it, so
+a missing roster never fails a sync. A fetch that brings no roster (that case,
+or the gviz fallback, which never reads it) keeps the last published
+`rosterCsv` in the merge.
+
 **After publishing**, `syncDay` awaits its optional `onFacilitiesSynced` hook
 with the facilities fetched fresh this round. That is
 [attendance's](event-attendance.md) roster update: nothing for an event without

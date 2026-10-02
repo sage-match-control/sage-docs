@@ -100,10 +100,19 @@ played. A player result lists each match they play, each inside its matchup
 card with only their own match showing. With nothing typed, tapping a team
 in the list runs its search.
 
+**Teams.** A **Teams** tab lists every team's roster, grouped by bracket: one
+card per team with its name and player count, which opens to show the players
+with their level and gender, lowest level first. **Expand all** opens every
+card. It shows before the day goes live too, since rosters give nothing away,
+and it updates when the organizer changes the workbook's `Teams` tab. Match
+Finder uses the roster as well: a team result starts with that team's roster,
+and a player can be found by name before any lineup is in, showing the team
+they play for and their teammates.
+
 **Lineup not set.** A team captain enters each matchup's players in the
 workbook before it is played. Until then its match rows read *Lineup not set*
-(the schedule board says *Lineup TBD*), and a player can't be found until
-their lineup is in. The same player may play a different pair in each matchup.
+(the schedule board says *Lineup TBD*). A player is still found by name from
+the roster, but their matches appear once their lineup is in. The same player may play a different pair in each matchup.
 
 ## At the venue: the schedule board
 

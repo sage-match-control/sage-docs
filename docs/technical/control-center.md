@@ -135,7 +135,8 @@ public). The link is omitted for a facility with no `sheetId` yet, the
 same "not set up" condition the sync pipeline itself skips.
 
 **Tab order and landing.** The tabs run Mission Control, Awards, Attendance,
-Live Matches, Match Finder, Standings. Attendance is hidden unless the event's
+Live Matches, Match Finder, Standings, Teams. Teams shows only for a `"team"`
+event whose snapshot carries `rosterCsv` (`syncTeamsTab()`). Attendance is hidden unless the event's
 `attendance` is `"console"` or `"desks"` (`syncAttendanceTab()`, called on
 every event change, day change and tab reveal). `showView(view)` is the one place that switches
 views (the tab buttons call it), and `revealLiveTabsAfterLoad()` calls
@@ -167,6 +168,17 @@ a later epoch (a resync still running when the operator switched day) goes to
 under the wrong day. Toasts are made visible by flushing styles
 (`void toast.offsetWidth`) before adding `show`, not with
 `requestAnimationFrame`, which never fires while the page isn't painting.
+
+## Teams tab
+
+Team events only. `teamSetRoster()` parses each facility's `rosterCsv`
+(`teamCode,player,level,gender`) into `TEAM_ROSTER`, and
+`renderTeamRosters()` draws one collapsible card per team, grouped by
+bracket from `STANDINGS`, players sorted by level. `teamRebuildIndex()` adds
+roster players to Match Finder, and the team and player results carry a
+roster card. The parsing, ordering and cards are the same as the event page's
+Teams tab (`events/pickledrive-anniversary-2026/index.html`): change one,
+change the other.
 
 ## Attendance tab
 

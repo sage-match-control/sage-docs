@@ -5,8 +5,9 @@ one page, covering every registered event, always showing live data (unlike
 Tournament Hub, it never hides scores while previewing a day before it's
 publicly live). Open it, pick an event and a day, and the tabs appear, in
 this order: **Mission Control** (where it opens), **Awards**, **Attendance**,
-**Live Matches**, **Match Finder** and **Standings**. **Attendance** shows only
-for an event with attendance turned on.
+**Live Matches**, **Match Finder**, **Standings** and **Teams**. **Attendance**
+shows only for an event with attendance turned on, and **Teams** only for a
+team event whose rosters are published.
 
 No sign-in is needed to view Awards, Live Matches, Match Finder or
 Standings — they're read-only.
@@ -111,6 +112,13 @@ Flip it to mark someone in; it records the time. Above the list:
   people listed twice in one category, and **Show withdrawn**
 
 Full usage: [event attendance](event-attendance.md).
+
+## Teams
+
+For a team event: every team's roster, the same as the event page's Teams tab.
+Cards start collapsed and open to show each player's level and gender. Match
+Finder shows a team's roster with its matchups, and finds a player by name from
+the roster before their lineup is in.
 
 ## Awards
 
