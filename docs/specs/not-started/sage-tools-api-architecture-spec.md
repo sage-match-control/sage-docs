@@ -2,7 +2,12 @@
 
 > **Status: not started.** Nothing here is built. Written 2026-10-01 and
 > revised 2026-10-02 against `sage-tools-api` 2.5.0 (live push 2.4.0 plus the
-> operator switch 2.5.0) and the review recorded in §2.
+> operator switch 2.5.0) and the review recorded in §2. Revised again
+> 2026-10-03 against 2.7.0: attendance (2.6.0, `src/attendance/` and its
+> three `/v1` routes, the `onFacilitiesSynced` hook) and team rosters (2.7.0,
+> `src/sync/teamRoster.mjs`) are on `main`, and the phase versions in §6
+> start after 2.7.0. If `main` has moved past that by the time a phase
+> lands, take the next free version instead.
 >
 > **Prerequisite, met:** the [Live push delivery](../in-progress/durable-object-push-spec.md)
 > code is committed to `main` of `sage-tools-api`, deployed to Cloud Run
@@ -79,6 +84,7 @@ paths.
 on failure):
 
 ```bash
+npm test
 node scripts/verify-sync-merge.mjs
 node scripts/verify-facility-completion.mjs
 node scripts/verify-attendance.mjs
@@ -130,7 +136,9 @@ production change is wrong until proven otherwise; change a test only where
   confirmation message), and `live.enabled`, `live.switch` and `live.baseUrl`
   in `/sync/config` (the Sync method switch and **Check connection**; a service
   without `live.switch` is reported as "older than 2.5.0"). The scoresheet
-  generator calls `/scoresheets/generate/stream`. None of those can be renamed
+  generator calls `/scoresheets/generate/stream`. Control Center's
+  **Attendance** tab and every event's desk page call the three `/v1`
+  attendance routes. None of those can be renamed
   or reshaped without breaking something already deployed, so they are aliases
   forever and their fields are part of the contract (test-suite spec §2.1).
 - Operators read error bodies: Apps Script's **Sync now** shows
@@ -144,12 +152,12 @@ The findings of the architecture review (2026-10-01). Each maps to a phase.
 
 | # | Finding | Evidence | Phase |
 |---|---|---|---|
-| F1 | `SyncService` has five responsibilities: fetch orchestration, merge policy, publishing with fallback, the Live/Hide override, the live-push switch | 467 lines, 6 dependencies, `syncDay` about 130 lines | 4 |
+| F1 | `SyncService` has five responsibilities: fetch orchestration, merge policy, publishing with fallback, the Live/Hide override, the live-push switch | 486 lines, 7 dependencies (the seventh is attendance's `onFacilitiesSynced` hook), `syncDay` about 145 lines | 4 |
 | F2 | Adding a publish target means editing `SyncService` | `if (this.livePublisher?.enabled)` branches in three methods | 4 |
 | F3 | `GitHubPublisher` and `LivePublisher` do the same job behind different shapes, so they cannot be swapped | `fetchExisting`/`publish(sha)` vs `read`/`publish(version)` | 3 |
 | F4 | The read-modify-write-retry-on-409 loop exists six times | `syncDay`, live loop, `setLiveOverride`, `setIsLive`, `setLivePush`, archive | 3 |
 | F5 | The shared secret is compared with `===` | `src/sync/routes.mjs` `hasValidSyncSecret`; `AuthService` and the Worker use `timingSafeEqual` | 2 |
-| F6 | Error handling is copy-pasted into every handler | `res.status(err.statusCode ?? 500).json({ error })` in 6 handlers; no error code | 2 |
+| F6 | Error handling is copy-pasted into every handler | `res.status(err.statusCode ?? 500).json({ error })` in 9 handlers (4 sync, 3 attendance, 1 auth, 1 scoresheets); no error code | 2 |
 | F7 | `POST /sync/live-push` only works because it is registered before `POST /sync/:day`; a day key is a slug, so a day called `live-push` or `config` would collide | route order in `sync/routes.mjs`; `SLUG_RE` allows both | 2, 5 |
 | F8 | Auth middleware lives inside the sync routes factory | `requireAuthToken`, `requireSyncSecretOrAuthToken` | 2 |
 | F9 | `index.mjs` parses environment variables ad hoc with no validation | five `Number(process.env…)`; an empty `LIVE_PUSH_TIMEOUT_MS` would become `0` | 2 |
@@ -157,13 +165,13 @@ The findings of the architecture review (2026-10-01). Each maps to a phase.
 | F11 | The server comment and docs say HTTP/1.1 fallback works over cleartext; it does not | `http2.createServer({ allowHTTP1: true })` | 2 |
 | F12 | No test runner; checks are ad hoc scripts | `scripts/verify-*.mjs` | 0 (test-suite spec) |
 | F13 | The API is RPC-style: verbs in paths, `POST` used to set state, no versioning | `/scoresheets/generate`, `/sync/:day/live`, `/sync/live-push`, `/auth/login` | 5 |
-| F14 | CORS allows `GET, POST, OPTIONS` only | `Server.mjs` | 2, 5 |
+| F14 | CORS allows `GET, POST, PUT, OPTIONS` only (`PUT` was added for attendance); no `PATCH` or `DELETE` | `Server.mjs` | 2, 5 |
 | F15 | Three failed GitHub commits return `500`; `409` is the accurate status | `SyncService` rethrows the raw GitHub error, which has no `statusCode` | 3 |
 | F16 | `scripts/` mixes four things: Apps Script sources, their test harness, fixtures, a dev tool | `scripts/` | 1 |
 | F17 | `src/sync/` mixes routes, services, infrastructure clients and domain logic | flat folder of 11 files | 1 |
 | F18 | Any push, including a `.gs`, Worker or markdown change, rebuilds Cloud Run | build trigger has no file filter | 6 |
 | F19 | The workspace `CLAUDE.md` is not under version control | `D:\Personal\SAGE` is not a repo | 6 |
-| F20 | The site repeats code blocks by hand (live channel ×9, match rules ×2, team rules ×2) | `tools/control-center.html` is 7,292 lines | 7 (decision) |
+| F20 | The site repeats code blocks by hand (live channel ×9, attendance client ×4, match rules ×2, team rules ×2, team rosters ×2) | `tools/control-center.html` is 8,721 lines | 7 (decision) |
 
 ---
 
@@ -212,6 +220,7 @@ sage-tools-api/
     verify-attendance.mjs  verify-sheet-generator.mjs  verify-standard-generator.mjs
     fixtures/
   live-worker/                   # unchanged
+  spikes/                        # one-off checks (sheets-write-check), never shipped; unchanged
   scripts/
     hash-password.mjs            # the only dev tool left here
     run-appscript-verifies.mjs   # runs the three Apps Script verify scripts (test-suite spec)
@@ -244,7 +253,7 @@ sage-tools-api/
       legacyRoutes.mjs           # /sync/... (permanent aliases)
       v1Routes.mjs               # /v1/... (Phase 5)
       domain/
-        mergeSnapshot.mjs  facilityCompletion.mjs  snapshotStamp.mjs  syncTiming.mjs  editAt.mjs
+        mergeSnapshot.mjs  facilityCompletion.mjs  teamRoster.mjs  snapshotStamp.mjs  syncTiming.mjs  editAt.mjs
       publishing/
         SnapshotStore.mjs        # the interface, as JSDoc typedefs
         GitHubSnapshotStore.mjs  LiveSnapshotStore.mjs
@@ -254,6 +263,7 @@ sage-tools-api/
         GitHubPublisher.mjs  LivePublisher.mjs  SheetsCsvFetcher.mjs  GvizCsvFetcher.mjs
       config/
         SyncConfigStore.mjs  SyncConfigSnapshot.mjs  events.seed.json
+    attendance/                  # already under /v1; unchanged except its auth checks (Phase 2) and error handling
     scoresheets/                 # unchanged except routes (Phase 5)
     docs/
       openapiSpec.mjs
@@ -396,7 +406,12 @@ searches keep working.
 | `SyncUpstreamError` | 502 | `upstream_failure` |
 | `SyncConfigUnavailableError` | 503 | `config_unavailable` |
 | `ConflictError` (new) | 409 | `conflict` |
-| `NotFoundError` (new, Phase 5) | 404 | `not_found` |
+| `NotFoundError` (attendance) | 404 | `not_found` |
+| `ForbiddenError` (attendance) | 403 | `forbidden` |
+| `UnknownEventError` (attendance) | 404 | `unknown_event` |
+| `AttendanceLayoutError` (attendance) | 409 | `attendance_layout` |
+| `UpstreamError` (attendance) | 502 | `upstream_failure` |
+| `ServiceBusyError` (attendance) | 503 | `service_busy` |
 | `ConfigError` (new, startup only) | n/a | `config_error` |
 | anything else | 500 | `internal_error` |
 
@@ -479,7 +494,7 @@ spec.
 ### 5.1 The suite that comes first
 
 The unit and integration suite for everything that exists today (helpers, the
-`FakeWorld`, the characterization policy, the coverage matrix, the ten sabotage
+`FakeWorld`, the characterization policy, the coverage matrix, the eleven sabotage
 checks, the build steps and acceptance checklist) is its own spec:
 [`sage-tools-api-test-suite-spec.md`](sage-tools-api-test-suite-spec.md). It is
 this spec's Phase 0 and a **gate**: Phase 1 does not start until that spec's
@@ -499,7 +514,7 @@ rules (§3.5) and layout (§3.3), and live under `test/unit/` mirroring `src/`.
 | `safeEqual.mjs` (Phase 2) | equal strings true; different strings of equal and of unequal length false; `undefined` or non-string false; does not throw on empty strings |
 | `conflictRetry.mjs` (Phase 3) | returns on first success with `attempts: 1`; retries on `{ ok: false }`, calls `onConflict(n, max)`; throws `ConflictError` (status and `statusCode` 409, code `conflict`) after the limit; a thrown error from `attemptFn` propagates unretried; custom `attempts` honoured |
 | `middleware.mjs` (Phase 2) | `requireAuthToken`: valid bearer passes, missing/garbled/expired `401 { error: "Unauthorized", code: "unauthorized" }`; `requireSyncSecretOrAuthToken`: secret passes, token passes, neither `401`, an empty configured secret never matches an empty header |
-| `mergeSnapshot.mjs` (Phase 3) | the merge cases in the test-suite spec §4 (`SyncService` merge) exercised directly on the pure function: fresh wins; untargeted carried forward; failed facility carried forward and listed `stale`; facility never seen and failed is omitted; nothing to publish throws `SyncUpstreamError`; `completedAt` stamped once and carried; `lastEditAt` from the edit or carried; `publishedAt` starts as `now` |
+| `mergeSnapshot.mjs` (Phase 3) | the merge cases in the test-suite spec §4 (`SyncService` merge) exercised directly on the pure function: fresh wins; untargeted carried forward; failed facility carried forward and listed `stale`; facility never seen and failed is omitted; nothing to publish throws `SyncUpstreamError`; `completedAt` stamped once and carried; `lastEditAt` from the edit or carried; a fresh `rosterCsv` replaces the old one and a fetch without one keeps it; `publishedAt` starts as `now` |
 | `snapshotStamp.mjs` (Phase 3) | `publishedAt` preferred over `generatedAt`; neither gives `0`; `newer(a, b)` picks the later, prefers `a` on a tie, handles `null` on either side |
 | `syncTiming.mjs` (Phase 3) | `editToRequestMs`/`editToPublishedMs` are `null` without an edit time; `liveMs`/`archiveMs` `null` when that step did not run; the log line prints `n/a` for `null` and otherwise `<n>ms` in the order `edit→request=… fetch=… publish=… live=… archive=… edit→published=…` |
 | `editAt.mjs` (Phase 3) | `parseEditAt(header, now)`: a value within the last hour and at most 5 s ahead is returned; older than an hour, more than 5 s ahead, `NaN`, empty, negative and missing are `null` (today's inline rule in `handleSync`) |
@@ -527,11 +542,11 @@ ordered; do not start one before the previous is green.
 | Phase | What | Version | Production code touched |
 |---|---|---|---|
 | 0 | The test suite, **its own spec** ([test-suite spec](sage-tools-api-test-suite-spec.md)) | none | none (only `package.json` scripts, `test/`, one script, the pre-push hook, README) |
-| 1 | Folder moves | 2.6.1 | paths and imports only |
-| 2 | Hardening | 2.6.2 | secret compare, errors, config, auth middleware, CORS, jsconfig |
-| 3 | One retry loop, store interface, domain extraction | 2.6.3 | `sync/` internals |
-| 4 | Publishing strategies and the `SyncService` split | 2.6.4 | `sync/` internals |
-| 5 | The `/v1` API | 2.7.0 | routes, controllers, OpenAPI |
+| 1 | Folder moves | 2.7.1 | paths and imports only |
+| 2 | Hardening | 2.7.2 | secret compare, errors, config, auth middleware, CORS, jsconfig |
+| 3 | One retry loop, store interface, domain extraction | 2.7.3 | `sync/` internals |
+| 4 | Publishing strategies and the `SyncService` split | 2.7.4 | `sync/` internals |
+| 5 | The `/v1` API | 2.8.0 | routes, controllers, OpenAPI |
 | 6 | Build, docs and workspace | none | none |
 | 7 | Site shared-JS decision | n/a | none |
 
@@ -544,7 +559,7 @@ acceptance checklist is complete, `npm test` and `npm run verify` are green, and
 touched. If the code on `main` has moved since that spec was written, bring it
 up to date first (its §2 lists the contract it pins).
 
-### 6.1 Phase 1 — folder moves (2.6.1)
+### 6.1 Phase 1 — folder moves (2.7.1)
 
 Mechanical, with the test suite as the guard. Do all moves with `git mv`, update
 imports, and run `npm run verify` after each group.
@@ -568,7 +583,7 @@ themselves; confirm each still finds them. Update `package.json`'s
 
 | From | To |
 |---|---|
-| `facilityCompletion.mjs` | `sync/domain/facilityCompletion.mjs` |
+| `facilityCompletion.mjs`, `teamRoster.mjs` | `sync/domain/` (`src/attendance/roster.mjs` imports `findTeamsHeader` from `teamRoster.mjs`; update that import) |
 | `GitHubPublisher.mjs`, `LivePublisher.mjs`, `SheetsCsvFetcher.mjs`, `GvizCsvFetcher.mjs` | `sync/infra/` |
 | `SyncConfigStore.mjs`, `SyncConfigSnapshot.mjs`, `events.seed.json` | `sync/config/` |
 | `SyncService.mjs`, `routes.mjs` | stay in `sync/` |
@@ -584,7 +599,7 @@ comments. Find them:
 grep -rIn --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=event-data \
   -e "scripts/sheets-sync" -e "scripts/sheet-generator" -e "scripts/standard-generator" \
   -e "scripts/attendance" -e "scripts/mock-apps-script" -e "scripts/verify-" \
-  -e "scripts/fixtures" -e "src/sync/facilityCompletion" -e "src/sync/GitHubPublisher" \
+  -e "scripts/fixtures" -e "src/sync/facilityCompletion" -e "src/sync/teamRoster" -e "src/sync/GitHubPublisher" \
   -e "src/sync/LivePublisher" -e "src/sync/Sheets" -e "src/sync/Gviz" \
   -e "src/sync/SyncConfig" -e "src/sync/events.seed" \
   /d/Personal/SAGE/sage-tools-api /d/Personal/SAGE/sage-docs \
@@ -601,7 +616,7 @@ bump the version and ships by pasting, so only the comment moves).
 owner's build trigger on the branch) succeeds; `git log --follow` on a moved
 file shows its history.
 
-### 6.2 Phase 2 — hardening (2.6.2)
+### 6.2 Phase 2 — hardening (2.7.2)
 
 Do these in order; for each, write the failing test first.
 
@@ -615,8 +630,8 @@ Do these in order; for each, write the failing test first.
 3. **Errors** (F6, B2): add `code` to `AppError` and each subclass (§4.6), add
    `ConflictError` and `ConfigError`, write `server/errorHandler.mjs` and
    `server/asyncHandler.mjs`, register the handler last in `Server`. Convert
-   every handler in `sync/routes.mjs`, `scoresheets/routes.mjs` and
-   `auth/routes.mjs` to throw (wrapped in `asyncHandler`) and delete their
+   every handler in `sync/routes.mjs`, `scoresheets/routes.mjs`,
+   `auth/routes.mjs` and `attendance/routes.mjs` to throw (wrapped in `asyncHandler`) and delete their
    `try/catch`. The streaming handler keeps its own `catch`, because it must
    write an NDJSON error line after headers are sent; the handler's
    `headersSent` check covers anything that escapes it. Update the integration
@@ -645,7 +660,7 @@ local instance with `SHEETS_FETCH_TIMEOUT_MS=abc` exits 1 with a readable
 message; with `LIVE_PUSH_TIMEOUT_MS=` (empty) it starts and uses the default;
 no handler contains `res.status(err.statusCode`.
 
-### 6.3 Phase 3 — one retry loop, one store interface, domain extraction (2.6.3)
+### 6.3 Phase 3 — one retry loop, one store interface, domain extraction (2.7.3)
 
 Write the unit tests for each new module from §5.2 **first**, watch them fail
 (the module does not exist), then implement.
@@ -676,7 +691,7 @@ Write the unit tests for each new module from §5.2 **first**, watch them fail
 defined once and used by `conflictRetry` and the stores;
 `SyncConfigStore` has no hand-written retry loop left.
 
-### 6.4 Phase 4 — publishing strategies and the `SyncService` split (2.6.4)
+### 6.4 Phase 4 — publishing strategies and the `SyncService` split (2.7.4)
 
 Goal: `SyncService` knows nothing about GitHub, the Worker, the archive or the
 fallback.
@@ -725,10 +740,12 @@ fallback.
    `LiveFirstPublishing` when `livePublisher.enabled && config.livePushOn`,
    else the GitHub-only one. This is the only place that decision lives.
 5. **Services.**
-   - `SyncService({ sheetsApiFetcher, gvizFetcher, publishing, configStore, logger })`:
+   - `SyncService({ sheetsApiFetcher, gvizFetcher, publishing, configStore, logger, onFacilitiesSynced })`:
      resolve the day, fetch, build `freshByName`/`failed`/`lastEditAt`, call
      `publishing.select(config).publish(...)` with `build = base =>
-     mergeSnapshot({...})`, then `buildTiming`, log, and return the response. It
+     mergeSnapshot({...})`, then `buildTiming`, log, await the attendance
+     hook exactly as today (after the publish and archive, a throw logged and
+     swallowed), and return the response. It
      does not import `GitHubPublisher`, `LivePublisher` or `COMMIT_ATTEMPTS`.
    - `GoLiveService({ configStore, publishing, logger }).setLiveOverride(day, isLive)`.
    - `LivePushSettings({ configStore, livePublisher, logger })`:
@@ -752,7 +769,7 @@ src/sync/SyncService.mjs` finds nothing; there is exactly one place that reads
 `livePushOn`; adding a hypothetical third strategy requires no edit to
 `SyncService` (state which files a new strategy would touch in the Changelog).
 
-### 6.5 Phase 5 — the `/v1` API (2.7.0)
+### 6.5 Phase 5 — the `/v1` API (2.8.0)
 
 1. Write the parity tests first (`test/integration/v1.test.mjs`). They are
    table-driven: for each row of §4.8, the legacy and the `/v1` request produce
@@ -771,12 +788,13 @@ src/sync/SyncService.mjs` finds nothing; there is exactly one place that reads
    **same** controller functions as the legacy routes. No handler logic is
    duplicated. Mount in `Server`: legacy at `/sync`, `/scoresheets`, `/auth`;
    new at `/v1`.
-3. Add a catch-all `404` handler that throws `NotFoundError` (new, status 404,
-   code `not_found`) so unknown paths get the same body as every other error.
+3. Add a catch-all `404` handler that throws `NotFoundError` (it exists
+   since attendance; status 404, code `not_found` from Phase 2) so unknown
+   paths get the same body as every other error.
 4. OpenAPI: add `@openapi` blocks for each new path in the route files; mark
    the legacy duplicates `deprecated: true` with the description note from
    §4.8; add `servers` unchanged; extend `apis` globs to the new files. Update
-   `openapiSpec.test.mjs` to the 14 paths and the route-versus-document test.
+   `openapiSpec.test.mjs` to the 17 paths (the 11 documented today plus the six new ones) and the route-versus-document test.
 5. Docs: a `docs/technical/api.md` page listing both surfaces and the rule "a new
    client uses `/v1`; the old URLs never go away".
 
@@ -792,7 +810,7 @@ test suite still green untouched.
    ```bash
    gcloud builds triggers list --project=sage-tools-api
    gcloud builds triggers update github <TRIGGER_NAME> --project=sage-tools-api \
-     --ignored-files='live-worker/**,apps-script/**,test/**,.githooks/**,scripts/run-appscript-verifies.mjs,**/*.md'
+     --ignored-files='live-worker/**,apps-script/**,spikes/**,test/**,.githooks/**,scripts/run-appscript-verifies.mjs,**/*.md'
    ```
 
    Verify by pushing a README-only commit to a branch the trigger watches and
@@ -818,8 +836,9 @@ test suite still green untouched.
 ### 6.7 Phase 7 — the site's duplicated code (decision only)
 
 The site repeats code by hand: the live-channel block in nine pages, the
-played/BYE rules in `control-center.html` and the server, the team-event rules
-in two files. That is the largest maintenance risk in the system, but fixing it
+attendance client in four (Control Center, the desk-page template and each
+event's desk page), the played/BYE rules in `control-center.html` and the
+server, the team-event rules and the team-roster code in two files each. That is the largest maintenance risk in the system, but fixing it
 changes the site's "one self-contained file per page" rule, which is a
 decision for the owner, not an implementation detail.
 
@@ -834,8 +853,8 @@ comparing two options, and nothing else:
 2. **A generation script** that stamps the shared block into each page. Keeps
    self-contained pages. Costs: a script to run and a diff check to keep.
 
-Recommendation to evaluate: option 1 for the live channel and the match rules,
-leaving archived events untouched.
+Recommendation to evaluate: option 1 for the live channel, the attendance
+client and the match rules, leaving archived events untouched.
 
 ---
 
@@ -895,7 +914,7 @@ Present tense, in the same commit as the phase that changes the thing.
 
 - [ ] The six new `/v1` routes exist; parity tests green.
 - [ ] Every legacy URL still answers exactly as before; `/ping` untouched.
-- [ ] OpenAPI documents all fourteen paths, legacy ones marked deprecated.
+- [ ] OpenAPI documents all seventeen paths, legacy ones marked deprecated.
 
 **Phase 6**
 

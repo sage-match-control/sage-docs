@@ -2,7 +2,10 @@
 
 > **Status: not started.** Nothing here is built. Written 2026-10-02 against
 > `sage-match-control.github.io` at `89a7476` (live push switched on in the
-> pages). The sibling of the
+> pages). Revised 2026-10-03 against `9b49558`: the attendance desk pages and
+> the console's **Attendance** tab, and team rosters (the **Teams** tab in
+> PickleDrive's hub and the console, level and gender in Match Finder) are
+> on `main`, and this page covers them. The sibling of the
 > [`sage-tools-api` test suite](sage-tools-api-test-suite-spec.md), which
 > covers the Cloud Run service and stops at its HTTP boundary.
 >
@@ -49,8 +52,9 @@ are never published.
   `sideIsBye(...)` or `teamMatchupResult(...)` in the loaded page and get the
   page's real answer. No extraction or reimplementation is needed, and no
   page has to change.
-- **Only some pages support `?fixture=`.** `tools/control-center.html` and
-  PickleDrive's two pages define `FIXTURE`: on `localhost`/`127.0.0.1`,
+- **Only some pages support `?fixture=`.** `tools/control-center.html`,
+  PickleDrive's two pages and the attendance desk pages (the template and
+  each event's copy) define `FIXTURE`: on `localhost`/`127.0.0.1`,
   `?fixture=<name>` loads `/_fixtures/...` instead of the published data.
   Piggleball and both templates do not; they only test
   `typeof FIXTURE !== 'undefined'` to keep the live channel off. So the suite
@@ -72,25 +76,28 @@ are never published.
   |---|---|---|
   | `LIVE CHANNEL` block (between `// ==== LIVE CHANNEL` and `// ==== END LIVE CHANNEL ====`) | 9 files: `tools/control-center.html`, PickleDrive's and Piggleball's `index.html` + `schedule.html`, both templates' `index.html` + `schedule.html`. Byte-identical by rule | yes ("compare them with `diff`") |
   | "Played" and "BYE" | `sage-tools-api/src/sync/facilityCompletion.mjs` (`facilityIsComplete`) and the console's `rowsToMatches` (`played` = both scores present), `sideIsBye`, `matchByeSide`, `computeFacilityProgress` | yes |
+  | `ATTENDANCE CLIENT` block (`createAttendanceView` and its helpers) | 4 files: `tools/control-center.html`, `_templates/attendance/attendance.html`, Piggleball's and PickleDrive's `attendance.html`. Byte-identical by rule | yes ("compare them with `diff`") |
   | Team-event rules | `events/pickledrive-anniversary-2026/index.html` and the console's `team type` block. 21 functions exist under the same name in both (listed in §5.2) | yes |
+  | Team rosters (the snapshot's `rosterCsv`: parsing, order by level, the Teams tab's cards) | PickleDrive's `index.html` (`rowsToRoster`, `rosterOf`, `levelLabel`) and the console (`teamRowsToRoster`, `teamRosterOf`, `teamLevelLabel`). Same logic, **different names** | yes |
   | Pair labels | the console's `PAIRS` (`XD`) and PickleDrive `schedule.html`'s `PAIR_SHORT` (`MXD`), both built with `numberRepeatedPairs`. The `MXD`/`XD` difference is deliberate | yes |
   | Go-live rule | `computeDayIsLive`, `earliestScheduleMinutesFrom`, `parseScheduleTimeToMinutes` and `GO_LIVE_LEAD_HOURS = 4` in every current event's `index.html` and both templates. The console has its own `computeDayIsLive(_day)` and `parseScheduleTimeToMinutes` | **no** |
   | Shared constants | `POLL_INTERVAL_MS = 10000`, `LIVE_SAFETY_POLL_MS = 60000`, `GHPAGES_OWNER`/`GHPAGES_REPO`, `CLOUD_RUN_BASE_URL` | partly (`CLAUDE.md`'s "hard-coded constants") |
 
   Today the only check on any of these is a person remembering to run `diff`.
 
-  The [attendance spec](../implemented/multi-event-attendance-spec.md) adds one more
-  byte-identical block, `ATTENDANCE CLIENT`, in `tools/control-center.html`,
-  `_templates/attendance/attendance.html` and every `events/<key>/attendance.html`.
-  It also adds a Control Center **Attendance** tab, and fixtures named
-  `_fixtures/<event>/attendance-<facility>-<name>.csv`. If it has landed,
-  `live-channel-identical.test.mjs` gets a sibling,
-  `attendance-client-identical.test.mjs`, with the same rules. The attendance
-  template joins §3's pages. The console's attendance tab and the desk page
-  get page tests: the category filter and jump, a two-team person toggling in
-  both places, withdrawn people hidden, and the desk-off and expired-link
-  messages. The router answers the gviz `ATTENDANCE` export and the API's
-  `PUT` like any other routed request.
+  The `ATTENDANCE CLIENT` block comes from the
+  [attendance spec](../implemented/multi-event-attendance-spec.md), which also
+  added the console's **Attendance** tab and fixtures named
+  `_fixtures/<event>/attendance-<facility>-<name>.csv` (PickleDrive's
+  `attendance-kingcourts-pre.csv`, and a whole `attendance-demo-2026` test
+  event with two venues).
+- **One page loads a script from a CDN at run time.** The console's
+  **Issue desk link** loads `qrcode-generator` 1.4.4 from cdnjs, pinned
+  with an SRI hash (`attConsoleLoadQr`). The router serves it from a copy
+  committed at `_tests/vendor/qrcode.min.js`, byte-identical to the
+  pinned file so the hash still matches. `shared-constants.test.mjs` checks
+  that copy against the hash in the page, so a version bump in the page
+  cannot pass with a stale copy.
 - **Live/Hide and the sync-method switch are real writes.** The console's
   `window.confirm` prompts guard `POST /sync/:day/live` (`isLive: false`) and
   `POST /sync/live-push` (`enabled: false`). A test that reached Cloud Run would
@@ -206,10 +213,15 @@ The dry run spec carries a matching note.
 | `events/piggleball-2026/schedule.html` | standard | yes | no | schedule board |
 | `_templates/standard-tournament-template/index.html`, `schedule.html` | standard | yes | no | public page, board (tokens filled) |
 | `_templates/dual-meet-template/index.html`, `schedule.html` | dual meet | yes | no | public page, board (tokens filled) |
+| `_templates/attendance/attendance.html` | any (`"attendance": "desks"`) | no | yes | desk page (tokens filled), on `attendance-demo-2026` |
+| `events/piggleball-2026/attendance.html` | standard | no | yes | desk page |
+| `events/pickledrive-anniversary-2026/attendance.html` | team | no | yes | desk page |
 
 Not in scope: `events/pnf-x-bup-dual-meet/` and
 `events/pickle-for-sight-2026/` carry no `LIVE CHANNEL` block, which root
 `CLAUDE.md` reserves for events that haven't finished, so they are frozen.
+That includes Pickle for Sight's `attendance.html`, which predates the
+`ATTENDANCE CLIENT` block and talks to its own `attendance.gs` web app.
 `events/archives/`, `tools/match-control.html` (a redirect stub), the other
 tools, and `beta.html` copies are out too. The page manifest (§8.2) lists every
 HTML file in the repo with its status, so nothing is left out silently.
@@ -281,6 +293,7 @@ _tests/
     fixtures.mjs          # loads _fixtures/ files, builds config for an event key
   pages.mjs               # the page manifest (§8.2)
   checks/runbook.mjs      # the runbook checks (§5.4), shared with the dry run
+  vendor/qrcode.min.js    # qrcode-generator 1.4.4, byte-identical to the console's SRI-pinned file
   cases/played-bye.json   # the played/BYE case table (§5.2)
   consistency/*.test.mjs
   parity/*.test.mjs
@@ -307,7 +320,8 @@ navigates, and waits for the page's first render. Options:
   config: <events.json object>,       // answers .../event-data/config/events.json
   snapshots: { "<event>/<day>": <snapshot> },   // answers .../event-data/<event>/data/<day>.json
   worker: "absent" | "refuses" | fakeWorker,    // the live channel's fate (default "refuses")
-  cloudRun: { "<METHOD> <path>": handler },     // console only; see below
+  cloudRun: { "<METHOD> <path>": handler },     // console and desk pages; see below
+  attendance: { "<sheetId>": <csv text> },      // answers the gviz ATTENDANCE export
   viewport, expectErrors: [/.../],
 }
 ```
@@ -316,7 +330,11 @@ The router answers `https://sage-match-control.github.io/event-data/...` from
 `config` and `snapshots` (a snapshot not supplied answers `404`, as GitHub
 does for a day never published), records every request in
 `page.requests` (method, URL, body), and fails the test on anything else
-leaving `127.0.0.1`. For the console, requests to `CLOUD_RUN_BASE_URL` go to
+leaving `127.0.0.1`. It also answers
+`https://docs.google.com/spreadsheets/d/<sheetId>/gviz/tq?…&sheet=ATTENDANCE`
+from `attendance` (an unknown sheet fails the test), and the cdnjs
+`qrcode-generator` URL from `_tests/vendor/qrcode.min.js` (§0). For the
+console and the desk pages, requests to `CLOUD_RUN_BASE_URL` go to
 `cloudRun` handlers. An unhandled Cloud Run route fails the test, so no test
 can reach the real API, let alone write config. The default handlers answer
 `GET /ping` and `GET /sync/config` with fixed, plausible bodies, and
@@ -348,8 +366,9 @@ still works by hand on the pages that support it. Test events are added to
 
 | Event key | Type | Pages it feeds | Fixtures |
 |---|---|---|---|
-| `pickledrive-anniversary-2026` | team | PickleDrive pages, console (team) | existing `pre`, `finished`, `edge`, `qf-pre`; new `mid`, `runbook` |
-| `piggleball-2026` | standard | Piggleball pages, console (standard) | new `pre`, `mid`, `finished`, `edge`, `runbook` |
+| `pickledrive-anniversary-2026` | team | PickleDrive pages, console (team) | existing `pre`, `finished`, `edge`, `qf-pre` (all four carry `rosterCsv`) and `attendance-kingcourts-pre.csv`; new `mid`, `runbook`, and `no-roster` (a snapshot without `rosterCsv`, as published before 2.7.0) |
+| `piggleball-2026` | standard | Piggleball pages, console (standard) | new `pre`, `mid`, `finished`, `edge`, `runbook`, and an `attendance-centro-atletico-pre.csv` |
+| `attendance-demo-2026` | standard, `"attendance": "console"` | console (Attendance tab); the attendance template, with the config the router serves switched to `"desks"` | existing `pre` and two venues' `attendance-*-pre.csv` |
 | `test-standard` | standard | the standard template | the same five, against the template's example `DAYS`/`FACILITIES` |
 | `test-dual-meet` | dual meet | the dual-meet template, console (dual meet) | the same five, against the template's example config and test club codes |
 
@@ -381,7 +400,8 @@ Every case below is required.
 | File | Cases |
 |---|---|
 | `live-channel-identical.test.mjs` | every file containing `// ==== LIVE CHANNEL` has exactly one block (`block()` throws otherwise), and every block is byte-identical to the console's. On failure, the message names the file and the first differing line. The set of files carrying the block equals the manifest's `liveChannel: true` set (§8.2) |
-| `shared-constants.test.mjs` | `POLL_INTERVAL_MS`, `LIVE_SAFETY_POLL_MS`, `GO_LIVE_LEAD_HOURS`, `GHPAGES_OWNER`, `GHPAGES_REPO` and `CLOUD_RUN_BASE_URL` have one value across every in-scope page that declares them (a page that does not declare one is fine; two values are not) |
+| `shared-constants.test.mjs` | `POLL_INTERVAL_MS`, `LIVE_SAFETY_POLL_MS`, `GO_LIVE_LEAD_HOURS`, `GHPAGES_OWNER`, `GHPAGES_REPO` and `CLOUD_RUN_BASE_URL` have one value across every in-scope page that declares them (a page that does not declare one is fine; two values are not); `_tests/vendor/qrcode.min.js` hashes (SHA-384) to the `integrity` value in the console's `attConsoleLoadQr` |
+| `attendance-client-identical.test.mjs` | the same rules as `live-channel-identical` for the `ATTENDANCE CLIENT` block, against the console's copy; the files carrying it equal the manifest's `attendanceClient: true` set |
 | `no-leftover-tokens.test.mjs` | no file under `events/` (outside `archives/`) contains `{{`. This is `_templates/CLAUDE.md` §2 step 3's `grep`, automated |
 | `manifest.test.mjs` | the page manifest guards (§8.2) |
 
@@ -391,6 +411,7 @@ Every case below is required.
 |---|---|
 | `played-bye.test.mjs` | `cases/played-bye.json` holds matches CSVs. It starts with every case in `sage-tools-api/scripts/verify-facility-completion.mjs`: all non-BYE scored, partial, BYE by team code, by either player name, case-insensitive `bye`, a score removed, empty CSV, header-only CSV. Each CSV is run through the console's own `parseCSV` → `rowsToMatches` → `computeFacilityProgress` in the loaded console, and the console's "complete" (`left === 0`, which is what prints "All matches done") is compared with the server's `facilityIsComplete(csv)`, imported from `../../sage-tools-api/src/sync/facilityCompletion.mjs`. If that sibling repo is absent, the server half is **skipped with a message, not failed**, and the console half still runs against the expected answers stored in the case file. **Empty and header-only CSVs**: the server says not complete; the console's `left` is `0` for both. Pin what each copy does, and what the facility card actually shows in that state (§5.3), as `// KNOWN DIFFERENCE` if they disagree, and report it |
 | `team-rules.test.mjs` | PickleDrive's `index.html` and the console (team event loaded) open on the same fixture, for each of the six team fixtures. These rule functions are called in both pages with the same inputs, and the results compared as JSON: `baseTeamOf`, `groupOf`, `isGroupTeamCode`, `pairOf`, `parseSideCode`, `sideOf`, `slotOf`, `stageOf`, `stageLabel`, `teamNameOf`, `teamMatchupResult`, `teamRankBracket`, `teamCourtsLabel`, `teamTimesLabel`, `pairLabel`, `sideLabel`, `numberRepeatedPairs`. Inputs: every team code, matchup and group in the fixture. `pairLabel`/`sideLabel` compare after mapping the public page's `MXD` to `XD` (deliberate). The `*HTML` builders (`teamMatchupCardHTML`, `teamMatchupRowHTML`, `teamResultHTML`) are excluded because their markup differs by design, and so is `rebuildTeamData` (state, not a rule). A rule function listed here that is missing from either page fails the test, so a rename in one copy cannot drop it from the check |
+| `team-roster.test.mjs` | PickleDrive's `index.html` and the console (team event loaded) on each team fixture that carries `rosterCsv`. The pairs are mapped by name: `rowsToRoster` ↔ `teamRowsToRoster` (on the fixture's parsed `rosterCsv`, plus a header-only CSV, a missing `player` column, extra columns, blank codes or names), `rosterOf` ↔ `teamRosterOf` (every team code: lowest level first, sheet order within a level, a non-numeric level last), `levelLabel` ↔ `teamLevelLabel` (`3`, `3.5`, `Open`, `''`). The roster card builders are excluded, as for the team rules. A missing function on either side fails the test |
 | `pair-labels.test.mjs` | PickleDrive `schedule.html`'s `PAIR_SHORT` equals the console's `PAIRS[n].short` for every pair number, after `MXD` → `XD` |
 | `go-live.test.mjs` | `computeDayIsLive(day, snapshot)` in every in-scope `index.html` (both events, both templates) gives the same answer for a table of cases: `isLive` `true`/`false` override in either direction; `auto` before, at and after the 4-hour lead before the earliest `Schedule` time; a snapshot with no parseable time; a different calendar day. The clock is set per case. The console's `computeDayIsLive(_day)` and its `parseScheduleTimeToMinutes` are compared on the same cases where their inputs overlap. Where the console's variant differs by design, pin it as `// KNOWN DIFFERENCE` with the reason read from its comment |
 
@@ -411,7 +432,7 @@ fixture):
 | Area | Cases |
 |---|---|
 | Event and day | the registry's events and days are listed from `config`; picking one loads its snapshot URL (asserted in `page.requests`) |
-| Tabs and landing | the tabs read Mission Control, Awards, Live Matches, Match Finder, Standings, in that order; picking a day lands on **Mission Control** (its tab active, only `#organizerResults` shown); each tab shows only its own container; a later poll does not move the operator off the tab they chose |
+| Tabs and landing | the tabs read Mission Control, Awards, Attendance, Live Matches, Match Finder, Standings, Teams, in that order, where **Attendance** shows only for an event with an `attendance` setting and **Teams** only for a team event whose snapshot carries a roster (hidden on `no-roster`); picking a day lands on **Mission Control** (its tab active, only `#organizerResults` shown); each tab shows only its own container; a later poll does not move the operator off the tab they chose |
 | Mission Control layout | top to bottom: Sign in, Facility sync status, **Resync this day now** directly under the venues, the CSV fallback checkbox and the one-facility row, the resync result box, **Check connection** and its own result box, Public site status, Sync method, Public pages (assert DOM order) |
 | Facility progress | `pre`: done 0 / left = total; `mid`: the counts from the fixture; `finished`: "All matches done", and with `completedAt` the actual end; a facility whose `syncedAt` is old on event day shows the stale warning; BYE matches are not counted |
 | Live Matches, Standings, Match Finder, Awards | the runbook checks (§5.4) on the `runbook` fixture, plus: every configured court shows a row; Awards reads "Pending" before any Final/Bronze is played and names finishers on `finished` |
@@ -424,6 +445,8 @@ fixture):
 | Toasts | stack at the top of the viewport, newest first (inside it at 375 × 812 and 1280 × 800, whatever the scroll position); at most three; a toast with the same key replaces the last; `ok` disappears after about 4.5 s and `error` after about 9 s (`clock.runFor`), and the close button removes one at once; an `error` toast has `role="alert"`; a toast created while the page is hidden is visible once the page is shown |
 | Readable errors | for each of these router replies, the text on screen contains the words, never `{` or a raw `HTTP 4xx`/`HTTP 5xx` followed by JSON: a Google body (`HTTP 403 {"error":{"code":403,"message":"The caller does not have permission"}}` → "refused access (403) — The caller does not have permission"), a GitHub body (`{"message": …}`), a Worker body (`{"error":"unauthorized"}`), a bare `HTTP 500` ("Cloud Run had a server error (500)"), and `timed out after 8000ms` ("8 s"). Checked on resync, Live/Hide and sign-in |
 | Schedule board link | **Open schedule** opens `/events/<key>/schedule` (extensionless) |
+| Teams (team) | one card per team with a roster, grouped as the standings group them, with the player count; a card opens to its players, lowest level first, each with level and gender tags; cards left open stay open across a poll; Match Finder's result for a player shows their team's roster card with them highlighted |
+| Attendance (`attendance-demo-2026`) | the roster from each venue's `ATTENDANCE` fixture; the category filter and jump; a person in two teams toggles in both places; withdrawn people hidden; **Update roster** posts `POST /v1/days/<day>/attendance/reconciliations` and shows each venue's result; marking someone sends `PUT /v1/days/<day>/facilities/<facility>/attendance/<key>` with `{"present":true}`. With the config switched to `"desks"`, **Issue desk link** posts `.../desk-links` and draws a QR code from the vendored library |
 
 **Public pages and boards** (`pages/public.test.mjs`):
 
@@ -431,8 +454,16 @@ fixture):
 |---|---|
 | Go-live | with `isLive: "auto"`, before the 4-hour lead the page shows its not-live state and no scores; `clock.runFor` past the lead (no reload) switches to live; `isLive: false` hides it on the next poll; `true` shows it before the lead |
 | Content | standings, live courts and schedule match the fixture for `mid` and `finished`; the team page shows matchup cards and group tables; the dual-meet template shows the club win summary |
+| Team rosters (PickleDrive `index.html`) | the **Teams** tab as in the console's row above (hidden on `no-roster`); Match Finder's suggestions show names only, and a selected player's result shows their level and gender beside the name, plus their team's roster card with them highlighted |
 | Board | courts as columns from the highest `CourtAssignment`; a live match highlighted; a duplicate court/time gets the `+n` badge; `?venue=` narrows to one facility; `?courts=` composes with it |
 | Saved state | a search and the chosen day survive a reload in the same context (`localStorage`), and a fresh context starts clean |
+
+**Desk pages** (`pages/attendance.test.mjs`: the template on `attendance-demo-2026`, then each event's copy):
+
+| Area | Cases |
+|---|---|
+| Opening | no `?desk=` token, or an expired one (its payload's `exp` before the clock): "Ask the operator for a desk link." and no further request; the event not `"desks"`: "Check-in for this event is handled by staff."; a token for a day the event does not have: the "does not match a day" message; a `?desk=` token is kept in `localStorage` and dropped from the URL |
+| Marking | with a valid token, the roster loads from each venue's `ATTENDANCE` fixture (team events also read team names from the snapshot's standings); marking a person sends the `PUT` with the desk token as bearer and the row updates; the category filter and jump; withdrawn people hidden; a `401` reply adds "This desk link has expired." and a `403` "Ask the operator for a new desk link.", never raw JSON |
 
 **Live channel** (`pages/live-channel.test.mjs`, on the console and one
 public page per type):
@@ -534,6 +565,9 @@ in the commit message.
 10. Leave `{{VENUE}}` in a page under `events/`.
 11. In the console, make `revealLiveTabsAfterLoad` land on Live Matches again,
     or show a resync error's raw `body.error` without `friendlyApiMessage`.
+12. Change one character inside Piggleball `attendance.html`'s
+    `ATTENDANCE CLIENT` block.
+13. Make the console's `teamRosterOf` sort highest level first.
 
 ---
 
@@ -552,7 +586,7 @@ test change goes in the same commit. In particular:
 |---|---|
 | A page's visible behaviour | the page test that pins it, edited or added |
 | One copy of a hand-copied rule (§0 table) | the other copies changed too, and the consistency or parity test passes. If the copies are meant to differ from now on, a `KNOWN DIFFERENCE` and a line in root `CLAUDE.md` |
-| The `LIVE CHANNEL` block | every copy, in one commit; `live-channel-identical` is the `diff` |
+| The `LIVE CHANNEL` or `ATTENDANCE CLIENT` block | every copy, in one commit; `live-channel-identical` and `attendance-client-identical` are the `diff` |
 | A new event instantiated from a template | its pages added to `pages.mjs`, its event to `_fixtures/config.json`, and `pre`/`mid`/`finished`/`runbook` fixtures, or a manifest entry reusing the template's fixtures when its config is the template's shape. Add this as a step in `_templates/CLAUDE.md` §2 |
 | An event finishes | its pages' manifest status set to `frozen` and `liveChannel: false`, in the same commit that drops their `LIVE CHANNEL` block |
 | A template change | the template's tests; an event already copied from it is not changed unless its own commit says so |
@@ -565,7 +599,8 @@ test change goes in the same commit. In particular:
 
 ```js
 export const pages = {
-  "tools/control-center.html": { status: "tested", type: ["dual-meet", "standard", "team"], liveChannel: true },
+  "tools/control-center.html": { status: "tested", type: ["dual-meet", "standard", "team"], liveChannel: true, attendanceClient: true },
+  "events/piggleball-2026/attendance.html": { status: "tested", type: "standard", event: "piggleball-2026", liveChannel: false, attendanceClient: true },
   "events/piggleball-2026/index.html": { status: "tested", type: "standard", event: "piggleball-2026", liveChannel: true },
   "_templates/standard-tournament-template/index.html": { status: "tested", type: "standard", event: "test-standard", liveChannel: true,
       tokens: { EVENT_KEY: "test-standard", EVENT_TITLE: "Test Standard Event", /* … */ } },
@@ -581,7 +616,8 @@ export const pages = {
   cannot slip in untested without someone writing down why);
 - `pages.mjs` lists a file that does not exist;
 - the files containing the `LIVE CHANNEL` marker differ from those with
-  `liveChannel: true`;
+  `liveChannel: true`, or those containing `ATTENDANCE CLIENT` from those
+  with `attendanceClient: true`;
 - a `tested` page has no `pages/` test that loads it (each page test file
   exports the paths it covers);
 - a `tested` event page's event has no `pre`, `mid`, `finished` and `runbook`
@@ -598,8 +634,9 @@ export const pages = {
   > entry and fixtures. The hand-copied rules below are checked by the suite:
   > change every copy, never make a test pass by editing one side.
 
-  The "kept in sync by hand" entries for the `LIVE CHANNEL` block, played/BYE
-  and the team-event rules each gain "checked by `_tests/`". "Compare them
+  The "kept in sync by hand" entries for the `LIVE CHANNEL` and
+  `ATTENDANCE CLIENT` blocks, played/BYE, the team-event rules and the team
+  rosters each gain "checked by `_tests/`". "Compare them
   with `diff`" becomes "`npm test --prefix _tests` compares them". The go-live
   rule is added to that list.
 - **`.githooks/pre-push`** in the site repo runs `npm run test:fast --prefix
@@ -659,7 +696,7 @@ against `main` shows no `.html` file.
 - [ ] `npm test --prefix _tests` passes on unmodified pages, on Node 22.23.3 or
       later, with no network access beyond `127.0.0.1` (test it offline).
 - [ ] Every case in §5 exists.
-- [ ] All eleven sabotage breakages were caught (§7).
+- [ ] All thirteen sabotage breakages were caught (§7).
 - [ ] `git diff --stat` against `main` shows no `.html` file, and nothing
       outside the files listed in §9's rule.
 - [ ] `pages.mjs` lists every `.html` file; the manifest guards pass and each

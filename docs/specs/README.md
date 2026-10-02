@@ -184,9 +184,10 @@ to the `...` form rather than repointing it.
   config path, `/v1` resource-style routes with every existing URL kept, and a
   cleaner folder layout. `/ping` unchanged.
 - **[Site test suite](not-started/site-test-suite-spec.md)** — Control
-  Center and the current event pages tested in a real browser on fixture
-  data, with every hand-copied rule (the live channel block, played/BYE, the
-  team-event rules, go-live) checked across its copies. No page changes. It
+  Center, the current event pages and the attendance desk pages tested in a
+  real browser on fixture data, with every hand-copied rule (the live
+  channel and attendance client blocks, played/BYE, the team-event rules,
+  team rosters, go-live) checked across its copies. No page changes. It
   provides the dry run's rendering layer.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
   only: run the Control Center runbook's rehearsal with one command,

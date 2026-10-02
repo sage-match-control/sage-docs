@@ -4,7 +4,8 @@
 > `sage-tools-api` 2.5.0 (live push, the operator switch, the Apps Script
 > verify scripts), split out of the
 > [architecture hardening spec](sage-tools-api-architecture-spec.md), whose
-> Phase 0 this is.
+> Phase 0 this is. Revised 2026-10-03 against 2.7.0: attendance (2.6.0,
+> 2.6.1) and team rosters (2.7.0) are on `main`, and this page covers both.
 >
 > **This spec comes first.** It builds a unit and integration test suite against
 > the code **as it is today** and ends green, with no production file changed.
@@ -17,16 +18,28 @@
 > carries guard tests that fail when a module or route has none, and the
 > rule goes into the root `CLAUDE.md` and the README as part of this spec.
 >
-> **Attendance lands before this suite.** The
-> [attendance spec](../implemented/multi-event-attendance-spec.md) (2.6.0) is built first and
-> already creates `test/`, the `test`/`test:unit`/`test:integration` scripts,
-> `test/helpers/logger.mjs` and its own tests, in this spec's layout. Extend
-> them; do not recreate or rewrite them. Its consequences for this spec:
-> `Access-Control-Allow-Methods` is `GET, POST, PUT, OPTIONS` (B3); the
-> contract in §2.1 includes its three `/v1` routes as that spec's §4.8
-> defines them; the OpenAPI path list and the route manifest gain them (11
-> documented paths, 12 registered routes); and `src/attendance/` modules
-> already have unit test files, so none of them goes in `coveredElsewhere.mjs`.
+> **Part of `test/` already exists.** The
+> [attendance spec](../implemented/multi-event-attendance-spec.md) (2.6.0) created `test/`,
+> the `test`/`test:unit`/`test:integration` scripts, `test/helpers/logger.mjs`
+> and `test/helpers/fakeSheets.mjs`, in this spec's layout, and team rosters
+> (2.7.0) added to them. At 2.7.0, `npm test` runs 192 tests in 13 files,
+> all green:
+>
+> | File | Covers |
+> |---|---|
+> | `test/unit/attendance/*.test.mjs` (6 files) | every `src/attendance/` module except `routes.mjs` |
+> | `test/integration/attendance-routes.test.mjs` | the three `/v1` attendance routes over HTTP |
+> | `test/unit/auth/AuthService.test.mjs` | desk tokens only; login and the operator token are not tested yet |
+> | `test/unit/sync/attendanceConfig.test.mjs` | the `attendance` setting in `events.json` |
+> | `test/unit/sync/onFacilitiesSynced.test.mjs` | `SyncService`'s attendance hook |
+> | `test/unit/sync/teamRoster.test.mjs` | `teamRoster.mjs`, and the roster cases of `SheetsCsvFetcher`, `sheetsFor` and the `SyncService` merge |
+>
+> Extend these files; do not recreate or rewrite them, and do not copy their
+> cases into new files. What follows from them: `Access-Control-Allow-Methods`
+> is `GET, POST, PUT, OPTIONS` (B3); §2.1 includes the three `/v1` routes;
+> the OpenAPI path list has 11 paths and the route manifest 12 routes; and
+> `src/attendance/routes.mjs` is the only attendance module in
+> `coveredElsewhere.mjs`.
 
 Pin what `sage-tools-api` does today, in tests, so the refactor in the
 architecture spec can change its insides without anyone having to take it on
@@ -86,6 +99,7 @@ the other repos.
 on failure):
 
 ```bash
+npm test
 node scripts/verify-sync-merge.mjs
 node scripts/verify-facility-completion.mjs
 node scripts/verify-attendance.mjs
@@ -112,7 +126,7 @@ mark it `// CHARACTERIZATION` (§3.6), and tell the owner.
    conditions.
 3. The two ad hoc `verify-*` scripts that cover `src/` ported to the same
    runner, with no loss of coverage.
-4. Evidence the suite can fail: ten deliberate breakages, each caught.
+4. Evidence the suite can fail: eleven deliberate breakages, each caught.
 5. A suite that stays current: every later change to the API updates its tests
    in the same commit, and forgetting to fails a test (§9).
 
@@ -146,17 +160,32 @@ pins them; the architecture spec's later phases may not move them.
 | `POST /sync/:day/live` | bearer token only (the secret is refused); body `{ isLive: true \| false \| "auto" }`; `400` otherwise; `{ day, label, isLive, republished, live?, archive? }` |
 | `POST /sync/live-push` | bearer token only; body `{ enabled: boolean }`; `{ enabled, changed, available }` |
 | `GET /sync/config` | secret or token; `{ sha, source, loadedAt, ageMs, events, days, live: { enabled, baseUrl, switch, active } }`, never the secret. Control Center reads `live.enabled`, `live.switch` (`"on"`/`"off"`) and `live.baseUrl` |
+| `PUT /v1/days/:day/facilities/:facility/attendance/:key` | operator or desk token; body `{ present: boolean }`, `400` otherwise; `200 { key, player, present, timeIn, withdrawn }` ([attendance spec](../implemented/multi-event-attendance-spec.md) §4.8) |
+| `POST /v1/days/:day/attendance/desk-links` | operator token only (a desk token is `401`); `201 { token, expiresAt, day }` |
+| `POST /v1/days/:day/attendance/reconciliations` | operator token only; optional `?facility=`; `200 { day, facilities: [result] }` |
 | `POST /scoresheets/generate` | multipart `csv` + `evt`, `type`, `out`, `blanks`; `200` PDF with `Content-Type: application/pdf` and `Content-Disposition: attachment; filename="<name>.pdf"` |
 | `POST /scoresheets/generate/stream` | `400 { error }` before streaming for a missing field; otherwise `200 application/x-ndjson` lines `parsing`, `rendering`, `merging`, then `done` (with `pdfBase64`) or `error` |
 | every response | `X-App-Version`, `Access-Control-Allow-Origin`, `Access-Control-Expose-Headers: X-App-Version, X-Sync-Config`; `OPTIONS` answers `204` |
-| error statuses | validation `400`, unauthorized `401`, unknown day `400`, upstream failure `502`, config unavailable `503`, anything else `500` |
+| error statuses | validation `400`, unauthorized `401`, unknown day `400`, upstream failure `502`, config unavailable `503`, anything else `500`; from attendance: forbidden `403`, not found and unknown event `404`, `ATTENDANCE` layout `409`, Google failure `502`, Google busy `503` |
 
 Sync semantics that are pinned by the existing `verify-sync-merge.mjs` (70
 checks) are part of the contract: facility merge and carry-forward,
 `completedAt`, `lastEditAt` survival across a full resync, live-first
 publishing with GitHub archive, fallback to GitHub on any Worker failure, the
 `409` retries, the operator switch, the stale-object rule (merge into the
-newer of the Worker's and GitHub's copy by `publishedAt`).
+newer of the Worker's and GitHub's copy by `publishedAt`). So are two later
+additions, pinned by `teamRoster.test.mjs` and `onFacilitiesSynced.test.mjs`:
+
+- **Team rosters.** For an event of `type: "team"`, the snapshot's
+  `facilities[]` carry `rosterCsv` (`teamCode,player,level,gender`, CRLF),
+  read from the day's `rosterSheetName` tab (default `Teams`). A fetch that
+  brings no roster (the `?method=csv` fallback, a workbook without the tab,
+  a tab with no recognisable header) keeps the last published `rosterCsv`.
+  Other event types never carry one.
+- **The attendance hook.** After the publish and archive, `syncDay` awaits
+  `onFacilitiesSynced({ day, event, facilities })` with the facilities
+  fetched fresh. A throw from it is logged and never changes the sync's
+  status or body. `setLiveOverride` does not call it.
 
 ### 2.2 Behaviour pinned now that a later phase changes on purpose
 
@@ -278,8 +307,11 @@ export function capturingLogger() {
 
 **`builders.mjs`**: `facilityRow(name, csv, extra)`, `snapshot({ day, facilities, publishedAt, isLive })`,
 `registryConfig({ livePush })` returning a valid `events.json` object with one
-event `evt`, days `day1` (facilities `A`, `B`) and `day2`, and `configSnapshot(raw)`
-wrapping it in `SyncConfigSnapshot`. Defaults match the fixtures in
+event `evt`, days `day1` (facilities `A`, `B`) and `day2`, plus a second
+event `team` of `type: "team"` with one day `tday1` (facility `T`), and
+`configSnapshot(raw)` wrapping it in `SyncConfigSnapshot`. Neither event has
+an `attendance` setting, so the attendance hook does nothing in the pipeline
+tests; attendance has its own integration test. Defaults match the fixtures in
 `verify-sync-merge.mjs` (`PATH = "evt/data/day1.json"`, facility CSVs
 `A-old`/`B-old`, fresh `A-new`/`B-new`).
 
@@ -341,9 +373,13 @@ in the service:
   `200 { commit: { sha }, content: { html_url } }`. Requires an
   `Authorization: Bearer` header, else `401`.
 - **Google Sheets** `GET https://sheets.googleapis.com/v4/spreadsheets/<id>/values:batchGet`
-  with repeated `ranges=` and `key=`: `{ valueRanges: [{ values }, …] }` in the
-  order asked; `400` with no `key`; `404` for an unknown id; fewer ranges than
-  asked when a tab is missing.
+  with repeated `ranges=` (two, or three for a team event's roster tab) and
+  `key=`: `{ valueRanges: [{ values }, …] }` in the order asked; `400` with no
+  `key`; `404` for an unknown id; `400` with a body containing
+  `Unable to parse range: <tab>` when an asked-for tab does not exist, which
+  is what the real API answers and what `SheetsCsvFetcher`'s roster fallback
+  looks for. (The fetcher's "fewer than two ranges" error is reached in its
+  unit test with a stubbed `fetch`, not through `FakeWorld`.)
 - **Google gviz** `GET https://docs.google.com/spreadsheets/d/<id>/gviz/tq?tqx=out:csv&sheet=<tab>`:
   the tab as CSV text.
 - **Live Worker** `GET <base>/snapshot/<event>/<day>` → `200 { version, snapshot }`
@@ -419,21 +455,22 @@ the module.
 
 | Module | Cases |
 |---|---|
-| `AuthService.mjs` | `login`: valid `username:password` against a hash produced the way `scripts/hash-password.mjs` does (scrypt, 16-byte salt, 64-byte key, `<saltHex>:<hashHex>`) returns `{ token, expiresAt }` with `expiresAt = now + ttl`; wrong password, wrong username, malformed hash and a missing `passwordHash` or `tokenSecret` all return `null` (the last logs an error); `verify`: a fresh token true, an expired token false, a tampered payload or signature false, a token with no `.` false, a non-string false, a token signed with another secret false; default TTL is 12 h; the username is never stored (changing it breaks login) |
+| `AuthService.mjs` | `login`: valid `username:password` against a hash produced the way `scripts/hash-password.mjs` does (scrypt, 16-byte salt, 64-byte key, `<saltHex>:<hashHex>`) returns `{ token, expiresAt }` with `expiresAt = now + ttl`; wrong password, wrong username, malformed hash and a missing `passwordHash` or `tokenSecret` all return `null` (the last logs an error); `verify`: a fresh token true, an expired token false, a tampered payload or signature false, a token with no `.` false, a non-string false, a token signed with another secret false; default TTL is 12 h; the username is never stored (changing it breaks login). These go in the existing `AuthService.test.mjs`, beside its desk-token cases |
 
 **Unit: sync domain**
 
 | Module | Cases |
 |---|---|
 | `facilityCompletion.mjs` | every case in `scripts/verify-facility-completion.mjs`, 1:1: all non-BYE matches scored, partial, BYE by team code, by either player name, case-insensitive `bye`, stamp kept once set, cleared when a score is removed, an empty CSV |
-| `SyncService` merge | every scenario in `scripts/verify-sync-merge.mjs`, 1:1 (the 70 checks): scoped sync, carry-forward, conflict retry, three 409s, non-409, `setLiveOverride` retry, `lastEditAt` survival, branch-level conflict, live disabled, empty live object, live conflict, live read/publish throws, three live conflicts, archive 409 and 403, `setLiveOverride` through the Worker and its fallbacks, switch off, stale live object, newer live object, GitHub read failing |
+| `SyncService` merge | every scenario in `scripts/verify-sync-merge.mjs`, 1:1 (the 70 checks): scoped sync, carry-forward, conflict retry, three 409s, non-409, `setLiveOverride` retry, `lastEditAt` survival, branch-level conflict, live disabled, empty live object, live conflict, live read/publish throws, three live conflicts, archive 409 and 403, `setLiveOverride` through the Worker and its fallbacks, switch off, stale live object, newer live object, GitHub read failing. The roster merge (a fresh `rosterCsv` replaces the old one; a fetch without one keeps it) is already in `teamRoster.test.mjs`, and the hook in `onFacilitiesSynced.test.mjs` |
+| `teamRoster.mjs` | already tested by `teamRoster.test.mjs`; nothing to add |
 
 **Unit: sync config**
 
 | Module | Cases |
 |---|---|
-| `SyncConfigSnapshot.mjs` | `getDay` returns only facilities with a non-blank `sheetId`, `isLive` defaults to `"auto"`, includes `event`; unknown day throws `UnknownSyncDayError`; `repoPathFor` is `<event>/data/<day>.json`; `sheetsFor` falls back day → `defaults` → `CSV`/`STANDINGSCSV`; `knownDays`, `eventKeys`; `livePushOn` is `false` only for an explicit `false` |
-| `SyncConfigStore.mjs` | one case per validation rule: wrong `version`; no `events`; event key not a slug; event with no days; day key not a slug; day key declared by two events; missing/blank label; `facilities` not an array; invalid `isLive`; duplicate facility name; blank facility name; non-boolean `livePush`. Day keys `config` and `live-push` are **accepted today** (pinned as `// CHARACTERIZATION B4`). Caching: a second `get` inside the TTL does not fetch; after the TTL it does; concurrent `get`s share one fetch. Failure: a remote failure serves the last good config and renews its TTL; no cache and a failure serves the bundled seed (`source: "fallback"`, `sha: "seed"`); no cache and no seed throws `SyncConfigUnavailableError`; an invalid remote keeps the last good config. `peek()` never fetches. `setIsLive`: sets the value and returns `{ event, label }`; unknown day throws; a 409 is retried keeping a concurrent change to another day; three 409s throw; success clears the cache. `setLivePush`: commits `livePush`, an unchanged value commits nothing, a 409 is retried, a non-boolean in the file is rejected |
+| `SyncConfigSnapshot.mjs` | `getDay` returns only facilities with a non-blank `sheetId`, `isLive` defaults to `"auto"`, includes `event`; unknown day throws `UnknownSyncDayError`; `repoPathFor` is `<event>/data/<day>.json`; `sheetsFor` falls back day → `defaults` → `CSV`/`STANDINGSCSV`; `knownDays`, `eventKeys`; `livePushOn` is `false` only for an explicit `false`. `sheetsFor`'s `rosterSheetName` (the day's value or `Teams` for a team event, `null` otherwise) is already in `teamRoster.test.mjs` |
+| `SyncConfigStore.mjs` | one case per validation rule: wrong `version`; no `events`; event key not a slug; event with no days; day key not a slug; day key declared by two events; missing/blank label; `facilities` not an array; invalid `isLive`; duplicate facility name; blank facility name; non-boolean `livePush`; a `rosterSheetName` that is not a non-blank string. (The `attendance` setting's rules are already in `attendanceConfig.test.mjs`.) Day keys `config` and `live-push` are **accepted today** (pinned as `// CHARACTERIZATION B4`). Caching: a second `get` inside the TTL does not fetch; after the TTL it does; concurrent `get`s share one fetch. Failure: a remote failure serves the last good config and renews its TTL; no cache and a failure serves the bundled seed (`source: "fallback"`, `sha: "seed"`); no cache and no seed throws `SyncConfigUnavailableError`; an invalid remote keeps the last good config. `peek()` never fetches. `setIsLive`: sets the value and returns `{ event, label }`; unknown day throws; a 409 is retried keeping a concurrent change to another day; three 409s throw; success clears the cache. `setLivePush`: commits `livePush`, an unchanged value commits nothing, a 409 is retried, a non-boolean in the file is rejected |
 
 **Unit: sync infrastructure** (stub `globalThis.fetch`)
 
@@ -441,8 +478,8 @@ the module.
 |---|---|
 | `GitHubPublisher.mjs` | `publish`: `PUT` to `…/contents/<path>` with `Authorization: Bearer`, `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, a `User-Agent`; body has `message`, `branch`, `content` (base64 of `JSON.stringify(json, null, 2)`) and `sha` only when known; a `null` sha triggers a `GET ?ref=<branch>` lookup first, a `404` lookup sends no sha; failure throws `GitHub commit failed: HTTP <status> <detail>` with `err.status`; success returns `{ committed: true, commitSha, htmlUrl }`. `fetchExisting`: `404` gives `{ json: null, sha: null }`; success decodes and parses; another failure throws `GitHub lookup failed: HTTP …` |
 | `LivePublisher.mjs` | `enabled` needs both URL and secret; a trailing slash on the URL is dropped; `read`: `404` is `{ version: 0, snapshot: null }`, `200` is `{ version, snapshot }`, `401` and `5xx` throw `live Worker read failed: HTTP <status> <body>`, a network error throws `live Worker read failed: <message>`, a stalled call throws `live Worker read timed out after <n>ms`; `publish`: `200` is `{ ok: true, version }`, `409` is `{ ok: false, conflict: true, version }`, other statuses and network errors throw; event and day are URL-encoded; `X-Publish-Secret` on every call, `Content-Type` only on `POST` |
-| `SheetsCsvFetcher.mjs` | URL has two `ranges` (matches tab then standings tab), `key`, `valueRenderOption=FORMATTED_VALUE`; no API key throws before any request; values become CSV with rows padded to the header width and fields quoted when they contain `,`, `"` or a newline, `null` as empty; HTTP error message `<facility>: HTTP <status> <detail>`; fewer than two ranges throws the tab-name hint; a timeout throws `<facility>: timed out after <n>ms`; three attempts in total with 1 s then 2 s waits (mock timers) and the last error thrown; `timeoutMs: 0` sends no abort signal |
-| `GvizCsvFetcher.mjs` | the export URL it builds for each tab; both tabs fetched in parallel; same retry and timeout rules as above; same `{ name, matchesCsv, standingsCsv }` shape |
+| `SheetsCsvFetcher.mjs` | URL has two `ranges` (matches tab then standings tab; the roster tab third when `rosterSheetName` is set, cases already in `teamRoster.test.mjs`), `key`, `valueRenderOption=FORMATTED_VALUE`; no API key throws before any request; values become CSV with rows padded to the header width and fields quoted when they contain `,`, `"` or a newline, `null` as empty; HTTP error message `<facility>: HTTP <status> <detail>`; fewer than two ranges throws the tab-name hint; a timeout throws `<facility>: timed out after <n>ms`; three attempts in total with 1 s then 2 s waits (mock timers) and the last error thrown; `timeoutMs: 0` sends no abort signal |
+| `GvizCsvFetcher.mjs` | the export URL it builds for each tab; both tabs fetched in parallel; same retry and timeout rules as above; same `{ name, matchesCsv, standingsCsv }` shape, never with a `rosterCsv` (a team event's CSV fallback keeps the last published roster) |
 
 **Unit: scoresheets** (read the file, then pin it)
 
@@ -460,7 +497,7 @@ short of the opt-in E2E, so a template edit shows up as a snapshot diff.
 
 | Module | Cases |
 |---|---|
-| `openapiSpec.mjs` | the spec is OpenAPI `3.0.3`, has the four tags and two security schemes, and documents exactly these paths today: `/ping`, `/scoresheets/generate`, `/scoresheets/generate/stream`, `/sync/{day}`, `/sync/{day}/live`, `/sync/live-push`, `/sync/config`, `/auth/login`; it is cached after the first build; `info.version` is the version passed in; the whole document from `getOpenApiSpec("9.9.9")` (its `servers` is empty; `Server` fills it in per request) matches its snapshot (§3.5 rule 7) |
+| `openapiSpec.mjs` | the spec is OpenAPI `3.0.3`, has the five tags (`health`, `scoresheets`, `sync`, `auth`, `attendance`) and two security schemes, and documents exactly these 11 paths today: `/ping`, `/scoresheets/generate`, `/scoresheets/generate/stream`, `/sync/{day}`, `/sync/{day}/live`, `/sync/live-push`, `/sync/config`, `/auth/login`, `/v1/days/{day}/facilities/{facility}/attendance/{key}`, `/v1/days/{day}/attendance/desk-links`, `/v1/days/{day}/attendance/reconciliations`; it is cached after the first build; `info.version` is the version passed in; the whole document from `getOpenApiSpec("9.9.9")` (its `servers` is empty; `Server` fills it in per request) matches its snapshot (§3.5 rule 7) |
 | every `src/**/*.mjs` | one test imports each module dynamically, so a broken import path after a move fails here first (`test/unit/imports.test.mjs`) |
 
 **Unit: guards** (`test/unit/guards/`; what they check is in §9.3)
@@ -476,7 +513,7 @@ short of the opt-in E2E, so a template edit shows up as a snapshot diff.
 |---|---|
 | `ping.test.mjs` | `200` and body `PONG!`; `X-App-Version`; `X-Sync-Config` is `abc1234/remote`, `seed/fallback`, or absent (config store `peek()` returning those); `/ping` never calls `get()` |
 | `headers.test.mjs` | CORS headers on every route, including a `401` and a `404`; `OPTIONS` on any path answers `204` with the allow headers; `Access-Control-Expose-Headers` lists `X-App-Version, X-Sync-Config`; a `corsOrigin` other than `*` is echoed |
-| `openapi.test.mjs` | `GET /openapi.json` is `200` JSON; `servers[0].url` is the request's host; every documented path answers something other than `404` to an unauthenticated request (it exists); every route registered on the app is documented, except `/openapi.json` itself, found by `registeredRoutes(server.app)` from `test/helpers/routes.mjs`, which walks `server.app._router.stack` (Express 4 internal; the helper has its own test that it finds the nine routes registered today: `/ping`, `/openapi.json`, the two `/scoresheets`, `/auth/login` and the four `/sync`) |
+| `openapi.test.mjs` | `GET /openapi.json` is `200` JSON; `servers[0].url` is the request's host; every documented path answers something other than `404` to an unauthenticated request (it exists); every route registered on the app is documented, except `/openapi.json` itself, found by `registeredRoutes(server.app)` from `test/helpers/routes.mjs`, which walks `server.app._router.stack` (Express 4 internal; the helper has its own test that it finds the twelve routes registered today: `/ping`, `/openapi.json`, the two `/scoresheets`, `/auth/login`, the four `/sync` and the three `/v1` attendance routes) |
 | `auth.test.mjs` | missing `username` or `password` or a non-string is `400`; wrong password `401`; unconfigured auth `401`; success `200 { token, expiresAt }` and the token then works on a token-only route |
 | `sync-routes.test.mjs` | `POST /sync/:day` is `401` with neither header; works with the secret and with a token; a wrong secret is `401`; `?facility=` and `?method=csv` reach the service; `X-Edit-At` reaches it only inside the window (cases from `editAt`); the service result is returned as JSON `200`; an `UnknownSyncDayError` is `400`, `SyncUpstreamError` `502`, `SyncConfigUnavailableError` `503`, a plain `Error` `500` with its message. `POST /sync/:day/live`: the secret is refused (`401`), a token works, an invalid body is `400`, each of `true`/`false`/`"auto"` reaches the service and its result, including `live.published` (which Control Center reads), is returned unchanged. `POST /sync/live-push`: token only, body must be boolean, result passed through, **registered before `/:day`** (a test posts to it and expects the switch handler, not the sync handler). `GET /sync/config`: secret or token, `401` otherwise, payload as §2 with no secret in it |
 | `scoresheets-routes.test.mjs` | `/generate` with a fake service: PDF headers and body, field mapping (`evt`, `type`, `out`, `blanks`), a service error is `err.statusCode ?? 500`; `/generate/stream`: a missing field is `400 { error }`, a good run writes the NDJSON lines in order and ends with `done` carrying base64, a failing service writes an `error` line after a `200` and ends the response |
@@ -522,6 +559,12 @@ the architecture spec's Phase 4 replaces with the shared function).
     `facilitiesStale`; every facility failing on an empty day is `502`.
 15. Config change takes effect: editing `config/events.json` in the fake GitHub
     (a new sheet id) is used by the next sync after the TTL (mock timers).
+16. Team roster: a sync of `team`/`tday1` asks Sheets for three ranges and
+    publishes `rosterCsv` on facility `T`; a later `?method=csv` sync keeps
+    that `rosterCsv` unchanged; a workbook with no `Teams` tab (the fake
+    answers `400 Unable to parse range: Teams`) still syncs, with two Sheets
+    calls and no `rosterCsv`; a sync of `evt`/`day1` asks for two ranges and
+    publishes none.
 
 ---
 
@@ -542,6 +585,8 @@ reverts it. The list goes in the commit message.
 9. In `#buildSnapshot` stop carrying forward
    `completedAt`.
 10. In `handleSetLive`, accept the shared secret.
+11. In `SyncService`'s merge, drop the line that keeps the prior `rosterCsv`
+    when a fetch brings none.
 
 ---
 
@@ -597,7 +642,7 @@ Steps:
 - [ ] The ported sync-merge suite has at least the 70 original assertions, and the
       ported facility-completion suite every original assertion.
 - [ ] `test/helpers/fakeWorld.mjs` has its own passing tests (§3.4).
-- [ ] All ten sabotage breakages were caught (§5).
+- [ ] All eleven sabotage breakages were caught (§5).
 - [ ] `git diff --stat` against `main` shows changes only under `test/`,
       `package.json` (scripts only), `scripts/run-appscript-verifies.mjs`,
       `.githooks/pre-push` and `README.md`.
@@ -677,6 +722,7 @@ does not rest on memory alone.
       "src/sync/routes.mjs":                 ["test/integration/sync-routes.test.mjs", "route handlers"],
       "src/auth/routes.mjs":                 ["test/integration/auth.test.mjs", "route handlers"],
       "src/scoresheets/routes.mjs":          ["test/integration/scoresheets-routes.test.mjs", "route handlers"],
+      "src/attendance/routes.mjs":           ["test/integration/attendance-routes.test.mjs", "route handlers"],
       "src/scoresheets/index.mjs":           ["test/e2e/pdf.e2e.test.mjs", "composes the Chromium pipeline"],
       "src/scoresheets/BrowserManager.mjs":  ["test/e2e/pdf.e2e.test.mjs", "drives real Chromium"],
       "src/scoresheets/PdfRenderer.mjs":     ["test/e2e/pdf.e2e.test.mjs", "drives real Chromium"],
@@ -705,6 +751,9 @@ does not rest on memory alone.
       { route: "GET /sync/config",                  test: "test/integration/sync-routes.test.mjs" },
       { route: "POST /scoresheets/generate",        test: "test/integration/scoresheets-routes.test.mjs" },
       { route: "POST /scoresheets/generate/stream", test: "test/integration/scoresheets-routes.test.mjs" },
+      { route: "PUT /v1/days/:day/facilities/:facility/attendance/:key", test: "test/integration/attendance-routes.test.mjs" },
+      { route: "POST /v1/days/:day/attendance/desk-links",               test: "test/integration/attendance-routes.test.mjs" },
+      { route: "POST /v1/days/:day/attendance/reconciliations",          test: "test/integration/attendance-routes.test.mjs" },
   ];
   ```
 

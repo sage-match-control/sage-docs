@@ -23,8 +23,8 @@ chain end to end:
 ```
 human edit in the facility sheet
   -> installable onEdit trigger (sheets-sync.gs)
-  -> debounced POST /sync/:day
-  -> event-data/<event-key>/data/<day>.json
+  -> POST /sync/:day, from the edit itself
+  -> the live Worker (pushed to open pages), archived to event-data/<event-key>/data/<day>.json
   -> Control Center + public pages render it correctly
 ```
 
@@ -45,9 +45,16 @@ a phone check and judgement calls during play are not automatable.
   Cloud Run reads the sheet through the Sheets API. It proves the sheet ID is
   registered and readable, not that the trigger works. The runbook's §2.1
   says so.
-- **Sync timing.** `DEBOUNCE_MS` is 3000, and the delayed trigger is
-  best-effort: it can fire up to about a minute late. A checker has to poll
-  the published snapshot for a change, not sleep a fixed time.
+- **Sync timing.** `sheets-sync.gs` syncs from the edit itself, under the
+  workbook's document lock: the lock holder waits `SYNC_SETTLE_MS` (1.5 s),
+  syncs, and goes round again for newer edits, never starting two syncs
+  less than `SYNC_MIN_GAP_MS` (5 s) apart. Only in an edit storm does it
+  fall back to a time-based trigger (`DEBOUNCE_MS`, 3 s), which is
+  best-effort and can fire up to about a minute late. A checker still has
+  to wait for the snapshot to change, not sleep a fixed time. With live push
+  on, the change reaches the Worker before GitHub, so watching the page's
+  own socket (or the public `wss://…/live/<event>/<day>`) sees it sooner
+  than polling `event-data`.
 - **A paused workbook silently does nothing.** With **SAGE → Pause live
   sync** on, `onEditInstallable` returns before scheduling anything. A
   missing sync after an edit therefore means "trigger broken, *or* paused, or
@@ -56,8 +63,9 @@ a phone check and judgement calls during play are not automatable.
   `_fixtures/` on localhost via `?fixture=<name>`. The rehearsal's three sheet
   edits (one finished match, one live court, one unmapped category code) only
   exist to produce a snapshot in a known state; a script can build that
-  snapshot directly from the real published one. Only PickleDrive has
-  fixtures today.
+  snapshot directly from the real published one. Of the real events, only
+  PickleDrive has fixtures today (the other set, `attendance-demo-2026`, is
+  a fixture-only event for the attendance pages).
 - **Team codes and player names are often formulas.** Overwriting one in the
   UI deletes the formula. The published snapshot only carries the computed
   value, so restoring from it would leave a plain value behind.
