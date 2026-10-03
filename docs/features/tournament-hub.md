@@ -11,7 +11,11 @@ only its QR panel changes. See
 
 ## For players: find your matches
 
-Type your pair's names into **Match Finder** and see your entire day at
+The hub opens on **Match Finder**, its first tab — **Live Matches** and
+**Standings** follow it once the day is live. After the first visit, the hub
+remembers the last tab picked on that phone and reopens on it, as long as
+that tab is showing for the day. Type your pair's names into
+**Match Finder** and see your entire day at
 once — every round, every opponent, in schedule order — without scrolling
 past anyone else's matches. Search by either player's name or the full pair.
 

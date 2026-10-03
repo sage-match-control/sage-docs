@@ -135,7 +135,7 @@ public). The link is omitted for a facility with no `sheetId` yet, the
 same "not set up" condition the sync pipeline itself skips.
 
 **Tab order and landing.** The tabs run Mission Control, Awards, Attendance,
-Live Matches, Match Finder, Standings, Teams. Teams shows only for a `"team"`
+Match Finder, Live Matches, Standings, Teams. Teams shows only for a `"team"`
 event whose snapshot carries `rosterCsv` (`syncTeamsTab()`). Attendance is hidden unless the event's
 `attendance` is `"console"` or `"desks"` (`syncAttendanceTab()`, called on
 every event change, day change and tab reveal). `showView(view)` is the one place that switches

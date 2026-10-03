@@ -5,11 +5,11 @@ one page, covering every registered event, always showing live data (unlike
 Tournament Hub, it never hides scores while previewing a day before it's
 publicly live). Open it, pick an event and a day, and the tabs appear, in
 this order: **Mission Control** (where it opens), **Awards**, **Attendance**,
-**Live Matches**, **Match Finder**, **Standings** and **Teams**. **Attendance**
+**Match Finder**, **Live Matches**, **Standings** and **Teams**. **Attendance**
 shows only for an event with attendance turned on, and **Teams** only for a
 team event whose rosters are published.
 
-No sign-in is needed to view Awards, Live Matches, Match Finder or
+No sign-in is needed to view Awards, Match Finder, Live Matches or
 Standings — they're read-only.
 Only the actions inside Mission Control (resyncing, forcing the public site
 live or hidden) and marking people in on the Attendance tab need an operator to
