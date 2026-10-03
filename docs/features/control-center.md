@@ -145,8 +145,10 @@ matchup, each decided on total points. A placing reads **Pending** until its
 matchup is finished. Each medal shows the team name with every player who
 played for that team listed beneath, A–Z. If the Final or Bronze matchup ends
 level on points, the card shows a warning naming the matchup's lowest match
-number and leaves all three placings Pending. **Export image** puts the team
-names on the picture, without the player lists.
+number and leaves all three placings Pending. **Export image** and **Export
+whole tournament** put each team's name on the picture with its players
+beneath. On the single-podium image the player list shrinks to fit its row,
+and a roster too long for even the smallest size ends in "+N more".
 
 A few things the Awards tab is careful about:
 

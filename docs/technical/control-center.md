@@ -426,7 +426,8 @@ Functions that branch on `team`:
 | `rebuildTeamIndex`, `resolveTeam`, `runSearch`, `renderAutocomplete`, `selectAcItem`, `renderIntro` | The team-and-player index, its search and the intro's team list; a saved search is `team:<letter>` or `player:<name>`, never a playoff code |
 | `renderAwards` | `buildTeamPodium()` instead of `buildPodiums()` |
 | `categoryLabel` | `'__team__'` reads *Team Championship* |
-| `medalRowHTML`, `awardsCardHTML`, the image exports | Show the team name, with the roster under it on screen only |
+| `medalRowHTML`, `awardsCardHTML` | Show the team name, with the roster under it |
+| `drawPodiumCard`, `renderWholeTournamentCard` | Draw the team name with the roster beneath (`wrapCanvasList`, breaking only between names); the podium card's fixed-height row uses `fitRosterLines` (24 → 20 → 17px, then "+N more") |
 
 `buildTeamPodium()` returns one podium in the usual shape. Gold is the Final
 matchup's winner, silver its loser and bronze the Bronze matchup's winner; each
