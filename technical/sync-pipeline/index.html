@@ -1,0 +1,3784 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/technical/sync-pipeline/">
+      
+      
+        <link rel="prev" href="../architecture/">
+      
+      
+        <link rel="next" href="../scoresheet-pipeline/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Sync pipeline - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sync-pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sync pipeline
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../specs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-sheet-github-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The sheet → GitHub path
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The sheet → GitHub path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commit conflicts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edit timing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Edit timing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline-the-time-based-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline: the time-based trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#measured-the-lock-based-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measured: the lock-based sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facility-completion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facility completion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-an-edit-becomes-a-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How an edit becomes a sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-the-secret-reaches-a-workbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the secret reaches a workbook
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-runtime-fetched-event-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The runtime-fetched event registry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syncdaylive-the-go-live-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /sync/:day/live — the go-live override
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sheet-tabs-are-addressed-by-name-not-gid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sheet tabs are addressed by name, not GID
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-push-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live push delivery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Live push delivery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Worker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-syncday-publishes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How syncDay publishes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-sync-method-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The sync-method switch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-sheet-github-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The sheet → GitHub path
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The sheet → GitHub path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commit conflicts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edit timing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Edit timing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline-the-time-based-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline: the time-based trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#measured-the-lock-based-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measured: the lock-based sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#facility-completion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facility completion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-an-edit-becomes-a-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How an edit becomes a sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-the-secret-reaches-a-workbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the secret reaches a workbook
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-runtime-fetched-event-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The runtime-fetched event registry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syncdaylive-the-go-live-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /sync/:day/live — the go-live override
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sheet-tabs-are-addressed-by-name-not-gid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sheet tabs are addressed by name, not GID
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-push-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live push delivery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Live push delivery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Worker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-syncday-publishes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How syncDay publishes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-sync-method-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The sync-method switch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/technical/sync-pipeline.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="sync-pipeline">Sync pipeline<a class="headerlink" href="#sync-pipeline" title="Permanent link">&para;</a></h1>
+<p>How a score typed into a Google Sheet ends up on the public site, and how
+<code>sage-tools-api</code> knows which spreadsheets belong to which event without a
+redeploy. <a href="#live-push-delivery">Live push delivery</a> covers the last hop, from
+Cloud Run to open pages.</p>
+<h2 id="the-sheet-github-path">The sheet → GitHub path<a class="headerlink" href="#the-sheet-github-path" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Facility Google Sheet
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   |  installable onEdit trigger, document-locked, syncs from the edit itself
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   |  (scripts/sheets-sync.gs)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   v
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>POST /sync/:day?facility=&lt;name&gt;   (X-Sync-Secret header, or an operator's bearer token;
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   |                               X-Edit-At header carries the edit time)
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>   |  SheetsCsvFetcher (default) or GvizCsvFetcher (?method=csv fallback)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>   |  read the day's snapshot + version from the live Worker (GitHub only if it holds none),
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   |  merge — never drop a facility on failure — and publish with expectedVersion;
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>   |  re-read and re-merge on a 409 version conflict (3 attempts)
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>   v
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>Cloudflare Worker "sage-live": one Durable Object per &lt;event&gt;/&lt;day&gt;
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>   |  stores {version, snapshot}; pushes every accepted publish to its WebSockets
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>   |     +--&gt; every open page, over wss://.../live/&lt;event&gt;/&lt;day&gt;
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>   v
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>GitHub Contents API commit -&gt; event-data/&lt;event-key&gt;/data/&lt;day&gt;.json   (the archive)
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>   |  GitHub Pages redeploys on push (no cache-purge step)
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>   v
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>A page with no open socket fetches https://sage-match-control.github.io/event-data/&lt;event-key&gt;/data/&lt;day&gt;.json
+</code></pre></div>
+<p>With <code>LIVE_PUSH_URL</code> unset the Worker steps are skipped: the merge reads the
+file from GitHub and the commit is the publish. The same happens for a single
+sync whose Worker calls fail.</p>
+<p>Key pieces, in <code>sage-tools-api/src/sync/</code>:</p>
+<ul>
+<li><strong><code>SheetsCsvFetcher</code></strong> — the default path, reads via the Sheets API.</li>
+<li><strong><code>GvizCsvFetcher</code></strong> — a fallback path (<code>?method=csv</code>) using Google's
+  <code>gviz</code> CSV export, for when the Sheets API path has trouble.</li>
+<li><strong><code>SyncService</code></strong> — orchestrates a sync: resolves the day's config,
+  fetches each facility (in parallel, via <code>ConcurrencyPool</code>), merges results
+  with whatever's already published (a facility that fails to fetch keeps
+  its last-known-good data rather than vanishing from the snapshot), and
+  hands the result to the publishers.</li>
+<li><strong><code>LivePublisher</code></strong> — the client for the live Worker: <code>read(event, day)</code>
+  returns the day's <code>{ version, snapshot }</code>, and <code>publish(event, day,
+  snapshot, expectedVersion)</code> answers <code>{ ok: true, version }</code> or, when
+  another publish got there first, <code>{ ok: false, conflict: true }</code>. It is
+  <code>enabled</code> only when both <code>LIVE_PUSH_URL</code> and <code>LIVE_PUSH_SECRET</code> are set.</li>
+<li><strong><code>GitHubPublisher</code></strong> — wraps the Contents API. Used both to publish a new
+  snapshot and (shared with the config store below) to read
+  <code>config/events.json</code>. A failed commit throws an error carrying the HTTP
+  <code>status</code>.</li>
+</ul>
+<p>Both fetchers are pure functions of <code>(facility, sheets)</code> — neither imports
+config directly; <code>SyncService</code> resolves the day's sheet names once and
+passes them down.</p>
+<h3 id="commit-conflicts">Commit conflicts<a class="headerlink" href="#commit-conflicts" title="Permanent link">&para;</a></h3>
+<p>Every facility of a day writes into the same <code>&lt;event&gt;/data/&lt;day&gt;.json</code>, and
+every commit of every event moves the one <code>main</code> branch of <code>event-data</code>. A
+commit made against a stale sha is rejected with <code>409</code>, which means another
+commit landed first — not necessarily that this file changed, since GitHub
+moves the branch one commit at a time, so two syncs of different files (two
+events on one day, or a sync and a Live/Hide override writing
+<code>config/events.json</code>) can collide too.</p>
+<p><code>SyncService.syncDay</code> therefore reads, merges and commits in a loop of at
+most 3 attempts (<code>COMMIT_ATTEMPTS</code>). On a <code>409</code> it re-reads the file and
+re-merges the facility data it already fetched (the sheets are not read
+again), then commits again; any other error, or a third <code>409</code>, is thrown.
+<code>SyncService.setLiveOverride</code> and <code>SyncConfigStore.setIsLive</code> do the same,
+re-reading and re-applying their one change. The sync response carries
+<code>attempts</code>; each retry logs <code>commit conflict (attempt n/3)</code>.</p>
+<p>The live Worker has the same race: two syncs read version <code>n</code> and both publish
+with <code>expectedVersion: n</code>. The Durable Object answers the loser <code>409</code>, and the
+sync re-reads, re-merges and publishes again, up to 3 times, logging
+<code>live version conflict (attempt n/3)</code>. The merge that follows is against the
+snapshot that won, so neither facility's data is lost.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>node<span class="w"> </span>scripts/verify-sync-merge.mjs
+</code></pre></div>
+<h3 id="edit-timing">Edit timing<a class="headerlink" href="#edit-timing" title="Permanent link">&para;</a></h3>
+<p>Apps Script sends the edit's time as <code>X-Edit-At</code> (epoch ms). Cloud Run
+ignores it unless it is within the last hour and not in the future. A
+facility-scoped sync records it as that facility's <code>lastEditAt</code> in the
+snapshot; a full resync carries the published value forward. Each sync logs</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>timing edit→request=&lt;n&gt;ms fetch=&lt;n&gt;ms publish=&lt;n&gt;ms live=&lt;n&gt;ms archive=&lt;n&gt;ms edit→published=&lt;n&gt;ms
+</code></pre></div>
+<p>(<code>edit→…</code> read <code>n/a</code> for a manual sync, which sends no edit time; <code>live</code> and
+<code>archive</code> read <code>n/a</code> when that step did not run) and returns the same figures
+as <code>timing</code>. <code>publish</code> runs from the first read to the end of the archive
+commit; <code>live</code> is the reads and publishes to the Worker, all attempts.
+<code>edit→published</code> is measured when the live publish succeeds, since that is
+when open pages see the edit, not after the archive. To read them afterwards (PowerShell, <code>gcloud</code>
+signed in; inner double quotes escaped as <code>\"</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gcloud logging read 'resource.type=cloud_run_revision AND resource.labels.service_name=sage-tools-api AND textPayload:\"timing edit\"' --freshness=1d --format='value(timestamp,textPayload)' --project=sage-tools-api
+</code></pre></div>
+<h4 id="baseline-the-time-based-trigger">Baseline: the time-based trigger<a class="headerlink" href="#baseline-the-time-based-trigger" title="Permanent link">&para;</a></h4>
+<p>Before the lock-based sync, <code>sheets-sync.gs</code> scheduled a one-shot
+<code>.timeBased().after(DEBOUNCE_MS)</code> trigger (<code>runIfSettled</code>) from every edit.
+Measured on the Piggleball workbook on 1 October 2026 (five bursts, from the
+Executions page: start of the last <code>onEditInstallable</code> to start of the
+<code>runIfSettled</code> that followed):</p>
+<table>
+<thead>
+<tr>
+<th>Burst</th>
+<th>Delay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>single edit</td>
+<td>119 s</td>
+</tr>
+<tr>
+<td>single edit</td>
+<td>70 s</td>
+</tr>
+<tr>
+<td>3 edits</td>
+<td>74 s</td>
+</tr>
+<tr>
+<td>19 edits</td>
+<td>22 s</td>
+</tr>
+<tr>
+<td>6 edits</td>
+<td>108 s</td>
+</tr>
+</tbody>
+</table>
+<p>That is a median of about 74 s against the 3 s intended, and up to about two
+minutes before the sync even started. Each <code>onEditInstallable</code> run took
+1.3–3.3 s, mostly deleting and recreating triggers. Edits running in
+parallel raced on that delete-and-create and left a stray trigger: the
+19-edit burst produced a second <code>runIfSettled</code> about a minute after the
+first, which is the same workbook syncing twice. The lock-based sync
+replaces all of this.</p>
+<h4 id="measured-the-lock-based-sync">Measured: the lock-based sync<a class="headerlink" href="#measured-the-lock-based-sync" title="Permanent link">&para;</a></h4>
+<p>The same workbook, 1 October 2026, after the lock-based script was pasted
+in, before and after <code>SYNC_MIN_GAP_MS</code> (Cloud Run's <code>timing</code> lines plus the
+Executions page). Without the gap: about 20 syncs across a single edit, two
+edits 3 s apart and two bursts of rapid edits. With the 5 s gap: 10 syncs
+across a single edit, a two-edit burst, a 22 s burst of about 14 edits and a
+short burst of four.</p>
+<table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>Without the gap</th>
+<th>With the 5 s gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edit → request reaches Cloud Run (<code>edit→request</code>)</td>
+<td>0.4–3.1 s, typically 1–2 s</td>
+<td>0.4–4.7 s</td>
+</tr>
+<tr>
+<td>Cloud Run fetch</td>
+<td>0.2–1.4 s, ~0.3 s typical</td>
+<td>0.2–2.0 s</td>
+</tr>
+<tr>
+<td>Cloud Run publish (read + commit)</td>
+<td>1.0–1.5 s, ~1.2 s typical</td>
+<td>1.1–1.3 s</td>
+</tr>
+<tr>
+<td>Edit → published (<code>edit→published</code>)</td>
+<td>2.0–4.6 s, median ~3.3 s</td>
+<td>2.0–6.1 s, median ~3.5 s</td>
+</tr>
+<tr>
+<td>Syncs during steady typing</td>
+<td>one every ~3 s</td>
+<td>one every ~5 s</td>
+</tr>
+<tr>
+<td>Non-holder <code>onEditInstallable</code> run</td>
+<td>0.6–2.2 s, median ~1.1 s</td>
+<td>0.7–2.1 s, median ~1.2 s</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>A sync round takes about 3 s (the 1.5 s settle plus about 1.5 s of Cloud
+  Run), so without the gap a steady stream of edits produced one sync every
+  3 s: a 26 s burst of about 16 edits produced seven syncs. With the gap a
+  22 s burst of about 14 edits produced five. Every edit was in the last
+  sync either way. No <code>runIfSettled</code> ran, and no commit conflict occurred
+  (one workbook cannot collide with itself).</li>
+<li>The gap costs latency only when an edit lands just after a sync started:
+  it then waits for the next one, up to about 5 s (the 6.1 s figure above).
+  The last edit of a burst published within 2.0 s when the gap had already
+  elapsed. A lone edit after a quiet spell is unaffected.</li>
+<li>The lock holder's own run is longer with the gap (up to about 15 s for a
+  22 s burst) because sleeping counts as trigger runtime. That cost follows
+  the length of a burst, not the number of edits.</li>
+<li>An <code>onEditInstallable</code> run that does not hold the lock still takes
+  0.6–2.2 s, median about 1.1 s, against 1.3–3.3 s before. That is the
+  figure trigger-runtime quota is spent at, so a busy three-facility day
+  lands nearer 50–60 minutes than the 20–30 an estimate of under a second
+  per edit gives.</li>
+<li><code>lastEditAt</code> is recorded when the script reads the edit, 1–2 s after the
+  trigger starts, so <code>edit→published</code> slightly understates the delay from
+  the keystroke.</li>
+<li>The first <strong>Sync now</strong> after a quiet spell took about 11 s although Cloud
+  Run's own <code>fetch</code> and <code>publish</code> were about 1.5 s: with <code>--min-instances 0</code>
+  the first request after idle pays a cold start.</li>
+</ul>
+<h3 id="facility-completion">Facility completion<a class="headerlink" href="#facility-completion" title="Permanent link">&para;</a></h3>
+<p>Each facility in a published snapshot carries <code>syncedAt</code> (restamped on every
+successful fetch) and <code>completedAt</code>, the moment it finished play, or <code>null</code>
+while matches are left. Nothing in the sheet timestamps a match, so
+<code>src/sync/facilityCompletion.mjs</code> infers "finished": every non-BYE match has
+both scores in. <code>resolveCompletedAt</code> then decides the value against what was
+already published:</p>
+<table>
+<thead>
+<tr>
+<th>Facility now</th>
+<th>Previously stamped</th>
+<th>Publishes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>not finished</td>
+<td>anything</td>
+<td><code>null</code>. Clearing a score reopens the day</td>
+</tr>
+<tr>
+<td>finished</td>
+<td>yes</td>
+<td>the original stamp, carried forward</td>
+</tr>
+<tr>
+<td>finished</td>
+<td>no</td>
+<td>now</td>
+</tr>
+</tbody>
+</table>
+<p>That is what lets <code>syncedAt</code> stay a "last heard from" time while
+<code>completedAt</code> stays a fixed end time. A manual full resync restamps every
+facility's <code>syncedAt</code> but leaves <code>completedAt</code> alone. An empty or header-only
+CSV is never "finished", and neither is a CSV whose only rows are BYEs.</p>
+<p>The rules copy Control Center's <code>rowsToMatches</code>, <code>sideIsBye</code> and
+<code>computeFacilityProgress</code> exactly: a match is played only when <strong>both</strong>
+scores are numbers, and a side is a BYE when its team code <strong>or</strong> either
+player name is <code>bye</code> (case-insensitive). Change one copy and you have to
+change the other (see <a href="../control-center/">Control Center</a> § Actual end).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>node<span class="w"> </span>scripts/verify-facility-completion.mjs
+</code></pre></div>
+<p>checks the completion rule (BYEs, zero scores, quoted names, missing
+columns) and the resync story (first finish, repeated resyncs, a cleared and
+re-entered score). Unlike the other <code>verify-*</code> scripts, it covers code in
+<code>src/</code>, not Apps Script.</p>
+<p><strong>Apps Script side:</strong> <code>scripts/sheets-sync.gs</code>, installed once per facility
+spreadsheet, watches that workbook's configured tabs (SCHEDULE and Court
+Control by default) via an <em>installable</em> <code>onEdit</code> trigger (a bare <code>onEdit(e)</code>
+can't call <code>UrlFetchApp</code>, which is why it has to be installed rather than the
+default simple trigger), and POSTs to Cloud Run straight from the edit. See
+<a href="#how-an-edit-becomes-a-sync">How an edit becomes a sync</a> below.</p>
+<p>The file itself is <strong>identical in every workbook</strong> and holds no
+spreadsheet-specific values. Everything that identifies a workbook — day key,
+facility name, watched tabs — lives in that project's Script Properties, set
+through <strong>SAGE → Set up live sync</strong>, a menu-driven dialog rather than edited
+constants. Setup validates what it's given before saving anything:</p>
+<ul>
+<li>A <code>GET /sync/config</code> call, gated on the entered secret, checks the secret
+  itself (401 blocks) and that the entered day key is registered (blocks with
+  the real list of registered day keys otherwise).</li>
+<li>A real test sync (<code>POST /sync/:day?facility=</code>) checks the facility name —
+  an "unknown facility" rejection blocks and names the valid alternatives —
+  and, on success, publishes a real snapshot as end-to-end proof the workbook
+  is wired up.</li>
+<li>A timeout, 5xx, or unreachable host at either step is <strong>not</strong> blocking: the
+  configuration may be correct and Cloud Run simply unavailable, so setup
+  saves anyway and reports a warning instead.</li>
+</ul>
+<p>Identity values (day key, facility name, watched tabs) are only honoured for
+the spreadsheet they were saved for, keyed off a stored spreadsheet ID — a
+workbook copied from an already-configured one reads as unconfigured rather
+than inheriting the source's day key and publishing over its snapshot. The
+shared secret is <strong>not</strong> guarded this way, since it's the same one Cloud Run
+env var for every workbook of every event.</p>
+<h3 id="how-an-edit-becomes-a-sync">How an edit becomes a sync<a class="headerlink" href="#how-an-edit-becomes-a-sync" title="Permanent link">&para;</a></h3>
+<p>Every edit to a watched tab records <code>PROP_LAST_EDIT</code>, then tries to take the
+workbook's <strong>document lock</strong> without waiting (<code>syncUntilSettled_</code>). The
+execution that gets the lock waits <code>SYNC_SETTLE_MS</code> (1.5 s, so the second
+score of a match usually lands in the same sync), syncs, and checks whether
+any edit was recorded after that sync started; if so it syncs again, waiting
+first so that the new sync starts at least <code>SYNC_MIN_GAP_MS</code> (5 s) after the
+previous one did. Every sync is a GitHub commit (the archive; a Pages build
+follows each one), so the gap caps steady typing at about one commit every 5 s instead of one every
+3 s; after a quiet spell a lone edit waits only the settle. (The start time
+of the last sync is kept in a script property, <code>lastSyncStartTime</code>, because a
+different execution may hold the lock next.) An edit
+that cannot take the lock returns immediately — the lock holder covers it,
+and after releasing the lock the holder checks once more for an edit that
+arrived in between.</p>
+<p>A sync that fails with a <code>5xx</code>, a network error or a timeout is tried once
+more after <code>SYNC_RETRY_MS</code> (2 s); a <code>4xx</code> is not retried, since a bad secret,
+day or facility will not fix itself. Cloud Run retries its own commit
+conflicts (above), so this mostly covers a network error or a failed cold
+start.</p>
+<p>The lock is the <em>document</em> lock, not the script lock, because <code>attendance.gs</code>
+shares the project in live workbooks and holds the script lock while marking
+a player; sharing it would make edits made during a mark lose their sync.</p>
+<p>An edit storm that outlasts <code>SYNC_BUDGET_MS</code> hands over to a one-shot
+time-based trigger (<code>runIfSettled</code>, <code>DEBOUNCE_MS</code> later) instead of running
+past Apps Script's execution cap. That trigger is otherwise unused; a
+<code>runIfSettled</code> left scheduled by an older version fires once and runs the
+same loop.</p>
+<p>Installable triggers count against the installing account's daily trigger
+runtime (90 minutes on a consumer Google account, 6 hours on Workspace,
+shared by every workbook that account installed triggers in). A burst spends
+about the settle plus the Cloud Run round trip, so a day of a few hundred
+syncs lands around 20–30 minutes.</p>
+<h3 id="how-the-secret-reaches-a-workbook">How the secret reaches a workbook<a class="headerlink" href="#how-the-secret-reaches-a-workbook" title="Permanent link">&para;</a></h3>
+<p>The secret is the one value an operator should never have to type, and the one
+that has to survive a workbook being <em>copied</em> — a generated dual-meet workbook
+starts life as a copy of the Dual Meet Master.</p>
+<p>Script Properties can't do that job. They belong to the Apps Script project,
+and copying a spreadsheet creates a new, empty one, so a secret set in the
+Master's Project Settings reaches no copy. The secret is therefore stored as
+<strong>developer metadata on the spreadsheet itself</strong>, which Drive does copy, under
+the key <code>SAGE_SYNC_SECRET</code>. It is entered once on the Master through <strong>SAGE →
+Set shared secret</strong>, which validates it against Cloud Run before writing.</p>
+<p>Every copy made afterwards carries it. Setting up a facility workbook is
+therefore day, venue and tabs only — the dialog reads <em>Secret stored</em> and never
+asks. At the copy's first successful setup the value is promoted into that
+workbook's own Script Properties, so it stands alone from then on and rotating
+the Master's secret can't unconfigure a venue mid-event.</p>
+<p>Only the secret is carried. Day key and facility name are deliberately excluded:
+metadata copying is the whole point of it, so putting identity there would hand
+every copy an inherited venue and defeat the guard above.</p>
+<p>The <strong>Set shared secret</strong> menu item appears only where it belongs — on a
+master (labelled <em>Replace shared secret</em>, since that's the rotation path) and
+on a hand-built workbook that carries no secret at all. Copies don't show it.
+A master is recognised two ways: it is the spreadsheet the carried secret was
+entered in, or it is named <code>SAGE … Master</code> and carries a secret entered
+somewhere else. The second covers the Standard Tournament Master, which is a
+copy of an event workbook and so inherits that workbook's secret; using
+<em>Replace shared secret</em> there once makes the secret its own. A copy is told
+apart from its master by name: <code>Copy of …</code> until it is generated, then the
+event's own name. <code>secretMenuItem_</code> makes the decision and is checked by
+<code>scripts/verify-standard-generator.mjs</code>.
+The secret now travels inside the spreadsheet file, so sharing a copy of the
+Master shares the secret with it.</p>
+<p><code>sheets-sync.gs</code> also declares <code>onOpen</code>, contributing <strong>Generate
+Scoresheets</strong> (deep-links into the Scoresheet Generator with this workbook's
+day and venue preselected — a link only, no HTTP request and no new OAuth
+scope), <strong>Sync now</strong>, <strong>Pause live sync</strong> / <strong>Resume live sync</strong>, <strong>Live
+sync settings</strong> once configured (or <strong>Set up live sync</strong> otherwise),
+<strong>Set shared secret</strong> where it applies (see above), <strong>Fill match numbers</strong>,
+and <strong>Help</strong>. The last two are always present regardless of configuration
+state, since this is the one file guaranteed to be in every workbook. Help
+shows a workflow refresher plus this workbook's live status (configured/not,
+paused/not) in one dialog, written for organizers rather than developers.</p>
+<p><strong>Fill match numbers</strong> numbers the matches on <code>SCHEDULE</code>. It asks for a base
+and gives the first match base + 1. It reads the grid by its fixed shape:
+<code>Court &lt;n&gt;</code> headings on row 5 mark each court's match-number column, with
+<code>teamCode1</code> one column left and <code>teamCode2</code> one column right. Slots are
+two-row pairs from row 6. A slot is a match when both codes are filled in
+(<code>-</code> counts as empty). Matches are numbered left to right across courts,
+then down the slots, and every other slot's number cell gets <code>-</code>, so no
+leftover number collides with a new one. It writes nothing if any slot has a
+code on one side only, or if a code sits on a slot's second row (a grid that
+doesn't start at row 6). The planning step, <code>planMatchNumbers_</code>, is pure and
+separate from the Sheets reads and writes.</p>
+<p>A base exists so a multi-venue event can give each venue's workbook its own
+range (1000 → 1001…, 2000 → 2001…). A day's venues merge into one snapshot,
+and the site treats <code>matchNumber</code> as unique within a day. The numbers stay
+plain integers because every page parses them with <code>parseInt</code> and drops a
+row that doesn't parse.</p>
+<p>It then writes the same numbers down the <code>CSV</code> tab's <code>matchNumber</code> column,
+one per row from row 2. That column is what every other <code>CSV</code> column looks
+its match up by, and the site only shows matches listed in it. A generated
+workbook fills it with literal numbers, so it doesn't follow <code>SCHEDULE</code> by
+itself. Rows past the last match are blanked, and the site skips them. If
+there are more matches than rows, row 2 is copied down first, so the new
+rows carry the same relative lookup formulas the generator tiles. The tab
+is left alone when that column holds formulas (it already follows
+<code>SCHEDULE</code>) or when it has only a header row (there are no formulas to
+copy). A final check warns if any new number is still missing from the
+column. Script writes don't fire the <code>onEdit</code> trigger, so nothing
+publishes until the next sync.</p>
+<p>Pausing is for editing a watched tab (rosters, a mid-event schedule fix) without
+publishing every intermediate state — it leaves the saved configuration and
+the installed trigger alone, it just makes <code>onEditInstallable</code> and the
+fallback trigger no-op until resumed. It's a backstop, not the primary
+safeguard: the trigger doesn't exist at all until <code>Set up live sync</code> has run
+once, so the normal workflow — finish rosters and schedule fixes, wire up
+sync last — never needs it. <code>Sync now</code> still works while paused, since
+that's an explicit manual action rather than the automatic edit-triggered
+path pausing is scoped to. A generated workbook carries both this file and
+one generator — <code>sheet-generator.gs</code> or <code>standard-generator.gs</code> — and Apps
+Script silently lets the last-loaded file's <code>onOpen</code> win when two are
+declared. So all three files declare a <strong>byte-identical</strong> <code>onOpen</code> body that
+delegates to feature-detected builders (<code>addSyncMenuItems_</code> in this file,
+<code>addGeneratorMenuItems_</code> in each generator), each contributing only its own
+items and its own leading separator. Which declaration wins can't matter,
+since the bodies are the same text. Change one file's <code>onOpen</code>, change the
+other two to match — see
+<code>sage-docs/docs/specs/implemented/sync-script-configuration-spec.md</code> §7 for the full
+contract, and the divergences/design notes in
+<code>sage-docs/docs/specs/implemented/scoresheet-event-picker-spec.md</code> §8.3 for why a
+shared-contract shape was chosen over the alternatives.</p>
+<h2 id="the-runtime-fetched-event-registry">The runtime-fetched event registry<a class="headerlink" href="#the-runtime-fetched-event-registry" title="Permanent link">&para;</a></h2>
+<p>The event/day/facility registry — which spreadsheets exist, their
+labels, their <code>isLive</code> state — lives at <code>event-data/config/events.json</code>, not
+in <code>sage-tools-api</code> source. This is deliberate: source-code config means
+adding an event or fixing a wrong sheet ID requires a full Cloud Build image
+rebuild (<code>gcloud run deploy --source .</code>, which reinstalls Chromium). A
+JSON file in a data repo means the same change is a commit, live within
+about a minute, with no redeploy.</p>
+<p><strong><code>SyncConfigStore</code></strong> (<code>src/sync/SyncConfigStore.mjs</code>) owns fetching,
+caching, and validating it:</p>
+<ul>
+<li><strong>Cache hit within the TTL</strong> (<code>SYNC_CONFIG_TTL_MS</code>, default 60s) — no
+  network call.</li>
+<li><strong>Cache miss</strong> — fetches via <code>GitHubPublisher.fetchExisting()</code> (the same
+  Contents API path used for snapshots), validates, swaps in.</li>
+<li><strong>Concurrent callers on a cold instance</strong> share one in-flight request; a
+  rejection isn't cached.</li>
+<li><strong>Fetch fails, something already held</strong> — logs a warning, keeps serving
+  the held config. A sync during a GitHub outage still fails, but at the
+  same point it always would have (fetching/publishing the snapshot itself)
+  — config availability doesn't add a new failure mode.</li>
+<li><strong>Fetch succeeds but validation fails</strong> — the bad config is <em>refused
+  wholesale</em>, not partially applied; the previous good config keeps serving,
+  and an error names the failed rule. A typo in a commit can't crash-loop
+  the service or half-apply.</li>
+<li><strong>Nothing held, no usable fetch</strong> — falls back to a bundled seed
+  (<code>events.seed.json</code>, a snapshot of the config as of the last deploy),
+  logged at error level. This only fires on a cold start during a GitHub
+  outage, or a cold start right after someone commits a broken config —
+  exactly the scenario the whole mechanism exists to make safer.</li>
+</ul>
+<p>Validation (rejects the whole file if any rule fails): a schema <code>version</code>
+check, event/day keys restricted to <code>^[a-z0-9][a-z0-9-]*$</code> (they become
+path segments and filenames — this is what makes a <code>../</code> traversal
+impossible), day keys globally unique <em>across every event</em> (two events can
+never race to publish into each other's folder, since a day key is also the
+<code>/sync/:day</code> route), each day needs a <code>label</code> and a <code>facilities</code> array, and
+facility names unique within a day. Full shape and rules:
+<a href="../event-data-config/">event registry schema</a>.</p>
+<p><strong>Observability:</strong></p>
+<ul>
+<li><code>GET /ping</code>'s <code>X-Sync-Config</code> header reports the cached config's short
+  SHA + source (<code>a1b2c3d/remote</code> or <code>seed/fallback</code>) — but never <em>triggers</em>
+  a load itself, since Cloud Run's health checks hit this endpoint and it
+  must stay fast even when GitHub is unreachable.</li>
+<li><code>GET /sync/config</code> (secret- or token-gated) returns the full resolved
+  view for debugging: SHA, source, age, every registered event/day, and the
+  live push state (<code>live: { enabled, baseUrl, switch, active }</code>).</li>
+</ul>
+<h2 id="syncdaylive-the-go-live-override"><code>/sync/:day/live</code> — the go-live override<a class="headerlink" href="#syncdaylive-the-go-live-override" title="Permanent link">&para;</a></h2>
+<p>Separate from a data sync: this endpoint (operator-token-only, no shared
+secret) is Mission Control's public-site kill switch. It writes the day's
+<code>isLive</code> value (<code>true</code> / <code>false</code> / <code>"auto"</code>) into <code>config/events.json</code>, then
+immediately republishes that day's snapshot with the new value stamped in
+— so a later real sync can never silently revert an operator's override,
+since every sync re-reads <code>isLive</code> from the registry each time. See
+<a href="../auth/">Auth</a> for the token vs. shared-secret distinction.</p>
+<p>The republish goes through the live Worker when live push is on (then is
+archived to GitHub), so pages holding a WebSocket hide or show the day within
+a second or two instead of waiting for the next score edit. If the Worker
+cannot be reached it is a GitHub commit, as without live push.</p>
+<h2 id="sheet-tabs-are-addressed-by-name-not-gid">Sheet tabs are addressed by name, not GID<a class="headerlink" href="#sheet-tabs-are-addressed-by-name-not-gid" title="Permanent link">&para;</a></h2>
+<p>Both fetch paths address a facility's matches/standings tabs by name
+(<code>matchesSheetName</code>/<code>standingsSheetName</code>, both overridable per day, default
+<code>CSV</code>/<code>STANDINGSCSV</code>) — never by numeric tab GID, since a GID is assigned
+per-workbook and doesn't carry over if a spreadsheet is ever duplicated
+from another event's.</p>
+<h2 id="live-push-delivery">Live push delivery<a class="headerlink" href="#live-push-delivery" title="Permanent link">&para;</a></h2>
+<p>Without push, a page polls the published GitHub Pages snapshot every 10
+seconds (<code>POLL_INTERVAL_MS</code>). Measured at Pickle for Sight (27 September
+2026), Cloud Run's sync takes <strong>1.6s</strong> (p50) but GitHub Pages takes <strong>25s</strong>
+(p50) / <strong>52s</strong> (p90) from the data commit to a finished deploy, longer in busy
+stretches because each new commit cancels the build in progress. With the poll,
+a score reached a viewer in roughly <strong>35–40 seconds</strong> once it was published,
+although the edit itself reaches publication in about 2–6 s (see
+<a href="#measured-the-lock-based-sync">Measured: the lock-based sync</a>). Live push
+removes both the Pages build and the poll from the path: an edit reaches an
+open page in about <strong>2–5 seconds</strong>.</p>
+<p><a href="../../specs/in-progress/durable-object-push-spec/">Live push delivery</a> is the
+spec; <a href="../../specs/implemented/immediate-sync-spec/">Immediate sync</a> is the
+prerequisite it builds on.</p>
+<h3 id="the-worker">The Worker<a class="headerlink" href="#the-worker" title="Permanent link">&para;</a></h3>
+<p><code>sage-tools-api/live-worker/</code> is a Cloudflare Worker, <code>sage-live</code>, plus a
+Durable Object class, <code>DayChannel</code>: one object per <code>&lt;event&gt;/&lt;day&gt;</code>, holding
+<code>{ version, snapshot }</code>. The Cloud Run image never contains it, and it does not
+deploy on push — see <a href="../deployment/#live-worker-cloudflare">Deployment</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Auth</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /health</code></td>
+<td>none</td>
+<td><code>200 ok</code></td>
+</tr>
+<tr>
+<td><code>GET /live/&lt;event&gt;/&lt;day&gt;</code> (WebSocket upgrade)</td>
+<td><code>Origin</code> must be the site, localhost, or absent</td>
+<td><code>101</code>, then <code>{type:"snapshot"\|"empty"}</code> messages; <code>403</code> wrong origin, <code>426</code> no upgrade</td>
+</tr>
+<tr>
+<td><code>GET /snapshot/&lt;event&gt;/&lt;day&gt;</code></td>
+<td><code>X-Publish-Secret</code></td>
+<td><code>200 {version, snapshot}</code>, or <code>404 {version: 0}</code></td>
+</tr>
+<tr>
+<td><code>POST /publish/&lt;event&gt;/&lt;day&gt;</code> <code>{expectedVersion, snapshot}</code></td>
+<td><code>X-Publish-Secret</code></td>
+<td><code>200 {version, clients}</code>; <code>409</code> if <code>expectedVersion</code> is not the current version; <code>400</code> bad body</td>
+</tr>
+</tbody>
+</table>
+<p>Event and day keys match <code>^[a-z0-9][a-z0-9-]{0,63}$</code>; anything else is <code>404</code>.
+A wrong or missing secret is <code>401</code>. A socket receives the current snapshot
+(or <code>empty</code>) on connect and another after every accepted publish. Clients
+send only the text <code>ping</code>, which Cloudflare answers <code>pong</code> without waking the
+object, so an idle object hibernates and is not billed for duration. The
+version check and the write happen with no other request in between, which is
+what makes <code>expectedVersion</code> a safe compare-and-set.</p>
+<h3 id="how-syncday-publishes">How <code>syncDay</code> publishes<a class="headerlink" href="#how-syncday-publishes" title="Permanent link">&para;</a></h3>
+<p>After fetching the facilities, with live push on:</p>
+<ol>
+<li>Read the day's snapshot and version from the object, and GitHub's copy
+   alongside it. Merge into whichever is newer by <code>publishedAt</code>. They differ
+   after any stretch where syncs went through GitHub alone (the switch below, a
+   Worker outage, live push unconfigured): merging into the object's older copy
+   would republish, and then archive over GitHub, facility data GitHub already
+   has newer. The object's version is still what the publish checks. With an
+   empty object (the first sync since it was created) GitHub's copy is what is
+   merged into. GitHub's read failing only matters when the object holds
+   nothing.</li>
+<li>Merge (the same <code>#buildSnapshot</code> as without live push), stamp
+   <code>publishedAt</code>, and publish with the version just read. On <code>409</code>, go back to
+   step 1, up to 3 attempts.</li>
+<li><strong>Archive</strong>: commit the same snapshot to GitHub. A <code>409</code> there is retried
+   with the object's current snapshot, which is the newest there is. Any other
+   failure — including GitHub's <code>403</code>/<code>429</code> rate limits — is logged and
+   reported as <code>archive: { committed: false }</code>; the request still succeeds,
+   because the live copy is correct and already visible. The next sync's
+   archive commit catches GitHub up.</li>
+</ol>
+<p>If a Worker call throws, or three publishes conflict, the sync publishes
+through GitHub alone and reports <code>live: { published: false, error }</code>. The
+response otherwise gains <code>live</code>, <code>archive</code> and <code>timing.liveMs</code> / <code>archiveMs</code>;
+<code>commitSha</code> is the archive commit's, or <code>null</code> if it failed. The live publish
+comes before the GitHub commit and both finish before the response is sent:
+Cloud Run throttles CPU after a response, so the archive is never
+fire-and-forget.</p>
+<p>Every snapshot carries <code>publishedAt</code>, restamped on every publish (live, GitHub
+and Live/Hide). Pages use it to decide which of two copies is newer.</p>
+<p><strong>Team rosters.</strong> For a <code>"type": "team"</code> day, <code>sheetsFor(day)</code> also names a
+roster tab (<code>Teams</code>, or the day's <code>rosterSheetName</code>). <code>SheetsCsvFetcher</code> adds
+it as a third range to the same <code>batchGet</code>, and
+<code>rosterCsvFromTeamsValues</code> (<code>src/sync/teamRoster.mjs</code>) turns it into
+<code>facilities[].rosterCsv</code>: <code>teamCode,player,level,gender</code>, and no other
+column of the tab. A workbook without the tab is fetched again without it, so
+a missing roster never fails a sync. A fetch that brings no roster (that case,
+or the gviz fallback, which never reads it) keeps the last published
+<code>rosterCsv</code> in the merge.</p>
+<p><strong>After publishing</strong>, <code>syncDay</code> awaits its optional <code>onFacilitiesSynced</code> hook
+with the facilities fetched fresh this round. That is
+<a href="../event-attendance/">attendance's</a> roster update: nothing for an event without
+attendance, and no Sheets call when a facility's roster is unchanged. It is
+bounded to 6 seconds and never changes the sync's response; a failure there is
+logged and the next sync tries again. Live/Hide does not call it.</p>
+<h3 id="the-sync-method-switch">The sync-method switch<a class="headerlink" href="#the-sync-method-switch" title="Permanent link">&para;</a></h3>
+<p>Control Center's Mission Control has a <strong>Sync method</strong> switch between <strong>Live
+push + GitHub</strong> and <strong>GitHub only</strong>, for an emergency where live updates
+misbehave and waiting to clear <code>LIVE_PUSH_URL</code> on Cloud Run is too slow. It
+calls <code>POST /sync/live-push</code> (operator token only), which writes a top-level
+<code>livePush</code> boolean into <code>event-data/config/events.json</code>. <code>false</code> makes every
+sync and every Live/Hide publish to GitHub alone, exactly as with live push
+unconfigured; absent or <code>true</code> leaves it to the environment. It is stored in
+the config, not in the Worker, so it works when the Worker is the thing that is
+broken. The instance that takes the request applies it at once; the others
+within <code>SYNC_CONFIG_TTL_MS</code>. Pages with an open socket notice within a minute:
+GitHub's copies carry newer <code>publishedAt</code> values, which the safety poll
+prefers, and from then on they poll GitHub as before push existed. The switch
+cannot turn on live push the environment does not configure.
+<code>GET /sync/config</code> reports it as <code>live.switch</code> (<code>on</code>/<code>off</code>) and <code>live.active</code>
+(configured and switched on).</p>
+<p><code>LIVE_PUSH_URL</code> (the Worker's base URL), <code>LIVE_PUSH_SECRET</code> (its
+<code>PUBLISH_SECRET</code>) and <code>LIVE_PUSH_TIMEOUT_MS</code> (default 4000) configure it.
+Clearing <code>LIVE_PUSH_URL</code> on the Cloud Run service is the rollback switch: a
+new revision, no code change. <code>GET /sync/config</code> reports
+<code>live: { enabled, baseUrl }</code>, never the secret.</p>
+<h3 id="pages">Pages<a class="headerlink" href="#pages" title="Permanent link">&para;</a></h3>
+<p>Each page that shows live data carries one identical block, marked
+<code>LIVE CHANNEL</code>, which opens a WebSocket to <code>/live/&lt;event&gt;/&lt;day&gt;</code> for the day
+it is showing and reconnects with backoff. The pages are Control Center, both
+templates' <code>index.html</code> and <code>schedule.html</code>, and the same pair of every event
+that has not finished. The block must stay byte-identical in every copy.</p>
+<p><code>fetchDaySnapshot</code> keeps its name and callers. While the socket is open it
+returns the pushed snapshot without touching the network; every
+<code>LIVE_SAFETY_POLL_MS</code> (60 s) it fetches GitHub once and keeps whichever copy
+has the later <code>publishedAt</code>, which catches a push path that has quietly
+stopped while the socket stays open. If GitHub fails (a <code>404</code> before a day's
+first archive, say) but a pushed copy exists, the pushed copy is used. With
+the socket down, the page polls GitHub every 10 seconds exactly as it did
+before push existed. A hidden tab closes its socket and reopens it when shown.
+Pages opened with <code>?fixture=</code> on localhost never connect.</p>
+<p><code>LIVE_BASE_URL</code> is one constant, inside the block, in every page. Empty
+disables push for that page. Control Center's Mission Control reads <strong>Live
+updates: push connected</strong> or <strong>Live updates: polling GitHub (push not
+connected)</strong>.</p>
+<h3 id="limits">Limits<a class="headerlink" href="#limits" title="Permanent link">&para;</a></h3>
+<p>On Cloudflare's free plan a Worker and its Durable Objects are capped at
+100,000 requests a day per account, counting one per connect, publish or read
+and 1 per 20 client pings (every 50 s per open page). That is about 10k a day
+for 200 viewers all day and about 93k for 2,000. At the cap, requests fail and
+pages stay on GitHub polling: today's speed, not an outage. The limit resets
+at 00:00 UTC, which is 08:00 in Manila. Some venue networks block WebSockets;
+those pages stay on polling. Anyone can open a socket to a valid-looking key
+(the data is already public on GitHub Pages); the <code>Origin</code> check stops other
+websites embedding the feed, not scripts.</p>
+<hr />
+<p><strong>Features:</strong> <a href="../../features/control-center/#mission-control">Control Center's Mission Control tab</a> uses this pipeline's resync/go-live actions.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../architecture/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Architecture">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Architecture
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../scoresheet-pipeline/" class="md-footer__link md-footer__link--next" aria-label="Next: Scoresheet pipeline">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Scoresheet pipeline
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

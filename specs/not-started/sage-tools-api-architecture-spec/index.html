@@ -1,0 +1,4848 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/not-started/sage-tools-api-architecture-spec/">
+      
+      
+        <link rel="prev" href="../automated-dry-run-spec/">
+      
+      
+        <link rel="next" href="../fast-data-delivery-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>sage-tools-api architecture hardening - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-sage-tools-api-architecture-hardening-tests-first" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              sage-tools-api architecture hardening
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-goals-non-goals-and-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Goals, non-goals and constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-this-spec-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What this spec answers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-behaviour-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Behaviour contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Behaviour contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-what-must-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 What must not change
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-what-changes-on-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 What changes on purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-target-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Target architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Target architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-dependency-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Dependency rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-the-snapshot-store-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 The snapshot store interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-the-retry-loop-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 The retry loop, once
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48-the-v1-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 The /v1 API
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Tests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-the-suite-that-comes-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The suite that comes first
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-tests-for-the-modules-this-spec-creates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Tests for the modules this spec creates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-pins-resolved-along-the-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Pins resolved along the way
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Phases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Phases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#60-phase-0-tests-before-code-a-separate-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.0 Phase 0 — tests before code (a separate spec)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61-phase-1-folder-moves-271" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Phase 1 — folder moves (2.7.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-phase-2-hardening-272" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Phase 2 — hardening (2.7.2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-phase-3-one-retry-loop-one-store-interface-domain-extraction-273" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Phase 3 — one retry loop, one store interface, domain extraction (2.7.3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-phase-4-publishing-strategies-and-the-syncservice-split-274" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Phase 4 — publishing strategies and the SyncService split (2.7.4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-phase-5-the-v1-api-280" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Phase 5 — the /v1 API (2.8.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-phase-6-build-docs-and-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Phase 6 — build, docs and workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-phase-7-the-sites-duplicated-code-decision-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Phase 7 — the site's duplicated code (decision only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-documentation-to-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Documentation to update
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-rollout-and-rollback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Rollout and rollback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-goals-non-goals-and-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Goals, non-goals and constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-this-spec-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What this spec answers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-behaviour-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Behaviour contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Behaviour contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-what-must-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 What must not change
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-what-changes-on-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 What changes on purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-target-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Target architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Target architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-dependency-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Dependency rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-the-snapshot-store-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 The snapshot store interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-the-retry-loop-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 The retry loop, once
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48-the-v1-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 The /v1 API
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Tests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-the-suite-that-comes-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The suite that comes first
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-tests-for-the-modules-this-spec-creates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Tests for the modules this spec creates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-pins-resolved-along-the-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Pins resolved along the way
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Phases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Phases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#60-phase-0-tests-before-code-a-separate-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.0 Phase 0 — tests before code (a separate spec)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61-phase-1-folder-moves-271" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Phase 1 — folder moves (2.7.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-phase-2-hardening-272" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Phase 2 — hardening (2.7.2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-phase-3-one-retry-loop-one-store-interface-domain-extraction-273" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Phase 3 — one retry loop, one store interface, domain extraction (2.7.3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-phase-4-publishing-strategies-and-the-syncservice-split-274" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Phase 4 — publishing strategies and the SyncService split (2.7.4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-phase-5-the-v1-api-280" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Phase 5 — the /v1 API (2.8.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-phase-6-build-docs-and-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Phase 6 — build, docs and workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-phase-7-the-sites-duplicated-code-decision-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Phase 7 — the site's duplicated code (decision only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-documentation-to-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Documentation to update
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-rollout-and-rollback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Rollout and rollback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/not-started/sage-tools-api-architecture-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-sage-tools-api-architecture-hardening-tests-first">Spec — <code>sage-tools-api</code> architecture hardening (tests first)<a class="headerlink" href="#spec-sage-tools-api-architecture-hardening-tests-first" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: not started.</strong> Nothing here is built. Written 2026-10-01 and
+revised 2026-10-02 against <code>sage-tools-api</code> 2.5.0 (live push 2.4.0 plus the
+operator switch 2.5.0) and the review recorded in §2. Revised again
+2026-10-03 against 2.7.0: attendance (2.6.0, <code>src/attendance/</code> and its
+three <code>/v1</code> routes, the <code>onFacilitiesSynced</code> hook) and team rosters (2.7.0,
+<code>src/sync/teamRoster.mjs</code>) are on <code>main</code>, and the phase versions in §6
+start after 2.7.0. If <code>main</code> has moved past that by the time a phase
+lands, take the next free version instead.</p>
+<p><strong>Prerequisite, met:</strong> the <a href="../../in-progress/durable-object-push-spec/">Live push delivery</a>
+code is committed to <code>main</code> of <code>sage-tools-api</code>, deployed to Cloud Run
+(2.5.0) and running against the <code>sage-live</code> Worker, and its 70-check
+<code>scripts/verify-sync-merge.mjs</code> passes. This spec refactors that code, so
+start from it, not before it. The test suite describes the code <strong>as it is on
+<code>main</code> when it is written</strong>; if the code has moved since this revision, the
+numbers in §2 and in the test-suite spec's §2 (line counts, route list, the 70
+checks) are the first thing to re-check.</p>
+<p><strong>Order is the point.</strong> A unit and integration test suite is built first,
+from its own spec, <a href="../../implemented/sage-tools-api-test-suite-spec/"><code>sage-tools-api-test-suite-spec.md</code></a>
+(this spec's Phase 0), against the code <strong>as it is today</strong>, and ends green.
+No production file changes until it does. Every later phase has to leave that
+suite green.</p>
+</blockquote>
+<p>Bring <code>sage-tools-api</code> to a shape that follows SOLID, has no duplicated
+conflict-retry logic, handles errors in one place, is configured and validated
+at startup, keeps its secrets comparison constant-time, names new endpoints the
+RESTful way, and is laid out by what each folder is for. Do it without changing
+any behaviour a deployed client can see, except the few listed in §3.2. <code>/ping</code>
+stays exactly as it is.</p>
+<hr />
+<h2 id="0-read-this-first-implementer-orientation">0. Read this first (implementer orientation)<a class="headerlink" href="#0-read-this-first-implementer-orientation" title="Permanent link">&para;</a></h2>
+<p>Assume no knowledge of this project beyond this page.</p>
+<p><strong>Repos.</strong> <code>D:\Personal\SAGE</code> is a plain folder holding four git repos. This
+spec changes <code>sage-tools-api/</code> (Node 22, Express, ESM <code>.mjs</code>, deployed to
+Google Cloud Run by a build trigger on every push to <code>main</code>), edits docs in
+<code>sage-docs/</code>, and (Phase 6) <code>CLAUDE.md</code> files in the other repos. It does not
+change <code>sage-match-control.github.io/</code> or <code>event-data/</code> except documentation
+paths.</p>
+<p><strong>Rules that apply to every change</strong> (from the root <code>CLAUDE.md</code>):</p>
+<ul>
+<li>Any code change in <code>sage-tools-api</code> bumps <code>package.json</code>'s version and adds a
+  matching entry to the Changelog in <code>sage-tools-api/README.md</code>. §6 gives the
+  version for each phase. Tests and docs alone do not bump it.</li>
+<li>Cite a spec from outside <code>sage-docs</code> as
+  <code>sage-docs/docs/specs/.../sage-tools-api-architecture-spec.md</code>, literally
+  <code>...</code> where the status folder goes. Inside <code>sage-docs</code>, links carry the real
+  folder.</li>
+<li>Documentation is written in the present tense: what the system does now.</li>
+<li><strong>Never deploy any of this on an event day, or in the few days before one.</strong>
+  Pushing <code>sage-tools-api</code> <code>main</code> deploys Cloud Run. Work on a branch
+  (<code>arch-refactor</code>) and merge only when the owner says so.</li>
+<li>Working copies use CRLF line endings. Keep them: an editor that rewrites a
+  whole file to LF turns a small diff into a whole-file one. Use <code>git mv</code> for
+  every move so history follows.</li>
+<li>No new <strong>runtime</strong> dependency. The test runner is Node's built-in
+  <code>node:test</code>. The <code>Dockerfile</code> installs with <code>npm install --omit=dev</code>, so a
+  dev-only dependency would never reach production, but this spec needs none.</li>
+</ul>
+<p><strong>Tooling facts.</strong></p>
+<ul>
+<li>Node 22 (the <code>Dockerfile</code> pins <code>node:22-slim</code>, the latest 22.x); work
+  locally on 22.23.3 or later. The test-suite spec §0 lists what was checked
+  on it, including enforced coverage thresholds and snapshot assertions.</li>
+<li>There is no linter and no TypeScript, by design. Phase 2 adds JSDoc types
+  checked with <code>// @ts-check</code>, which needs no build step.</li>
+<li><code>GitHubPublisher</code>, <code>LivePublisher</code> and both CSV fetchers call the global
+  <code>fetch</code>, so tests replace <code>globalThis.fetch</code>. They have no injection point
+  today and Phase 0 does not add one.</li>
+<li>The HTTP server is <code>http2.createServer({ allowHTTP1: true }, app)</code>. Cleartext
+  HTTP/1.1 does not work on it (a plain <code>fetch</code> to it fails with
+  <code>HPE_INVALID_CONSTANT</code>), but <code>server.app</code> is an ordinary Express app, so
+  tests mount it on <code>http.createServer(server.app)</code> on port 0 and use <code>fetch</code>.
+  This was checked: <code>/ping</code>, <code>/sync/config</code> and <code>/openapi.json</code> all answer.</li>
+</ul>
+<p><strong>Commands that exist today</strong> (run from <code>sage-tools-api/</code>, each exits non-zero
+on failure):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>npm<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>node<span class="w"> </span>scripts/verify-sync-merge.mjs
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>node<span class="w"> </span>scripts/verify-facility-completion.mjs
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>node<span class="w"> </span>scripts/verify-attendance.mjs
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>node<span class="w"> </span>scripts/verify-standard-generator.mjs
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>node<span class="w"> </span>scripts/verify-sheet-generator.mjs
+</code></pre></div>
+<p><strong>How to work.</strong> One branch, <code>arch-refactor</code>, one commit per phase (or a few
+small ones). After every step run the whole suite. If a test fails, the
+production change is wrong until proven otherwise; change a test only where
+§3.2 says the behaviour changes on purpose, and say so in the commit message.</p>
+<hr />
+<h2 id="1-goals-non-goals-and-constraints">1. Goals, non-goals and constraints<a class="headerlink" href="#1-goals-non-goals-and-constraints" title="Permanent link">&para;</a></h2>
+<p><strong>Goals</strong></p>
+<ol>
+<li>A unit and integration test suite that pins today's behaviour, written
+   before any refactor (its own spec, <a href="#5-tests">§5</a>), and kept green throughout.</li>
+<li><code>SyncService</code> split along its real responsibilities, with the conflict-retry
+   loop written once.</li>
+<li>One error-handling path, one auth-middleware module, one validated
+   configuration module, a constant-time secret comparison, a correct
+   <code>jsconfig.json</code>.</li>
+<li>New endpoints named as resources under <code>/v1</code>, with every existing URL kept
+   as a permanent alias.</li>
+<li>Folders laid out by purpose: Apps Script separated from the service,
+   <code>src/sync/</code> layered, the unversioned workspace <code>CLAUDE.md</code> put under git.</li>
+<li>A Cloud Build trigger that does not redeploy the service for changes that
+   are not part of it.</li>
+</ol>
+<p><strong>Non-goals</strong></p>
+<ul>
+<li>Rewriting the scoresheet pipeline, the Apps Script files, the live Worker or
+  the site. The site's shared-JS question is recorded in §6.7 as a decision,
+  not a build.</li>
+<li>TypeScript, a bundler, a framework, a linter or an ORM.</li>
+<li>Changing what any deployed client sends or receives (§3).</li>
+<li>Renaming or removing <code>/ping</code>, <code>/sync/...</code>, <code>/scoresheets/...</code> or <code>/auth/...</code>.</li>
+</ul>
+<p><strong>Constraints that rule out the obvious clean-up</strong></p>
+<ul>
+<li><code>scripts/sheets-sync.gs</code> is pasted into live Google Sheets workbooks and
+  calls <code>POST /sync/:day?facility=&lt;name&gt;</code> with <code>X-Sync-Secret</code> and
+  <code>X-Edit-At</code>. Control Center calls <code>/sync/:day</code>, <code>/sync/:day/live</code>,
+  <code>/sync/live-push</code>, <code>/sync/config</code>, <code>/auth/login</code>, and reads specific
+  fields from them: <code>live.published</code> in the Live/Hide response (its
+  confirmation message), and <code>live.enabled</code>, <code>live.switch</code> and <code>live.baseUrl</code>
+  in <code>/sync/config</code> (the Sync method switch and <strong>Check connection</strong>; a service
+  without <code>live.switch</code> is reported as "older than 2.5.0"). The scoresheet
+  generator calls <code>/scoresheets/generate/stream</code>. Control Center's
+  <strong>Attendance</strong> tab and every event's desk page call the three <code>/v1</code>
+  attendance routes. None of those can be renamed
+  or reshaped without breaking something already deployed, so they are aliases
+  forever and their fields are part of the contract (test-suite spec §2.1).</li>
+<li>Operators read error bodies: Apps Script's <strong>Sync now</strong> shows
+  <code>Sync failed (&lt;status&gt;): &lt;body&gt;</code>. Error messages stay as they are.</li>
+</ul>
+<hr />
+<h2 id="2-what-this-spec-answers">2. What this spec answers<a class="headerlink" href="#2-what-this-spec-answers" title="Permanent link">&para;</a></h2>
+<p>The findings of the architecture review (2026-10-01). Each maps to a phase.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Finding</th>
+<th>Evidence</th>
+<th>Phase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td><code>SyncService</code> has five responsibilities: fetch orchestration, merge policy, publishing with fallback, the Live/Hide override, the live-push switch</td>
+<td>486 lines, 7 dependencies (the seventh is attendance's <code>onFacilitiesSynced</code> hook), <code>syncDay</code> about 145 lines</td>
+<td>4</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>Adding a publish target means editing <code>SyncService</code></td>
+<td><code>if (this.livePublisher?.enabled)</code> branches in three methods</td>
+<td>4</td>
+</tr>
+<tr>
+<td>F3</td>
+<td><code>GitHubPublisher</code> and <code>LivePublisher</code> do the same job behind different shapes, so they cannot be swapped</td>
+<td><code>fetchExisting</code>/<code>publish(sha)</code> vs <code>read</code>/<code>publish(version)</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>F4</td>
+<td>The read-modify-write-retry-on-409 loop exists six times</td>
+<td><code>syncDay</code>, live loop, <code>setLiveOverride</code>, <code>setIsLive</code>, <code>setLivePush</code>, archive</td>
+<td>3</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>The shared secret is compared with <code>===</code></td>
+<td><code>src/sync/routes.mjs</code> <code>hasValidSyncSecret</code>; <code>AuthService</code> and the Worker use <code>timingSafeEqual</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>F6</td>
+<td>Error handling is copy-pasted into every handler</td>
+<td><code>res.status(err.statusCode ?? 500).json({ error })</code> in 9 handlers (4 sync, 3 attendance, 1 auth, 1 scoresheets); no error code</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F7</td>
+<td><code>POST /sync/live-push</code> only works because it is registered before <code>POST /sync/:day</code>; a day key is a slug, so a day called <code>live-push</code> or <code>config</code> would collide</td>
+<td>route order in <code>sync/routes.mjs</code>; <code>SLUG_RE</code> allows both</td>
+<td>2, 5</td>
+</tr>
+<tr>
+<td>F8</td>
+<td>Auth middleware lives inside the sync routes factory</td>
+<td><code>requireAuthToken</code>, <code>requireSyncSecretOrAuthToken</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>F9</td>
+<td><code>index.mjs</code> parses environment variables ad hoc with no validation</td>
+<td>five <code>Number(process.env…)</code>; an empty <code>LIVE_PUSH_TIMEOUT_MS</code> would become <code>0</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>F10</td>
+<td><code>jsconfig.json</code> checks nothing</td>
+<td>includes <code>**/*.js</code> (the code is <code>.mjs</code>), target ES2015, <code>checkJs: false</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>The server comment and docs say HTTP/1.1 fallback works over cleartext; it does not</td>
+<td><code>http2.createServer({ allowHTTP1: true })</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>No test runner; checks are ad hoc scripts</td>
+<td><code>scripts/verify-*.mjs</code></td>
+<td>0 (test-suite spec)</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>The API is RPC-style: verbs in paths, <code>POST</code> used to set state, no versioning</td>
+<td><code>/scoresheets/generate</code>, <code>/sync/:day/live</code>, <code>/sync/live-push</code>, <code>/auth/login</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>CORS allows <code>GET, POST, PUT, OPTIONS</code> only (<code>PUT</code> was added for attendance); no <code>PATCH</code> or <code>DELETE</code></td>
+<td><code>Server.mjs</code></td>
+<td>2, 5</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Three failed GitHub commits return <code>500</code>; <code>409</code> is the accurate status</td>
+<td><code>SyncService</code> rethrows the raw GitHub error, which has no <code>statusCode</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>F16</td>
+<td><code>scripts/</code> mixes four things: Apps Script sources, their test harness, fixtures, a dev tool</td>
+<td><code>scripts/</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>F17</td>
+<td><code>src/sync/</code> mixes routes, services, infrastructure clients and domain logic</td>
+<td>flat folder of 11 files</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Any push, including a <code>.gs</code>, Worker or markdown change, rebuilds Cloud Run</td>
+<td>build trigger has no file filter</td>
+<td>6</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>The workspace <code>CLAUDE.md</code> is not under version control</td>
+<td><code>D:\Personal\SAGE</code> is not a repo</td>
+<td>6</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>The site repeats code blocks by hand (live channel ×9, attendance client ×4, match rules ×2, team rules ×2, team rosters ×2)</td>
+<td><code>tools/control-center.html</code> is 8,721 lines</td>
+<td>7 (decision)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-behaviour-contract">3. Behaviour contract<a class="headerlink" href="#3-behaviour-contract" title="Permanent link">&para;</a></h2>
+<h3 id="31-what-must-not-change">3.1 What must not change<a class="headerlink" href="#31-what-must-not-change" title="Permanent link">&para;</a></h3>
+<p>For every existing route, the <strong>status code, response body and the response
+headers that deployed clients read</strong> are identical before and after the
+refactor. That contract is defined once, in the
+<a href="../../implemented/sage-tools-api-test-suite-spec/#21-what-must-not-change">test-suite spec §2.1</a>,
+and enforced by that suite. Nothing in it changes except the items in §3.2.
+<code>GET /ping</code> stays exactly as it is: <code>200</code>, body <code>PONG!</code>, <code>X-App-Version</code> and
+<code>X-Sync-Config</code>, no config fetch, in <code>Server.mjs</code>, with no alias.</p>
+<h3 id="32-what-changes-on-purpose">3.2 What changes on purpose<a class="headerlink" href="#32-what-changes-on-purpose" title="Permanent link">&para;</a></h3>
+<p>Nothing else changes. These do, and each is pinned as today's behaviour by a
+test marked <code>// CHARACTERIZATION B&lt;n&gt;</code> in the test suite
+(<a href="../../implemented/sage-tools-api-test-suite-spec/#22-behaviour-pinned-now-that-a-later-phase-changes-on-purpose">test-suite spec §2.2</a>),
+which is edited in the phase named.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Change</th>
+<th>Phase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td>Three conflicting GitHub commits in a row (<code>syncDay</code> on the GitHub path, <code>setIsLive</code>, <code>setLivePush</code>) answer <code>409</code> with <code>{ error, code: "conflict" }</code> instead of <code>500</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>Every error body gains a stable <code>code</code> next to <code>error</code> (§4.6). <code>error</code> is unchanged</td>
+<td>2</td>
+</tr>
+<tr>
+<td>B3</td>
+<td>CORS <code>Access-Control-Allow-Methods</code> becomes <code>GET, POST, PUT, PATCH, DELETE, OPTIONS</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>B4</td>
+<td>A day key of <code>config</code> or <code>live-push</code> is rejected by config validation</td>
+<td>2</td>
+</tr>
+<tr>
+<td>B5</td>
+<td>New <code>/v1</code> routes exist (§4.8)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>B6</td>
+<td>Process start fails fast with a clear message when an environment variable is set but unusable (§4.7). An <strong>unset</strong> secret still only disables the feature, as today</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-target-architecture">4. Target architecture<a class="headerlink" href="#4-target-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="41-layout">4.1 Layout<a class="headerlink" href="#41-layout" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sage-tools-api/
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  index.mjs                      # composition root only
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  package.json                   # scripts: start, test, test:unit, test:integration, test:e2e, verify
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  jsconfig.json                  # fixed (Phase 2)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  apps-script/                   # NOT part of the Cloud Run service (Phase 1)
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    sheets-sync.gs  sheet-generator.gs  standard-generator.gs  attendance.gs
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    mock-apps-script.mjs
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    verify-attendance.mjs  verify-sheet-generator.mjs  verify-standard-generator.mjs
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    fixtures/
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  live-worker/                   # unchanged
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  spikes/                        # one-off checks (sheets-write-check), never shipped; unchanged
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  scripts/
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    hash-password.mjs            # the only dev tool left here
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    run-appscript-verifies.mjs   # runs the three Apps Script verify scripts (test-suite spec)
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>  templates/                     # scoresheet HTML/CSS, unchanged
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>  test/                          # built by the test-suite spec
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    helpers/  unit/  integration/  e2e/
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>  src/
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    config/
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>      loadConfig.mjs             # env -&gt; validated, frozen config (Phase 2)
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    server/
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>      Server.mjs                 # middleware + mounting + /ping + /openapi.json
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>      errorHandler.mjs           # AppError -&gt; status + { error, code } (Phase 2)
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>      asyncHandler.mjs
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>      cors.mjs
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>    auth/
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>      AuthService.mjs
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>      middleware.mjs             # requireAuthToken, requireSyncSecretOrAuthToken (Phase 2)
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>      routes.mjs                 # /auth/login and /v1/sessions
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>    shared/
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>      Logger.mjs  ConcurrencyPool.mjs  errors.mjs
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>      safeEqual.mjs              # constant-time string compare (Phase 2)
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>      conflictRetry.mjs          # COMMIT_ATTEMPTS, ConflictError, withConflictRetry (Phase 3)
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    sync/
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>      index.mjs                  # composes the sync module (Phase 4)
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>      SyncService.mjs            # orchestrates one sync
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>      GoLiveService.mjs          # the Live/Hide override
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>      LivePushSettings.mjs       # the operator switch
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>      SyncDiagnostics.mjs        # what GET /sync/config returns
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>      syncController.mjs         # HTTP handlers, no routing
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>      legacyRoutes.mjs           # /sync/... (permanent aliases)
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>      v1Routes.mjs               # /v1/... (Phase 5)
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>      domain/
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>        mergeSnapshot.mjs  facilityCompletion.mjs  teamRoster.mjs  snapshotStamp.mjs  syncTiming.mjs  editAt.mjs
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>      publishing/
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>        SnapshotStore.mjs        # the interface, as JSDoc typedefs
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>        GitHubSnapshotStore.mjs  LiveSnapshotStore.mjs
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>        mergeIntoStore.mjs       # the one read-merge-write-retry loop
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>        GitHubOnlyPublishing.mjs  LiveFirstPublishing.mjs  PublishingSelector.mjs
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>      infra/
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>        GitHubPublisher.mjs  LivePublisher.mjs  SheetsCsvFetcher.mjs  GvizCsvFetcher.mjs
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>      config/
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>        SyncConfigStore.mjs  SyncConfigSnapshot.mjs  events.seed.json
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>    attendance/                  # already under /v1; unchanged except its auth checks (Phase 2) and error handling
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>    scoresheets/                 # unchanged except routes (Phase 5)
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>    docs/
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>      openapiSpec.mjs
+</code></pre></div>
+<h3 id="42-responsibilities">4.2 Responsibilities<a class="headerlink" href="#42-responsibilities" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>One job</th>
+<th>Depends on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>index.mjs</code></td>
+<td>read config, build objects, start the server</td>
+<td>everything, nothing depends on it</td>
+</tr>
+<tr>
+<td><code>config/loadConfig</code></td>
+<td>turn <code>process.env</code> into a validated config object</td>
+<td><code>shared/errors</code></td>
+</tr>
+<tr>
+<td><code>server/Server</code></td>
+<td>CORS, version header, JSON body, mounting, <code>/ping</code>, <code>/openapi.json</code>, error handler</td>
+<td>route modules</td>
+</tr>
+<tr>
+<td><code>server/errorHandler</code></td>
+<td>map any error to <code>{ error, code }</code> and a status</td>
+<td><code>shared/errors</code></td>
+</tr>
+<tr>
+<td><code>auth/middleware</code></td>
+<td>two Express middlewares</td>
+<td><code>AuthService</code>, <code>safeEqual</code></td>
+</tr>
+<tr>
+<td><code>sync/domain/*</code></td>
+<td>pure functions: merge, completion, stamps, timing, <code>X-Edit-At</code> parsing</td>
+<td>nothing</td>
+</tr>
+<tr>
+<td><code>sync/publishing/*</code></td>
+<td>getting a merged snapshot to GitHub, and to the live Worker first when it is on</td>
+<td>stores, <code>shared/conflictRetry</code></td>
+</tr>
+<tr>
+<td><code>sync/SyncService</code></td>
+<td>one sync: resolve day, fetch, merge, publish, time, respond</td>
+<td>fetchers, <code>PublishingSelector</code>, config store, <code>domain/*</code></td>
+</tr>
+<tr>
+<td><code>sync/GoLiveService</code></td>
+<td>the Live/Hide override</td>
+<td>config store, <code>PublishingSelector</code></td>
+</tr>
+<tr>
+<td><code>sync/LivePushSettings</code></td>
+<td>the operator switch</td>
+<td>config store, live publisher</td>
+</tr>
+<tr>
+<td><code>sync/SyncDiagnostics</code></td>
+<td>the <code>GET /sync/config</code> payload</td>
+<td>config store, live publisher</td>
+</tr>
+<tr>
+<td><code>sync/syncController</code></td>
+<td>request parsing and response writing</td>
+<td>the four services</td>
+</tr>
+<tr>
+<td><code>sync/*Routes</code></td>
+<td>URL to handler mapping and OpenAPI blocks</td>
+<td>controller, <code>auth/middleware</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-dependency-rules">4.3 Dependency rules<a class="headerlink" href="#43-dependency-rules" title="Permanent link">&para;</a></h3>
+<ol>
+<li><code>domain/</code> imports nothing outside <code>domain/</code> and <code>shared/errors</code>.</li>
+<li><code>publishing/</code> imports <code>domain/</code> and <code>shared/</code>; never <code>infra/</code> directly. Stores
+   wrap <code>infra/</code> clients and are the only bridge.</li>
+<li>Services import <code>domain/</code>, <code>publishing/</code>, <code>config/</code> and <code>shared/</code>; never
+   Express.</li>
+<li>Controllers and routes import services and <code>server/</code> helpers; never <code>infra/</code>.</li>
+<li>Only <code>index.mjs</code> and <code>sync/index.mjs</code> construct concrete classes.</li>
+<li>No module reads <code>process.env</code> except <code>config/loadConfig.mjs</code>.</li>
+</ol>
+<h3 id="44-the-snapshot-store-interface">4.4 The snapshot store interface<a class="headerlink" href="#44-the-snapshot-store-interface" title="Permanent link">&para;</a></h3>
+<p>Both places a snapshot lives (GitHub, the live Worker) are optimistic-concurrency
+stores: read a value and a <strong>token</strong>, write back with that token, and be told
+if someone else got there first. The token is a file <code>sha</code> for GitHub and a
+<code>version</code> for the Worker.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// src/sync/publishing/SnapshotStore.mjs</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cm">/**</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm"> * @typedef {{ event: string, day: string, path: string }} SnapshotRef</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cm"> * @typedef {{ snapshot: object|null, token: string|number|null }} StoreRead</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cm"> * @typedef {{ ok: true, token: string|number|null, commitSha?: string }</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cm"> *         | { ok: false, conflict: true }} StoreWrite</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="cm"> *</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="cm"> * @typedef {object} SnapshotStore</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="cm"> * @property {(ref: SnapshotRef) =&gt; Promise&lt;StoreRead&gt;} read</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="cm"> *   Resolves { snapshot: null, token: &lt;empty token&gt; } when nothing is stored.</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="cm"> *   Throws on network errors, timeouts, auth failures and 5xx.</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="cm"> * @property {(ref: SnapshotRef, snapshot: object,</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="cm"> *             opts: { token: string|number|null, message?: string }) =&gt; Promise&lt;StoreWrite&gt;} write</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="cm"> *   Resolves { ok: false, conflict: true } when `token` is stale. Throws on</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="cm"> *   every other failure, with `err.status` set where the remote gave one.</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="cm"> */</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="k">export</span><span class="w"> </span><span class="p">{};</span>
+</code></pre></div>
+<ul>
+<li><code>GitHubSnapshotStore.read</code> calls <code>publisher.fetchExisting(ref.path)</code>; its
+  token is the sha (<code>null</code> when the file does not exist). <code>write</code> calls
+  <code>publisher.publish(ref.path, snapshot, message, token)</code> and maps an error
+  with <code>status === 409</code> to <code>{ ok: false, conflict: true }</code>. With <code>token: null</code>
+  the publisher looks the sha up itself, which is what the archive step relies
+  on.</li>
+<li><code>LiveSnapshotStore.read</code> calls <code>livePublisher.read(event, day)</code>; its token is
+  the version (<code>0</code> for an empty object). <code>write</code> calls
+  <code>livePublisher.publish(event, day, snapshot, token)</code>, which already returns
+  the right shape.</li>
+</ul>
+<h3 id="45-the-retry-loop-once">4.5 The retry loop, once<a class="headerlink" href="#45-the-retry-loop-once" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// src/sync/publishing/mergeIntoStore.mjs</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cm">/**</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cm"> * Read a base snapshot, build the merged result from it, stamp it, write it</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cm"> * with the base's token, and go round again on a conflict.</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="cm"> *</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="cm"> * @param {object} p</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="cm"> * @param {import('./SnapshotStore.mjs').SnapshotStore} p.store</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="cm"> * @param {import('./SnapshotStore.mjs').SnapshotRef} p.ref</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="cm"> * @param {(ref) =&gt; Promise&lt;import('./SnapshotStore.mjs').StoreRead&gt;} [p.readBase]</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="cm"> *        defaults to store.read(ref); LiveFirstPublishing passes one that also</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="cm"> *        reads GitHub and returns the newer copy (the stale-object rule)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="cm"> * @param {(base: object|null) =&gt; { snapshot: object, stale: string[] }} p.build</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="cm"> * @param {(stale: string[]) =&gt; string} p.message</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="cm"> * @returns {Promise&lt;{ snapshot: object, stale: string[], attempts: number,</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="cm"> *                     token: any, commitSha: string|null }&gt;}</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="cm"> * @throws ConflictError after COMMIT_ATTEMPTS conflicts (status 409)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="cm"> */</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">mergeIntoStore</span><span class="p">({</span><span class="w"> </span><span class="nx">store</span><span class="p">,</span><span class="w"> </span><span class="nx">ref</span><span class="p">,</span><span class="w"> </span><span class="nx">readBase</span><span class="p">,</span><span class="w"> </span><span class="nx">build</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="p">,</span><span class="w"> </span><span class="nx">log</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><code>withConflictRetry</code> (in <code>shared/conflictRetry.mjs</code>) is the generic loop it uses,
+and <code>SyncConfigStore.setIsLive</code> / <code>setLivePush</code> use it directly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">COMMIT_ATTEMPTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3</span><span class="p">;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ConflictError</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">AppError</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">what</span><span class="p">,</span><span class="w"> </span><span class="nx">attempts</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="k">super</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">what</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">attempts</span><span class="si">}</span><span class="sb"> conflicting updates in a row`</span><span class="p">,</span><span class="w"> </span><span class="mf">409</span><span class="p">);</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">409</span><span class="p">;</span><span class="w">            </span><span class="c1">// kept: callers and tests read err.status</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"conflict"</span><span class="p">;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">}</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="cm">/**</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="cm"> * @template T</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="cm"> * @param {(attempt: number) =&gt; Promise&lt;{ ok: true, value: T } | { ok: false }&gt;} attemptFn</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="cm"> *        return { ok: false } for a conflict; throw for anything else</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="cm"> * @returns {Promise&lt;{ value: T, attempts: number }&gt;}</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="cm"> */</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">withConflictRetry</span><span class="p">(</span><span class="nx">attemptFn</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">attempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">COMMIT_ATTEMPTS</span><span class="p">,</span><span class="w"> </span><span class="nx">what</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"update"</span><span class="p">,</span><span class="w"> </span><span class="nx">onConflict</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">attempts</span><span class="p">;</span><span class="w"> </span><span class="nx">n</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">attemptFn</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">out</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="nx">out</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">attempts</span><span class="o">:</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span><span class="nx">onConflict</span><span class="o">?</span><span class="p">.(</span><span class="nx">n</span><span class="p">,</span><span class="w"> </span><span class="nx">attempts</span><span class="p">);</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ConflictError</span><span class="p">(</span><span class="nx">what</span><span class="p">,</span><span class="w"> </span><span class="nx">attempts</span><span class="p">);</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="p">}</span>
+</code></pre></div>
+<p>Log text stays as it is today (<code>commit conflict (attempt n/3) — re-reading and
+re-merging</code>, <code>live version conflict (attempt n/3) …</code>) so existing operator log
+searches keep working.</p>
+<h3 id="46-errors">4.6 Errors<a class="headerlink" href="#46-errors" title="Permanent link">&para;</a></h3>
+<p><code>AppError</code> gains a <code>code</code> string; every subclass sets one:</p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th><code>statusCode</code></th>
+<th><code>code</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValidationError</code></td>
+<td>400</td>
+<td><code>validation_error</code></td>
+</tr>
+<tr>
+<td><code>UnauthorizedError</code></td>
+<td>401</td>
+<td><code>unauthorized</code></td>
+</tr>
+<tr>
+<td><code>UnknownScoresheetTypeError</code></td>
+<td>400</td>
+<td><code>unknown_scoresheet_type</code></td>
+</tr>
+<tr>
+<td><code>UnknownSyncDayError</code></td>
+<td>400</td>
+<td><code>unknown_day</code></td>
+</tr>
+<tr>
+<td><code>SyncUpstreamError</code></td>
+<td>502</td>
+<td><code>upstream_failure</code></td>
+</tr>
+<tr>
+<td><code>SyncConfigUnavailableError</code></td>
+<td>503</td>
+<td><code>config_unavailable</code></td>
+</tr>
+<tr>
+<td><code>ConflictError</code> (new)</td>
+<td>409</td>
+<td><code>conflict</code></td>
+</tr>
+<tr>
+<td><code>NotFoundError</code> (attendance)</td>
+<td>404</td>
+<td><code>not_found</code></td>
+</tr>
+<tr>
+<td><code>ForbiddenError</code> (attendance)</td>
+<td>403</td>
+<td><code>forbidden</code></td>
+</tr>
+<tr>
+<td><code>UnknownEventError</code> (attendance)</td>
+<td>404</td>
+<td><code>unknown_event</code></td>
+</tr>
+<tr>
+<td><code>AttendanceLayoutError</code> (attendance)</td>
+<td>409</td>
+<td><code>attendance_layout</code></td>
+</tr>
+<tr>
+<td><code>UpstreamError</code> (attendance)</td>
+<td>502</td>
+<td><code>upstream_failure</code></td>
+</tr>
+<tr>
+<td><code>ServiceBusyError</code> (attendance)</td>
+<td>503</td>
+<td><code>service_busy</code></td>
+</tr>
+<tr>
+<td><code>ConfigError</code> (new, startup only)</td>
+<td>n/a</td>
+<td><code>config_error</code></td>
+</tr>
+<tr>
+<td>anything else</td>
+<td>500</td>
+<td><code>internal_error</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// src/server/errorHandler.mjs — registered last, after every route</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">errorHandler</span><span class="p">(</span><span class="nx">logger</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">next</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">headersSent</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span><span class="w">          </span><span class="c1">// streaming: the route already wrote its own error line</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="mf">500</span><span class="p">;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">req</span><span class="p">.</span><span class="nx">method</span><span class="si">}</span><span class="sb"> </span><span class="si">${</span><span class="nx">req</span><span class="p">.</span><span class="nx">originalUrl</span><span class="si">}</span><span class="sb"> failed`</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">);</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="nx">status</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">,</span><span class="w"> </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">code</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s2">"internal_error"</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>error</code> is still <code>err.message</code>, including for <code>500</code>s: Apps Script shows it to
+operators. Route handlers stop catching and <code>throw</code>; a tiny <code>asyncHandler(fn)</code>
+forwards rejections (Express 4 does not).</p>
+<h3 id="47-configuration">4.7 Configuration<a class="headerlink" href="#47-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// src/config/loadConfig.mjs</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cm">/** @returns {Readonly&lt;AppConfig&gt;} or throws ConfigError listing every problem at once */</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">loadConfig</span><span class="p">(</span><span class="nx">env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Rules, applied to every variable currently read in <code>index.mjs</code>:</p>
+<ul>
+<li>An <strong>empty or unset</strong> variable is "not set". <code>NaN</code>, a negative number, or a
+  non-integer where an integer is required throws <code>ConfigError</code>.</li>
+<li>Integer variables and their bounds: <code>PORT</code> 1–65535 (default 8080),
+  <code>SCORESHEET_CONCURRENCY</code> ≥ 1 (default 8), <code>SHEETS_FETCH_TIMEOUT_MS</code> ≥ 0 (<strong><code>0</code>
+  disables the timeout</strong>, as today), <code>SYNC_CONFIG_TTL_MS</code> ≥ 0,
+  <code>AUTH_TOKEN_TTL_MS</code> ≥ 1, <code>LIVE_PUSH_TIMEOUT_MS</code> ≥ 1.</li>
+<li>Unset secrets (<code>GITHUB_TOKEN</code>, <code>SYNC_SHARED_SECRET</code>, <code>GOOGLE_SHEETS_API_KEY</code>,
+  <code>AUTH_PASSWORD_HASH</code>, <code>AUTH_TOKEN_SECRET</code>, <code>LIVE_PUSH_SECRET</code>) never throw:
+  the feature fails closed as it does today. <code>loadConfig</code> returns them as
+  <code>undefined</code>, and <code>index.mjs</code> logs one <code>warn</code> line naming which are unset.</li>
+<li><code>LIVE_PUSH_URL</code> set but not an <code>http(s)</code> URL throws.</li>
+<li>The returned object is <code>Object.freeze</code>d, nested.</li>
+</ul>
+<h3 id="48-the-v1-api">4.8 The <code>/v1</code> API<a class="headerlink" href="#48-the-v1-api" title="Permanent link">&para;</a></h3>
+<p>New endpoints, named as resources, mounted under <code>/v1</code>. Each existing URL stays,
+served by the same controller, marked <code>deprecated: true</code> in OpenAPI with the
+note "kept for deployed Apps Script and Control Center".</p>
+<table>
+<thead>
+<tr>
+<th>Legacy (kept forever)</th>
+<th>New</th>
+<th>Method and semantics</th>
+<th>Success</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST /sync/:day</code></td>
+<td><code>POST /v1/days/{day}/syncs</code></td>
+<td>create a sync; query <code>facility</code>, <code>method</code></td>
+<td><code>200</code> same body</td>
+</tr>
+<tr>
+<td><code>POST /sync/:day/live</code></td>
+<td><code>PUT /v1/days/{day}/visibility</code></td>
+<td>set the day's visibility; body <code>{ isLive }</code></td>
+<td><code>200</code> same body</td>
+</tr>
+<tr>
+<td><code>POST /sync/live-push</code></td>
+<td><code>PUT /v1/settings/live-push</code></td>
+<td>set the switch; body <code>{ enabled }</code></td>
+<td><code>200</code> same body</td>
+</tr>
+<tr>
+<td><code>GET /sync/config</code></td>
+<td><code>GET /v1/diagnostics/sync</code></td>
+<td>read diagnostics</td>
+<td><code>200</code> same body</td>
+</tr>
+<tr>
+<td><code>POST /scoresheets/generate</code></td>
+<td><code>POST /v1/scoresheets</code></td>
+<td>create a scoresheet; <code>Accept: application/pdf</code> (default)</td>
+<td><code>200</code> PDF, same headers</td>
+</tr>
+<tr>
+<td><code>POST /scoresheets/generate/stream</code></td>
+<td><code>POST /v1/scoresheets</code> with <code>Accept: application/x-ndjson</code></td>
+<td>same, streamed</td>
+<td><code>200</code> NDJSON, same lines</td>
+</tr>
+<tr>
+<td><code>POST /auth/login</code></td>
+<td><code>POST /v1/sessions</code></td>
+<td>create a session</td>
+<td><code>201 { token, expiresAt }</code></td>
+</tr>
+<tr>
+<td><code>GET /ping</code></td>
+<td><strong>kept as is, no alias</strong></td>
+<td>health</td>
+<td><code>200 PONG!</code></td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ul>
+<li><code>PUT</code> is idempotent, which is the honest verb for "set this value". Calling
+  it twice with the same body gives the same result (<code>changed: false</code> the
+  second time for the switch).</li>
+<li>A nested path (<code>/v1/days/{day}/…</code>) removes the <code>/sync/:day</code> versus
+  <code>/sync/live-push</code> collision; the legacy collision is handled by B4.</li>
+<li><code>POST /v1/scoresheets</code> with an <code>Accept</code> it cannot satisfy answers <code>406</code>.</li>
+<li>Status <code>201</code> is used only for <code>POST /v1/sessions</code>, where a resource really is
+  created. The sync keeps <code>200</code> because it returns a report, not a stored
+  resource, and the legacy route returns <code>200</code>.</li>
+<li>All <code>/v1</code> errors use the same <code>{ error, code }</code> body.</li>
+</ul>
+<p>The site and Apps Script keep calling the legacy URLs. Moving Control Center to
+<code>/v1</code> is a separate, later change in the site repo and is not part of this
+spec.</p>
+<hr />
+<h2 id="5-tests">5. Tests<a class="headerlink" href="#5-tests" title="Permanent link">&para;</a></h2>
+<h3 id="51-the-suite-that-comes-first">5.1 The suite that comes first<a class="headerlink" href="#51-the-suite-that-comes-first" title="Permanent link">&para;</a></h3>
+<p>The unit and integration suite for everything that exists today (helpers, the
+<code>FakeWorld</code>, the characterization policy, the coverage matrix, the eleven sabotage
+checks, the build steps and acceptance checklist) is its own spec:
+<a href="../../implemented/sage-tools-api-test-suite-spec/"><code>sage-tools-api-test-suite-spec.md</code></a>. It is
+this spec's Phase 0 and a <strong>gate</strong>: Phase 1 does not start until that spec's
+acceptance checklist is complete and <code>npm run verify</code> is green. After that, every
+phase here leaves it green. Its helpers (<code>startApp</code>, <code>createFakeWorld</code>, builders, the
+fakes) are what the tests in §5.2 are written with.</p>
+<h3 id="52-tests-for-the-modules-this-spec-creates">5.2 Tests for the modules this spec creates<a class="headerlink" href="#52-tests-for-the-modules-this-spec-creates" title="Permanent link">&para;</a></h3>
+<p>These modules do not exist when the suite is built, so their tests are written
+<strong>first, in the phase that creates the module</strong>: write them, watch them fail
+(the module is missing), then implement. They follow the test-suite spec's
+rules (§3.5) and layout (§3.3), and live under <code>test/unit/</code> mirroring <code>src/</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>safeEqual.mjs</code> (Phase 2)</td>
+<td>equal strings true; different strings of equal and of unequal length false; <code>undefined</code> or non-string false; does not throw on empty strings</td>
+</tr>
+<tr>
+<td><code>conflictRetry.mjs</code> (Phase 3)</td>
+<td>returns on first success with <code>attempts: 1</code>; retries on <code>{ ok: false }</code>, calls <code>onConflict(n, max)</code>; throws <code>ConflictError</code> (status and <code>statusCode</code> 409, code <code>conflict</code>) after the limit; a thrown error from <code>attemptFn</code> propagates unretried; custom <code>attempts</code> honoured</td>
+</tr>
+<tr>
+<td><code>middleware.mjs</code> (Phase 2)</td>
+<td><code>requireAuthToken</code>: valid bearer passes, missing/garbled/expired <code>401 { error: "Unauthorized", code: "unauthorized" }</code>; <code>requireSyncSecretOrAuthToken</code>: secret passes, token passes, neither <code>401</code>, an empty configured secret never matches an empty header</td>
+</tr>
+<tr>
+<td><code>mergeSnapshot.mjs</code> (Phase 3)</td>
+<td>the merge cases in the test-suite spec §4 (<code>SyncService</code> merge) exercised directly on the pure function: fresh wins; untargeted carried forward; failed facility carried forward and listed <code>stale</code>; facility never seen and failed is omitted; nothing to publish throws <code>SyncUpstreamError</code>; <code>completedAt</code> stamped once and carried; <code>lastEditAt</code> from the edit or carried; a fresh <code>rosterCsv</code> replaces the old one and a fetch without one keeps it; <code>publishedAt</code> starts as <code>now</code></td>
+</tr>
+<tr>
+<td><code>snapshotStamp.mjs</code> (Phase 3)</td>
+<td><code>publishedAt</code> preferred over <code>generatedAt</code>; neither gives <code>0</code>; <code>newer(a, b)</code> picks the later, prefers <code>a</code> on a tie, handles <code>null</code> on either side</td>
+</tr>
+<tr>
+<td><code>syncTiming.mjs</code> (Phase 3)</td>
+<td><code>editToRequestMs</code>/<code>editToPublishedMs</code> are <code>null</code> without an edit time; <code>liveMs</code>/<code>archiveMs</code> <code>null</code> when that step did not run; the log line prints <code>n/a</code> for <code>null</code> and otherwise <code>&lt;n&gt;ms</code> in the order <code>edit→request=… fetch=… publish=… live=… archive=… edit→published=…</code></td>
+</tr>
+<tr>
+<td><code>editAt.mjs</code> (Phase 3)</td>
+<td><code>parseEditAt(header, now)</code>: a value within the last hour and at most 5 s ahead is returned; older than an hour, more than 5 s ahead, <code>NaN</code>, empty, negative and missing are <code>null</code> (today's inline rule in <code>handleSync</code>)</td>
+</tr>
+<tr>
+<td><code>loadConfig.mjs</code> (Phase 2)</td>
+<td>each rule in §4.7: empty means unset, <code>NaN</code>/negative/fractional throw, <code>SHEETS_FETCH_TIMEOUT_MS=0</code> allowed, bad <code>LIVE_PUSH_URL</code> throws, all problems reported in one error, unset secrets are <code>undefined</code> and listed by the helper that builds the warning, the result is frozen</td>
+</tr>
+<tr>
+<td><code>errorHandler.mjs</code> (Phase 2)</td>
+<td>each class in §4.6 gives its status and <code>{ error, code }</code>; an unknown <code>Error</code> is <code>500 internal_error</code> with its message; <code>res.headersSent</code> delegates and writes nothing; the error is logged once</td>
+</tr>
+<tr>
+<td><code>SyncConfigStore</code> reserved day keys (Phase 2)</td>
+<td>a day key of <code>config</code> or <code>live-push</code> is rejected with a message naming it (flips the <code>CHARACTERIZATION B4</code> pin)</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>/v1</code> parity tests are specified in §6.5. The store, <code>mergeIntoStore</code> and
+publishing-strategy tests are specified in §6.3 and §6.4.</p>
+<h3 id="53-pins-resolved-along-the-way">5.3 Pins resolved along the way<a class="headerlink" href="#53-pins-resolved-along-the-way" title="Permanent link">&para;</a></h3>
+<p><code>grep -rn "CHARACTERIZATION B" test/</code> lists what is still pending. Each marker
+is edited to the new expectation in the commit of the phase named in §3.2, and
+the commit message names the B-number. After Phase 3 the grep returns nothing.</p>
+<hr />
+<h2 id="6-phases">6. Phases<a class="headerlink" href="#6-phases" title="Permanent link">&para;</a></h2>
+<p>Each phase ends with <code>npm run verify</code> green, a version bump where stated, a
+Changelog entry, and one commit on <code>arch-refactor</code>. Phases are strictly
+ordered; do not start one before the previous is green.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>What</th>
+<th>Version</th>
+<th>Production code touched</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>The test suite, <strong>its own spec</strong> (<a href="../../implemented/sage-tools-api-test-suite-spec/">test-suite spec</a>)</td>
+<td>none</td>
+<td>none (only <code>package.json</code> scripts, <code>test/</code>, one script, the pre-push hook, README)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Folder moves</td>
+<td>2.7.1</td>
+<td>paths and imports only</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hardening</td>
+<td>2.7.2</td>
+<td>secret compare, errors, config, auth middleware, CORS, jsconfig</td>
+</tr>
+<tr>
+<td>3</td>
+<td>One retry loop, store interface, domain extraction</td>
+<td>2.7.3</td>
+<td><code>sync/</code> internals</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Publishing strategies and the <code>SyncService</code> split</td>
+<td>2.7.4</td>
+<td><code>sync/</code> internals</td>
+</tr>
+<tr>
+<td>5</td>
+<td>The <code>/v1</code> API</td>
+<td>2.8.0</td>
+<td>routes, controllers, OpenAPI</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Build, docs and workspace</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Site shared-JS decision</td>
+<td>n/a</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<h3 id="60-phase-0-tests-before-code-a-separate-spec">6.0 Phase 0 — tests before code (a separate spec)<a class="headerlink" href="#60-phase-0-tests-before-code-a-separate-spec" title="Permanent link">&para;</a></h3>
+<p>Built from <a href="../../implemented/sage-tools-api-test-suite-spec/"><code>sage-tools-api-test-suite-spec.md</code></a>
+on its own branch (<code>test-suite</code>), with no production change. <strong>Gate:</strong> its §7
+acceptance checklist is complete, <code>npm test</code> and <code>npm run verify</code> are green, and
+<code>arch-refactor</code> is created from that branch. The version and Changelog are not
+touched. If the code on <code>main</code> has moved since that spec was written, bring it
+up to date first (its §2 lists the contract it pins).</p>
+<h3 id="61-phase-1-folder-moves-271">6.1 Phase 1 — folder moves (2.7.1)<a class="headerlink" href="#61-phase-1-folder-moves-271" title="Permanent link">&para;</a></h3>
+<p>Mechanical, with the test suite as the guard. Do all moves with <code>git mv</code>, update
+imports, and run <code>npm run verify</code> after each group.</p>
+<p><strong>1a. Apps Script out of <code>scripts/</code>.</strong></p>
+<table>
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/sheets-sync.gs</code>, <code>sheet-generator.gs</code>, <code>standard-generator.gs</code>, <code>attendance.gs</code></td>
+<td><code>apps-script/</code></td>
+</tr>
+<tr>
+<td><code>scripts/mock-apps-script.mjs</code></td>
+<td><code>apps-script/mock-apps-script.mjs</code></td>
+</tr>
+<tr>
+<td><code>scripts/verify-attendance.mjs</code>, <code>verify-sheet-generator.mjs</code>, <code>verify-standard-generator.mjs</code></td>
+<td><code>apps-script/</code></td>
+</tr>
+<tr>
+<td><code>scripts/fixtures/</code></td>
+<td><code>apps-script/fixtures/</code></td>
+</tr>
+<tr>
+<td><code>scripts/hash-password.mjs</code></td>
+<td>stays</td>
+</tr>
+<tr>
+<td><code>scripts/run-appscript-verifies.mjs</code></td>
+<td>stays; points at <code>apps-script/</code></td>
+</tr>
+</tbody>
+</table>
+<p>The verify scripts locate the <code>.gs</code> files and fixtures relative to
+themselves; confirm each still finds them. Update <code>package.json</code>'s
+<code>test:appscript</code>.</p>
+<p><strong>1b. <code>src/sync/</code> into layers.</strong></p>
+<table>
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>facilityCompletion.mjs</code>, <code>teamRoster.mjs</code></td>
+<td><code>sync/domain/</code> (<code>src/attendance/roster.mjs</code> imports <code>findTeamsHeader</code> from <code>teamRoster.mjs</code>; update that import)</td>
+</tr>
+<tr>
+<td><code>GitHubPublisher.mjs</code>, <code>LivePublisher.mjs</code>, <code>SheetsCsvFetcher.mjs</code>, <code>GvizCsvFetcher.mjs</code></td>
+<td><code>sync/infra/</code></td>
+</tr>
+<tr>
+<td><code>SyncConfigStore.mjs</code>, <code>SyncConfigSnapshot.mjs</code>, <code>events.seed.json</code></td>
+<td><code>sync/config/</code></td>
+</tr>
+<tr>
+<td><code>SyncService.mjs</code>, <code>routes.mjs</code></td>
+<td>stay in <code>sync/</code></td>
+</tr>
+</tbody>
+</table>
+<p>Update: every import; <code>index.mjs</code>'s seed path
+(<code>src/sync/config/events.seed.json</code>); <code>src/docs/openapiSpec.mjs</code> globs; the
+tests' import paths (the test files move to mirror <code>src/</code>).</p>
+<p><strong>1c. Documentation paths.</strong> Every mention of the moved files in markdown and
+comments. Find them:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>grep<span class="w"> </span>-rIn<span class="w"> </span>--exclude-dir<span class="o">=</span>node_modules<span class="w"> </span>--exclude-dir<span class="o">=</span>.git<span class="w"> </span>--exclude-dir<span class="o">=</span>event-data<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="s2">"scripts/sheets-sync"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"scripts/sheet-generator"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"scripts/standard-generator"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-e<span class="w"> </span><span class="s2">"scripts/attendance"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"scripts/mock-apps-script"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"scripts/verify-"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>-e<span class="w"> </span><span class="s2">"scripts/fixtures"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"src/sync/facilityCompletion"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"src/sync/teamRoster"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"src/sync/GitHubPublisher"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span>-e<span class="w"> </span><span class="s2">"src/sync/LivePublisher"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"src/sync/Sheets"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"src/sync/Gviz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span>-e<span class="w"> </span><span class="s2">"src/sync/SyncConfig"</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"src/sync/events.seed"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span>/d/Personal/SAGE/sage-tools-api<span class="w"> </span>/d/Personal/SAGE/sage-docs<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span>/d/Personal/SAGE/sage-match-control.github.io<span class="w"> </span>/d/Personal/SAGE/CLAUDE.md
+</code></pre></div>
+<p>About 40 files match, mostly specs in <code>sage-docs</code>. Replace each with the new path.
+Historical specs keep their prose; only the path text changes. The <code>.gs</code> header
+comments that say "paste <code>scripts/…</code>" are updated too (a <code>.gs</code> change does not
+bump the version and ships by pasting, so only the comment moves).</p>
+<p><strong>Acceptance.</strong> <code>npm run verify</code> green; the grep above returns nothing;
+<code>node index.mjs</code> starts and <code>GET /ping</code> answers; <code>docker build .</code> (or the
+owner's build trigger on the branch) succeeds; <code>git log --follow</code> on a moved
+file shows its history.</p>
+<h3 id="62-phase-2-hardening-272">6.2 Phase 2 — hardening (2.7.2)<a class="headerlink" href="#62-phase-2-hardening-272" title="Permanent link">&para;</a></h3>
+<p>Do these in order; for each, write the failing test first.</p>
+<ol>
+<li><strong><code>shared/safeEqual.mjs</code></strong> (F5): hash both strings with SHA-256 and compare
+   with <code>timingSafeEqual</code>, so length does not leak. Use it for <code>X-Sync-Secret</code>.</li>
+<li><strong><code>config/loadConfig.mjs</code></strong> (F9, B6) per §4.7; <code>index.mjs</code> calls it once, passes
+   the pieces on, and logs the one warning line for unset secrets. A
+   <code>ConfigError</code> prints every problem and exits with code 1 before listening.
+   Add <code>test:coverage:config</code> (<code>src/config/**</code>, lines ≥ 95) to <code>package.json</code>
+   and to <code>test:coverage</code> in the same commit (test-suite spec §3.2).</li>
+<li><strong>Errors</strong> (F6, B2): add <code>code</code> to <code>AppError</code> and each subclass (§4.6), add
+   <code>ConflictError</code> and <code>ConfigError</code>, write <code>server/errorHandler.mjs</code> and
+   <code>server/asyncHandler.mjs</code>, register the handler last in <code>Server</code>. Convert
+   every handler in <code>sync/routes.mjs</code>, <code>scoresheets/routes.mjs</code>,
+   <code>auth/routes.mjs</code> and <code>attendance/routes.mjs</code> to throw (wrapped in <code>asyncHandler</code>) and delete their
+   <code>try/catch</code>. The streaming handler keeps its own <code>catch</code>, because it must
+   write an NDJSON error line after headers are sent; the handler's
+   <code>headersSent</code> check covers anything that escapes it. Update the integration
+   tests' expected bodies to include <code>code</code> (B2).</li>
+<li><strong><code>auth/middleware.mjs</code></strong> (F8): move <code>requireAuthToken</code> and
+   <code>requireSyncSecretOrAuthToken</code> out of the sync routes factory into factories
+   taking <code>authService</code> (and the shared secret). Routes import them. The
+   <a href="../../implemented/multi-event-attendance-spec/">attendance spec</a>'s operator-or-desk check
+   in <code>src/attendance/routes.mjs</code> moves here too, as
+   <code>requireAuthTokenOrDeskToken</code>.</li>
+<li><strong><code>server/cors.mjs</code></strong> (F14, B3): move the CORS middleware out of <code>Server</code>;
+   methods become <code>GET, POST, PUT, PATCH, DELETE, OPTIONS</code>. Fix the comment on
+   <code>start()</code> (F11): cleartext HTTP/1.1 does not work; Cloud Run talks h2c.
+   <code>start()</code> returns the listening server so a test can close it.</li>
+<li><strong>Reserved day keys</strong> (F7, B4): <code>SyncConfigStore.validate</code> rejects a day key
+   in <code>RESERVED_DAY_KEYS = ["config", "live-push"]</code> with a message naming it.
+   Add the test and flip its <code>CHARACTERIZATION</code> marker.</li>
+<li><strong><code>jsconfig.json</code></strong> (F10): <code>include: ["src/**/*.mjs", "index.mjs", "test/**/*.mjs"]</code>,
+   <code>target</code>/<code>lib</code> <code>ES2022</code>, <code>module</code>/<code>moduleResolution</code> <code>NodeNext</code>, <code>checkJs:
+   false</code> globally. Add <code>// @ts-check</code> to the new modules from this phase on
+   (<code>safeEqual</code>, <code>loadConfig</code>, <code>errorHandler</code>, <code>middleware</code>, <code>cors</code>) and make
+   them clean in the editor. Do not turn <code>checkJs</code> on for existing files here.</li>
+</ol>
+<p><strong>Acceptance.</strong> Suite green with only the B2/B3/B4 test edits; <code>curl</code> against a
+local instance with <code>SHEETS_FETCH_TIMEOUT_MS=abc</code> exits 1 with a readable
+message; with <code>LIVE_PUSH_TIMEOUT_MS=</code> (empty) it starts and uses the default;
+no handler contains <code>res.status(err.statusCode</code>.</p>
+<h3 id="63-phase-3-one-retry-loop-one-store-interface-domain-extraction-273">6.3 Phase 3 — one retry loop, one store interface, domain extraction (2.7.3)<a class="headerlink" href="#63-phase-3-one-retry-loop-one-store-interface-domain-extraction-273" title="Permanent link">&para;</a></h3>
+<p>Write the unit tests for each new module from §5.2 <strong>first</strong>, watch them fail
+(the module does not exist), then implement.</p>
+<ol>
+<li><code>shared/conflictRetry.mjs</code> (§4.5). Move <code>COMMIT_ATTEMPTS</code> here; keep
+   re-exporting it from <code>infra/GitHubPublisher.mjs</code> for one release so nothing
+   else breaks, then delete the re-export in Phase 4.</li>
+<li><code>sync/publishing/SnapshotStore.mjs</code>, <code>GitHubSnapshotStore.mjs</code>,
+   <code>LiveSnapshotStore.mjs</code> (§4.4), each with a unit test that drives it against
+   the existing <code>FakePublisher</code>/<code>FakeLivePublisher</code>.</li>
+<li><code>sync/publishing/mergeIntoStore.mjs</code> (§4.5) with tests: success first try;
+   conflict then success (re-reads and re-builds against the new base);
+   <code>readBase</code> override used; <code>ConflictError</code> after three; non-conflict errors
+   propagate; <code>build</code> throwing (<code>SyncUpstreamError</code>) propagates unretried.</li>
+<li>Extract the pure parts of <code>SyncService</code> into <code>sync/domain/</code>:
+   <code>mergeSnapshot.mjs</code> (<code>#buildSnapshot</code>, same inputs and outputs),
+   <code>snapshotStamp.mjs</code> (the <code>stamp</code> helper in <code>#readLiveBase</code>), <code>syncTiming.mjs</code>
+   (the <code>timing</code> object and the log line), <code>editAt.mjs</code> (the inline window rule
+   in <code>handleSync</code>). <code>SyncService</code> calls them. No behaviour change: the ported
+   scenarios stay green untouched.</li>
+<li><code>SyncConfigStore.setIsLive</code> and <code>setLivePush</code> use <code>withConflictRetry</code>
+   (B1: three conflicts now throw <code>ConflictError</code>, <code>409</code>). <code>SyncService</code>'s
+   GitHub-path loop, the live loop and the archive loop are <strong>not</strong> converted
+   yet: Phase 4 replaces them wholesale.</li>
+<li>Update the B1 characterization tests.</li>
+</ol>
+<p><strong>Acceptance.</strong> Suite green; <code>grep -rn "COMMIT_ATTEMPTS" src</code> finds the constant
+defined once and used by <code>conflictRetry</code> and the stores;
+<code>SyncConfigStore</code> has no hand-written retry loop left.</p>
+<h3 id="64-phase-4-publishing-strategies-and-the-syncservice-split-274">6.4 Phase 4 — publishing strategies and the <code>SyncService</code> split (2.7.4)<a class="headerlink" href="#64-phase-4-publishing-strategies-and-the-syncservice-split-274" title="Permanent link">&para;</a></h3>
+<p>Goal: <code>SyncService</code> knows nothing about GitHub, the Worker, the archive or the
+fallback.</p>
+<ol>
+<li><strong>Contract.</strong> A publishing strategy has two methods:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cm">/**</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="cm"> * @typedef {object} PublishResult</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="cm"> * @property {object} snapshot             what was published</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="cm"> * @property {string[]} stale              facilities carried forward after a failed fetch</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="cm"> * @property {number} attempts</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="cm"> * @property {number} publishedAtMs        Date.now() when it became visible to viewers</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="cm"> * @property {string|null} commitSha       the GitHub commit, or null when the archive failed</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="cm"> * @property {{ published: boolean, version?: number, error?: string }} [live]   absent when live push is not in use</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="cm"> * @property {{ committed: boolean, commitSha?: string, error?: string }} [archive]  present only after a live publish</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="cm"> * @property {number|null} liveMs</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="cm"> * @property {number|null} archiveMs</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="cm"> *</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="cm"> * @typedef {object} PublishingStrategy</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="cm"> * @property {(a: { ref, build, message, log }) =&gt; Promise&lt;PublishResult&gt;} publish</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="cm"> * @property {(a: { ref, mutate, message, log }) =&gt;</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="cm"> *            Promise&lt;{ republished: boolean, live?: object, archive?: object }&gt;} republish</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="cm"> */</span>
+</code></pre></div>
+<p><code>build(base) → { snapshot, stale }</code> is the merge, supplied by <code>SyncService</code>.
+   <code>mutate(snapshot) → snapshot</code> is the change a Live/Hide applies.</p>
+<ol>
+<li><strong><code>GitHubOnlyPublishing</code></strong>: <code>publish</code> is <code>mergeIntoStore</code> over
+   <code>GitHubSnapshotStore</code>; <code>republish</code> reads, applies <code>mutate</code>, stamps
+   <code>publishedAt</code>, writes with retry, and returns <code>republished: false</code> when there
+   is no file.</li>
+<li><strong><code>LiveFirstPublishing</code></strong> (constructor takes <code>liveStore</code>, <code>githubStore</code>,
+   <code>fallback</code> = a <code>GitHubOnlyPublishing</code>): <code>publish</code> is <code>mergeIntoStore</code> over
+   <code>liveStore</code> with a <code>readBase</code> that reads the Worker and GitHub <strong>together</strong>
+   and returns the newer by <code>snapshotStamp</code> (the stale-object rule, unchanged),
+   then the archive (<code>githubStore.write</code> with <code>token: null</code>, retried on conflict
+   by re-reading the Worker's current snapshot, never throwing, returning
+   <code>{ committed, commitSha | error }</code>). Any Worker read or publish failure, or
+   <code>ConflictError</code>, hands over to <code>fallback.publish</code> and returns its result with
+   <code>live: { published: false, error }</code>. <code>republish</code> mirrors it. Every log line
+   keeps today's text.</li>
+<li><strong><code>PublishingSelector</code></strong>: constructed with the two strategies and the
+   <code>LivePublisher</code> (only to ask <code>enabled</code>); <code>select(config)</code> returns
+   <code>LiveFirstPublishing</code> when <code>livePublisher.enabled &amp;&amp; config.livePushOn</code>,
+   else the GitHub-only one. This is the only place that decision lives.</li>
+<li><strong>Services.</strong></li>
+<li><code>SyncService({ sheetsApiFetcher, gvizFetcher, publishing, configStore, logger, onFacilitiesSynced })</code>:
+     resolve the day, fetch, build <code>freshByName</code>/<code>failed</code>/<code>lastEditAt</code>, call
+     <code>publishing.select(config).publish(...)</code> with <code>build = base =&gt;
+     mergeSnapshot({...})</code>, then <code>buildTiming</code>, log, await the attendance
+     hook exactly as today (after the publish and archive, a throw logged and
+     swallowed), and return the response. It
+     does not import <code>GitHubPublisher</code>, <code>LivePublisher</code> or <code>COMMIT_ATTEMPTS</code>.</li>
+<li><code>GoLiveService({ configStore, publishing, logger }).setLiveOverride(day, isLive)</code>.</li>
+<li><code>LivePushSettings({ configStore, livePublisher, logger })</code>:
+     <code>set(enabled) → { enabled, changed, available }</code>.</li>
+<li><code>SyncDiagnostics({ configStore, livePublisher }).describe()</code> returns the
+     <code>GET /sync/config</code> payload; <code>syncRoutes</code> no longer receives <code>syncConfigStore</code>.</li>
+<li><strong><code>syncController.mjs</code></strong> exposes <code>syncDay</code>, <code>setDayVisibility</code>, <code>setLivePush</code>,
+   <code>getDiagnostics</code>: request in, service call, <code>res.json</code>. It parses <code>facility</code>,
+   <code>method</code> and the <code>X-Edit-At</code> header (via <code>editAt</code>), and validates bodies,
+   throwing <code>ValidationError</code>. <code>sync/routes.mjs</code> is renamed <code>legacyRoutes.mjs</code>
+   and shrinks to URL mapping, middleware and the <code>@openapi</code> blocks.</li>
+<li><strong><code>sync/index.mjs</code></strong> exports <code>createSyncModule({ config, logger })</code> returning
+   <code>{ router(s), services }</code>. <code>index.mjs</code> calls it. The integration test helper
+   <code>buildApp</code> is replaced by this same function.</li>
+<li>Delete the Phase 3 re-export of <code>COMMIT_ATTEMPTS</code>.</li>
+</ol>
+<p><strong>Acceptance.</strong> Every test from the test suite passes unchanged except import paths and
+constructor wiring; <code>SyncService.mjs</code> is under 150 lines and
+<code>SyncService.syncDay</code> under 60; <code>grep -n "livePublisher\|GitHubPublisher"
+src/sync/SyncService.mjs</code> finds nothing; there is exactly one place that reads
+<code>livePushOn</code>; adding a hypothetical third strategy requires no edit to
+<code>SyncService</code> (state which files a new strategy would touch in the Changelog).</p>
+<h3 id="65-phase-5-the-v1-api-280">6.5 Phase 5 — the <code>/v1</code> API (2.8.0)<a class="headerlink" href="#65-phase-5-the-v1-api-280" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Write the parity tests first (<code>test/integration/v1.test.mjs</code>). They are
+   table-driven: for each row of §4.8, the legacy and the <code>/v1</code> request produce
+   the same status (except <code>201</code> for sessions), the same body and the same
+   headers listed in the test-suite spec §2.1. Plus: <code>PUT</code> visibility twice is idempotent;
+   <code>PUT</code> live-push twice gives <code>changed: false</code> the second time; <code>POST
+   /v1/scoresheets</code> with <code>Accept: application/x-ndjson</code> streams, with
+   <code>application/pdf</code> or none returns a PDF, with <code>text/html</code> is <code>406</code>;
+   <code>POST /v1/sessions</code> is <code>201</code>; an unknown <code>/v1/...</code> path is <code>404 { error,
+   code: "not_found" }</code>; <code>/ping</code> has no <code>/v1</code> alias.
+   The <code>/v1</code> prefix already exists: the
+   <a href="../../implemented/multi-event-attendance-spec/">attendance spec</a> (2.6.0) mounts its three
+   routes there. They and their tests stay as they are; this phase adds
+   routes beside them.</li>
+<li><code>sync/v1Routes.mjs</code>, <code>auth</code> and <code>scoresheets</code> get <code>/v1</code> routers calling the
+   <strong>same</strong> controller functions as the legacy routes. No handler logic is
+   duplicated. Mount in <code>Server</code>: legacy at <code>/sync</code>, <code>/scoresheets</code>, <code>/auth</code>;
+   new at <code>/v1</code>.</li>
+<li>Add a catch-all <code>404</code> handler that throws <code>NotFoundError</code> (it exists
+   since attendance; status 404, code <code>not_found</code> from Phase 2) so unknown
+   paths get the same body as every other error.</li>
+<li>OpenAPI: add <code>@openapi</code> blocks for each new path in the route files; mark
+   the legacy duplicates <code>deprecated: true</code> with the description note from
+   §4.8; add <code>servers</code> unchanged; extend <code>apis</code> globs to the new files. Update
+   <code>openapiSpec.test.mjs</code> to the 17 paths (the 11 documented today plus the six new ones) and the route-versus-document test.</li>
+<li>Docs: a <code>docs/technical/api.md</code> page listing both surfaces and the rule "a new
+   client uses <code>/v1</code>; the old URLs never go away".</li>
+</ol>
+<p><strong>Acceptance.</strong> Parity tests green; the OpenAPI document validates (import it
+into Postman: <strong>Import → Link</strong> on <code>/openapi.json</code>); every legacy test from the
+test suite still green untouched.</p>
+<h3 id="66-phase-6-build-docs-and-workspace">6.6 Phase 6 — build, docs and workspace<a class="headerlink" href="#66-phase-6-build-docs-and-workspace" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Cloud Build trigger (F18).</strong> The owner runs this once; the implementer
+   documents it in <code>docs/technical/deployment.md</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>gcloud<span class="w"> </span>builds<span class="w"> </span>triggers<span class="w"> </span>list<span class="w"> </span>--project<span class="o">=</span>sage-tools-api
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>gcloud<span class="w"> </span>builds<span class="w"> </span>triggers<span class="w"> </span>update<span class="w"> </span>github<span class="w"> </span>&lt;TRIGGER_NAME&gt;<span class="w"> </span>--project<span class="o">=</span>sage-tools-api<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>--ignored-files<span class="o">=</span><span class="s1">'live-worker/**,apps-script/**,spikes/**,test/**,.githooks/**,scripts/run-appscript-verifies.mjs,**/*.md'</span>
+</code></pre></div>
+<p>Verify by pushing a README-only commit to a branch the trigger watches and
+   confirming no build starts. <code>package.json</code>, <code>src/**</code>, <code>index.mjs</code>,
+   <code>templates/**</code> and the <code>Dockerfile</code> still trigger a build.
+2. <strong>Remove</strong> <code>scripts/verify-sync-merge.mjs</code> and
+   <code>scripts/verify-facility-completion.mjs</code> (superseded by <code>test/</code>), and update
+   every doc that names them (<code>README.md</code>, root <code>CLAUDE.md</code>, <code>sage-docs</code>).
+3. <strong>Workspace <code>CLAUDE.md</code> (F19).</strong> <code>git init</code> in <code>D:\Personal\SAGE</code>, with a
+   <code>.gitignore</code> listing <code>sage-tools-api/</code>, <code>sage-match-control.github.io/</code>,
+   <code>sage-docs/</code>, <code>event-data/</code> and <code>.claude/</code>; commit only <code>CLAUDE.md</code>. The
+   owner creates the GitHub repo (<code>sage-match-control/sage-workspace</code>) and pushes.
+   The file stays at the same path, so Claude Code keeps finding it.
+4. <strong>Docs</strong>, present tense (§7).
+5. <strong>CLAUDE.md rules.</strong> The test-maintenance rule is already there (test-suite
+   spec §9.4). Extend it with "no production change without a failing test
+   first", and add the <code>/v1</code> rule, the dependency rules of §4.3, and that
+   <code>apps-script/</code> is not part of the service.</p>
+<p><strong>Acceptance.</strong> A markdown-only push does not rebuild Cloud Run; the root
+<code>CLAUDE.md</code> is tracked; the doc grep in Phase 1 still returns nothing.</p>
+<h3 id="67-phase-7-the-sites-duplicated-code-decision-only">6.7 Phase 7 — the site's duplicated code (decision only)<a class="headerlink" href="#67-phase-7-the-sites-duplicated-code-decision-only" title="Permanent link">&para;</a></h3>
+<p>The site repeats code by hand: the live-channel block in nine pages, the
+attendance client in four (Control Center, the desk-page template and each
+event's desk page), the played/BYE rules in <code>control-center.html</code> and the
+server, the team-event rules and the team-roster code in two files each. That is the largest maintenance risk in the system, but fixing it
+changes the site's "one self-contained file per page" rule, which is a
+decision for the owner, not an implementation detail.</p>
+<p>This phase produces a one-page decision record in <code>sage-docs/docs/specs/not-started/</code>
+comparing two options, and nothing else:</p>
+<ol>
+<li><strong>Shared files</strong> at root-absolute <code>/assets/js/*.js</code> (the same convention the
+   site already uses for images), loaded with <code>&lt;script src&gt;</code>. No build step.
+   Removes the byte-identical-copy hazard. Costs: a page is no longer one file,
+   <code>tools/sw.js</code> caching and cache-busting (<code>?v=</code>) need care, and an archived
+   page that keeps loading a shared file can break when that file changes.</li>
+<li><strong>A generation script</strong> that stamps the shared block into each page. Keeps
+   self-contained pages. Costs: a script to run and a diff check to keep.</li>
+</ol>
+<p>Recommendation to evaluate: option 1 for the live channel, the attendance
+client and the match rules, leaving archived events untouched.</p>
+<hr />
+<h2 id="7-documentation-to-update">7. Documentation to update<a class="headerlink" href="#7-documentation-to-update" title="Permanent link">&para;</a></h2>
+<p>Present tense, in the same commit as the phase that changes the thing.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sage-tools-api/README.md</code></td>
+<td>Changelog entry per versioned phase; <strong>Testing</strong> section (added by the test-suite spec); updated layout</td>
+</tr>
+<tr>
+<td>root <code>CLAUDE.md</code></td>
+<td><code>sage-tools-api</code> layout (<code>apps-script/</code>, <code>test/</code>, the new <code>src/</code> tree), the verify and test commands, the dependency rules, the <code>/v1</code> rule, the deprecated-alias note, the live-push entries that name moved files</td>
+</tr>
+<tr>
+<td><code>sage-docs/docs/technical/architecture.md</code></td>
+<td>the layering and dependency rules (§4.1–4.3)</td>
+</tr>
+<tr>
+<td><code>sage-docs/docs/technical/sync-pipeline.md</code></td>
+<td>the publishing strategies and the store interface replace the <code>SyncService</code> description; file paths</td>
+</tr>
+<tr>
+<td><code>sage-docs/docs/technical/deployment.md</code></td>
+<td>the Cloud Build file filter; the test commands</td>
+</tr>
+<tr>
+<td><code>sage-docs/docs/technical/api.md</code> (new, Phase 5)</td>
+<td>both API surfaces and the alias rule</td>
+</tr>
+<tr>
+<td><code>sage-docs/docs/technical/README.md</code>, <code>mkdocs.yml</code></td>
+<td>index and nav for the new page and this spec</td>
+</tr>
+<tr>
+<td><code>sage-docs/docs/specs/README.md</code>, folder READMEs</td>
+<td>this spec's entry, then its move as it progresses</td>
+</tr>
+<tr>
+<td>every file the Phase 1 grep finds</td>
+<td>new paths</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-acceptance-checklist">8. Acceptance checklist<a class="headerlink" href="#8-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Phase 0</strong> (the test-suite spec)</p>
+<ul>
+<li>[ ] The <a href="../../implemented/sage-tools-api-test-suite-spec/">test-suite spec</a>'s §7 checklist is complete, and <code>npm run verify</code> is green.</li>
+</ul>
+<p><strong>Phase 1</strong></p>
+<ul>
+<li>[ ] <code>apps-script/</code> holds the <code>.gs</code> files, their harness and fixtures; <code>scripts/</code> holds <code>hash-password.mjs</code> and the runner.</li>
+<li>[ ] <code>src/sync/</code> has <code>domain/</code>, <code>infra/</code>, <code>config/</code>.</li>
+<li>[ ] The Phase 1 grep returns nothing; <code>npm run verify</code> green; the service starts.</li>
+</ul>
+<p><strong>Phase 2</strong></p>
+<ul>
+<li>[ ] <code>X-Sync-Secret</code> is compared in constant time.</li>
+<li>[ ] A bad environment value stops startup with a clear message; an unset secret does not.</li>
+<li>[ ] Every error response has <code>{ error, code }</code>; no handler builds its own error response.</li>
+<li>[ ] Auth middleware lives in <code>src/auth/middleware.mjs</code>.</li>
+<li>[ ] CORS allows <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code>.</li>
+<li>[ ] Day keys <code>config</code> and <code>live-push</code> are rejected.</li>
+<li>[ ] <code>jsconfig.json</code> covers <code>.mjs</code>; the new modules pass <code>// @ts-check</code>.</li>
+</ul>
+<p><strong>Phase 3</strong></p>
+<ul>
+<li>[ ] The conflict retry is written once (<code>withConflictRetry</code>) and used by the stores and <code>mergeIntoStore</code>.</li>
+<li>[ ] Three GitHub conflicts answer <code>409</code> (B1).</li>
+<li>[ ] The pure sync logic lives in <code>sync/domain/</code> with its own unit tests.</li>
+</ul>
+<p><strong>Phase 4</strong></p>
+<ul>
+<li>[ ] <code>SyncService</code> has no GitHub, Worker, archive or fallback code.</li>
+<li>[ ] Publishing strategies, the selector, the three small services and the controller exist.</li>
+<li>[ ] Every Phase 0 test passes unchanged apart from wiring.</li>
+</ul>
+<p><strong>Phase 5</strong></p>
+<ul>
+<li>[ ] The six new <code>/v1</code> routes exist; parity tests green.</li>
+<li>[ ] Every legacy URL still answers exactly as before; <code>/ping</code> untouched.</li>
+<li>[ ] OpenAPI documents all seventeen paths, legacy ones marked deprecated.</li>
+</ul>
+<p><strong>Phase 6</strong></p>
+<ul>
+<li>[ ] A markdown-only push does not rebuild Cloud Run.</li>
+<li>[ ] The old verify scripts are removed; the workspace <code>CLAUDE.md</code> is tracked.</li>
+<li>[ ] Docs describe the new structure.</li>
+</ul>
+<p><strong>Always</strong></p>
+<ul>
+<li>[ ] <code>GET /ping</code> returns <code>200 PONG!</code> with <code>X-App-Version</code> and <code>X-Sync-Config</code>.</li>
+<li>[ ] Nothing was deployed before the owner said so.</li>
+</ul>
+<hr />
+<h2 id="9-rollout-and-rollback">9. Rollout and rollback<a class="headerlink" href="#9-rollout-and-rollback" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Everything happens on <code>arch-refactor</code>. <strong>Nothing merges to <code>main</code> until the
+  owner agrees</strong>, and not in the few days before or during an event, because
+  merging deploys Cloud Run.</li>
+<li>Merge phase by phase if the owner prefers: each phase is independently
+  green and independently revertible with <code>git revert &lt;phase commit&gt;</code>.</li>
+<li>After deploying, check <code>GET /ping</code> for the new version, press <strong>Sync now</strong> in
+  a workbook, press <strong>Check connection</strong> in Control Center, and run one
+  <strong>Resync this day now</strong>. These exercise the legacy routes the deployed
+  clients use.</li>
+<li>Rollback is a revert and a push; the old URLs never changed, so no client
+  needs touching.</li>
+</ul>
+<h2 id="10-out-of-scope">10. Out of scope<a class="headerlink" href="#10-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Moving Control Center, the scoresheet generator or Apps Script to <code>/v1</code>.</li>
+<li>Tests for the live Worker beyond <code>smoke.mjs</code>.</li>
+<li>Replacing the shared-secret and one-operator-login model.</li>
+<li>Rate limiting, request IDs, structured (JSON) logging, metrics.</li>
+<li>The site's shared code (§6.7 is a decision only).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../automated-dry-run-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Automated dry run">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Automated dry run
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../fast-data-delivery-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Fast data delivery">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Fast data delivery
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

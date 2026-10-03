@@ -1,0 +1,5537 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/in-progress/pickledrive-club-anniversary-team-tournament-spec/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../piggleball-chairmans-cup-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Team tournament - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-team-tournament-pickledrive-club-one-year-celebration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Team tournament
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-how-to-use-this-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. How to use this spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-event-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Event facts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-inputs-already-staged" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inputs — already staged
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-how-it-arrives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 How it arrives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-matchescsv-one-row-per-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 matchesCsv — one row per match
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-standingscsv-one-row-per-team" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 standingsCsv — one row per team
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-team-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Team codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-team-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Team names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-group-standings-from-standingscsv-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Group standings — from STANDINGSCSV only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-who-advances-the-workbook-decides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Who advances — the workbook decides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-who-wins-a-matchup-total-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Who wins a matchup — total points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-stage-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Stage labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-public-site-eventspickledrive-anniversary-2026indexhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Public site — events/pickledrive-anniversary-2026/index.html
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Public site — events/pickledrive-anniversary-2026/index.html">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-create-the-event-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Create the event folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-replace-the-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Replace the {{TOKENS}}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-hero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Hero
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-configuration-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Configuration block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-parsing-and-shared-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Parsing and shared helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-the-matchup-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 The matchup card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-standings-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Standings view
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-match-finder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.8 Match Finder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#59-live-matches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9 Live Matches
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#510-footer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10 Footer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-theme-and-fonts-from-the-pubmat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Theme and fonts — from the pubmat
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Theme and fonts — from the pubmat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-palette" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Palette
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-hard-coded-copies-of-the-old-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Hard-coded copies of the old colours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-fonts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Fonts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-contrast-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Contrast note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-schedule-board-eventspickledrive-anniversary-2026schedulehtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Schedule board — events/pickledrive-anniversary-2026/schedule.html
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-verify-the-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Verify the site
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Verify the site">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-serve-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Serve it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-fixturepre-before-the-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 ?fixture=pre — before the event
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-fixturefinished-after-the-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 ?fixture=finished — after the event
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-fixtureedge-hand-built-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 ?fixture=edge — hand-built cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-control-center-toolscontrol-centerhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Control Center — tools/control-center.html
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Control Center — tools/control-center.html">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-config-and-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Config and type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-local-fixtures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Local fixtures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-standings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Standings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-live-matches-match-finder-intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Live Matches, Match Finder, intro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-awards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 Awards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97-mission-control-and-facility-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Mission Control and facility progress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#98-theme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8 Theme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#99-verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.9 Verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-register-the-event-event-dataconfigeventsjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Register the event — event-data/config/events.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-operator-runbook-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Operator runbook copy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-documentation-sage-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Documentation — sage-docs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-report-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Report back
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-decisions-settled-dont-revisit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Decisions (settled — don't revisit)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-after-the-event-the-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. After the event — the template
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-how-to-use-this-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. How to use this spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-event-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Event facts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-inputs-already-staged" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inputs — already staged
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-how-it-arrives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 How it arrives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-matchescsv-one-row-per-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 matchesCsv — one row per match
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-standingscsv-one-row-per-team" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 standingsCsv — one row per team
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-team-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Team codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-team-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Team names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-group-standings-from-standingscsv-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Group standings — from STANDINGSCSV only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-who-advances-the-workbook-decides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Who advances — the workbook decides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-who-wins-a-matchup-total-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Who wins a matchup — total points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-stage-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Stage labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-public-site-eventspickledrive-anniversary-2026indexhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Public site — events/pickledrive-anniversary-2026/index.html
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Public site — events/pickledrive-anniversary-2026/index.html">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-create-the-event-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Create the event folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-replace-the-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Replace the {{TOKENS}}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-hero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Hero
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-configuration-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Configuration block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-parsing-and-shared-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Parsing and shared helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-the-matchup-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 The matchup card
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-standings-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Standings view
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-match-finder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.8 Match Finder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#59-live-matches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9 Live Matches
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#510-footer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10 Footer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-theme-and-fonts-from-the-pubmat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Theme and fonts — from the pubmat
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Theme and fonts — from the pubmat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-palette" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Palette
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-hard-coded-copies-of-the-old-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Hard-coded copies of the old colours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-fonts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Fonts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-contrast-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Contrast note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-schedule-board-eventspickledrive-anniversary-2026schedulehtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Schedule board — events/pickledrive-anniversary-2026/schedule.html
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-verify-the-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Verify the site
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Verify the site">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-serve-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Serve it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-fixturepre-before-the-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 ?fixture=pre — before the event
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-fixturefinished-after-the-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 ?fixture=finished — after the event
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-fixtureedge-hand-built-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 ?fixture=edge — hand-built cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-control-center-toolscontrol-centerhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Control Center — tools/control-center.html
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Control Center — tools/control-center.html">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-config-and-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Config and type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-local-fixtures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Local fixtures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-standings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Standings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-live-matches-match-finder-intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Live Matches, Match Finder, intro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-awards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 Awards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97-mission-control-and-facility-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Mission Control and facility progress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#98-theme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8 Theme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#99-verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.9 Verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-register-the-event-event-dataconfigeventsjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Register the event — event-data/config/events.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-operator-runbook-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Operator runbook copy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-documentation-sage-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Documentation — sage-docs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-report-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Report back
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-decisions-settled-dont-revisit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Decisions (settled — don't revisit)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-after-the-event-the-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. After the event — the template
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/in-progress/pickledrive-club-anniversary-team-tournament-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-team-tournament-pickledrive-club-one-year-celebration">Spec — Team tournament (PickleDrive Club One Year Celebration)<a class="headerlink" href="#spec-team-tournament-pickledrive-club-one-year-celebration" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: in progress.</strong> Every rule is settled (§14). The public site
+(§5–§6), the schedule board (§7), Control Center's <code>team</code> type (§9), the
+registry entry (§10) and the operator runbook (§11) are built and were
+checked against the test fixtures. The sync script is installed in the
+event workbook, and <code>Kingcourts</code> has been publishing to
+<code>event-data/pickledrive-anniversary-2026/</code> since 29 September, and the QR
+image is committed. Still open: the short link, which the organiser owns and
+did not yet redirect to the event page when last checked; the dry run; and setting
+<code>pickledrive-anniversary-2026-day1</code>'s <code>isLive</code> back to <code>"auto"</code> in
+<code>event-data/config/events.json</code>, where it is hardcoded <code>true</code> from
+go-live testing. The event is <strong>Saturday, 3 October 2026</strong>. The template
+(§15) follows the event.</p>
+<p><strong>Naming divergence.</strong> Everywhere a page shows a reader "Group 1", "Group 2"
+or "Group 3" (this spec's wording), the built pages say <strong>Bracket 1</strong>,
+<strong>Bracket 2</strong>, <strong>Bracket 3</strong> (the schedule board's tight colour chip says
+<strong>BR 1</strong>…). Only the visible labels changed; the code and the
+<code>STANDINGSCSV</code> <code>bracket</code> column are as written here.</p>
+<p><strong>Letter chips.</strong> The base-team letter chip (§4.1) is shown only in Control Center;
+the public pages show the team name alone.</p>
+<p><strong>Repeated pair labels are numbered.</strong> Where §4's pair labels repeat a
+doubles type, the built pages number the repeats in pair order: pair 3 is
+<strong>XD 1</strong> / <em>Mixed Doubles 1</em> and pair 4 is <strong>XD 2</strong> / <em>Mixed Doubles 2</em>,
+while MD and WD, which appear once, stay plain. <code>numberRepeatedPairs</code> works
+it out from the pair table rather than hard-coding it. It lives in three
+places: <code>PAIRS</code> in <code>index.html</code> and in Control Center's team block, and
+<code>PAIR_SHORT</code> in <code>schedule.html</code>.</p>
+<p><strong>MXD on this event's pages.</strong> PickleDrive's own <code>index.html</code> and
+<code>schedule.html</code> abbreviate Mixed Doubles as <strong>MXD</strong> (so <strong>MXD 1</strong>,
+<strong>MXD 2</strong>), at the organiser's request. Control Center keeps <strong>XD</strong> on
+purpose: it serves every team event, so the difference is deliberate.</p>
+<p><strong>Ranking (replaces §4.2's quotient-only rule and D1).</strong> The organiser's
+tiebreakers rank each bracket: (1) points scored, (2) quotient,
+(3) head-to-head points among the teams still level, (4) pair wins in the
+bracket; rows level on all four keep <code>STANDINGSCSV</code> order. One function,
+<code>teamRankBracket</code>, in both <code>index.html</code> and Control Center. The §8.4
+"Ranking" row no longer holds: the <code>edge</code> fixture's PF columns were never
+recomputed, so it now ranks A, B, C, D, E by points scored. Advancement is
+unchanged — still the workbook's entry (§4.3).</p>
+<p><strong>Quarterfinals (replaces the §1 playoff format and D4).</strong> Eight teams reach
+the playoffs, not four. The workbook adds a quarterfinal round —
+<code>QF-3 v QF-6</code>, <code>QF-1 v QF-8</code>, <code>QF-2 v QF-7</code>, <code>QF-4 v QF-5</code>, matches #121–136 —
+so the semifinals are #137–144, the Final #145–148 and Bronze #149–152:
+152 matches, 38 matchups. <code>STAGES</code> gains <code>QF</code> (Quarterfinal, first in
+order), the Standings playoffs section starts with Quarterfinals, and the
+schedule board reads a <code>QF-</code> side as its <code>QF</code> stage. <strong>Advances</strong> (§4.3) now
+marks a team whose letter fills any playoff slot, so the eight
+quarterfinalists. Seeding 1–8 is still the organiser's entry in the
+workbook; the site never computes it. The <code>MatchUps</code> seed cells §3.4 lists
+have moved: QF seeds 3, 6, 1, 8, 2, 7, 4, 5 are <code>D604</code>–<code>D674</code> in steps of
+10, SF seeds 1–4 <code>D684</code>–<code>D714</code>, Bronze <code>D724</code>/<code>D734</code>, Final <code>D744</code>/<code>D754</code>. <code>_fixtures/.../qf-pre.json</code> is a copy
+of the published snapshot in this format, before any result; the older
+<code>pre</code>, <code>finished</code> and <code>edge</code> fixtures predate it and have no QF round.</p>
+</blockquote>
+<p>Build the website for a <strong>team tournament</strong>. Named teams of eight players
+meet in <strong>matchups</strong>. A matchup is four doubles matches between the same two
+teams.</p>
+<blockquote>
+<p><strong>Terminology — use these words everywhere, on the pages and in code.</strong>
+A <strong>matchup</strong> is one team against another: four <strong>matches</strong>, e.g.
+<em>DinkTadors vs LOB is in the Air</em>. A <strong>match</strong> is one game between two
+pairs (Match #1–136). A <strong>tie</strong> means <strong>equal points</strong> — nothing else.
+When a matchup finishes with both teams on the same total, it is a
+<strong>tie</strong>. Never use "tie" for the team-vs-team meeting itself, in page text
+or in new identifiers. That is always a <strong>matchup</strong>, the same word the
+workbook uses (its <code>matchUp</code> column and <code>MatchUps</code> tab).
+No template exists for this format yet. This event is the <strong>prototype</strong>:
+build it as one event folder now, and extract a template from it after the
+event (§15).</p>
+</blockquote>
+<p>The headline requirement: <strong>team names appear everywhere a team appears</strong>.
+That means Standings, Match Finder, Live Matches, the schedule board, and
+every Control Center view.</p>
+<p>This spec is written for an implementer with <strong>no other context</strong>. It gives
+every value and every rule. You should not need to make product decisions.
+If this spec disagrees with the code, or with
+<code>sage-match-control.github.io/_templates/CLAUDE.md</code> (the template runbook),
+<strong>stop and ask</strong>. Don't pick one.</p>
+<hr />
+<h2 id="0-how-to-use-this-spec">0. How to use this spec<a class="headerlink" href="#0-how-to-use-this-spec" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Repos.</strong> All under <code>D:\Personal\SAGE\</code>:</li>
+<li><code>sage-match-control.github.io\</code> — the static site. §5–§9 and §11 happen
+    here. Paths in those sections are relative to this repo.</li>
+<li><code>event-data\</code> — the data repo. §10 edits <code>config\events.json</code> there.</li>
+<li><code>sage-docs\</code> — documentation. §12 edits it.</li>
+<li><code>sage-tools-api\</code> — the backend. <strong>Nothing in it changes.</strong></li>
+<li><strong>Order.</strong> Do §5 → §12 in order. Each section ends with a check. Don't
+  move on until it passes.</li>
+<li><strong>Find edits by anchor text, not line numbers.</strong> Quoted anchors are exact.
+  Line numbers drift.</li>
+<li><strong>Read before you edit.</strong> The files are large (<code>index.html</code> ~3,000
+  lines, <code>tools/control-center.html</code> ~5,800). Read each function you
+  change in full first.</li>
+<li><strong>Don't edit anything under <code>_templates/</code>.</strong> The template comes later
+  (§15).</li>
+<li><strong>Don't commit or push</strong> unless the user asks.</li>
+<li><strong>No build step, no framework, no new dependencies.</strong> Each page is one
+  self-contained HTML file with an inline <code>&lt;style&gt;</code> and <code>&lt;script&gt;</code>. The only
+  external resources allowed are Google Fonts and what the page already
+  loads.</li>
+<li><strong>Python is not installed on this machine.</strong> Serve pages with Node (§8.1).</li>
+<li>Don't rename, "fix" or tidy anything this spec doesn't mention.</li>
+</ul>
+<hr />
+<h2 id="1-event-facts">1. Event facts<a class="headerlink" href="#1-event-facts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>PickleDrive Club One Year Celebration</td>
+</tr>
+<tr>
+<td>Organiser</td>
+<td>PickleDrive Club (<code>@pickledriveclub</code>)</td>
+</tr>
+<tr>
+<td>Format</td>
+<td>Team tournament</td>
+</tr>
+<tr>
+<td>Pubmat slogan</td>
+<td><em>Not just a tournament, it's a celebration!</em></td>
+</tr>
+<tr>
+<td>Date</td>
+<td>Saturday, 3 October 2026 — one day. First serve 9:00 AM</td>
+</tr>
+<tr>
+<td>Venue</td>
+<td>Kingcourts — one facility, <strong>10 courts</strong> (Court 1–10)</td>
+</tr>
+<tr>
+<td>Teams</td>
+<td>15, codes <code>A</code>–<code>O</code>, each with a name (e.g. <code>A</code> = DinkTadors)</td>
+</tr>
+<tr>
+<td>Groups</td>
+<td>3 groups of 5. Group 1: A–E. Group 2: F–J. Group 3: K–O</td>
+</tr>
+<tr>
+<td>Roster</td>
+<td>8 players per team (4 men, 4 women)</td>
+</tr>
+<tr>
+<td>Matchup</td>
+<td>4 matches, one game each. Pair 1 Men's Doubles, Pair 2 Women's Doubles, Pair 3 Mixed Doubles, Pair 4 Mixed Doubles</td>
+</tr>
+<tr>
+<td>Group stage</td>
+<td>Full round robin in each group: 10 matchups per group, 30 matchups, 120 matches (#1–120). 25-minute slots from 9:00 AM. Pairs 1–2 of a matchup play in one slot, pairs 3–4 in the next</td>
+</tr>
+<tr>
+<td>Semifinals</td>
+<td>2 matchups, 8 matches (#121–128), 2:25 PM and 2:50 PM, Courts 4–7</td>
+</tr>
+<tr>
+<td>Final and Bronze</td>
+<td>1 matchup each, played at the same time, 8 matches (#129–136), 3:15 PM and 3:40 PM, Courts 4–7</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>136 matches, 34 matchups</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The site shows none of these pubmat details:</strong> registration fee,
+inclusions (shirt, meals, drinks, DJ, raffle, photos), prizes, or social
+handles. The site is a live results hub for people already entered.</p>
+<hr />
+<h2 id="2-inputs-already-staged">2. Inputs — already staged<a class="headerlink" href="#2-inputs-already-staged" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Where</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Event logo</td>
+<td><code>sage-match-control.github.io/events/pickledrive-anniversary-2026/assets/logo.png</code></td>
+<td>500×500 PNG. White script "PickleDrive Club" on a photographed sage-green fabric background. A full square image, <strong>not</strong> a transparent mark. Use as is</td>
+</tr>
+<tr>
+<td>Pubmat</td>
+<td><code>…/events/pickledrive-anniversary-2026/assets/pubmat.webp</code></td>
+<td>1023×1537. Reference for §6 only. The page does not load it</td>
+</tr>
+<tr>
+<td>Test snapshots</td>
+<td><code>sage-match-control.github.io/_fixtures/pickledrive-anniversary-2026/{pre,finished,edge}.json</code></td>
+<td>Exact copies of what the sync publishes, built from the organiser's workbooks. See §8</td>
+</tr>
+<tr>
+<td>Test registry</td>
+<td><code>sage-match-control.github.io/_fixtures/config.json</code></td>
+<td>Registers only this event, for testing Control Center locally (§9.9)</td>
+</tr>
+<tr>
+<td>Event workbook</td>
+<td>Spreadsheet <code>1Bk3iAqB6Fdt6t-EiI8MrU0Or8UZc4MAZcnWcMUOCkOA</code></td>
+<td>The live workbook. Its sheet ID goes in §10</td>
+</tr>
+<tr>
+<td>Finished-state workbook</td>
+<td>Spreadsheet <code>1YmJYvpGMYOTZA9EkF7M2WaxldHo6huWuBKU6nWss9oo</code></td>
+<td>A copy with every score filled in, source of <code>finished.json</code></td>
+</tr>
+<tr>
+<td>Short link</td>
+<td><code>tinyurl.com/SAGExPickleDrive2026</code></td>
+<td>Should redirect to <code>https://sage-match-control.github.io/events/pickledrive-anniversary-2026/</code>. Checked in §5.2</td>
+</tr>
+<tr>
+<td>QR image</td>
+<td><strong>To follow.</strong> It will be dropped in at <code>events/pickledrive-anniversary-2026/assets/qr.png</code></td>
+<td>See §5.2. Don't generate one</td>
+</tr>
+</tbody>
+</table>
+<p><code>_fixtures/</code> starts with an underscore, so GitHub Pages (Jekyll) never
+publishes it. It is served only by your local server. Leave it in place, and
+don't add a <code>.nojekyll</code> file to this repo.</p>
+<hr />
+<h2 id="3-the-data">3. The data<a class="headerlink" href="#3-the-data" title="Permanent link">&para;</a></h2>
+<h3 id="31-how-it-arrives">3.1 How it arrives<a class="headerlink" href="#31-how-it-arrives" title="Permanent link">&para;</a></h3>
+<p>A Google Apps Script in the workbook posts edits to <code>sage-tools-api</code>. That
+service copies two tabs, <code>CSV</code> and <code>STANDINGSCSV</code>, as raw CSV text into one
+JSON file per day. It publishes the file to:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>https://sage-match-control.github.io/event-data/pickledrive-anniversary-2026/data/pickledrive-anniversary-2026-day1.json
+</code></pre></div>
+<p>Every page polls that URL every 10 seconds. The file's shape:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"day"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pickledrive-anniversary-2026-day1"</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oct 3"</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">"isLive"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">"generatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-03T07:50:00.000Z"</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">"facilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kingcourts"</span><span class="p">,</span><span class="w"> </span><span class="nt">"matchesCsv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CSV tab&gt;"</span><span class="p">,</span><span class="w"> </span><span class="nt">"standingsCsv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;STANDINGSCSV tab&gt;"</span><span class="p">,</span><span class="w"> </span><span class="nt">"syncedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"…"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nt">"failedFacilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nt">"staleFacilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>isLive</code> is <code>true</code>, <code>false</code> or <code>"auto"</code>. The existing
+<code>computeDayIsLive()</code> already handles it, so don't change that function.</p>
+<h3 id="32-matchescsv-one-row-per-match">3.2 <code>matchesCsv</code> — one row per match<a class="headerlink" href="#32-matchescsv-one-row-per-match" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>matchNumber,matchUp,court,Schedule,CourtAssignment,teamCode1,team1Player1,team1Player2,team1Score,teamCode2,team2Player1,team2Player2,team2Score
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>1,A v B,,9:00 AM,Court 1,A_1,Tristen Pamintuan ,Errol Cunanan ,11,B_1,Jr Pineda ,Patrick Garcia ,1
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>matchNumber</code></td>
+<td>1–136. Rows without one are spacers — skip them (the parser already does)</td>
+</tr>
+<tr>
+<td><code>matchUp</code></td>
+<td><strong>The matchup.</strong> All four matches of a matchup share it: <code>A v B</code>, <code>SF-A v SF-F</code>. <strong>Group matches into matchups by this column only.</strong> Never infer matchups from codes or time slots</td>
+</tr>
+<tr>
+<td><code>court</code></td>
+<td>The court a match is being played on <strong>right now</strong>, as a bare number (<code>6</code>), or blank. Drives Live Matches</td>
+</tr>
+<tr>
+<td><code>Schedule</code></td>
+<td>Slot time, <code>9:00 AM</code></td>
+</tr>
+<tr>
+<td><code>CourtAssignment</code></td>
+<td>Scheduled court, <code>Court 1</code></td>
+</tr>
+<tr>
+<td><code>teamCode1</code> / <code>teamCode2</code></td>
+<td><code>&lt;SIDE&gt;_&lt;PAIR&gt;</code> (§3.4). <code>teamCode1</code> is always the first team named in <code>matchUp</code></td>
+</tr>
+<tr>
+<td><code>team1Player1</code> … <code>team2Player2</code></td>
+<td>Player names. <strong>They carry trailing spaces.</strong> The existing parser trims them</td>
+</tr>
+<tr>
+<td><code>team1Score</code> / <code>team2Score</code></td>
+<td>Blank until played. A match is <strong>played</strong> when both are present</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lineups are set per matchup.</strong> Before a captain enters a matchup's lineup, each
+player cell holds the pair's own code (<code>A_1</code>). The existing <code>rowsToMatches</code>
+already turns a name equal to its code into <code>'TBD'</code>. In this spec,
+<strong>"lineup not set"</strong> means <code>t1p1 === 'TBD'</code> (or <code>t2p1</code>). The same player can
+play a different pair in each matchup.</p>
+<h3 id="33-standingscsv-one-row-per-team">3.3 <code>standingsCsv</code> — one row per team<a class="headerlink" href="#33-standingscsv-one-row-per-team" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>teamCode,teamName,totalPoints,totalOpponentPoints,quotient,bracket
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>A,DinkTadors,176,16,11.00000,1
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>…
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>O,Tito Dink &amp; Joey,16,176,0.09091,3
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>SF-A,DinkTadors,44,4,11.00000,
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>SF-F,Pampanga Wildcards,4,44,0.09091,
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>…
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Fi-K,KaDINKo,4,44,0.09091,
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>teamCode</code></td>
+<td><code>A</code>–<code>O</code> for the 15 teams. Then 8 playoff rows: <code>SF-*</code> ×4, <code>Br-*</code> ×2, <code>Fi-*</code> ×2</td>
+</tr>
+<tr>
+<td><code>teamName</code></td>
+<td><strong>The only source of team names.</strong> Blank on a playoff row whose slot isn't decided yet</td>
+</tr>
+<tr>
+<td><code>totalPoints</code> / <code>totalOpponentPoints</code></td>
+<td>Points scored / conceded. Group rows cover that team's group matches; a playoff row covers that one matchup</td>
+</tr>
+<tr>
+<td><code>quotient</code></td>
+<td><code>totalPoints / totalOpponentPoints</code>, as text. <strong><code>-</code> before any match is played</strong> — parse it as <code>null</code></td>
+</tr>
+<tr>
+<td><code>bracket</code></td>
+<td>Group number <code>1</code>–<code>3</code> on rows <code>A</code>–<code>O</code>. Blank on playoff rows</td>
+</tr>
+</tbody>
+</table>
+<p>This shape differs from both existing templates. It has no <code>player1</code>,
+<code>player2</code>, <code>wins</code> or <code>loss</code>. The workbook has other tabs, including one
+named <code>Standings</code>. <strong>The site never reads any of them.</strong> It uses only these
+two CSVs.</p>
+<h3 id="34-team-codes">3.4 Team codes<a class="headerlink" href="#34-team-codes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Side</th>
+<th>Stage</th>
+<th>Slot</th>
+<th>Pair</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A_3</code></td>
+<td><code>A</code></td>
+<td>group</td>
+<td>—</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>SF-1_2</code></td>
+<td><code>SF-1</code></td>
+<td>Semifinal</td>
+<td><code>1</code> (undecided)</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SF-A_2</code></td>
+<td><code>SF-A</code></td>
+<td>Semifinal</td>
+<td><code>A</code> (decided: team A)</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>Br-F_4</code></td>
+<td><code>Br-F</code></td>
+<td>Bronze</td>
+<td><code>F</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>Fi-A_1</code></td>
+<td><code>Fi-A</code></td>
+<td>Final</td>
+<td><code>A</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Side</strong> = everything before the first <code>_</code>. <strong>Pair</strong> = the number after it.</li>
+<li><strong>Stage</strong> = the part of the side before its first <code>-</code>: <code>SF</code>, <code>Br</code> or
+  <code>Fi</code>. No <code>-</code> means a group match.</li>
+<li><strong>Slot</strong> = the part after the <code>-</code>. Until the organiser fills it in, it is
+  the seed number: <code>SF-1</code>…<code>SF-4</code>, <code>Br-1</code>/<code>Br-2</code>, <code>Fi-1</code>/<code>Fi-2</code>. The
+  organiser <strong>types the qualifying team's letter</strong> into the workbook's
+  <code>MatchUps</code> tab (<code>D604</code>, <code>D614</code>, <code>D624</code>, <code>D634</code> for the four semifinal
+  seeds, then <code>D644</code>–<code>D674</code> for Bronze and Final). The slot then becomes
+  that letter (<code>SF-A</code>). No formula picks the teams — <strong>the workbook's entry
+  is the decision</strong>, and the site only displays it. <strong>A code changes
+  mid-event.</strong> Never key saved state on a playoff code.</li>
+<li><strong>Base team</strong> — the group-stage team a side belongs to. For a group side,
+  the side itself. For a playoff side, the slot, when the slot is a team
+  code that exists in <code>STANDINGSCSV</code> (<code>SF-A</code> → <code>A</code>). A numeric slot has no
+  base team yet.</li>
+</ul>
+<hr />
+<h2 id="4-rules">4. Rules<a class="headerlink" href="#4-rules" title="Permanent link">&para;</a></h2>
+<p>These rules are settled. Implement them exactly, the same way on every page.</p>
+<h3 id="41-team-names">4.1 Team names<a class="headerlink" href="#41-team-names" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>teamNameOf(side):
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  1. the teamName on the STANDINGSCSV row whose teamCode === side, if non-blank
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  2. else the teamName of baseTeamOf(side), if it has one
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  3. else null
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>sideLabel(side):
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  teamNameOf(side) ?? (stage !== group ? `Seed ${slot} · TBD` : side)
+</code></pre></div>
+<p>Wherever a page shows a team, show <code>sideLabel</code>. Beside it, show the <strong>base
+team letter</strong> as a small chip (<code>A</code>), never the raw code (<code>SF-A_2</code>). Omit the
+chip when there is no base team.</p>
+<h3 id="42-group-standings-from-standingscsv-only">4.2 Group standings — from <code>STANDINGSCSV</code> only<a class="headerlink" href="#42-group-standings-from-standingscsv-only" title="Permanent link">&para;</a></h3>
+<ul>
+<li>One table per group (<code>bracket</code> <code>1</code>, <code>2</code>, <code>3</code>), built from rows <code>A</code>–<code>O</code>
+  only.</li>
+<li><strong>Rank by <code>quotient</code>, highest first. Nothing else.</strong> No wins, no
+  head-to-head, no points difference. Rows tied on quotient keep their
+  order in <code>STANDINGSCSV</code>. Use a stable sort.</li>
+<li>Before the first result every quotient is <code>null</code>. Show teams in
+  <code>STANDINGSCSV</code> order, with <strong>no rank numbers</strong> and quotient shown as <code>—</code>.
+  Rank numbers appear once any row in that group has a quotient.</li>
+<li>Columns, in order: <strong>rank</strong>, <strong>team</strong> (name plus letter chip), <strong>PF</strong>
+  (<code>totalPoints</code>), <strong>PA</strong> (<code>totalOpponentPoints</code>), <strong>Quotient</strong>, to 4
+  decimals. The existing <code>fmtQ()</code> formats it. Quotient is the ranking
+  column, so bold it.</li>
+<li>Matchups won and lost are <strong>not</strong> in this table. They show on the matchup cards
+  (§5.6).</li>
+</ul>
+<h3 id="43-who-advances-the-workbook-decides">4.3 Who advances — the workbook decides<a class="headerlink" href="#43-who-advances-the-workbook-decides" title="Permanent link">&para;</a></h3>
+<p>Four teams reach the semifinals: the three group winners and the best
+runner-up. <strong>The site does not work this out.</strong> The organiser enters the
+four qualifiers in the workbook (§3.4), and the site reflects that entry:</p>
+<ul>
+<li>A team <strong>advances</strong> when its letter is the slot of any <code>SF-*</code> side in the
+  matches (<code>SF-A</code> → team A advances). Mark it <strong>"Advances"</strong> on its group
+  table.</li>
+<li>Before any <code>SF-*</code> slot is a team letter, show no labels.</li>
+<li>Slots fill one at a time as the organiser types, so labels can appear one
+  by one. That is expected.</li>
+<li>The site never predicts or checks the choice — not even on equal
+  quotients. If the workbook and the table seem to disagree, the workbook
+  is right.</li>
+</ul>
+<h3 id="44-who-wins-a-matchup-total-points">4.4 Who wins a matchup — total points<a class="headerlink" href="#44-who-wins-a-matchup-total-points" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Matchup score</strong> = each side's points added up over the matchup's four matches.
+  Unplayed matches count 0.</li>
+<li><strong>A matchup is final when all four of its matches are played.</strong> Then:</li>
+<li>the side with more total points <strong>wins the matchup</strong>, and the other loses;</li>
+<li><strong>equal total points</strong> = the matchup is a <strong>tie</strong>. Show it as "Tie" and
+    name no winner. Control Center also shows a warning
+    (§9.6).</li>
+<li><strong>Pair wins never decide a matchup.</strong> A team can win three pairs 11–9, lose
+  the fourth 0–11, and lose the matchup 33–38. The <strong>pair count</strong> (matches won
+  per side, e.g. <code>3–1</code>) is shown as secondary information only.</li>
+<li><strong>Before a matchup is final:</strong></li>
+<li>no match played → <strong>not started</strong>. Show the time and courts, no score;</li>
+<li>some played → <strong>in progress</strong>. Show the running points and an "In
+    progress" marker, never a winner.</li>
+</ul>
+<p>Put this in one function and use it everywhere:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// ms = the matchup's matches (same matchUp). Returns</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">// { side1, side2, pts1, pts2, pairs1, pairs2, played, total, state, winner }</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">// state: 'not-started' | 'in-progress' | 'final' | 'tie'</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">// winner: 1 | 2 | null</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kd">function</span><span class="w"> </span><span class="nx">teamMatchupResult</span><span class="p">(</span><span class="nx">ms</span><span class="p">){</span><span class="w"> </span><span class="err">…</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><code>side1</code> and <code>side2</code> are the sides of <code>teamCode1</code> and <code>teamCode2</code> of the
+matchup's first match. Every match in a matchup has the same two sides in the same
+order.</p>
+<h3 id="45-stage-labels">4.5 Stage labels<a class="headerlink" href="#45-stage-labels" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Label</th>
+<th>Order</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>group</td>
+<td><code>Group 1</code> / <code>Group 2</code> / <code>Group 3</code> (from the base team's <code>bracket</code>)</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>SF</code></td>
+<td><code>Semifinal</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>Br</code></td>
+<td><code>Bronze</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>Fi</code></td>
+<td><code>Final</code></td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Pair labels: <code>1</code> Men's Doubles, <code>2</code> Women's Doubles, <code>3</code> Mixed Doubles,
+<code>4</code> Mixed Doubles. Short forms for tight spaces: <code>MD</code>, <code>WD</code>, <code>XD</code>, <code>XD</code>.</p>
+<hr />
+<h2 id="5-public-site-eventspickledrive-anniversary-2026indexhtml">5. Public site — <code>events/pickledrive-anniversary-2026/index.html</code><a class="headerlink" href="#5-public-site-eventspickledrive-anniversary-2026indexhtml" title="Permanent link">&para;</a></h2>
+<p>Start from <code>_templates/standard-tournament-template/</code>. Its day handling,
+polling, Live Matches board and Match Finder shell carry over. Everything
+built around categories and pairs is replaced.</p>
+<h3 id="51-create-the-event-folder">5.1 Create the event folder<a class="headerlink" href="#51-create-the-event-folder" title="Permanent link">&para;</a></h3>
+<p>The folder already exists and holds <code>assets/</code>. Copy the template's
+<strong>contents</strong> into it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cp<span class="w"> </span>-r<span class="w"> </span>_templates/standard-tournament-template/.<span class="w"> </span>events/pickledrive-anniversary-2026/
+</code></pre></div>
+<p><strong>Check:</strong> <code>ls events/pickledrive-anniversary-2026</code> lists <code>assets</code>,
+<code>index.html</code> and <code>schedule.html</code>, with no nested template folder.</p>
+<h3 id="52-replace-the-tokens">5.2 Replace the <code>{{TOKENS}}</code><a class="headerlink" href="#52-replace-the-tokens" title="Permanent link">&para;</a></h3>
+<p>In both <code>index.html</code> and <code>schedule.html</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{EVENT_KEY}}</code></td>
+<td><code>pickledrive-anniversary-2026</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TITLE}}</code></td>
+<td><code>PickleDrive Club One Year Celebration</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TAGLINE}}</code></td>
+<td><code>Not just a tournament, it's a celebration!</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_HEADLINE}}</code></td>
+<td><code>Team Tournament</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_DATE_RANGE}}</code></td>
+<td><code>October 3, 2026</code></td>
+</tr>
+<tr>
+<td><code>{{VENUE}}</code></td>
+<td><code>Kingcourts</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_LOGO}}</code></td>
+<td><code>assets/logo.png</code></td>
+</tr>
+<tr>
+<td><code>{{SCHEDULE_DAY_KEY}}</code></td>
+<td><code>pickledrive-anniversary-2026-day1</code></td>
+</tr>
+<tr>
+<td><code>{{QR_IMAGE}}</code></td>
+<td><code>assets/qr.png</code> — set it even if the file isn't there yet. The QR arrives later and is dropped in at that path, so no code change is needed then</td>
+</tr>
+<tr>
+<td><code>{{QR_URL}}</code></td>
+<td><code>tinyurl.com/SAGExPickleDrive2026</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Check:</strong> <code>grep -rn '{{' events/pickledrive-anniversary-2026/</code> prints
+nothing.</p>
+<p><strong>Check the short link resolves to this page:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-sI<span class="w"> </span>https://tinyurl.com/SAGExPickleDrive2026<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s1">'^location'</span>
+</code></pre></div>
+<p>It should print <code>https://sage-match-control.github.io/events/pickledrive-anniversary-2026/</code>
+(a trailing slash or none are both fine). If it points anywhere else, or
+nowhere, <strong>don't change anything</strong> — report it. The link belongs to the
+organiser.</p>
+<p>Until <code>qr.png</code> exists, the QR panel shows a broken image. That is expected;
+report whether the file was present.</p>
+<h3 id="53-hero">5.3 Hero<a class="headerlink" href="#53-hero" title="Permanent link">&para;</a></h3>
+<p>The template's hero reads <code>{{EVENT_TITLE}}</code> in the <code>&lt;h1 class="title"&gt;</code>.
+The logo already says "PickleDrive Club", so replace the <code>&lt;h1&gt;</code> line with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>One Year <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"accent"</span><span class="p">&gt;</span>Celebration<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Change the subtitle paragraph (<code>&lt;p class="subtitle"&gt;</code>) to:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"subtitle"</span><span class="p">&gt;</span>Follow every team, every matchup and every court — live.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Change the search label and placeholder:</p>
+<table>
+<thead>
+<tr>
+<th>Anchor</th>
+<th>New text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Enter your pair's names</code></td>
+<td><code>Search a team or a player</code></td>
+</tr>
+<tr>
+<td><code>placeholder="e.g. John Smith / Jane Doe"</code></td>
+<td><code>placeholder="e.g. DinkTadors or Tristen Pamintuan"</code></td>
+</tr>
+</tbody>
+</table>
+<p>The event logo is square with a photographed background. In
+<code>.hero-logos img</code>, remove <code>background:var(--white);</code> and set
+<code>object-fit:cover;</code>. Keep the 14px radius, so it reads as a rounded tile.</p>
+<h3 id="54-configuration-block">5.4 Configuration block<a class="headerlink" href="#54-configuration-block" title="Permanent link">&para;</a></h3>
+<p>Between <code>// CONFIGURATION</code> and <code>// END CONFIGURATION</code>:</p>
+<ul>
+<li><code>DAYS</code> → <code>[{ key: 'pickledrive-anniversary-2026-day1', label: 'Oct 3', date: '2026-10-03' }]</code></li>
+<li><code>FACILITIES</code> → <code>[{ name: 'Kingcourts', courts: [1, 10] }]</code></li>
+<li><strong>Delete</strong> <code>DIVISIONS</code>, <code>EVENTS</code>, <code>DIVISION_ORDER</code>, <code>EVENT_ORDER</code>, their
+  <code>_RESOLVED</code> constants, <code>CODE_REGEX</code>, <code>STAGE_META</code>, <code>STAGE_ORDER</code> and
+  <code>BADGE_CLASSES</code>. Then delete or rewrite every function that used them.
+  §5.5–§5.9 say what replaces each. <strong>Check:</strong> a grep for each deleted name
+  finds nothing.</li>
+<li><strong>Add:</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// ---- Team format --------------------------------------------------------</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1">// Pair number (the digit after "_" in a team code) -&gt; label.</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">PAIRS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="mf">1</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s2">"Men's Doubles"</span><span class="p">,</span><span class="w">   </span><span class="kr">short</span><span class="o">:</span><span class="w"> </span><span class="s1">'MD'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="mf">2</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s2">"Women's Doubles"</span><span class="p">,</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="w"> </span><span class="s1">'WD'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span><span class="mf">3</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'Mixed Doubles'</span><span class="p">,</span><span class="w">   </span><span class="kr">short</span><span class="o">:</span><span class="w"> </span><span class="s1">'XD'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="mf">4</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'Mixed Doubles'</span><span class="p">,</span><span class="w">   </span><span class="kr">short</span><span class="o">:</span><span class="w"> </span><span class="s1">'XD'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="p">};</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c1">// Playoff stage prefix (before "-" in a side) -&gt; label and display order.</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1">// A side with no "-" is a group-stage side.</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="kd">const</span><span class="w"> </span><span class="nx">STAGES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span><span class="nx">SF</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Semifinal'</span><span class="p">,</span><span class="w"> </span><span class="nx">order</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">  </span><span class="nx">Br</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Bronze'</span><span class="p">,</span><span class="w">    </span><span class="nx">order</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">  </span><span class="nx">Fi</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Final'</span><span class="p">,</span><span class="w">     </span><span class="nx">order</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="p">};</span>
+</code></pre></div>
+<ul>
+<li><strong>Local test fixtures.</strong> Replace <code>snapshotUrlFor</code> with:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// Local testing only: on localhost, ?fixture=&lt;name&gt; loads</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1">// /_fixtures/&lt;EVENT_KEY&gt;/&lt;name&gt;.json instead of the published snapshot.</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1">// _fixtures/ is never published (Jekyll skips "_" folders), and the</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">// hostname check keeps this inert on the live site.</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FIXTURE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s1">'localhost'</span><span class="p">,</span><span class="w"> </span><span class="s1">'127.0.0.1'</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">hostname</span><span class="p">)</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span><span class="o">?</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">URLSearchParams</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'fixture'</span><span class="p">)</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="kd">const</span><span class="w"> </span><span class="nx">snapshotUrlFor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">dayKey</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">FIXTURE</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span><span class="o">?</span><span class="w"> </span><span class="sb">`/_fixtures/</span><span class="si">${</span><span class="nx">EVENT_KEY</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">FIXTURE</span><span class="p">)</span><span class="si">}</span><span class="sb">.json?t=</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="sb">`https://</span><span class="si">${</span><span class="nx">GHPAGES_OWNER</span><span class="si">}</span><span class="sb">.github.io/</span><span class="si">${</span><span class="nx">GHPAGES_REPO</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">EVENT_KEY</span><span class="si">}</span><span class="sb">/data/</span><span class="si">${</span><span class="nx">dayKey</span><span class="si">}</span><span class="sb">.json?t=</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="55-parsing-and-shared-helpers">5.5 Parsing and shared helpers<a class="headerlink" href="#55-parsing-and-shared-helpers" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>rowsToMatches</code></strong> — also read <code>matchUp</code> (trimmed) into <code>m.matchUp</code>.
+  Keep everything else.</li>
+<li><strong><code>rowsToStandings</code></strong> — rewrite for §3.3. Return
+  <code>{ teamCode, teamName, pf, pa, quotient, bracket }</code>. <code>quotient</code> is <code>null</code>
+  unless the cell parses as a number. Skip rows with a blank <code>teamCode</code>.</li>
+<li><strong>Replace <code>parseCode</code></strong> with helpers built on §3.4. Keep a <code>Map</code> cache, as
+  the template does, because these run on every 10-second render.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nx">sideOf</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span><span class="w">        </span><span class="c1">// "SF-A_2" -&gt; "SF-A"</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nx">pairOf</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span><span class="w">        </span><span class="c1">// "SF-A_2" -&gt; 2   (number, or null)</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nx">stageOf</span><span class="p">(</span><span class="nx">side</span><span class="p">)</span><span class="w">       </span><span class="c1">// "SF-A" -&gt; "SF";  "A" -&gt; null (group)</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nx">slotOf</span><span class="p">(</span><span class="nx">side</span><span class="p">)</span><span class="w">        </span><span class="c1">// "SF-A" -&gt; "A";   "SF-1" -&gt; "1";  "A" -&gt; "A"</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nx">baseTeamOf</span><span class="p">(</span><span class="nx">side</span><span class="p">)</span><span class="w">    </span><span class="c1">// "A" -&gt; "A"; "SF-A" -&gt; "A"; "SF-1" -&gt; null</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nx">teamNameOf</span><span class="p">(</span><span class="nx">side</span><span class="p">)</span><span class="w">    </span><span class="c1">// §4.1</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nx">sideLabel</span><span class="p">(</span><span class="nx">side</span><span class="p">)</span><span class="w">     </span><span class="c1">// §4.1</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="nx">groupOf</span><span class="p">(</span><span class="nx">side</span><span class="p">)</span><span class="w">       </span><span class="c1">// bracket of baseTeamOf(side), as a number, or null</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="nx">stageLabel</span><span class="p">(</span><span class="nx">side</span><span class="p">)</span><span class="w">    </span><span class="c1">// "Group 1" / "Semifinal" / "Bronze" / "Final"  (§4.5)</span>
+</code></pre></div>
+<ul>
+<li><strong>Matchups.</strong> After each load, build the matchups:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">let</span><span class="w"> </span><span class="nx">TEAM_MATCHUPS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w">  </span><span class="c1">// [{ matchUp, matches:[…], side1, side2, stage, group, times:[…], courts:[…], result }]</span>
+</code></pre></div>
+<p>Group <code>MATCHES</code> by <code>matchUp</code>. Ignore matches with a blank <code>matchUp</code>.
+  <code>times</code> = the distinct <code>Schedule</code> values, in match order. <code>courts</code> = the
+  distinct <code>CourtAssignment</code> values. <code>result</code> = <code>teamMatchupResult(matches)</code> (§4.4).
+  Order matchups by their lowest match number.
+- Delete what only served categories or pairs: <code>divisionMeta</code>,
+  <code>divisionLabel</code>, <code>divisionEventLabel</code>, <code>categorySortKey</code>,
+  <code>matchInstanceOf</code>, <code>roundKeyword</code>, <code>roundLabel</code>, <code>standingsStageKey</code>,
+  <code>isEmptyStanding</code>, <code>standingRowClass</code>, <code>pairCell</code>, <code>rankStandings</code>,
+  <code>headToHeadWins</code>, <code>renderStageTables</code>, <code>pairUpMatchups</code>,
+  <code>scoreForTeamCode</code>, <code>matchupSideHtml</code>, <code>matchupScoreHTML</code>,
+  <code>matchupInstanceLabel</code>, <code>renderMatchup</code>, <code>renderCategoryCard</code>,
+  <code>renderCategoryToggleBar</code>, <code>renderCatAutocomplete</code>, <code>selectCategory</code>,
+  <code>updateClearCatBtn</code>, <code>pairKey</code>, and the category toggle and filter state.
+  If one of them turns out to be used by something this spec keeps, keep it
+  and say so in your report.</p>
+<p><strong>Name clash to avoid.</strong> The template's <code>pairUpMatchups</code>, <code>renderMatchup</code>
+  and <code>matchup*</code> functions are unrelated. They pair up the two sides of a
+  bracket match in a standard tournament, and Control Center still uses them
+  for standard and dual-meet events. Every new name in this spec therefore
+  starts with <code>teamMatchup</code> or <code>TEAM_MATCHUP</code> (<code>teamMatchupResult</code>,
+  <code>teamMatchupCardHTML</code>, <code>TEAM_MATCHUPS</code>). Keep that prefix on anything new
+  you add for this format.</p>
+<h3 id="56-the-matchup-card">5.6 The matchup card<a class="headerlink" href="#56-the-matchup-card" title="Permanent link">&para;</a></h3>
+<p>One component, used by Standings, Match Finder and Control Center. Write it
+as <code>teamMatchupCardHTML(matchup, { focusBase = null, compact = false })</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>┌──────────────────────────────────────────────────────────────┐
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>│ GROUP 1 · 9:00 &amp; 9:25 AM · Courts 1–2          [In progress] │
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>│                                                              │
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>│  DinkTadors   (A)        33 – 20        LOB is in the Air (B)│
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>│  WINNER                  pairs 2–1                           │
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>│ ──────────────────────────────────────────────────────────── │
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>│  #1   MD  Tristen Pamintuan / Errol Cunanan  11–9  Jr Pineda / Patrick Garcia │
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>│  #2   WD  Luisse Rutao / Roxanne Pabalan     11–9  DJ Mallari / Jacq David    │
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>│  #11  XD  Jello Miranda / Weng Sagum         11–2  Jr Cancio / Nikki Calalang │
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>│  #12  XD  Lineup not set                       –   Lineup not set             │
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>└──────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<ul>
+<li><strong>Header:</strong> stage label, the matchup's times joined with <code>&amp;</code>, and its
+  courts. Show consecutive courts as a range (<code>Courts 1–2</code>), otherwise a
+  list. Then a state pill: <em>In progress</em>, <em>Final</em> or <em>Tie</em>.
+  Show no pill when not started.</li>
+<li><strong>Headline:</strong> <code>sideLabel</code> and letter chip for each side. The <strong>matchup score</strong>
+  (<code>pts1 – pts2</code>) sits large in the middle, once any match is played.
+  <strong>"pairs X–Y"</strong> goes small under it. On a final matchup, mark the winner
+  (the word <em>Winner</em> under their name and a winning style) and mute the
+  loser. A tied matchup marks neither.</li>
+<li><strong>Match rows:</strong> one per match, in match-number order. Each shows the
+  match number, pair short label, both sides' players and the score. A
+  played match bolds the higher score. A side with no lineup reads
+  <em>Lineup not set</em>. A match live on a court right now shows a live dot and
+  <code>Court N</code>.</li>
+<li><code>focusBase</code> (a base team letter): put that team on the <strong>left</strong>, swapping
+  sides and scores on display only, and give it the template's "You" badge.</li>
+<li><code>compact</code>: headline only, match rows hidden behind a <em>Show matches</em>
+  toggle. Standings uses this for group matchups (§5.7).</li>
+</ul>
+<h3 id="57-standings-view">5.7 Standings view<a class="headerlink" href="#57-standings-view" title="Permanent link">&para;</a></h3>
+<p>Replace <code>renderStandings</code> and <code>renderStandingsBody</code> with one
+<code>renderStandings()</code>. Keep <code>captureScrollPositions</code> and
+<code>restoreScrollPositions</code> around the rebuild, as the template does. Remove
+the category toggle bar, the <code>#categoryFilterWrap</code> markup, and their event
+listeners.</p>
+<p>Top to bottom:</p>
+<ol>
+<li><strong>Groups</strong> — the three tables from §4.2 and §4.3, headed <em>Group 1</em>,
+   <em>Group 2</em>, <em>Group 3</em>. Side by side on desktop, stacked at 375px.</li>
+<li><strong>Playoffs</strong> — the Semifinal matchups, then Final, then Bronze, as full matchup
+   cards. Before the playoffs exist in the data, the cards still show
+   (<code>Seed 1 · TBD vs Seed 2 · TBD</code>), because the matches are always in the
+   CSV.</li>
+<li><strong>Group matchups</strong> — a collapsible section per group, closed by default,
+   holding that group's 10 matchups as <code>compact</code> matchup cards.</li>
+</ol>
+<p>Empty state (no <code>STANDINGSCSV</code> rows at all): <em>No standings yet.</em></p>
+<h3 id="58-match-finder">5.8 Match Finder<a class="headerlink" href="#58-match-finder" title="Permanent link">&para;</a></h3>
+<p>Replace the pair index (<code>rebuildTeamIndex</code>, <code>allTeams</code>, <code>resolveTeam</code>,
+<code>runSearch</code>, <code>renderAutocomplete</code>, <code>renderIntro</code>, <code>ticketHTML</code>) with a
+team-and-player index.</p>
+<ul>
+<li><strong>Index</strong>, rebuilt on every load:</li>
+<li>one <strong>team</strong> entry per <code>STANDINGSCSV</code> row <code>A</code>–<code>O</code>: <code>{ kind:'team', base:'A', label:'DinkTadors' }</code>;</li>
+<li>one <strong>player</strong> entry per distinct trimmed player name in <code>MATCHES</code>,
+    excluding <code>'TBD'</code>: <code>{ kind:'player', name }</code>. Match names
+    case-insensitively.</li>
+<li><strong>Autocomplete</strong> (same keyboard behaviour as now): up to 8 suggestions,
+  <strong>teams first</strong>, then players. A team shows its letter chip. A player
+  shows the team name(s) they've played for, from the matches they appear
+  in.</li>
+<li><strong>Team result:</strong> a heading with the team name, letter chip and group.
+  Under it, every matchup involving that base team, in schedule order, as full
+  matchup cards with <code>focusBase</code> set. That covers playoff matchups too, once the
+  slot resolves to that team. Mark the first not-started matchup <em>Next up</em>, as
+  the template's <code>isNext</code> does.</li>
+<li><strong>Player result:</strong> the player's name, then every <strong>match</strong> they play,
+  each shown as its matchup's card <strong>with only that match's row expanded</strong> and
+  the other rows hidden. The heading under the name reads e.g. <em>DinkTadors
+  · 4 matches</em>.</li>
+<li>If any matchup involving the searched team — or, for a player search, any
+  matchup at all — still has <em>Lineup not set</em>, add one line under the results:
+  <em>Some lineups aren't in yet. Matches appear here once the team captain
+  enters them.</em></li>
+<li><strong>Empty and ambiguous states:</strong> keep the template's wording pattern
+  ("No matches found for …", "Several … match — pick one").</li>
+<li><strong>Intro</strong> (nothing searched): three stats — <em>136 Matches</em>, <em>34 Matchups</em>,
+  <em>15 Teams</em> (counted from the data) — then the full team list as tappable
+  chips grouped by group. Tapping a chip runs that team's search.</li>
+<li><strong>Saved search</strong> (<code>STORAGE_SEARCH_KEY</code>): store <code>team:A</code> or
+  <code>player:&lt;name&gt;</code>, never a playoff code. Restore it on reload.</li>
+</ul>
+<h3 id="59-live-matches">5.9 Live Matches<a class="headerlink" href="#59-live-matches" title="Permanent link">&para;</a></h3>
+<p>Keep the court-by-court table: one row per court 1–10, every court always
+shown, driven by the <code>court</code> column. Change what a row shows:</p>
+<ul>
+<li>The existing category line (<code>live-cat-cell</code>) becomes <strong><code>&lt;team 1&gt; vs &lt;team 2&gt;</code></strong>
+  (<code>sideLabel</code>s), then <code>·</code> and the stage label and pair label, e.g.
+  <em>DinkTadors vs LOB is in the Air · Group 1 · Women's Doubles</em>.</li>
+<li>The team cells show the players, as now, with the base-team letter chip
+  in place of the raw code.</li>
+<li>Under the match score, add the <strong>running matchup score</strong>:
+  <em>Matchup 33 – 20</em> (both sides' points over that matchup's played matches, §4.4).</li>
+<li>The <em>No match playing</em> row stays as it is.</li>
+</ul>
+<h3 id="510-footer">5.10 Footer<a class="headerlink" href="#510-footer" title="Permanent link">&para;</a></h3>
+<p>Leave the footer as the template has it, with the tokens from §5.2.</p>
+<p><strong>Check for §5:</strong> §8.2 (the <code>pre</code> fixture) passes.</p>
+<hr />
+<h2 id="6-theme-and-fonts-from-the-pubmat">6. Theme and fonts — from the pubmat<a class="headerlink" href="#6-theme-and-fonts-from-the-pubmat" title="Permanent link">&para;</a></h2>
+<p>The pubmat is deep forest green and antique gold on cream, with a serif
+display face, a wide-tracked geometric sans and a brush script. Replace the
+S.A.G.E. house navy and green with it. The colours below were <strong>sampled
+from the pubmat's pixels</strong>, not judged by eye.</p>
+<table>
+<thead>
+<tr>
+<th>Pubmat element</th>
+<th>Sampled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"ONE YEAR", "TEAM TOURNAMENT", icon rings</td>
+<td>forest <code>#092114</code></td>
+</tr>
+<tr>
+<td>"CELEBRATION", "It's a Celebration!"</td>
+<td>gold <code>#83602A</code></td>
+</tr>
+<tr>
+<td>Inclusions panel</td>
+<td>cream <code>#E8DED3</code></td>
+</tr>
+<tr>
+<td>Trees</td>
+<td>olive <code>#46511F</code></td>
+</tr>
+<tr>
+<td>Sky</td>
+<td><code>#88BEE5</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="61-palette">6.1 Palette<a class="headerlink" href="#61-palette" title="Permanent link">&para;</a></h3>
+<p>Apply to the <code>:root{ … }</code> block under the <code>THEME</code> banner in <strong>both</strong>
+<code>index.html</code> and <code>schedule.html</code>. Leave the role aliases (<code>--court:var(--green);</code>
+and the rest) unchanged. The token names stay the same (<code>--navy</code>,
+<code>--green</code>) so every rule keeps resolving; only their values change.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Old</th>
+<th>New</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--navy</code></td>
+<td><code>#14263C</code></td>
+<td><code>#102A1E</code></td>
+<td>Forest — structure, hero, headings</td>
+</tr>
+<tr>
+<td><code>--navy-deep</code></td>
+<td><code>#0B1826</code></td>
+<td><code>#092114</code></td>
+<td>Pubmat's darkest forest</td>
+</tr>
+<tr>
+<td><code>--green</code></td>
+<td><code>#7CB92C</code></td>
+<td><code>#C9A45C</code></td>
+<td>Light gold — the accent <strong>fill</strong></td>
+</tr>
+<tr>
+<td><code>--green-dark</code></td>
+<td><code>#5C8F1F</code></td>
+<td><code>#7A5824</code></td>
+<td>Dark gold — accent <strong>text</strong> on light backgrounds</td>
+</tr>
+<tr>
+<td><code>--paper</code></td>
+<td><code>#F6F7F2</code></td>
+<td><code>#F4EEE6</code></td>
+<td>Warm cream page</td>
+</tr>
+<tr>
+<td><code>--paper-dim</code></td>
+<td><code>#ECEEE6</code></td>
+<td><code>#E8DED3</code></td>
+<td>Pubmat cream</td>
+</tr>
+<tr>
+<td><code>--line</code></td>
+<td><code>#D9DED2</code></td>
+<td><code>#D8CCBD</code></td>
+<td>Warm rule</td>
+</tr>
+<tr>
+<td><code>--ink</code></td>
+<td><code>#14263C</code></td>
+<td><code>#102A1E</code></td>
+<td>Same as <code>--navy</code></td>
+</tr>
+<tr>
+<td><code>--ink-soft</code></td>
+<td><code>#5B6B74</code></td>
+<td><code>#56605A</code></td>
+<td>Muted green-grey</td>
+</tr>
+<tr>
+<td><code>--white</code>, <code>--radius</code></td>
+<td>—</td>
+<td>unchanged</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Measured contrast (WCAG 2.x):</p>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Ratio</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ink</code> on <code>--paper</code></td>
+<td>13.28</td>
+<td>body text</td>
+</tr>
+<tr>
+<td><code>--ink-soft</code> on <code>--paper</code> / <code>--paper-dim</code></td>
+<td>5.66 / 4.92</td>
+<td>secondary text</td>
+</tr>
+<tr>
+<td><code>--green-dark</code> on white / <code>--paper</code> / <code>--paper-dim</code></td>
+<td>6.46 / 5.61 / 4.87</td>
+<td>accent text</td>
+</tr>
+<tr>
+<td><code>--navy</code> text on <code>--green</code> fill</td>
+<td>6.52</td>
+<td>chips, pills, active tabs</td>
+</tr>
+<tr>
+<td><code>--green</code> on <code>--navy</code> / <code>--navy-deep</code></td>
+<td>6.52 / 7.22</td>
+<td>gold text in the hero</td>
+</tr>
+<tr>
+<td>white on <code>--navy</code></td>
+<td>15.31</td>
+<td>hero text</td>
+</tr>
+<tr>
+<td><code>--green</code> on white</td>
+<td><strong>2.35 — fails</strong></td>
+<td>never use <code>--green</code> as text on a light background</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-hard-coded-copies-of-the-old-colours">6.2 Hard-coded copies of the old colours<a class="headerlink" href="#62-hard-coded-copies-of-the-old-colours" title="Permanent link">&para;</a></h3>
+<p>Some rules use the old colours as raw values. Replace every occurrence and
+keep each alpha (the last number):</p>
+<table>
+<thead>
+<tr>
+<th>Find</th>
+<th>Replace</th>
+<th>Files</th>
+<th>Was</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rgba(124,185,44,</code></td>
+<td><code>rgba(201,164,92,</code></td>
+<td>both</td>
+<td><code>--green</code></td>
+</tr>
+<tr>
+<td><code>rgba(92,143,31,</code></td>
+<td><code>rgba(122,88,36,</code></td>
+<td><code>index.html</code></td>
+<td><code>--green-dark</code></td>
+</tr>
+<tr>
+<td><code>rgba(11,24,38,</code></td>
+<td><code>rgba(9,33,20,</code></td>
+<td>both</td>
+<td><code>--navy-deep</code></td>
+</tr>
+<tr>
+<td><code>rgba(20,38,60,</code></td>
+<td><code>rgba(16,42,30,</code></td>
+<td><code>index.html</code></td>
+<td><code>--navy</code></td>
+</tr>
+<tr>
+<td><code>rgba(246,247,242,</code></td>
+<td><code>rgba(244,238,230,</code></td>
+<td><code>index.html</code></td>
+<td><code>--paper</code></td>
+</tr>
+<tr>
+<td><code>.badge-2{background:#4C7A19;}</code></td>
+<td>delete the rule (<code>BADGE_CLASSES</code> is gone)</td>
+<td><code>index.html</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>'#14263C'</code> in <code>readableOn()</code></td>
+<td><code>'#102A1E'</code></td>
+<td><code>schedule.html</code></td>
+<td>chip text</td>
+</tr>
+<tr>
+<td><code>color:'#5B6B74'</code> in <code>FALLBACK</code></td>
+<td><code>color:'#56605A'</code></td>
+<td><code>schedule.html</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Leave alone:</strong> <code>rgba(20,27,44,…)</code> (neutral shadow), the error reds
+(<code>#B3261E</code>, <code>#FFB4A2</code>, <code>rgba(179,38,30,…)</code>, <code>rgba(255,180,162,…)</code>,
+<code>rgba(255,90,110,…)</code>), <code>rgba(52,199,120,…)</code>, <code>#6C5CE0</code>, and every
+<code>rgba(255,255,255,…)</code> and <code>rgba(0,0,0,…)</code>.</p>
+<p><strong>Check:</strong> both print nothing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"#14263C\|#0B1826\|#7CB92C\|#5C8F1F\|#F6F7F2\|#ECEEE6\|#D9DED2\|#5B6B74\|#4C7A19"</span><span class="w"> </span>events/pickledrive-anniversary-2026/*.html
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"rgba(124,185,44\|rgba(92,143,31\|rgba(11,24,38\|rgba(20,38,60\|rgba(246,247,242"</span><span class="w"> </span>events/pickledrive-anniversary-2026/*.html
+</code></pre></div>
+<h3 id="63-fonts">6.3 Fonts<a class="headerlink" href="#63-fonts" title="Permanent link">&para;</a></h3>
+<p>Pubmat faces and their nearest Google Fonts:</p>
+<table>
+<thead>
+<tr>
+<th>Pubmat</th>
+<th>Google Font</th>
+<th>Role on the site</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"ONE YEAR" — heavy high-contrast serif</td>
+<td><strong>Playfair Display</strong> 700/800</td>
+<td>Hero title and section headings only</td>
+</tr>
+<tr>
+<td>"CELEBRATION", "TEAM TOURNAMENT", "INCLUSIONS" — wide-tracked geometric sans caps</td>
+<td><strong>Montserrat</strong> 500/600/700/800</td>
+<td>Labels, tabs, table headers, body, numbers and scores</td>
+</tr>
+<tr>
+<td>"Not just a tournament, It's a Celebration!" — brush script</td>
+<td><strong>Satisfy</strong></td>
+<td>Hero tagline only</td>
+</tr>
+</tbody>
+</table>
+<p>Steps, in both files:</p>
+<ol>
+<li>Replace the Google Fonts <code>&lt;link&gt;</code> with:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@700;800&amp;family=Satisfy&amp;display=swap"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+</code></pre></div>
+<ol>
+<li><code>'Archivo Black'</code> → <code>'Montserrat'</code>, and add <code>font-weight:800;</code> to that
+   rule (Archivo Black has a single heavy weight, so those rules often set
+   none or <code>400</code>). Scores and numbers also get
+   <code>font-variant-numeric:tabular-nums;</code>.</li>
+<li><code>'Barlow Condensed'</code> → <code>'Montserrat'</code>. Keep the rule's weight. Montserrat
+   is much wider than a condensed face, so for every rule you change, halve
+   its <code>letter-spacing</code> and check it at 375px. If text wraps or overflows
+   where it didn't before, reduce that rule's <code>font-size</code> by 1–2px. Don't
+   restructure the layout.</li>
+<li><code>'Inter'</code> → <code>'Montserrat'</code>.</li>
+<li>Then override only these rules:</li>
+<li><code>h1.title</code> — <code>font-family:'Playfair Display',serif; font-weight:800;</code>.
+     <code>h1.title .accent</code> stays <code>color:var(--green)</code>, so "Celebration" is gold
+     on forest, as on the pubmat.</li>
+<li><code>.domination-line</code> (the "Team Tournament" line) — Montserrat 700,
+     <code>letter-spacing:.3em</code>, <code>color:var(--white)</code>.</li>
+<li><code>.tagline-script</code> — <code>font-family:'Satisfy',cursive; font-style:normal;
+     font-weight:400; color:var(--green); font-size:clamp(20px,5vw,28px);</code></li>
+<li>Section headings — the Standings group and playoff titles and the
+     Match Finder result <code>h2</code> — <code>font-family:'Playfair Display',serif;
+     font-weight:700;</code>.</li>
+<li><code>.hero-logos-sep</code> — Montserrat 800.</li>
+</ol>
+<p><strong>Check:</strong> <code>grep -n "Archivo Black\|Barlow Condensed\|'Inter'" events/pickledrive-anniversary-2026/*.html</code>
+prints nothing.</p>
+<h3 id="64-contrast-note">6.4 Contrast note<a class="headerlink" href="#64-contrast-note" title="Permanent link">&para;</a></h3>
+<p>In <code>index.html</code>'s <code>THEME</code> banner comment, replace the lines about
+<code>--green</code> and <code>--green-dark</code> contrast with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>       - --green is a light gold FILL (~2.35:1 on white — never text on a
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>         light background). Put --navy text on it (~6.5:1), or use it as
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>         text on a --navy/--navy-deep panel (~6.5 / 7.2:1).
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>       - --green-dark (dark gold) is safe for text on white, --paper and
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>         --paper-dim (6.5 / 5.6 / 4.9:1).
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>       - Small text on paper is --ink (~13.3:1) or --ink-soft (~5.7:1).
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>     PickleDrive Club: palette sampled from the event pubmat (forest
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>     #092114, gold #83602A, cream #E8DED3). Fonts: Playfair Display,
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>     Montserrat, Satisfy.
+</code></pre></div>
+<hr />
+<h2 id="7-schedule-board-eventspickledrive-anniversary-2026schedulehtml">7. Schedule board — <code>events/pickledrive-anniversary-2026/schedule.html</code><a class="headerlink" href="#7-schedule-board-eventspickledrive-anniversary-2026schedulehtml" title="Permanent link">&para;</a></h2>
+<p>The venue wall display: courts as columns, time slots as rows, one card
+per match. It fetches the same snapshot. Nothing links to it except
+Control Center's <em>Open schedule</em> button.</p>
+<ol>
+<li><strong>Fixture override</strong> — in <code>fetchDaySnapshot()</code>, build the URL with the
+   same localhost <code>?fixture=</code> rule as §5.4.</li>
+<li><strong>Team names</strong> — <code>buildScheduleData()</code> also parses
+   <code>snapshot.facilities[].standingsCsv</code>. From the <code>teamCode</code>, <code>teamName</code> and
+   <code>bracket</code> columns build the maps §4.1 needs. <code>parseFacilityCsv()</code> also
+   reads <code>matchUp</code>.</li>
+<li><strong>Colour key</strong> — the organiser's SCHEDULE tab is uncoloured, so choose
+   the colours from the pubmat. Replace <code>CAT_META</code> and set <code>m.cat</code> from the
+   match's group, or <code>PO</code> for any playoff match:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">CAT_META</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nx">G1</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'GROUP 1'</span><span class="p">,</span><span class="w">  </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#4F5B24'</span><span class="w"> </span><span class="p">},</span><span class="w">  </span><span class="c1">// olive (trees)</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nx">G2</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'GROUP 2'</span><span class="p">,</span><span class="w">  </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#88BEE5'</span><span class="w"> </span><span class="p">},</span><span class="w">  </span><span class="c1">// sky</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nx">G3</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'GROUP 3'</span><span class="p">,</span><span class="w">  </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#C9A45C'</span><span class="w"> </span><span class="p">},</span><span class="w">  </span><span class="c1">// gold</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">  </span><span class="nx">PO</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'PLAYOFFS'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#102A1E'</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// forest</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>readableOn()</code> already picks the text colour per hue: forest on the two
+   light hues, white on the two dark ones.
+4. <strong><code>stageOf(code)</code></strong> — rewrite for §3.4: side prefix <code>SF</code> → <code>'SF'</code>,
+   <code>Br</code> → <code>'B'</code>, <code>Fi</code> → <code>'F'</code>, anything else → <code>'RR'</code>. Keep <code>STAGE_META</code>'s
+   labels as they are.
+5. <strong>Card (<code>cellHTML</code>)</strong> — in each <code>fo-side</code>, above the player names, add
+   the team name as <code>&lt;span class="fo-team"&gt;…&lt;/span&gt;</code>: one line, ellipsis on
+   overflow, Montserrat 700. Next to the stage chip in <code>cell-top</code>, add the
+   pair short label (<code>MD</code>/<code>WD</code>/<code>XD</code>). A side whose lineup isn't set (player
+   name equal to its code) shows <em>Lineup TBD</em> in place of the names.
+6. Theme and fonts: §6.1–§6.3 already cover this file.</p>
+<p><strong>Check:</strong> §8.2 and §8.4 schedule-board items pass.</p>
+<hr />
+<h2 id="8-verify-the-site">8. Verify the site<a class="headerlink" href="#8-verify-the-site" title="Permanent link">&para;</a></h2>
+<h3 id="81-serve-it">8.1 Serve it<a class="headerlink" href="#81-serve-it" title="Permanent link">&para;</a></h3>
+<p>From <code>sage-match-control.github.io/</code> (the repo root, so root-absolute
+<code>/assets/…</code> paths resolve):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>npx<span class="w"> </span>--yes<span class="w"> </span>http-server<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span><span class="w"> </span>-c-1
+</code></pre></div>
+<p>Open <code>http://localhost:8000/events/pickledrive-anniversary-2026/?fixture=&lt;name&gt;</code>
+and <code>…/schedule.html?fixture=&lt;name&gt;</code>. All three fixtures have <code>isLive: true</code>,
+so Live Matches and Standings are visible. Without <code>?fixture=</code>, the page
+fetches the real snapshot, which 404s until the first sync. That is
+expected and shows <em>schedule isn't loaded yet</em>.</p>
+<p>Check every item at <strong>375px</strong> and at desktop width. The browser console
+must show no errors.</p>
+<h3 id="82-fixturepre-before-the-event">8.2 <code>?fixture=pre</code> — before the event<a class="headerlink" href="#82-fixturepre-before-the-event" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Hero, top to bottom: the logo tile and the S.A.G.E. logo, the gold
+      script tagline, "OCTOBER 3, 2026 · KINGCOURTS", "ONE YEAR
+      <strong>CELEBRATION</strong>" (serif, "Celebration" gold), "TEAM TOURNAMENT"
+      (wide-tracked).</li>
+<li>[ ] Standings: three groups of five, in sheet order (A–E, F–J, K–O), all
+      names shown, no rank numbers, quotient <code>—</code>, no <em>Advances</em> labels.</li>
+<li>[ ] Playoffs: 2 semifinal cards reading <code>Seed 1 · TBD vs Seed 2 · TBD</code> and
+      <code>Seed 3 · TBD vs Seed 4 · TBD</code>, then Final and Bronze cards with seeds.</li>
+<li>[ ] Match Finder: typing <code>dink</code> suggests exactly 8 teams and no players:
+      DinkTadors, Dink ang Bato, Royal Dinkers, Dink me Baby one More Time,
+      Can i buy you a DINK?, KaDINKo, Lord of the Dinks, Tito Dink &amp; Joey. Picking DinkTadors lists its 4 group matchups with every row
+      <em>Lineup not set</em>, then the lineup note. No playoff matchups, because no
+      slot is <code>A</code> yet.</li>
+<li>[ ] Searching <code>Tristen</code> finds no player (no lineups yet). The empty state
+      shows.</li>
+<li>[ ] Live Matches: courts 1–10, all <em>No match playing</em>.</li>
+<li>[ ] Schedule board: 10 court columns, each card showing both team names
+      and <em>Lineup TBD</em>. Group colours olive, sky and gold, playoffs forest.</li>
+<li>[ ] Colours are forest, gold and cream, with no navy or house green
+      anywhere. No text is set in a condensed font.</li>
+</ul>
+<h3 id="83-fixturefinished-after-the-event">8.3 <code>?fixture=finished</code> — after the event<a class="headerlink" href="#83-fixturefinished-after-the-event" title="Permanent link">&para;</a></h3>
+<p>Every match is 11–1, so every matchup is 44–4.</p>
+<ul>
+<li>[ ] Group 1: A DinkTadors 11.0000, B 2.4286, C 1.0000, D 0.4118, E 0.0909.
+      Groups 2 and 3 have the same shape (F, K first).</li>
+<li>[ ] <em>Advances</em> on A, F, K and B — the four letters in the <code>SF-*</code> slots.
+      Nothing marks G or L, even though they are tied with B at 2.4286:
+      the workbook chose B (§4.3).</li>
+<li>[ ] Semifinals: DinkTadors vs Pampanga Wildcards, KaDINKo vs LOB is in the
+      Air. Final: DinkTadors <strong>Winner</strong> vs KaDINKo, 44–4, pairs 4–0.
+      Bronze: Pampanga Wildcards beat LOB is in the Air. Every playoff card
+      lists 4 matches.</li>
+<li>[ ] Searching DinkTadors shows 4 group matchups, a semifinal and the Final:
+      6 cards, DinkTadors always on the left.</li>
+<li>[ ] Searching <code>Tristen Pamintuan</code> shows 6 matches, each inside its matchup
+      card, with only that match's row showing.</li>
+</ul>
+<h3 id="84-fixtureedge-hand-built-cases">8.4 <code>?fixture=edge</code> — hand-built cases<a class="headerlink" href="#84-fixtureedge-hand-built-cases" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>Where</th>
+<th>Expect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pairs don't decide a matchup</td>
+<td>A v B (#1, 2, 11, 12): A wins three 11–9, loses 0–11</td>
+<td><strong>LOB is in the Air wins.</strong> The card reads <code>33 – 38</code>, "pairs 3–1", with B marked <em>Winner</em></td>
+</tr>
+<tr>
+<td>Tie</td>
+<td>C v D (#3, 4, 13, 14)</td>
+<td>38–38, <em>Tie</em>, no winner marked</td>
+</tr>
+<tr>
+<td>Final on points</td>
+<td>Final (#129, 130, 133, 134): 11–5, 11–5, 3–11, 4–11</td>
+<td><strong>KaDINKo wins 32–29</strong>, pairs 2–2</td>
+</tr>
+<tr>
+<td>In progress</td>
+<td>Bronze (#131 11–8, #132 live, #135–136 unplayed)</td>
+<td><em>In progress</em>, <code>11 – 8</code>, no winner. Live Matches court 6 shows Pampanga Wildcards vs LOB is in the Air · Bronze · Women's Doubles · <em>Matchup 11 – 8</em></td>
+</tr>
+<tr>
+<td>Lineup not set</td>
+<td>K v O (#107, 108, 117, 118)</td>
+<td>Every row <em>Lineup not set</em>, no score. On the schedule board, <em>Lineup TBD</em></td>
+</tr>
+<tr>
+<td>Ranking</td>
+<td>Group 1 quotients: E 3.0, C 1.5, B 1.5, A 0.8, D 0.2. <code>STANDINGSCSV</code> lists C before B</td>
+<td>Group 1 ranks <strong>E, C, B, A, D</strong></td>
+</tr>
+</tbody>
+</table>
+<p>(The <code>edge</code> fixture's points columns were not recomputed after its
+quotients were changed, so PF and PA won't match the quotients. Only the
+ranking is under test.)</p>
+<hr />
+<h2 id="9-control-center-toolscontrol-centerhtml">9. Control Center — <code>tools/control-center.html</code><a class="headerlink" href="#9-control-center-toolscontrol-centerhtml" title="Permanent link">&para;</a></h2>
+<p>The operator console. It is <strong>one file shared by every event</strong>, and it
+branches on the event's <code>type</code> from <code>event-data/config/events.json</code>, held
+in <code>CURRENT_TYPE</code>. Add a third type, <strong><code>"team"</code></strong>.</p>
+<p><strong>The two existing types must behave exactly as before.</strong> Every change
+below is either inside a <code>CURRENT_TYPE === 'team'</code> branch or additive
+(e.g. an extra parsed field nothing else reads).</p>
+<p>Port the logic from §5 rather than re-deriving it. Copy <code>teamMatchupResult</code>, the
+§5.5 helpers, <code>teamMatchupCardHTML</code> and their CSS into the console. Rename any that
+collide with an existing console function (<code>team</code>-prefix them), and keep
+them together in one clearly bannered block:
+<code>// ---- team type (sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md) ----</code>.</p>
+<h3 id="91-config-and-type">9.1 Config and type<a class="headerlink" href="#91-config-and-type" title="Permanent link">&para;</a></h3>
+<ul>
+<li>In <code>selectEvent</code>, the type check becomes
+  <code>rawEvent.type === 'dual-meet' || rawEvent.type === 'standard' || rawEvent.type === 'team'</code>.</li>
+<li>Update the error message after it to read
+  <code>(must be "dual-meet", "standard" or "team")</code>.</li>
+<li>Update the <code>CURRENT_TYPE</code> declaration comment to list <code>'team'</code>.</li>
+</ul>
+<h3 id="92-local-fixtures">9.2 Local fixtures<a class="headerlink" href="#92-local-fixtures" title="Permanent link">&para;</a></h3>
+<p>Give <code>configUrlFor</code> and <code>snapshotUrlFor</code> the same localhost-only override
+as §5.4:</p>
+<ul>
+<li><code>?fixture=&lt;name&gt;</code> loads <code>/_fixtures/config.json</code> as the registry;</li>
+<li>the snapshot becomes <code>/_fixtures/&lt;eventKey&gt;/&lt;name&gt;.json</code>.</li>
+</ul>
+<p>Nothing changes on the live site.</p>
+<h3 id="93-parsing">9.3 Parsing<a class="headerlink" href="#93-parsing" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>rowsToMatches</code> — also read <code>matchUp</code>. This is additive.</li>
+<li><code>rowsToStandings</code> — also read <code>teamName</code>, <code>totalPoints</code> and
+  <code>totalOpponentPoints</code> when those columns exist. This is additive: existing
+  events have no such columns, so the fields stay empty.</li>
+<li><code>parseCode</code> — add a <code>team</code> branch returning
+  <code>{ club:null, category:null, rest }</code>, so no shared code breaks. Team
+  views use the §5.5 helpers, not <code>parseCode</code>.</li>
+</ul>
+<h3 id="94-standings">9.4 Standings<a class="headerlink" href="#94-standings" title="Permanent link">&para;</a></h3>
+<p>In <code>renderStandings</code>, branch to a new <code>renderTeamStandings()</code> <strong>before</strong>
+the category code runs (<code>categoryTokensPresent</code>, <code>buildCategoryOrderIndex</code>).
+Hide the category toggle bar and filter for <code>team</code>, as dual meets do.
+<code>renderTeamStandings()</code> renders exactly §5.7.</p>
+<h3 id="95-live-matches-match-finder-intro">9.5 Live Matches, Match Finder, intro<a class="headerlink" href="#95-live-matches-match-finder-intro" title="Permanent link">&para;</a></h3>
+<p>Branch <code>liveTableRowsHTML</code>, <code>rebuildTeamIndex</code>, <code>resolveTeam</code>,
+<code>runSearch</code>, <code>renderAutocomplete</code> and <code>renderIntro</code> on <code>team</code> to the §5.8
+and §5.9 behaviour. The console builds its courts from the data
+(<code>buildFacilityCourtGroups</code>), not from config, so leave that alone.</p>
+<h3 id="96-awards">9.6 Awards<a class="headerlink" href="#96-awards" title="Permanent link">&para;</a></h3>
+<p>For <code>team</code>, <code>renderAwards</code> uses a new <code>buildTeamPodium()</code> instead of
+<code>buildPodiums()</code>. It returns one podium in the existing shape:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">{</span><span class="w"> </span><span class="nx">category</span><span class="o">:</span><span class="s1">'__team__'</span><span class="p">,</span><span class="w"> </span><span class="nx">source</span><span class="o">:</span><span class="s1">'bracket'</span><span class="p">,</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="nx">gold</span><span class="p">,</span><span class="w"> </span><span class="nx">silver</span><span class="p">,</span><span class="w"> </span><span class="nx">bronze</span><span class="p">,</span><span class="w">          </span><span class="c1">// each null (Pending) or a medalist</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span><span class="nx">bronzeWalkover</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">warning</span><span class="p">,</span><span class="w"> </span><span class="nx">orderIdx</span><span class="o">:</span><span class="mf">0</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong>Gold</strong> = the Final matchup's winner. <strong>Silver</strong> = its loser. <strong>Bronze</strong> = the
+  Bronze matchup's winner. All by §4.4. Each is <code>null</code> (<em>Pending</em>) until that matchup
+  is final.</li>
+<li><strong>Medalist</strong> = <code>{ teamName, base, roster, p1:teamName, p2:'', club:null, clubLabel:null }</code>.
+  <code>roster</code> = every distinct player who played a match for that base team in
+  any matchup, sorted A–Z.</li>
+<li><strong>A tied Final or Bronze</strong> sets
+  <code>warning: 'Final is a tie on points — check match #…'</code> (or <em>Bronze</em>),
+  naming the lowest match number in that matchup. Gold, silver and bronze stay
+  <code>null</code>.</li>
+<li><code>medalRowHTML</code> and the bronze row in <code>awardsCardHTML</code> — when
+  <code>medalist.teamName</code> is set, show the team name (bold) with the roster
+  under it, comma-separated, in <code>--ink-soft</code>, instead of <code>p1 / p2</code>.</li>
+<li><code>categoryLabel('__team__')</code> → <code>'Team Championship'</code>.</li>
+<li>Image export (<code>drawPodiumCard</code>, <code>renderWholeTournamentCard</code>): when a
+  medalist has <code>teamName</code>, draw the team name where the pair names go.
+  Leave the roster off the image.</li>
+<li><code>computeOverallChampion()</code> already returns <code>null</code> for non-dual-meet
+  events. Leave it.</li>
+</ul>
+<h3 id="97-mission-control-and-facility-progress">9.7 Mission Control and facility progress<a class="headerlink" href="#97-mission-control-and-facility-progress" title="Permanent link">&para;</a></h3>
+<p>No change. Progress counts matches, which is still right. The "played" and
+BYE rules exist twice: <code>computeFacilityProgress</code> and <code>sideIsBye</code> here, and
+<code>src/sync/facilityCompletion.mjs</code> in <code>sage-tools-api</code>. Leave both as they
+are — this format has no byes.</p>
+<h3 id="98-theme">9.8 Theme<a class="headerlink" href="#98-theme" title="Permanent link">&para;</a></h3>
+<p>Control Center is shared, so it keeps the S.A.G.E. house palette and fonts.
+Don't apply §6 here.</p>
+<h3 id="99-verify">9.9 Verify<a class="headerlink" href="#99-verify" title="Permanent link">&para;</a></h3>
+<p>Serve as in §8.1 and open
+<code>http://localhost:8000/tools/control-center.html?fixture=&lt;name&gt;</code>. Pick the
+event if it isn't already selected.</p>
+<ul>
+<li>[ ] <code>pre</code>, <code>finished</code> and <code>edge</code> show the same Standings, Match Finder
+      and Live results as §8.2–§8.4.</li>
+<li>[ ] Awards, <code>finished</code>: Gold DinkTadors, Silver KaDINKo, Bronze Pampanga
+      Wildcards, each with an 8-name roster. <em>Export image</em> downloads a
+      PNG showing team names.</li>
+<li>[ ] Awards, <code>edge</code>: Gold <strong>KaDINKo</strong>, Silver DinkTadors, Bronze <em>Pending</em>
+      (the matchup is in progress).</li>
+<li>[ ] Awards, <code>pre</code>: all three <em>Pending</em>.</li>
+<li>[ ] Mission Control's <em>Open schedule</em> links to
+      <code>/events/pickledrive-anniversary-2026/schedule</code>.</li>
+<li>[ ] <strong>Regression</strong>, without <code>?fixture=</code> (the live registry): Pickle for
+      Sight (<code>standard</code>) and the PNF × BUP dual meet (<code>dual-meet</code>) render
+      Standings, Match Finder, Live Matches and Awards as before, with no
+      console errors.</li>
+</ul>
+<hr />
+<h2 id="10-register-the-event-event-dataconfigeventsjson">10. Register the event — <code>event-data/config/events.json</code><a class="headerlink" href="#10-register-the-event-event-dataconfigeventsjson" title="Permanent link">&para;</a></h2>
+<p>Add inside <code>"events"</code>, after the last event entry (mind the comma before
+it):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nt">"pickledrive-anniversary-2026"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"team"</span><span class="p">,</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PickleDrive Club One Year Celebration"</span><span class="p">,</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span><span class="nt">"days"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">    </span><span class="nt">"pickledrive-anniversary-2026-day1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">      </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oct 3"</span><span class="p">,</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">      </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-03"</span><span class="p">,</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">      </span><span class="nt">"isLive"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">,</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">      </span><span class="nt">"facilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kingcourts"</span><span class="p">,</span><span class="w"> </span><span class="nt">"sheetId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1Bk3iAqB6Fdt6t-EiI8MrU0Or8UZc4MAZcnWcMUOCkOA"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="w">      </span><span class="p">]</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="p">}</span>
+</code></pre></div>
+<p>No <code>display</code> block. This type takes its names from the data.</p>
+<p><code>sage-tools-api</code> never reads <code>type</code>, so <code>"team"</code> needs no backend change.
+It validates the rest of the file, and <strong>a day key used twice anywhere in
+the file rejects the whole file.</strong> Cloud Run then keeps serving the last
+good config and this event never registers.</p>
+<p><strong>Check:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>grep<span class="w"> </span>-c<span class="w"> </span><span class="s1">'"pickledrive-anniversary-2026-day1"'</span><span class="w"> </span>config/events.json
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>node<span class="w"> </span>-e<span class="w"> </span><span class="s2">"JSON.parse(require('fs').readFileSync('config/events.json','utf8'))"</span>
+</code></pre></div>
+<p>The first must print <code>1</code>, and the second must run without error. If the
+day key already exists, <strong>stop and ask</strong>.</p>
+<p>Also update <code>config/README.md</code> in the same repo: where it lists
+<code>"dual-meet"</code> or <code>"standard"</code> for <code>type</code>, add <code>"team"</code>, with one line saying
+team events take names from <code>STANDINGSCSV</code> and need no <code>display</code> block.</p>
+<hr />
+<h2 id="11-operator-runbook-copy">11. Operator runbook copy<a class="headerlink" href="#11-operator-runbook-copy" title="Permanent link">&para;</a></h2>
+<p>Copy <code>_templates/dry-run-checklist-template.md</code> to
+<code>events/pickledrive-anniversary-2026/dry-run-checklist.md</code> and replace
+<code>{{EVENT_TITLE}}</code>. Then add one step to its rehearsal section:</p>
+<blockquote>
+<p>Enter one matchup's lineup on the <code>MatchUps</code> tab. Within about 30 seconds,
+the site should show those players' names in place of <em>Lineup not set</em>.
+If it doesn't, check that <code>MatchUps</code> is ticked in <strong>SAGE → Set up live
+sync</strong>.</p>
+<p>Then type a team letter into <code>MatchUps!D604</code> (Semifinal seed 1). The
+site's first semifinal card should switch from <em>Seed 1 · TBD</em> to that
+team's name, and the team should get an <em>Advances</em> label. Put the seed
+back to <code>1</code> afterwards.</p>
+</blockquote>
+<p>And one step to its day-of section:</p>
+<blockquote>
+<p>When the group stage ends, enter the four semifinalists' letters in
+<code>MatchUps</code> (<code>D604</code>, <code>D614</code>, <code>D624</code>, <code>D634</code>). After the semis, enter
+the Bronze and Final teams (<code>D644</code>–<code>D674</code>). The site takes the
+semifinalists from these cells — it does not pick them itself.</p>
+</blockquote>
+<hr />
+<h2 id="12-documentation-sage-docs">12. Documentation — <code>sage-docs</code><a class="headerlink" href="#12-documentation-sage-docs" title="Permanent link">&para;</a></h2>
+<p>Write in the present tense: describe what the system does, not what
+changed.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docs/features/tournament-hub.md</code></td>
+<td>A <em>Team events</em> section: reading a matchup card, why a matchup is won on total points, searching by team or player, <em>Lineup not set</em></td>
+</tr>
+<tr>
+<td><code>docs/features/control-center.md</code></td>
+<td>The team Standings and the team Awards podium</td>
+</tr>
+<tr>
+<td><code>docs/technical/control-center.md</code></td>
+<td><code>"team"</code> as a third <code>CURRENT_TYPE</code>, and which functions branch on it</td>
+</tr>
+<tr>
+<td><code>docs/technical/event-data-config.md</code></td>
+<td><code>type: "team"</code></td>
+</tr>
+<tr>
+<td><code>docs/technical/adding-a-new-event.md</code></td>
+<td>A team event has no template yet: point to this spec</td>
+</tr>
+<tr>
+<td><code>docs/technical/schedule-board.md</code></td>
+<td>Team events colour by group, not category</td>
+</tr>
+</tbody>
+</table>
+<p>Root <code>D:\Personal\SAGE\CLAUDE.md</code>: where it describes Control Center's
+<code>type</code>, add <code>"team"</code>. Where it lists the <code>events/</code> folders, add this event.</p>
+<p>Then, per <code>docs/specs/README.md</code> ("Moving a spec between folders"), move
+this spec from <code>not-started/</code> to <code>in-progress/</code>: update its status line,
+the three READMEs and <code>mkdocs.yml</code>.</p>
+<hr />
+<h2 id="13-report-back">13. Report back<a class="headerlink" href="#13-report-back" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Which checks in §5–§12 passed, and any that didn't, with what you saw.</li>
+<li>Whether <code>assets/qr.png</code> was present, and where the short link redirects.</li>
+<li>Any function from §5.5's delete list that you kept, and why.</li>
+<li>Every changed and new file, per repo, uncommitted.</li>
+</ul>
+<hr />
+<h2 id="14-decisions-settled-dont-revisit">14. Decisions (settled — don't revisit)<a class="headerlink" href="#14-decisions-settled-dont-revisit" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td>Group ranking is <code>quotient</code> from <code>STANDINGSCSV</code> only. Rows tied on quotient keep sheet order</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>A matchup is won on total points across its 4 matches. Pair wins never decide it. Equal points is a <strong>tie</strong>, shown as "Tie", with no winner. The team-vs-team meeting is a <strong>matchup</strong>, never a "tie"</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>Standings come from <code>STANDINGSCSV</code>. Matchup results come from the matches, grouped by <code>matchUp</code>. The workbook's <code>Standings</code> tab is ignored</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>Semifinalists are the 3 group winners plus the best runner-up. The organiser enters them in the workbook's <code>MatchUps</code> tab. The site shows that entry and never computes or second-guesses it, including on equal quotients</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>The award roster is every player who played for the team</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>Event key <code>pickledrive-anniversary-2026</code>, day key <code>pickledrive-anniversary-2026-day1</code></td>
+</tr>
+<tr>
+<td>D7</td>
+<td>10 courts</td>
+</tr>
+<tr>
+<td>D8</td>
+<td>Theme and fonts follow the pubmat on the event pages. Control Center keeps the house theme</td>
+</tr>
+<tr>
+<td>D9</td>
+<td>Public site, schedule board and Control Center all ship before 3 October. The template comes after</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="15-after-the-event-the-template">15. After the event — the template<a class="headerlink" href="#15-after-the-event-the-template" title="Permanent link">&para;</a></h2>
+<p>Not part of this build. Once the event has run:</p>
+<ol>
+<li>Copy the event folder to <code>_templates/team-tournament-template/</code>.
+   Tokenise event values and mark <code>PAIRS</code>, <code>STAGES</code> and <code>FACILITIES</code> as
+   <code>// EXAMPLE — replace</code>.</li>
+<li>Generalise what this event hard-codes: any number of groups, any number
+   of pairs per matchup, and other playoff stages (QF).</li>
+<li>Move the fixture override (§5.4) into both existing templates as well.</li>
+<li>Document the template in <code>_templates/CLAUDE.md</code> §1 and §3–§5.</li>
+<li>Consider a <em>Team Tournament Master</em> sheet generator. This event's
+   workbook was built by hand.</li>
+</ol>
+<hr />
+<h2 id="16-out-of-scope">16. Out of scope<a class="headerlink" href="#16-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Any change to <code>sage-tools-api</code> or to any Apps Script.</li>
+<li>Team logos.</li>
+<li>Scoresheets. <code>tools/scoresheet-generator.html</code> is untested with these
+  team codes, so if an operator plans to print from it, flag it rather than
+  fixing it.</li>
+<li>Attendance (<code>attendance.gs</code>, <code>attendance.html</code>).</li>
+<li>Re-theming Control Center.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../piggleball-chairmans-cup-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Piggleball Chairman&#39;s Cup">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Piggleball Chairman's Cup
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3925 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/implemented/immediate-sync-spec/">
+      
+      
+        <link rel="prev" href="../multi-event-attendance-spec/">
+      
+      
+        <link rel="next" href="../sage-tools-api-test-suite-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Immediate sync - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-immediate-sync" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Immediate sync
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features & Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features & Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/preparing-an-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing an event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/running-an-event-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running an event, day of
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-in-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why, in numbers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-two-parts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The two parts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-part-1-timing-instrumentation-and-conflict-retry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Part 1 — Timing instrumentation and conflict retry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Part 1 — Timing instrumentation and conflict retry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-scriptssheets-syncgs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 scripts/sheets-sync.gs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-sage-tools-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 sage-tools-api
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-retry-on-a-github-conflict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Retry on a GitHub conflict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-toolscontrol-centerhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 tools/control-center.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-done-when" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Done when
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-part-2-lock-based-apps-script-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Part 2 — Lock-based Apps Script sync
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Part 2 — Lock-based Apps Script sync">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 The problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 The design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-quota-check-do-this-before-shipping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Quota check (do this before shipping)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-verify-and-ship" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Verify and ship
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-documentation-to-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Documentation to update
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-rollout-and-rollback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Rollout and rollback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-what-the-delivery-specs-build-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. What the delivery specs build on
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-in-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why, in numbers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-two-parts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The two parts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-part-1-timing-instrumentation-and-conflict-retry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Part 1 — Timing instrumentation and conflict retry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Part 1 — Timing instrumentation and conflict retry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-scriptssheets-syncgs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 scripts/sheets-sync.gs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-sage-tools-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 sage-tools-api
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-retry-on-a-github-conflict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Retry on a GitHub conflict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-toolscontrol-centerhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 tools/control-center.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-done-when" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Done when
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-part-2-lock-based-apps-script-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Part 2 — Lock-based Apps Script sync
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Part 2 — Lock-based Apps Script sync">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 The problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 The design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-quota-check-do-this-before-shipping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Quota check (do this before shipping)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-verify-and-ship" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Verify and ship
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-documentation-to-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Documentation to update
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-rollout-and-rollback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Rollout and rollback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-what-the-delivery-specs-build-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. What the delivery specs build on
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/implemented/immediate-sync-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-immediate-sync">Spec — Immediate sync<a class="headerlink" href="#spec-immediate-sync" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: implemented.</strong> Part 1 shipped in <code>sage-tools-api</code> 2.3.0 with
+the Control Center <code>edit→sync</code> figure; Part 2 is in <code>scripts/sheets-sync.gs</code>
+and runs in the Piggleball workbook, measured there on 1 October 2026 (see
+<a href="../../../technical/sync-pipeline/#measured-the-lock-based-sync">Sync pipeline</a>).
+One divergence: a minimum gap between syncs, <code>SYNC_MIN_GAP_MS</code> (§4.3
+notes). Not yet run from §5: the paused-workbook check and the
+multi-workbook and multi-event collision checks, which need more than one
+workbook; <code>scripts/verify-sync-merge.mjs</code> covers the retry they exercise.
+Written 2026-10-01 against <code>sage-tools-api</code> 2.2.0.</p>
+<p><strong>Stands alone.</strong> Build this on its own; it makes today's GitHub-based
+pipeline faster and stops it losing updates. It is also the prerequisite
+for both delivery designs, <a href="../../in-progress/durable-object-push-spec/">Live push delivery</a>
+and <a href="../../not-started/fast-data-delivery-spec/">Fast data delivery</a>, which build on the
+code this spec adds.</p>
+</blockquote>
+<p>Make a facility sheet's edit reach Cloud Run within about two seconds instead
+of whenever Google fires a delayed trigger, measure every step from the edit
+onwards, and stop a sync that collides with another sync from being silently
+lost.</p>
+<hr />
+<h2 id="0-read-this-first-implementer-orientation">0. Read this first (implementer orientation)<a class="headerlink" href="#0-read-this-first-implementer-orientation" title="Permanent link">&para;</a></h2>
+<p>Assume no knowledge of this project beyond this page.</p>
+<p><strong>Repos.</strong> <code>D:\Personal\SAGE</code> is a plain folder holding four git repos. This
+spec touches three:</p>
+<table>
+<thead>
+<tr>
+<th>Repo</th>
+<th>What it is</th>
+<th>What changes here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sage-tools-api/</code></td>
+<td>Node 22 / Express backend on Google Cloud Run (<code>us-central1</code>). ESM <code>.mjs</code> throughout, classes with constructor injection, no TypeScript, no build step, no test framework (a few plain-Node <code>scripts/verify-*.mjs</code> checks). Deploys automatically on push to <code>main</code></td>
+<td><code>src/sync/*</code>, a new <code>scripts/verify-sync-merge.mjs</code>, and <code>scripts/sheets-sync.gs</code></td>
+</tr>
+<tr>
+<td><code>sage-match-control.github.io/</code></td>
+<td>Static site on GitHub Pages. Each page is one self-contained HTML file (inline <code>&lt;style&gt;</code> and <code>&lt;script&gt;</code>). Commit to deploy</td>
+<td><code>tools/control-center.html</code> only (one diagnostic line)</td>
+</tr>
+<tr>
+<td><code>event-data/</code></td>
+<td>Public repo served by GitHub Pages. <code>config/events.json</code> is the event/day/facility registry; every day's live snapshot is <code>&lt;event-key&gt;/data/&lt;day&gt;.json</code></td>
+<td>Nothing (it is written to at runtime)</td>
+</tr>
+<tr>
+<td><code>sage-docs/</code></td>
+<td>Documentation (mkdocs). This spec lives here</td>
+<td>Docs updates (§6)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>scripts/sheets-sync.gs</code> is not part of the Cloud Run service.</strong> It is
+Google Apps Script, kept in the repo for versioning, and ships by pasting the
+whole file into each spreadsheet's script project (<strong>Extensions → Apps
+Script</strong>). It is byte-identical in every workbook; each workbook's identity
+(day key, facility name, watched tabs, shared secret) lives in that
+project's Script Properties. In a live workbook it shares one project with a
+generator file (<code>sheet-generator.gs</code> or <code>standard-generator.gs</code>) and often
+<code>attendance.gs</code>, so <strong>a top-level name declared twice silently replaces the
+other file's</strong> — every new top-level name must be unique across all four
+files.</p>
+<p><strong>Rules for every change</strong> (from the root <code>CLAUDE.md</code>):</p>
+<ul>
+<li>A code change in <code>sage-tools-api</code> bumps <code>package.json</code>'s version (minor
+  for a feature) <strong>and</strong> adds a matching entry to the Changelog section of
+  <code>sage-tools-api/README.md</code>. A change to <code>scripts/*.gs</code> alone does not.</li>
+<li>Cite a spec from outside <code>sage-docs</code> as
+  <code>sage-docs/docs/specs/.../immediate-sync-spec.md</code> — literally <code>...</code> where
+  the status folder goes.</li>
+<li>Documentation is written in the present tense.</li>
+<li><strong>Never deploy or paste any of this on an event day</strong>, or within a few
+  days before one. Nothing here ships before 3 October 2026.</li>
+</ul>
+<p><strong>How a sync works today:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Facility Google Sheet (one per venue per tournament day)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  | installable onEdit trigger -&gt; onEditInstallable(e)       (sheets-sync.gs)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  |   ignores edits outside the watched tabs (by sheet GID)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  |   records PROP_LAST_EDIT, deletes any pending runIfSettled trigger,
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  |   creates a one-shot time-based trigger .after(DEBOUNCE_MS = 3000)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  v
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>runIfSettled()  — fires "about" 3s later; Google treats that as a minimum
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  |   skips if a newer edit is pending; else triggerSync_()
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  v
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>POST /sync/:day?facility=&lt;name&gt;   Cloud Run, header X-Sync-Secret
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>  |   src/sync/routes.mjs handleSync -&gt; SyncService.syncDay
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>  |   1. fetch this facility's CSV + STANDINGSCSV tabs (Sheets API)
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  |   2. GitHubPublisher.fetchExisting(&lt;event&gt;/data/&lt;day&gt;.json) -&gt; { json, sha }
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  |   3. merge: fresh data for this facility, the rest carried forward
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>  |   4. GitHubPublisher.publish(path, snapshot, message, sha)  (a commit)
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>  v
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>event-data commit -&gt; GitHub Pages build -&gt; pages poll every 10s
+</code></pre></div>
+<p>Control Center (the operator console) also calls <code>POST /sync/:day</code> without
+<code>?facility=</code> (a full resync of every facility, with an operator bearer
+token) and <code>POST /sync/:day/live</code> (the Live/Hide override:
+<code>SyncConfigStore.setIsLive</code> commits <code>config/events.json</code>, then
+<code>SyncService.setLiveOverride</code> re-commits the day's snapshot with only
+<code>isLive</code> changed).</p>
+<p><strong>The snapshot</strong> (<code>SyncService.syncDay</code> builds it; this spec adds
+<code>lastEditAt</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nx">day</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nx">isLive</span><span class="p">,</span><span class="w">               </span><span class="c1">// true | false | "auto"</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nx">generatedAt</span><span class="p">,</span><span class="w">          </span><span class="c1">// ISO, set by each syncDay</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nx">facilities</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">matchesCsv</span><span class="p">,</span><span class="w"> </span><span class="nx">standingsCsv</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nx">syncedAt</span><span class="p">,</span><span class="w">           </span><span class="c1">// ISO, restamped whenever this facility is fetched</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nx">completedAt</span><span class="p">,</span><span class="w">        </span><span class="c1">// ISO or null — src/sync/facilityCompletion.mjs</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nx">lastEditAt</span><span class="w">          </span><span class="c1">// NEW: ISO or null — when the edit behind the latest sync was made</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="p">}],</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nx">failedFacilities</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="c1">// "name: error" strings</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="nx">staleFacilities</span><span class="o">:</span><span class="w"> </span><span class="p">[]</span><span class="w">   </span><span class="c1">// names carried forward because this attempt failed them</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Files you will read and change:</strong></p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sage-tools-api/scripts/sheets-sync.gs</code></td>
+<td><code>onEditInstallable</code>, <code>runIfSettled</code>, <code>triggerSync_</code>, <code>testSyncNow</code>, <code>readSyncConfig_</code>, <code>isSyncPaused_</code>, <code>DEBOUNCE_MS</code>, <code>SETTLE_HANDLER</code>, <code>PROP_LAST_EDIT</code></td>
+</tr>
+<tr>
+<td><code>sage-tools-api/src/sync/routes.mjs</code></td>
+<td><code>handleSync</code>, <code>handleSetLive</code>, and their <code>@openapi</code> JSDoc blocks</td>
+</tr>
+<tr>
+<td><code>sage-tools-api/src/sync/SyncService.mjs</code></td>
+<td><code>syncDay</code>, <code>setLiveOverride</code></td>
+</tr>
+<tr>
+<td><code>sage-tools-api/src/sync/SyncConfigStore.mjs</code></td>
+<td><code>setIsLive</code></td>
+</tr>
+<tr>
+<td><code>sage-tools-api/src/sync/GitHubPublisher.mjs</code></td>
+<td><code>publish</code>, <code>fetchExisting</code></td>
+</tr>
+<tr>
+<td><code>sage-tools-api/scripts/attendance.gs</code></td>
+<td>Read only: it holds <code>LockService.getScriptLock()</code>, which is why §4 uses the document lock</td>
+</tr>
+<tr>
+<td><code>sage-tools-api/scripts/verify-*.mjs</code>, <code>mock-apps-script.mjs</code></td>
+<td>Existing checks to keep passing; a pattern for the new one</td>
+</tr>
+<tr>
+<td><code>sage-match-control.github.io/tools/control-center.html</code></td>
+<td><code>renderOrganizerStatus</code> (Facility Sync Status rows)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-why-in-numbers">1. Why, in numbers<a class="headerlink" href="#1-why-in-numbers" title="Permanent link">&para;</a></h2>
+<p>Measured at CLSO Pickle for Sight, 27 September 2026 (2 facilities, one
+event that day):</p>
+<table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>p50</th>
+<th>p90</th>
+<th>max</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apps Script: edit → <code>runIfSettled</code> fires</td>
+<td>74s</td>
+<td>119s</td>
+<td>119s</td>
+<td>Piggleball Executions page, 1 Oct 2026, five bursts (22–119s). See <code>technical/sync-pipeline.md</code> § Baseline</td>
+</tr>
+<tr>
+<td>Cloud Run <code>POST /sync/:day</code> (264 Apps Script calls)</td>
+<td>1.6s</td>
+<td>1.85s</td>
+<td>19s</td>
+<td>Cloud Run request logs</td>
+</tr>
+<tr>
+<td>GitHub commit → Pages deployed (287 builds, 46 cancelled by newer pushes)</td>
+<td>25s</td>
+<td>52s</td>
+<td>82s</td>
+<td><code>event-data</code> Actions runs</td>
+</tr>
+<tr>
+<td>Page poll</td>
+<td>5s</td>
+<td>10s</td>
+<td>10s</td>
+<td><code>POLL_INTERVAL_MS = 10000</code></td>
+</tr>
+</tbody>
+</table>
+<p>This spec shortens the first leg to ~0.5–2s plus a 1.5s settle. The Pages
+leg is the delivery specs' job.</p>
+<p><strong>Concurrent syncs already fail.</strong> Every facility of a day writes into the
+same <code>&lt;event&gt;/data/&lt;day&gt;.json</code>, and every commit of every event moves the
+same <code>main</code> branch of <code>event-data</code>. A commit made with a stale sha is
+rejected with <code>409 Conflict</code>, and today the losing sync returns <code>500</code>. All
+four failed syncs at Pickle for Sight were this (Cloud Run logs, UTC):</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Collision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>04:15:22, 11:07:56</td>
+<td>The same workbook syncing twice within a second — the time-based trigger firing twice for one burst</td>
+</tr>
+<tr>
+<td>06:44:41, 09:58:22</td>
+<td>A Control Center full resync against a facility's sync</td>
+</tr>
+</tbody>
+</table>
+<p>None lost data that day, but a collision <strong>between two facilities</strong>, or
+<strong>between two events on the same day</strong> (3 October 2026 has two), loses the
+loser's update until someone next edits that facility's sheet — minutes, if
+it was a match's final score. Estimated at a handful a day with three
+facilities, and more as syncs get faster. Mission Control only turns a
+facility amber after 5 minutes without a sync, so nobody notices quickly.</p>
+<h2 id="2-the-two-parts">2. The two parts<a class="headerlink" href="#2-the-two-parts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What</th>
+<th>Ships as</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Cloud Run: timing instrumentation; re-read-and-retry on a <code>409</code> in <code>syncDay</code>, <code>setLiveOverride</code> and <code>setIsLive</code>; <code>verify-sync-merge.mjs</code>. Apps Script: send the edit time. Control Center: show <code>edit→sync</code></td>
+<td>Minor <code>sage-tools-api</code> release + site commit + (optionally) a paste of <code>sheets-sync.gs</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Apps Script: sync from the edit itself under a document lock, and retry a failed sync once</td>
+<td>A paste of <code>sheets-sync.gs</code> into every workbook and both masters</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Order:</strong> Part 1's Cloud Run release goes first — the retry must be live
+before Part 2 makes syncs faster and collisions more likely. Part 1's small
+<code>sheets-sync.gs</code> change (§3.1) and Part 2 can go out in the same paste.
+To get a "before" measurement of the old trigger, paste §3.1 on its own
+first (with the <code>runIfSettled</code> change it describes) and run one event or
+rehearsal before Part 2.</p>
+<hr />
+<h2 id="3-part-1-timing-instrumentation-and-conflict-retry">3. Part 1 — Timing instrumentation and conflict retry<a class="headerlink" href="#3-part-1-timing-instrumentation-and-conflict-retry" title="Permanent link">&para;</a></h2>
+<p>Goals: every sync records how long it took from the edit to Cloud Run, and
+from the edit to publication; and a sync that loses a race with another
+sync for the same day retries instead of failing (§3.3). The retry must be
+live <strong>before</strong> Part 2 makes syncs faster.</p>
+<h3 id="31-scriptssheets-syncgs">3.1 <code>scripts/sheets-sync.gs</code><a class="headerlink" href="#31-scriptssheets-syncgs" title="Permanent link">&para;</a></h3>
+<p><code>triggerSync_()</code> takes an optional argument and sends the edit time as a
+header:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">triggerSync_</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">editAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">opts</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">opts</span><span class="p">.</span><span class="nx">editAt</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">opts</span><span class="p">.</span><span class="nx">editAt</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="c1">// ... existing config/secret checks unchanged ...</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s1">'X-Sync-Secret'</span><span class="o">:</span><span class="w"> </span><span class="nx">secret</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">editAt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="nx">headers</span><span class="p">[</span><span class="s1">'X-Edit-At'</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">editAt</span><span class="p">);</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">UrlFetchApp</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">'post'</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="nx">headers</span><span class="p">,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="nx">fetchTimeoutSeconds</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="nx">muteHttpExceptions</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="c1">// ... rest unchanged ...</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>The edit path passes <code>{ editAt: &lt;value of PROP_LAST_EDIT&gt; }</code> (Part 2 shows
+where). <code>testSyncNow()</code> (the <strong>SAGE → Sync now</strong> menu item) keeps calling
+<code>triggerSync_()</code> with no argument, so manual syncs carry no edit time.</p>
+<p>If Part 2 is not shipped in the same paste, change <code>runIfSettled</code> to read
+<code>PROP_LAST_EDIT</code> and call <code>triggerSync_({ editAt: lastEdit })</code>.</p>
+<h3 id="32-sage-tools-api">3.2 <code>sage-tools-api</code><a class="headerlink" href="#32-sage-tools-api" title="Permanent link">&para;</a></h3>
+<p><strong><code>src/sync/routes.mjs</code> → <code>handleSync</code>:</strong> read the header and pass it on.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">rawEditAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"X-Edit-At"</span><span class="p">));</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// Only a plausible recent edit time counts: within the last hour, not in</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">// the future by more than a few seconds of clock skew.</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kd">const</span><span class="w"> </span><span class="nx">editAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">.</span><span class="nb">isFinite</span><span class="p">(</span><span class="nx">rawEditAt</span><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">rawEditAt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">3600</span><span class="nx">_000</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">rawEditAt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">5</span><span class="nx">_000</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">rawEditAt</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">syncService</span><span class="p">.</span><span class="nx">syncDay</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">day</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">facilityName</span><span class="p">,</span><span class="w"> </span><span class="nx">method</span><span class="p">,</span><span class="w"> </span><span class="nx">editAt</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<p>Document the header in the route's <code>@openapi</code> JSDoc block (the spec at
+<code>GET /openapi.json</code> is generated from those blocks).</p>
+<p><strong><code>src/sync/SyncService.mjs</code> → <code>syncDay(day, { facilityName, method, editAt = null })</code>:</strong></p>
+<ul>
+<li>Record <code>const t0 = Date.now()</code> first thing, and time the fetch
+  (<code>fetchMs</code>), the merge read + publish (<code>publishMs</code>), and the total.</li>
+<li>When a facility was fetched fresh <strong>and</strong> <code>editAt</code> is set <strong>and</strong> the sync
+  is facility-scoped, set that facility's <code>lastEditAt</code> to
+  <code>new Date(editAt).toISOString()</code>. Otherwise carry the prior value forward:
+  <code>lastEditAt: existingByName.get(f.name)?.lastEditAt ?? null</code>. (A full
+  resync must not wipe it.)</li>
+<li>Log one line per sync:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>timing edit→request=&lt;t0-editAt|n/a&gt;ms fetch=&lt;fetchMs&gt;ms publish=&lt;publishMs&gt;ms edit→published=&lt;now-editAt|n/a&gt;ms
+</code></pre></div>
+<ul>
+<li>Add a <code>timing</code> object to the return value:
+  <code>{ editToRequestMs, fetchMs, publishMs, editToPublishedMs }</code> (the two
+  <code>edit…</code> fields <code>null</code> when there is no <code>editAt</code>).</li>
+</ul>
+<p>Bump the minor version in <code>package.json</code> (2.2.0 → 2.3.0 if nothing else has
+shipped in between) with a Changelog entry in <code>README.md</code>.</p>
+<p><strong>Reading the numbers afterwards</strong> (PowerShell, gcloud installed and signed
+in; on PowerShell 5.1 inner double quotes must be escaped as <code>\"</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gcloud logging read 'resource.type=cloud_run_revision AND resource.labels.service_name=sage-tools-api AND textPayload:\"timing edit\"' --freshness=1d --format='value(timestamp,textPayload)' --project=sage-tools-api
+</code></pre></div>
+<p>(<code>Logger</code> writes plain text, which Cloud Logging stores as <code>textPayload</code>,
+e.g. <code>2026-09-27T11:07:57.569Z :: [scoresheet:sync:github] committed …</code>.)</p>
+<h3 id="33-retry-on-a-github-conflict">3.3 Retry on a GitHub conflict<a class="headerlink" href="#33-retry-on-a-github-conflict" title="Permanent link">&para;</a></h3>
+<p><strong><code>src/sync/GitHubPublisher.mjs</code> → <code>publish</code>:</strong> when the PUT fails, attach
+the HTTP status to the thrown error so callers can tell a conflict apart
+from anything else. The message stays exactly as it is.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">detail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">text</span><span class="p">().</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s2">""</span><span class="p">);</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`GitHub commit failed: HTTP </span><span class="si">${</span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb"> </span><span class="si">${</span><span class="nx">detail</span><span class="si">}</span><span class="sb">`</span><span class="p">.</span><span class="nx">trim</span><span class="p">());</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nx">err</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="nx">err</span><span class="p">;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>GitHub reports a stale sha as <code>409</code> (seen at Pickle for Sight with two
+wordings: <code>is at &lt;sha&gt; but expected &lt;sha&gt;</code> and <code>&lt;path&gt; does not match
+&lt;sha&gt;</code>). Match on the status, never the message.</p>
+<p><strong>A <code>409</code> does not mean the file changed.</strong> Every commit moves the one
+<code>main</code> branch of <code>event-data</code>, and GitHub moves it one commit at a time.
+The first wording above is a branch-level conflict: the <code>&lt;sha&gt;</code> it is "at"
+was another request's commit a moment earlier. So two syncs that touch
+<strong>different files</strong> — two events on the same day, or a sync and a Live/Hide
+override writing <code>config/events.json</code> — can still collide. The retry below
+handles that case too: the re-read returns the same file and sha, the merge
+produces the same snapshot, and the second commit goes through.</p>
+<p><strong><code>src/sync/SyncService.mjs</code> → <code>syncDay</code>:</strong> wrap the read-merge-publish
+part — from <code>this.publisher.fetchExisting(path)</code> through
+<code>this.publisher.publish(...)</code> — in a loop of at most <strong>3 attempts</strong>. On an
+error with <code>status === 409</code>, go round again: re-read the file (new
+<code>existing.json</code> and <code>existing.sha</code>) and redo the merge with the facility
+data <strong>already fetched</strong> this request (<code>freshByName</code>, <code>failed</code>). Do not
+fetch the sheets again; they were read moments ago. Any other error, or a
+third <code>409</code>, throws as today.</p>
+<p>Move the snapshot-building code (the <code>allFacilities.forEach</code> that fills
+<code>finalFacilities</code> and <code>stale</code>, and the <code>snapshot</code> object) into a private
+method, e.g. <code>#buildSnapshot({ day, label, isLive, now, allFacilities,
+targetFacilities, freshByName, failed, existing })</code>, so the loop can call
+it again against the re-read file. Its logic doesn't change —
+<code>resolveCompletedAt</code> must see the re-read file's <code>completedAt</code>, which it
+does because <code>existing</code> is the re-read one.</p>
+<p>Log each retry at <code>info</code>: <code>commit conflict (attempt n/3) — re-reading and
+re-merging</code>. Add <code>attempts</code> to the return value.</p>
+<p><strong><code>setLiveOverride</code>:</strong> same loop around its <code>fetchExisting</code> → spread →
+<code>publish</code>, re-reading on <code>409</code>.</p>
+<p><strong><code>src/sync/SyncConfigStore.mjs</code> → <code>setIsLive</code>:</strong> the override's first
+commit, to <code>config/events.json</code>, has the same exposure: it reads the file,
+sets the day's <code>isLive</code>, and publishes with the sha it read, so any sync of
+any event landing in between makes it fail and the operator sees an error.
+Wrap its read → modify → <code>publish</code> in the same 3-attempt loop on
+<code>status === 409</code>, re-reading <code>config/events.json</code> and re-applying the one
+change each time. Keep invalidating the cache only after a successful
+commit.</p>
+<p><strong><code>scripts/verify-sync-merge.mjs</code> (new):</strong> a plain Node script in the style
+of the other <code>verify-*</code> scripts (no framework, no network, exits non-zero
+on failure). It constructs <code>SyncService</code> with in-memory fakes: a fetcher
+returning fixed CSVs per facility, and a fake <code>GitHubPublisher</code> holding one
+file and its sha that can be told to change the file (as if another sync
+committed) and return <code>409</code> on the next <code>publish</code>. Scenarios:</p>
+<ol>
+<li>Facility-scoped sync of A with no conflict → A fresh, B carried forward.</li>
+<li>Conflict: before A's commit, the fake is changed to contain B's new
+   data and made to return <code>409</code> once → A's retried commit contains
+   <strong>A's and B's</strong> new data, <code>attempts: 2</code>.</li>
+<li>Three <code>409</code>s in a row → the sync throws with <code>status</code> 409.</li>
+<li>A non-409 error (<code>500</code>) → throws on the first attempt, no retry.</li>
+<li><code>setLiveOverride(false)</code> with one <code>409</code> → retried; the file ends with
+   <code>isLive: false</code> and B's data intact.</li>
+<li><code>lastEditAt</code> from an <code>editAt</code> sync survives a later full resync.</li>
+<li>Branch-level conflict: the fake returns <code>409</code> once <strong>without changing
+   the file</strong> (another event's commit moved the branch) → the retry
+   re-reads the same sha, commits the same snapshot, <code>attempts: 2</code>.</li>
+<li><code>SyncConfigStore.setIsLive</code> with one <code>409</code>, where the fake's
+   <code>config/events.json</code> has meanwhile gained another day's <code>isLive</code> change
+   → the retried commit keeps <strong>both</strong> changes.</li>
+</ol>
+<p>Whichever delivery spec is built next extends this script (§8). Add it to
+the root <code>CLAUDE.md</code>'s list of verify scripts with its run command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>node<span class="w"> </span>scripts/verify-sync-merge.mjs
+</code></pre></div>
+<h3 id="34-toolscontrol-centerhtml">3.4 <code>tools/control-center.html</code><a class="headerlink" href="#34-toolscontrol-centerhtml" title="Permanent link">&para;</a></h3>
+<p>In Mission Control's <strong>Facility Sync Status</strong> rows (the code that computes
+<code>STALE_WARNING_MS</code> / <code>isWarn</code> inside or near <code>renderOrganizerStatus</code>), when a
+facility has both <code>syncedAt</code> and <code>lastEditAt</code>, append
+<code>· edit→sync &lt;n&gt;s</code> where
+<code>n = Math.round((Date.parse(syncedAt) - Date.parse(lastEditAt)) / 1000)</code>.
+Show it only when <code>0 &lt;= n &lt; 600</code>. It is an operator diagnostic; no public
+page shows it.</p>
+<h3 id="35-done-when">3.5 Done when<a class="headerlink" href="#35-done-when" title="Permanent link">&para;</a></h3>
+<ul>
+<li>A test edit in a configured workbook produces a Cloud Run log line with a
+  numeric <code>edit→request</code>.</li>
+<li>The published snapshot's facility has <code>lastEditAt</code>.</li>
+<li>Mission Control shows the <code>edit→sync</code> figure.</li>
+<li><strong>SAGE → Sync now</strong> still works and logs <code>edit→request=n/a</code>.</li>
+<li><code>node scripts/verify-sync-merge.mjs</code> passes.</li>
+<li>On a scratch day with two facilities, firing <strong>SAGE → Sync now</strong> in both
+  workbooks at the same moment (two people, or two browser windows) ends
+  with both facilities' edits published and no <code>500</code> — the Cloud Run log
+  shows a <code>commit conflict</code> retry if they collided.</li>
+</ul>
+<hr />
+<h2 id="4-part-2-lock-based-apps-script-sync">4. Part 2 — Lock-based Apps Script sync<a class="headerlink" href="#4-part-2-lock-based-apps-script-sync" title="Permanent link">&para;</a></h2>
+<h3 id="41-the-problem">4.1 The problem<a class="headerlink" href="#41-the-problem" title="Permanent link">&para;</a></h3>
+<p><code>onEditInstallable</code> today (read it in <code>scripts/sheets-sync.gs</code>) records
+<code>PROP_LAST_EDIT</code>, deletes any pending <code>runIfSettled</code> trigger, and creates a
+new one with <code>.timeBased().after(DEBOUNCE_MS)</code>. Google fires <code>.after()</code>
+triggers on a best-effort schedule, so the sync can start well after the 3s
+debounce. Nothing downstream can make up for that.</p>
+<h3 id="42-the-design">4.2 The design<a class="headerlink" href="#42-the-design" title="Permanent link">&para;</a></h3>
+<p>Sync from the edit's own execution, and let a lock collapse bursts:</p>
+<ul>
+<li>Every edit records <code>PROP_LAST_EDIT</code>, then tries to take the workbook's
+  <strong>document lock</strong> without waiting.</li>
+<li>The execution that gets the lock waits <code>SYNC_SETTLE_MS</code> (1.5s, so the
+  second score of a match usually lands in the same sync), syncs, and then
+  checks whether any edit was recorded after that sync started. If so it
+  syncs again, and so on.</li>
+<li>Executions that don't get the lock return immediately: the lock holder
+  will see their <code>PROP_LAST_EDIT</code> and cover them.</li>
+<li>After releasing the lock, the holder checks once more. An edit that
+  arrived between its last check and the release could not take the lock
+  and was not covered; the holder takes the lock again for it.</li>
+<li>A sync that fails (a <code>5xx</code> from Cloud Run, a network error or a timeout)
+  is tried once more after 2s. The loop only re-syncs for <em>newer</em> edits, so
+  without this a failed sync would stay unpublished until the next edit.</li>
+</ul>
+<p><strong>Use <code>LockService.getDocumentLock()</code>, not <code>getScriptLock()</code>.</strong>
+<code>scripts/attendance.gs</code> runs in the same Apps Script project in live
+workbooks and holds <code>getScriptLock()</code> for up to 10s while marking a player.
+Sharing that lock would make edits made during an attendance mark lose their
+sync.</p>
+<h3 id="43-code">4.3 Code<a class="headerlink" href="#43-code" title="Permanent link">&para;</a></h3>
+<p>Replace <code>onEditInstallable</code> and <code>runIfSettled</code>, and add the helper and
+constants. Keep <code>DEBOUNCE_MS</code> and <code>SETTLE_HANDLER</code> (the fallback below uses
+them). All new top-level names must be unique across <code>sheets-sync.gs</code>,
+<code>sheet-generator.gs</code>, <code>standard-generator.gs</code> and <code>attendance.gs</code>, because
+they share one project in real workbooks.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">SYNC_SETTLE_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1500</span><span class="p">;</span><span class="w">          </span><span class="c1">// let a two-cell score entry land in one sync</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">SYNC_RETRY_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2000</span><span class="p">;</span><span class="w">           </span><span class="c1">// wait before retrying a failed sync once</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">SYNC_BUDGET_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000</span><span class="p">;</span><span class="w"> </span><span class="c1">// stay well inside Apps Script's 6-minute execution cap</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="kd">function</span><span class="w"> </span><span class="nx">onEditInstallable</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">readSyncConfig_</span><span class="p">();</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">config</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">isSyncPaused_</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">editedGid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">range</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">range</span><span class="p">.</span><span class="nx">getSheet</span><span class="p">().</span><span class="nx">getSheetId</span><span class="p">())</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">editedGid</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nx">config</span><span class="p">.</span><span class="nx">watchedGids</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">editedGid</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="nx">PropertiesService</span><span class="p">.</span><span class="nx">getScriptProperties</span><span class="p">().</span><span class="nx">setProperty</span><span class="p">(</span><span class="nx">PROP_LAST_EDIT</span><span class="p">,</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()));</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">  </span><span class="nx">syncUntilSettled_</span><span class="p">();</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="p">}</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="cm">/**</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="cm"> * Fallback path only: fired by a time-based trigger that</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="cm"> * syncUntilSettled_ schedules when it runs out of budget, and by any</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="cm"> * trigger the previous version of this file left scheduled.</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="cm"> */</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="kd">function</span><span class="w"> </span><span class="nx">runIfSettled</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">isSyncPaused_</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Skipping sync — live sync is paused. Run SAGE -&gt; Resume live sync to re-enable it.'</span><span class="p">);</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="w">  </span><span class="nx">syncUntilSettled_</span><span class="p">();</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="p">}</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="cm">/**</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="cm"> * Syncs now, then again for as long as edits keep arriving. Only one</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="cm"> * execution per workbook runs this at a time (document lock); every other</span>
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a><span class="cm"> * edit just records PROP_LAST_EDIT and returns, and whoever holds the lock</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="cm"> * picks it up.</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="cm"> */</span>
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="kd">function</span><span class="w"> </span><span class="nx">syncUntilSettled_</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">PropertiesService</span><span class="p">.</span><span class="nx">getScriptProperties</span><span class="p">();</span>
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">LockService</span><span class="p">.</span><span class="nx">getDocumentLock</span><span class="p">();</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">startedAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">lock</span><span class="p">.</span><span class="nx">tryLock</span><span class="p">(</span><span class="mf">0</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// someone else is syncing and will cover this edit</span>
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">lastSyncStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a><span class="w">      </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a><span class="w">        </span><span class="nx">Utilities</span><span class="p">.</span><span class="nx">sleep</span><span class="p">(</span><span class="nx">SYNC_SETTLE_MS</span><span class="p">);</span>
+<a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">isSyncPaused_</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a><span class="w">        </span><span class="nx">lastSyncStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">editAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_LAST_EDIT</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span>
+<a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a><span class="w">        </span><span class="nx">syncWithRetry_</span><span class="p">(</span><span class="nx">editAt</span><span class="p">);</span>
+<a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">lastEdit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_LAST_EDIT</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span>
+<a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">lastEdit</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">lastSyncStart</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w">          </span><span class="c1">// nothing new during that sync</span>
+<a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">startedAt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">SYNC_BUDGET_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// pathological edit storm</span>
+<a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a><span class="w">          </span><span class="nx">scheduleFallbackSync_</span><span class="p">();</span>
+<a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a><span class="w">          </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-8-57" name="__codelineno-8-57" href="#__codelineno-8-57"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-8-58" name="__codelineno-8-58" href="#__codelineno-8-58"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-59" name="__codelineno-8-59" href="#__codelineno-8-59"></a><span class="w">      </span><span class="nx">lock</span><span class="p">.</span><span class="nx">releaseLock</span><span class="p">();</span>
+<a id="__codelineno-8-60" name="__codelineno-8-60" href="#__codelineno-8-60"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-61" name="__codelineno-8-61" href="#__codelineno-8-61"></a><span class="w">    </span><span class="c1">// An edit recorded after the last check but before releaseLock() found</span>
+<a id="__codelineno-8-62" name="__codelineno-8-62" href="#__codelineno-8-62"></a><span class="w">    </span><span class="c1">// the lock taken and returned. Go round again for it.</span>
+<a id="__codelineno-8-63" name="__codelineno-8-63" href="#__codelineno-8-63"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">lastEdit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="nx">PROP_LAST_EDIT</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span>
+<a id="__codelineno-8-64" name="__codelineno-8-64" href="#__codelineno-8-64"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">lastEdit</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">lastSyncStart</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-8-65" name="__codelineno-8-65" href="#__codelineno-8-65"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-8-66" name="__codelineno-8-66" href="#__codelineno-8-66"></a><span class="p">}</span>
+<a id="__codelineno-8-67" name="__codelineno-8-67" href="#__codelineno-8-67"></a>
+<a id="__codelineno-8-68" name="__codelineno-8-68" href="#__codelineno-8-68"></a><span class="cm">/**</span>
+<a id="__codelineno-8-69" name="__codelineno-8-69" href="#__codelineno-8-69"></a><span class="cm"> * One sync, tried a second time after SYNC_RETRY_MS if it fails. Without</span>
+<a id="__codelineno-8-70" name="__codelineno-8-70" href="#__codelineno-8-70"></a><span class="cm"> * this, a failed sync stays unpublished until the next edit in this</span>
+<a id="__codelineno-8-71" name="__codelineno-8-71" href="#__codelineno-8-71"></a><span class="cm"> * workbook — the loop above only goes round again for NEWER edits.</span>
+<a id="__codelineno-8-72" name="__codelineno-8-72" href="#__codelineno-8-72"></a><span class="cm"> */</span>
+<a id="__codelineno-8-73" name="__codelineno-8-73" href="#__codelineno-8-73"></a><span class="kd">function</span><span class="w"> </span><span class="nx">syncWithRetry_</span><span class="p">(</span><span class="nx">editAt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-74" name="__codelineno-8-74" href="#__codelineno-8-74"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">attempt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span><span class="w"> </span><span class="nx">attempt</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">2</span><span class="p">;</span><span class="w"> </span><span class="nx">attempt</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-75" name="__codelineno-8-75" href="#__codelineno-8-75"></a><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-76" name="__codelineno-8-76" href="#__codelineno-8-76"></a><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">triggerSync_</span><span class="p">({</span><span class="w"> </span><span class="nx">editAt</span><span class="o">:</span><span class="w"> </span><span class="nx">editAt</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-8-77" name="__codelineno-8-77" href="#__codelineno-8-77"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">result</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">                         </span><span class="c1">// done, or unconfigured</span>
+<a id="__codelineno-8-78" name="__codelineno-8-78" href="#__codelineno-8-78"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">400</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">500</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c1">// bad secret/day/facility: a retry can't help</span>
+<a id="__codelineno-8-79" name="__codelineno-8-79" href="#__codelineno-8-79"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-80" name="__codelineno-8-80" href="#__codelineno-8-80"></a><span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="sb">`Sync threw: </span><span class="si">${</span><span class="nx">err</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span><span class="w">                      </span><span class="c1">// network error or timeout</span>
+<a id="__codelineno-8-81" name="__codelineno-8-81" href="#__codelineno-8-81"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-82" name="__codelineno-8-82" href="#__codelineno-8-82"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">attempt</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="nx">Utilities</span><span class="p">.</span><span class="nx">sleep</span><span class="p">(</span><span class="nx">SYNC_RETRY_MS</span><span class="p">);</span>
+<a id="__codelineno-8-83" name="__codelineno-8-83" href="#__codelineno-8-83"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-8-84" name="__codelineno-8-84" href="#__codelineno-8-84"></a><span class="p">}</span>
+<a id="__codelineno-8-85" name="__codelineno-8-85" href="#__codelineno-8-85"></a>
+<a id="__codelineno-8-86" name="__codelineno-8-86" href="#__codelineno-8-86"></a><span class="kd">function</span><span class="w"> </span><span class="nx">scheduleFallbackSync_</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-87" name="__codelineno-8-87" href="#__codelineno-8-87"></a><span class="w">  </span><span class="nx">ScriptApp</span><span class="p">.</span><span class="nx">getProjectTriggers</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-88" name="__codelineno-8-88" href="#__codelineno-8-88"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">getHandlerFunction</span><span class="p">()</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">SETTLE_HANDLER</span><span class="p">)</span><span class="w"> </span><span class="nx">ScriptApp</span><span class="p">.</span><span class="nx">deleteTrigger</span><span class="p">(</span><span class="nx">t</span><span class="p">);</span>
+<a id="__codelineno-8-89" name="__codelineno-8-89" href="#__codelineno-8-89"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-8-90" name="__codelineno-8-90" href="#__codelineno-8-90"></a><span class="w">  </span><span class="nx">ScriptApp</span><span class="p">.</span><span class="nx">newTrigger</span><span class="p">(</span><span class="nx">SETTLE_HANDLER</span><span class="p">).</span><span class="nx">timeBased</span><span class="p">().</span><span class="nx">after</span><span class="p">(</span><span class="nx">DEBOUNCE_MS</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
+<a id="__codelineno-8-91" name="__codelineno-8-91" href="#__codelineno-8-91"></a><span class="p">}</span>
+</code></pre></div>
+<p>Notes:</p>
+<ul>
+<li><code>return</code> inside <code>try</code> still runs <code>finally</code>, so the lock is always
+  released.</li>
+<li><code>syncWithRetry_</code> is the Apps Script half of the conflict fix; §3.3 is the
+  server half. Cloud Run's own 3-attempt retry handles almost every
+  collision, so this second try mostly covers a network error, a timeout,
+  or a cold start that failed. <code>UrlFetchApp.fetch</code> throws on those even with
+  <code>muteHttpExceptions: true</code> (that option only covers HTTP error statuses),
+  which is why it is caught. Cloud Run answers every failure except bad
+  auth and validation with a <code>5xx</code>, so <code>4xx</code> is not retried.</li>
+<li><code>DEBOUNCE_MS</code>'s comment and the file header (which describe the old
+  "once edits go quiet for DEBOUNCE_MS" behaviour) must be rewritten to
+  describe this design.</li>
+<li><strong>Built differently: <code>SYNC_MIN_GAP_MS</code> (5000).</strong> Not in the code above.
+  Measured on Piggleball, steady typing made a sync every ~3 s (seven
+  commits for a 26 s burst of ~16 edits), each one a GitHub commit and a Pages
+  build, which risks GitHub's commit rate limits. <code>syncUntilSettled_</code> waits
+  <code>syncWaitMs_</code> before every sync: <code>SYNC_SETTLE_MS</code>, stretched so the sync
+  starts at least <code>SYNC_MIN_GAP_MS</code> after the previous one began (kept in
+  the <code>lastSyncStartTime</code> script property). A lone edit after a quiet spell
+  still waits only the settle. The last edit of a burst can publish up to
+  ~5 s later than without the gap.</li>
+<li>Nothing needs migrating: a <code>runIfSettled</code> trigger left over from the old
+  version fires once, runs the new <code>runIfSettled</code>, and deletes itself.</li>
+</ul>
+<h3 id="44-quota-check-do-this-before-shipping">4.4 Quota check (do this before shipping)<a class="headerlink" href="#44-quota-check-do-this-before-shipping" title="Permanent link">&para;</a></h3>
+<p>Installable triggers count against the <strong>installing account's</strong> daily
+trigger runtime: 90 minutes a day on a consumer Google account, 6 hours on
+Google Workspace, shared across every workbook that account installed
+triggers in. Per sync burst this design spends ~1.5s of settle plus the
+Cloud Run round trip (~2s now, ~3–4s once a delivery spec adds its own
+publish); each non-holder edit spends well under a second. Pickle for
+Sight's 266 syncs would be roughly 20–30 minutes; a three-facility day
+(~400 syncs, ~1,200 watched-tab edits) about 30 minutes. The allowance is
+per account, so two events on the same day whose triggers the same account
+installed share it. That fits a consumer account,
+but find out which account owns the triggers (SAGE → Set up live sync
+installs them as whoever runs it) and whether it is consumer or Workspace.
+If a larger event could approach 90 minutes, raise <code>SYNC_SETTLE_MS</code> less
+than you might think — the settle is paid once per burst — and instead make
+sure one Google account doesn't hold every workbook's triggers.</p>
+<h3 id="45-verify-and-ship">4.5 Verify and ship<a class="headerlink" href="#45-verify-and-ship" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>node --check</code> cannot parse <code>.gs</code>; copy to a temp <code>.js</code> file and run
+  <code>node --check</code> on that.</li>
+<li>Run <code>node scripts/verify-attendance.mjs</code> and
+  <code>node scripts/verify-standard-generator.mjs</code> and
+  <code>node scripts/verify-sheet-generator.mjs</code>. They load <code>sheets-sync.gs</code>
+  into the same context as the other files and fail on a top-level name
+  clash. (<code>scripts/mock-apps-script.mjs</code> has no <code>LockService</code>; that is fine
+  as long as nothing in those scripts calls <code>onEditInstallable</code>.)</li>
+<li>Test in a <strong>copy</strong> of a live workbook before any real one. A copy starts
+  unconfigured (the spreadsheet-ID guard in <code>readSyncConfig_</code>), so run
+  <strong>SAGE → Set up live sync</strong> in it against a scratch day registered in
+  <code>event-data/config/events.json</code> — add one if none exists (shape in
+  <code>event-data/config/README.md</code>), and remove it afterwards. Then check: single edit, two edits 1s apart (one sync), ten
+  rapid edits (two or three syncs, the last containing every edit), an edit
+  while <strong>SAGE → Pause live sync</strong> is on (no sync).</li>
+<li>Ship by pasting the file into every live facility workbook <strong>and</strong> into
+  the SAGE Dual Meet Master and SAGE Standard Tournament Master.</li>
+</ul>
+<hr />
+<h2 id="5-acceptance-checklist">5. Acceptance checklist<a class="headerlink" href="#5-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Part 1 — Cloud Run</strong></p>
+<ul>
+<li>[ ] Everything in §3.5.</li>
+<li>[ ] <strong>Three facilities at once:</strong> on a scratch day with three workbooks,
+      edit all three within the same second, five times over. Every edit
+      ends up in the published snapshot, and no sync returns <code>500</code>.</li>
+<li>[ ] <strong>Two events at once:</strong> with two scratch events registered, sync one
+      of each within the same second, five times over; both publish.
+      Click Live/Hide for one while the other syncs; the override applies
+      without an error.</li>
+</ul>
+<p><strong>Part 2 — Apps Script</strong></p>
+<ul>
+<li>[ ] One edit → one sync, with <code>edit→request</code> ≤ ~3s in the Cloud Run log.</li>
+<li>[ ] A failed sync is retried: point a copy's sync at a scratch day while
+      Cloud Run is made to fail once (e.g. a temporary wrong
+      <code>GOOGLE_SHEETS_API_KEY</code> on a test revision, restored after the first
+      attempt), and the edit is published by the second try. If staging
+      that is impractical, at least check the Executions log shows
+      <code>Sync failed (5xx)</code> followed by <code>Sync OK</code> for a real failure.</li>
+<li>[ ] Two cells edited within 1s → one sync containing both.</li>
+<li>[ ] Ten rapid edits → every edit is in the final published snapshot.</li>
+<li>[ ] Paused workbook → no sync.</li>
+<li>[ ] An attendance mark (<code>attendance.gs</code>) during a burst of edits doesn't
+      block or lose a sync.</li>
+<li>[ ] <code>verify-attendance</code>, <code>verify-standard-generator</code>,
+      <code>verify-sheet-generator</code> pass.</li>
+</ul>
+<h2 id="6-documentation-to-update">6. Documentation to update<a class="headerlink" href="#6-documentation-to-update" title="Permanent link">&para;</a></h2>
+<p>In the present tense, once each part ships:</p>
+<ul>
+<li>Root <code>CLAUDE.md</code> (in <code>D:\Personal\SAGE</code>): the data-flow diagram's first
+  step ("installable onEdit trigger, debounced") and the <code>sheets-sync.gs</code>
+  description (lock-based, not debounced); add
+  <code>scripts/verify-sync-merge.mjs</code> to the list of verify scripts with its run
+  command, and note it covers <code>SyncService</code>'s merge and conflict retry.</li>
+<li><code>sage-tools-api/README.md</code>: the Changelog entry for Part 1's version.</li>
+<li><code>sage-docs/docs/technical/sync-pipeline.md</code>: how a sync is triggered, the
+  retry on <code>409</code>, the <code>X-Edit-At</code> header and <code>lastEditAt</code>, and the
+  measured timings once available.</li>
+<li><code>sage-docs/docs/features/control-center.md</code>: the <code>edit→sync</code> figure in
+  Facility Sync Status.</li>
+<li><code>sage-match-control.github.io/_templates/CLAUDE.md</code> §2 step 8 and the
+  <code>sheets-sync.gs</code> header comment, wherever they describe the debounce.</li>
+<li>Move this spec to <code>implemented/</code> per <code>sage-docs/docs/specs/README.md</code>.</li>
+</ul>
+<h2 id="7-rollout-and-rollback">7. Rollout and rollback<a class="headerlink" href="#7-rollout-and-rollback" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Part 1's Cloud Run release: push to <code>main</code> (Cloud Run deploys on push);
+   check <code>GET /ping</code>'s <code>X-App-Version</code> header shows the new version.</li>
+<li>Control Center change: commit to <code>sage-match-control.github.io</code>.</li>
+<li>Rehearse Part 2 in a copy of a workbook (§4.5).</li>
+<li>Paste <code>sheets-sync.gs</code> into every live facility workbook of every
+   upcoming event, and into the <strong>SAGE Dual Meet Master</strong> and <strong>SAGE Standard
+   Tournament Master</strong> so new workbooks copied from them get it.</li>
+<li>Measure at the next event with §3.2's <code>gcloud</code> command.</li>
+</ol>
+<p><strong>Rollback:</strong> the Cloud Run part is backwards compatible — old
+<code>sheets-sync.gs</code> copies send no <code>X-Edit-At</code> and still work. To undo Part 2,
+paste the previous <code>sheets-sync.gs</code> from git history back into the
+workbooks. To undo Part 1, revert the commit and push.</p>
+<h2 id="8-what-the-delivery-specs-build-on">8. What the delivery specs build on<a class="headerlink" href="#8-what-the-delivery-specs-build-on" title="Permanent link">&para;</a></h2>
+<p><a href="../../in-progress/durable-object-push-spec/">Live push delivery</a> and
+<a href="../../not-started/fast-data-delivery-spec/">Fast data delivery</a> both assume this spec is
+built. They rely on, by name:</p>
+<ul>
+<li><code>facilities[].lastEditAt</code> and the <code>timing</code> object in the sync response;</li>
+<li><code>GitHubPublisher.publish</code> errors carrying <code>status</code>;</li>
+<li>the 3-attempt <code>409</code> loop in <code>syncDay</code>, <code>setLiveOverride</code> and
+  <code>setIsLive</code>, and <code>SyncService#buildSnapshot</code>;</li>
+<li><code>scripts/verify-sync-merge.mjs</code>, which they extend;</li>
+<li><code>syncUntilSettled_</code> / <code>syncWithRetry_</code> in <code>sheets-sync.gs</code>.</li>
+</ul>
+<p>Keep those names if you change the design, or update both delivery specs.</p>
+<h2 id="9-out-of-scope">9. Out of scope<a class="headerlink" href="#9-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Anything about how pages receive data (GitHub Pages builds, polling,
+  push) — the delivery specs.</li>
+<li>Retrying from Control Center's <strong>Resync this day now</strong> button: it is a
+  manual action and already reports failure to the operator.</li>
+<li>Moving triggers between Google accounts to spread Apps Script quota
+  (§4.4 says when that would be needed).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../multi-event-attendance-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Attendance for every event">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Attendance for every event
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../sage-tools-api-test-suite-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: sage-tools-api test suite">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                sage-tools-api test suite
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
