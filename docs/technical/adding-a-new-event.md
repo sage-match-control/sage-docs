@@ -80,6 +80,24 @@ general multi-club template.
     as Editor. For `"desks"`, also copy `_templates/attendance/attendance.html`
     to `events/<event-key>/attendance.html` and replace `{{EVENT_KEY}}` and
     `{{EVENT_TITLE}}`. See [event attendance](event-attendance.md).
+12. **Render the hub board's QR panel**, once step 3 is done:
+
+    ```
+    node _templates/hub-pubmat/render.mjs <event-key>
+    ```
+
+    `_templates/hub-pubmat/` is the venue's 24 × 36 in Tournament Hub board:
+    a fixed design (`board.html`, phone screenshots in `shots/`) with a QR
+    panel per event. The script reads the panel from the event's own
+    `index.html` — the name from `<title>`, the date/venue line from the
+    hero's `.eyebrow`, the QR image and the short link from its QR panel
+    (`{{QR_IMAGE}}`, `{{QR_URL}}`) — and refuses a page with `{{TOKENS}}`
+    left in it. Using puppeteer from `sage-tools-api/node_modules` and the
+    installed Chrome, it prints `qr-panel.pdf` (8 × 8.75 in, a sticker for
+    the board's slot), `board.pdf` (the whole board) and PNGs to the
+    git-ignored `_templates/hub-pubmat/out/<event-key>/`, plus
+    `out/base/board-blank.pdf`, the board with an empty slot. The folder's
+    `README.md` covers re-taking the screenshots.
 
 ## Required spreadsheet columns
 

@@ -4,6 +4,11 @@ Every S.A.G.E. event gets its own Tournament Hub — a public page linked
 from a QR code posted at the venue. No app to install, no login to
 remember — open it on a phone and everything below is already running.
 
+The QR code sits on the venue's **hub board**, a 2 × 3 ft sign showing the
+hub on three phones and how to use it. The board is the same at every event;
+only its QR panel changes. See
+[Preparing an event § Print the hub board's QR panel](preparing-an-event.md#10-print-the-hub-boards-qr-panel).
+
 ## For players: find your matches
 
 Type your pair's names into **Match Finder** and see your entire day at

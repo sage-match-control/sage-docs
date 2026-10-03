@@ -43,7 +43,9 @@ step links to its full section below.
    per venue reaches Control Center and the public page, then gets reverted.
 10. **[Generate the scoresheets](#9-generate-the-scoresheets)** once the
     schedule is final.
-11. **Check it against [what "ready" looks like](#what-ready-looks-like).**
+11. **[Print the hub board's QR panel](#10-print-the-hub-boards-qr-panel)**
+    for the venue's Tournament Hub board — any time after step 5.
+12. **Check it against [what "ready" looks like](#what-ready-looks-like).**
 
 ## The four resources
 
@@ -283,6 +285,29 @@ the workbook.
 Generate them after the schedule stops moving. A scoresheet carries its match
 number, court and time, so a reshuffle after printing means printing again.
 
+## 10. Print the hub board's QR panel
+
+The venue's **hub board** is a 2 × 3 ft sintra print that tells players the
+[Tournament Hub](tournament-hub.md) exists and how to open it: three phones
+showing Live Matches, Match Finder and Standings, a "How it works" strip, and
+a QR panel. Everything but the QR panel is the same at every event, so the
+board is printed once and only the panel changes:
+
+- **The panel** is an 8 × 8.75 in sticker with the event's name, date and
+  venue, its QR code and its short link. Stick it over the last event's panel.
+- **The whole board**, with the panel already in place, is there too, for when
+  you'd rather reprint than re-sticker, or the board is lost.
+
+Both come from one command, run with the event's key — see
+[adding a new event](../technical/adding-a-new-event.md). It reads every line
+of the panel from the event page itself, so the page has to be built first
+(step 4). It doesn't depend on anything later, so send the panel to the
+printer as early as you like. If a line on the panel is wrong, fix it on the
+event page and make the panel again.
+
+Before mounting it, scan the printed panel with a phone and check that it
+opens this event's page.
+
 ## What "ready" looks like
 
 - The plan's finish time is one the venue will accept.
@@ -300,6 +325,8 @@ number, court and time, so a reshuffle after printing means printing again.
   a test mark appears in the workbook's `ATTENDANCE` tab and has been undone,
   and for `"desks"` a desk link opens on a phone.
 - The schedule PDF matches the site, and the scoresheets are printed.
+- The hub board carries this event's QR panel, and scanning it opens this
+  event's page.
 
 At that point the event is ready, and the rest is
 [day-of operations](running-an-event-day.md).
