@@ -19,7 +19,9 @@ that tab is showing for the day. Type your pair's names into
 once — every round, every opponent, in schedule order — without scrolling
 past anyone else's matches. Search by either player's name or the full pair.
 Before you search, Match Finder lists every match of the day, in schedule
-order, so you can also just scroll to yours.
+order, so you can also just scroll to yours. The search box sits just above
+the list, and on a phone it stays pinned to the top of the screen as you
+scroll, so a new search is always in reach.
 
 Each match card ("ticket") shows:
 

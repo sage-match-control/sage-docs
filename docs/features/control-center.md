@@ -204,6 +204,9 @@ Tournament Hub itself. Before a search it lists every match of the day in
 match-number order (a team event: its team chips, then every matchup,
 ordered by its lowest match number).
 
+The search box sits just above the list, not in the banner, and on a phone it
+stays pinned to the top of the screen while you scroll.
+
 Control Center's search also takes a **match number**: type `42` or `#42`
 to see just that match (for a team event, its matchup card narrowed to that
 match). A number that isn't on the day says so.
