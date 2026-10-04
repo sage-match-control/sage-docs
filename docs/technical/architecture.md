@@ -43,7 +43,7 @@ Attendance is the one feature that writes into the facility workbooks. After
 every sync, `sage-tools-api` brings each workbook's `ATTENDANCE` tab up to date
 with its roster, and Control Center and the desk pages mark people through
 `PUT /v1/days/:day/facilities/:facility/attendance/:key`. It writes as its own
-service account, and only ever inside `ATTENDANCE!A:G`. See
+service account, and attendance only ever inside `ATTENDANCE!A:G`. See
 [event attendance](event-attendance.md).
 
 Score entry (`src/scores/`) is the second: `PUT

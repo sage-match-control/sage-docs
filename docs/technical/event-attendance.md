@@ -110,9 +110,11 @@ CORS allows `PUT`. Errors are `{ error }` in words, never raw Google JSON.
 
 `SheetsClient` reads with the API key and writes with the service account's
 token (`GoogleAccessToken`, from the metadata server; `GOOGLE_ACCESS_TOKEN`
-overrides it for local development). **Every write range must be inside
-`ATTENDANCE!A:G`**; anything else throws before a request is made, so a bug
-here cannot overwrite scores or formulas. There is no append call. Google
+overrides it for local development). **Every attendance write range must be
+inside `ATTENDANCE!A:G`** (`updateValues`); anything else throws before a request
+is made, so a bug here cannot overwrite scores or formulas. The client’s only other
+writes are score entry’s, which have their own allowlist (one match’s two `SCHEDULE`
+score cells; see [sync pipeline](sync-pipeline.md#score-entry-writes)). There is no append call. Google
 `429` is retried once after a second, then answers 503.
 
 ## Desk tokens
