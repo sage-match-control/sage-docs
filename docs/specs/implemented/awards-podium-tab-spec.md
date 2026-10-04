@@ -541,7 +541,12 @@ No `sage-tools-api` change, so no `package.json` bump and no Cloud Run deploy.
 3. **Top three only.** The bronze match's loser is not shown.
 4. **Twice-to-beat bronze is encoded as a bye**, not special-cased in code, so
    §2.2's single rule ("bronze = winner of the Bronze match") holds for every
-   bracket format.
+   bracket format. *Extended 2026-10-05:* a workbook can also leave the
+   Bronze match off `SCHEDULE` and set the bye up in `STANDINGSCSV` alone
+   (one bronze slot the round robin's #3, the other `BYE`), as Piggleball's
+   IXD did. With no Bronze match at all in the category,
+   `standingsBronzeWalkover()` awards bronze to that pair once its names
+   are in, and decision 5 applies to it too.
 5. **A bye-decided bronze removes the whole `BRONZE` block from Standings**
    for that category, not just the `BYE` row — a one-sided Bronze Battle block
    is worse than none.
@@ -549,6 +554,16 @@ No `sage-tools-api` change, so no `package.json` bump and no Cloud Run deploy.
 7. Club shown as **text**, not a logo — same reasoning as console spec §2.1.
 8. Tab is **always visible**, including mid-tournament, consistent with the
    console ignoring `isLive` for its own display.
+9. **A series Final is decided by wins, not by the last game played**
+   (2026-10-05, replacing §2.4's "highest resolved instance" for series
+   finals). Codes `<prefix>_F_<seat>_(<game>)`: two games is twice-to-beat
+   (seat 1 needs one win, seat 2 two), three is best-of-3 (two each). The
+   game where a seat reaches its wins is decisive, so a challenger who wins
+   twice-to-beat's game 1 leaves gold Pending until game 2. A Final without
+   game numbers still uses §2.4.
+10. **No "Walkover" label** (2026-10-05, replacing §3's `walkover` chip and
+    §4's `WALKOVER` tag). A bronze decided by a bye shows its medalist like
+    any other, on the card and on both images.
 
 ---
 
@@ -569,8 +584,7 @@ No `sage-tools-api` change, so no `package.json` bump and no Cloud Run deploy.
   BYE in a match yet: Pickle for Sight, Piggleball and PickleDrive have none.
   Piggleball's one walkover, the IXD bronze (#100), was entered differently:
   the absent side's player names as `-` and a score of 11–0. §2.3 doesn't
-  read `-` as a BYE, so the tab treats it as an ordinary win, with no
-  **Walkover** chip. Whether `-` should count as a BYE (in the Awards tab
+  read `-` as a BYE, so the tab treats it as an ordinary win. Whether `-` should count as a BYE (in the Awards tab
   and in `facilityCompletion.mjs`'s rules, which must agree) is undecided.
 
 ---

@@ -241,11 +241,16 @@ That is what lets `syncedAt` stay a "last heard from" time while
 facility's `syncedAt` but leaves `completedAt` alone. An empty or header-only
 CSV is never "finished", and neither is a CSV whose only rows are BYEs.
 
-The rules copy Control Center's `rowsToMatches`, `sideIsBye` and
-`computeFacilityProgress` exactly: a match is played only when **both**
-scores are numbers, and a side is a BYE when its team code **or** either
-player name is `bye` (case-insensitive). Change one copy and you have to
-change the other (see [Control Center](control-center.md) § Actual end).
+The rules copy Control Center's `rowsToMatches`, `sideIsBye`,
+`seriesGameOf`/`unneededSeriesGames` and `computeFacilityProgress` exactly:
+a match is played only when **both** scores are numbers, a side is a BYE
+when its team code **or** either player name is `bye` (case-insensitive),
+and a series Final's games after the decider don't count. A series Final is
+coded `<prefix>_F_<seat>_(<game>)`: two games is twice-to-beat (seat 1 needs
+one win, seat 2 two), three is best-of-3 (two each), so a twice-to-beat
+Final whose #1 won game 1 leaves game 2 unscored and the facility still
+finishes. Change one copy and you have to change the other (see
+[Control Center](control-center.md) § Actual end).
 
 ```bash
 node scripts/verify-facility-completion.mjs

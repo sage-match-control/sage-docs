@@ -152,9 +152,16 @@ and a roster too long for even the smallest size ends in "+N more".
 
 A few things the Awards tab is careful about:
 
-- A category decided by walkover (no bronze match actually needed to be
-  played) shows a **Walkover** tag on that medalist instead of pretending a
-  match happened.
+- A bronze decided by walkover (no bronze match actually needed to be
+  played) goes to that pair like any other bronze, with no score and no
+  label. That holds whether the workbook schedules a Bronze match against a
+  **BYE** or only lists the round robin's #3 against a **BYE** in the bronze
+  slots with no match at all.
+- A twice-to-beat Final is won by the #1 pair winning once or the #2 pair
+  winning twice, and a best-of-3 by whoever wins two. Gold waits until one of
+  them has: a #2 pair that wins game 1 of a twice-to-beat has forced game 2,
+  not won. A game that is no longer needed doesn't count as a match left on
+  the facility's progress card either.
 - If a match's scores look wrong (e.g. tied, which shouldn't be possible), the
   card shows a warning naming the match number instead of guessing a winner.
 - A category with no playoff bracket at all (pure round robin) falls back to

@@ -247,7 +247,8 @@ kept in `localStorage` under `sage.facilityEnds` (keyed
 per-device, so a device that first opens the page after a resync reads that
 resync's time instead. That is why the server stamp takes precedence.
 
-The "played" and "BYE" rules here (`rowsToMatches`, `sideIsBye`,
+The "played", "BYE" and series-final rules here (`rowsToMatches`,
+`sideIsBye`, `seriesGameOf`/`unneededSeriesGames`,
 `computeFacilityProgress`'s `left`) are duplicated in
 `sage-tools-api/src/sync/facilityCompletion.mjs`. If one copy changes and the
 other doesn't, the recorded end time disagrees with the card that announces
@@ -341,28 +342,41 @@ bronzeWalkover, warning }]`, ordered to match Standings' own category order.
 
 For each category:
 
-1. **Find the decisive Final.** Among all matches tagged `F` for that
-   category (there can be more than one, for a twice-to-beat bracket — see
-   below), the decisive one is the **resolved instance with the highest
-   instance number**, where *resolved* means played, or decided by a bye
-   walkover. A category with no `F` match at all (pure round robin) falls
-   back to its top-3 standings rows instead, tagged `source: 'standings'`.
-2. **Find the decisive Bronze**, the same way.
+1. **Find the decisive Final.** A Final played as a series (twice-to-beat,
+   best-of-3 — see below) is decided by the game where a seat reaches its
+   wins. Otherwise, among all matches tagged `F` for that category, the
+   decisive one is the **resolved instance with the highest instance
+   number**, where *resolved* means played, or decided by a bye walkover. A
+   category with no `F` match at all (pure round robin) falls back to its
+   top-3 standings rows instead, tagged `source: 'standings'`.
+2. **Find the decisive Bronze**, the same way. A category with no Bronze
+   match at all can still have its bronze decided in the standings: see
+   below.
 3. **Gold/silver** = winner/loser of the decisive Final. **Bronze** = winner
-   of the decisive Bronze.
+   of the decisive Bronze, or the standings walkover's pair.
 4. Anything that can't be resolved cleanly — a tied score, or both sides of
    a match reading `BYE` — produces a `warning` naming the match number and
    **suppresses the whole category's podium** rather than guessing. Nothing
    here ever fabricates a winner.
 
-#### Twice-to-beat resolution
+#### Series finals: twice-to-beat and best-of-3
 
-A bracket can run a Final as `F(1)`/`F(2)` — the second match only happens
-if the first goes the challenger's way. `matchInstanceOf()` reads the
-trailing `(1)`/`(2)` off the team code. The decisive-match search always
-prefers the **highest resolved instance**: if only `F(1)` is played, its
-result stands; once `F(2)` is also played, it supersedes `F(1)`'s result
-entirely.
+A Final played as a series of games carries the seat and the game in each
+team code, `<prefix>_F_<seat>_(<game>)` (`IXD_F_1_(2)`); `seriesGameOf()`
+reads them. Two games is **twice-to-beat**: seat 1, the round robin's #1,
+needs one win and seat 2 needs two. Three is **best-of-3**: two wins each.
+`walkSeries()` counts wins game by game; the game where a seat reaches its
+wins decides the series, and a tied game counts for neither seat and raises
+the usual tie warning. So a challenger who wins twice-to-beat's game 1 has
+forced game 2, not won the Final: gold stays Pending until game 2.
+
+Every game after the decider is never played. `unneededSeriesGames()`
+returns them, and `computeFacilityProgress` leaves them out of the total, so
+a twice-to-beat Final whose #1 won game 1 doesn't hold "matches left" at 1.
+The public hub and the schedule board carry the same rule and grey such a
+game out (`.not-needed`, with a "Not needed" tooltip and no label): its
+finals matchup, its Match Finder ticket, which is never flagged **Next Up**,
+and its schedule board cell.
 
 #### Byes, and why they're detected the way they are
 
@@ -378,8 +392,18 @@ be the one that's checked. A bye match is decisive **without scores** —
 `played === false`, and the podium derivation explicitly does not gate on
 `played` when a bye side is present.
 
-A bye-decided category shows a **Walkover** tag on that medalist instead of
-a score, and the bye side is never rendered as a person anywhere.
+A bye-decided bronze shows its medalist like any other, with no score and
+no label (the Awards tab and its images never write "walkover"), and the bye
+side is never rendered as a person anywhere.
+
+**A bronze decided in the standings alone.** A workbook can also leave the
+Bronze off `SCHEDULE` entirely, so no Bronze match reaches `CSV`, and set
+it up only in `STANDINGSCSV`: one bronze slot holds the round robin's #3,
+the other reads `BYE`. `standingsBronzeWalkover()` recognises that shape
+(exactly one real `B` row and one `BYE` row). When the category has no
+Bronze match at all, Awards gives bronze to that pair once its names are
+in, and Standings drops the Bronze
+block the same as for a bye-decided match.
 
 #### Byes must not surface where a match looks playable
 
@@ -388,7 +412,7 @@ presents match data as something to watch or play, not just the podium:
 
 | Surface | What's filtered |
 | --- | --- |
-| Standings | Any row whose team code/player1 is `BYE`; if a category's *decisive* Bronze was bye-decided, the whole Bronze block is dropped (not just that row) — a one-sided "Bronze Battle" showing one team with no opponent is worse than showing nothing |
+| Standings | Any row whose team code/player1 is `BYE`; if a category's *decisive* Bronze was bye-decided, or its bronze slots are a pair and a `BYE` with no Bronze match, the whole Bronze block is dropped (not just that row) — a one-sided "Bronze Battle" showing one team with no opponent is worse than showing nothing |
 | Live Matches | Bye matches excluded from court grouping entirely |
 | Match Finder | A team's own bye match never appears in their schedule, and can never be flagged "Next Up" |
 | Team index / autocomplete | `BYE` is never indexed as a searchable name |
