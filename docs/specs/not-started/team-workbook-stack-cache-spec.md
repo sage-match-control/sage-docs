@@ -17,10 +17,10 @@ stacked `SCHEDULE` columns **once**, in a hidden tab, and pointing every named
 function at that tab instead of rebuilding the stacks thousands of times per
 edit. Remove the named functions nothing calls.
 
-The PickleDrive workbook is the prototype the team template is extracted from
-([Team tournament](../in-progress/pickledrive-club-anniversary-team-tournament-spec.md)
-§15), so this is worth doing in it before that extraction, not only for its
-own sake: the event is over.
+The PickleDrive workbook is the prototype the team template and the team
+generator start from ([Team tournament event-site template](team-tournament-template-spec.md),
+[Team Tournament Master](team-tournament-master-spec.md)), so this is worth doing in
+it before either, not only for its own sake: the event is over.
 
 ---
 
@@ -312,9 +312,9 @@ is better. Every one is a commit to `event-data` of unchanged data.
   effect beside the event-day figures in
   [Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026),
   and update the
-  [Team tournament](../in-progress/pickledrive-club-anniversary-team-tournament-spec.md)
+  [Team tournament](../implemented/pickledrive-club-anniversary-team-tournament-spec.md)
   spec's status. Move this spec to `implemented/`.
-- **The team template (Team tournament §15)** starts from the optimised
+- **The team template ([its spec](team-tournament-template-spec.md))** starts from the optimised
   workbook, and ships with the cache from the start, `SCHEDULE` trimmed to
   its real height, and no unused functions. `CSV` and `MatchLookup` should
   become one table, not two computing the same columns. The `Timeline` tabs

@@ -1,14 +1,16 @@
 # Spec — Team tournament (PickleDrive Club One Year Celebration)
 
-> **Status: in progress.** Every rule is settled (§14). The public site
+> **Status: implemented.** Every rule is settled (§14). The public site
 > (§5–§6), the schedule board (§7), Control Center's `team` type (§9), the
 > registry entry (§10) and the operator runbook (§11) are built and were
 > checked against the test fixtures. The event ran on **Saturday, 3 October
 > 2026**, with `isLive` on `"auto"`: `Kingcourts` published 695 syncs with
 > live push on from 12:52 to 21:37, all 152 matches were played, and the
 > facility was stamped complete at 21:37. The event's pages now have live
-> push off (`LIVE_BASE_URL = ''`), as every finished event's do. What is
-> left is the template (§15).
+> push off (`LIVE_BASE_URL = ''`), as every finished event's do. The follow-on
+> work is its own specs: the
+> [event-site template](../not-started/team-tournament-template-spec.md) and the
+> [workbook generator](../not-started/team-tournament-master-spec.md) (§15).
 >
 > **The workbook was slow to read.** 161 of the day's 695 Sheets API reads
 > took 10–58 s (the rest about 0.3 s), which put `edit→published` at p50
@@ -16,7 +18,7 @@
 > service the same afternoon, stayed under 6 s. The likeliest cause is the
 > Sheets API waiting for the workbook's formulas to finish recalculating, so
 > the team workbook's formula load is the thing to trim before it becomes the
-> template (§15); the fix is written up in
+> template; the fix is written up in
 > [Team workbook recalculation](../not-started/team-workbook-stack-cache-spec.md).
 > Figures in
 > [Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026).
@@ -79,9 +81,9 @@ teams.
 > **tie**. Never use "tie" for the team-vs-team meeting itself, in page text
 > or in new identifiers. That is always a **matchup**, the same word the
 > workbook uses (its `matchUp` column and `MatchUps` tab).
-No template exists for this format yet. This event is the **prototype**:
-build it as one event folder now, and extract a template from it after the
-event (§15).
+No template existed for this format when this was written. This event is the **prototype**:
+it was built as one event folder, and the template is extracted from it by a
+separate spec (§15).
 
 The headline requirement: **team names appear everywhere a team appears**.
 That means Standings, Match Finder, Live Matches, the schedule board, and
@@ -1164,19 +1166,19 @@ the three READMEs and `mkdocs.yml`.
 
 ---
 
-## 15. After the event — the template
+## 15. After the event — the template and the generator
 
-Not part of this build. Once the event has run:
+Not part of this build, and no longer part of this spec. What the event leaves
+behind is two pieces of follow-on work, each its own spec:
 
-1. Copy the event folder to `_templates/team-tournament-template/`.
-   Tokenise event values and mark `PAIRS`, `STAGES` and `FACILITIES` as
-   `// EXAMPLE — replace`.
-2. Generalise what this event hard-codes: any number of groups, any number
-   of pairs per matchup, and other playoff stages (QF).
-3. Move the fixture override (§5.4) into both existing templates as well.
-4. Document the template in `_templates/CLAUDE.md` §1 and §3–§5.
-5. Consider a *Team Tournament Master* sheet generator. This event's
-   workbook was built by hand.
+- [Team tournament event-site template](../not-started/team-tournament-template-spec.md):
+  extracting `_templates/team-tournament-template/` from this event's pages,
+  S.A.G.E.-themed like the other two templates, with the event's values
+  tokenised and the hard-coded constants (pairs, stages, group count, who
+  advances) generalised. It also covers moving the fixture override (§5.4) into
+  both existing templates.
+- [Team Tournament Master](../not-started/team-tournament-master-spec.md): the
+  workbook generator. This event's workbook was built by hand.
 
 ---
 

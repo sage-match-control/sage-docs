@@ -14,9 +14,11 @@ is `_templates/CLAUDE.md` in that repo.
 - **Named teams meeting in four-match matchups** (a team tournament) → there
   is no template yet. The first one, PickleDrive Club One Year Celebration,
   was built by hand as `events/pickledrive-anniversary-2026/`, and the
-  template is extracted from it after the event. See
+  template is a separate piece of work. See
   `sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md` (an
-  [in-progress spec](../specs/in-progress/pickledrive-club-anniversary-team-tournament-spec.md)) for the
+  [implemented spec](../specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md);
+  the [template](../specs/not-started/team-tournament-template-spec.md) and
+  [workbook generator](../specs/not-started/team-tournament-master-spec.md) have their own specs) for the
   rules and the build; its `type` is `"team"` in `events.json`.
 
 Day count and category count don't affect this choice — both templates

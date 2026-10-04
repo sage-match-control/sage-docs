@@ -146,6 +146,11 @@ to the `...` form rather than repointing it.
   check-in per person. `sage-tools-api` writes each workbook's `ATTENDANCE` tab
   as a service account and keeps the roster current after every sync. In use at
   Piggleball and PickleDrive.
+- **[Team tournament](implemented/pickledrive-club-anniversary-team-tournament-spec.md)** —
+  a third event type for team events: named teams, four-match matchups, group
+  stage then playoffs. PickleDrive Club One Year Celebration ran on 3 October 2026 on
+  the hand-built prototype. The template and the workbook generator are separate specs
+  under Not started.
 - **[CLSO Pickle for Sight](implemented/pickle-for-sight-spec.md)** — the
   first standard-template event site: one day across two venues (PCPH Main
   and Annex), three divisions × three events. Ran 27 September 2026.
@@ -159,11 +164,6 @@ to the `...` form rather than repointing it.
 
 ## In progress
 
-- **[Team tournament](in-progress/pickledrive-club-anniversary-team-tournament-spec.md)** — a third
-  event type for team events: named teams, four-match matchups, group
-  stage then playoffs. PickleDrive Club One Year Celebration ran on
-  3 October 2026 on the hand-built prototype; the team template is
-  extracted from it next.
 - **[Live push delivery](in-progress/durable-object-push-spec.md)** — a
   Cloudflare Durable Object that pushes each snapshot to open pages over
   WebSockets, with GitHub kept as archive and fallback. Deployed and switched
@@ -191,6 +191,11 @@ to the `...` form rather than repointing it.
   channel and attendance client blocks, played/BYE, the team-event rules,
   team rosters, go-live) checked across its copies. No page changes. It
   provides the dry run's rendering layer.
+- **[Team tournament event-site template](not-started/team-tournament-template-spec.md)**
+  — extract `_templates/team-tournament-template/` from PickleDrive's pages, S.A.G.E.-themed
+  like the other two templates, with the event's constants generalised.
+- **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
+  workbook generator for team events, phased, starting from the optimised workbook.
 - **[Team workbook recalculation](not-started/team-workbook-stack-cache-spec.md)**
   — why PickleDrive's workbook took 10–58 s to read on event day, and the
   by-hand fix: a hidden `StackCache` tab the named functions read instead of
