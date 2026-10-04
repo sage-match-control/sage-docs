@@ -105,6 +105,7 @@ nav:
           - Live push delivery - explainer: specs/in-progress/durable-object-push-explainer.md
       - Not started:
           - Overview: specs/not-started/README.md
+          - Score entry and scorer links: specs/not-started/control-center-score-entry-spec.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Team workbook recalculation: specs/not-started/team-workbook-stack-cache-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
