@@ -156,7 +156,17 @@ team event's `teamRenderIntro()` lists every matchup card after its team
 chips through `allMatchupsHTML()`, sorted by `matchupFirstNum()` (the
 matchup's lowest match number, so #3/#8/#9/#17 sorts as 3) rather than
 trusting `TEAM_MATCHUPS`' insertion order, which follows the CSV's row order.
-PickleDrive's event page carries the same two functions. `runSearch()` first checks `MATCH_NUMBER_SEARCH_RE` (`42` or `#42`);
+PickleDrive's event page carries the same two functions.
+
+**A refresh redraws the search that was run, not the box's text.**
+`runSearch()` records what it shows (`shownQuery`, and the picked
+`shownTeam`/`shownEntry`). Every data refresh calls `refreshFinder()`, which
+re-runs that search, or redraws the all-matches list when nothing was
+searched, then puts back whatever is half-typed in the box. Before this a
+refresh ran `runSearch()` on the box's text, so typing "Jo" and pausing
+swapped the list for a short "Several pairs match" message, the page shrank,
+and the pinned search box had nothing left to scroll against. A new day clears
+`shownQuery`. The event pages work the same way. `runSearch()` first checks `MATCH_NUMBER_SEARCH_RE` (`42` or `#42`);
 a match number goes to `renderMatchByNumber()` (the ticket, or the matchup
 card with `onlyMatch`) and is not saved as the remembered search. The event
 pages carry the same `allMatchesHTML()` and neutral ticket, but not the
