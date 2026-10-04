@@ -10,7 +10,10 @@
 > to the production Worker. Not done: the real-workbook checks in §11 (the
 > two-workbook race, stopwatch timings, **Force hidden**, the blocked-Worker
 > fallback, the 10-minute tab, the ping-count check, and the **Sync method**
-> switch with a real sign-in). The spec moves to `implemented/` when those are
+> switch with a real sign-in). Piggleball and PickleDrive have since finished
+> (2026-10-03), and their four pages now carry `LIVE_BASE_URL = ''`; Control
+> Center and the two templates keep it set, so the open checks wait for the
+> next event's workbooks. The spec moves to `implemented/` when those are
 > done. [§14](#14-as-built-divergences) records
 > where the build departs from the text below. Revised 2026-10-01 against
 > `sage-tools-api` 2.3.0 (the prerequisite below, built) and the

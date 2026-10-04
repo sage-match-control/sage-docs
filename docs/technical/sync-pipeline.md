@@ -576,7 +576,10 @@ Each page that shows live data carries one identical block, marked
 `LIVE CHANNEL`, which opens a WebSocket to `/live/<event>/<day>` for the day
 it is showing and reconnects with backoff. The pages are Control Center, both
 templates' `index.html` and `schedule.html`, and the same pair of every event
-that has not finished. The block must stay byte-identical in every copy.
+that has not finished. The block must stay byte-identical in every copy. A
+finished event's pair keeps the block with `LIVE_BASE_URL` empty, the one
+line that differs: nothing is published for it any more, so its pages read
+GitHub and hold no socket against the Worker's request cap.
 
 `fetchDaySnapshot` keeps its name and callers. While the socket is open it
 returns the pushed snapshot without touching the network; every

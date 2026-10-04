@@ -98,7 +98,8 @@ not code:
 - The `LIVE CHANNEL` block of JavaScript in `tools/control-center.html` and
   both templates' and every unfinished event's `index.html` and
   `schedule.html` must stay byte-identical in every page that carries it, and
-  its `LIVE_BASE_URL` constant points at the deployed Worker. See
+  its `LIVE_BASE_URL` constant points at the deployed Worker. A finished
+  event's pages keep the block with `LIVE_BASE_URL` empty. See
   [sync pipeline](sync-pipeline.md#pages).
 - The `ATTENDANCE CLIENT` block of JavaScript in `tools/control-center.html`,
   `_templates/attendance/attendance.html` and every `events/<key>/attendance.html`

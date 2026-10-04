@@ -123,5 +123,14 @@ them.
 Nothing needs turning off — once the public site has gone live, it just
 stays that way.
 
+## After the last day
+
+Once an event's last day is over, its Tournament Hub and schedule board stop
+receiving instant updates and check for data the ordinary way instead. Nothing
+changes for a visitor: the final scores, standings and match lists stay up at
+the same address the QR code points to. This is a one-line change to the
+event's pages (see
+[Adding a new event § After the event](../technical/adding-a-new-event.md#after-the-event)).
+
 ---
 **See also:** [Control Center](control-center.md)

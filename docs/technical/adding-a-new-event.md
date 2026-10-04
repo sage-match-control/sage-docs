@@ -131,6 +131,17 @@ a page is nested, so root-absolute paths work regardless of nesting. Leave
 them that way; archiving an event later is then a plain `mv` with nothing
 to re-prefix.
 
+## After the event
+
+Once the event's last day is over, set `LIVE_BASE_URL = ''` in the
+`LIVE CHANNEL` block of its `index.html` and `schedule.html`, and change
+nothing else in the block. Nothing is published for the event any more, so
+an open socket would only cost Worker requests (a connect per visit and a
+ping every 50 s) against the free plan's daily cap. With the constant empty
+the pages read their snapshot from GitHub and show the final results as
+before. The folder stays put, at the address the venue's QR code points
+to; archiving it is a separate step.
+
 ## Things kept in sync by hand (no automatic check)
 
 - `event-data/config/events.json`'s `days` ↔ the `DAYS` array in the event
