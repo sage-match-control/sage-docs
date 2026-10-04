@@ -45,7 +45,10 @@ that division's header stacks them in one narrower column instead, and
 
 A pair whose names aren't in the sheet yet still gets its round-robin row,
 listed under its team code (`ND_1`, `ND_2`…) until the names are filled in.
-Playoff spots that haven't been decided read **TBD**. A bronze won by
+Playoff spots that haven't been decided read **TBD**. Standings and the
+schedule board keep the same size as names are filled in: every slot already
+takes the space of two names, one line each, and a name too long for its line
+ends in "…" (hover for the full names). A bronze won by
 walkover (the round robin's #3 against a **BYE**, as in a twice-to-beat
 category) has no **Bronze Battle** block at all: there is no matchup to show.
 In a twice-to-beat or best-of-3 final, a game that is no longer needed (the

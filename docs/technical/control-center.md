@@ -99,7 +99,12 @@ full viewport width. Every category is one fixed 360px column
 its first columns in Chromium. Each column is capped at `92vh` and scrolls
 on its own. These sizes match the public event pages' standings board.
 Pair names never wrap or truncate: each table sits in a `.br-table-wrap`
-that scrolls horizontally if a name is wider than the card. The desktop
+that scrolls horizontally if a name is wider than the card. A row whose names
+aren't in yet (`TBD` or its code) keeps the two lines a pair's names take, so
+it doesn't grow when they arrive. Playoff matchup cards hold the same height
+the same way, but there each name keeps to one line, cut with … when too long
+(full names on hover). The public event pages do the same in both places,
+cutting long names in the round-robin tables too. The desktop
 row and every `.br-table-wrap` are in `SCROLLABLE_SELECTOR`, so their
 scroll positions survive the re-render that every update triggers (a pushed snapshot, or the 10-second poll).
 

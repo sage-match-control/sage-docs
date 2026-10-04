@@ -29,7 +29,10 @@ event/day key, the data-repo location, and a category color map.
 ## Match cell
 
 Symmetric: team 1 left, score centered, team 2 right, mirrored. Player names
-stack two lines, truncating with an ellipsis. Club is read **per side** from
+stack two lines, truncating with an ellipsis. Each name line keeps its height
+while empty (`.fo-name`'s `min-height`), so a cell whose names aren't in yet
+is already the height it will be once they are, on a phone too, where the
+cell's own `min-height` is dropped. Club is read **per side** from
 the team-code prefix, never assumed by position — semifinals in a dual-meet
 bracket are intra-club (e.g. `PNF_LIWD_SF_1` vs. `PNF_LIWD_SF_2`), so a cell
 can legitimately be the same club on both sides; hardcoding "club A always
