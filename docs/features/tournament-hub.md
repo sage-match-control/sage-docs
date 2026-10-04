@@ -114,7 +114,10 @@ organizer decides who they are by typing their letters into the workbook
 against each seed; the site marks those teams **Advances** and never works it
 out for itself. Until a seed is filled in, its card reads *Seed 3 · TBD* and so
 on. Below the tables come the playoff matchups — Quarterfinals, Semifinals,
-Final, Bronze — then each bracket's matchups behind a collapsible heading.
+Bronze, Final — then each bracket's matchups behind a collapsible heading. On
+a computer screen the quarterfinals sit two by two and the semifinals share
+one row, while Bronze and Final each take a full row; a phone shows one
+matchup per row.
 
 **Searching by team or player.** Match Finder takes a team name or a player's
 name. A team result lists every matchup that team plays, in schedule order,
