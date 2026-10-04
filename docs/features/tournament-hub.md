@@ -86,7 +86,8 @@ Quarterfinal, Semifinal, Bronze or Final), the two time slots and the courts. Un
 face each other around the **matchup score**, with the **pair count** (for
 example *pairs 3–1*, the matches each team won) in small type beneath. Below
 that, one row per match shows the pair (MD, WD or XD), the players on each
-side and the score. A match being played right now carries a live dot and its
+side (one per line, first players level with each other and second players
+level, however a name wraps) and the score. A match being played right now carries a live dot and its
 court. A pill marks a matchup that is *In progress*, *Final* or a *Tie*, and
 the team that won a finished matchup is marked **Winner**.
 
