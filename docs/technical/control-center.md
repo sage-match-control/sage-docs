@@ -314,7 +314,8 @@ Mission Control's **Scorer links** section (`renderScorerLinks()`) reads the
 registry entry's `scoreEntry` and is hidden unless it is `"console"` or
 `"links"`. It is called from `renderAuthStatus()`, from the top of
 `renderOrganizerStatus()` and when the event or day changes, so it follows
-sign-in and the selected day. The **Accepting** / **Stopped** buttons call `PUT
+sign-in and the selected day. The **Accepting** / **Stopped** toggle (a `role="switch"` button, the same `.switch` style as
+the **Use CSV export fallback** toggle) calls `PUT
 /v1/events/:event/score-entry` with the operator token and then copy the new
 value into the page's own registry entry, which would otherwise stay stale until
 a reload. **Issue scorer link** calls `POST /v1/days/:day/scores/scorer-links` and
@@ -323,6 +324,17 @@ a reload. **Issue scorer link** calls `POST /v1/days/:day/scores/scorer-links` a
 `aria-label`) and the validity line. In a fixture no request is made; the issued
 token has a real payload (`scope: "score-desk"` and the day) so the scorer page
 can decode it, and the link points at the local `scorer.html`.
+
+**The scorer page must exist.** `scorerPageKnown(eventKey)` does a same-origin `HEAD` request for
+`/events/<key>/scorer.html` (a fixture also accepts `scorer-beta.html`), remembers the answer
+per event for a minute and re-checks after that. Until it is `true`, `renderScorerLinks()` disables the
+toggle and **Issue scorer link** and says why, and `setScorerLinksMode` and `issueScorerLink`
+refuse to run even if the button is forced. A failed check counts as "no page". This is only a
+console guard: the API cannot see the site, and a scorer link simply 404s without the page.
+
+The dialog's side labels follow `describe()`: a side whose name equals its code (a pair) is led by its
+players and shows the code as a chip; a side with a real name (a team) keeps the name as its
+headline.
 
 Full design of the page the link opens: [Scorer page](scorer-page.md).
 

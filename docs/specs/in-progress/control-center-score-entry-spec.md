@@ -16,7 +16,11 @@ by hand), then publishes the day at once.
 
 > **Status: in progress.** Built and tested against fakes (`sage-tools-api` 2.8.0,
 > Control Center, the scorer template, the docs); the real-Google checks in §11.2
-> (C1–C8) have not run, and no event has `"scoreEntry"` set yet. Written 2026-10-05 against
+> (C1–C8) have not run. **Divergences:** Mission Control's Accepting / Stopped control is a
+> single toggle, not two buttons (§5.8), and it and **Issue scorer link** are disabled when the
+> event's `scorer.html` isn't on the site; the score dialog leads each pair with its players'
+> names and shows the team code as a small tag (§5.3), instead of the code as the headline.
+> Piggleball and PickleDrive have `"scoreEntry": "console"`. Written 2026-10-05 against
 > `sage-tools-api` 2.7.1, `sage-match-control.github.io`'s
 > `tools/control-center.html` and templates, and `event-data`'s
 > `config/events.json` as of that date. **Every decision is settled (§1).**

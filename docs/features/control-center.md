@@ -53,7 +53,7 @@ signing in, and the tab it opens on. From top to bottom:
 - **Resync this day now**, right under the venues — pulls a fresh copy from
   the spreadsheet(s) immediately, instead of waiting for the next automatic
   sync. On a day with more than one venue, **Or resync just one facility**
-  does the same for one venue. **Use CSV export fallback** switches either
+  does the same for one venue. The **Use CSV export fallback** toggle switches either
   one to Google's CSV export, if the normal way of reading the sheet fails.
   The result appears right below, one line per venue: **Synced**, **This
   attempt failed. Still showing its previous data**, or **Failed. Nothing
@@ -106,14 +106,17 @@ Control has a **Scorer links** section. A scorer link opens the event's
 [scorer page](scorer-page.md), where staff enter scores for any venue of one day
 and do nothing else; they never see Control Center.
 
-- **Accepting / Stopped** is the switch. **Accepting** lets scorer links save
-  scores and be issued. **Stopped** makes every scorer save fail and refuses new
+- **Accepting / Stopped** is a toggle: on is **Accepting**, off is **Stopped**.
+  **Accepting** lets scorer links save scores and be issued. **Stopped** makes every
+  scorer save fail and refuses new
   links, within about a minute, while operators can still enter scores in Match
   Finder. Links issued earlier work again if the switch goes back to
   **Accepting** before they expire. The switch only moves between those two
   states; it never turns score entry on or off, which is a setting in
   `events.json`. Until you sign in, the section shows the current state and nothing to
-  press.
+  press. The toggle and **Issue scorer link** are also off, with a note, when the event
+  has no scorer page (`events/<key>/scorer.html` isn't on the site), since a link would
+  open nothing; add the page first.
 - **Issue scorer link for Oct 3** makes a link for the selected day. It covers
   every venue of that day and is valid for 24 hours from when it is issued, not
   until midnight. It can't be issued once the day is over (from 6:00 AM the
@@ -256,6 +259,11 @@ inside each matchup card. Live Matches, Standings and Awards stay read-only. A
 BYE can't be scored. In a standard or dual-meet event a match whose players
 aren't decided yet opens read-only and says so; in a team event a match with no
 lineup can still be scored, with a warning.
+
+The dialog puts the people first: for a pair, the two players' names are the bold
+headline of each side and the team code is a small tag beside them; for a team, the team
+name leads and the players sit underneath. On Review, a team’s win reads the team name in
+bold with its two players on the next line in larger type.
 
 The dialog has two steps.
 
