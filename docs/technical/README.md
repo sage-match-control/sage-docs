@@ -13,12 +13,13 @@ each page here.
 ## Backend (`sage-tools-api`)
 
 - **[Sync pipeline](sync-pipeline.md)** — Sheets → GitHub, the runtime-fetched
-  event registry, and the live-delivery path (the live push Worker, the
-  GitHub archive and polling fallback, the operator switch).
+  event registry, the live-delivery path (the live push Worker, the
+  GitHub archive and polling fallback, the operator switch), and how score
+  entry writes a score and publishes it.
 - **[Scoresheet pipeline](scoresheet-pipeline.md)** — CSV → Handlebars →
   Chromium → merged PDF.
-- **[Auth](auth.md)** — the operator sign-in and how it interacts with the
-  legacy shared-secret path.
+- **[Auth](auth.md)** — the operator sign-in, how it interacts with the
+  legacy shared-secret path, and the desk and scorer tokens.
 - **[Deployment](deployment.md)** — Cloud Run setup, the version/changelog
   convention, environment variables.
 
@@ -48,9 +49,12 @@ changing any of them is not a deploy.
 
 - **[Control Center](control-center.md)** — the single-page operator
   console: config resolution, theming, the tabs (including the Attendance
-  tab around the shared attendance client, the Awards
+  tab around the shared attendance client, score entry and its shared dialog,
+  the Awards
   tab's podium derivation, bye/walkover handling, and Canvas 2D image
   export).
+- **[Scorer page](scorer-page.md)** — the per-event page a scorer link opens:
+  its template, start-up checks, token storage and data loading.
 - **[Schedule board](schedule-board.md)** — the venue wall display.
 - **[Tournament Calculator](tournament-calculator.md)** — the dual-meet math
   fixes and its PWA (installable, offline) setup.

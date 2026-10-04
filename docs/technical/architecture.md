@@ -5,7 +5,7 @@ Worker that lives inside one of them.
 
 | Repo | What it is |
 | --- | --- |
-| [`sage-tools-api`](https://github.com/sage-match-control/sage-tools-api) | Node/Express backend on Google Cloud Run. Three features: scoresheet PDF generation, the Google Sheets → GitHub live-data sync, and event attendance. Its `live-worker/` folder holds the Cloudflare Worker that pushes snapshots to open pages; that folder is not part of the Cloud Run service. |
+| [`sage-tools-api`](https://github.com/sage-match-control/sage-tools-api) | Node/Express backend on Google Cloud Run. Four features: scoresheet PDF generation, the Google Sheets → GitHub live-data sync, event attendance, and score entry (`src/scores/`). Its `live-worker/` folder holds the Cloudflare Worker that pushes snapshots to open pages; that folder is not part of the Cloud Run service. |
 | [`sage-match-control.github.io`](https://github.com/sage-match-control/sage-match-control.github.io) | GitHub Pages static site. Self-contained HTML pages (no build step, no framework) for the public tools and per-event pages. |
 | [`event-data`](https://github.com/sage-match-control/event-data) | Shared GitHub Pages target every event's sync writes snapshots to, and the runtime-fetched event/day/facility registry. |
 
@@ -45,6 +45,14 @@ with its roster, and Control Center and the desk pages mark people through
 `PUT /v1/days/:day/facilities/:facility/attendance/:key`. It writes as its own
 service account, and only ever inside `ATTENDANCE!A:G`. See
 [event attendance](event-attendance.md).
+
+Score entry (`src/scores/`) is the second: `PUT
+/v1/days/:day/facilities/:facility/matches/:matchNumber/score` writes one
+match's two score cells in a workbook's `SCHEDULE` tab as the same service
+account, then publishes the facility itself, because an API write fires no onEdit
+trigger. Operators call it from Control Center and scorer staff from the scorer
+page with a scorer link. See [sync pipeline § Score entry
+writes](sync-pipeline.md#score-entry-writes) and [scorer page](scorer-page.md).
 
 ## A fourth kind of code: bound Apps Script
 
@@ -97,13 +105,17 @@ not code:
   [sync pipeline](sync-pipeline.md#how-the-secret-reaches-a-workbook).
 - The `LIVE CHANNEL` block of JavaScript in `tools/control-center.html` and
   both templates' and every unfinished event's `index.html` and
-  `schedule.html` must stay byte-identical in every page that carries it, and
+  `schedule.html`, and the scorer template and every unfinished event's
+  `scorer.html`, must stay byte-identical in every page that carries it, and
   its `LIVE_BASE_URL` constant points at the deployed Worker. A finished
   event's pages keep the block with `LIVE_BASE_URL` empty. See
   [sync pipeline](sync-pipeline.md#pages).
 - The `ATTENDANCE CLIENT` block of JavaScript in `tools/control-center.html`,
   `_templates/attendance/attendance.html` and every `events/<key>/attendance.html`
   must stay byte-identical. See [event attendance](event-attendance.md#the-client).
+- The `SCORE CLIENT` block of JavaScript in `tools/control-center.html`,
+  `_templates/scorer/scorer.html` and every `events/<key>/scorer.html` must stay
+  byte-identical. See [Control Center § Score entry](control-center.md#score-entry).
 - Adding a scoresheet type = a new `templates/<name>.{html,css}` pair in
   `sage-tools-api` **and** an entry in `ScoresheetConfig.mjs`. Nothing else
   needs touching.

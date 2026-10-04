@@ -53,6 +53,37 @@ setting is `"desks"`.
 
 See [event attendance](event-attendance.md).
 
+## Scorer tokens
+
+Score entry adds a third kind of token, for scorer staff (`issueScorerToken` /
+`verifyScorerToken`). It is built like a desk token with its own scope,
+`"score-desk"`, and so its own derived signing key (`#signScoped(scope, payload)`
+derives the key from the scope, for desk and scorer tokens alike). A scorer token
+carries a day and expires 24 hours after it is issued, not at the end of the day.
+
+- It never verifies as an operator token or a desk token, and neither of those
+  verifies as a scorer token: the signatures differ by key, and `verify()` also
+  rejects any payload carrying a `scope`.
+- The score route (`PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score`)
+  is the only route that accepts it. Every other route, including attendance's and
+  every `/sync/*` route, answers 401. A scorer can enter, correct, clear and replace on
+  a conflict, exactly as an operator can, and nothing else.
+- Only an operator can issue one: `POST /v1/days/:day/scores/scorer-links`. It is refused
+  once the day is over (06:00 Manila the morning after its `date`) and while the event's
+  scoring setting is `"console"`.
+- **The switch.** Each use of the score route checks the event's `scoreEntry`: a scorer
+  token is accepted only while it is `"links"`, and only for its own day. Mission Control's
+  **Accepting / Stopped** switch (`PUT /v1/events/:event/score-entry`, operator token only)
+  moves the event between `"links"` and `"console"` in `events.json`, so **Stopped**
+  refuses every scorer save with a 403 and every new link, within `SYNC_CONFIG_TTL_MS`
+  (about a minute), without waiting for tokens to expire. Moving back to **Accepting**
+  makes links issued earlier work again until they expire. The switch never turns score
+  entry on or off: an event without a `scoreEntry` setting is refused.
+- Nothing accepts the sync secret on these routes.
+
+See [Scorer page](scorer-page.md) and [sync pipeline § Score entry
+writes](sync-pipeline.md#score-entry-writes).
+
 ## What the console does with it
 
 Signing in exchanges the operator's password for a session token held only

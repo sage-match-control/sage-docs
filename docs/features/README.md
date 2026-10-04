@@ -14,9 +14,9 @@ bottom of each page here.
 ## For tournament organizers & day-of operators
 
 - **[Control Center](control-center.md)** — the operator console. Live
-  Matches, Match Finder, Standings, Awards (podium results + shareable
-  images), and Mission Control (sign-in, resync, the public-site kill
-  switch).
+  Matches, Match Finder (which can also enter a match's score), Standings,
+  Awards (podium results + shareable images), and Mission Control (sign-in,
+  resync, the public-site kill switch, scorer links).
 - **[Preparing an event](preparing-an-event.md)** — everything that has to
   exist before tournament day, in the order it has to exist in: the plan, the
   scoring workbook, the event site, and the registration that connects them.
@@ -38,6 +38,9 @@ bottom of each page here.
 - **[Event attendance](event-attendance.md)** — staff check-in for any event,
   in Control Center or on a desk link from any phone. One check-in per person,
   with their arrival time.
+- **[Scorer page](scorer-page.md)** — for scorer staff: enter match scores on a
+  phone with a scorer link from the operator, at any venue of the day, without
+  opening the workbook.
 
 ## Two kinds of event
 

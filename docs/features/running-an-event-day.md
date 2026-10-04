@@ -51,6 +51,10 @@ links to its full section below.
    makes a match show up as live — on Control Center's Live Matches tab,
    the schedule board, and Tournament Hub — so it's worth opening this
    now and keeping it up throughout the day, not just visiting it once.
+8. If scorers enter scores on their own phones, press **Issue scorer link**
+   under **Scorer links** (still in Mission Control) and send the link, or its
+   QR code, to each scorer. One link covers every venue of the day for 24
+   hours, so issue it that morning. See [scorer page](scorer-page.md).
 
 ## Attendance
 
@@ -81,13 +85,20 @@ their schedule the moment they arrive, click **Force live**.
 
 Everything below happens in the Google Sheet you opened in step 7, not in
 Control Center — the console is where you *watch* the day, the sheet is
-where you *run* it.
+where you *run* it. (Scores are the exception: see below.)
 
 The rhythm at each court, as matches happen: mark the next match live on
 that court as soon as it frees up (in Court Control), and replace it with
 the *following* match number the moment it finishes — never leave a court
 blank, since a blank court just shows as idle instead of telling anyone
 what's coming up next. Enter the finished match's score right after.
+
+A score can be entered three ways, and all of them write the same two cells of
+that match in the sheet: typing it in the sheet, [entering it from Match Finder
+in Control Center](control-center.md#entering-a-score), or a scorer's phone on
+the [scorer page](scorer-page.md). Mix them freely. If two people change the same
+match, the second to save is shown what the sheet now reads and chooses, instead
+of overwriting it.
 
 Everything else happens on its own — scores and court status reach the
 public site and the wall display within a few seconds, with no extra steps.
@@ -109,6 +120,12 @@ What to actually watch for:
   through GitHub and pages catch up within 30–60 seconds, as before live push.
   Switch it back once things are healthy. It takes effect within about a
   minute.
+- **Scorer links that should stop** — a link sent to the wrong person, or
+  scorers who are entering scores that should not be, for example. Set **Scorer
+  links** on Mission Control to **Stopped**: within about a minute every
+  scorer's save is refused, and you can still enter scores yourself in Match
+  Finder. Set it back to **Accepting** when you are ready, and the links already
+  issued work again until they expire.
 - **A player asking where their match is** — use Match Finder right there in
   Control Center.
 

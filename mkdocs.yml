@@ -52,6 +52,7 @@ nav:
       - Dual Meet Sheet Generator: features/dual-meet-sheet-generator.md
       - Standard Tournament Generator: features/standard-tournament-generator.md
       - Event attendance: features/event-attendance.md
+      - Scorer page: features/scorer-page.md
   - Technical:
       - Overview: technical/README.md
       - Architecture: technical/architecture.md
@@ -63,6 +64,7 @@ nav:
       - Named Function library: technical/named-function-library.md
       - Standard Tournament Generator: technical/standard-tournament-generator.md
       - Event attendance: technical/event-attendance.md
+      - Scorer page: technical/scorer-page.md
       - Control Center: technical/control-center.md
       - Schedule board: technical/schedule-board.md
       - Tournament Calculator: technical/tournament-calculator.md

@@ -231,6 +231,101 @@ mark fail.
 
 Full design: [event attendance](event-attendance.md).
 
+## Score entry
+
+An operator enters, corrects or clears one match's score from Match Finder
+(`PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score`, see [sync
+pipeline § Score entry writes](sync-pipeline.md#score-entry-writes)). The
+feature is on for an event whose `events.json` entry has `"scoreEntry":
+"console" | "links"`, and the console only offers it while an operator is signed
+in. Usage: [Entering a score](../features/control-center.md#entering-a-score).
+
+### The `SCORE CLIENT` block
+
+The dialog is the `SCORE CLIENT` block (`createScoreDialog` and its three
+constants), byte-identical in this file, `_templates/scorer/scorer.html` and
+every `events/<key>/scorer.html`; compare them with `diff`. The `<dialog
+id="scoreDialog">` markup and the `.score-*` rules are copied the same way, and
+the block finds its parts inside the dialog by id. It uses no global of either
+page: everything that differs is passed in through `opts`.
+
+| Option | What it is |
+| --- | --- |
+| `dialog`, `apiBase`, `getToken()`, `fixture` | the element, Cloud Run's base URL, the bearer token (the operator's here, the scorer's on the scorer page), and the localhost fixture name |
+| `describe(m)` | the title, the sub-title and the two sides (`name`, `code`, `players` or `null`, and `missing`, the text for a side with no players) |
+| `readOnlyReason(m)` | a reason to open read-only, or `null` |
+| `extraWarnings(m)` | the page-specific warnings (an unneeded series game, a missing lineup) |
+| `findMatch(facility, num)` | the page's current copy of a match, for `refresh()` |
+| `notify`, `friendlyError`, `unreachable` | outcomes as toasts, and error text in plain words |
+| `expiredText`, `resyncHint` | the sentences that differ between an operator and a scorer |
+| `onFixtureSave` | patches the page's own data when a fixture save "succeeds" |
+
+It returns `{ open, close, refresh, isOpen }`.
+
+### Which matches are clickable
+
+`scoreEntryAvailable()` reads the registry entry's `scoreEntry` and the sign-in.
+`scoreAttrs(m)` returns the `data-score-*`, `role` and `tabindex` attributes, or
+nothing for a BYE or when entry is not available; `scoreHintHTML(m)` is the
+pencil hint. Only Match Finder uses them, so the console's other tabs are
+read-only: `ticketHTML` calls `scoreAttrs` itself, and `teamMatchupCardHTML` takes
+a `scoreable` option that its four Match Finder callers (`teamResultHTML`,
+`teamPlayerResultHTML`, `allMatchupsHTML`, `renderMatchByNumber`) pass as `true`
+and Standings' two calls leave off. Two delegated listeners on the results
+container (click, and Enter or space on a focused match) open the dialog, because
+Match Finder redraws all its markup on every poll and push, which would drop any
+listener bound to a single match. Signing in or out redraws Match Finder, so the
+hint appears and disappears with it. Changing the event or the day closes the
+dialog.
+
+### States
+
+One state object lives inside the closure: `readonly`, `enter`, `review`,
+`saving` or `conflict`. It holds **a copy** of the match
+and the `expected` values the person was shown (the two team codes and the two
+scores). It copies because every poll and push rebuilds the page's match list, and
+a dialog that read the live object would change under the operator mid-entry.
+`expected` is what the API's check compares the sheet with. `refresh()`, called
+after every snapshot, compares the page's current match with `expected` and puts
+a note under the boxes; it never touches the inputs and never updates `expected`,
+so saving after the sheet changed gets a 409 and the person chooses between
+**Keep the sheet's score** and **Replace with yours** (which saves with the
+sheet's current values as `expected`).
+
+Esc and the × button are blocked while saving. A second Enter or space within 400
+ms of Review appearing is swallowed in the capture phase, so a fast double Enter
+from the last box stops on Review. The save request has a two-minute timeout.
+After five seconds the dialog says the workbook is slow. A response that arrives
+after the dialog closed is ignored. The 200, 409, 401 and other responses map to
+toasts and steps as described in the spec's save table.
+
+### Fixtures
+
+On localhost, `?fixture=<name>` simulates a save: after 700 ms it patches the
+page's match, redraws and says nothing was sent; the next poll restores the
+fixture's scores. Adding `&scoreConflict=1` makes the first save of a dialog
+answer with a conflict instead (the sheet "now reads" 11 – 9), so the conflict
+panel can be exercised. `_fixtures/config.json` carries `"scoreEntry": "links"`
+for both fixture events.
+
+### The Scorer links section
+
+Mission Control's **Scorer links** section (`renderScorerLinks()`) reads the
+registry entry's `scoreEntry` and is hidden unless it is `"console"` or
+`"links"`. It is called from `renderAuthStatus()`, from the top of
+`renderOrganizerStatus()` and when the event or day changes, so it follows
+sign-in and the selected day. The **Accepting** / **Stopped** buttons call `PUT
+/v1/events/:event/score-entry` with the operator token and then copy the new
+value into the page's own registry entry, which would otherwise stay stale until
+a reload. **Issue scorer link** calls `POST /v1/days/:day/scores/scorer-links` and
+`renderScorerLink` draws the result like a desk link: a read-only input, **Copy**,
+**Share**, **Show QR** (`attConsoleShowQr`, which takes a label for the canvas's
+`aria-label`) and the validity line. In a fixture no request is made; the issued
+token has a real payload (`scope: "score-desk"` and the day) so the scorer page
+can decode it, and the link points at the local `scorer.html`.
+
+Full design of the page the link opens: [Scorer page](scorer-page.md).
+
 ## Facility progress
 
 `computeFacilityProgress(matches, isEventDay, nowMin)` turns one facility's

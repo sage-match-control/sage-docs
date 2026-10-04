@@ -499,6 +499,60 @@ archived to GitHub), so pages holding a WebSocket hide or show the day within
 a second or two instead of waiting for the next score edit. If the Worker
 cannot be reached it is a GitHub commit, as without live push.
 
+## Score entry writes
+
+Score entry is the one path where `sage-tools-api` writes scores into a facility
+workbook instead of reading them. `PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score`
+(`src/scores/`, `ScoreService.submit`) writes one match's two score cells in the
+workbook's `SCHEDULE` tab as the attendance service account, then publishes the
+day itself, in the same request. Usage and the dialog:
+[Entering a score](../features/control-center.md#entering-a-score).
+
+**Why the API publishes.** The normal sync starts from an installable onEdit
+trigger, and Google documents that script executions and Sheets API requests do
+not fire triggers. A write by the API therefore starts nothing, and without a
+publish the pages would show the old score until someone next typed in the sheet.
+`ScoreService` calls `syncService.syncDay(day, { facilityName, editAt })` for that
+facility, with `editAt` as the time of the save, so the snapshot's edit-to-sync
+diagnostics read as they do for a typed edit. The publish finishes before the
+response is sent, because Cloud Run throttles CPU once a response goes out. A
+publish failure does not undo the write: the response is 200 with
+`sync: { ok: false, error }`, and the client tells the person the score is in the
+sheet but not published.
+
+**Where it writes.** `scheduleGrid.mjs` finds the match: every workbook type lays
+`SCHEDULE` out in 8-column court blocks from column D, with data from row 6 and two
+rows per slot. The match number is in column 6 + 8k, the two codes either side of it
+and the two scores 3 and 4 columns to its right. The API reads the whole tab, finds
+the cell holding the number (none is a 404, more than one a 422 that names the cells),
+then reads that row's two score cells with formulas visible: a formula or text in a
+score cell is a 422, so the API never overwrites one. `SheetsClient.writeScores` and
+`clearScores` accept only a range of the form `SCHEDULE!<team 1 score><row>:<team 2
+score><row>` at row 6 or below, checked before any request is made. A clear uses
+`values:batchClear`, so the cells are truly empty, which the team workbooks'
+`ISBLANK` test needs. `updateValues`, attendance's write, keeps its own `ATTENDANCE!A:G`
+allowlist.
+
+**The optimistic check.** The client sends the match as it showed it (`expected`: the
+two codes and two scores). If the sheet's codes differ, or its scores differ from both
+`expected` and the new scores, nothing is written and the answer is a 409 carrying the
+sheet's current values. A sheet that already holds the new scores is `unchanged`: nothing
+is written but the publish still runs, because an earlier save may have written without
+publishing. There is a window of a few hundred milliseconds between the API's read and
+its write in which a person typing the same match in the sheet would be overwritten.
+Closing it needs the workbook's document lock, which only Apps Script can take; the
+publish that follows reads whatever the sheet then holds, so pages always show the sheet.
+
+**The 60-second timeout.** `index.mjs` gives score entry its own `SheetsClient`, with a
+60-second timeout instead of attendance's 5. A team workbook recalculates when it is
+written and can take up to a minute to answer the read that follows. The client's
+two-minute request timeout covers the read, the write and the publish.
+
+**Audit.** Every save logs one line: the day, facility, match, cells, old and new
+scores, who (`operator` or `scorer`) and whether the publish worked.
+
+Who may call it, and the switch that stops scorer links: [Auth § Scorer tokens](auth.md#scorer-tokens).
+
 ## Sheet tabs are addressed by name, not GID
 
 Both fetch paths address a facility's matches/standings tabs by name
@@ -627,7 +681,7 @@ Each page that shows live data carries one identical block, marked
 `LIVE CHANNEL`, which opens a WebSocket to `/live/<event>/<day>` for the day
 it is showing and reconnects with backoff. The pages are Control Center, both
 templates' `index.html` and `schedule.html`, and the same pair of every event
-that has not finished. The block must stay byte-identical in every copy. A
+that has not finished, plus the [scorer page](scorer-page.md) of an event that uses scorer links. The block must stay byte-identical in every copy. A
 finished event's pair keeps the block with `LIVE_BASE_URL` empty, the one
 line that differs: nothing is published for it any more, so its pages read
 GitHub and hold no socket against the Worker's request cap.

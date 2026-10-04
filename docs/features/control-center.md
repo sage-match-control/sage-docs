@@ -12,8 +12,9 @@ team event whose rosters are published.
 No sign-in is needed to view Awards, Match Finder, Live Matches or
 Standings — they're read-only.
 Only the actions inside Mission Control (resyncing, forcing the public site
-live or hidden) and marking people in on the Attendance tab need an operator to
-sign in. Signed out, the Attendance list is read-only.
+live or hidden), marking people in on the Attendance tab and entering scores in
+Match Finder need an operator to sign in. Signed out, the Attendance list is
+read-only and no match in Match Finder can be scored.
 
 **Installable** — from Chrome's install prompt on Android, or "Add to Home
 Screen" on iOS Safari — so an operator's device can launch straight into
@@ -80,6 +81,9 @@ signing in, and the tab it opens on. From top to bottom:
   way it takes effect within about a minute. It shows the current method, and it
   is hidden until you sign in. If Cloud Run has no live push configured at all,
   it says so and there is nothing to switch.
+- **Scorer links** — for an event with score entry turned on: the switch that
+  accepts or stops scorer links, and **Issue scorer link**. See [Scorer
+  links](#scorer-links) below.
 - **Public pages** — launchers for the venue's schedule board and the
   event's Tournament Hub, both opening in a new tab so the console stays
   where it is.
@@ -94,6 +98,33 @@ The result boxes (resync, Check connection) have a close button, and they
 clear themselves when you change the event, the day or the tab, so a result
 never sits under a different day. A resync that finishes after you've moved
 on reports as a short message at the top instead.
+
+### Scorer links
+
+For an event whose `events.json` entry has a `scoreEntry` setting, Mission
+Control has a **Scorer links** section. A scorer link opens the event's
+[scorer page](scorer-page.md), where staff enter scores for any venue of one day
+and do nothing else; they never see Control Center.
+
+- **Accepting / Stopped** is the switch. **Accepting** lets scorer links save
+  scores and be issued. **Stopped** makes every scorer save fail and refuses new
+  links, within about a minute, while operators can still enter scores in Match
+  Finder. Links issued earlier work again if the switch goes back to
+  **Accepting** before they expire. The switch only moves between those two
+  states; it never turns score entry on or off, which is a setting in
+  `events.json`. Until you sign in, the section shows the current state and nothing to
+  press.
+- **Issue scorer link for Oct 3** makes a link for the selected day. It covers
+  every venue of that day and is valid for 24 hours from when it is issued, not
+  until midnight. It can't be issued once the day is over (from 6:00 AM the
+  morning after), or while the switch reads **Stopped**.
+- The link appears with **Copy**, **Share** (on devices that support it),
+  **Show QR** and **Valid until Mon, Oct 5, 8:30 AM (24 hours)**, in Manila
+  time. Send it, or have the scorers scan the QR code.
+
+A scorer page that is already open finds out about a stop when a save is refused
+("Scorer links are stopped for this event. Ask the operator."); one that is
+reloaded says so as soon as it loads.
 
 ## Attendance
 
@@ -211,6 +242,64 @@ Control Center's search also takes a **match number**: type `42` or `#42`
 to see just that match (for a team event, its matchup card narrowed to that
 match). A number that isn't on the day says so.
 
+### Entering a score
+
+For an event whose `events.json` entry has a `scoreEntry` setting, a signed-in
+operator can enter, correct or clear a match's score from Match Finder without
+opening the workbook. Without the setting, or while signed out, nothing in
+Match Finder is clickable.
+
+Every match in Match Finder carries a small **✎ Enter score** hint, or **✎ Edit
+score** once it has a score. Click a match, or focus it and press Enter, to open
+the score dialog. For a team event the clickable parts are the match lines
+inside each matchup card. Live Matches, Standings and Awards stay read-only. A
+BYE can't be scored. In a standard or dual-meet event a match whose players
+aren't decided yet opens read-only and says so; in a team event a match with no
+lineup can still be scored, with a warning.
+
+The dialog has two steps.
+
+1. **Enter.** The two sides sit in the same order as the sheet, team 1 on the
+   left. Each score takes up to two digits. Enter moves from the first box to
+   the second, and from the second to the next step.
+2. **Review.** The winner is named in the largest text, above the score, so a
+   pair of scores typed against the wrong sides shows up before anything is
+   saved. A tie reads **Tied — neither side wins this match**. Anything unusual
+   is listed as a warning and never refuses the save: a tie, neither side
+   reaching 11, a win by one point, a score over 21, a series game that isn't
+   needed because the series is already decided, or a team match with no lineup.
+   Pressing Enter twice in a row on the last box does not save: the second
+   press is ignored for a moment after Review appears.
+
+**Save** writes both scores into that match's cells of the venue's workbook and
+publishes the venue straight away, so pages update within a few seconds, just as
+if a scorer had typed them in the sheet. A message at the top of the screen
+confirms it. A big workbook can be slow to answer: after a few seconds the
+dialog says it is still waiting, and a save that gets no answer in two minutes
+says so. Saving again is safe, because a score already in the sheet is not
+written twice.
+
+**Corrections and clearing.** Opening a match that already has a score shows
+that score in the boxes, and Review adds **Was 11 – 9**. **Clear score**, on the
+first step, empties both cells again, after a Review that reads **Clear the
+score of match #42**.
+
+**When the sheet changed.** If the match's cells changed since the dialog opened
+(someone typed into the sheet, or another operator saved), nothing is written.
+The dialog shows what the sheet reads now and what you entered, and offers
+**Keep the sheet's score** or **Replace with yours**. If the match number now
+belongs to a different pairing, the only choice is **Close**. While the dialog is
+open, a note appears under the scores when a new snapshot shows that the sheet's
+score changed; the boxes are left as they are.
+
+**Publishing failed.** If the score reached the sheet but the update could not be
+published, a warning says so. Use **Resync this day now** on Mission Control.
+
+**Setup and sign-in.** Saving needs the venue's workbook to be shared with the
+API's service account as Editor; if it isn't, the dialog names the account to
+share it with. If the sign-in has expired the dialog says so; sign in on Mission
+Control and save again.
+
 ## Standings
 
 Win/loss records and rankings by category. For a **dual meet**, standings are
@@ -254,4 +343,4 @@ warning banner names it rather than silently lumping it into an "Other"
 bucket — so a data problem in the spreadsheet gets noticed instead of hidden.
 
 ---
-**Technical:** [Control Center architecture, incl. Awards tab internals](../technical/control-center.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md) · [event attendance](../technical/event-attendance.md)
+**Technical:** [Control Center architecture, incl. Awards tab internals](../technical/control-center.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md) · [event attendance](../technical/event-attendance.md) · [scorer page](../technical/scorer-page.md)

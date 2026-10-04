@@ -26,6 +26,7 @@ default).
       "archived": false,                // optional, console-only: hides from the event picker
       "title": "PNF × BUP Dual Meet",   // optional, console-only: masthead label
       "attendance": "desks",            // optional: "console" | "desks" — staff check-in; absent means none
+      "scoreEntry": "links",            // optional: "console" | "links" — entering scores; absent means off
       "days": {
         "<day-key>": {
           "label": "Day 1 · Aug 15",
@@ -62,6 +63,16 @@ default).
   `"console"` lets operators mark people in Control Center, `"desks"` also
   allows desk links. Anything else is rejected on load. A day used with desk
   links needs a `date`.
+- `scoreEntry` turns on entering a match's score from Control Center and the API
+  (see [Entering a score](../features/control-center.md#entering-a-score)):
+  `"console"` for signed-in operators, `"links"` for operators **and** scorer
+  links (see [Scorer page](scorer-page.md)). Absent means off. Anything else is
+  rejected on load. Mission Control's **Scorer links** switch moves an event between
+  `"links"` and `"console"` by writing this value (`PUT
+  /v1/events/:event/score-entry`); it never turns score entry on or off, so adding
+  the setting is a commit here. Every facility workbook of the event must be shared
+  with the API's service account as **Editor**, as for attendance, or a save fails
+  with a message naming the account.
 - A facility with an empty/missing `sheetId` is treated as "not set up yet"
   and skipped rather than fetched — lets you add a day's entry before its
   spreadsheet exists.
@@ -92,6 +103,8 @@ bundled fallback seed) rather than partially applying a broken commit:
   empty).
 - `isLive`, if present, must be `true`, `false`, or the literal string
   `"auto"`.
+- `attendance`, if present, must be `"console"` or `"desks"`, and `scoreEntry`,
+  if present, must be `"console"` or `"links"`.
 - `livePush`, if present, must be `true` or `false`. `false` makes every
   sync and Live/Hide publish to GitHub alone; absent or `true` leaves live
   push to Cloud Run's environment. Normally written by Control Center's
