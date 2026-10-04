@@ -6,8 +6,11 @@
 > [Sync pipeline](../../technical/sync-pipeline.md#measured-the-lock-based-sync)).
 > One divergence: a minimum gap between syncs, `SYNC_MIN_GAP_MS` (§4.3
 > notes). Not yet run from §5: the paused-workbook check and the
-> multi-workbook and multi-event collision checks, which need more than one
-> workbook; `scripts/verify-sync-merge.mjs` covers the retry they exercise.
+> multi-workbook collision check, which needs more than one workbook in an
+> event; `scripts/verify-sync-merge.mjs` covers the retry it exercises. Two
+> events syncing at once was seen for real at Piggleball and PickleDrive on
+> 3 October 2026, and §4.4's quota question has an answer from that day
+> (see [Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026)).
 > Written 2026-10-01 against `sage-tools-api` 2.2.0.
 >
 > **Stands alone.** Build this on its own; it makes today's GitHub-based
@@ -550,6 +553,19 @@ If a larger event could approach 90 minutes, raise `SYNC_SETTLE_MS` less
 than you might think — the settle is paid once per burst — and instead make
 sure one Google account doesn't hold every workbook's triggers.
 
+**Measured, 3 October 2026.** Piggleball's 238 syncs and PickleDrive's 695
+(two events, one venue each, the same day) cost about two hours of trigger
+runtime between them: about 105 minutes for PickleDrive, whose Sheets reads
+were often 10–58 s slow and whose lock holder waits on `UrlFetchApp` for all
+of it, and 16 for Piggleball, before the non-holder edits. That is over a
+consumer account's 90 minutes, yet no sync stopped, so the two workbooks'
+triggers were owned by a Workspace account or by more than one account.
+Which, is still to be recorded. Either way, a slow workbook read costs
+trigger runtime one-for-one: making the read fast (or bounding it, see
+`SHEETS_FETCH_TIMEOUT_MS`) is what keeps a busy day inside the allowance,
+not the settle. Figures in
+[Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026).
+
 ### 4.5 Verify and ship
 
 - `node --check` cannot parse `.gs`; copy to a temp `.js` file and run
@@ -602,6 +618,14 @@ sure one Google account doesn't hold every workbook's triggers.
       block or lose a sync.
 - [ ] `verify-attendance`, `verify-standard-generator`,
       `verify-sheet-generator` pass.
+
+**From real use, 3 October 2026** (not the scripted checks above, but the
+same ground): Piggleball and PickleDrive synced side by side from 12:52 to
+16:07, five of their publishes within a second of each other's, and both
+published every sync (936 commits); the day's 8 archive conflicts (6
+PickleDrive, 2 Piggleball) and 2 live version conflicts all resolved on the
+first retry. Piggleball's
+`edit→request` was p50 2.2 s, p90 3.9 s against this list's ~3 s.
 
 
 ## 6. Documentation to update

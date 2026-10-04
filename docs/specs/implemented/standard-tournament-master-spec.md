@@ -1745,7 +1745,8 @@ one renders those rows in an unsorted trailing stage with no label. Adding
 both is a two-line site change, but it needs an event that actually reaches
 R32 to test against, and none has. Validation caps both entrants (32) and
 ladder depth (no stage before `R32`) in §9, so nothing deeper can be
-generated.
+generated. Still untested: neither standard event since (Pickle for Sight,
+Piggleball) had a category reach `R32`.
 
 **Nothing checks a player booked twice.** `Timeline` works on codes
 (§10.6), and a human has a different code in each category and in each
@@ -1755,6 +1756,9 @@ rule to keep, and a bad qualifier draw or a hand-moved match can still put
 one player on two courts at once. Nothing in the workbook flags it.
 BKL's `Timeline (Individual)` did, by counting player names per slot row.
 Whether to bring it back is undecided; Pickle for Sight ran without it.
+The published match lists show it hasn't happened yet: no player is in two
+matches of the same time slot at Pickle for Sight (233 matches over two
+venues, compared across both), Piggleball (68) or PickleDrive (152).
 
 **Drawing within tiers.** In a tiered ladder the qualifier draw is not one
 lot: group winners must land on the winners' seats (`1 … g`, §7.6.1) and

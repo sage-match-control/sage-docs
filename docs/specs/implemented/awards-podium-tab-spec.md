@@ -565,7 +565,13 @@ No `sage-tools-api` change, so no `package.json` bump and no Cloud Run deploy.
   displays in addition to the portrait social card.
 - Whether byes should ever be used outside the Bronze match (e.g. a walkover
   in an earlier round). The detection in §2.3 is generic and would handle it,
-  but only the Bronze case is specified and tested here.
+  but only the Bronze case is specified and tested here. No event has used a
+  BYE in a match yet: Pickle for Sight, Piggleball and PickleDrive have none.
+  Piggleball's one walkover, the IXD bronze (#100), was entered differently:
+  the absent side's player names as `-` and a score of 11–0. §2.3 doesn't
+  read `-` as a BYE, so the tab treats it as an ordinary win, with no
+  **Walkover** chip. Whether `-` should count as a BYE (in the Awards tab
+  and in `facilityCompletion.mjs`'s rules, which must agree) is undecided.
 
 ---
 

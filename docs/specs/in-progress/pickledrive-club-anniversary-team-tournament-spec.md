@@ -3,15 +3,23 @@
 > **Status: in progress.** Every rule is settled (§14). The public site
 > (§5–§6), the schedule board (§7), Control Center's `team` type (§9), the
 > registry entry (§10) and the operator runbook (§11) are built and were
-> checked against the test fixtures. The sync script is installed in the
-> event workbook, and `Kingcourts` has been publishing to
-> `event-data/pickledrive-anniversary-2026/` since 29 September, and the QR
-> image is committed. Still open: the short link, which the organiser owns and
-> did not yet redirect to the event page when last checked; the dry run; and setting
-> `pickledrive-anniversary-2026-day1`'s `isLive` back to `"auto"` in
-> `event-data/config/events.json`, where it is hardcoded `true` from
-> go-live testing. The event is **Saturday, 3 October 2026**. The template
-> (§15) follows the event.
+> checked against the test fixtures. The event ran on **Saturday, 3 October
+> 2026**, with `isLive` on `"auto"`: `Kingcourts` published 695 syncs with
+> live push on from 12:52 to 21:37, all 152 matches were played, and the
+> facility was stamped complete at 21:37. The event's pages now have live
+> push off (`LIVE_BASE_URL = ''`), as every finished event's do. What is
+> left is the template (§15).
+>
+> **The workbook was slow to read.** 161 of the day's 695 Sheets API reads
+> took 10–58 s (the rest about 0.3 s), which put `edit→published` at p50
+> 3.6 s but p90 27.3 s; the standard-format Piggleball workbook, on the same
+> service the same afternoon, stayed under 6 s. The likeliest cause is the
+> Sheets API waiting for the workbook's formulas to finish recalculating, so
+> the team workbook's formula load is the thing to trim before it becomes the
+> template (§15); the fix is written up in
+> [Team workbook recalculation](../not-started/team-workbook-stack-cache-spec.md).
+> Figures in
+> [Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026).
 >
 > **Naming divergence.** Everywhere a page shows a reader "Group 1", "Group 2"
 > or "Group 3" (this spec's wording), the built pages say **Bracket 1**,

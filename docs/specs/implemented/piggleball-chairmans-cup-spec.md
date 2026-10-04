@@ -1,24 +1,20 @@
 # Spec — Piggleball Chairman's Cup
 
-> **Status: in progress.** The site is built and committed:
-> `events/piggleball-2026/` has `index.html`, `schedule.html` and
-> `dry-run-checklist.md` (§3–§9). The `piggleball-2026` entry is in
-> `event-data/config/events.json` (§11). `assets/qr.png` is committed, and
-> live sync is running from the second workbook (§1) and has published its 60
-> matches to `event-data/piggleball-2026/data/piggleball-day1.json`. Still
-> open:
+> **Status: implemented.** The event ran on Saturday 3 October 2026. The
+> site (`events/piggleball-2026/`: `index.html`, `schedule.html`,
+> `dry-run-checklist.md` and the attendance desk page), its registry entry
+> (§11) and the QR image are built, and live sync ran from the second
+> workbook (§1) from 07:25 to 16:07, publishing 238 syncs with live push on.
+> The rosters were pasted in and `isLive` was back on `"auto"` for the day.
+> All 68 matches were published, the facility was stamped complete at 16:07,
+> and the event's pages now have live push off (`LIVE_BASE_URL = ''`), as
+> every finished event's do. Sync timings for the day are in
+> [Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026).
 >
-> - **Rosters (§13.1).** Every pair still shows its code (`ND_1`, …) as its
->   player names, so the names are yet to be pasted into the category tabs.
-> - **`isLive`.** Hardcoded `true` in `events.json` from go-live testing; set
->   it back to `"auto"` before the event.
-> - **The dry run (§13.4)**, due Friday 2 October. The event is Saturday
->   3 October.
->
-> §13.1's other findings (the `Court Control` `#REF!`, the IXD bronze
-> placeholder, the 56 match numbers) were made on the first workbook. The IXD
-> bronze rows are no longer in the second one (`STANDINGSCSV` has none); the
-> rest are unchecked there.
+> §13.1's IXD bronze (item 3) went as a walkover: the organiser scheduled it
+> as match #100, `IXD_B_1` against `IXD_B_2`, with the absent side's names
+> entered as `-` and a score of 11–0, not as a BYE. The Awards tab reads that
+> as an ordinary win; see the [Awards tab](awards-podium-tab-spec.md)'s §8.
 
 Build the event site for the **1st Piggleball Chairman's Cup**, a one-day
 open-entry pickleball tournament on **Saturday, 3 October 2026** at

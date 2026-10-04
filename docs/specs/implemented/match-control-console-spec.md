@@ -512,12 +512,13 @@ All reversible; say so if any is wrong:
 
 ## 10. Still open
 
-1. **Multi-facility rendering has no live test case.** `pnf-x-bup-dual-meet`
-   has one facility and `bkl-cup-2026`'s snapshots all 404, so the
-   per-facility grouping on the Live board cannot be exercised against real
-   data. Either build a fixture or accept that this path ships unverified
-   until an event with more than one venue runs. Flagging rather than
-   deciding, because it is a testing-cost question, not a design one.
+1. ~~**Multi-facility rendering has no live test case.**~~ Closed. Pickle for
+   Sight (27 September 2026) published two venues, PCPH Main and PCPH Annex,
+   into one snapshot, and the
+   [facility progress spec](facility-progress-spec.md)'s §5 checks ran the
+   console's per-facility Live board against it
+   (`?event=pickle-for-sight-2026&day=pickle-for-sight-day1`). That snapshot
+   stays published and is the multi-facility test case.
 
 ---
 

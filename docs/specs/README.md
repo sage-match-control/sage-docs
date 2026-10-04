@@ -149,6 +149,11 @@ to the `...` form rather than repointing it.
 - **[CLSO Pickle for Sight](implemented/pickle-for-sight-spec.md)** — the
   first standard-template event site: one day across two venues (PCPH Main
   and Annex), three divisions × three events. Ran 27 September 2026.
+- **[Piggleball Chairman's Cup](implemented/piggleball-chairmans-cup-spec.md)**
+  — the event site for NATFED's 1st Piggleball Chairman's Cup, part of the
+  Pig Sports Festival: one venue (Centro Atletico, 3 courts), Novice
+  Open Doubles plus Intermediate Men's and Mixed Doubles. Standard
+  template, re-skinned from the pubmat. Ran 3 October 2026.
 
 ---
 
@@ -156,17 +161,9 @@ to the `...` form rather than repointing it.
 
 - **[Team tournament](in-progress/pickledrive-club-anniversary-team-tournament-spec.md)** — a third
   event type for team events: named teams, four-match matchups, group
-  stage then playoffs. PickleDrive Club One Year Celebration, 3 October
-  2026. Site, schedule board, Control Center support, registry entry and
-  live sync and the QR image built; the short link, dry run and `isLive`
-  reset are open, and the template is extracted after the event.
-- **[Piggleball Chairman's Cup](in-progress/piggleball-chairmans-cup-spec.md)**
-  — the event site for NATFED's 1st Piggleball Chairman's Cup, part of the
-  Pig Sports Festival: one venue (Centro Atletico, 3 courts), Novice
-  Open Doubles plus Intermediate Men's and Mixed Doubles, 3 October
-  2026. Standard template, re-skinned from the pubmat. Site, registry
-  entry, QR image and live sync built; the rosters, `isLive` reset and
-  dry run are open.
+  stage then playoffs. PickleDrive Club One Year Celebration ran on
+  3 October 2026 on the hand-built prototype; the team template is
+  extracted from it next.
 - **[Live push delivery](in-progress/durable-object-push-spec.md)** — a
   Cloudflare Durable Object that pushes each snapshot to open pages over
   WebSockets, with GitHub kept as archive and fallback. Deployed and switched
@@ -188,6 +185,12 @@ to the `...` form rather than repointing it.
   channel and attendance client blocks, played/BYE, the team-event rules,
   team rosters, go-live) checked across its copies. No page changes. It
   provides the dry run's rendering layer.
+- **[Team workbook recalculation](not-started/team-workbook-stack-cache-spec.md)**
+  — why PickleDrive's workbook took 10–58 s to read on event day, and the
+  by-hand fix: a hidden `StackCache` tab the named functions read instead of
+  rebuilding `SCHEDULE`'s stacks thousands of times per edit, a leaner
+  matchup family, and the unused functions removed. Before the team
+  template.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger

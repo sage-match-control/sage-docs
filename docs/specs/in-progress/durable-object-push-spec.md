@@ -10,7 +10,11 @@
 > to the production Worker. Not done: the real-workbook checks in §11 (the
 > two-workbook race, stopwatch timings, **Force hidden**, the blocked-Worker
 > fallback, the 10-minute tab, the ping-count check, and the **Sync method**
-> switch with a real sign-in). Piggleball and PickleDrive have since finished
+> switch with a real sign-in). Both events ran on live push on 3 October
+> 2026: every one of their 933 syncs published to the Worker and archived to
+> GitHub, and the server side of the ~5 s target held at Piggleball
+> (`edit→published` p90 5.2 s) but not at PickleDrive (p90 27.3 s), whose
+> workbook's Sheets reads were slow (§11's notes). Piggleball and PickleDrive have since finished
 > (2026-10-03), and their four pages now carry `LIVE_BASE_URL = ''`; Control
 > Center and the two templates keep it set, so the open checks wait for the
 > next event's workbooks. The spec moves to `implemented/` when those are
@@ -1071,8 +1075,10 @@ a day), and its measurements are in §1.
 
 - [x] `node scripts/verify-sync-merge.mjs` passes (the Immediate sync scenarios and Phase 2's).
 - [ ] With `LIVE_PUSH_URL` unset, a real sync behaves exactly as before.
-- [ ] With it set, a real sync returns `live.published: true` and a new
-      GitHub commit (`archive.committed: true`).
+- [x] With it set, a real sync returns `live.published: true` and a new
+      GitHub commit (`archive.committed: true`). All 933 syncs of
+      3 October 2026 (Piggleball, PickleDrive) logged a `live` and an
+      `archive` time, and each has its commit in `event-data`.
 - [ ] **Concurrent race:** two facilities' syncs fired at the same moment —
       the final snapshot holds both facilities' new data.
 - [ ] Worker unreachable (wrong URL on a test revision) → sync still
@@ -1096,6 +1102,25 @@ a day), and its measurements are in §1.
 - [ ] Wall board keeps its scroll position across pushed updates.
 - [x] Every copy of the live-channel block is byte-identical
       (compare them with `diff`).
+
+**Notes from the 3 October 2026 events** (figures in
+[Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026)):
+
+- The server side of the ~5 s check: `edit→published` (measured when the
+  live publish succeeds) was p50 3.2 s, p90 5.2 s at Piggleball and p50
+  3.6 s, p90 27.3 s at PickleDrive. The Worker leg was 0.5–0.6 s at both.
+  PickleDrive's tail is its workbook: 161 of 695 Sheets API reads took
+  10–58 s. Production runs with `SHEETS_FETCH_TIMEOUT_MS=0` (no read
+  timeout), so those reads were waited out, and the 24 syncs that ran past
+  Apps Script's 30 s `fetchTimeoutSeconds` were sent a second time while the
+  first was still running. The page leg (push to screen) was not timed; the
+  stopwatch check still needs a person.
+- **Concurrent race:** still not run with two facilities, both events having
+  one venue. The same code path ran for real, though: overlapping syncs of
+  one facility (most likely a slow sync and Apps Script's resend of it) caused 2 live
+  version conflicts, both re-read and re-merged on the first retry, and 8
+  archive conflicts across the two events, all retried with the live
+  snapshot on the first attempt.
 
 ## 12. Rollout order and rollback
 

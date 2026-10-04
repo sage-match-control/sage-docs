@@ -175,6 +175,52 @@ short burst of four.
   Run's own `fetch` and `publish` were about 1.5 s: with `--min-instances 0`
   the first request after idle pays a cold start.
 
+#### Measured at two events: 3 October 2026
+
+Piggleball (`piggleball-day1`, one venue, 68 matches) and PickleDrive
+(`pickledrive-anniversary-2026-day1`, one venue, 152 matches, a `"team"`
+workbook) ran the same day, overlapping from 12:52 to 16:07 Manila time, with
+live push on. Figures are from Cloud Run's 933 `timing` lines for the day and
+the 936 archive commits in `event-data`.
+
+| Leg | Piggleball (238 syncs) | PickleDrive (695 syncs) |
+| --- | --- | --- |
+| `edit→request` | p50 2.2 s, p90 3.9 s, max 6.4 s | p50 2.2 s, p90 7.9 s, max 42.9 s |
+| `fetch` (Sheets API) | p50 0.3 s, p90 0.4 s, max 5.7 s | p50 0.3 s, p90 22.6 s, max 57.8 s |
+| `live` (Worker reads + publish) | p50 0.5 s, max 1.2 s | p50 0.6 s, max 1.1 s |
+| `archive` (GitHub commit) | p50 1.1 s, max 2.4 s | p50 1.2 s, max 2.8 s |
+| `edit→published` | p50 3.2 s, p90 5.2 s, max 8.8 s | p50 3.6 s, **p90 27.3 s**, max 62.8 s |
+
+- **PickleDrive's slow syncs are its workbook's Sheets API reads.** 161 of
+  its 695 reads took 10–58 s, spread across the afternoon (14:00–21:00); the
+  rest took about 0.3 s. Piggleball's reads, against the same Cloud Run
+  service in the same hours, never passed 5.7 s, so the service is not the
+  cause. The two-way split (0.3 s or 10 s and up, nothing between) is
+  consistent with the Sheets API waiting for the workbook to finish
+  recalculating before it returns values. 59 of the 62 slow `edit→request`
+  legs came straight after a slow read: the next sync queued behind it.
+- **Production runs with `SHEETS_FETCH_TIMEOUT_MS=0`**, which turns the
+  read's timeout off, so a slow read waits as long as Google takes rather
+  than retrying after 8 s. Apps Script's `UrlFetchApp` call gives up at 30 s
+  (`fetchTimeoutSeconds`) and `syncWithRetry_` sends the sync again 2 s
+  later while the first is still running: 24 PickleDrive syncs ran past
+  30 s.
+- **Conflicts resolved on their first retry.** 2 live version conflicts
+  (PickleDrive) and 8 archive commit conflicts (6 PickleDrive, 2 Piggleball),
+  none reaching a second attempt. No snapshot ever carried a
+  `failedFacilities` or `staleFacilities` entry.
+- **The two events never interfered.** 5 of their publishes landed within
+  1 s of each other's, and both carried on normally.
+- **Trigger runtime.** Estimated as each sync's settle plus its whole
+  server round trip (the lock holder blocks on `UrlFetchApp` throughout),
+  the day spent about 105 minutes on PickleDrive's syncs and 16 on
+  Piggleball's, before the non-holder `onEditInstallable` runs. That is over
+  a consumer account's 90-minute daily allowance, and syncs never stopped,
+  so the triggers' owners were either a Workspace account or more than one
+  account.
+- Every sync both published to the Worker and committed to GitHub, the
+  commit about 0.2 s after `publishedAt` (p50; 1.6 s at most).
+
 ### Facility completion
 
 Each facility in a published snapshot carries `syncedAt` (restamped on every
