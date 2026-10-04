@@ -72,7 +72,7 @@ the script writing them. That fixes the shape:
 
 What the generator needs that a person decides. The standard and dual-meet generators
 take a Tournament Calculator CSV; the calculator has no team format today, so either
-the calculator grows one (§8, Q1) or the sidebar takes everything.
+it grows one ([Calculator team format](calculator-team-format-spec.md); §8, Q1) or the sidebar takes everything.
 
 | Input | Notes |
 | --- | --- |

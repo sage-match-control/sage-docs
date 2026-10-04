@@ -191,6 +191,9 @@ to the `...` form rather than repointing it.
   channel and attendance client blocks, played/BYE, the team-event rules,
   team rosters, go-live) checked across its copies. No page changes. It
   provides the dry run's rendering layer.
+- **[Calculator team format](not-started/calculator-team-format-spec.md)** — a third Format option
+  in the Tournament Calculator: one team competition planned in matchups, with the group stage,
+  quarterfinal-to-final playoffs, slots and finish time worked out from teams, groups and courts.
 - **[Team tournament event-site template](not-started/team-tournament-template-spec.md)**
   — extract `_templates/team-tournament-template/` from PickleDrive's pages, S.A.G.E.-themed
   like the other two templates, with the event's constants generalised.

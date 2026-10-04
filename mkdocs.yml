@@ -109,6 +109,7 @@ nav:
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
+          - Calculator team format: specs/not-started/calculator-team-format-spec.md
           - Team tournament event-site template: specs/not-started/team-tournament-template-spec.md
           - Team Tournament Master: specs/not-started/team-tournament-master-spec.md
           - Team workbook recalculation: specs/not-started/team-workbook-stack-cache-spec.md
