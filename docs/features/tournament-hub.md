@@ -18,6 +18,8 @@ that tab is showing for the day. Type your pair's names into
 **Match Finder** and see your entire day at
 once — every round, every opponent, in schedule order — without scrolling
 past anyone else's matches. Search by either player's name or the full pair.
+Before you search, Match Finder lists every match of the day, in schedule
+order, so you can also just scroll to yours.
 
 Each match card ("ticket") shows:
 
@@ -115,8 +117,10 @@ Final, Bronze — then each bracket's matchups behind a collapsible heading.
 name. A team result lists every matchup that team plays, in schedule order,
 with the team on the left and *Next up* on its first matchup still to be
 played. A player result lists each match they play, each inside its matchup
-card with only their own match showing. With nothing typed, tapping a team
-in the list runs its search.
+card with only their own match showing. With nothing typed, Match Finder
+shows the teams, then every matchup of the day, ordered by match number: a
+matchup whose matches are #3, #8, #9 and #17 sits where #3 would. Tapping a
+team runs its search.
 
 **Teams.** A **Teams** tab lists every team's roster, grouped by bracket: one
 card per team with its name and player count, which opens to show the players

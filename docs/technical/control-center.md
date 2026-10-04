@@ -148,6 +148,20 @@ views (the tab buttons call it), and `revealLiveTabsAfterLoad()` calls
 `showView('organizer')` once a day loads, so the console opens on Mission
 Control.
 
+**Match Finder's empty state and number search.** With nothing searched,
+`renderIntro()` adds `allMatchesHTML()`: every non-bye match as a ticket in
+match-number order, built with `ticketHTML(m, null, false)`, where a `null`
+team code means a neutral ticket (team 1 on the left, no **You** badge). A
+team event's `teamRenderIntro()` lists every matchup card after its team
+chips through `allMatchupsHTML()`, sorted by `matchupFirstNum()` (the
+matchup's lowest match number, so #3/#8/#9/#17 sorts as 3) rather than
+trusting `TEAM_MATCHUPS`' insertion order, which follows the CSV's row order.
+PickleDrive's event page carries the same two functions. `runSearch()` first checks `MATCH_NUMBER_SEARCH_RE` (`42` or `#42`);
+a match number goes to `renderMatchByNumber()` (the ticket, or the matchup
+card with `onlyMatch`) and is not saved as the remembered search. The event
+pages carry the same `allMatchesHTML()` and neutral ticket, but not the
+number search.
+
 **How outcomes are shown.** Short outcomes go to `showToast(kind, text, key)`,
 a stack pinned to the top of the screen (newest first) (`#toastStack`, `aria-live`), so
 they are seen wherever the button sits: the go-live and sync-method switches

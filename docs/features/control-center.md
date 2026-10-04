@@ -200,7 +200,13 @@ reopens the venue, and it gets a new actual end when the score goes back in.
 Identical to Tournament Hub's Match Finder — search a pair's name, see
 their full day of matches with Live/Next Up flags and scores. Useful for an
 operator fielding "where's my match" questions without having to also pull up
-Tournament Hub itself.
+Tournament Hub itself. Before a search it lists every match of the day in
+match-number order (a team event: its team chips, then every matchup,
+ordered by its lowest match number).
+
+Control Center's search also takes a **match number**: type `42` or `#42`
+to see just that match (for a team event, its matchup card narrowed to that
+match). A number that isn't on the day says so.
 
 ## Standings
 
