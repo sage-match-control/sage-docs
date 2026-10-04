@@ -170,6 +170,12 @@ to the `...` form rather than repointing it.
   on; the real-workbook checks are still open.
   - **[Plain-language explainer](in-progress/durable-object-push-explainer.md)**
     — the same, without the implementation detail.
+- **[Score entry and scorer links](in-progress/control-center-score-entry-spec.md)**
+  — click a match in Match Finder, enter the scores, review (the winner named in large
+  text), save. The API writes the match's two `SCHEDULE` score cells, refuses if the
+  sheet changed meanwhile, and publishes at once. Scorer staff use the same dialog on a
+  per-event scorer page, through 24-hour links that a Mission Control switch can stop.
+  Built and tested against fakes; the real-workbook checks (§11.2) are still open.
 
 ---
 
@@ -185,12 +191,6 @@ to the `...` form rather than repointing it.
   channel and attendance client blocks, played/BYE, the team-event rules,
   team rosters, go-live) checked across its copies. No page changes. It
   provides the dry run's rendering layer.
-- **[Score entry and scorer links](not-started/control-center-score-entry-spec.md)**
-  — click a match in Match Finder, enter the scores, review (the winner named in large
-  text), save. The API writes the match's two `SCHEDULE` score cells,
-  refuses if the sheet changed meanwhile, and publishes at once. Scorer staff
-  use the same dialog on a per-event scorer page, through 24-hour links
-  that a Mission Control switch can stop.
 - **[Team workbook recalculation](not-started/team-workbook-stack-cache-spec.md)**
   — why PickleDrive's workbook took 10–58 s to read on event day, and the
   by-hand fix: a hidden `StackCache` tab the named functions read instead of

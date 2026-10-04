@@ -14,7 +14,9 @@ Either way, `sage-tools-api` writes the scores into that match's two score
 cells in the facility workbook's `SCHEDULE` tab (the cells a scorer types into
 by hand), then publishes the day at once.
 
-> **Status: not started.** Nothing here is built. Written 2026-10-05 against
+> **Status: in progress.** Built and tested against fakes (`sage-tools-api` 2.8.0,
+> Control Center, the scorer template, the docs); the real-Google checks in §11.2
+> (C1–C8) have not run, and no event has `"scoreEntry"` set yet. Written 2026-10-05 against
 > `sage-tools-api` 2.7.1, `sage-match-control.github.io`'s
 > `tools/control-center.html` and templates, and `event-data`'s
 > `config/events.json` as of that date. **Every decision is settled (§1).**

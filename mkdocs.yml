@@ -105,9 +105,9 @@ nav:
           - Team tournament: specs/in-progress/pickledrive-club-anniversary-team-tournament-spec.md
           - Live push delivery: specs/in-progress/durable-object-push-spec.md
           - Live push delivery - explainer: specs/in-progress/durable-object-push-explainer.md
+          - Score entry and scorer links: specs/in-progress/control-center-score-entry-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
-          - Score entry and scorer links: specs/not-started/control-center-score-entry-spec.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Team workbook recalculation: specs/not-started/team-workbook-stack-cache-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
