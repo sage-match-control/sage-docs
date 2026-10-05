@@ -115,5 +115,7 @@ nav:
           - Team Tournament Master: specs/not-started/team-tournament-master-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - sage-tools-api architecture hardening: specs/not-started/sage-tools-api-architecture-spec.md
-          - Fast data delivery: specs/not-started/fast-data-delivery-spec.md
-          - Fast data delivery - explainer: specs/not-started/fast-data-delivery-explainer.md
+      - Archived:
+          - Overview: specs/archived/README.md
+          - Fast data delivery: specs/archived/fast-data-delivery-spec.md
+          - Fast data delivery - explainer: specs/archived/fast-data-delivery-explainer.md

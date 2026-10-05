@@ -24,7 +24,7 @@
 > `sage-match-control.github.io` pages as of that date.
 >
 > **This is one of two alternative designs.** The other is
-> [Fast data delivery](../not-started/fast-data-delivery-spec.md) (Cloudflare R2
+> [Fast data delivery](../archived/fast-data-delivery-spec.md) (Cloudflare R2
 > behind a CDN, pointer polling), which this one supersedes. Build one, not
 > both.
 >

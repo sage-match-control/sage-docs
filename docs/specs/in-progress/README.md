@@ -9,8 +9,8 @@ partway through, a feature shipped on one surface but not the other, or
 something written and working locally but not committed or deployed. It does
 not stay here: when the rest lands it moves to
 [`../implemented/`](../implemented/README.md); if the work is abandoned, the
-built parts get their own spec and the rest goes back to
-[`../not-started/`](../not-started/README.md).
+built parts get their own spec and the rest goes to
+[`../archived/`](../archived/README.md).
 
 Index and status-change procedure: [`../README.md`](../README.md).
 

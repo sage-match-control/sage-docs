@@ -1,6 +1,6 @@
 # Spec — Fast data delivery
 
-> **Status: superseded, not going to be built.** [Live push delivery](../in-progress/durable-object-push-spec.md)
+> **Status: archived — superseded, not going to be built.** [Live push delivery](../in-progress/durable-object-push-spec.md)
 > was chosen and built instead; this spec is kept for its reasoning and its
 > measurements. It was written as "not started, with one exception".
 >

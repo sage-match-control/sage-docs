@@ -16,11 +16,12 @@ By **build status**, one subfolder each:
 | [`implemented/`](implemented/README.md) | Built and in use. Read these to understand something that exists |
 | [`in-progress/`](in-progress/README.md) | Partly built — some of it is running, some isn't. Read the spec's own status line for which |
 | [`not-started/`](not-started/README.md) | Nothing built. These are proposals and plans |
+| [`archived/`](archived/README.md) | Will not be built: superseded or dropped. Kept for their reasoning |
 
 ### Citing a spec
 
 A spec's status folder is **not part of its identity.** Filenames are unique
-across all three folders, and that is what lets a spec change status without
+across all four folders, and that is what lets a spec change status without
 breaking every reference to it.
 
 | Citing from | Write |
@@ -209,9 +210,14 @@ to the `...` form rather than repointing it.
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger
   is tested too. Its rendering checks come from the site test suite.
-- **[Fast data delivery](not-started/fast-data-delivery-spec.md)** — replacing
+
+---
+
+## Archived
+
+- **[Fast data delivery](archived/fast-data-delivery-spec.md)** — replacing
   the GitHub Pages build step in the live data path with Cloudflare R2, and
   full-payload polling with pointer polling. **Superseded** by Live push
   delivery, which was built instead; it will not be built.
-  - **[Plain-language explainer](not-started/fast-data-delivery-explainer.md)**
+  - **[Plain-language explainer](archived/fast-data-delivery-explainer.md)**
     — the same, without the implementation detail.

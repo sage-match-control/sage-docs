@@ -16,7 +16,7 @@
 > **Stands alone.** Build this on its own; it makes today's GitHub-based
 > pipeline faster and stops it losing updates. It is also the prerequisite
 > for both delivery designs, [Live push delivery](../in-progress/durable-object-push-spec.md)
-> and [Fast data delivery](../not-started/fast-data-delivery-spec.md), which build on the
+> and [Fast data delivery](../archived/fast-data-delivery-spec.md), which build on the
 > code this spec adds.
 
 Make a facility sheet's edit reach Cloud Run within about two seconds instead
@@ -666,7 +666,7 @@ workbooks. To undo Part 1, revert the commit and push.
 ## 8. What the delivery specs build on
 
 [Live push delivery](../in-progress/durable-object-push-spec.md) and
-[Fast data delivery](../not-started/fast-data-delivery-spec.md) both assume this spec is
+[Fast data delivery](../archived/fast-data-delivery-spec.md) both assume this spec is
 built. They rely on, by name:
 
 - `facilities[].lastEditAt` and the `timing` object in the sync response;

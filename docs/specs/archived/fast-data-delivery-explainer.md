@@ -4,7 +4,7 @@
 file is for understanding what the project does and why; it has no
 instructions an implementer should follow — read the spec for that.*
 
-*Superseded: Live push delivery was chosen and built instead; this plan will not be built.*
+*Archived — superseded: Live push delivery was chosen and built instead; this plan will not be built.*
 
 *This is one of two alternative plans for the same problem. The other is
 [Live push delivery](../in-progress/durable-object-push-explainer.md), which pushes each
