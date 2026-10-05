@@ -210,6 +210,10 @@ to the `...` form rather than repointing it.
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger
   is tested too. Its rendering checks come from the site test suite.
+- **[Court Control from Control Center](not-started/control-center-court-control-spec.md)**
+  — outline only: an operator puts a match on a court, or clears it, from Live
+  Matches, through the same write-then-publish path as score entry. Waits for
+  score entry's real-workbook checks.
 
 ---
 

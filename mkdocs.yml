@@ -115,6 +115,7 @@ nav:
           - Team Tournament Master: specs/not-started/team-tournament-master-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - sage-tools-api architecture hardening: specs/not-started/sage-tools-api-architecture-spec.md
+          - Court Control from Control Center: specs/not-started/control-center-court-control-spec.md
       - Archived:
           - Overview: specs/archived/README.md
           - Fast data delivery: specs/archived/fast-data-delivery-spec.md
