@@ -16,6 +16,8 @@ each page here.
   event registry, the live-delivery path (the live push Worker, the
   GitHub archive and polling fallback, the operator switch), and how score
   entry writes a score and publishes it.
+- **[API](api.md)** — the one REST surface, `/v3`, its conventions, errors and
+  routes, and the frozen legacy and `/v1` URLs it replaces for new clients.
 - **[Scoresheet pipeline](scoresheet-pipeline.md)** — CSV → Handlebars →
   Chromium → merged PDF.
 - **[Auth](auth.md)** — the operator sign-in, how it interacts with the

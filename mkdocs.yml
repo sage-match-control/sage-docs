@@ -57,6 +57,7 @@ nav:
       - Overview: technical/README.md
       - Architecture: technical/architecture.md
       - Sync pipeline: technical/sync-pipeline.md
+      - API: technical/api.md
       - Scoresheet pipeline: technical/scoresheet-pipeline.md
       - Auth: technical/auth.md
       - Deployment: technical/deployment.md
