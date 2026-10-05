@@ -285,9 +285,15 @@ Unchanged in behaviour, but scoped to the selected event:
 **One sign-in covers every event.** The console has an operator sign-in form
 (username + password, one shared combo for the whole team) that calls `POST
 /auth/login`. The API checks the pair against a stored hash and returns a
-short-lived signed token; the console holds that token in `sessionStorage`
-under a single `sage.authToken` key (not per event), never the credentials
-or the raw `SYNC_SHARED_SECRET`. Signed-out operators still get read access —
+short-lived signed token; the console holds that token under a single
+`sage.authToken` key (not per event), never the credentials or the raw
+`SYNC_SHARED_SECRET`. In a browser tab the key lives in `sessionStorage`, so
+closing the tab signs out. Installed as an app (`display-mode: standalone`)
+it lives in `localStorage` instead: iOS starts a fresh session whenever it
+reloads a home-screen app it dropped from memory, which would clear
+`sessionStorage` and sign the operator out long before the token expires.
+Either way the token's own expiry ends the sign-in, and **Sign out** clears
+both stores. Signed-out operators still get read access —
 schedule, live matches, standings, match finder — and only the actions
 (resync, go-live override) are gated on the token. See
 `sage-tools-api/src/auth/AuthService.mjs`.
