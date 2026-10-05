@@ -25,7 +25,7 @@ each page here.
 
 ## Bound Apps Script (in `sage-tools-api`, but not the API)
 
-All four live in `sage-tools-api/scripts/` for versioning, run inside a
+All four live in `sage-tools-api/apps-script/` for versioning, run inside a
 Google Sheet, and ship by being pasted into that sheet's own script project —
 changing any of them is not a deploy.
 

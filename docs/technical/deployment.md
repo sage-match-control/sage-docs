@@ -14,9 +14,10 @@ to `main` builds and deploys the new revision automatically; nobody runs
 npm start
 ```
 
-Runs `node index.mjs` on `PORT` (default 8080) over h2c with HTTP/1.1
-fallback. Copy `.env.example` to `.env` first — it documents every
-variable. Secrets (`GITHUB_TOKEN`, `SYNC_SHARED_SECRET`,
+Runs `node index.mjs` on `PORT` (default 8080) over h2c (cleartext HTTP/2:
+Cloud Run talks h2c to the container, and a cleartext HTTP/1.1 client cannot
+connect, so a local check needs an h2c client such as Node's `http2`). Copy
+`.env.example` to `.env` first — it documents every variable. Secrets (`GITHUB_TOKEN`, `SYNC_SHARED_SECRET`,
 `GOOGLE_SHEETS_API_KEY`, `AUTH_PASSWORD_HASH`, `AUTH_TOKEN_SECRET`) are
 Cloud Run env vars in production and must never be committed.
 `AUTH_PASSWORD_HASH` is generated locally with
@@ -24,7 +25,43 @@ Cloud Run env vars in production and must never be committed.
 [Auth](auth.md).
 
 ESM throughout (`"type": "module"`, `.mjs` files, classes, constructor
-injection). No TypeScript, no build step, no test suite, no linter.
+injection). No TypeScript, no build step, no linter.
+
+### Startup validation
+
+`src/config/loadConfig.mjs` is the only reader of the environment. A value is
+trimmed, and a blank one counts as unset. A number must be a whole number inside
+its range (`PORT` 1–65535; `SCORESHEET_CONCURRENCY`, `AUTH_TOKEN_TTL_MS` and
+`LIVE_PUSH_TIMEOUT_MS` at least 1; `SYNC_CONFIG_TTL_MS` and
+`SHEETS_FETCH_TIMEOUT_MS` at least 0, where 0 disables the timeout), and
+`LIVE_PUSH_URL` an `http` or `https` URL. A variable that is set but unusable
+stops the service before it listens, with a message that names every bad one:
+
+```
+Invalid environment:
+  - SHEETS_FETCH_TIMEOUT_MS: "abc" must be a whole number at least 0
+```
+
+An unset secret does not stop it: it turns its feature off (or makes it fail
+closed), and one `warn` line at startup, `Environment: not set, so what they
+enable is off or fails closed: …`, names what is unset. Check the Cloud Run
+logs for that line after a deploy and confirm it names nothing unexpected. A new
+variable is added in `loadConfig.mjs`, in `.env.example` and in
+`test/unit/config/loadConfig.test.mjs`.
+
+### Tests
+
+From `sage-tools-api/`:
+
+```bash
+npm test
+```
+
+runs the unit and integration suite (Node's built-in runner, no network).
+`npm run verify` runs it plus the per-folder coverage thresholds
+(`npm run test:coverage`) and the three Apps Script harnesses
+(`npm run test:appscript`). Run `npm test` before every commit and
+`npm run verify` before every push to `main`; a pre-push hook runs the suite.
 
 ## Cloud Run deploy
 

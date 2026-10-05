@@ -1315,13 +1315,13 @@ Replace with:
 **d. `sage-docs/docs/technical/README.md`** — find:
 
 ```markdown
-All three live in `sage-tools-api/scripts/` for versioning, run inside a
+All three live in `sage-tools-api/apps-script/` for versioning, run inside a
 ```
 
 Replace with:
 
 ```markdown
-All four live in `sage-tools-api/scripts/` for versioning, run inside a
+All four live in `sage-tools-api/apps-script/` for versioning, run inside a
 ```
 
 Then find:

@@ -184,8 +184,8 @@ to the `...` form rather than repointing it.
   per-event scorer page, through 24-hour links that a Mission Control switch can stop.
   Built and tested against fakes; the real-workbook checks (§11.2) are still open.
 - **[sage-tools-api architecture hardening](in-progress/sage-tools-api-architecture-spec.md)** —
-  revised against 2.8.0. Phase 1 (folder moves, 2.8.1) is built on a branch,
-  not merged. The service moves to ports-and-adapters, checked
+  revised against 2.8.0. Phases 1–2 (folder moves; hardening and one composition root) are built on a branch, not merged.
+  The service moves to ports-and-adapters, checked
   against SOLID. The conflict retry is written once, behind two delivery
   strategies and a `SnapshotPublisher` selector. There is one error handler, one auth-middleware module,
   and a validated config with a composition root that the tests share.

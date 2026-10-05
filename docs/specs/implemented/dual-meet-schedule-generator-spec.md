@@ -39,7 +39,7 @@ whole event's tabs from a CSV the Tournament Time Calculator exports.
 | The live sync that reads `SCHEDULE` | `sage-tools-api/apps-script/sheets-sync.gs` |
 | The calculator that writes the plan CSV | `sage-match-control.github.io/tools/tournament-calculator.html` |
 
-`sage-tools-api/scripts/*.gs` is **not** part of the Cloud Run service. It
+`sage-tools-api/apps-script/*.gs` is **not** part of the Cloud Run service. It
 ships by pasting into a spreadsheet's own bound script project. Changing it
 is not a deploy, and does **not** bump `package.json`.
 

@@ -56,7 +56,7 @@ writes](sync-pipeline.md#score-entry-writes) and [scorer page](scorer-page.md).
 
 ## A fourth kind of code: bound Apps Script
 
-`sage-tools-api/scripts/` holds Google Apps Script that is versioned in that
+`sage-tools-api/apps-script/` holds Google Apps Script that is versioned in that
 repo but is **not part of the service** and never runs on Cloud Run. It ships
 by being pasted into a spreadsheet's own bound script project, so changing
 one is not a deploy and doesn't bump the API version.
@@ -73,6 +73,46 @@ pipeline, while the two generators touch no server at all and only prepare
 the workbook that pipeline will later read from. Both generators also add
 an empty `ATTENDANCE` tab in the format the API fills. A generated workbook
 carries `sheets-sync.gs` and one of the two generators, never both.
+
+## How `sage-tools-api` is put together
+
+One process, sliced by feature (`src/sync/`, `src/attendance/`, `src/scores/`,
+`src/scoresheets/`, `src/auth/`), with the code every feature shares in its own
+folders and one place where everything is wired.
+
+| Where | What |
+| --- | --- |
+| `index.mjs` | Reads the version, loads the config, calls `createApp`, starts the server. Nothing else. |
+| `src/app.mjs` | `createApp(config, { logger, version })` builds every client, store and service, and `createRouters` builds every router and says where it is mounted. The tests call the same functions, so the wiring is written once. The scoresheet pipeline is still imported lazily, on the first scoresheet request. |
+| `src/config/loadConfig.mjs` | The only reader of the environment: it turns it into a validated, frozen config. |
+| `src/server/` | `Server` (middleware order, `/ping`, `/openapi.json`, mounting the routers it is given, the error handler last), `cors`, `errorHandler`, `asyncHandler`. It imports no feature. |
+| `src/auth/middleware.mjs` | Every Express auth check (see [Auth](auth.md#where-the-checks-live)). |
+| `src/clients/` | Every class that calls an outside service: GitHub, the live Worker, Google Sheets. |
+| `src/registry/` | The event registry (`events.json`): loading, caching, validating it and writing its three switches. Sync, attendance and score entry all read it. |
+| `src/<feature>/domain/` | Each feature's pure functions: no I/O, no Express, no clients. |
+| `src/shared/` | `Logger`, `ConcurrencyPool`, the error classes, `parseCsv`, the constant-time `safeEqual`, and `ports.mjs`, the interfaces the parts depend on, written as JSDoc typedefs. |
+
+**Errors.** Every error is an `AppError` carrying the HTTP status it answers
+with and a stable machine-readable `code`. A route handler throws; the one
+`errorHandler` turns the error into `{ error, code }` (plus any extra member
+the error carries, such as a score conflict's `current`) with that status,
+logs it once, and adds `WWW-Authenticate` to a 401. A foreign error with a 4xx
+status, such as body-parser's malformed-JSON error, answers `400 bad_request`;
+anything else is `500 internal_error`. Once a streaming route has sent its
+headers the error handler writes nothing, because the route already wrote its
+own error line.
+
+**Configuration.** `loadConfig` reads every variable as trimmed text, with a
+blank value counting as unset. A number outside its range, or a URL that is not
+`http` or `https`, stops the service at startup with one message naming every
+bad variable. An unset secret does not: it turns its feature off, and a single
+startup log line names what is unset. [Deployment](deployment.md#local-development)
+lists the rules.
+
+**Dependency rules.** A guard test fails the build when a module breaks one.
+Two hold in every phase of the restructuring: a ports file holds JSDoc
+typedefs and nothing else, and `process.env` is read only in
+`src/config/loadConfig.mjs`.
 
 ## Why the registry lives in `event-data`, not in code
 

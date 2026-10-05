@@ -5,7 +5,7 @@ exported **text files**, one per category, instead of typing every pair into
 each category tab's `STEP 1 · NAMES` column and then hand-shuffling
 `STEP 3 · RANDOMIZED CODES`.
 
-> **Status: built.** §9, §11 and §12 are all in `sage-tools-api/scripts/` and
+> **Status: built.** §9, §11 and §12 are all in `sage-tools-api/apps-script/` and
 > every harness is green — §9.8's 31 checks, §12's 13, and both verify
 > scripts. §9 remains a ready-to-apply guide: exact insertions, anchored on
 > quoted text, with a runnable check after each, which is also how a change to
@@ -43,7 +43,7 @@ and its two surviving ideas are recorded here, in §11 and §12.
 
 ## 0. Who does what
 
-**Implementer (§9).** Three files, all in `sage-tools-api/scripts/`:
+**Implementer (§9).** Three files, all in `sage-tools-api/apps-script/`:
 
 | File | Change |
 | --- | --- |

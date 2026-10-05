@@ -18,6 +18,31 @@ The hash itself is generated **locally**, offline, via
 credentials never touch an env var or the deployed service; only the hash
 does.
 
+## Where the checks live
+
+Every Express auth check is in `src/auth/middleware.mjs`; no route file has its
+own. `createAuthMiddleware({ authService, syncSharedSecret })` returns four
+checks, and each one calls `next()` on success, setting `req.actor`, and
+passes an `UnauthorizedError` to the error handler otherwise (the 401 body and
+its `WWW-Authenticate` header come from there):
+
+| Check | Accepts | `req.actor` |
+| --- | --- | --- |
+| `requireOperator` | an operator bearer token | `{ kind: "operator" }` |
+| `requireOperatorOrSyncSecret` | an operator token, or the `X-Sync-Secret` header | `{ kind: "operator" }` for a token |
+| `requireOperatorOr("desk")` | an operator token, or a desk token | `{ kind: "desk", day }` for a desk token |
+| `requireOperatorOr("scorer")` | an operator token, or a scorer token | `{ kind: "scorer", day }` for a scorer token |
+
+A desk or scorer token is not an operator token, and an operator token is not a
+scoped one, so the wrong kind gets the same 401 as no token. A new token scope is
+one entry in the middleware's scope map beside its `AuthService` issue and verify
+pair.
+
+The shared secret is compared in constant time (`src/shared/safeEqual.mjs`: both
+sides are hashed with SHA-256 and compared with `timingSafeEqual`, so neither
+the content nor the length leaks). A secret that is not configured never matches,
+not even an empty header.
+
 ## Two auth paths, by design
 
 `POST /sync/:day` accepts **either** the raw shared secret
