@@ -189,9 +189,14 @@ to the `...` form rather than repointing it.
 ## Not started
 
 - **[sage-tools-api architecture hardening](not-started/sage-tools-api-architecture-spec.md)** —
-  after the test suite: SOLID-aligned structure for the sync code, one error and
-  config path, `/v1` resource-style routes with every existing URL kept, and a
-  cleaner folder layout. `/ping` unchanged.
+  revised against 2.8.0. The service moves to ports-and-adapters, checked
+  against SOLID. The conflict retry is written once, behind two delivery
+  strategies and a `SnapshotPublisher` selector. There is one error handler, one auth-middleware module,
+  and a validated config with a composition root that the tests share.
+  Outbound clients and the event registry get their own folders. Release
+  3.0.0 adds one REST surface, `/v3`, with a twin of every route (legacy and
+  `/v1`), and every client moves onto it. Every existing URL is kept, frozen.
+  `/ping` is unchanged.
 - **[Site test suite](not-started/site-test-suite-spec.md)** — Control
   Center, the current event pages and the attendance desk pages tested in a
   real browser on fixture data, with every hand-copied rule (the live
