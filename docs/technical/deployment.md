@@ -202,7 +202,8 @@ running Cloud Run instance within `SYNC_CONFIG_TTL_MS` (~60s default). See
   `@openapi` JSDoc blocks above each route handler — never hand-maintained,
   so it can't drift from the actual routes. Public, no auth. Importable
   straight into Postman via **Import → Link**.
-- `GET /sync/config` (secret- or token-gated) — full diagnostic view of the
+- `GET /v3/diagnostics/sync` (secret- or token-gated; legacy `GET /sync/config`,
+  which workbooks made before 3.0.0 call during setup) — full diagnostic view of the
   currently-loaded event registry, plus `live: { enabled, baseUrl }` for live
   push.
 - `GET <worker>/health` — the live Worker's health check.

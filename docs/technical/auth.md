@@ -6,7 +6,8 @@ One shared operator login, not per-user accounts — `sage-tools-api/src/auth/`.
 
 `AuthService.mjs` hashes `"username:password"` **together** as one string,
 never a separate username field — there's exactly one operator identity,
-shared by whoever's running the console. `POST /auth/login` checks the
+shared by whoever's running the console. Signing in (`POST /v3/sessions`, which
+Control Center calls; the frozen legacy `POST /auth/login` answers the same) checks the
 submitted credentials against `AUTH_PASSWORD_HASH` (an env var — never the
 plaintext credentials themselves) and, on success, issues a short-lived
 HMAC-signed token (no JWT library) instead of handing back the sync secret
@@ -45,15 +46,19 @@ not even an empty header.
 
 ## Two auth paths, by design
 
-`POST /sync/:day` accepts **either** the raw shared secret
+A sync (`POST /v3/days/{day}/syncs` or `…/facilities/{facility}/syncs`, and the
+frozen legacy `POST /sync/:day` that workbooks made before 3.0.0 call) accepts
+**either** the raw shared secret
 (`X-Sync-Secret` header) **or** an operator's bearer token. This is
 deliberate, not redundant: Apps Script (the thing calling this endpoint on
 every sheet edit) has no browser to sign into, so it authenticates with the
 raw secret directly; Control Center authenticates with the
-token it got from signing in. Same for `GET /sync/config`.
+token it got from signing in. Same for `GET /v3/diagnostics/sync` (legacy
+`GET /sync/config`).
 
-`POST /sync/:day/live` (the go-live override) and `POST /sync/live-push`
-(the live push switch) accept the **operator token only** — no shared-secret
+`PUT /v3/days/{day}/visibility` (the go-live override) and
+`PUT /v3/settings/live-push` (the live push switch), like their legacy twins
+`POST /sync/:day/live` and `POST /sync/live-push`, accept the **operator token only** — no shared-secret
 fallback, since Apps Script never calls these endpoints. This is what makes
 the shared secret safe to bake into 15+ installed Apps Script projects: it
 can only ever trigger a data sync, never flip the public site's visibility or
@@ -75,7 +80,9 @@ setting is `"desks"`.
   and `verify()` rejects any token with one, as a second guard.
 - It is therefore a 401 on every `/sync/*` route and on the operator-only
   attendance routes (issuing desk links, updating the roster).
-- Only an operator can issue one: `POST /v1/days/:day/attendance/desk-links`.
+- Only an operator can issue one: `POST /v3/days/{day}/attendance/desk-links`.
+  (Every attendance and score route named here also answers at its frozen
+  `/v1` twin, with the same auth.)
 
 See [event attendance](event-attendance.md).
 
@@ -90,16 +97,16 @@ carries a day and expires 24 hours after it is issued, not at the end of the day
 - It never verifies as an operator token or a desk token, and neither of those
   verifies as a scorer token: the signatures differ by key, and `verify()` also
   rejects any payload carrying a `scope`.
-- The score route (`PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score`)
+- The score route (`PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score`)
   is the only route that accepts it. Every other route, including attendance's and
   every `/sync/*` route, answers 401. A scorer can enter, correct, clear and replace on
   a conflict, exactly as an operator can, and nothing else.
-- Only an operator can issue one: `POST /v1/days/:day/scores/scorer-links`. It is refused
+- Only an operator can issue one: `POST /v3/days/{day}/scores/scorer-links`. It is refused
   once the day is over (06:00 Manila the morning after its `date`) and while the event's
   scoring setting is `"console"`.
 - **The switch.** Each use of the score route checks the event's `scoreEntry`: a scorer
   token is accepted only while it is `"links"`, and only for its own day. Mission Control's
-  **Accepting / Stopped** switch (`PUT /v1/events/:event/score-entry`, operator token only)
+  **Accepting / Stopped** switch (`PUT /v3/events/{event}/score-entry`, operator token only)
   moves the event between `"links"` and `"console"` in `events.json`, so **Stopped**
   refuses every scorer save with a 403 and every new link, within `SYNC_CONFIG_TTL_MS`
   (about a minute), without waiting for tokens to expire. Moving back to **Accepting**

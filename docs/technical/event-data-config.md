@@ -69,7 +69,7 @@ default).
   links (see [Scorer page](scorer-page.md)). Absent means off. Anything else is
   rejected on load. Mission Control's **Scorer links** switch moves an event between
   `"links"` and `"console"` by writing this value (`PUT
-  /v1/events/:event/score-entry`); it never turns score entry on or off, so adding
+  /v3/events/{event}/score-entry`); it never turns score entry on or off, so adding
   the setting is a commit here. Every facility workbook of the event must be shared
   with the API's service account as **Editor**, as for attendance, or a save fails
   with a message naming the account.
@@ -97,7 +97,7 @@ bundled fallback seed) rather than partially applying a broken commit:
   become path segments/filenames, so an invalid key is refused rather than
   sanitized.
 - Day keys must be **globally unique across every event** — a day key is
-  also the `/sync/:day` route, so two events sharing one would race to
+  also a path segment of every sync (`/v3/days/{day}/…`), so two events sharing one would race to
   publish into each other's data.
 - Each day needs a non-empty `label` and a `facilities` array (can be
   empty).
@@ -113,7 +113,7 @@ bundled fallback seed) rather than partially applying a broken commit:
 - At least one event, each with at least one day.
 
 If unsure whether an edit is valid before committing, check `GET
-/sync/config` (`X-Sync-Secret` header) after committing — it reports which
+/v3/diagnostics/sync` (`X-Sync-Secret` header) after committing — it reports which
 config revision is actually live, and whether the service fell back to its
 bundled seed because the commit failed validation.
 

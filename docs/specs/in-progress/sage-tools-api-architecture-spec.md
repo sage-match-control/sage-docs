@@ -1,8 +1,16 @@
 # Spec — `sage-tools-api` architecture hardening (tests first)
 
-> **Status: in progress.** Phases 1 to 5 (folder moves, 2.8.1; hardening and one composition root, 2.8.2; one retry loop, a store interface and domain extraction, 2.8.3; delivery strategies and the `SyncService` split, 2.8.4; the `/v3` API, 3.0.0) are built and tested
-> on the branch `arch-refactor` of `sage-tools-api`; nothing is merged or
-> deployed, and Phases 6–8 are not started. Last revised 2026-10-05
+> **Status: in progress.** Phases 1 to 5 (folder moves, 2.8.1; hardening and one composition root, 2.8.2; one retry loop, a store interface and domain extraction, 2.8.3; delivery strategies and the `SyncService` split, 2.8.4; the `/v3` API, 3.0.0) are merged and
+> deployed: Cloud Run serves 3.0.0 since 2026-10-06. Phase 6's code is merged:
+> the site (Control Center, the scoresheet generator, every copy of the
+> `ATTENDANCE CLIENT` and `SCORE CLIENT` blocks) calls `/v3`, and the repo's
+> `sheets-sync.gs` calls `/v3`, checked by `verify-sheets-sync.mjs`. Left of
+> Phase 6: pasting that script into the two masters, checking a fresh copy of
+> each, and the production acceptance in §6.6. Phase 7's docs and root
+> `CLAUDE.md` rules are done and the workspace is a local repo; the
+> build-trigger filter and the workspace's GitHub repo are the owner's.
+> Phase 8's decision record is written and awaits the owner's decision.
+> Last revised 2026-10-06; before that 2026-10-05
 > against `sage-tools-api` **2.8.0** (`main` at `daad5a4`, score entry), where
 > `npm test` runs 957 tests, all passing. Earlier revisions were written
 > against 2.5.0 (2026-10-01/02) and 2.7.0 (2026-10-03).

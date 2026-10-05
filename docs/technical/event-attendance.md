@@ -13,7 +13,7 @@ The earlier, Pickle for Sight design is at the end of this page.
 Control Center "Attendance" tab          events/<key>/attendance.html (desk page, "desks" mode)
         |   the same ATTENDANCE CLIENT block in both
         | read:  ATTENDANCE tab CSV export (gviz), every 10 s while visible
-        | write: PUT /v1/days/{day}/facilities/{facility}/attendance/{key}
+        | write: PUT /v3/days/{day}/facilities/{facility}/people/{personKey}/attendance
         |        Authorization: Bearer <operator token | desk token>
         v
 sage-tools-api   src/attendance/
@@ -23,7 +23,7 @@ sage-tools-api   src/attendance/
 Facility workbook -- ATTENDANCE tab
         ^
         | after every sync of a facility, only when the roster changed
-POST /sync/:day (Apps Script, unchanged) -- SyncService -- onFacilitiesSynced hook
+a sync (Apps Script or Control Center) -- SyncService -- onFacilitiesSynced hook
 ```
 
 The live Worker is not used: its channel is public.
@@ -96,15 +96,22 @@ marking different people write different rows.
 
 ## Routes
 
-Mounted at `/v1` (`src/attendance/routes.mjs`):
+Mounted at `/v3` (`src/attendance/routes.mjs`), which every page calls:
 
 | Route | Auth |
 | --- | --- |
-| `PUT /v1/days/:day/facilities/:facility/attendance/:key`, body `{ present }` | operator token, or a desk token |
-| `POST /v1/days/:day/attendance/desk-links` | operator token only |
-| `POST /v1/days/:day/attendance/reconciliations`, optional `?facility=` | operator token only |
+| `PUT /v3/days/{day}/facilities/{facility}/people/{personKey}/attendance`, body `{ present }` | operator token, or a desk token |
+| `POST /v3/days/{day}/attendance/desk-links` | operator token only |
+| `POST /v3/days/{day}/attendance/reconciliations`, optional body `{ facility }` | operator token only |
 
-CORS allows `PUT`. Errors are `{ error }` in words, never raw Google JSON.
+Each has a frozen `/v1` twin (`PUT /v1/days/:day/facilities/:facility/attendance/:key`,
+`…/desk-links`, `…/reconciliations?facility=`) that copies of the pages from
+before 3.0.0 call; it answers the same, with the plain `{ error, code }` body
+instead of problem details and `400` instead of `404` for an unknown day or
+facility ([API](api.md)).
+
+CORS allows `PUT`. Errors carry `error` in words (inside a problem details body
+on `/v3`), never raw Google JSON.
 
 ## Writing to the workbook
 

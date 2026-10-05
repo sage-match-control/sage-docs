@@ -112,15 +112,22 @@ scroll positions survive the re-render that every update triggers (a pushed snap
 own section below.
 
 **Mission Control** — see [Mission Control usage](../features/control-center.md#mission-control)
-for what it does; scoped to whichever event is selected. The go-live states are `auto`
+for what it does; scoped to whichever event is selected. Every call the console
+makes goes to the API's `/v3` surface ([API](api.md)): sign-in is
+`POST /v3/sessions`, **Resync** is `POST /v3/days/{day}/syncs` (or
+`…/facilities/{facility}/syncs`, with `{ "method": "csv" }` in the body for the
+CSV fallback) and the go-live switch is `PUT /v3/days/{day}/visibility`. The
+legacy and `/v1` routes it called before 3.0.0 stay served, frozen, so a cached
+copy keeps working. The go-live states are `auto`
 (live 4 hours before the day's earliest scheduled match time, computed live
 from the synced `Schedule` column — no hour to configure), `true` (force
 live), and `false` (Live/Standings hidden, scores suppressed on Tournament
 Hub only — this console's own tabs stay live regardless, so an operator can
 verify a fix before un-hiding). **Check connection** also reports whether Cloud Run is publishing to live push
-(`GET /sync/config`'s `live`, which needs the sign-in), and **Sync method** is
-the emergency switch between live push and GitHub only (`POST
-/sync/live-push`, which writes `livePush` into `config/events.json`). The page
+(`GET /v3/diagnostics/sync`'s `live`, which needs the sign-in; a `404` there
+reads as "Cloud Run is older than 3.0.0"), and **Sync method** is the emergency
+switch between live push and GitHub only (`PUT /v3/settings/live-push`, which
+writes `livePush` into `config/events.json`). The page
 itself holds the same live channel block as the public pages, and the
 **Live updates** row in Facility sync status reports whether its own socket is
 open. The connection-check line also surfaces the
@@ -215,12 +222,12 @@ The list is the shared `ATTENDANCE CLIENT` block (`createAttendanceView`),
 byte-identical in this file, `_templates/attendance/attendance.html` and each
 event's `attendance.html`. It injects its own `.att-*` styles, reads each
 facility's `ATTENDANCE` tab through the gviz CSV export every 10 s while
-visible, and marks through `PUT /v1/…/attendance/:key` with the operator
+visible, and marks through `PUT /v3/…/people/{personKey}/attendance` with the operator
 token. In this console it loads every facility of the day, so the counts are
 complete.
 
 Around it, the console's own `attConsole*` section adds the per-facility
-counts, **Update roster** (`POST /v1/days/:day/attendance/reconciliations`),
+counts, **Update roster** (`POST /v3/days/{day}/attendance/reconciliations`),
 **Issue desk link** (`POST …/desk-links`, QR drawn in a canvas from
 `qrcode-generator` 1.4.4 on cdnjs, SRI-pinned, loaded on first click) and
 **Needs attention**. `showView()` mounts the view on entering the tab and
@@ -234,7 +241,7 @@ Full design: [event attendance](event-attendance.md).
 ## Score entry
 
 An operator enters, corrects or clears one match's score from Match Finder
-(`PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score`, see [sync
+(`PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score`, see [sync
 pipeline § Score entry writes](sync-pipeline.md#score-entry-writes)). The
 feature is on for an event whose `events.json` entry has `"scoreEntry":
 "console" | "links"`, and the console only offers it while an operator is signed
@@ -316,9 +323,9 @@ registry entry's `scoreEntry` and is hidden unless it is `"console"` or
 `renderOrganizerStatus()` and when the event or day changes, so it follows
 sign-in and the selected day. The **Accepting** / **Stopped** toggle (a `role="switch"` button, the same `.switch` style as
 the **Use CSV export fallback** toggle) calls `PUT
-/v1/events/:event/score-entry` with the operator token and then copy the new
+/v3/events/{event}/score-entry` (body `{ scoreEntry }`) with the operator token and then copies the new
 value into the page's own registry entry, which would otherwise stay stale until
-a reload. **Issue scorer link** calls `POST /v1/days/:day/scores/scorer-links` and
+a reload. **Issue scorer link** calls `POST /v3/days/{day}/scores/scorer-links` and
 `renderScorerLink` draws the result like a desk link: a read-only input, **Copy**,
 **Share**, **Show QR** (`attConsoleShowQr`, which takes a label for the canvas's
 `aria-label`) and the validity line. In a fixture no request is made; the issued

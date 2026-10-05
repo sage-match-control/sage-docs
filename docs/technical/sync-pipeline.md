@@ -12,9 +12,10 @@ Facility Google Sheet
    |  installable onEdit trigger, document-locked, syncs from the edit itself
    |  (apps-script/sheets-sync.gs)
    v
-POST /sync/:day?facility=<name>   (X-Sync-Secret header, or an operator's bearer token;
-   |                               X-Edit-At header carries the edit time)
-   |  SheetsCsvFetcher (default) or GvizCsvFetcher (?method=csv fallback)
+POST /v3/days/{day}/facilities/{facility}/syncs   (X-Sync-Secret header, or an operator's
+   |     bearer token; body { editedAt } carries the edit time. A workbook made before
+   |     3.0.0 calls the legacy POST /sync/:day?facility= with an X-Edit-At header)
+   |  SheetsCsvFetcher (default) or GvizCsvFetcher ({ method: "csv" } fallback)
    |  read the day's snapshot + version from the live Worker (GitHub only if it holds none),
    |  merge — never drop a facility on failure — and publish with expectedVersion;
    |  re-read and re-merge on a 409 version conflict (3 attempts)
@@ -36,7 +37,8 @@ sync whose Worker calls fail.
 Key pieces, in `sage-tools-api/src/`:
 
 - **`clients/SheetsCsvFetcher`** — the default path, reads via the Sheets API.
-- **`clients/GvizCsvFetcher`** — a fallback path (`?method=csv`) using Google's
+- **`clients/GvizCsvFetcher`** — a fallback path (`{ "method": "csv" }` in a
+  `/v3` sync's body, `?method=csv` on the legacy route) using Google's
   `gviz` CSV export, for when the Sheets API path has trouble. Both fetchers are
   `FacilityFetcher`s, and `SyncService` picks one from a `{ sheets, csv }` map by
   the request's method.
@@ -59,7 +61,7 @@ Key pieces, in `sage-tools-api/src/`:
   [Delivering a snapshot](#delivering-a-snapshot).
 - **`sync/DayVisibilityService`** — the Live/Hide override (below).
 - **`sync/SyncSettingsService`** — the live-push switch and the
-  `GET /sync/config` payload.
+  `GET /v3/diagnostics/sync` payload (legacy `GET /sync/config`).
 
 Both fetchers are pure functions of `(facility, sheets)` — neither imports
 config directly; `SyncService` resolves the day's sheet names once and
@@ -125,8 +127,9 @@ npm test
 
 ### Edit timing
 
-Apps Script sends the edit's time as `X-Edit-At` (epoch ms). Cloud Run
-ignores it unless it is within the last hour and not in the future. A
+Apps Script sends the edit's time as `editedAt` (ISO 8601) in the body of its
+`/v3` sync; a workbook made before 3.0.0 sends it as `X-Edit-At` (epoch ms) to the
+legacy route. Cloud Run ignores it unless it is within the last hour and not in the future. A
 facility-scoped sync records it as that facility's `lastEditAt` in the
 snapshot; a full resync carries the published value forward. Each sync logs
 
@@ -321,11 +324,13 @@ facility name, watched tabs — lives in that project's Script Properties, set
 through **SAGE → Set up live sync**, a menu-driven dialog rather than edited
 constants. Setup validates what it's given before saving anything:
 
-- A `GET /sync/config` call, gated on the entered secret, checks the secret
+- A `GET /v3/diagnostics/sync` call (`GET /sync/config` in a workbook made
+  before 3.0.0), gated on the entered secret, checks the secret
   itself (401 blocks) and that the entered day key is registered (blocks with
   the real list of registered day keys otherwise).
-- A real test sync (`POST /sync/:day?facility=`) checks the facility name —
-  an "unknown facility" rejection blocks and names the valid alternatives —
+- A real test sync (`POST /v3/days/{day}/facilities/{facility}/syncs`) checks
+  the facility name — a `404` with code `unknown_facility` blocks and shows its
+  detail, which names the valid alternatives —
   and, on success, publishes a real snapshot as end-to-end proof the workbook
   is wired up.
 - A timeout, 5xx, or unreachable host at either step is **not** blocking: the
@@ -517,7 +522,7 @@ check, event/day keys restricted to `^[a-z0-9][a-z0-9-]*$` (they become
 path segments and filenames — this is what makes a `../` traversal
 impossible), day keys globally unique *across every event* (two events can
 never race to publish into each other's folder, since a day key is also the
-`/sync/:day` route), each day needs a `label` and a `facilities` array, and
+path of every sync), each day needs a `label` and a `facilities` array, and
 facility names unique within a day. Full shape and rules:
 [event registry schema](event-data-config.md).
 
@@ -527,14 +532,15 @@ facility names unique within a day. Full shape and rules:
   SHA + source (`a1b2c3d/remote` or `seed/fallback`) — but never *triggers*
   a load itself, since Cloud Run's health checks hit this endpoint and it
   must stay fast even when GitHub is unreachable.
-- `GET /sync/config` (secret- or token-gated) returns the full resolved
-  view for debugging: SHA, source, age, every registered event/day, and the
-  live push state (`live: { enabled, baseUrl, switch, active }`).
+- `GET /v3/diagnostics/sync` (secret- or token-gated; legacy `GET /sync/config`)
+  returns the full resolved view for debugging: SHA, source, age, every
+  registered event/day, and the live push state (`live: { enabled, baseUrl, switch, active }`).
 
-## `/sync/:day/live` — the go-live override
+## The go-live override (`PUT /v3/days/{day}/visibility`)
 
 Separate from a data sync: this endpoint (operator-token-only, no shared
-secret) is Mission Control's public-site kill switch. It writes the day's
+secret; legacy twin `POST /sync/:day/live`) is Mission Control's public-site
+kill switch. It writes the day's
 `isLive` value (`true` / `false` / `"auto"`) into `config/events.json`, then
 immediately republishes that day's snapshot with the new value stamped in
 — so a later real sync can never silently revert an operator's override,
@@ -552,7 +558,7 @@ and the first real sync stamps it in.
 ## Score entry writes
 
 Score entry is the one path where `sage-tools-api` writes scores into a facility
-workbook instead of reading them. `PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score`
+workbook instead of reading them. `PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score`
 (`src/scores/`, `ScoreService.submit`) writes one match's two score cells in the
 workbook's `SCHEDULE` tab as the attendance service account, then publishes the
 day itself, in the same request. Usage and the dialog:
@@ -706,7 +712,7 @@ logged and the next sync tries again. Live/Hide does not call it.
 Control Center's Mission Control has a **Sync method** switch between **Live
 push + GitHub** and **GitHub only**, for an emergency where live updates
 misbehave and waiting to clear `LIVE_PUSH_URL` on Cloud Run is too slow. It
-calls `POST /sync/live-push` (operator token only), which writes a top-level
+calls `PUT /v3/settings/live-push` (operator token only), which writes a top-level
 `livePush` boolean into `event-data/config/events.json`. `false` makes every
 sync and every Live/Hide publish to GitHub alone, exactly as with live push
 unconfigured; absent or `true` leaves it to the environment. It is stored in
@@ -716,13 +722,13 @@ within `SYNC_CONFIG_TTL_MS`. Pages with an open socket notice within a minute:
 GitHub's copies carry newer `publishedAt` values, which the safety poll
 prefers, and from then on they poll GitHub as before push existed. The switch
 cannot turn on live push the environment does not configure.
-`GET /sync/config` reports it as `live.switch` (`on`/`off`) and `live.active`
+`GET /v3/diagnostics/sync` reports it as `live.switch` (`on`/`off`) and `live.active`
 (configured and switched on).
 
 `LIVE_PUSH_URL` (the Worker's base URL), `LIVE_PUSH_SECRET` (its
 `PUBLISH_SECRET`) and `LIVE_PUSH_TIMEOUT_MS` (default 4000) configure it.
 Clearing `LIVE_PUSH_URL` on the Cloud Run service is the rollback switch: a
-new revision, no code change. `GET /sync/config` reports
+new revision, no code change. `GET /v3/diagnostics/sync` reports
 `live: { enabled, baseUrl }`, never the secret.
 
 ### Pages

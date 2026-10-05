@@ -41,11 +41,15 @@ design.
   `out`, `blanks`), returns a PDF directly.
 - **`POST /scoresheets/generate/stream`** — same inputs, but returns NDJSON
   progress lines as each chunk renders, then a final
-  `{"phase":"done","pdfBase64":...}` line. This is what
-  `tools/scoresheet-generator.html`'s progress bar is reading. Once
-  streaming has started, the HTTP status is locked at 200 — a failure
-  midstream arrives as a `{"phase":"error"}` line in the body, not an HTTP
-  error status, since headers are already sent.
+  `{"phase":"done","pdfBase64":...}` line.
+- **`POST /v3/scoresheets`** — the `/v3` twin of both: the PDF, or the NDJSON
+  stream when the request says `Accept: application/x-ndjson`. This is what
+  `tools/scoresheet-generator.html` calls, and its progress bar reads the stream;
+  the two routes above stay served, frozen.
+
+Once streaming has started, the HTTP status is locked at 200 — a failure
+midstream arrives as a `{"phase":"error"}` line in the body, not an HTTP
+error status, since headers are already sent.
 
 ## Deployment
 
