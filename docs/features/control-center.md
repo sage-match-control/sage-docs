@@ -29,8 +29,12 @@ The operator-only control panel — the one part of Control Center that needs
 signing in, and the tab it opens on. From top to bottom:
 
 - **Sign in** with the shared operator username/password. This exchanges your
-  password for a short-lived session token held only in that browser tab —
-  the password itself is never stored anywhere.
+  password for a session token that lasts 12 hours — the password itself is
+  never stored anywhere. In a browser tab, closing the tab signs you out.
+  Installed on a phone's home screen, Control Center stays signed in until the
+  12 hours run out or you press **Sign out**, even if the phone closes the app
+  in the background. The status line reads **Signed in until 3:30 PM**, with
+  the date added (**3:30 AM, Tue, Oct 6**) when the sign-in ends on a later day.
 - **Facility sync status** — whether each venue's spreadsheet is syncing
   cleanly, and when it last succeeded. Each row has a **Google Sheet**
   link that opens that facility's actual Google Sheet for this event, in

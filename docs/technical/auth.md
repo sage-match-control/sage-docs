@@ -10,7 +10,8 @@ shared by whoever's running the console. `POST /auth/login` checks the
 submitted credentials against `AUTH_PASSWORD_HASH` (an env var — never the
 plaintext credentials themselves) and, on success, issues a short-lived
 HMAC-signed token (no JWT library) instead of handing back the sync secret
-directly.
+directly. It expires `AUTH_TOKEN_TTL_MS` after it is issued — 12 hours, one
+tournament day, when that variable is unset.
 
 The hash itself is generated **locally**, offline, via
 `node scripts/hash-password.mjs '<username>' '<password>'` — the plaintext
