@@ -100,7 +100,7 @@ step 1, so you know the way back.
 | The 101 distinct team codes in `MatchLookup!C` and `G` give the same result from `INDEX(SPLIT(code, "_", 1), 1)` and from `REGEXEXTRACT(code, "^_*([^_]+)")` | checked over every value |
 | Score entry clears a score by clearing the cell (`SheetsClient.clearScores`), so an unplayed score is a truly empty cell | `sage-tools-api/src/scores/ScoreService.mjs` |
 | The sync's log line is `timing edit→request=… fetch=…ms …`, scoped by the day key (`pickledrive-anniversary-2026-day1`) | `sage-tools-api/src/sync/SyncService.mjs` (`log.info` after publish; `this.logger.child(day)`) |
-| `SAGE → Pause live sync` / `Resume live sync` and `SAGE → Sync now` are in the workbook's menu (the sync script is installed and configured there) | `sage-tools-api/scripts/sheets-sync.gs` (`onOpen` menu) |
+| `SAGE → Pause live sync` / `Resume live sync` and `SAGE → Sync now` are in the workbook's menu (the sync script is installed and configured there) | `sage-tools-api/apps-script/sheets-sync.gs` (`onOpen` menu) |
 
 ### 0.4 The tabs this touches
 

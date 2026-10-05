@@ -754,7 +754,7 @@ allow about a minute for the server to pick it up.
 1. **Extensions → Apps Script.** Confirm `sheets-sync.gs` is there. A
    workbook copied from the master already carries it. If the **SAGE** menu
    lacks **Set up live sync**, replace the whole file with the current
-   `sage-tools-api/scripts/sheets-sync.gs` and save.
+   `sage-tools-api/apps-script/sheets-sync.gs` and save.
 2. Reload the spreadsheet.
 3. **SAGE → Set up live sync** (or **Live sync settings**). Enter:
 

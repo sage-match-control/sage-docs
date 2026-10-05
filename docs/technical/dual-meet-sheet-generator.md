@@ -1,6 +1,6 @@
 # Dual Meet Sheet Generator
 
-`sage-tools-api/scripts/sheet-generator.gs` — bound Apps Script that builds a
+`sage-tools-api/apps-script/sheet-generator.gs` — bound Apps Script that builds a
 dual meet event's whole workbook from a Tournament Calculator CSV: every
 category tab, `SCHEDULE`, the four readout tabs the live sync and the
 operator both depend on, and an empty `ATTENDANCE` tab (`buildAttendanceTab_`,
@@ -130,7 +130,7 @@ workbook that looks complete and isn't.
 ## Verifying a change before it reaches a workbook
 
 ```bash
-node scripts/verify-sheet-generator.mjs
+node apps-script/verify-sheet-generator.mjs
 ```
 
 Runs the real `generateEventTabs` against a mocked Sheets API and checks the

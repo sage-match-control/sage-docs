@@ -183,13 +183,9 @@ to the `...` form rather than repointing it.
   sheet changed meanwhile, and publishes at once. Scorer staff use the same dialog on a
   per-event scorer page, through 24-hour links that a Mission Control switch can stop.
   Built and tested against fakes; the real-workbook checks (§11.2) are still open.
-
----
-
-## Not started
-
-- **[sage-tools-api architecture hardening](not-started/sage-tools-api-architecture-spec.md)** —
-  revised against 2.8.0. The service moves to ports-and-adapters, checked
+- **[sage-tools-api architecture hardening](in-progress/sage-tools-api-architecture-spec.md)** —
+  revised against 2.8.0. Phase 1 (folder moves, 2.8.1) is built on a branch,
+  not merged. The service moves to ports-and-adapters, checked
   against SOLID. The conflict retry is written once, behind two delivery
   strategies and a `SnapshotPublisher` selector. There is one error handler, one auth-middleware module,
   and a validated config with a composition root that the tests share.
@@ -197,6 +193,11 @@ to the `...` form rather than repointing it.
   3.0.0 adds one REST surface, `/v3`, with a twin of every route (legacy and
   `/v1`), and every client moves onto it. Every existing URL is kept, frozen.
   `/ping` is unchanged.
+
+---
+
+## Not started
+
 - **[Site test suite](not-started/site-test-suite-spec.md)** — Control
   Center, the current event pages and the attendance desk pages tested in a
   real browser on fixture data, with every hand-copied rule (the live

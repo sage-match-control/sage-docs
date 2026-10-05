@@ -39,7 +39,7 @@ The live Worker is not used: its channel is public.
 
 Row 1 is `key | player | teams | categories | present | timeIn | withdrawn`
 (columns A to G). One row per person from row 2. `key` is the person key:
-`personKey()` in `src/attendance/personKey.mjs` (accents stripped, whitespace
+`personKey()` in `src/attendance/domain/personKey.mjs` (accents stripped, whitespace
 collapsed, lower-cased), the only definition of identity. `teams` and
 `categories` are comma-joined and parallel. `timeIn` is `yyyy-MM-dd HH:mm`
 (Asia/Manila). Columns H onward belong to people; the API never reads or
@@ -67,7 +67,7 @@ first row is not exactly this header (`AttendanceLayoutError`, 409).
 
 ## The roster
 
-`src/attendance/roster.mjs` (pure): standard from `STANDINGSCSV` (team code
+`src/attendance/domain/roster.mjs` (pure): standard from `STANDINGSCSV` (team code
 `^[A-Z0-9]+_\d+$`, category before the first `_`), dual meet likewise
 (`^[A-Z0-9]+_[A-Z0-9]+_\d+$`, the middle segment), team events from the
 `Teams` tab (`Team Code`, and `Player` or `FINAL LEVEL ORDER`). Playoff-seat
@@ -145,14 +145,14 @@ fixtures and manual checks (spec section 7.3).
 
 # Earlier version: Pickle for Sight
 
-The notes below describe `scripts/attendance.gs` and
+The notes below describe `apps-script/attendance.gs` and
 `events/pickle-for-sight-2026/attendance.html`, which are unchanged.
 
 
 Pickle for Sight's check-in page wrote to Google Sheets through a web app in
 each workbook. Two parts:
 
-- `sage-tools-api/scripts/attendance.gs` — bound Apps Script, pasted into
+- `sage-tools-api/apps-script/attendance.gs` — bound Apps Script, pasted into
   each of an event's **live** workbooks (never a master) beside
   `sheets-sync.gs` and the generator, and deployed there as a web app. Not
   part of the Cloud Run service: changing it is not a deploy and does not
@@ -271,10 +271,10 @@ its local state through a reload, since the sheet may not have it yet.
 
 ### Verifying a change
 
-    node scripts/verify-attendance.mjs
+    node apps-script/verify-attendance.mjs
 
 Runs the real `doGet`/`doPost`/`attendanceResync` against
-`scripts/mock-apps-script.mjs`: roster selection, marking and unmarking,
+`apps-script/mock-apps-script.mjs`: roster selection, marking and unmarking,
 every refusal, the re-draw rule, lock release, resync's pre-fill/no-op/swap
 behavior, and that `STANDINGSCSV` is never written. It also fails if a
 top-level name in `attendance.gs` is declared by `sheets-sync.gs` or either

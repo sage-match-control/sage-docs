@@ -1,6 +1,8 @@
 # Spec — `sage-tools-api` architecture hardening (tests first)
 
-> **Status: not started.** Nothing here is built. Last revised 2026-10-05
+> **Status: in progress.** Phase 1 (folder moves, 2.8.1) is built and tested
+> on the branch `arch-refactor` of `sage-tools-api`; nothing is merged or
+> deployed, and Phases 2–8 are not started. Last revised 2026-10-05
 > against `sage-tools-api` **2.8.0** (`main` at `daad5a4`, score entry), where
 > `npm test` runs 957 tests, all passing. Earlier revisions were written
 > against 2.5.0 (2026-10-01/02) and 2.7.0 (2026-10-03).
@@ -64,7 +66,7 @@
 > **When to start.** Never on an event day or in the few days before one,
 > because merging deploys Cloud Run. Prefer to start after score entry's
 > real-Google checks (C1–C8 in §11.2 of the
-> [score entry spec](../in-progress/control-center-score-entry-spec.md)). Any
+> [score entry spec](control-center-score-entry-spec.md)). Any
 > fix those checks need then lands on `main` before Phase 1 moves the files.
 > If `main` has moved past 2.8.0 by then, re-check §2's numbers and take the
 > next free version for each phase.
@@ -2327,7 +2329,7 @@ working. Nobody re-pastes into an existing workbook.
    There is no team master yet. Until one exists, a team event's workbook is
    copied from the previous team workbook, so paste the new script into the
    next team workbook by hand once it is made. The
-   [Team Tournament Master spec](team-tournament-master-spec.md) carries the
+   [Team Tournament Master spec](../not-started/team-tournament-master-spec.md) carries the
    `/v3` script from the start.
 4. **Check it.** Make a fresh copy of each master the way an operator does
    (the calculator's generator handoff), on a test day key registered in
@@ -2442,7 +2444,7 @@ nothing else:
    Pages stay self-contained. Costs: a script to run and a diff check to
    keep.
 3. **Keep the copies** and rely on the
-   [site test suite](site-test-suite-spec.md)'s consistency and parity checks
+   [site test suite](../not-started/site-test-suite-spec.md)'s consistency and parity checks
    to catch drift. Nothing changes in the pages. Costs: the copies still have
    to be edited by hand, and that spec has to be built first.
 

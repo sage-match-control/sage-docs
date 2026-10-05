@@ -53,7 +53,7 @@ Assume no knowledge of this project beyond this page. What you need:
 
 | Repo | Role here |
 |---|---|
-| `sage-tools-api/` | Node 22 / Express, ESM `.mjs`, no TypeScript, no build step, no test framework. Runs on Google Cloud Run (`us-central1`), deploys automatically on push to `main`. Holds `scripts/sheets-sync.gs` (Apps Script, **not** deployed with the service — pasted into each spreadsheet by hand). The new Worker goes in a subfolder of this repo (Phase 1) |
+| `sage-tools-api/` | Node 22 / Express, ESM `.mjs`, no TypeScript, no build step, no test framework. Runs on Google Cloud Run (`us-central1`), deploys automatically on push to `main`. Holds `apps-script/sheets-sync.gs` (Apps Script, **not** deployed with the service — pasted into each spreadsheet by hand). The new Worker goes in a subfolder of this repo (Phase 1) |
 | `sage-match-control.github.io/` | Static HTML on GitHub Pages. Every page is one self-contained file (inline `<style>` and `<script>`), no bundler, no shared JS files. Commit to deploy |
 | `event-data/` | Public GitHub Pages repo. Holds `config/events.json` (the event/day/facility registry) and every published snapshot at `<event-key>/data/<day>.json` |
 | `sage-docs/` | Documentation (mkdocs). This spec lives here |
@@ -79,7 +79,7 @@ Assume no knowledge of this project beyond this page. What you need:
 ```
 Facility Google Sheet (one per venue per tournament day)
   | installable onEdit trigger -> onEditInstallable -> syncUntilSettled_
-  |   (scripts/sheets-sync.gs): takes the workbook's document lock, waits
+  |   (apps-script/sheets-sync.gs): takes the workbook's document lock, waits
   |   SYNC_SETTLE_MS (1.5s) — stretched so syncs start at least
   |   SYNC_MIN_GAP_MS (5s) apart — syncs, and repeats while newer edits keep
   |   arriving. Edits that can't take the lock just record their time.
@@ -107,11 +107,11 @@ override: `SyncConfigStore.setIsLive` commits `config/events.json`, then
 each exits non-zero on failure):
 
 ```bash
-node scripts/verify-sync-merge.mjs
+npm test
 ```
 
 ```bash
-node scripts/verify-facility-completion.mjs
+npm test
 ```
 
 The site has no tests. Serve `sage-match-control.github.io/` with any static
@@ -131,7 +131,7 @@ the prerequisite spec, and this spec adds `publishedAt`):
   facilities: [{
     name, matchesCsv, standingsCsv,
     syncedAt,           // ISO, restamped whenever this facility is fetched
-    completedAt,        // ISO or null — src/sync/facilityCompletion.mjs
+    completedAt,        // ISO or null — src/sync/domain/facilityCompletion.mjs
     lastEditAt          // added by the Immediate sync spec: ISO or null — when the edit behind the latest sync was made
   }],
   failedFacilities: [], // "name: error" strings
@@ -242,13 +242,13 @@ missing, stop and ask: it means the code has moved on since this revision.
 
 | What | Where to look |
 |---|---|
-| `X-Edit-At` header sent by Apps Script and read by Cloud Run (accepted only within the last hour and at most 5s in the future) | `scripts/sheets-sync.gs` `triggerSync_(opts)`; `src/sync/routes.mjs` `handleSync` |
+| `X-Edit-At` header sent by Apps Script and read by Cloud Run (accepted only within the last hour and at most 5s in the future) | `apps-script/sheets-sync.gs` `triggerSync_(opts)`; `src/sync/routes.mjs` `handleSync` |
 | `facilities[].lastEditAt`, and `attempts` plus `timing: { editToRequestMs, fetchMs, publishMs, editToPublishedMs }` in the sync response (the two `edit…` fields `null` without an edit time) | `src/sync/SyncService.mjs` `syncDay` |
-| `GitHubPublisher.publish` throws errors carrying `status`, and the module exports `COMMIT_ATTEMPTS = 3` | `src/sync/GitHubPublisher.mjs` |
-| The `COMMIT_ATTEMPTS` loop on `err.status === 409` in `syncDay`, `setLiveOverride` and `SyncConfigStore.setIsLive` | `src/sync/SyncService.mjs`, `src/sync/SyncConfigStore.mjs` |
+| `GitHubPublisher.publish` throws errors carrying `status`, and the module exports `COMMIT_ATTEMPTS = 3` | `src/clients/GitHubPublisher.mjs` |
+| The `COMMIT_ATTEMPTS` loop on `err.status === 409` in `syncDay`, `setLiveOverride` and `SyncConfigStore.setIsLive` | `src/sync/SyncService.mjs`, `src/registry/SyncConfigStore.mjs` |
 | `#buildSnapshot({ day, label, isLive, now, allFacilities, targetFacilities, freshByName, failed, existing, lastEditAt })` returning `{ snapshot, stale }`. `existing` is `{ json, sha }` as `fetchExisting` returns it (only `.json` is read); `lastEditAt` is an ISO string or `null` | `src/sync/SyncService.mjs` |
-| `scripts/verify-sync-merge.mjs`: eight scenarios built on its `FakePublisher` class (a `files` map, `set(path, json)`, `failNext(status, mutate)`, `publishCalls`), `makeService(publisher)` and `check(label, actual, expected)` | `sage-tools-api/scripts/` |
-| `syncUntilSettled_`, `syncWithRetry_`, `syncWaitMs_`, `SYNC_MIN_GAP_MS` | `scripts/sheets-sync.gs` — nothing in this spec changes it |
+| `verify-sync-merge.mjs`: eight scenarios built on its `FakePublisher` class (a `files` map, `set(path, json)`, `failNext(status, mutate)`, `publishCalls`), `makeService(publisher)` and `check(label, actual, expected)` | `sage-tools-api/scripts/` |
+| `syncUntilSettled_`, `syncWithRetry_`, `syncWaitMs_`, `SYNC_MIN_GAP_MS` | `apps-script/sheets-sync.gs` — nothing in this spec changes it |
 
 `syncDay` today runs, in order: resolve the day from `configStore`, pick the
 target facilities, fetch them (timed as `fetchMs`), build `freshByName` and
@@ -541,7 +541,7 @@ LIVE_PUSH_TIMEOUT_MS=
 Unset `LIVE_PUSH_URL` is the rollback switch: set it empty on Cloud Run and
 every sync goes back to today's path, with no redeploy of the site.
 
-### 6.2 `src/sync/LivePublisher.mjs` (new)
+### 6.2 `src/clients/LivePublisher.mjs` (new)
 
 ```js
 // Publishes day snapshots to the live Worker's Durable Object, which pushes
@@ -590,7 +590,7 @@ There are two call sites:
   vars (`LIVE_PUSH_TIMEOUT_MS` parsed like `SHEETS_FETCH_TIMEOUT_MS` is, and
   left `undefined` when unset so the default applies) with
   `syncLogger.child("live")`, and pass it in.
-- `scripts/verify-sync-merge.mjs`'s `makeService` (§6.7).
+- `verify-sync-merge.mjs`'s `makeService` (§6.7).
 
 `SyncConfigStore` keeps its constructor. Add `live: { enabled, baseUrl }` to
 `handleConfigDiagnostics` in `routes.mjs`, read from
@@ -723,7 +723,7 @@ Without this, a Live/Hide click would only reach GitHub, and every page
 connected by WebSocket would keep showing the old state until the next
 score edit. **Force hidden must work through the push path.**
 
-### 6.7 Extend `scripts/verify-sync-merge.mjs`
+### 6.7 Extend `verify-sync-merge.mjs`
 
 The [Immediate sync](../implemented/immediate-sync-spec.md) spec created
 the script (its §3.3). Read it first: its eight scenarios are numbered
@@ -982,7 +982,7 @@ Update, in the present tense:
 - Root `CLAUDE.md`'s "Things that must be kept in sync by hand": add the
   live-channel block, which must stay byte-identical in every page that
   carries it.
-- `scripts/sheets-sync.gs`'s Help dialog (`showSyncHelp`) tells operators
+- `apps-script/sheets-sync.gs`'s Help dialog (`showSyncHelp`) tells operators
   scores reach the website "about 10 seconds after you stop typing" and
   take "40 to 60 seconds to appear". Once Phase 3 ships, change both to
   "within a few seconds". A `.gs` change is not a deploy and bumps no
@@ -1073,7 +1073,7 @@ a day), and its measurements are in §1.
 
 **Cloud Run (Phase 2)**
 
-- [x] `node scripts/verify-sync-merge.mjs` passes (the Immediate sync scenarios and Phase 2's).
+- [x] `npm test` passes (the Immediate sync scenarios and Phase 2's).
 - [ ] With `LIVE_PUSH_URL` unset, a real sync behaves exactly as before.
 - [x] With it set, a real sync returns `live.published: true` and a new
       GitHub commit (`archive.committed: true`). All 933 syncs of

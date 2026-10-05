@@ -326,7 +326,7 @@ standings, on the day. There is no file to import.
 
 ## 9. Implementation guide
 
-Every edit is to `sage-tools-api/scripts/standard-generator.gs` unless the step
+Every edit is to `sage-tools-api/apps-script/standard-generator.gs` unless the step
 says otherwise. **Apply them in order and do not paraphrase the code.**
 Anchors are verbatim strings from the current file.
 
@@ -440,7 +440,7 @@ function splitPairNames_(pair) {
 **Check:**
 
 ```bash
-cd sage-tools-api && node -e "new Function(require('fs').readFileSync('scripts/standard-generator.gs','utf8'))" && echo "GS OK"
+cd sage-tools-api && node -e "new Function(require('fs').readFileSync('apps-script/standard-generator.gs','utf8'))" && echo "GS OK"
 ```
 
 ### 9.2 The workbook side — plan block, matching, validation
@@ -632,7 +632,7 @@ function writeDrawNames_(ss, job, stamp) {
 **Check:** syntax check, then
 
 ```bash
-grep -n "getRange(5, COL.AD\|getRange(5, COL.AI\|getRange(2, COL.AB" scripts/standard-generator.gs
+grep -n "getRange(5, COL.AD\|getRange(5, COL.AI\|getRange(2, COL.AB" apps-script/standard-generator.gs
 ```
 
 → `COL.AD` appears twice (the emptiness read in §9.2, the write here), `COL.AI`
@@ -722,7 +722,7 @@ function importBracketDraws(files, options) {
 ```
 
 **Check:** syntax check, then
-`grep -n "function importBracketDraws\|function previewDraws" scripts/standard-generator.gs`
+`grep -n "function importBracketDraws\|function previewDraws" apps-script/standard-generator.gs`
 → one each.
 
 ### 9.5 The menu item
@@ -879,16 +879,16 @@ var IMPORT_SIDEBAR_HTML_ =
 that too:
 
 ```bash
-node -e "const fs=require('fs');const s=fs.readFileSync('scripts/standard-generator.gs','utf8');const i=s.indexOf('var IMPORT_SIDEBAR_HTML_ =');const lit=s.slice(i+s.slice(i).indexOf('=')+1, i+s.slice(i).indexOf(\"</script>';\")+\"</script>'\".length);const html=eval(lit);fs.writeFileSync('import_sidebar_tmp.js',html.match(/<script>([\s\S]*)<\/script>/)[1]);" && node --check import_sidebar_tmp.js && rm import_sidebar_tmp.js && echo "SIDEBAR JS OK"
+node -e "const fs=require('fs');const s=fs.readFileSync('apps-script/standard-generator.gs','utf8');const i=s.indexOf('var IMPORT_SIDEBAR_HTML_ =');const lit=s.slice(i+s.slice(i).indexOf('=')+1, i+s.slice(i).indexOf(\"</script>';\")+\"</script>'\".length);const html=eval(lit);fs.writeFileSync('import_sidebar_tmp.js',html.match(/<script>([\s\S]*)<\/script>/)[1]);" && node --check import_sidebar_tmp.js && rm import_sidebar_tmp.js && echo "SIDEBAR JS OK"
 ```
 
 ### 9.7 The mock needs `getValues`
 
 `readPlanBlock_` and §9.2's emptiness check read ranges, and
-`scripts/mock-apps-script.mjs` only implements the single-cell `getValue`. Add
+`apps-script/mock-apps-script.mjs` only implements the single-cell `getValue`. Add
 the plural.
 
-In `scripts/mock-apps-script.mjs`, find:
+In `apps-script/mock-apps-script.mjs`, find:
 
 ```js
     getValue() {
@@ -916,13 +916,13 @@ Insert immediately **after** it:
     }
 ```
 
-**Check:** `node scripts/verify-sheet-generator.mjs` and
-`node scripts/verify-standard-generator.mjs` both still pass — the method is
+**Check:** `node apps-script/verify-sheet-generator.mjs` and
+`node apps-script/verify-standard-generator.mjs` both still pass — the method is
 additive, so nothing existing should move.
 
 ### 9.8 The verify-script scenario
 
-In `sage-tools-api/scripts/verify-standard-generator.mjs`, find:
+In `sage-tools-api/apps-script/verify-standard-generator.mjs`, find:
 
 ```js
 // -------------------------------------------------------------------- reject
@@ -1034,8 +1034,8 @@ if (!only || only === "import") {
 **Check:**
 
 ```bash
-node scripts/verify-standard-generator.mjs --only=import   # every line OK
-node scripts/verify-standard-generator.mjs                 # the other five scenarios still pass
+node apps-script/verify-standard-generator.mjs --only=import   # every line OK
+node apps-script/verify-standard-generator.mjs                 # the other five scenarios still pass
 ```
 
 `HIXD` is 6 pairs over 3-3, so the `h.txt` file above is a correct draw for it.
@@ -1044,9 +1044,9 @@ node scripts/verify-standard-generator.mjs                 # the other five scen
 
 ```bash
 cd sage-tools-api
-node -e "new Function(require('fs').readFileSync('scripts/standard-generator.gs','utf8'))" && echo "GS OK"
-node scripts/verify-standard-generator.mjs
-node scripts/verify-sheet-generator.mjs
+node -e "new Function(require('fs').readFileSync('apps-script/standard-generator.gs','utf8'))" && echo "GS OK"
+node apps-script/verify-standard-generator.mjs
+node apps-script/verify-sheet-generator.mjs
 ```
 
 The last one matters because §9.7 touches the shared mock: the dual-meet
@@ -1062,7 +1062,7 @@ const items=[];const menu={addItem:(l)=>{items.push(l);return menu;},addSeparato
 const props={};
 const ctx={Logger:{log(){}},SpreadsheetApp:{getActive:()=>({getId:()=>'WB'})},
   PropertiesService:{getScriptProperties:()=>({getProperty:(k)=>props[k]||null})}};
-vm.createContext(ctx);vm.runInContext(fs.readFileSync('scripts/standard-generator.gs','utf8'),ctx);
+vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/standard-generator.gs','utf8'),ctx);
 ctx.addGeneratorMenuItems_(menu,{count:2});console.log('fresh copy :',items.join(' | '));
 items.length=0;props['TABS_GENERATED_FOR']='WB';
 ctx.addGeneratorMenuItems_(menu,{count:2});console.log('generated  :',items.join(' | '));"
@@ -1122,7 +1122,7 @@ Where it lives:
 
 | File | Change |
 | --- | --- |
-| `sage-tools-api/scripts/sheets-sync.gs` | `BRACKET_GENERATOR_URL`, the menu item in `addSyncMenuItems_`, and `showBracketGeneratorLink` |
+| `sage-tools-api/apps-script/sheets-sync.gs` | `BRACKET_GENERATOR_URL`, the menu item in `addSyncMenuItems_`, and `showBracketGeneratorLink` |
 | `sage-match-control.github.io/tools/bracket-generator.html` | `initCategoryFromQuery`, beside `initEventName` |
 
 The item is in `sheets-sync.gs`, so it appears in **every** workbook, dual
@@ -1144,7 +1144,7 @@ roster blind, not a bracket draw, and the tool's bracket cards are the wrong
 artifact for it. So its `STEP 3` (`AG`/`AV`, two independent columns) is drawn
 in the sheet instead.
 
-`SAGE → Shuffle roster codes`, in `sage-tools-api/scripts/sheet-generator.gs`,
+`SAGE → Shuffle roster codes`, in `sage-tools-api/apps-script/sheet-generator.gs`,
 reads `STEP 2` and writes a shuffled permutation straight into `STEP 3` on the
 active category tab — no browser, no clipboard, no paste errors. Each club's
 column is drawn independently; they are separate rosters that never mix. It

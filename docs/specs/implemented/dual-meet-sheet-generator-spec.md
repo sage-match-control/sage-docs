@@ -10,7 +10,7 @@ Scoped to **dual meets only** — the club-A-versus-club-B format described in
 tournaments are out of scope and must be rejected, not approximated.
 
 **Status: Phase 1, Phase 2 and Phase 3 all built and in use.** Implemented at
-`sage-tools-api/scripts/sheet-generator.gs`. Phase 2 (§10.1, `SCHEDULE`) and
+`sage-tools-api/apps-script/sheet-generator.gs`. Phase 2 (§10.1, `SCHEDULE`) and
 Phase 3 (§10.2, the four readout tabs) are documented separately — see
 `dual-meet-schedule-generator-spec.md` and
 `dual-meet-readouts-generator-spec.md`.
@@ -58,9 +58,9 @@ sharing handling, and a bet on `files.copy` preserving a bound script project.
 
 | | |
 |---|---|
-| Where it lives | `sage-tools-api/scripts/sheet-generator.gs` |
+| Where it lives | `sage-tools-api/apps-script/sheet-generator.gs` |
 | How it ships | Bound Apps Script in the master workbook |
-| Precedent | `scripts/sheets-sync.gs` — same repo location, same install story |
+| Precedent | `apps-script/sheets-sync.gs` — same repo location, same install story |
 | New infra | none |
 | New credentials | none |
 | `sage-tools-api` change | none — no version bump, no deploy |
@@ -1082,6 +1082,6 @@ tabs, `Variables`, `Title`, `Reference for Players`, `SCHEDULE`,
 event once rosters are pasted in.
 
 The two-bracket **`semis`** path is exercised by
-`scripts/verify-sheet-generator.mjs` but has never been generated against a
+`apps-script/verify-sheet-generator.mjs` but has never been generated against a
 real workbook. Every category in the reference CSV is single-bracket except
 `HIXD` (`semis`) and `AMD` (`aggregate`).

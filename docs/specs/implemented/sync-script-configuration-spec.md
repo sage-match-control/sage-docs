@@ -9,9 +9,9 @@ Three files change:
 
 | File | Change |
 | --- | --- |
-| `sage-tools-api/scripts/sheets-sync.gs` | config → Script Properties; setup dialog; validation; shared `onOpen`; `showScoresheetLink` reads config (§3–§8) |
-| `sage-tools-api/scripts/sheet-generator.gs` | shared `onOpen` contract; post-generation marker (§7, §9) |
-| `sage-tools-api/scripts/mock-apps-script.mjs` | a `PropertiesService` stub, so §9's marker write survives the verify harness |
+| `sage-tools-api/apps-script/sheets-sync.gs` | config → Script Properties; setup dialog; validation; shared `onOpen`; `showScoresheetLink` reads config (§3–§8) |
+| `sage-tools-api/apps-script/sheet-generator.gs` | shared `onOpen` contract; post-generation marker (§7, §9) |
+| `sage-tools-api/apps-script/mock-apps-script.mjs` | a `PropertiesService` stub, so §9's marker write survives the verify harness |
 
 Plus the documentation in §13, which is part of the work, not a follow-up.
 
@@ -831,9 +831,9 @@ the same mechanism as §3.3.
 
 ### 9.1 The verify harness
 
-`scripts/mock-apps-script.mjs`'s `buildSandbox` supplies no `PropertiesService`,
+`apps-script/mock-apps-script.mjs`'s `buildSandbox` supplies no `PropertiesService`,
 so the write above throws `PropertiesService is not defined` under
-`scripts/verify-sheet-generator.mjs` and every scenario fails.
+`apps-script/verify-sheet-generator.mjs` and every scenario fails.
 
 Add a stub to the object `buildSandbox` returns, alongside the existing
 `CacheService` entry and backed by a `Map` the same way `cacheStore` is:
@@ -925,11 +925,11 @@ half done.
 through `vm` instead:
 
 ```bash
-node -e "const vm=require('vm'),fs=require('fs');for(const f of ['scripts/sheets-sync.gs','scripts/sheet-generator.gs'])new vm.Script(fs.readFileSync(f,'utf8'),{filename:f});console.log('syntax OK')"
+node -e "const vm=require('vm'),fs=require('fs');for(const f of ['apps-script/sheets-sync.gs','apps-script/sheet-generator.gs'])new vm.Script(fs.readFileSync(f,'utf8'),{filename:f});console.log('syntax OK')"
 ```
 
 ```bash
-node scripts/verify-sheet-generator.mjs
+node apps-script/verify-sheet-generator.mjs
 ```
 
 The verify harness must print `ALL CHECKS PASSED`, unchanged from before this

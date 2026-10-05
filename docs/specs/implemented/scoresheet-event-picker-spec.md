@@ -10,7 +10,7 @@ Two files change, in two repos:
 | File | Repo | Change |
 | --- | --- | --- |
 | `tools/scoresheet-generator.html` | `sage-match-control.github.io` | the picker itself (§4–§6) |
-| `scripts/sheets-sync.gs` | `sage-tools-api` | a `SAGE → Generate Scoresheets` menu that deep-links into it (§8) |
+| `apps-script/sheets-sync.gs` | `sage-tools-api` | a `SAGE → Generate Scoresheets` menu that deep-links into it (§8) |
 
 **No running code changes.** No new endpoint, no auth, no CORS work, no
 `event-data` schema change — and specifically **no `package.json` bump and no
@@ -773,7 +773,7 @@ the run-once destructive one is not what the cursor lands on.
 
 Editing `sheet-generator.gs` here does **not** bump `package.json` and is not a
 deploy, same as any other `scripts/*.gs` change. It also does not require
-`node scripts/verify-sheet-generator.mjs` to change — that script exercises
+`node apps-script/verify-sheet-generator.mjs` to change — that script exercises
 `generateEventTabs`, not the menu — but running it is still the cheap check
 that the file still parses.
 
@@ -920,7 +920,7 @@ which walks through this install per facility spreadsheet.
       script is already authorized, and issues no HTTP request from Apps Script.
 - [ ] A workbook with a deliberately wrong `FACILITY_NAME` lands on §6.6's
       case-sensitivity error rather than a blank or misleading selection.
-- [ ] `node scripts/verify-sheet-generator.mjs` still passes after the
+- [ ] `node apps-script/verify-sheet-generator.mjs` still passes after the
       `sheet-generator.gs` `onOpen` edit.
 
 ## 10. Out of scope

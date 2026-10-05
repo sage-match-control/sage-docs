@@ -352,7 +352,7 @@ redeploy**, per the runtime sync config):
   `sage-tools-api` now address tabs by name only; see
   `event-data/config/README.md`.
 
-Then install `scripts/sheets-sync.gs` on the facility spreadsheet with
+Then install `apps-script/sheets-sync.gs` on the facility spreadsheet with
 `DAY_KEY = 'pnf-x-bup-day1'`, `FACILITY_NAME = 'Pampanga Pickleball
 Center'`, and the Cloud Run URL from §2 — and **check `WATCHED_SHEET_GIDS`
 against this spreadsheet's own tab GIDs**, which will not match the shipped

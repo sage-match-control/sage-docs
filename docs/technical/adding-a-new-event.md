@@ -61,7 +61,7 @@ general multi-club template.
    `title`, one entry per day, optional `display` labels. See [event
    registry schema](event-data-config.md). Commit; no `sage-tools-api`
    redeploy needed, live within `SYNC_CONFIG_TTL_MS`.
-8. **Install the sync script** (`scripts/sheets-sync.gs`, from
+8. **Install the sync script** (`apps-script/sheets-sync.gs`, from
    `sage-tools-api` — a dual meet's workbook carries it already) once per
    facility spreadsheet. Reload the spreadsheet and run **SAGE → Set up live
    sync**, entering the day key and facility name; setup verifies both

@@ -45,7 +45,7 @@ ones `sage-tools-api` and the site depend on):
 | `Court Control` | which match is on which court now | operators, the schedule board |
 | `Standings`, `MatchLookup` | the workbook's own working tabs; the site ignores `Standings` | formulas |
 | `StackCache` (hidden) | `SCHEDULE`'s stacked columns built once | the named functions |
-| `ATTENDANCE` | empty, with the header `src/attendance/attendanceTab.mjs` requires (both existing generators add it) | attendance |
+| `ATTENDANCE` | empty, with the header `src/attendance/domain/attendanceTab.mjs` requires (both existing generators add it) | attendance |
 
 plus the workbook-level **named functions** (`STACKBLOCKS`, the `GET…BYMATCH…`
 and matchup families) that the formulas call.
@@ -90,7 +90,7 @@ it grows one ([Calculator team format](calculator-team-format-spec.md); §8, Q1)
 - **Rebuild in place, refuse a rerun.** Like the dual-meet generator, a run that dies
   halfway cannot be retried, so a refusing-to-run check on the master's pristine
   prototype shapes comes first, and a verify script exercises the whole run.
-- **A verify script against a mocked Sheets API** (`scripts/verify-team-generator.mjs`,
+- **A verify script against a mocked Sheets API** (`apps-script/verify-team-generator.mjs`,
   on the same `mock-apps-script.mjs`), checked against the PickleDrive workbook's
   published numbers: 152 matches, 38 matchups, QF/SF/Bronze/Final numbering.
   `verify-attendance.mjs` also gets a check that no top-level name collides with the

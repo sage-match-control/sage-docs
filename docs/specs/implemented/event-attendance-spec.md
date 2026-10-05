@@ -16,7 +16,7 @@ Sight, Sunday 27 September 2026**, first.
 
 | | |
 | --- | --- |
-| Where the code goes | `sage-tools-api/scripts/attendance.gs` and `verify-attendance.mjs` (new); `sage-match-control.github.io/events/pickle-for-sight-2026/attendance.html` (new) |
+| Where the code goes | `sage-tools-api/apps-script/attendance.gs` and `verify-attendance.mjs` (new); `sage-match-control.github.io/events/pickle-for-sight-2026/attendance.html` (new) |
 | How it ships | `attendance.gs` is pasted into the two live workbooks and deployed there as a web app. The page is a static-site commit |
 | New infra | two Apps Script web-app deployments, one per venue workbook |
 | New credentials | none |
@@ -36,8 +36,8 @@ The roster tab is described in the
 
 | Repo | File | Change |
 | --- | --- | --- |
-| `sage-tools-api` | `scripts/attendance.gs` | new, whole file (§5.1) |
-| `sage-tools-api` | `scripts/verify-attendance.mjs` | new, whole file (§5.2) |
+| `sage-tools-api` | `apps-script/attendance.gs` | new, whole file (§5.1) |
+| `sage-tools-api` | `apps-script/verify-attendance.mjs` | new, whole file (§5.2) |
 | `sage-match-control.github.io` | `events/pickle-for-sight-2026/attendance.html` | new, whole file (§5.3) |
 | `sage-docs` | `docs/features/event-attendance.md`, `docs/technical/event-attendance.md` | new pages (§5.5) |
 | `sage-docs` | both section READMEs, `mkdocs.yml` | index the new pages (§5.5) |
@@ -206,7 +206,7 @@ for why and what that changes.
 
 Work from `D:\Coding Projects\SAGE`. Apply the steps in order.
 
-### 5.1 `sage-tools-api/scripts/attendance.gs` — new file
+### 5.1 `sage-tools-api/apps-script/attendance.gs` — new file
 
 Create it with exactly this content:
 
@@ -371,12 +371,12 @@ function attendanceMark_(teamCode, slot, present) {
 **Check:**
 
 ```bash
-cd "D:/Coding Projects/SAGE/sage-tools-api" && node -e "new Function(require('fs').readFileSync('scripts/attendance.gs','utf8'))" && echo "GS OK"
+cd "D:/Coding Projects/SAGE/sage-tools-api" && node -e "new Function(require('fs').readFileSync('apps-script/attendance.gs','utf8'))" && echo "GS OK"
 ```
 
 → `GS OK`.
 
-### 5.2 `sage-tools-api/scripts/verify-attendance.mjs` — new file
+### 5.2 `sage-tools-api/apps-script/verify-attendance.mjs` — new file
 
 The harness. It loads `attendance.gs` into the existing mock and supplies the
 three services the mock lacks (`LockService`, `ContentService`, `Utilities`)
@@ -390,7 +390,7 @@ itself, so `mock-apps-script.mjs` is not touched.
 // sheets-sync.gs and a generator, where a repeated top-level name silently
 // replaces the other file's.
 //
-//   node scripts/verify-attendance.mjs
+//   node apps-script/verify-attendance.mjs
 import fs from "node:fs";
 import vm from "node:vm";
 import path from "node:path";
@@ -548,7 +548,7 @@ process.exit(failures ? 1 : 0);
 **Check:**
 
 ```bash
-cd "D:/Coding Projects/SAGE/sage-tools-api" && node scripts/verify-attendance.mjs
+cd "D:/Coding Projects/SAGE/sage-tools-api" && node apps-script/verify-attendance.mjs
 ```
 
 → 38 lines starting `OK`, none starting `FAIL`, and last line
@@ -756,7 +756,7 @@ const EVENT_KEY = 'pickle-for-sight-2026';
 
 // One entry per venue workbook. `url` is that workbook's attendance web app:
 // Deploy -> Web app URL, ending in /exec. Setup is in the header of
-// sage-tools-api/scripts/attendance.gs. A venue still holding a PASTE_ value
+// sage-tools-api/apps-script/attendance.gs. A venue still holding a PASTE_ value
 // shows as not connected instead of being fetched.
 const VENUES = [
   { name: 'PCPH Main',  url: 'PASTE_PCPH_MAIN_EXEC_URL' },
@@ -1209,7 +1209,7 @@ Anyone who has the link can change marks, so share it with desk staff only.
 A staff check-in page that writes to Google Sheets — the only place a GitHub
 Pages page writes into a scoring workbook. Two parts:
 
-- `sage-tools-api/scripts/attendance.gs` — bound Apps Script, pasted into
+- `sage-tools-api/apps-script/attendance.gs` — bound Apps Script, pasted into
   each of an event's **live** workbooks (never a master) beside
   `sheets-sync.gs` and the generator, and deployed there as a web app. Not
   part of the Cloud Run service: changing it is not a deploy and does not
@@ -1280,9 +1280,9 @@ its local state through a reload, since the sheet may not have it yet.
 
 ## Verifying a change
 
-    node scripts/verify-attendance.mjs
+    node apps-script/verify-attendance.mjs
 
-Runs the real `doGet`/`doPost` against `scripts/mock-apps-script.mjs`: roster
+Runs the real `doGet`/`doPost` against `apps-script/mock-apps-script.mjs`: roster
 selection, marking and unmarking, every refusal, the re-draw rule, lock
 release, and that `STANDINGSCSV` is never written. It also fails if a
 top-level name in `attendance.gs` is declared by `sheets-sync.gs` or either
@@ -1377,8 +1377,8 @@ Replace with:
 
 ```markdown
 No TypeScript, no build step, no test framework, no linter. The exceptions
-are `scripts/verify-sheet-generator.mjs` and
-`scripts/verify-standard-generator.mjs`, which run the two Apps Script
+are `apps-script/verify-sheet-generator.mjs` and
+`apps-script/verify-standard-generator.mjs`, which run the two Apps Script
 generators against a mocked Sheets API — they cover those `.gs` files only,
 nothing in `src/`, and are run by hand (see the `scripts/*.gs` notes below).
 ```
@@ -1387,8 +1387,8 @@ Replace with:
 
 ```markdown
 No TypeScript, no build step, no test framework, no linter. The exceptions
-are `scripts/verify-sheet-generator.mjs`,
-`scripts/verify-standard-generator.mjs` and `scripts/verify-attendance.mjs`,
+are `apps-script/verify-sheet-generator.mjs`,
+`apps-script/verify-standard-generator.mjs` and `apps-script/verify-attendance.mjs`,
 which run their Apps Script files against a mocked Sheets API — they cover
 those `.gs` files only, nothing in `src/`, and are run by hand (see the
 `scripts/*.gs` notes below).
@@ -1398,7 +1398,7 @@ those `.gs` files only, nothing in `src/`, and are run by hand (see the
 
 ```markdown
     workbook it was copied from (`secretMenuItem_`).
-- `scripts/verify-standard-generator.mjs` — the same kind of harness for
+- `apps-script/verify-standard-generator.mjs` — the same kind of harness for
 ```
 
 Replace with:
@@ -1413,16 +1413,16 @@ Replace with:
     other tab, and nothing it writes is published — the sync reads only the
     `CSV` and `STANDINGSCSV` tabs. Implements
     `sage-docs/docs/specs/.../event-attendance-spec.md`.
-- `scripts/verify-attendance.mjs` — runs `attendance.gs`'s real `doGet` and
+- `apps-script/verify-attendance.mjs` — runs `attendance.gs`'s real `doGet` and
   `doPost` against the same mock, and fails if any top-level name in it is
   also declared by `sheets-sync.gs` or a generator: they share one script
   project, where a repeated name silently replaces the other file's.
 
   ```bash
-  node scripts/verify-attendance.mjs
+  node apps-script/verify-attendance.mjs
   ```
 
-- `scripts/verify-standard-generator.mjs` — the same kind of harness for
+- `apps-script/verify-standard-generator.mjs` — the same kind of harness for
 ````
 
 **c.** Find:
@@ -1446,10 +1446,10 @@ Replace with:
 
 ```bash
 cd "D:/Coding Projects/SAGE/sage-tools-api"
-node -e "new Function(require('fs').readFileSync('scripts/attendance.gs','utf8'))" && echo "GS OK"
-node scripts/verify-attendance.mjs | tail -1
-node scripts/verify-standard-generator.mjs | tail -1
-node scripts/verify-sheet-generator.mjs | tail -1
+node -e "new Function(require('fs').readFileSync('apps-script/attendance.gs','utf8'))" && echo "GS OK"
+node apps-script/verify-attendance.mjs | tail -1
+node apps-script/verify-standard-generator.mjs | tail -1
+node apps-script/verify-sheet-generator.mjs | tail -1
 ```
 
 → `GS OK`, then `ALL CHECKS PASSED` three times. The last two prove the
@@ -1459,7 +1459,7 @@ Then `git status --porcelain` in each repo must list exactly:
 
 | Repo | Expected |
 | --- | --- |
-| `sage-tools-api` | `?? scripts/attendance.gs`, `?? scripts/verify-attendance.mjs` |
+| `sage-tools-api` | `?? apps-script/attendance.gs`, `?? apps-script/verify-attendance.mjs` |
 | `sage-match-control.github.io` | `?? events/pickle-for-sight-2026/attendance.html` |
 | `sage-docs` | after §5.8: the two new pages, the renamed spec, both section READMEs, `docs/specs/README.md`, both spec-folder READMEs, `mkdocs.yml` |
 
@@ -1577,7 +1577,7 @@ Signed in as **sagematchcontrol@gmail.com**, which owns both workbooks. Do
    then **File → Make a copy**, named `ATTENDANCE TEST - MAIN`. A copy does
    not inherit live sync, so it cannot publish anything.
 2. In the copy: **Extensions → Apps Script → + (Add a file) → Script**, name
-   it `attendance`, paste the whole of `sage-tools-api/scripts/attendance.gs`,
+   it `attendance`, paste the whole of `sage-tools-api/apps-script/attendance.gs`,
    **Save**.
 3. **Deploy → New deployment →** gear → **Web app**. Description
    `attendance test`; **Execute as: Me**; **Who has access: Anyone**.

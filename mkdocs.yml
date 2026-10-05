@@ -107,6 +107,7 @@ nav:
           - Live push delivery: specs/in-progress/durable-object-push-spec.md
           - Live push delivery - explainer: specs/in-progress/durable-object-push-explainer.md
           - Score entry and scorer links: specs/in-progress/control-center-score-entry-spec.md
+          - sage-tools-api architecture hardening: specs/in-progress/sage-tools-api-architecture-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
@@ -114,7 +115,6 @@ nav:
           - Team tournament event-site template: specs/not-started/team-tournament-template-spec.md
           - Team Tournament Master: specs/not-started/team-tournament-master-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
-          - sage-tools-api architecture hardening: specs/not-started/sage-tools-api-architecture-spec.md
           - Court Control from Control Center: specs/not-started/control-center-court-control-spec.md
       - Archived:
           - Overview: specs/archived/README.md

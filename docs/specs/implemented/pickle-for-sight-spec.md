@@ -568,7 +568,7 @@ allow about a minute for the server to pick it up.
 In **each** workbook:
 
 1. **Extensions → Apps Script.** Replace the whole script with the current
-   `sage-tools-api/scripts/sheets-sync.gs`, and save. Do this even if the
+   `sage-tools-api/apps-script/sheets-sync.gs`, and save. Do this even if the
    copied bkl workbook already has a script: an older copy has no **Fill
    match numbers**.
 2. Reload the spreadsheet. The **SAGE** menu appears.

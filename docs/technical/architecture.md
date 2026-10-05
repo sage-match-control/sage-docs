@@ -13,7 +13,7 @@ Worker that lives inside one of them.
 
 ```
 Facility Google Sheet  (one per venue per tournament day)
-   |  installable onEdit trigger, document-locked, syncs from the edit  (scripts/sheets-sync.gs)
+   |  installable onEdit trigger, document-locked, syncs from the edit  (apps-script/sheets-sync.gs)
    v
 POST /sync/:day?facility=<name>   on Cloud Run   (X-Sync-Secret header)
    |  SheetsCsvFetcher (default) or GvizCsvFetcher (?method=csv fallback)

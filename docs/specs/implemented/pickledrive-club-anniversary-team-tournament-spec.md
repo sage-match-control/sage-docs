@@ -1019,7 +1019,7 @@ For `team`, `renderAwards` uses a new `buildTeamPodium()` instead of
 
 No change. Progress counts matches, which is still right. The "played" and
 BYE rules exist twice: `computeFacilityProgress` and `sideIsBye` here, and
-`src/sync/facilityCompletion.mjs` in `sage-tools-api`. Leave both as they
+`src/sync/domain/facilityCompletion.mjs` in `sage-tools-api`. Leave both as they
 are — this format has no byes.
 
 ### 9.8 Theme

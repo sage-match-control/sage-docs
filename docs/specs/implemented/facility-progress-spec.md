@@ -1052,7 +1052,7 @@ Stop and report back instead of improvising if:
   facility finished. That time comes from a new snapshot field,
   `facilities[].completedAt`, which `sage-tools-api` stamps once, when the
   facility first shows every match scored, and carries forward after that
-  (`src/sync/facilityCompletion.mjs`). So the feature is no longer purely
+  (`src/sync/domain/facilityCompletion.mjs`). So the feature is no longer purely
   client-side, as the status note above says. `syncedAt` couldn't answer
   the question: every fetch restamps it, including a manual full resync. For
   snapshots published before the field existed, the console falls back to

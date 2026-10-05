@@ -1,6 +1,6 @@
 # Standard Tournament Generator
 
-`sage-tools-api/scripts/standard-generator.gs` — bound Apps Script that builds
+`sage-tools-api/apps-script/standard-generator.gs` — bound Apps Script that builds
 one facility-day's standard-tournament workbook from a Tournament Calculator
 plan CSV. Implements
 [`standard-tournament-master-spec.md`](../specs/implemented/standard-tournament-master-spec.md);
@@ -184,11 +184,11 @@ workbook to that file.
 ## Verifying a change
 
 ```bash
-node scripts/verify-standard-generator.mjs
+node apps-script/verify-standard-generator.mjs
 ```
 
-Runs the real `generateEventTabs` against `scripts/mock-apps-script.mjs`,
-fed the two Pickle for Sight plan CSVs in `scripts/fixtures/`, plus a
+Runs the real `generateEventTabs` against `apps-script/mock-apps-script.mjs`,
+fed the two Pickle for Sight plan CSVs in `apps-script/fixtures/`, plus a
 reconstructed BKL Day 2 plan. It checks the spec's §16 figures, the ladder
 cells of spec §7.5 in the tab, every one of the 105 multi-bracket
 combinations §9 allows, the packer against the waves, and the packed

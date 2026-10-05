@@ -5,7 +5,7 @@
 > measurements. It was written as "not started, with one exception".
 >
 > **Status as written: not started**, with one exception. Step 16's debounce change is
-> already made: `scripts/sheets-sync.gs` has `DEBOUNCE_MS = 3000`, and a
+> already made: `apps-script/sheets-sync.gs` has `DEBOUNCE_MS = 3000`, and a
 > workbook runs it once its copy of the file is the current one. Nothing
 > else here is built.
 >
@@ -36,7 +36,7 @@ spec.
 
 | Repo | Role here |
 |---|---|
-| `sage-tools-api/` | Node 22 / Express backend on Google Cloud Run (`us-central1`). ESM `.mjs`, classes with constructor injection, no TypeScript, no build step, no test framework (plain-Node `scripts/verify-*.mjs` checks). Deploys automatically on push to `main`. The R2 publisher goes in `src/sync/` |
+| `sage-tools-api/` | Node 22 / Express backend on Google Cloud Run (`us-central1`). ESM `.mjs`, classes with constructor injection, no TypeScript, no build step, no test framework (plain-Node `verify-*.mjs` checks). Deploys automatically on push to `main`. The R2 publisher goes in `src/sync/` |
 | `sage-match-control.github.io/` | Static site on GitHub Pages. Every page is one self-contained HTML file (inline `<style>` and `<script>`), no shared JS files. Commit to deploy. The pages in §8 change |
 | `event-data/` | Public repo served by GitHub Pages: `config/events.json` (the event/day/facility registry) and every day's snapshot at `<event-key>/data/<day>.json`. Stays as the archive and fallback |
 | `sage-docs/` | Documentation (mkdocs). This spec lives here |
@@ -53,7 +53,7 @@ spec.
   before one.
 
 **How the live data flows today:** a facility sheet's edit triggers
-`scripts/sheets-sync.gs` (Google Apps Script, pasted into each workbook by
+`apps-script/sheets-sync.gs` (Google Apps Script, pasted into each workbook by
 hand, not deployed with the service), which calls
 `POST /sync/:day?facility=<name>` on Cloud Run. `SyncService.syncDay` fetches
 that facility's tabs through the Sheets API, reads the published snapshot
@@ -69,10 +69,10 @@ missing, build the [Immediate sync](../implemented/immediate-sync-spec.md) spec 
 | What | Where to look |
 |---|---|
 | `facilities[].lastEditAt` and a `timing` object in the sync response | `src/sync/SyncService.mjs` `syncDay` |
-| `GitHubPublisher.publish` throws errors carrying `status` | `src/sync/GitHubPublisher.mjs` |
-| 3-attempt re-read-and-re-merge on `409` in `syncDay`, `setLiveOverride`, `SyncConfigStore.setIsLive`, and a private `#buildSnapshot(...)` | `src/sync/SyncService.mjs`, `src/sync/SyncConfigStore.mjs` |
-| `scripts/verify-sync-merge.mjs` | `sage-tools-api/scripts/` — extend it for R2 the way §12's write-path checks describe |
-| Lock-based `syncUntilSettled_` / `syncWithRetry_` | `scripts/sheets-sync.gs` |
+| `GitHubPublisher.publish` throws errors carrying `status` | `src/clients/GitHubPublisher.mjs` |
+| 3-attempt re-read-and-re-merge on `409` in `syncDay`, `setLiveOverride`, `SyncConfigStore.setIsLive`, and a private `#buildSnapshot(...)` | `src/sync/SyncService.mjs`, `src/registry/SyncConfigStore.mjs` |
+| `verify-sync-merge.mjs` | `sage-tools-api/scripts/` — extend it for R2 the way §12's write-path checks describe |
+| Lock-based `syncUntilSettled_` / `syncWithRetry_` | `apps-script/sheets-sync.gs` |
 
 This spec's R2 retry loop (§5) replaces the GitHub `409` loop as the
 correctness guarantee on the live path; the GitHub loop stays for the
@@ -146,7 +146,7 @@ justify it on transfer volume.
 
 ```
 Facility Google Sheet  (one per venue per tournament day)
-   |  installable onEdit trigger, lock-based  (scripts/sheets-sync.gs, §7)
+   |  installable onEdit trigger, lock-based  (apps-script/sheets-sync.gs, §7)
    v
 POST /sync/:day?facility=<name>   on Cloud Run   (X-Sync-Secret header)
    ...or POST /sync/:day/live from Control Center (operator token) — the

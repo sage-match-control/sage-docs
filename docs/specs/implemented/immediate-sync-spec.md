@@ -1,13 +1,13 @@
 # Spec — Immediate sync
 
 > **Status: implemented.** Part 1 shipped in `sage-tools-api` 2.3.0 with
-> the Control Center `edit→sync` figure; Part 2 is in `scripts/sheets-sync.gs`
+> the Control Center `edit→sync` figure; Part 2 is in `apps-script/sheets-sync.gs`
 > and runs in the Piggleball workbook, measured there on 1 October 2026 (see
 > [Sync pipeline](../../technical/sync-pipeline.md#measured-the-lock-based-sync)).
 > One divergence: a minimum gap between syncs, `SYNC_MIN_GAP_MS` (§4.3
 > notes). Not yet run from §5: the paused-workbook check and the
 > multi-workbook collision check, which needs more than one workbook in an
-> event; `scripts/verify-sync-merge.mjs` covers the retry it exercises. Two
+> event; `verify-sync-merge.mjs` covers the retry it exercises. Two
 > events syncing at once was seen for real at Piggleball and PickleDrive on
 > 3 October 2026, and §4.4's quota question has an answer from that day
 > (see [Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026)).
@@ -35,12 +35,12 @@ spec touches three:
 
 | Repo | What it is | What changes here |
 |---|---|---|
-| `sage-tools-api/` | Node 22 / Express backend on Google Cloud Run (`us-central1`). ESM `.mjs` throughout, classes with constructor injection, no TypeScript, no build step, no test framework (a few plain-Node `scripts/verify-*.mjs` checks). Deploys automatically on push to `main` | `src/sync/*`, a new `scripts/verify-sync-merge.mjs`, and `scripts/sheets-sync.gs` |
+| `sage-tools-api/` | Node 22 / Express backend on Google Cloud Run (`us-central1`). ESM `.mjs` throughout, classes with constructor injection, no TypeScript, no build step, no test framework (a few plain-Node `verify-*.mjs` checks). Deploys automatically on push to `main` | `src/sync/*`, a new `verify-sync-merge.mjs`, and `apps-script/sheets-sync.gs` |
 | `sage-match-control.github.io/` | Static site on GitHub Pages. Each page is one self-contained HTML file (inline `<style>` and `<script>`). Commit to deploy | `tools/control-center.html` only (one diagnostic line) |
 | `event-data/` | Public repo served by GitHub Pages. `config/events.json` is the event/day/facility registry; every day's live snapshot is `<event-key>/data/<day>.json` | Nothing (it is written to at runtime) |
 | `sage-docs/` | Documentation (mkdocs). This spec lives here | Docs updates (§6) |
 
-**`scripts/sheets-sync.gs` is not part of the Cloud Run service.** It is
+**`apps-script/sheets-sync.gs` is not part of the Cloud Run service.** It is
 Google Apps Script, kept in the repo for versioning, and ships by pasting the
 whole file into each spreadsheet's script project (**Extensions → Apps
 Script**). It is byte-identical in every workbook; each workbook's identity
@@ -103,7 +103,7 @@ token) and `POST /sync/:day/live` (the Live/Hide override:
   facilities: [{
     name, matchesCsv, standingsCsv,
     syncedAt,           // ISO, restamped whenever this facility is fetched
-    completedAt,        // ISO or null — src/sync/facilityCompletion.mjs
+    completedAt,        // ISO or null — src/sync/domain/facilityCompletion.mjs
     lastEditAt          // NEW: ISO or null — when the edit behind the latest sync was made
   }],
   failedFacilities: [], // "name: error" strings
@@ -115,13 +115,13 @@ token) and `POST /sync/:day/live` (the Live/Hide override:
 
 | File | Why |
 |---|---|
-| `sage-tools-api/scripts/sheets-sync.gs` | `onEditInstallable`, `runIfSettled`, `triggerSync_`, `testSyncNow`, `readSyncConfig_`, `isSyncPaused_`, `DEBOUNCE_MS`, `SETTLE_HANDLER`, `PROP_LAST_EDIT` |
+| `sage-tools-api/apps-script/sheets-sync.gs` | `onEditInstallable`, `runIfSettled`, `triggerSync_`, `testSyncNow`, `readSyncConfig_`, `isSyncPaused_`, `DEBOUNCE_MS`, `SETTLE_HANDLER`, `PROP_LAST_EDIT` |
 | `sage-tools-api/src/sync/routes.mjs` | `handleSync`, `handleSetLive`, and their `@openapi` JSDoc blocks |
 | `sage-tools-api/src/sync/SyncService.mjs` | `syncDay`, `setLiveOverride` |
-| `sage-tools-api/src/sync/SyncConfigStore.mjs` | `setIsLive` |
-| `sage-tools-api/src/sync/GitHubPublisher.mjs` | `publish`, `fetchExisting` |
-| `sage-tools-api/scripts/attendance.gs` | Read only: it holds `LockService.getScriptLock()`, which is why §4 uses the document lock |
-| `sage-tools-api/scripts/verify-*.mjs`, `mock-apps-script.mjs` | Existing checks to keep passing; a pattern for the new one |
+| `sage-tools-api/src/registry/SyncConfigStore.mjs` | `setIsLive` |
+| `sage-tools-api/src/clients/GitHubPublisher.mjs` | `publish`, `fetchExisting` |
+| `sage-tools-api/apps-script/attendance.gs` | Read only: it holds `LockService.getScriptLock()`, which is why §4 uses the document lock |
+| `sage-tools-api/apps-script/verify-*.mjs`, `mock-apps-script.mjs` | Existing checks to keep passing; a pattern for the new one |
 | `sage-match-control.github.io/tools/control-center.html` | `renderOrganizerStatus` (Facility Sync Status rows) |
 
 ## 1. Why, in numbers
@@ -180,7 +180,7 @@ from the edit to publication; and a sync that loses a race with another
 sync for the same day retries instead of failing (§3.3). The retry must be
 live **before** Part 2 makes syncs faster.
 
-### 3.1 `scripts/sheets-sync.gs`
+### 3.1 `apps-script/sheets-sync.gs`
 
 `triggerSync_()` takes an optional argument and sends the edit time as a
 header:
@@ -259,7 +259,7 @@ e.g. `2026-09-27T11:07:57.569Z :: [scoresheet:sync:github] committed …`.)
 
 ### 3.3 Retry on a GitHub conflict
 
-**`src/sync/GitHubPublisher.mjs` → `publish`:** when the PUT fails, attach
+**`src/clients/GitHubPublisher.mjs` → `publish`:** when the PUT fails, attach
 the HTTP status to the thrown error so callers can tell a conflict apart
 from anything else. The message stays exactly as it is.
 
@@ -308,7 +308,7 @@ re-merging`. Add `attempts` to the return value.
 **`setLiveOverride`:** same loop around its `fetchExisting` → spread →
 `publish`, re-reading on `409`.
 
-**`src/sync/SyncConfigStore.mjs` → `setIsLive`:** the override's first
+**`src/registry/SyncConfigStore.mjs` → `setIsLive`:** the override's first
 commit, to `config/events.json`, has the same exposure: it reads the file,
 sets the day's `isLive`, and publishes with the sha it read, so any sync of
 any event landing in between makes it fail and the operator sees an error.
@@ -317,7 +317,7 @@ Wrap its read → modify → `publish` in the same 3-attempt loop on
 change each time. Keep invalidating the cache only after a successful
 commit.
 
-**`scripts/verify-sync-merge.mjs` (new):** a plain Node script in the style
+**`verify-sync-merge.mjs` (new):** a plain Node script in the style
 of the other `verify-*` scripts (no framework, no network, exits non-zero
 on failure). It constructs `SyncService` with in-memory fakes: a fetcher
 returning fixed CSVs per facility, and a fake `GitHubPublisher` holding one
@@ -344,7 +344,7 @@ Whichever delivery spec is built next extends this script (§8). Add it to
 the root `CLAUDE.md`'s list of verify scripts with its run command:
 
 ```bash
-node scripts/verify-sync-merge.mjs
+npm test
 ```
 
 ### 3.4 `tools/control-center.html`
@@ -364,7 +364,7 @@ page shows it.
 - The published snapshot's facility has `lastEditAt`.
 - Mission Control shows the `edit→sync` figure.
 - **SAGE → Sync now** still works and logs `edit→request=n/a`.
-- `node scripts/verify-sync-merge.mjs` passes.
+- `npm test` passes.
 - On a scratch day with two facilities, firing **SAGE → Sync now** in both
   workbooks at the same moment (two people, or two browser windows) ends
   with both facilities' edits published and no `500` — the Cloud Run log
@@ -376,7 +376,7 @@ page shows it.
 
 ### 4.1 The problem
 
-`onEditInstallable` today (read it in `scripts/sheets-sync.gs`) records
+`onEditInstallable` today (read it in `apps-script/sheets-sync.gs`) records
 `PROP_LAST_EDIT`, deletes any pending `runIfSettled` trigger, and creates a
 new one with `.timeBased().after(DEBOUNCE_MS)`. Google fires `.after()`
 triggers on a best-effort schedule, so the sync can start well after the 3s
@@ -402,7 +402,7 @@ Sync from the edit's own execution, and let a lock collapse bursts:
   without this a failed sync would stay unpublished until the next edit.
 
 **Use `LockService.getDocumentLock()`, not `getScriptLock()`.**
-`scripts/attendance.gs` runs in the same Apps Script project in live
+`apps-script/attendance.gs` runs in the same Apps Script project in live
 workbooks and holds `getScriptLock()` for up to 10s while marking a player.
 Sharing that lock would make edits made during an attendance mark lose their
 sync.
@@ -570,11 +570,11 @@ not the settle. Figures in
 
 - `node --check` cannot parse `.gs`; copy to a temp `.js` file and run
   `node --check` on that.
-- Run `node scripts/verify-attendance.mjs` and
-  `node scripts/verify-standard-generator.mjs` and
-  `node scripts/verify-sheet-generator.mjs`. They load `sheets-sync.gs`
+- Run `node apps-script/verify-attendance.mjs` and
+  `node apps-script/verify-standard-generator.mjs` and
+  `node apps-script/verify-sheet-generator.mjs`. They load `sheets-sync.gs`
   into the same context as the other files and fail on a top-level name
-  clash. (`scripts/mock-apps-script.mjs` has no `LockService`; that is fine
+  clash. (`apps-script/mock-apps-script.mjs` has no `LockService`; that is fine
   as long as nothing in those scripts calls `onEditInstallable`.)
 - Test in a **copy** of a live workbook before any real one. A copy starts
   unconfigured (the spreadsheet-ID guard in `readSyncConfig_`), so run
@@ -635,7 +635,7 @@ In the present tense, once each part ships:
 - Root `CLAUDE.md` (in `D:\Personal\SAGE`): the data-flow diagram's first
   step ("installable onEdit trigger, debounced") and the `sheets-sync.gs`
   description (lock-based, not debounced); add
-  `scripts/verify-sync-merge.mjs` to the list of verify scripts with its run
+  `verify-sync-merge.mjs` to the list of verify scripts with its run
   command, and note it covers `SyncService`'s merge and conflict retry.
 - `sage-tools-api/README.md`: the Changelog entry for Part 1's version.
 - `sage-docs/docs/technical/sync-pipeline.md`: how a sync is triggered, the
@@ -673,7 +673,7 @@ built. They rely on, by name:
 - `GitHubPublisher.publish` errors carrying `status`;
 - the 3-attempt `409` loop in `syncDay`, `setLiveOverride` and
   `setIsLive`, and `SyncService#buildSnapshot`;
-- `scripts/verify-sync-merge.mjs`, which they extend;
+- `verify-sync-merge.mjs`, which they extend;
 - `syncUntilSettled_` / `syncWithRetry_` in `sheets-sync.gs`.
 
 Keep those names if you change the design, or update both delivery specs.

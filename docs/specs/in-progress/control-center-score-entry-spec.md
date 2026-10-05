@@ -121,10 +121,10 @@ scorer staff write one match's score.
 
 | Fact | Where |
 |---|---|
-| `SheetsClient` reads with the API key (`readValues(sheetId, range, { render })`, `null` when the tab doesn't exist) and writes as the service account. `updateValues` refuses any range outside `ATTENDANCE!A:G` before sending | `src/attendance/SheetsClient.mjs` |
+| `SheetsClient` reads with the API key (`readValues(sheetId, range, { render })`, `null` when the tab doesn't exist) and writes as the service account. `updateValues` refuses any range outside `ATTENDANCE!A:G` before sending | `src/clients/SheetsClient.mjs` |
 | `SyncService.syncDay(day, { facilityName, method, editAt })` reads the facility, publishes, and returns `{ facilitiesSynced, facilitiesFailed, … }`. `editAt` is **epoch milliseconds**. It throws on config errors and when nothing could be published. Cloud Run throttles CPU once a response is sent, so publishing must finish before responding | `src/sync/SyncService.mjs` |
-| `config.getDay(day)` → `{ day, event, label, date, facilities: [{ name, sheetId }], isLive }`, throws `UnknownSyncDayError` (400). `config.getEvent(event)` → `{ event, type, attendance }`, throws `UnknownEventError` (404) | `src/sync/SyncConfigSnapshot.mjs` |
-| `SyncConfigStore.setLivePush(enabled)` is the pattern for writing `events.json`: fetch with sha, `validate`, change, `publisher.publish(path, raw, message, sha)`, retry on a 409 up to `COMMIT_ATTEMPTS`, then clear `this.cached`/`this.cachedAt` | `src/sync/SyncConfigStore.mjs` |
+| `config.getDay(day)` → `{ day, event, label, date, facilities: [{ name, sheetId }], isLive }`, throws `UnknownSyncDayError` (400). `config.getEvent(event)` → `{ event, type, attendance }`, throws `UnknownEventError` (404) | `src/registry/SyncConfigSnapshot.mjs` |
+| `SyncConfigStore.setLivePush(enabled)` is the pattern for writing `events.json`: fetch with sha, `validate`, change, `publisher.publish(path, raw, message, sha)`, retry on a 409 up to `COMMIT_ATTEMPTS`, then clear `this.cached`/`this.cachedAt` | `src/registry/SyncConfigStore.mjs` |
 | `AuthService`: `login` issues operator tokens; `verify(token)` accepts only unscoped ones. `issueDeskToken({ day, expiresAt })` / `verifyDeskToken(token)` make and check desk tokens: payload `{ exp, scope: "attendance-desk", day }`, signed with a key derived from `AUTH_TOKEN_SECRET` and the scope (`#signDesk`). A desk token never verifies as an operator token, and vice versa | `src/auth/AuthService.mjs` |
 | `AttendanceService.issueDeskLink(day)` checks the event's setting, computes expiry, calls `issueDeskToken`, returns `{ token, expiresAt, day }`; errors are `ValidationError`s | `src/attendance/AttendanceService.mjs` |
 | An unknown facility is a 400 `ValidationError` (`unknownFacility` in `AttendanceService.mjs`) | same |
@@ -253,11 +253,11 @@ you move on.
 
 | File | New/changed |
 |---|---|
-| `src/scores/scheduleGrid.mjs` | new (§4.2) |
-| `src/scores/scoreRequest.mjs` | new (§4.3) |
+| `src/scores/domain/scheduleGrid.mjs` | new (§4.2) |
+| `src/scores/domain/scoreRequest.mjs` | new (§4.3) |
 | `src/shared/errors.mjs` | changed (§4.4) |
-| `src/attendance/SheetsClient.mjs` | changed (§4.5) |
-| `src/sync/SyncConfigStore.mjs`, `src/sync/SyncConfigSnapshot.mjs` | changed (§4.6) |
+| `src/clients/SheetsClient.mjs` | changed (§4.5) |
+| `src/registry/SyncConfigStore.mjs`, `src/registry/SyncConfigSnapshot.mjs` | changed (§4.6) |
 | `src/auth/AuthService.mjs` | changed (§4.7) |
 | `src/scores/ScoreService.mjs` | new (§4.8) |
 | `src/scores/routes.mjs` | new (§4.9) |
@@ -265,7 +265,7 @@ you move on.
 | `test/…` | §4.11–4.13 |
 | `package.json`, `README.md` | §4.14 |
 
-### 4.2 `src/scores/scheduleGrid.mjs`
+### 4.2 `src/scores/domain/scheduleGrid.mjs`
 
 Pure functions, no imports. Write it as:
 
@@ -339,7 +339,7 @@ export function readMatchAt(values, { row, col }) {
 }
 ```
 
-### 4.3 `src/scores/scoreRequest.mjs`
+### 4.3 `src/scores/domain/scoreRequest.mjs`
 
 Validates the score route's input. Pure; imports only `ValidationError`.
 
@@ -408,7 +408,7 @@ export class ScoreConflictError extends AppError {
 
 ### 4.5 `SheetsClient`: two score methods with their own allowlist
 
-In `src/attendance/SheetsClient.mjs`. **Do not change `updateValues` or its
+In `src/clients/SheetsClient.mjs`. **Do not change `updateValues` or its
 `WRITABLE_RANGE`.** Add:
 
 ```js
@@ -460,7 +460,7 @@ one match's two `SCHEDULE` score cells, each through its own allowlist.
 
 ### 4.6 Config
 
-**Validation.** `src/sync/SyncConfigStore.mjs`, in `validate(raw)`, directly
+**Validation.** `src/registry/SyncConfigStore.mjs`, in `validate(raw)`, directly
 after the `attendance` check:
 
 ```js
@@ -469,7 +469,7 @@ if (eventEntry?.scoreEntry !== undefined && eventEntry.scoreEntry !== "console" 
 }
 ```
 
-**Reading.** `src/sync/SyncConfigSnapshot.mjs`, `getEvent` returns two more
+**Reading.** `src/registry/SyncConfigSnapshot.mjs`, `getEvent` returns two more
 fields, and its comment becomes "The event-level settings attendance and
 score entry need":
 

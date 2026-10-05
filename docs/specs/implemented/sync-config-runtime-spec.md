@@ -1,6 +1,6 @@
 # Spec — Runtime-fetched sync config
 
-Move the event/day/facility registry out of `sage-tools-api/src/sync/SyncConfig.mjs`
+Move the event/day/facility registry out of `sage-tools-api/src/registry/SyncConfig.mjs`
 and into a JSON file in the shared `event-data` repo, fetched at runtime via the
 GitHub Contents API.
 
@@ -160,7 +160,7 @@ keep private working notes in a tab of a synced spreadsheet.
 
 ## 4. New: `SyncConfigStore`
 
-`src/sync/SyncConfigStore.mjs` — owns fetching, caching, validating.
+`src/registry/SyncConfigStore.mjs` — owns fetching, caching, validating.
 
 ```js
 export class SyncConfigStore {
@@ -190,7 +190,7 @@ within a minute without a redeploy.
 
 ### 4.1 Bundled fallback seed
 
-`src/sync/events.seed.json`, shipped in the image, is a copy of the config as of
+`src/registry/events.seed.json`, shipped in the image, is a copy of the config as of
 the last deploy. It is used **only** when an instance has nothing cached and the
 remote fetch or validation failed — i.e. a cold start during a GitHub outage, or
 a cold start after someone commits a broken config mid-event. That second case is

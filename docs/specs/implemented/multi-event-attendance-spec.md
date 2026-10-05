@@ -84,18 +84,18 @@ a minute.
 
 | Fact | Where |
 |---|---|
-| The sync fetches each facility as `{ name, matchesCsv, standingsCsv }` (CSV **text**) through `SheetsCsvFetcher` (API key, Sheets API `values:batchGet`) | `src/sync/SheetsCsvFetcher.mjs`, `SyncService.syncDay` |
+| The sync fetches each facility as `{ name, matchesCsv, standingsCsv }` (CSV **text**) through `SheetsCsvFetcher` (API key, Sheets API `values:batchGet`) | `src/clients/SheetsCsvFetcher.mjs`, `SyncService.syncDay` |
 | `SyncService.syncDay` publishes, then archives, then returns. Nothing runs after the response, because Cloud Run throttles CPU once a response is sent | `src/sync/SyncService.mjs` header comment and lines 121–185 |
-| `facilityCompletion.mjs` exports a CSV parser, `parseCsv(text)` → `string[][]` | `src/sync/facilityCompletion.mjs:15` |
+| `facilityCompletion.mjs` exports a CSV parser, `parseCsv(text)` → `string[][]` | `src/sync/domain/facilityCompletion.mjs:15` |
 | `AuthService.verify(token)` accepts **any** validly signed, unexpired token. Its payload is only `{ exp }` | `src/auth/AuthService.mjs:46-62` |
 | Auth checks live as closures inside the sync routes factory (`requireAuthToken`, `requireSyncSecretOrAuthToken`) | `src/sync/routes.mjs` |
 | CORS allows only `GET, POST, OPTIONS`, so a browser `PUT` fails its preflight today | `src/server/Server.mjs`, `#registerMiddleware` |
-| Config validation is the `validate(raw)` function in `SyncConfigStore.mjs`. `SyncConfigSnapshot.getDay(day)` returns `{ day, event, label, facilities, isLive }`. It doesn't return `date` or the event's `type` | `src/sync/SyncConfigStore.mjs:224`, `src/sync/SyncConfigSnapshot.mjs` |
+| Config validation is the `validate(raw)` function in `SyncConfigStore.mjs`. `SyncConfigSnapshot.getDay(day)` returns `{ day, event, label, facilities, isLive }`. It doesn't return `date` or the event's `type` | `src/registry/SyncConfigStore.mjs:224`, `src/registry/SyncConfigSnapshot.mjs` |
 | Events carry `type` (`"dual-meet"`, `"standard"`, `"team"`), optional `archived`, `display` labels. Days carry an optional `date` (`YYYY-MM-DD`). Every current event's day has one, but BKL Cup's (archived) do not | `event-data/config/events.json`, `event-data/config/README.md` |
 | Standard team codes look like `NMD_1`, dual meet like `PNF_LIWD_1`. `STANDINGSCSV`'s header is `teamCode,player1,player2,wins,loss,quotient,bracket` for both. Names can carry trailing spaces | published snapshots in `event-data` |
 | A team event's `STANDINGSCSV` is `teamCode,teamName,totalPoints,…` with **no player columns**. Its players are in a tab named **`Teams`**, one row per player. The name is in the column headed **`FINAL LEVEL ORDER`** (confirmed by the owner). The other headers include `Team Code`, `Team Name`, `LEVEL`, `Gender` | PickleDrive's workbook |
 | Google's gviz CSV export can return a column **empty** when it guesses that column's type wrongly. PickleDrive's `NAMES` column comes back empty that way. The Sheets API (`values.get`) does not do this | observed 2026-10-02 |
-| Pickle for Sight's `attendance.gs` skips standings rows whose code doesn't match `^[A-Z0-9]+_\d+$` (playoff-seat rows like `HIMD_QF_1` repeat names), and names that equal the team code | `scripts/attendance.gs:78-97` |
+| Pickle for Sight's `attendance.gs` skips standings rows whose code doesn't match `^[A-Z0-9]+_\d+$` (playoff-seat rows like `HIMD_QF_1` repeat names), and names that equal the team code | `apps-script/attendance.gs:78-97` |
 | Control Center: view tabs are `<button class="view-tab" data-view="…">` in `#viewTabsWrap`, in the order Mission Control, Awards, Live Matches, Match Finder, Standings. The console opens on Mission Control. **`showView(view)` is the one place that switches views**: it marks the tab active, shows that view's container and hides the rest, and renders it. Sign in is at the top of Mission Control. The operator token lives in `sessionStorage` under `sage.authToken`, read with `currentAuthToken()`. API calls use `CLOUD_RUN_BASE_URL`. The selected event's raw `events.json` entry is in `EVENTS_REGISTRY.get(CURRENT_EVENT_KEY)`, and its type is `CURRENT_TYPE` | `tools/control-center.html`; find each by name (`grep -n`), not by line number |
 | Control Center shows outcomes two ways. **`showToast(kind, text, key)`** (`kind` is `ok`, `warn`, `error` or `loading`) for short outcomes, pinned to the top of the screen, a later toast with the same `key` replacing the last. **`showResultRows(box, kind, title, rows)`** for results worth reading, as labelled rows in a box right under the button, scrolled into view (`rows: [{ label, value, kind?, list? }]`). **`friendlyApiMessage(raw)`** turns an API error string into plain words, including any `HTTP <status> <json>` inside it. **No raw JSON is ever shown**. Every finished result box has a close button, and `clearResultBoxes()` hides every `.organizer-result` when the event, day or tab changes; a result that arrives after that (its box's `loading` message came first) becomes a toast. Attendance's boxes use the same helpers, so they get all of this for free: give each box the `organizer-result` class and an `id` | `tools/control-center.html`, the "Showing outcomes" and "Readable API messages" blocks |
 | On `localhost`, Control Center's `?fixture=<name>` loads `/_fixtures/config.json` and `/_fixtures/<event>/<name>.json` instead of the published data (`const FIXTURE`) | `tools/control-center.html`, `const FIXTURE` |
@@ -210,7 +210,7 @@ Rules:
 
 ### 3.3 Person key
 
-One function, `src/attendance/personKey.mjs`. It is the only definition: the
+One function, `src/attendance/domain/personKey.mjs`. It is the only definition: the
 client never recomputes keys and only reads column A.
 
 ```js
@@ -238,14 +238,14 @@ export function displayName(name) {
 
 ### 3.4 Roster, by event type
 
-`src/attendance/roster.mjs`, pure functions. Each returns
+`src/attendance/domain/roster.mjs`, pure functions. Each returns
 `Person[] = { key, player, teams: string[], categories: string[] }[]`, one
 entry per distinct key, in first-seen order. A person's `teams` and
 `categories` keep first-seen order, with no duplicate team codes.
 
 **Standard** (`type: "standard"`): from `STANDINGSCSV` rows (`string[][]`,
 header first). The sync hook has CSV text and passes `parseCsv(standingsCsv)`,
-using `parseCsv` from `src/sync/facilityCompletion.mjs`. A manual roster update
+using `parseCsv` from `src/sync/domain/facilityCompletion.mjs`. A manual roster update
 reads the tab with the Sheets API and passes its values.
 - Find columns by header name (trimmed): `teamCode`, `player1`, `player2`.
   Missing any of them is an error naming the missing header.
@@ -298,17 +298,17 @@ workbook's category tab, and the next sync's roster update follows.
 
 | File | New/changed | Holds |
 |---|---|---|
-| `src/attendance/personKey.mjs` | new | §3.3 |
-| `src/attendance/roster.mjs` | new | §3.4: `rosterFromStandings(type, rows)`, `rosterFromTeamsValues(values)` |
-| `src/attendance/attendanceTab.mjs` | new | pure: `HEADERS`, `parseTab(values)`, `planReconcile(people, tab)`, `planMark(row, present, now)`, `formatTimeIn(date)` (§4.6–4.7) |
-| `src/attendance/GoogleAccessToken.mjs` | new | the service account's access token and email from the metadata server (§4.4) |
-| `src/attendance/SheetsClient.mjs` | new | Sheets API reads (API key) and writes (token), restricted to an allowlist (§4.5) |
+| `src/attendance/domain/personKey.mjs` | new | §3.3 |
+| `src/attendance/domain/roster.mjs` | new | §3.4: `rosterFromStandings(type, rows)`, `rosterFromTeamsValues(values)` |
+| `src/attendance/domain/attendanceTab.mjs` | new | pure: `HEADERS`, `parseTab(values)`, `planReconcile(people, tab)`, `planMark(row, present, now)`, `formatTimeIn(date)` (§4.6–4.7) |
+| `src/clients/GoogleAccessToken.mjs` | new | the service account's access token and email from the metadata server (§4.4) |
+| `src/clients/SheetsClient.mjs` | new | Sheets API reads (API key) and writes (token), restricted to an allowlist (§4.5) |
 | `src/attendance/AttendanceService.mjs` | new | `mark`, `reconcileDay`, `reconcileAfterSync`, `issueDeskLink` |
 | `src/attendance/routes.mjs` | new | the `/v1` routes and their `@openapi` blocks (§4.8) |
 | `src/shared/errors.mjs` | changed | new error classes (§4.8) |
 | `src/auth/AuthService.mjs` | changed | desk tokens; operator `verify` rejects them (§4.3) |
-| `src/sync/SyncConfigStore.mjs` | changed | validate `attendance` (§4.2) |
-| `src/sync/SyncConfigSnapshot.mjs` | changed | `getEvent(eventKey)`; `getDay` also returns `date` (§4.2) |
+| `src/registry/SyncConfigStore.mjs` | changed | validate `attendance` (§4.2) |
+| `src/registry/SyncConfigSnapshot.mjs` | changed | `getEvent(eventKey)`; `getDay` also returns `date` (§4.2) |
 | `src/sync/SyncService.mjs` | changed | the `onFacilitiesSynced` hook (§4.9) |
 | `src/server/Server.mjs` | changed | CORS adds `PUT`; mount `/v1` (§4.10) |
 | `src/docs/openapiSpec.mjs` | changed | add `src/attendance/routes.mjs` to `apis`, add tag `attendance` |
@@ -915,11 +915,11 @@ that spec extends this work rather than redoing it:
 | `GoogleAccessToken.test.mjs` | sends `Metadata-Flavor: Google` and the `scopes` query; caches until 60 s before expiry and refetches after (mock timers); `override` never calls fetch; failure throws `UpstreamError`; `email()` returns `null` on failure |
 | `SheetsClient.test.mjs` | read URL carries `key` and `valueRenderOption`; a missing tab gives `null`; writes carry the bearer token and `RAW`; **a range outside `ATTENDANCE!A–G` throws before any fetch** (`ATTENDANCE!H2`, `CSV!A1`, `ATTENDANCE!A:Z`); `429` then `200` succeeds after 1 s; `429` twice → `ServiceBusyError`; write `403` → message names the email; timeout → `UpstreamError` |
 | `AttendanceService.test.mjs` (fake `SheetsClient` and config) | `reconcileAfterSync` on an event without attendance makes no Sheets call; the unchanged-roster shortcut skips on the second call and not after a name changes; a failure in one facility doesn't stop the others and never throws; the tab is created when missing; a raced new row (the verify read returns another key) leaves the fingerprint unrecorded, so the next call reconciles again; team events read `Teams`, cached for 5 minutes (mock timers) in `reconcileAfterSync` but always re-read by `reconcileDay`; the 6-second budget returns without throwing. `mark`: §4.7's every step, each error with its class; desk actor with `"console"` → 403; desk actor for another day → 403. `issueDeskLink`: no date → 400; past day → 400; `"console"` → 400; expiry is the day's 23:59:59.999 +08:00 |
-| `SyncService` hook (`test/unit/sync/onFacilitiesSynced.test.mjs`, using the fakes in `scripts/verify-sync-merge.mjs` copied into the test file) | called after publish with the fresh facilities' `standingsCsv`; not called when every fetch failed; a throwing hook leaves the sync's response unchanged |
+| `SyncService` hook (`test/unit/sync/onFacilitiesSynced.test.mjs`, using the fakes in `verify-sync-merge.mjs` copied into the test file) | called after publish with the fresh facilities' `standingsCsv`; not called when every fetch failed; a throwing hook leaves the sync's response unchanged |
 | `SyncConfigStore` validation (`test/unit/sync/attendanceConfig.test.mjs`) | `"console"`, `"desks"` and absent pass; `"yes"`, `true` fail with the message; `getEvent` returns `attendance`; `getDay` returns `date` |
 | `attendance-routes.test.mjs` (the real `Server` on `http.createServer(server.app)` port 0, as the test-suite spec's `startApp` does; a fake `attendanceService`) | `PUT` with an operator token → 200 and the service gets `actor.kind === "operator"`; with a desk token → `actor.kind === "desk"` and its day; no token → 401; bad body (`present: "yes"`) → 400; service errors map to their status with body `{ error }`; desk token on `POST …/desk-links` and `…/reconciliations` → 401; `POST …/desk-links` → 201; **a desk token on `POST /sync/<day>` → 401**; `OPTIONS` preflight answers `204` with `Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS`; `GET /openapi.json` lists the three new paths |
 
-`npm test` must pass, and the five existing `node scripts/verify-*.mjs`
+`npm test` must pass, and the five existing `verify-*.mjs`
 scripts must still pass, untouched.
 
 ### 7.3 The site
@@ -1192,7 +1192,7 @@ spec turns out wrong, and report it.
   that spec's layout. That spec then pins attendance's routes too (its §2.1
   gains them). Its characterization B3 changes from `GET, POST, OPTIONS` to
   `GET, POST, PUT, OPTIONS`. The spec is updated with this one.
-- **[Architecture hardening](../not-started/sage-tools-api-architecture-spec.md):** Phase 2
+- **[Architecture hardening](../in-progress/sage-tools-api-architecture-spec.md):** Phase 2
   moves attendance's auth checks into `src/auth/middleware.mjs` and adds
   `code` to its error bodies. Phase 5 adds the other `/v1` routes beside
   attendance's, on the same prefix. Phase 4's `SyncService` split keeps the

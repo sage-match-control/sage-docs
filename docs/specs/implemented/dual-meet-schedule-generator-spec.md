@@ -10,7 +10,7 @@ first. This spec does not restate them; it inherits them and adds the
 inputs and rules only the schedule needs.
 
 Same delivery story as Phase 1: bound Apps Script in
-`sage-tools-api/scripts/sheet-generator.gs`, no new infra, no Cloud Run
+`sage-tools-api/apps-script/sheet-generator.gs`, no new infra, no Cloud Run
 deploy, no `package.json` bump.
 
 | | |
@@ -33,10 +33,10 @@ whole event's tabs from a CSV the Tournament Time Calculator exports.
 
 | Thing | Path |
 | --- | --- |
-| The generator | `sage-tools-api/scripts/sheet-generator.gs` |
+| The generator | `sage-tools-api/apps-script/sheet-generator.gs` |
 | Phase 1 spec — read it first | `sage-docs/docs/specs/implemented/dual-meet-sheet-generator-spec.md` |
 | The colour palette's other consumer | `sage-docs/docs/specs/implemented/schedule-screen-spec.md` §3.1 |
-| The live sync that reads `SCHEDULE` | `sage-tools-api/scripts/sheets-sync.gs` |
+| The live sync that reads `SCHEDULE` | `sage-tools-api/apps-script/sheets-sync.gs` |
 | The calculator that writes the plan CSV | `sage-match-control.github.io/tools/tournament-calculator.html` |
 
 `sage-tools-api/scripts/*.gs` is **not** part of the Cloud Run service. It
@@ -541,7 +541,7 @@ covers only what is new or different in Phase 2.
 
 ### 8.1 Where the code goes
 
-All of it in `sage-tools-api/scripts/sheet-generator.gs`, the same bound
+All of it in `sage-tools-api/apps-script/sheet-generator.gs`, the same bound
 script Phase 1 lives in. Two new functions plus a hook:
 
 ```js

@@ -3,7 +3,7 @@
 > **Status: implemented** (2026-10-03). Written 2026-10-02 against
 > `sage-tools-api` 2.5.0 (live push, the operator switch, the Apps Script
 > verify scripts), split out of the
-> [architecture hardening spec](../not-started/sage-tools-api-architecture-spec.md), whose
+> [architecture hardening spec](../in-progress/sage-tools-api-architecture-spec.md), whose
 > Phase 0 this is. Revised 2026-10-03 against 2.7.0: attendance (2.6.0,
 > 2.6.1) and team rosters (2.7.0) are on `main`, and this page covers both.
 > Built the same day with no production file changed; §11 records where the
@@ -102,11 +102,11 @@ on failure):
 
 ```bash
 npm test
-node scripts/verify-sync-merge.mjs
-node scripts/verify-facility-completion.mjs
-node scripts/verify-attendance.mjs
-node scripts/verify-standard-generator.mjs
-node scripts/verify-sheet-generator.mjs
+npm test
+npm test
+node apps-script/verify-attendance.mjs
+node apps-script/verify-standard-generator.mjs
+node apps-script/verify-sheet-generator.mjs
 ```
 
 **How to work.** One branch, `test-suite`, one commit per step in §6. If a test
@@ -463,8 +463,8 @@ the module.
 
 | Module | Cases |
 |---|---|
-| `facilityCompletion.mjs` | every case in `scripts/verify-facility-completion.mjs`, 1:1: all non-BYE matches scored, partial, BYE by team code, by either player name, case-insensitive `bye`, stamp kept once set, cleared when a score is removed, an empty CSV |
-| `SyncService` merge | every scenario in `scripts/verify-sync-merge.mjs`, 1:1 (the 70 checks): scoped sync, carry-forward, conflict retry, three 409s, non-409, `setLiveOverride` retry, `lastEditAt` survival, branch-level conflict, live disabled, empty live object, live conflict, live read/publish throws, three live conflicts, archive 409 and 403, `setLiveOverride` through the Worker and its fallbacks, switch off, stale live object, newer live object, GitHub read failing. The roster merge (a fresh `rosterCsv` replaces the old one; a fetch without one keeps it) is already in `teamRoster.test.mjs`, and the hook in `onFacilitiesSynced.test.mjs` |
+| `facilityCompletion.mjs` | every case in `verify-facility-completion.mjs`, 1:1: all non-BYE matches scored, partial, BYE by team code, by either player name, case-insensitive `bye`, stamp kept once set, cleared when a score is removed, an empty CSV |
+| `SyncService` merge | every scenario in `verify-sync-merge.mjs`, 1:1 (the 70 checks): scoped sync, carry-forward, conflict retry, three 409s, non-409, `setLiveOverride` retry, `lastEditAt` survival, branch-level conflict, live disabled, empty live object, live conflict, live read/publish throws, three live conflicts, archive 409 and 403, `setLiveOverride` through the Worker and its fallbacks, switch off, stale live object, newer live object, GitHub read failing. The roster merge (a fresh `rosterCsv` replaces the old one; a fetch without one keeps it) is already in `teamRoster.test.mjs`, and the hook in `onFacilitiesSynced.test.mjs` |
 | `teamRoster.mjs` | already tested by `teamRoster.test.mjs`; nothing to add |
 
 **Unit: sync config**
@@ -609,7 +609,7 @@ Steps:
 
 1. Create `test/` per §3.3 and add the `package.json` scripts from §3.2.
 2. Write the helpers (§3.4), including `fakeWorld.test.mjs` for the helper itself.
-3. Move the fakes out of `scripts/verify-sync-merge.mjs` into `test/helpers/fakes.mjs`
+3. Move the fakes out of `verify-sync-merge.mjs` into `test/helpers/fakes.mjs`
    unchanged.
 4. Port `verify-sync-merge.mjs` and `verify-facility-completion.mjs` to
    `node:test`, 1:1: same scenarios, same assertions, one `it` per `check`. The

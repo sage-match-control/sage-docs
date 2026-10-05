@@ -10,7 +10,7 @@ Cloud Run to open pages.
 ```
 Facility Google Sheet
    |  installable onEdit trigger, document-locked, syncs from the edit itself
-   |  (scripts/sheets-sync.gs)
+   |  (apps-script/sheets-sync.gs)
    v
 POST /sync/:day?facility=<name>   (X-Sync-Secret header, or an operator's bearer token;
    |                               X-Edit-At header carries the edit time)
@@ -82,7 +82,7 @@ sync re-reads, re-merges and publishes again, up to 3 times, logging
 snapshot that won, so neither facility's data is lost.
 
 ```bash
-node scripts/verify-sync-merge.mjs
+npm test
 ```
 
 ### Edit timing
@@ -235,7 +235,7 @@ the 936 archive commits in `event-data`.
 Each facility in a published snapshot carries `syncedAt` (restamped on every
 successful fetch) and `completedAt`, the moment it finished play, or `null`
 while matches are left. Nothing in the sheet timestamps a match, so
-`src/sync/facilityCompletion.mjs` infers "finished": every non-BYE match has
+`src/sync/domain/facilityCompletion.mjs` infers "finished": every non-BYE match has
 both scores in. `resolveCompletedAt` then decides the value against what was
 already published:
 
@@ -262,7 +262,7 @@ finishes. Change one copy and you have to change the other (see
 [Control Center](control-center.md) § Actual end).
 
 ```bash
-node scripts/verify-facility-completion.mjs
+npm test
 ```
 
 checks the completion rule (BYEs, zero scores, quoted names, missing
@@ -270,7 +270,7 @@ columns) and the resync story (first finish, repeated resyncs, a cleared and
 re-entered score). Unlike the other `verify-*` scripts, it covers code in
 `src/`, not Apps Script.
 
-**Apps Script side:** `scripts/sheets-sync.gs`, installed once per facility
+**Apps Script side:** `apps-script/sheets-sync.gs`, installed once per facility
 spreadsheet, watches that workbook's configured tabs (SCHEDULE and Court
 Control by default) via an *installable* `onEdit` trigger (a bare `onEdit(e)`
 can't call `UrlFetchApp`, which is why it has to be installed rather than the
@@ -373,7 +373,7 @@ copy of an event workbook and so inherits that workbook's secret; using
 *Replace shared secret* there once makes the secret its own. A copy is told
 apart from its master by name: `Copy of …` until it is generated, then the
 event's own name. `secretMenuItem_` makes the decision and is checked by
-`scripts/verify-standard-generator.mjs`.
+`apps-script/verify-standard-generator.mjs`.
 The secret now travels inside the spreadsheet file, so sharing a copy of the
 Master shares the secret with it.
 
@@ -451,7 +451,7 @@ rebuild (`gcloud run deploy --source .`, which reinstalls Chromium). A
 JSON file in a data repo means the same change is a commit, live within
 about a minute, with no redeploy.
 
-**`SyncConfigStore`** (`src/sync/SyncConfigStore.mjs`) owns fetching,
+**`SyncConfigStore`** (`src/registry/SyncConfigStore.mjs`) owns fetching,
 caching, and validating it:
 
 - **Cache hit within the TTL** (`SYNC_CONFIG_TTL_MS`, default 60s) — no
@@ -646,7 +646,7 @@ and Live/Hide). Pages use it to decide which of two copies is newer.
 **Team rosters.** For a `"type": "team"` day, `sheetsFor(day)` also names a
 roster tab (`Teams`, or the day's `rosterSheetName`). `SheetsCsvFetcher` adds
 it as a third range to the same `batchGet`, and
-`rosterCsvFromTeamsValues` (`src/sync/teamRoster.mjs`) turns it into
+`rosterCsvFromTeamsValues` (`src/sync/domain/teamRoster.mjs`) turns it into
 `facilities[].rosterCsv`: `teamCode,player,level,gender`, and no other
 column of the tab. A workbook without the tab is fetched again without it, so
 a missing roster never fails a sync. A fetch that brings no roster (that case,

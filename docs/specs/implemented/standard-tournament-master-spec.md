@@ -7,10 +7,10 @@ spreadsheet and find-replacing every category key, court label and match
 number by hand.
 
 > **Status: implemented.** The bound Apps Script is
-> `sage-tools-api/scripts/standard-generator.gs`, running in the **SAGE
+> `sage-tools-api/apps-script/standard-generator.gs`, running in the **SAGE
 > Standard Tournament Master** workbook, whose `_CATEGORY_TEMPLATE` is an
 > unchanged copy of the Pickle for Sight Annex's `HIMD` tab. The generator
-> passes `scripts/verify-standard-generator.mjs`, which checks §16 against a
+> passes `apps-script/verify-standard-generator.mjs`, which checks §16 against a
 > mocked master fed both Pickle for Sight plan CSVs. §18 records where the
 > code departs from this document; read it before trusting a cell reference.
 >
@@ -19,7 +19,7 @@ number by hand.
 
 | | |
 | --- | --- |
-| Where the code goes | `sage-tools-api/scripts/standard-generator.gs` (new file, §12.1) |
+| Where the code goes | `sage-tools-api/apps-script/standard-generator.gs` (new file, §12.1) |
 | How it ships | Bound Apps Script in the master workbook — paste, not deploy |
 | New infra | none |
 | New credentials | none |
@@ -58,8 +58,8 @@ about it.
 
 | Thing | Path |
 | --- | --- |
-| The dual-meet generator this one copies from | `sage-tools-api/scripts/sheet-generator.gs` |
-| The live-sync script that shares the Apps Script project (and owns `SAGE → Fill match numbers`) | `sage-tools-api/scripts/sheets-sync.gs` |
+| The dual-meet generator this one copies from | `sage-tools-api/apps-script/sheet-generator.gs` |
+| The live-sync script that shares the Apps Script project (and owns `SAGE → Fill match numbers`) | `sage-tools-api/apps-script/sheets-sync.gs` |
 | The Tournament Time Calculator, source of the plan CSV and of `playoffPlan()` | `sage-match-control.github.io/tools/tournament-calculator.html` |
 | The named-function contract §11 adopts | `sage-docs/docs/technical/named-function-library.md` |
 | The console's Awards tab, which produces the podium (§7.7) | `sage-docs/docs/specs/implemented/awards-podium-tab-spec.md` |
@@ -1578,7 +1578,7 @@ in JavaScript and write literals.
 
 ### 12.1 Where the code goes
 
-A **new file**, `sage-tools-api/scripts/standard-generator.gs`, bound to the
+A **new file**, `sage-tools-api/apps-script/standard-generator.gs`, bound to the
 SAGE Standard Tournament Master. Not a mode inside `sheet-generator.gs`:
 
 - The two masters are different workbooks, so neither script ever needs the

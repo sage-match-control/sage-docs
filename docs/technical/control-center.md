@@ -386,7 +386,7 @@ resync's time instead. That is why the server stamp takes precedence.
 The "played", "BYE" and series-final rules here (`rowsToMatches`,
 `sideIsBye`, `seriesGameOf`/`unneededSeriesGames`,
 `computeFacilityProgress`'s `left`) are duplicated in
-`sage-tools-api/src/sync/facilityCompletion.mjs`. If one copy changes and the
+`sage-tools-api/src/sync/domain/facilityCompletion.mjs`. If one copy changes and the
 other doesn't, the recorded end time disagrees with the card that announces
 it.
 

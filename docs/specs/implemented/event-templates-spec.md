@@ -411,7 +411,7 @@ Templates are only instantiable if the API can serve more than one event. This
 work happens **once**, not per event.
 
 > **Superseded — see `sync-config-runtime-spec.md`.** This section was
-> implemented as described, then replaced: `src/sync/SyncConfig.mjs` no longer
+> implemented as described, then replaced: `src/registry/SyncConfig.mjs` no longer
 > exists. The event/day/facility registry now lives in the `event-data` repo at
 > `config/events.json`, fetched and cached at runtime by `SyncConfigStore.mjs`,
 > so adding an event is a commit to that repo rather than a Cloud Run redeploy.
@@ -439,7 +439,7 @@ Because there is still exactly one repo, `GITHUB_REPO` stays a single env var �
 it just points at `event-data`. No per-day repo override, no second Cloud Run
 service.
 
-### 8.2 `src/sync/SyncConfig.mjs`
+### 8.2 `src/registry/SyncConfig.mjs`
 
 Restructure the flat `day2`..`day6` `DAYS` map into an event-keyed registry, and
 derive a flat day index at module load:
@@ -483,7 +483,7 @@ standings GID (`327842042`), so this is a real variation, not a hypothetical.
 
 ### 8.4 Apps Script
 
-Rename `scripts/bkl-sheets-sync.gs` to `scripts/sheets-sync.gs` now that it
+Rename `scripts/bkl-sheets-sync.gs` to `apps-script/sheets-sync.gs` now that it
 serves more than one event, and generalise its header comment (it currently
 documents installing across "15 facility spreadsheets — 5 days x 3 facilities").
 Its CONFIG block already parameterises `DAY_KEY` / `FACILITY_NAME` /
@@ -522,7 +522,7 @@ It must cover:
    - add the event + its days to `event-data`'s `config/events.json` (see the
      §8 note — this was `SyncConfig.mjs` when this spec was written), using day
      keys prefixed with the event key
-   - install `scripts/sheets-sync.gs` on each facility spreadsheet
+   - install `apps-script/sheets-sync.gs` on each facility spreadsheet
    - create the `<event-key>/data/` folder in `event-data`
 3. **The required spreadsheet columns** (§4.5), stated as the first thing to
    verify — it is the most common cause of a new event rendering empty.
