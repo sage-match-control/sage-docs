@@ -151,6 +151,12 @@ to the `...` form rather than repointing it.
   stage then playoffs. PickleDrive Club One Year Celebration ran on 3 October 2026 on
   the hand-built prototype. The template and the workbook generator are separate specs
   under Not started.
+- **[Team workbook recalculation](implemented/team-workbook-stack-cache-spec.md)**
+  — why PickleDrive's workbook took 10–58 s to read on event day, and the
+  by-hand fix applied on 2026-10-05: a hidden, non-volatile `StackCache` tab the
+  named functions read instead of rebuilding `SCHEDULE`'s stacks thousands of
+  times per edit, a matchup family that reads `MatchLookup`'s rows, and the
+  unused functions removed.
 - **[CLSO Pickle for Sight](implemented/pickle-for-sight-spec.md)** — the
   first standard-template event site: one day across two venues (PCPH Main
   and Annex), three divisions × three events. Ran 27 September 2026.
@@ -199,12 +205,6 @@ to the `...` form rather than repointing it.
   like the other two templates, with the event's constants generalised.
 - **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
   workbook generator for team events, phased, starting from the optimised workbook.
-- **[Team workbook recalculation](not-started/team-workbook-stack-cache-spec.md)**
-  — why PickleDrive's workbook took 10–58 s to read on event day, and the
-  by-hand fix: a hidden `StackCache` tab the named functions read instead of
-  rebuilding `SCHEDULE`'s stacks thousands of times per edit, a leaner
-  matchup family, and the unused functions removed. Before the team
-  template.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger

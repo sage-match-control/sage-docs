@@ -26,8 +26,8 @@ Sheets API reads take up to 58 s on event day.
 
 - The format has been run once. Its workbook is the only specification of itself.
 - A hand-built workbook cannot carry the fixes in
-  [Team workbook recalculation](team-workbook-stack-cache-spec.md) (the hidden
-  `StackCache` tab, the leaner matchup family, the 13 unused named functions removed)
+  [Team workbook recalculation](../implemented/team-workbook-stack-cache-spec.md) (the hidden
+  `StackCache` tab, the matchup family reading `MatchLookup`, the 15 unused named functions removed)
   unless every future workbook repeats them by hand. A generator builds them in once.
 
 ## 2. What the generator must produce
@@ -128,12 +128,12 @@ generator is not a deploy and does not bump `package.json`.
 | Q2 | Is the format fixed (4 pairs, 8 players, round-robin groups, then playoffs) or configurable? | Configurable pairs and group sizes; fixed playoff shape QF/SF/Bronze/Final |
 | Q3 | Who draws the groups and seeds the playoffs: the generator, or the organiser (as today)? | The organiser, as today; the site never computes who advances |
 | Q4 | Do rosters come in through the sidebar or are they typed into `Teams` afterwards? | Typed or pasted into `Teams`, since captains change them through the day |
-| Q5 | Must it work before [Team workbook recalculation](team-workbook-stack-cache-spec.md) is applied? | No: that work is phase 1 |
+| Q5 | Must it work before [Team workbook recalculation](../implemented/team-workbook-stack-cache-spec.md) is applied? | No longer open: it is applied to the PickleDrive workbook, the generator's starting point |
 
 ## 9. Blocked on
 
-- [Team workbook recalculation](team-workbook-stack-cache-spec.md): the optimised
-  workbook is the generator's starting point, and it is done by hand in the Sheets UI.
+- Nothing hard. [Team workbook recalculation](../implemented/team-workbook-stack-cache-spec.md) is applied to the PickleDrive
+  workbook, which is the generator's starting point; the master is built from it by hand in the Sheets UI.
 - Nothing from the website: the [template](team-tournament-template-spec.md) reads
   the published tabs and can be built first or in parallel.
 

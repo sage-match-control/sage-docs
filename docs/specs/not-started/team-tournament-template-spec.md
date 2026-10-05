@@ -138,7 +138,7 @@ _templates/team-tournament-template/
 - Nothing hard. The template reads `CSV` and `STANDINGSCSV` in the format the
   prototype's workbook publishes ([Team tournament](../implemented/pickledrive-club-anniversary-team-tournament-spec.md)
   §3), so it can be extracted without the generator.
-- **Better after** [Team workbook recalculation](team-workbook-stack-cache-spec.md):
+- **Better after** [Team workbook recalculation](../implemented/team-workbook-stack-cache-spec.md):
   a template whose first event syncs in 10–58 s per edit is a poor start, and
   that work decides whether the format's published tabs change at all.
 

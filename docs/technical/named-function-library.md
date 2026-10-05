@@ -199,6 +199,126 @@ exercise most of the library, and a value-for-value match across `CSV`,
 is behaviour-preserving. `Court Control` always differs by its live "Current
 Time" cell.
 
+## The team workbook's library
+
+A `"team"` event's workbook (PickleDrive's, the prototype) starts from this
+library and departs from it in three ways. It defines 25 named functions, not
+23: it has none of the dual-meet library's standings and helper functions
+(`GETTOTALWINS`, `GETTOTALLOSES`, `GETTOTALSCORE`, `GETTOTALOPPONENTSCORE`,
+`GETSCOREQUOTIENT`, `GETMATCHRESULTSBYTEAMCODE`, `SORTBYWINS`,
+`GETSCOREAGAINSTPAIR`, `COUNTPAIRAT`, `GETMATCHES`, `GETTEAMCODES`,
+`GETPLAYERNAMES`, `GETWINSCORE`), because a team workbook ranks teams and
+matchups with its own family. The reasoning is in
+`sage-docs/docs/specs/.../team-workbook-stack-cache-spec.md`.
+
+### `StackCache`: the stacks, built once
+
+The five primitives do not call `STACKBLOCKS`. They return the columns of a
+hidden `StackCache` tab, one `VSTACK` of the ten court blocks' columns in
+each of `A1:E1`, written as direct, open-ended ranges
+(`=VSTACK(SCHEDULE!F6:F, SCHEDULE!N6:N, …, SCHEDULE!BZ6:BZ)`):
+
+| Cell | Holds | Block columns (court 1 → court 10) | Primitive |
+| --- | --- | --- | --- |
+| `A1` | match numbers | `F N V AD AL AT BB BJ BR BZ` | `GETMATCHNUMBERS` = `StackCache!$A$1:$A` |
+| `B1` | team 1 codes | `E M U AC AK AS BA BI BQ BY` | `GETPLAYERSCOLUMN1` = `StackCache!$B$1:$B` |
+| `C1` | team 2 codes | `G O W AE AM AU BC BK BS CA` | `GETPLAYERSCOLUMN2` = `StackCache!$C$1:$C` |
+| `D1` | team 1 scores | `I Q Y AG AO AW BE BM BU CC` | `GETSCORESCOLUMN1` = `StackCache!$D$1:$D` |
+| `E1` | team 2 scores | `J R Z AH AP AX BF BN BV CD` | `GETSCORESCOLUMN2` = `StackCache!$E$1:$E` |
+
+Everything built on the primitives keeps its name, arguments and callers.
+`STACKBLOCKS` stays defined and nothing calls it.
+
+**A direct reference is not volatile.** `STACKBLOCKS` goes through
+`INDIRECT`, so everything downstream of it recalculates on every edit
+anywhere in the workbook. A cache built from direct references recalculates a
+column only when a cell it covers changes, and a formula downstream only when a
+column it reads changed. A score edit reaches the two score columns and what
+depends on them, not the codes, names, times or courts.
+
+**Why direct references are safe in a team workbook.** `STACKBLOCKS` derives
+the court count from `SCHEDULE`'s width and uses `INDIRECT` so that one
+library serves every event. A workbook's cache belongs to one event, whose
+court count is fixed (10 here), and a generator writes the cache for its
+event's court count. A direct reference also makes Sheets track the
+dependency statically, which would be a circular dependency if any
+`SCHEDULE` cell depended on the stacks. None does: `SCHEDULE`'s formulas are
+player names, matchup titles, times and the playoff codes in rows 32 and
+below, all computed from other tabs or from the same row's codes.
+
+The stacked ranges are open-ended, so `SCHEDULE` is trimmed to its content
+(row 46 in PickleDrive's workbook); each stacked block is
+`ROWS(SCHEDULE!$B$6:$B)` tall, which `MATCHTIME` and `MATCHCOURT` rely on.
+All five cache columns are the same length, so the elementwise `FILTER`s that
+combine them line up.
+
+### `MatchLookup` and its base-code columns
+
+`MatchLookup` is a hidden tab holding one row per match for matches 1–140:
+`matchNumber`, `matchUp`, `teamCode1`, `team1Player1`, `team1Player2`,
+`team1Score`, `teamCode2`, `team2Player1`, `team2Player2`, `team2Score` in
+`A:J` (`F` is `=GETTEAM1SCOREBYMATCH(A2)`, `J` is `=GETTEAM2SCOREBYMATCH(A2)`).
+Two helper columns hold each side's **base team code**, the part of its code
+before the first `_` (`A_1` → `A`, `SF-J_2` → `SF-J`):
+
+| Cell | Header | Formula |
+| --- | --- | --- |
+| `K2` | `teamBase1` | `=ARRAYFORMULA(IFERROR(REGEXEXTRACT(TO_TEXT(C2:C), "^_*([^_]+)"), ""))` |
+| `L2` | `teamBase2` | `=ARRAYFORMULA(IFERROR(REGEXEXTRACT(TO_TEXT(G2:G), "^_*([^_]+)"), ""))` |
+
+A blank or unparseable code gives `""`, which never equals a team code. `K`
+and `L` are the same length as the `$A` and `$B` ranges they are filtered
+beside, as `FILTER` requires.
+
+### The matchup family
+
+`Standings` and `STANDINGSCSV` ask, for a matchup and a team, for that
+team's match results, scores and opponents' scores. Six functions answer it
+from `MatchLookup`'s rows instead of looking each match's scores up again;
+each takes `(matchup, teamcode)` and is wrapped in `IFNA(…, "")`, which
+returns `""` when no row matches:
+
+| Function | Side | Rows kept | Returns |
+| --- | --- | --- | --- |
+| `GETMATCHRESULTSBYMATCHUPANDTEAMCODE1` | team 1 | `K = teamcode` | `""` if either score is empty, else `F > J` |
+| `GETMATCHRESULTSBYMATCHUPANDTEAMCODE2` | team 2 | `L = teamcode` | `""` if either score is empty, else `J > F` |
+| `GETMATCHSCORESBYMATCHUPANDTEAMCODE1` | team 1 | `K = teamcode` | `F` |
+| `GETMATCHSCORESBYMATCHUPANDTEAMCODE2` | team 2 | `L = teamcode` | `J` |
+| `GETOPPONENTSCORESBYMATCHUPANDTEAMCODE1` | team 1 | `K = teamcode` | `J` |
+| `GETOPPONENTSCORESBYMATCHUPANDTEAMCODE2` | team 2 | `L = teamcode` | `F` |
+
+Every one also keeps only the rows whose `B` contains the matchup
+(`ISNUMBER(SEARCH(matchup, MatchLookup!$B$2:$B))`). For example:
+
+```
+=IFNA(FILTER(MatchLookup!$F$2:$F, ISNUMBER(SEARCH(matchup, MatchLookup!$B$2:$B)), MatchLookup!$K$2:$K = teamcode), "")
+```
+
+The wrappers (`GETMATCHRESULTSBYMATCHUPANDTEAMCODE`,
+`GETMATCHSCORESBYMATCHUPANDTEAMCODE`, `GETOPPONENTSCORESBYMATCHUPANDTEAMCODE`,
+which stack both sides with `{…;…}`) and `GETPAIRWINSBYMATCHUPANDTEAMCODE` /
+`GETPAIRLOSESBYMATCHUPANDTEAMCODE` (which count `TRUE` / `FALSE` in the
+results) sit on top of these and take only values, so the arrays' shape does
+not matter.
+
+**Unplayed is `= ""`, not `ISBLANK`.** `F` and `J` are formula cells, and
+`ISBLANK` on a formula cell is false whenever the formula returns an empty
+string. `= ""` is true for an empty value and for an empty string, and false
+for a score of `0`, so played and unplayed are told apart. An unplayed match
+counts as neither a win nor a loss and adds no points.
+
+### Called per match
+
+`GETTEAM1CODEBYMATCH` / `GETTEAM2CODEBYMATCH` and `GETTEAM1SCOREBYMATCH` /
+`GETTEAM2SCOREBYMATCH` are each `IFNA(FILTER(<primitive>(), GETMATCHNUMBERS() =
+matchnumber), "-")`, so they read the cache. `GETMATCHUPTITLE(team1, team2)`
+splits each code at `_` and joins the two with `CHAR(10) & " v " & CHAR(10)`.
+`MATCHTIME` and `MATCHCOURT` are as in the dual-meet library.
+`GETPLAYERNAMESBYTEAMCODE(matchup, teamcode)` filters `Reference for
+Players` on both arguments.
+
 ---
 **See also:** [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) — the
 bound script that writes the formulas calling these.
+[Team workbook recalculation](../specs/implemented/team-workbook-stack-cache-spec.md)
+— how the team workbook's cache and matchup family were built and checked.

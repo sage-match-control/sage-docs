@@ -95,6 +95,7 @@ nav:
           - CLSO Pickle for Sight: specs/implemented/pickle-for-sight-spec.md
           - Piggleball Chairman's Cup: specs/implemented/piggleball-chairmans-cup-spec.md
           - Team tournament: specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md
+          - Team workbook recalculation: specs/implemented/team-workbook-stack-cache-spec.md
           - Facility progress: specs/implemented/facility-progress-spec.md
           - Event attendance: specs/implemented/event-attendance-spec.md
           - Attendance for every event: specs/implemented/multi-event-attendance-spec.md
@@ -112,7 +113,6 @@ nav:
           - Calculator team format: specs/not-started/calculator-team-format-spec.md
           - Team tournament event-site template: specs/not-started/team-tournament-template-spec.md
           - Team Tournament Master: specs/not-started/team-tournament-master-spec.md
-          - Team workbook recalculation: specs/not-started/team-workbook-stack-cache-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - sage-tools-api architecture hardening: specs/not-started/sage-tools-api-architecture-spec.md
           - Fast data delivery: specs/not-started/fast-data-delivery-spec.md

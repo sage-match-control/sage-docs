@@ -12,15 +12,17 @@
 > [event-site template](../not-started/team-tournament-template-spec.md) and the
 > [workbook generator](../not-started/team-tournament-master-spec.md) (§15).
 >
-> **The workbook was slow to read.** 161 of the day's 695 Sheets API reads
-> took 10–58 s (the rest about 0.3 s), which put `edit→published` at p50
-> 3.6 s but p90 27.3 s; the standard-format Piggleball workbook, on the same
-> service the same afternoon, stayed under 6 s. The likeliest cause is the
-> Sheets API waiting for the workbook's formulas to finish recalculating, so
-> the team workbook's formula load is the thing to trim before it becomes the
-> template; the fix is written up in
-> [Team workbook recalculation](../not-started/team-workbook-stack-cache-spec.md).
-> Figures in
+> **The workbook was slow to read, and was trimmed afterwards.** 161 of the
+> day's 695 Sheets API reads took 10–58 s (the rest about 0.3 s), which put
+> `edit→published` at p50 3.6 s but p90 27.3 s; the standard-format Piggleball
+> workbook, on the same service the same afternoon, stayed under 6 s. The
+> likeliest cause is the Sheets API waiting for the workbook's formulas to
+> finish recalculating. On 5 October the workbook's formula load was cut by
+> hand: a hidden `StackCache` tab the five primitive named functions read, a
+> matchup family reading `MatchLookup`'s rows, and the 15 unused functions
+> removed, with every published value unchanged
+> ([Team workbook recalculation](team-workbook-stack-cache-spec.md)). Three
+> syncs afterwards read in 0.35–0.44 s. Figures in
 > [Sync pipeline](../../technical/sync-pipeline.md#measured-at-two-events-3-october-2026).
 >
 > **Naming divergence.** Everywhere a page shows a reader "Group 1", "Group 2"

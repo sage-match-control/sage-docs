@@ -220,6 +220,15 @@ the 936 archive commits in `event-data`.
   account.
 - Every sync both published to the Worker and committed to GitHub, the
   commit about 0.2 s after `publishedAt` (p50; 1.6 s at most).
+- **After the PickleDrive workbook was trimmed (5 October 2026).** Its
+  `StackCache` tab, rewritten matchup family and 15 removed named functions
+  (see the
+  [team workbook recalculation](../specs/implemented/team-workbook-stack-cache-spec.md)
+  and [the Named Function library](named-function-library.md#the-team-workbooks-library))
+  left every published value unchanged. Three **Sync now** syncs ten seconds
+  apart read in `fetch=` 345, 391 and 441 ms, in Piggleball's range and against
+  the event day's p50 0.3 s and p90 22.6 s. They ran with no edit in between, so
+  they show the read is fast, not how it behaves under a run of score edits.
 
 ### Facility completion
 
