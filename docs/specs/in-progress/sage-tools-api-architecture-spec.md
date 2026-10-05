@@ -1,8 +1,8 @@
 # Spec — `sage-tools-api` architecture hardening (tests first)
 
-> **Status: in progress.** Phases 1 and 2 (folder moves, 2.8.1; hardening and one composition root, 2.8.2) are built and tested
+> **Status: in progress.** Phases 1 to 3 (folder moves, 2.8.1; hardening and one composition root, 2.8.2; one retry loop, a store interface and domain extraction, 2.8.3) are built and tested
 > on the branch `arch-refactor` of `sage-tools-api`; nothing is merged or
-> deployed, and Phases 3–8 are not started. Last revised 2026-10-05
+> deployed, and Phases 4–8 are not started. Last revised 2026-10-05
 > against `sage-tools-api` **2.8.0** (`main` at `daad5a4`, score entry), where
 > `npm test` runs 957 tests, all passing. Earlier revisions were written
 > against 2.5.0 (2026-10-01/02) and 2.7.0 (2026-10-03).
