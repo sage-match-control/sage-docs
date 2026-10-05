@@ -84,6 +84,30 @@ Chromium installed via `apt` rather than Puppeteer's own bundled download
 Dockerfile). See [Scoresheet pipeline](scoresheet-pipeline.md) for why the
 Puppeteer import itself is lazy despite this.
 
+### Which pushes build
+
+The build trigger rebuilds the image only for a change that is part of the
+service. A change to Apps Script, the live Worker, the spikes, the tests, the
+scripts, the git hooks, or any markdown, `.env.example` or `jsconfig.json` does
+not redeploy Cloud Run, because none of them is in the image: the `Dockerfile`
+copies only `package*.json`, `index.mjs`, `src/` and `templates/`. A change to
+any of those, or to the `Dockerfile` itself, still builds.
+
+The owner sets the filter once, on the existing trigger. List the triggers to
+find its name:
+
+```bash
+gcloud builds triggers list --project=sage-tools-api
+```
+
+```bash
+gcloud builds triggers update github <TRIGGER_NAME> --project=sage-tools-api --ignored-files="apps-script/**,live-worker/**,spikes/**,test/**,scripts/**,.githooks/**,**/*.md,.env.example,jsconfig.json"
+```
+
+To check it, push a README-only commit to a branch the trigger watches and
+confirm no build starts. (Pushing `main` deploys, so do not use `main` to test
+it, and never push near an event.)
+
 ### Runtime service account
 
 The service runs as a dedicated service account, `sage-tools-api-runtime`,

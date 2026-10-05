@@ -198,6 +198,11 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
+- **[Site shared code — a decision](not-started/site-shared-code-decision-spec.md)** —
+  a one-page record comparing three ways to stop hand-copying the live channel,
+  attendance client and score client between pages (shared files, a stamping
+  script, or keeping the copies under the site test suite). A decision for the
+  owner; nothing is built.
 - **[Site test suite](not-started/site-test-suite-spec.md)** — Control
   Center, the current event pages and the attendance desk pages tested in a
   real browser on fixture data, with every hand-copied rule (the live

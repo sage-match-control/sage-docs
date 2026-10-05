@@ -111,6 +111,7 @@ nav:
           - sage-tools-api architecture hardening: specs/in-progress/sage-tools-api-architecture-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
+          - Site shared code - a decision: specs/not-started/site-shared-code-decision-spec.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Calculator team format: specs/not-started/calculator-team-format-spec.md
           - Team tournament event-site template: specs/not-started/team-tournament-template-spec.md
