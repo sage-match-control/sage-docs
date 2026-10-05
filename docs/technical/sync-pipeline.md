@@ -33,29 +33,64 @@ With `LIVE_PUSH_URL` unset the Worker steps are skipped: the merge reads the
 file from GitHub and the commit is the publish. The same happens for a single
 sync whose Worker calls fail.
 
-Key pieces, in `sage-tools-api/src/sync/`:
+Key pieces, in `sage-tools-api/src/`:
 
-- **`SheetsCsvFetcher`** — the default path, reads via the Sheets API.
-- **`GvizCsvFetcher`** — a fallback path (`?method=csv`) using Google's
-  `gviz` CSV export, for when the Sheets API path has trouble.
-- **`SyncService`** — orchestrates a sync: resolves the day's config,
-  fetches each facility (in parallel, via `ConcurrencyPool`), merges results
-  with whatever's already published (a facility that fails to fetch keeps
-  its last-known-good data rather than vanishing from the snapshot), and
-  hands the result to the publishers.
-- **`LivePublisher`** — the client for the live Worker: `read(event, day)`
+- **`clients/SheetsCsvFetcher`** — the default path, reads via the Sheets API.
+- **`clients/GvizCsvFetcher`** — a fallback path (`?method=csv`) using Google's
+  `gviz` CSV export, for when the Sheets API path has trouble. Both fetchers are
+  `FacilityFetcher`s, and `SyncService` picks one from a `{ sheets, csv }` map by
+  the request's method.
+- **`clients/LivePublisher`** — the client for the live Worker: `read(event, day)`
   returns the day's `{ version, snapshot }`, and `publish(event, day,
   snapshot, expectedVersion)` answers `{ ok: true, version }` or, when
   another publish got there first, `{ ok: false, conflict: true }`. It is
   `enabled` only when both `LIVE_PUSH_URL` and `LIVE_PUSH_SECRET` are set.
-- **`GitHubPublisher`** — wraps the Contents API. Used both to publish a new
+- **`clients/GitHubPublisher`** — wraps the Contents API. Used both to publish a new
   snapshot and (shared with the config store below) to read
   `config/events.json`. A failed commit throws an error carrying the HTTP
   `status`.
+- **`sync/SyncService`** — orchestrates one sync and nothing else: resolves the
+  day's config, fetches each facility (in parallel), merges the results with
+  whatever is already published (`sync/domain/mergeSnapshot`: a facility that
+  fails to fetch keeps its last-known-good data rather than vanishing from the
+  snapshot), and hands the merged snapshot to the `SnapshotPublisher`. It knows
+  nothing about GitHub, the Worker, the archive or the fallback.
+- **`sync/publishing/`** — how a snapshot is delivered; see
+  [Delivering a snapshot](#delivering-a-snapshot).
+- **`sync/DayVisibilityService`** — the Live/Hide override (below).
+- **`sync/SyncSettingsService`** — the live-push switch and the
+  `GET /sync/config` payload.
 
 Both fetchers are pure functions of `(facility, sheets)` — neither imports
 config directly; `SyncService` resolves the day's sheet names once and
 passes them down.
+
+### Delivering a snapshot
+
+Both places a snapshot lives, GitHub and the live Worker, are optimistic stores:
+you read a value and a token, write back with that token, and are told when
+someone else wrote first. The token is the file's `sha` for GitHub and the
+`version` for the Worker. One interface, `SnapshotStore` (`read`, `write`),
+covers both, with one failure contract: a conflict is `{ ok: false, conflict:
+true }`, and any other failure of a read or write is thrown as a
+`StoreUnavailableError` that keeps the original message and `status` and names
+the store that failed.
+
+| Class (`src/sync/publishing/`) | One job |
+| --- | --- |
+| `GitHubSnapshotStore`, `LiveSnapshotStore` | adapt one client to `SnapshotStore` |
+| `mergeIntoStore` | the one read, build, stamp `publishedAt`, write, retry-on-conflict loop, over any one store |
+| `GitHubOnlyDelivery` | deliver through one store, with no fallback (live push off) |
+| `LiveFirstDelivery` | deliver to a primary store, archive to a second, and hand over to a fallback when the primary fails |
+| `SnapshotPublisher` | choose the delivery for this config; the only place that decides whether live push is used |
+
+`SyncService` and `DayVisibilityService` call `SnapshotPublisher` and never learn
+which delivery ran. In production the primary is the live store, the archive is
+the GitHub store, and the fallback is `GitHubOnlyDelivery`. Live push is used when
+the environment configures it (`LIVE_PUSH_URL` and `LIVE_PUSH_SECRET`) and the
+operator's switch in `config/events.json` is on. A third delivery target is a
+store adapter, a delivery (or a reuse of `LiveFirstDelivery` with different
+stores), and one line in `SnapshotPublisher` and `src/app.mjs`.
 
 ### Commit conflicts
 
@@ -67,12 +102,15 @@ moves the branch one commit at a time, so two syncs of different files (two
 events on one day, or a sync and a Live/Hide override writing
 `config/events.json`) can collide too.
 
-`SyncService.syncDay` therefore reads, merges and commits in a loop of at
-most 3 attempts (`COMMIT_ATTEMPTS`). On a `409` it re-reads the file and
-re-merges the facility data it already fetched (the sheets are not read
-again), then commits again; any other error, or a third `409`, is thrown.
-`SyncService.setLiveOverride` and `SyncConfigStore.setIsLive` do the same,
-re-reading and re-applying their one change. The sync response carries
+A sync therefore reads, merges and commits in a loop of at most 3 attempts
+(`COMMIT_ATTEMPTS`). On a `409` it re-reads the file and re-merges the facility
+data it already fetched (the sheets are not read again), then commits again; any
+other error is thrown, and so is a third `409`, as a `ConflictError`: the request
+answers `409 { error, code: "conflict" }`, with the last GitHub error's text. The
+Live/Hide republish and the registry's three switches (`SyncConfigStore.setIsLive`,
+`setLivePush`, `setScoreEntry`) do the same, re-reading and re-applying their one
+change. The loop is written once (`src/shared/conflictRetry.mjs`,
+`withConflictRetry`) and every caller goes through it. The sync response carries
 `attempts`; each retry logs `commit conflict (attempt n/3)`.
 
 The live Worker has the same race: two syncs read version `n` and both publish
@@ -503,10 +541,13 @@ immediately republishes that day's snapshot with the new value stamped in
 since every sync re-reads `isLive` from the registry each time. See
 [Auth](auth.md) for the token vs. shared-secret distinction.
 
-The republish goes through the live Worker when live push is on (then is
-archived to GitHub), so pages holding a WebSocket hide or show the day within
-a second or two instead of waiting for the next score edit. If the Worker
-cannot be reached it is a GitHub commit, as without live push.
+`DayVisibilityService` writes the config first and then asks the
+`SnapshotPublisher` to republish. That goes through the live Worker when live push
+is on (then is archived to GitHub), so pages holding a WebSocket hide or show the
+day within a second or two instead of waiting for the next score edit. If the
+Worker cannot be reached it is a GitHub commit, as without live push. A day that
+has never been published is still updated in the config (`republished: false`),
+and the first real sync stamps it in.
 
 ## Score entry writes
 
@@ -609,9 +650,9 @@ object, so an idle object hibernates and is not billed for duration. The
 version check and the write happen with no other request in between, which is
 what makes `expectedVersion` a safe compare-and-set.
 
-### How `syncDay` publishes
+### How a sync publishes
 
-After fetching the facilities, with live push on:
+After fetching the facilities, `LiveFirstDelivery` (live push on) does this:
 
 1. Read the day's snapshot and version from the object, and GitHub's copy
    alongside it. Merge into whichever is newer by `publishedAt`. They differ
@@ -622,7 +663,7 @@ After fetching the facilities, with live push on:
    empty object (the first sync since it was created) GitHub's copy is what is
    merged into. GitHub's read failing only matters when the object holds
    nothing.
-2. Merge (the same `#buildSnapshot` as without live push), stamp
+2. Merge (the same `mergeSnapshot` as without live push), stamp
    `publishedAt`, and publish with the version just read. On `409`, go back to
    step 1, up to 3 attempts.
 3. **Archive**: commit the same snapshot to GitHub. A `409` there is retried
@@ -632,8 +673,8 @@ After fetching the facilities, with live push on:
    because the live copy is correct and already visible. The next sync's
    archive commit catches GitHub up.
 
-If a Worker call throws, or three publishes conflict, the sync publishes
-through GitHub alone and reports `live: { published: false, error }`. The
+If a Worker call throws, or three publishes conflict, the delivery hands over to
+its fallback and the sync publishes through GitHub alone and reports `live: { published: false, error }`. The
 response otherwise gains `live`, `archive` and `timing.liveMs` / `archiveMs`;
 `commitSha` is the archive commit's, or `null` if it failed. The live publish
 comes before the GitHub commit and both finish before the response is sent:
@@ -653,7 +694,7 @@ a missing roster never fails a sync. A fetch that brings no roster (that case,
 or the gviz fallback, which never reads it) keeps the last published
 `rosterCsv` in the merge.
 
-**After publishing**, `syncDay` awaits its optional `onFacilitiesSynced` hook
+**After publishing**, `SyncService` awaits its optional `onFacilitiesSynced` hook
 with the facilities fetched fresh this round. That is
 [attendance's](event-attendance.md) roster update: nothing for an event without
 attendance, and no Sheets call when a facility's roster is unchanged. It is

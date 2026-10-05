@@ -76,9 +76,54 @@ carries `sheets-sync.gs` and one of the two generators, never both.
 
 ## How `sage-tools-api` is put together
 
-One process, sliced by feature (`src/sync/`, `src/attendance/`, `src/scores/`,
+### The pattern
+
+A **modular monolith with a ports-and-adapters core, applied lightly.** One
+process, sliced by feature (`src/sync/`, `src/attendance/`, `src/scores/`,
 `src/scoresheets/`, `src/auth/`), with the code every feature shares in its own
 folders and one place where everything is wired.
+
+```
+ Apps Script, Control Center, event pages, desk and scorer pages
+                    │ HTTP
+                    ▼
+ DRIVING ADAPTERS   routes + syncController + auth/middleware + errorHandler
+                    │ call
+                    ▼
+ APPLICATION        services (one use case or one small group each)
+                    │ use                              │ depend only on
+                    ▼                                  ▼
+ DOMAIN             */domain/ (pure functions)      PORTS (JSDoc interfaces)
+                                                       ▲ implemented by
+                                                       │
+ DRIVEN ADAPTERS    clients/, sync/publishing/ stores and deliveries, registry/
+                    │ HTTP
+                    ▼
+                    GitHub (event-data), the live Worker, Google Sheets
+
+ COMPOSITION ROOT   src/app.mjs builds the adapters and plugs them into the ports
+```
+
+Before the restructuring it was a feature-sliced, layered monolith with a service
+layer and hand-wired constructor injection: each service was coded against the
+concrete object it received, routes did their own auth and error mapping, and
+`Server` imported every feature. The patterns inside it now:
+
+- **Strategy** — the two snapshot deliveries.
+- **Facade with selection** — `SnapshotPublisher`.
+- **Adapter** — each snapshot store wraps one client.
+- **Repository** — `SyncConfigStore`.
+- **Higher-order retry policy** — `withConflictRetry` and `mergeIntoStore`.
+- **Observer** — `onFacilitiesSynced`.
+- **Chain of responsibility** — the Express middleware, ending in `errorHandler`.
+
+Deliberate trade-offs: ports are JSDoc typedefs, not runtime interfaces (`//
+@ts-check` checks them in the editor, and the contract tests check them at run
+time); error classes carry their HTTP `statusCode` instead of a second mapping
+table; `src/scoresheets/` keeps its internal shape; there is no DI container
+(`createApp` is plain code).
+
+### Parts
 
 | Where | What |
 | --- | --- |
@@ -109,10 +154,71 @@ bad variable. An unset secret does not: it turns its feature off, and a single
 startup log line names what is unset. [Deployment](deployment.md#local-development)
 lists the rules.
 
-**Dependency rules.** A guard test fails the build when a module breaks one.
-Two hold in every phase of the restructuring: a ports file holds JSDoc
-typedefs and nothing else, and `process.env` is read only in
-`src/config/loadConfig.mjs`.
+**Ports.** Every dependency a service, delivery or store receives is typed
+against a **port**: a JSDoc typedef naming only the methods that consumer calls
+(`src/shared/ports.mjs`, and `src/sync/publishing/ports.mjs` for the snapshot
+stores and deliveries). At run time the same full object is passed as ever; a
+port documents and type-checks the dependency without wrapping it.
+
+| Port | Implemented by | Consumed by |
+| --- | --- | --- |
+| `FacilityFetcher` | `SheetsCsvFetcher`, `GvizCsvFetcher` | `SyncService` |
+| `JsonDocumentStore` | `GitHubPublisher` | `SyncConfigStore`, `GitHubSnapshotStore` |
+| `LiveChannel`, `LiveAvailability` | `LivePublisher` | `LiveSnapshotStore`; `SnapshotPublisher`, `SyncSettingsService` |
+| `RegistryReader` | `SyncConfigStore` | every service |
+| `DayVisibilitySwitch`, `LivePushSwitch`, `ScoreEntrySwitch` | `SyncConfigStore` | `DayVisibilityService`, `SyncSettingsService`, `ScoreService` |
+| `DayPublisher` | `SyncService` | `ScoreService` |
+| `SyncedHook` | `AttendanceService.reconcileAfterSync` | `SyncService` |
+| `TokenVerifier`, `Authenticator`, `DeskTokenIssuer`, `ScorerTokenIssuer` | `AuthService` | `auth/middleware`, `auth/routes`, `AttendanceService`, `ScoreService` |
+| `AttendanceSheets`, `ScoreSheets` | `SheetsClient` | `AttendanceService`, `ScoreService` |
+| `SnapshotPublishing` | `SnapshotPublisher` | `SyncService`, `DayVisibilityService`, `SyncSettingsService` |
+| `SnapshotStore` | `GitHubSnapshotStore`, `LiveSnapshotStore` | `mergeIntoStore`, both deliveries |
+| `SnapshotDelivery` | `GitHubOnlyDelivery`, `LiveFirstDelivery` | `SnapshotPublisher`; `LiveFirstDelivery` (its fallback) |
+
+**Dependency rules.** A guard test (`test/unit/guards/dependency-rules.test.mjs`)
+fails the build when a module breaks one. It strips comments first, so a JSDoc
+`import("…")` type reference to a port is never an import.
+
+| Rule | Files | The rule |
+| --- | --- | --- |
+| R0 | the two `ports.mjs` | JSDoc typedefs and one `export {};`, no other code |
+| R1 | `*/domain/*.mjs` | import only other domain files, `shared/errors.mjs` and `shared/csv.mjs`: no `node:` modules, no packages |
+| R2 | `src/clients/` | `shared/*`, domain files and built-ins; never `registry/`, services, routes or `express` |
+| R3 | `src/registry/` | `shared/*` and domain files; never `clients/` (it is given a `JsonDocumentStore`) or `express` |
+| R4 | `src/sync/publishing/` | `shared/*`, `sync/domain/*`, its own folder; never `clients/`, `registry/` or `express`. A delivery never imports a store class: stores are injected |
+| R5 | `*Service.mjs` | `shared/*`, domain files, built-ins; never `express`, `clients/`, `registry/` or `sync/publishing/` |
+| R6 | routes, `syncController`, `auth/middleware` | `express`, `multer`, `shared/*`, the `server/` middleware and their own feature's domain; never `clients/`, `registry/`, a service or `AuthService` |
+| R7 | a feature folder | another feature's `domain/` files only |
+| R8 | everything but `app.mjs` and `scoresheets/index.mjs` | never `new` a class from `clients/`, `registry/`, `sync/publishing/`, a service or `Server`, outside its own folder |
+| R9 | everything but `config/loadConfig.mjs` | never reads `process.env` |
+| R10 | `src/server/` | `express`, `http2`, `shared/*`, `docs/openapiSpec.mjs`; never a feature, `auth/`, `registry/` or `clients/` |
+
+**SOLID, as it holds here.**
+
+- **Single responsibility.** `SyncService` changes only with how one day is synced;
+  `DayVisibilityService` and `SyncSettingsService` are one small file each;
+  `syncController` only parses and writes HTTP; routes only map URLs to handlers;
+  each delivery is one path and `SnapshotPublisher` is the choice between them;
+  `SyncConfigStore` loads, caches and commits, while validation and the three
+  switch edits are pure modules in `registry/domain/`. `AttendanceService`,
+  `ScoreService` and `AuthService` each group the use cases of one small feature
+  behind one registry and one port, and are split when one use case outgrows the
+  rest of its file.
+- **Open for extension.** A delivery target, a CSV fetch method, an error type, a
+  feature with routes, a registry switch, a token scope or a reaction after a sync
+  is each new code plus one line in the composition root (or a scope map), with no
+  edit to `SyncService`, `Server`, `errorHandler` or the existing deliveries.
+- **Liskov substitution.** Both stores honour one `SnapshotStore` contract, failure
+  contract included, and one contract test runs against both; the deliveries take
+  stores by role, never by type. Both deliveries return the same result shapes,
+  and `LiveFirstDelivery` returns exactly its fallback's result plus `live` when
+  the primary fails.
+- **Interface segregation.** Each consumer is typed against only the port it calls,
+  even where one class implements several (`SyncConfigStore` implements four).
+- **Dependency inversion.** Services, deliveries and `mergeIntoStore` import no
+  adapter; stores depend on the client ports, not on `GitHubPublisher` or
+  `LivePublisher`; `Server` depends on a list of `{ path, router }`; only `app.mjs`
+  chooses concrete classes, and only `loadConfig` reads the environment.
 
 ## Why the registry lives in `event-data`, not in code
 
