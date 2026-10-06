@@ -218,8 +218,10 @@ to the `...` form rather than repointing it.
   in the Tournament Calculator: one team competition planned in matchups, with the group stage,
   quarterfinal-to-final playoffs, slots and finish time worked out from teams, groups and courts.
 - **[Team tournament event-site template](not-started/team-tournament-template-spec.md)**
-  — extract `_templates/team-tournament-template/` from PickleDrive's pages, S.A.G.E.-themed
-  like the other two templates, with the event's constants generalised.
+  — `_templates/team-tournament-template/`, with everything the other two templates give an
+  event: a Hub and a schedule board as shells on the site engine, the scorer and desk pages
+  working on team data, and the team checks in the dry-run runbook. S.A.G.E.-themed, with
+  pair labels per event from `events.json`.
 - **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
   workbook generator for team events, phased, starting from the optimised workbook.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
