@@ -1,6 +1,6 @@
 # Standard Tournament Generator
 
-`sage-tools-api/apps-script/standard-generator.gs` — bound Apps Script that builds
+`sage-tools-api/apps-script/standard-tournament-generator.gs` — bound Apps Script that builds
 one facility-day's standard-tournament workbook from a Tournament Calculator
 plan CSV. Implements
 [`standard-tournament-master-spec.md`](../specs/implemented/standard-tournament-master-spec.md);
@@ -22,7 +22,7 @@ here in its 22-function standard form (spec §11), with the row-5-label
 ## A separate file, not a mode
 
 The two generators share no code at runtime: each master carries only its
-own. `standard-generator.gs` copies `sheet-generator.gs`'s pure helpers
+own. `standard-tournament-generator.gs` copies `dual-meet-generator.gs`'s pure helpers
 verbatim (CSV parsing, `colLetter_`, the progress log, `assertTabsPristine_`)
 and rewrites everything shaped around clubs. The `onOpen` block is the one
 piece duplicated verbatim across all three `.gs` files, because a workbook
@@ -131,7 +131,7 @@ name.
 
 After every tab is built, `workbookName_` renames the spreadsheet to
 `<date> <title> - <FACILITY>` from the plan and the facility label; a failed
-or rejected run leaves the copy's name alone. `sheet-generator.gs` carries
+or rejected run leaves the copy's name alone. `dual-meet-generator.gs` carries
 the same helper, with the venue label.
 
 `CSV` gets its header and one formula row with `A2` blank. `SAGE → Fill match
@@ -181,10 +181,20 @@ The fingerprints in the file are not re-verified; they are what an outsider
 checks the draw with. `AB2:AB4`'s provenance is the useful half — it ties the
 workbook to that file.
 
+## Progress and version
+
+The sidebar's progress bar and timed log work as the
+[dual meet generator's](dual-meet-sheet-generator.md#progress-in-the-sidebar)
+do, from the same copied log block. A standard run counts each category tab,
+Variables, Title, Reference for Players, MATCHES, SCHEDULE and the five readout
+tabs. The file carries `STANDARD_TOURNAMENT_GENERATOR_VERSION`, shown at the
+foot of the sidebar and in **SAGE → Help**, and bumped with every change to
+the file.
+
 ## Verifying a change
 
 ```bash
-node apps-script/verify-standard-generator.mjs
+node apps-script/verify-standard-tournament-generator.mjs
 ```
 
 Runs the real `generateEventTabs` against `apps-script/mock-apps-script.mjs`,

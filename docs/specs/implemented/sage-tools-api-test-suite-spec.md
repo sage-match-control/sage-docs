@@ -105,8 +105,8 @@ npm test
 npm test
 npm test
 node apps-script/verify-attendance.mjs
-node apps-script/verify-standard-generator.mjs
-node apps-script/verify-sheet-generator.mjs
+node apps-script/verify-standard-tournament-generator.mjs
+node apps-script/verify-dual-meet-generator.mjs
 ```
 
 **How to work.** One branch, `test-suite`, one commit per step in §6. If a test
@@ -216,8 +216,8 @@ Everything else in §2.1 must still pass unchanged after every later phase.
 | **Integration** | the real wiring, driven over HTTP | `Server`, routes, middleware, `SyncService`, `SyncConfigStore`, publishers, fetchers | the three outside services (GitHub, Google Sheets, the live Worker), replaced at `globalThis.fetch` by one in-memory `FakeWorld` (§5.4) |
 | **End-to-end (opt-in)** | real Chromium renders a real PDF | the scoresheet pipeline | nothing; skipped unless `RUN_PDF_E2E=1` |
 
-The Apps Script harnesses (`verify-attendance`, `verify-standard-generator`,
-`verify-sheet-generator`) and the live Worker's `smoke.mjs` stay as they are;
+The Apps Script harnesses (`verify-attendance`, `verify-standard-tournament-generator`,
+`verify-dual-meet-generator`) and the live Worker's `smoke.mjs` stay as they are;
 they test code that is not the Cloud Run service. `npm run verify` runs them
 beside the new suite.
 

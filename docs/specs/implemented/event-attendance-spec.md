@@ -59,7 +59,7 @@ need the SAGE Google account and a browser; the implementer cannot do them.
 
 ### Do not touch
 
-- `sheets-sync.gs`, `standard-generator.gs`, `sheet-generator.gs`,
+- `sheets-sync.gs`, `standard-tournament-generator.gs`, `dual-meet-generator.gs`,
   `mock-apps-script.mjs`, anything in `sage-tools-api/src/`, and
   `package.json` (no version bump — see the table above).
 - The masters. `attendance.gs` goes into the two **live** workbooks only.
@@ -413,7 +413,7 @@ console.log("\n########## top-level names ##########");
 const topLevel = (src) => new Set(
     [...src.matchAll(/^(?:var|let|const|function)\s+([A-Za-z_$][\w$]*)/gm)].map((m) => m[1]));
 const mine = topLevel(read("attendance.gs"));
-for (const other of ["sheets-sync.gs", "standard-generator.gs", "sheet-generator.gs"]) {
+for (const other of ["sheets-sync.gs", "standard-tournament-generator.gs", "dual-meet-generator.gs"]) {
     const clash = [...topLevel(read(other))].filter((n) => mine.has(n));
     check(`no name shared with ${other}`, clash.join(", ") || "none", "none");
 }
@@ -1377,8 +1377,8 @@ Replace with:
 
 ```markdown
 No TypeScript, no build step, no test framework, no linter. The exceptions
-are `apps-script/verify-sheet-generator.mjs` and
-`apps-script/verify-standard-generator.mjs`, which run the two Apps Script
+are `apps-script/verify-dual-meet-generator.mjs` and
+`apps-script/verify-standard-tournament-generator.mjs`, which run the two Apps Script
 generators against a mocked Sheets API — they cover those `.gs` files only,
 nothing in `src/`, and are run by hand (see the `scripts/*.gs` notes below).
 ```
@@ -1387,8 +1387,8 @@ Replace with:
 
 ```markdown
 No TypeScript, no build step, no test framework, no linter. The exceptions
-are `apps-script/verify-sheet-generator.mjs`,
-`apps-script/verify-standard-generator.mjs` and `apps-script/verify-attendance.mjs`,
+are `apps-script/verify-dual-meet-generator.mjs`,
+`apps-script/verify-standard-tournament-generator.mjs` and `apps-script/verify-attendance.mjs`,
 which run their Apps Script files against a mocked Sheets API — they cover
 those `.gs` files only, nothing in `src/`, and are run by hand (see the
 `scripts/*.gs` notes below).
@@ -1398,7 +1398,7 @@ those `.gs` files only, nothing in `src/`, and are run by hand (see the
 
 ```markdown
     workbook it was copied from (`secretMenuItem_`).
-- `apps-script/verify-standard-generator.mjs` — the same kind of harness for
+- `apps-script/verify-standard-tournament-generator.mjs` — the same kind of harness for
 ```
 
 Replace with:
@@ -1422,7 +1422,7 @@ Replace with:
   node apps-script/verify-attendance.mjs
   ```
 
-- `apps-script/verify-standard-generator.mjs` — the same kind of harness for
+- `apps-script/verify-standard-tournament-generator.mjs` — the same kind of harness for
 ````
 
 **c.** Find:
@@ -1448,8 +1448,8 @@ Replace with:
 cd "D:/Coding Projects/SAGE/sage-tools-api"
 node -e "new Function(require('fs').readFileSync('apps-script/attendance.gs','utf8'))" && echo "GS OK"
 node apps-script/verify-attendance.mjs | tail -1
-node apps-script/verify-standard-generator.mjs | tail -1
-node apps-script/verify-sheet-generator.mjs | tail -1
+node apps-script/verify-standard-tournament-generator.mjs | tail -1
+node apps-script/verify-dual-meet-generator.mjs | tail -1
 ```
 
 → `GS OK`, then `ALL CHECKS PASSED` three times. The last two prove the

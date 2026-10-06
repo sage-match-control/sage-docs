@@ -613,7 +613,7 @@ solved by putting the item in a different file:
   Drive — or the whole PDF pushed through an HTML dialog as base64. **A link
   needs no new scope**: the PDF downloads from the page, in the browser, the way
   it already does.
-- **Distribution.** `sheet-generator.gs` is bound to the SAGE Dual Meet Master,
+- **Distribution.** `dual-meet-generator.gs` is bound to the SAGE Dual Meet Master,
   so an item there reaches dual-meet workbooks *copied after the change* — not
   existing copies, and not standard tournaments at all. **Resolved by putting
   the item in `sheets-sync.gs` instead** (§8.1), which is installed on every
@@ -669,11 +669,11 @@ the escape hatch if §6.2 ever proves to bite in practice — not day-one work.
 workbook's day and venue already selected. It makes no HTTP request, needs no
 new OAuth scope, and touches nothing in the spreadsheet.
 
-### 8.1 Why `sheets-sync.gs` and not `sheet-generator.gs`
+### 8.1 Why `sheets-sync.gs` and not `dual-meet-generator.gs`
 
 `sheets-sync.gs` is installed **once per facility spreadsheet, for every
 event** — dual meet and standard tournament alike, including BKL Cup 2026's
-fifteen hand-built workbooks. `sheet-generator.gs` is bound to the Dual Meet
+fifteen hand-built workbooks. `dual-meet-generator.gs` is bound to the Dual Meet
 Master and reaches only dual-meet copies made after the change.
 
 More decisively, `sheets-sync.gs` already holds exactly the two values the link
@@ -716,7 +716,7 @@ the three stay three.
 > exists still applies; skip the rest of this section for the actual
 > implementation.
 
-`sheets-sync.gs` defines **no `onOpen` today**; `sheet-generator.gs` defines the
+`sheets-sync.gs` defines **no `onOpen` today**; `dual-meet-generator.gs` defines the
 only one (~line 723). A generated dual-meet workbook ends up carrying **both**
 scripts — the master copy brings the generator, and step 8 of
 `technical/adding-a-new-event.md` pastes the sync script in afterwards.
@@ -736,10 +736,10 @@ assuming it exists.
 In `sheets-sync.gs`:
 
 ```js
-// NOTE: sheet-generator.gs declares its own onOpen, and a generated dual-meet
+// NOTE: dual-meet-generator.gs declares its own onOpen, and a generated dual-meet
 // workbook carries BOTH scripts. Duplicate declarations don't error — the last
 // file loaded wins, and load order isn't controllable. So this body and
-// sheet-generator.gs's must build the SAME menu, each feature-detecting the
+// dual-meet-generator.gs's must build the SAME menu, each feature-detecting the
 // other's entry point. Change one, change the other.
 function onOpen() {
   const menu = SpreadsheetApp.getUi().createMenu('SAGE');
@@ -751,7 +751,7 @@ function onOpen() {
 }
 ```
 
-In `sheet-generator.gs`, replacing the existing `onOpen`:
+In `dual-meet-generator.gs`, replacing the existing `onOpen`:
 
 ```js
 // See the matching note in sheets-sync.gs — these two bodies must agree.
@@ -771,9 +771,9 @@ are present, and the single available item otherwise. The separator and the
 ordering are §7.4's menu-hazard guard: the safe, repeatable item is first, and
 the run-once destructive one is not what the cursor lands on.
 
-Editing `sheet-generator.gs` here does **not** bump `package.json` and is not a
+Editing `dual-meet-generator.gs` here does **not** bump `package.json` and is not a
 deploy, same as any other `scripts/*.gs` change. It also does not require
-`node apps-script/verify-sheet-generator.mjs` to change — that script exercises
+`node apps-script/verify-dual-meet-generator.mjs` to change — that script exercises
 `generateEventTabs`, not the menu — but running it is still the cheap check
 that the file still parses.
 
@@ -906,7 +906,7 @@ which walks through this install per facility spreadsheet.
 
 - [ ] In a workbook with **only** `sheets-sync.gs`, the `SAGE` menu appears
       after reload with `Generate Scoresheets` alone.
-- [ ] In a workbook with **only** `sheet-generator.gs` (the Dual Meet Master),
+- [ ] In a workbook with **only** `dual-meet-generator.gs` (the Dual Meet Master),
       the `SAGE` menu still shows `Generate event tabs` alone — unchanged
       behaviour.
 - [ ] In a workbook with **both**, the menu shows both items with a separator
@@ -920,8 +920,8 @@ which walks through this install per facility spreadsheet.
       script is already authorized, and issues no HTTP request from Apps Script.
 - [ ] A workbook with a deliberately wrong `FACILITY_NAME` lands on §6.6's
       case-sensitivity error rather than a blank or misleading selection.
-- [ ] `node apps-script/verify-sheet-generator.mjs` still passes after the
-      `sheet-generator.gs` `onOpen` edit.
+- [ ] `node apps-script/verify-dual-meet-generator.mjs` still passes after the
+      `dual-meet-generator.gs` `onOpen` edit.
 
 ## 10. Out of scope
 
@@ -946,7 +946,7 @@ which walks through this install per facility spreadsheet.
 - `technical/scoresheet-pipeline.md` — one line noting the page can source its
   CSV from a published snapshot, and the deep-link params it accepts.
 - `technical/sync-pipeline.md` — `sheets-sync.gs` now also contributes a `SAGE`
-  menu; note the shared-`onOpen` contract with `sheet-generator.gs` (§8.3), as
+  menu; note the shared-`onOpen` contract with `dual-meet-generator.gs` (§8.3), as
   that is the non-obvious part someone will otherwise break.
 - `technical/dual-meet-sheet-generator.md` — same contract, from the other file's
   side.

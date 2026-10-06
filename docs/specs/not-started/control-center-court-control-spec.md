@@ -29,8 +29,8 @@ whole day, not just show it.
   has one 3-row block per court from row 5 (`5 + 3·(k − 1)`): column B is the
   court label (merged over the 3 rows), column C the match number, typed by
   hand. D and E are formulas that read the match. This holds for the dual-meet
-  generator (`sheet-generator.gs`, B is the court number), the standard
-  generator (`standard-generator.gs`, B is `=Variables!R<k+1>`) and the
+  generator (`dual-meet-generator.gs`, B is the court number), the standard
+  generator (`standard-tournament-generator.gs`, B is `=Variables!R<k+1>`) and the
   hand-built PickleDrive team workbook.
 - **The snapshot's `court` value is column B.** `CSV`'s `court` column is
   `FILTER('Court Control'!B:B, 'Court Control'!C:C = matchNumber)`, so the

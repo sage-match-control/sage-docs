@@ -46,7 +46,7 @@ whole file into each spreadsheet's script project (**Extensions → Apps
 Script**). It is byte-identical in every workbook; each workbook's identity
 (day key, facility name, watched tabs, shared secret) lives in that
 project's Script Properties. In a live workbook it shares one project with a
-generator file (`sheet-generator.gs` or `standard-generator.gs`) and often
+generator file (`dual-meet-generator.gs` or `standard-tournament-generator.gs`) and often
 `attendance.gs`, so **a top-level name declared twice silently replaces the
 other file's** — every new top-level name must be unique across all four
 files.
@@ -412,7 +412,7 @@ sync.
 Replace `onEditInstallable` and `runIfSettled`, and add the helper and
 constants. Keep `DEBOUNCE_MS` and `SETTLE_HANDLER` (the fallback below uses
 them). All new top-level names must be unique across `sheets-sync.gs`,
-`sheet-generator.gs`, `standard-generator.gs` and `attendance.gs`, because
+`dual-meet-generator.gs`, `standard-tournament-generator.gs` and `attendance.gs`, because
 they share one project in real workbooks.
 
 ```js
@@ -571,8 +571,8 @@ not the settle. Figures in
 - `node --check` cannot parse `.gs`; copy to a temp `.js` file and run
   `node --check` on that.
 - Run `node apps-script/verify-attendance.mjs` and
-  `node apps-script/verify-standard-generator.mjs` and
-  `node apps-script/verify-sheet-generator.mjs`. They load `sheets-sync.gs`
+  `node apps-script/verify-standard-tournament-generator.mjs` and
+  `node apps-script/verify-dual-meet-generator.mjs`. They load `sheets-sync.gs`
   into the same context as the other files and fail on a top-level name
   clash. (`apps-script/mock-apps-script.mjs` has no `LockService`; that is fine
   as long as nothing in those scripts calls `onEditInstallable`.)
@@ -616,8 +616,8 @@ not the settle. Figures in
 - [ ] Paused workbook → no sync.
 - [ ] An attendance mark (`attendance.gs`) during a burst of edits doesn't
       block or lose a sync.
-- [ ] `verify-attendance`, `verify-standard-generator`,
-      `verify-sheet-generator` pass.
+- [ ] `verify-attendance`, `verify-standard-tournament-generator`,
+      `verify-dual-meet-generator` pass.
 
 **From real use, 3 October 2026** (not the scripted checks above, but the
 same ground): Piggleball and PickleDrive synced side by side from 12:52 to

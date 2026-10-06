@@ -10,7 +10,7 @@ Scoped to **dual meets only** — the club-A-versus-club-B format described in
 tournaments are out of scope and must be rejected, not approximated.
 
 **Status: Phase 1, Phase 2 and Phase 3 all built and in use.** Implemented at
-`sage-tools-api/apps-script/sheet-generator.gs`. Phase 2 (§10.1, `SCHEDULE`) and
+`sage-tools-api/apps-script/dual-meet-generator.gs`. Phase 2 (§10.1, `SCHEDULE`) and
 Phase 3 (§10.2, the four readout tabs) are documented separately — see
 `dual-meet-schedule-generator-spec.md` and
 `dual-meet-readouts-generator-spec.md`.
@@ -58,7 +58,7 @@ sharing handling, and a bet on `files.copy` preserving a bound script project.
 
 | | |
 |---|---|
-| Where it lives | `sage-tools-api/apps-script/sheet-generator.gs` |
+| Where it lives | `sage-tools-api/apps-script/dual-meet-generator.gs` |
 | How it ships | Bound Apps Script in the master workbook |
 | Precedent | `apps-script/sheets-sync.gs` — same repo location, same install story |
 | New infra | none |
@@ -827,7 +827,7 @@ equivalent `semis` tab by the banner plus two blocks.
 ### 10.1 Phase 2 — `SCHEDULE`
 
 Specified separately, in `dual-meet-schedule-generator-spec.md`, and **built** —
-`sheet-generator.gs` generates `SCHEDULE` as of Phase 2. See that spec's §12
+`dual-meet-generator.gs` generates `SCHEDULE` as of Phase 2. See that spec's §12
 for where the built tab diverges from its own text.
 
 Nothing in the CSV contains a schedule — the calculator computes match
@@ -838,7 +838,7 @@ CSV stays a round-trippable config file.
 ### 10.2 Phase 3 — `CSV`, `STANDINGSCSV`, `Court Control`, `Timeline`
 
 Specified separately, in `dual-meet-readouts-generator-spec.md`, and
-**built** — `sheet-generator.gs` generates all four readout tabs as of
+**built** — `dual-meet-generator.gs` generates all four readout tabs as of
 Phase 3.
 
 Row-count-driven: formulas sized to the match count and roster. That spec
@@ -958,7 +958,7 @@ and final, and `PNF_LIWD_1..8` / `BUP_LIWD_1..8` pair codes plus four
 
 ## 13. As built — the details §4 and §12 leave out
 
-`sheet-generator.gs` was implemented against the live PNF x BUP workbook,
+`dual-meet-generator.gs` was implemented against the live PNF x BUP workbook,
 and this section is what it actually does, verified cell by cell there.
 **Where this section and §4 or §12 differ, this section is authoritative** —
 §12's worked example is written from one category at one size (`n = 4`, one
@@ -1082,6 +1082,6 @@ tabs, `Variables`, `Title`, `Reference for Players`, `SCHEDULE`,
 event once rosters are pasted in.
 
 The two-bracket **`semis`** path is exercised by
-`apps-script/verify-sheet-generator.mjs` but has never been generated against a
+`apps-script/verify-dual-meet-generator.mjs` but has never been generated against a
 real workbook. Every category in the reference CSV is single-bracket except
 `HIXD` (`semis`) and `AMD` (`aggregate`).

@@ -19,7 +19,7 @@ each category tab's `STEP 1 · NAMES` column and then hand-shuffling
 
 | | |
 | --- | --- |
-| Where the code goes | `standard-generator.gs` (§9, the import), `sheets-sync.gs` + `tools/bracket-generator.html` (§11, the menu route), `sheet-generator.gs` (§12, the dual-meet shuffle) |
+| Where the code goes | `standard-tournament-generator.gs` (§9, the import), `sheets-sync.gs` + `tools/bracket-generator.html` (§11, the menu route), `dual-meet-generator.gs` (§12, the dual-meet shuffle) |
 | How it ships | Bound Apps Script in both masters — paste, not deploy. §11's tool half is a static-site commit |
 | New infra | none |
 | New credentials | none |
@@ -47,18 +47,18 @@ and its two surviving ideas are recorded here, in §11 and §12.
 
 | File | Change |
 | --- | --- |
-| `standard-generator.gs` | the menu item, the sidebar and nine new functions (§9.1-§9.6) |
+| `standard-tournament-generator.gs` | the menu item, the sidebar and nine new functions (§9.1-§9.6) |
 | `mock-apps-script.mjs` | one method, `MockRange.getValues` (§9.7) |
-| `verify-standard-generator.mjs` | one new scenario (§9.8) |
+| `verify-standard-tournament-generator.mjs` | one new scenario (§9.8) |
 
-**Implementer (§11, §12).** Three more, two of them outside `standard-generator.gs`:
+**Implementer (§11, §12).** Three more, two of them outside `standard-tournament-generator.gs`:
 
 | File | Change |
 | --- | --- |
 | `sheets-sync.gs` | `BRACKET_GENERATOR_URL`, one menu item, `showBracketGeneratorLink` (§11) |
 | `tools/bracket-generator.html` | `initCategoryFromQuery` (§11) — the only change outside `sage-tools-api` |
-| `sheet-generator.gs` | the menu item and the shuffle functions (§12) |
-| `verify-sheet-generator.mjs` | one new scenario (§12) |
+| `dual-meet-generator.gs` | the menu item and the shuffle functions (§12) |
+| `verify-dual-meet-generator.mjs` | one new scenario (§12) |
 
 Nothing is deployed and no version is bumped: `scripts/*.gs` is not part of the
 Cloud Run service, and the tool is a static page.
@@ -68,8 +68,8 @@ of the master that carries it, replacing the file there:
 
 | Master | Paste |
 | --- | --- |
-| SAGE Standard Tournament Master | `standard-generator.gs` (§9) and `sheets-sync.gs` (§11) |
-| SAGE Dual Meet Master | `sheet-generator.gs` (§12) and `sheets-sync.gs` (§11) |
+| SAGE Standard Tournament Master | `standard-tournament-generator.gs` (§9) and `sheets-sync.gs` (§11) |
+| SAGE Dual Meet Master | `dual-meet-generator.gs` (§12) and `sheets-sync.gs` (§11) |
 
 `tools/bracket-generator.html` needs nothing — it is a static page, live as
 soon as the commit deploys.
@@ -79,8 +79,8 @@ carries the script it was made from. Only copies taken after it do.
 
 **Do not touch:**
 
-- Anything in `src/`. `sheet-generator.gs` and `sheets-sync.gs` are off limits
-  to §9, which is confined to `standard-generator.gs`; §11 and §12 are the
+- Anything in `src/`. `dual-meet-generator.gs` and `sheets-sync.gs` are off limits
+  to §9, which is confined to `standard-tournament-generator.gs`; §11 and §12 are the
   only reason either is edited at all, and only where those sections say.
 - `generateEventTabs` and everything it calls. This runs *after* generation and
   shares only the trace and progress-log helpers.
@@ -326,7 +326,7 @@ standings, on the day. There is no file to import.
 
 ## 9. Implementation guide
 
-Every edit is to `sage-tools-api/apps-script/standard-generator.gs` unless the step
+Every edit is to `sage-tools-api/apps-script/standard-tournament-generator.gs` unless the step
 says otherwise. **Apply them in order and do not paraphrase the code.**
 Anchors are verbatim strings from the current file.
 
@@ -440,7 +440,7 @@ function splitPairNames_(pair) {
 **Check:**
 
 ```bash
-cd sage-tools-api && node -e "new Function(require('fs').readFileSync('apps-script/standard-generator.gs','utf8'))" && echo "GS OK"
+cd sage-tools-api && node -e "new Function(require('fs').readFileSync('apps-script/standard-tournament-generator.gs','utf8'))" && echo "GS OK"
 ```
 
 ### 9.2 The workbook side — plan block, matching, validation
@@ -632,7 +632,7 @@ function writeDrawNames_(ss, job, stamp) {
 **Check:** syntax check, then
 
 ```bash
-grep -n "getRange(5, COL.AD\|getRange(5, COL.AI\|getRange(2, COL.AB" apps-script/standard-generator.gs
+grep -n "getRange(5, COL.AD\|getRange(5, COL.AI\|getRange(2, COL.AB" apps-script/standard-tournament-generator.gs
 ```
 
 → `COL.AD` appears twice (the emptiness read in §9.2, the write here), `COL.AI`
@@ -722,7 +722,7 @@ function importBracketDraws(files, options) {
 ```
 
 **Check:** syntax check, then
-`grep -n "function importBracketDraws\|function previewDraws" apps-script/standard-generator.gs`
+`grep -n "function importBracketDraws\|function previewDraws" apps-script/standard-tournament-generator.gs`
 → one each.
 
 ### 9.5 The menu item
@@ -879,7 +879,7 @@ var IMPORT_SIDEBAR_HTML_ =
 that too:
 
 ```bash
-node -e "const fs=require('fs');const s=fs.readFileSync('apps-script/standard-generator.gs','utf8');const i=s.indexOf('var IMPORT_SIDEBAR_HTML_ =');const lit=s.slice(i+s.slice(i).indexOf('=')+1, i+s.slice(i).indexOf(\"</script>';\")+\"</script>'\".length);const html=eval(lit);fs.writeFileSync('import_sidebar_tmp.js',html.match(/<script>([\s\S]*)<\/script>/)[1]);" && node --check import_sidebar_tmp.js && rm import_sidebar_tmp.js && echo "SIDEBAR JS OK"
+node -e "const fs=require('fs');const s=fs.readFileSync('apps-script/standard-tournament-generator.gs','utf8');const i=s.indexOf('var IMPORT_SIDEBAR_HTML_ =');const lit=s.slice(i+s.slice(i).indexOf('=')+1, i+s.slice(i).indexOf(\"</script>';\")+\"</script>'\".length);const html=eval(lit);fs.writeFileSync('import_sidebar_tmp.js',html.match(/<script>([\s\S]*)<\/script>/)[1]);" && node --check import_sidebar_tmp.js && rm import_sidebar_tmp.js && echo "SIDEBAR JS OK"
 ```
 
 ### 9.7 The mock needs `getValues`
@@ -916,13 +916,13 @@ Insert immediately **after** it:
     }
 ```
 
-**Check:** `node apps-script/verify-sheet-generator.mjs` and
-`node apps-script/verify-standard-generator.mjs` both still pass — the method is
+**Check:** `node apps-script/verify-dual-meet-generator.mjs` and
+`node apps-script/verify-standard-tournament-generator.mjs` both still pass — the method is
 additive, so nothing existing should move.
 
 ### 9.8 The verify-script scenario
 
-In `sage-tools-api/apps-script/verify-standard-generator.mjs`, find:
+In `sage-tools-api/apps-script/verify-standard-tournament-generator.mjs`, find:
 
 ```js
 // -------------------------------------------------------------------- reject
@@ -1034,8 +1034,8 @@ if (!only || only === "import") {
 **Check:**
 
 ```bash
-node apps-script/verify-standard-generator.mjs --only=import   # every line OK
-node apps-script/verify-standard-generator.mjs                 # the other five scenarios still pass
+node apps-script/verify-standard-tournament-generator.mjs --only=import   # every line OK
+node apps-script/verify-standard-tournament-generator.mjs                 # the other five scenarios still pass
 ```
 
 `HIXD` is 6 pairs over 3-3, so the `h.txt` file above is a correct draw for it.
@@ -1044,9 +1044,9 @@ node apps-script/verify-standard-generator.mjs                 # the other five 
 
 ```bash
 cd sage-tools-api
-node -e "new Function(require('fs').readFileSync('apps-script/standard-generator.gs','utf8'))" && echo "GS OK"
-node apps-script/verify-standard-generator.mjs
-node apps-script/verify-sheet-generator.mjs
+node -e "new Function(require('fs').readFileSync('apps-script/standard-tournament-generator.gs','utf8'))" && echo "GS OK"
+node apps-script/verify-standard-tournament-generator.mjs
+node apps-script/verify-dual-meet-generator.mjs
 ```
 
 The last one matters because §9.7 touches the shared mock: the dual-meet
@@ -1062,7 +1062,7 @@ const items=[];const menu={addItem:(l)=>{items.push(l);return menu;},addSeparato
 const props={};
 const ctx={Logger:{log(){}},SpreadsheetApp:{getActive:()=>({getId:()=>'WB'})},
   PropertiesService:{getScriptProperties:()=>({getProperty:(k)=>props[k]||null})}};
-vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/standard-generator.gs','utf8'),ctx);
+vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/standard-tournament-generator.gs','utf8'),ctx);
 ctx.addGeneratorMenuItems_(menu,{count:2});console.log('fresh copy :',items.join(' | '));
 items.length=0;props['TABS_GENERATED_FOR']='WB';
 ctx.addGeneratorMenuItems_(menu,{count:2});console.log('generated  :',items.join(' | '));"
@@ -1144,7 +1144,7 @@ roster blind, not a bracket draw, and the tool's bracket cards are the wrong
 artifact for it. So its `STEP 3` (`AG`/`AV`, two independent columns) is drawn
 in the sheet instead.
 
-`SAGE → Shuffle roster codes`, in `sage-tools-api/apps-script/sheet-generator.gs`,
+`SAGE → Shuffle roster codes`, in `sage-tools-api/apps-script/dual-meet-generator.gs`,
 reads `STEP 2` and writes a shuffled permutation straight into `STEP 3` on the
 active category tab — no browser, no clipboard, no paste errors. Each club's
 column is drawn independently; they are separate rosters that never mix. It
@@ -1220,11 +1220,11 @@ Caught by the verify scenario, not by inspection.
 category tab" without saying how many of its columns. Both, independently: a
 tab carries two rosters and the operator thinks in tabs, not clubs.
 
-**Menu placement follows §9.5's pattern in both generators.** `sheet-generator.gs`'s
-`addGeneratorMenuItems_` got the same guard-move `standard-generator.gs` got,
+**Menu placement follows §9.5's pattern in both generators.** `dual-meet-generator.gs`'s
+`addGeneratorMenuItems_` got the same guard-move `standard-tournament-generator.gs` got,
 so the shuffle survives generation.
 
-Harness coverage added with them: `verify-sheet-generator.mjs` gains a
+Harness coverage added with them: `verify-dual-meet-generator.mjs` gains a
 `shuffle` scenario (13 checks). §11's tool half has no harness — it was
 verified in a browser against a local static server: `?event=` and
 `?category=` both prefill, and after a reload with no query string the event

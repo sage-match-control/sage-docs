@@ -15,6 +15,13 @@ plan to your clipboard and opens the master's copy dialog.
 **Standard tournaments only.** A dual-meet plan is rejected; that belongs in
 the [Dual Meet Sheet Generator](dual-meet-sheet-generator.md).
 
+While it runs, a progress bar under **Generate** shows how far it has got, and
+the box under it lists what it is building, each line stamped with the time
+since the start. If a run stops partway, the bar turns red and the sidebar
+says why: make a fresh copy of the master and generate there, since a copy
+cannot be generated twice. The sidebar's foot shows the generator's version,
+and **SAGE → Help** lists the versions of every SAGE script in the workbook.
+
 ## One workbook per venue per day
 
 A dual meet is one workbook. A standard tournament is one workbook for

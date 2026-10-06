@@ -367,6 +367,22 @@ day or facility will not fix itself. Cloud Run retries its own commit
 conflicts (above), so this mostly covers a network error or a failed cold
 start.
 
+The execution log says what happened at each of those points: a sync that
+finds the lock taken, a retry, why a `4xx` is not retried, giving up after the
+second attempt, and an edit storm handing over to the follow-up trigger. A
+successful sync logs `Sync OK (200):` followed by the result as one line of
+text (`describeSyncResult_`): the venue and day synced, how it was published
+(the live version and archive commit, or GitHub after a failed live push) and
+edit-to-published time. **Sync now** and setup's test sync show the same lines
+one per row. A failure reads `Sync failed (<status> <code>): <detail>` from a
+problem-details body (`describeFailure_`), the `error` of a legacy body, or the
+body as text, with an HTML page's tags dropped and a long body cut at 300
+characters.
+
+The file carries `SHEETS_SYNC_VERSION`, bumped with every change to it.
+**SAGE → Help** lists it, and the version of each generator the workbook also
+carries (`scriptVersions_`), so anyone can tell which copy a workbook runs.
+
 The lock is the *document* lock, not the script lock, because Pickle for
 Sight's live workbooks also carry `attendance.gs`, which holds the script lock
 while marking a player; sharing it would make edits made during a mark lose
@@ -417,7 +433,7 @@ copy of an event workbook and so inherits that workbook's secret; using
 *Replace shared secret* there once makes the secret its own. A copy is told
 apart from its master by name: `Copy of …` until it is generated, then the
 event's own name. `secretMenuItem_` makes the decision and is checked by
-`apps-script/verify-standard-generator.mjs`.
+`apps-script/verify-standard-tournament-generator.mjs`.
 The secret now travels inside the spreadsheet file, so sharing a copy of the
 Master shares the secret with it.
 
@@ -472,7 +488,7 @@ once, so the normal workflow — finish rosters and schedule fixes, wire up
 sync last — never needs it. `Sync now` still works while paused, since
 that's an explicit manual action rather than the automatic edit-triggered
 path pausing is scoped to. A generated workbook carries both this file and
-one generator — `sheet-generator.gs` or `standard-generator.gs` — and Apps
+one generator — `dual-meet-generator.gs` or `standard-tournament-generator.gs` — and Apps
 Script silently lets the last-loaded file's `onOpen` win when two are
 declared. So all three files declare a **byte-identical** `onOpen` body that
 delegates to feature-detected builders (`addSyncMenuItems_` in this file,

@@ -10,7 +10,7 @@ Three files change:
 | File | Change |
 | --- | --- |
 | `sage-tools-api/apps-script/sheets-sync.gs` | config → Script Properties; setup dialog; validation; shared `onOpen`; `showScoresheetLink` reads config (§3–§8) |
-| `sage-tools-api/apps-script/sheet-generator.gs` | shared `onOpen` contract; post-generation marker (§7, §9) |
+| `sage-tools-api/apps-script/dual-meet-generator.gs` | shared `onOpen` contract; post-generation marker (§7, §9) |
 | `sage-tools-api/apps-script/mock-apps-script.mjs` | a `PropertiesService` stub, so §9's marker write survives the verify harness |
 
 Plus the documentation in §13, which is part of the work, not a follow-up.
@@ -71,7 +71,7 @@ and §12's syntax check can be run after any of them.
    `saveSyncSetup` is the join between the two; write §4's helpers first.
 5. **§7** — replace *both* files' existing `onOpen` with the shared body, and
    add the two builders.
-6. **§9** — `sheet-generator.gs`'s marker and the mock's `PropertiesService`.
+6. **§9** — `dual-meet-generator.gs`'s marker and the mock's `PropertiesService`.
 7. **§12** — run the syntax check and the verify harness.
 8. **§13** — the documentation. Not optional and not a separate task.
 
@@ -80,7 +80,7 @@ and §12's syntax check can be run after any of them.
 Match each file's existing conventions:
 
 - `sheets-sync.gs` uses `const`, arrow functions and template literals.
-- `sheet-generator.gs` uses `var` and `function` declarations exclusively, and
+- `dual-meet-generator.gs` uses `var` and `function` declarations exclusively, and
   string concatenation rather than template literals.
 
 **Where a declaration must exist in both files it must be `var`.** Apps Script
@@ -93,7 +93,7 @@ body itself.
 
 There are no top-level name collisions between the two files today. Before
 adding any new top-level name to `sheets-sync.gs`, check it against
-`sheet-generator.gs`'s `var` declarations — in particular, that file already
+`dual-meet-generator.gs`'s `var` declarations — in particular, that file already
 owns `SCHEDULE_SHEET_NAME` and `COURT_CONTROL_SHEET_NAME`, which is why §3.1's
 new constants are named `*_TAB_NAME`.
 
@@ -144,7 +144,7 @@ const PROP_WATCHED_GIDS = 'SYNC_WATCHED_GIDS';
 const PROP_BOUND_SPREADSHEET_ID = 'SYNC_BOUND_SPREADSHEET_ID';
 const PROP_LAST_EDIT = 'lastEditTime';
 
-// Declared with `var`, not `const`: sheet-generator.gs declares this same name,
+// Declared with `var`, not `const`: dual-meet-generator.gs declares this same name,
 // and a generated workbook carries both files in one Apps Script project, where
 // duplicate top-level `const` is a project-breaking error and duplicate `var`
 // is not. Keep the two declarations identical.
@@ -163,7 +163,7 @@ const SCHEDULE_TAB_NAME = 'SCHEDULE';
 const COURT_CONTROL_TAB_NAME = 'Court Control';
 ```
 
-> **`Court Control`, not `COURT CONTROL`.** `sheet-generator.gs:229` creates the
+> **`Court Control`, not `COURT CONTROL`.** `dual-meet-generator.gs:229` creates the
 > tab as `Court Control`. Name-based lookup must use that exact string. The
 > `// "SCHEDULE", "COURT CONTROL"` comment on today's `WATCHED_SHEET_GIDS` line
 > is wrong about the second name and goes away with the line.
@@ -478,7 +478,7 @@ function showSyncSetup() {
 
 Built with `HtmlService.createHtmlOutput` on a string constant and
 `google.script.run` for the round trip — the same construction
-`sheet-generator.gs`'s `GENERATE_SIDEBAR_HTML_` uses (`sheet-generator.gs:740`).
+`dual-meet-generator.gs`'s `GENERATE_SIDEBAR_HTML_` uses (`dual-meet-generator.gs:740`).
 Follow that constant for the inline `<style>` and the string-concatenation
 style, and `showScoresheetLink`'s smaller dialog (`sheets-sync.gs:245`) for the
 colour palette.
@@ -608,7 +608,7 @@ it exited early as unconfigured) in addition to its existing logging; the
 ### 7.1 Current state
 
 **Both files already declare `onOpen`**, at `sheets-sync.gs:228` and
-`sheet-generator.gs:724`, added when the scoresheet event picker shipped. They
+`dual-meet-generator.gs:724`, added when the scoresheet event picker shipped. They
 are not identical: each builds the whole menu while feature-detecting the
 other's handler function by name (`showGenerateSidebar` / `showScoresheetLink`).
 That works, but it makes every menu change a two-file edit with no structural
@@ -632,7 +632,7 @@ declaration wins cannot matter because both bodies are the same text:
 // ============================================================================
 // MENU
 // ============================================================================
-// This block is duplicated VERBATIM in sheets-sync.gs and sheet-generator.gs.
+// This block is duplicated VERBATIM in sheets-sync.gs and dual-meet-generator.gs.
 // A generated workbook carries both scripts; duplicate declarations don't
 // error, the last file loaded wins, and load order isn't controllable. Keeping
 // the two bodies identical makes that race irrelevant. Each file contributes
@@ -681,7 +681,7 @@ built from the day key and facility name (§8). An unconfigured workbook has
 neither, so the item would only ever produce a broken link; the one thing that
 workbook offers is `Set up live sync`.
 
-In `sheet-generator.gs`:
+In `dual-meet-generator.gs`:
 
 ```js
 function addGeneratorMenuItems_(menu, state) {
@@ -803,11 +803,11 @@ readout too rather than relying on a day key never containing a `<`.
 
 ---
 
-## 9. `sheet-generator.gs` — the generated marker
+## 9. `dual-meet-generator.gs` — the generated marker
 
 At the end of a successful `generateEventTabs`, record which spreadsheet was
 built. Place the write immediately before the `return { message: ... }` at
-`sheet-generator.gs:1135`, after `logStep_('Done.')` at `:1133`:
+`dual-meet-generator.gs:1135`, after `logStep_('Done.')` at `:1133`:
 
 ```js
 PropertiesService.getScriptProperties()
@@ -819,7 +819,7 @@ menu item in place.
 
 `PROP_TABS_GENERATED_FOR` is declared in this file as well, with `var` and the
 identical text §3.1 uses — see §2.1 for why it cannot be `const`. Put it beside
-the other tab-name `var`s near `sheet-generator.gs:229`.
+the other tab-name `var`s near `dual-meet-generator.gs:229`.
 
 This is menu hygiene, not a safety mechanism — `REBUILT_IN_PLACE_TABS`'
 prototype-shape check already refuses a second run. The value is that a live
@@ -833,7 +833,7 @@ the same mechanism as §3.3.
 
 `apps-script/mock-apps-script.mjs`'s `buildSandbox` supplies no `PropertiesService`,
 so the write above throws `PropertiesService is not defined` under
-`apps-script/verify-sheet-generator.mjs` and every scenario fails.
+`apps-script/verify-dual-meet-generator.mjs` and every scenario fails.
 
 Add a stub to the object `buildSandbox` returns, alongside the existing
 `CacheService` entry and backed by a `Map` the same way `cacheStore` is:
@@ -848,7 +848,7 @@ twice on one sandbox — sees the marker persist across the two runs, exactly as
 real workbook would.
 
 `generateEventTabs`'s own behaviour, output, and the assertions in
-`verify-sheet-generator.mjs` are untouched; no fixture changes and no new
+`verify-dual-meet-generator.mjs` are untouched; no fixture changes and no new
 assertion is required. Guarding the write with a `typeof PropertiesService`
 check instead of extending the mock is **not** the approach here — it would put
 a test-shaped conditional in production code and leave the mock unable to
@@ -925,15 +925,15 @@ half done.
 through `vm` instead:
 
 ```bash
-node -e "const vm=require('vm'),fs=require('fs');for(const f of ['apps-script/sheets-sync.gs','apps-script/sheet-generator.gs'])new vm.Script(fs.readFileSync(f,'utf8'),{filename:f});console.log('syntax OK')"
+node -e "const vm=require('vm'),fs=require('fs');for(const f of ['apps-script/sheets-sync.gs','apps-script/dual-meet-generator.gs'])new vm.Script(fs.readFileSync(f,'utf8'),{filename:f});console.log('syntax OK')"
 ```
 
 ```bash
-node apps-script/verify-sheet-generator.mjs
+node apps-script/verify-dual-meet-generator.mjs
 ```
 
 The verify harness must print `ALL CHECKS PASSED`, unchanged from before this
-work. It exercises `sheet-generator.gs` only; nothing in `sheets-sync.gs` is
+work. It exercises `dual-meet-generator.gs` only; nothing in `sheets-sync.gs` is
 covered by any automated check.
 
 Also confirm by inspection, since no tool checks them:
@@ -941,7 +941,7 @@ Also confirm by inspection, since no tool checks them:
 - The `onOpen` block (§7.2) is **byte-identical** in both files — diff the two
   regions, do not eyeball them.
 - No top-level `const`/`let` name in `sheets-sync.gs` matches a top-level `var`
-  name in `sheet-generator.gs` (§2.1).
+  name in `dual-meet-generator.gs` (§2.1).
 - `PROP_TABS_GENERATED_FOR` is declared `var` in both files, with the same
   value.
 - No identifier named `DAY_KEY`, `FACILITY_NAME` or `WATCHED_SHEET_GIDS` remains

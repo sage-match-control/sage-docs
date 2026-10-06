@@ -58,6 +58,15 @@ left off. A run that fails partway leaves the name as it was.
 5. Paste the plan into the sidebar (Ctrl+V, or Cmd+V on Mac), add the venue
    name, and click **Generate**.
 
+While it runs, a progress bar under the button shows how far it has got
+("Step 12 of 31", with the time so far), and the box under it lists what it is
+building, each line stamped with the time since the start. A full-size meet
+takes a few minutes; keep the sidebar open until it says **Done**. If a run
+stops partway, the bar turns red and the sidebar says why: the tabs it finished
+stay as they are, and the copy cannot be generated again, so make a fresh copy
+of the master and generate there. The sidebar's foot shows the generator's
+version.
+
 If you would rather work from the file than the clipboard, you can **drag the
 calculator's exported `.csv` straight onto the big box**, or use the
 sidebar's **Choose file** button — either one fills the same box, so you can
@@ -74,8 +83,8 @@ menu always has both features in it: **Generate event tabs**, and — once
 **Sync now**, **Pause live sync** (or **Resume live sync**), and **Live sync
 settings**. Before setup it's just **Set up live sync** instead. **Fill match
 numbers** and **Help** are always there either way. Help has a workflow
-refresher, this workbook's current status, and what to check when something
-looks wrong.
+refresher, this workbook's current status, what to check when something
+looks wrong, and the version of each SAGE script installed in the workbook.
 
 **Fill match numbers** renumbers the matches on SCHEDULE from a number you
 give it: enter 0 to start at 1, or 2000 to start at 2001. Only slots with a

@@ -188,7 +188,7 @@ functions reach `SCHEDULE` through `INDIRECT("SCHEDULE!"…)` and a literal
 
 ## Verifying a change
 
-`apps-script/verify-sheet-generator.mjs` does not help here — it asserts formula
+`apps-script/verify-dual-meet-generator.mjs` does not help here — it asserts formula
 *text*, never evaluates it. The only real check is a workbook.
 
 The reliable method is a differential one: keep a reference copy of a

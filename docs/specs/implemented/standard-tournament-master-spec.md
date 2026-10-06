@@ -7,10 +7,10 @@ spreadsheet and find-replacing every category key, court label and match
 number by hand.
 
 > **Status: implemented.** The bound Apps Script is
-> `sage-tools-api/apps-script/standard-generator.gs`, running in the **SAGE
+> `sage-tools-api/apps-script/standard-tournament-generator.gs`, running in the **SAGE
 > Standard Tournament Master** workbook, whose `_CATEGORY_TEMPLATE` is an
 > unchanged copy of the Pickle for Sight Annex's `HIMD` tab. The generator
-> passes `apps-script/verify-standard-generator.mjs`, which checks §16 against a
+> passes `apps-script/verify-standard-tournament-generator.mjs`, which checks §16 against a
 > mocked master fed both Pickle for Sight plan CSVs. §18 records where the
 > code departs from this document; read it before trusting a cell reference.
 >
@@ -19,12 +19,12 @@ number by hand.
 
 | | |
 | --- | --- |
-| Where the code goes | `sage-tools-api/apps-script/standard-generator.gs` (new file, §12.1) |
+| Where the code goes | `sage-tools-api/apps-script/standard-tournament-generator.gs` (new file, §12.1) |
 | How it ships | Bound Apps Script in the master workbook — paste, not deploy |
 | New infra | none |
 | New credentials | none |
 | `sage-tools-api` change | none — no version bump, no Cloud Run deploy |
-| Reuses | `sheet-generator.gs`'s pure helpers verbatim where the shape matches (§12.2) |
+| Reuses | `dual-meet-generator.gs`'s pure helpers verbatim where the shape matches (§12.2) |
 
 **Read the three dual-meet specs first.** This one inherits their delivery
 story, their Apps Script mechanics and most of their vocabulary, and only
@@ -58,7 +58,7 @@ about it.
 
 | Thing | Path |
 | --- | --- |
-| The dual-meet generator this one copies from | `sage-tools-api/apps-script/sheet-generator.gs` |
+| The dual-meet generator this one copies from | `sage-tools-api/apps-script/dual-meet-generator.gs` |
 | The live-sync script that shares the Apps Script project (and owns `SAGE → Fill match numbers`) | `sage-tools-api/apps-script/sheets-sync.gs` |
 | The Tournament Time Calculator, source of the plan CSV and of `playoffPlan()` | `sage-match-control.github.io/tools/tournament-calculator.html` |
 | The named-function contract §11 adopts | `sage-docs/docs/technical/named-function-library.md` |
@@ -295,7 +295,7 @@ image of Phase 1 spec §2.1:
 
 The file's data rows carry fewer cells than the header — `setting` rows stop
 after `value` — so parse positionally and treat a missing trailing cell as
-empty, as `sheet-generator.gs`'s `parsePlanCsv` already does.
+empty, as `dual-meet-generator.gs`'s `parsePlanCsv` already does.
 
 `setting format` must read `standard`. A `dual` file is rejected, not
 approximated — the exact converse of Phase 1 spec §3.
@@ -843,7 +843,7 @@ meet's, one column set instead of two:
 | **STEP 2 · CODES** | `AH` | `=$AD$1&"_"&AG<r>`, one row per pair |
 | **STEP 3 · RANDOMIZED** | `AI` | **blank** — operator pastes the codes back shuffled, one row per pair |
 
-STEP 3 stays blank for the reason `sheet-generator.gs`'s `writeRosterScaffold_` gives:
+STEP 3 stays blank for the reason `dual-meet-generator.gs`'s `writeRosterScaffold_` gives:
 pre-seeding it makes an undone step look done, and an unshuffled STEP 3 maps
 every pair to its own roster slot, defeating the blinding.
 `bracket-draw-name-import-spec.md` is the one thing allowed to fill it, since
@@ -1578,23 +1578,23 @@ in JavaScript and write literals.
 
 ### 12.1 Where the code goes
 
-A **new file**, `sage-tools-api/apps-script/standard-generator.gs`, bound to the
-SAGE Standard Tournament Master. Not a mode inside `sheet-generator.gs`:
+A **new file**, `sage-tools-api/apps-script/standard-tournament-generator.gs`, bound to the
+SAGE Standard Tournament Master. Not a mode inside `dual-meet-generator.gs`:
 
 - The two masters are different workbooks, so neither script ever needs the
   other's code at runtime; a shared file would ship dual-meet code into the
   standard master and vice versa.
-- `sheet-generator.gs` is 2,800 lines and its layout engine is written around
+- `dual-meet-generator.gs` is 2,800 lines and its layout engine is written around
   square, per-club blocks. Every one of §7's differences would be a branch.
 - The `onOpen` block is already duplicated verbatim across `sheets-sync.gs`
-  and `sheet-generator.gs` with a "Change one, change both" note. This adds a
+  and `dual-meet-generator.gs` with a "Change one, change both" note. This adds a
   third copy of that block and nothing else.
 
 Menu: `SAGE → Generate event tabs`, same sidebar pattern, same
 `logStep_`-polled progress, same self-removing menu item once
 `PROP_TABS_GENERATED_FOR` is set.
 
-### 12.2 What to copy from `sheet-generator.gs`
+### 12.2 What to copy from `dual-meet-generator.gs`
 
 Verbatim, as pure functions — these have no dual-meet assumptions in them:
 
@@ -1859,7 +1859,7 @@ And in general:
 
 ## 17. Out of scope
 
-- Any change to `sheet-generator.gs` or the Dual Meet Master
+- Any change to `dual-meet-generator.gs` or the Dual Meet Master
 - Player name import — rosters stay a paste, both scaffolds (§7.6)
 - Filling STEP 3 or the qualifier draw automatically (§15)
 - Seeded or non-random draws
@@ -1874,7 +1874,7 @@ And in general:
 
 ## 18. Divergences
 
-Where `standard-generator.gs` departs from the sections above, or fills in
+Where `standard-tournament-generator.gs` departs from the sections above, or fills in
 something they leave open.
 
 **Departures**

@@ -1,6 +1,6 @@
 # Dual Meet Sheet Generator
 
-`sage-tools-api/apps-script/sheet-generator.gs` — bound Apps Script that builds a
+`sage-tools-api/apps-script/dual-meet-generator.gs` — bound Apps Script that builds a
 dual meet event's whole workbook from a Tournament Calculator CSV: every
 category tab, `SCHEDULE`, the four readout tabs the live sync and the
 operator both depend on, and an empty `ATTENDANCE` tab (`buildAttendanceTab_`,
@@ -130,7 +130,7 @@ workbook that looks complete and isn't.
 ## Verifying a change before it reaches a workbook
 
 ```bash
-node apps-script/verify-sheet-generator.mjs
+node apps-script/verify-dual-meet-generator.mjs
 ```
 
 Runs the real `generateEventTabs` against a mocked Sheets API and checks the
@@ -153,6 +153,26 @@ formulas — a formula's *text* is what gets asserted — so anything that
 depends on Sheets actually calculating (Named Functions resolving, spill
 heights, `COUNTPAIRAT` matching a slot time) still has to be confirmed in a
 real workbook.
+
+## Progress in the sidebar
+
+`google.script.run` cannot stream, so the run and the sidebar meet in
+`CacheService`: `generateEventTabs` keeps one cached object of the lines so
+far, each stamped `m:ss` from the start (`logStep_`), the steps done
+(`stepDone_`) and the total, and its end state (`finishLog_`: `done`,
+`failed` or `rejected`). The sidebar polls `getGenerationLog()` every
+0.8 s for `{ lines, done, total, state, elapsedMs }` and draws a progress
+bar from it. The total is set once the plan has passed validation
+(`setProgressTotal_`); until then the bar slides with no end. A dual meet
+counts each category tab, Variables, Title, Reference for Players, the match
+list, SCHEDULE's seven stages plus one per court tiled after the first, and
+the five readout tabs. A failed run's sidebar says the copy cannot be
+generated again and to generate in a fresh copy of the master.
+
+The file carries `DUAL_MEET_GENERATOR_VERSION`, shown at the foot of the
+sidebar and in **SAGE → Help**, and bumped with every change to the file. The
+harness holds the steps a run reports to the total it counts to, in every
+scenario.
 
 ## Tracing
 
@@ -226,7 +246,7 @@ generator already laid the scaffold out.
 scaffold, and puts a `YES_NO` in front of a `STEP 3` that already holds
 anything, since reshuffling a live workbook re-points every pair on the tab.
 The three helpers below it take a sheet and are exercised directly by the
-`shuffle` scenario in `verify-sheet-generator.mjs`.
+`shuffle` scenario in `verify-dual-meet-generator.mjs`.
 
 For the sync half — the setup dialog, its validation, and the
 spreadsheet-ID guard that keeps a copied workbook from inheriting another
@@ -262,7 +282,7 @@ After a successful run, `workbookName_` renames the spreadsheet to
 `<date> <title> - <VENUE>`, e.g. `2026-09-12 PNF x BUP Dual Meet - PPC`:
 the plan's date and title, then the sidebar's venue label uppercased, with
 the dash part dropped when the label is blank. It runs last, so a failed or
-rejected run leaves the copy's name alone. `standard-generator.gs` carries
+rejected run leaves the copy's name alone. `standard-tournament-generator.gs` carries
 the same helper.
 
 ---

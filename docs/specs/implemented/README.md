@@ -27,10 +27,10 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Bracket Generator](bracket-generator-spec.md) | `tools/bracket-generator.html` |
 | [Verifiable draw](bracket-generator-verifiable-draw-spec.md) | Its seed, SHA-256 fingerprint draw, and *How it works* dialog |
 | [Bracket draw name import](bracket-draw-name-import-spec.md) | `SAGE → Import bracket draws`, the `Open Bracket Generator` menu route, and a dual meet's `Shuffle roster codes` |
-| [Sheet generator (Phase 1)](dual-meet-sheet-generator-spec.md) | `sheet-generator.gs` — category tabs, `Variables`, `Title`, `Reference for Players` |
+| [Sheet generator (Phase 1)](dual-meet-sheet-generator-spec.md) | `dual-meet-generator.gs` — category tabs, `Variables`, `Title`, `Reference for Players` |
 | [Schedule generator (Phase 2)](dual-meet-schedule-generator-spec.md) | Its `SCHEDULE` tab |
 | [Readouts generator (Phase 3)](dual-meet-readouts-generator-spec.md) | Its `Court Control`, `Timeline`, `CSV`, `STANDINGSCSV` |
-| [Standard Tournament Master](standard-tournament-master-spec.md) | `standard-generator.gs` and the SAGE Standard Tournament Master workbook |
+| [Standard Tournament Master](standard-tournament-master-spec.md) | `standard-tournament-generator.gs` and the SAGE Standard Tournament Master workbook |
 | [Event site templates](event-templates-spec.md) | `_templates/dual-meet-template/` and `_templates/standard-tournament-template/` |
 | [PNF × BUP dual meet](pnf-x-bup-dual-meet-spec.md) | The first real run of the dual-meet template |
 | [Facility progress](facility-progress-spec.md) | Live Matches' per-facility progress cards and Mission Control's progress line |

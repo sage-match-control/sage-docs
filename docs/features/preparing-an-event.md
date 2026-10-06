@@ -240,7 +240,9 @@ edit. Before the event there is nothing to wait for, so push the
 first copy up yourself. Either way works:
 
 - **From the workbook** — **SAGE → Sync now**, in each venue's spreadsheet.
-  It reports what it sent.
+  It reports what it sent: the venue and day, whether open pages got it
+  straight away, and how long it took. If it fails, the words after **Sync
+  failed** say why, and **SAGE → Help** explains each one.
 - **From [Control Center](control-center.md)** — Mission Control's **Resync
   this day now**, which pulls a fresh copy from every venue of that day at
   once. Handy when you have several workbooks open and don't want to visit

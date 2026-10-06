@@ -66,8 +66,8 @@ one is not a deploy and doesn't bump the API version.
 | File | Bound to | Does |
 | --- | --- | --- |
 | `sheets-sync.gs` | each facility spreadsheet | the lock-based onEdit trigger that calls `POST /v3/days/{day}/facilities/{facility}/syncs` (the diagram above; a workbook made before 3.0.0 holds a copy that calls the legacy `POST /sync/:day`) |
-| `sheet-generator.gs` | the SAGE Dual Meet Master workbook | builds a dual meet's category tabs from a Tournament Calculator CSV — see [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) |
-| `standard-generator.gs` | the SAGE Standard Tournament Master workbook | builds one venue-day's standard-tournament workbook from a Tournament Calculator CSV — see [Standard Tournament Generator](standard-tournament-generator.md) |
+| `dual-meet-generator.gs` | the SAGE Dual Meet Master workbook | builds a dual meet's category tabs from a Tournament Calculator CSV — see [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) |
+| `standard-tournament-generator.gs` | the SAGE Standard Tournament Master workbook | builds one venue-day's standard-tournament workbook from a Tournament Calculator CSV — see [Standard Tournament Generator](standard-tournament-generator.md) |
 
 Pickle for Sight's live workbooks also run `attendance.gs`, the earlier,
 per-workbook attendance web app. It is no longer kept in the repo (its last

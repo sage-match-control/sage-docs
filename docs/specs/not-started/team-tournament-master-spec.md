@@ -15,8 +15,8 @@
 
 Build the third generator: a **SAGE Team Tournament Master** workbook whose
 `SAGE -> Generate event tabs` menu builds a team event's whole scoring workbook,
-as [`sheet-generator.gs`](../implemented/dual-meet-sheet-generator-spec.md) does for
-a dual meet and [`standard-generator.gs`](../implemented/standard-tournament-master-spec.md)
+as [`dual-meet-generator.gs`](../implemented/dual-meet-sheet-generator-spec.md) does for
+a dual meet and [`standard-tournament-generator.gs`](../implemented/standard-tournament-master-spec.md)
 does for a standard tournament. Today the team workbook is built by hand and carries a formula load that made
 Sheets API reads take up to 58 s on event day.
 
