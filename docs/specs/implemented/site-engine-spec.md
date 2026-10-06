@@ -12,7 +12,7 @@
 > schedule boards), 86 (the scorer page) and 62 (the attendance desk page).
 > `tools/control-center.html` fell from 9,875 lines at `7fb908e` to 4,405. The
 > engine, `lib/v1/`, is 43 files: 6,692 lines of JavaScript and 3,249 of CSS.
-> `npm run verify` runs 362 unit tests and 403 comparison cases (Control Center
+> `npm run verify` runs 313 unit tests and 403 comparison cases (Control Center
 > over four events, both Hubs and boards, the scorer and desk pages, each at
 > phone and desktop width and in three data states).
 >
