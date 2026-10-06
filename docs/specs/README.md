@@ -158,6 +158,11 @@ to the `...` form rather than repointing it.
 - **[Event site templates](implemented/event-templates-spec.md)** — the
   dual-meet and standard-tournament templates new events are instantiated
   from.
+- **[Team tournament event-site template](implemented/team-tournament-template-spec.md)**
+  — `_templates/team-tournament-template/`, with everything the other two templates give an
+  event: a Hub and a schedule board as shells on the site engine, the scorer and desk pages
+  working on team data, and the team checks in the dry-run runbook. S.A.G.E.-themed, with
+  pair labels per event from `events.json` (`display.pairs`).
 - **[Pickle & Friends × 1Bataan United Picklers dual meet](implemented/pnf-x-bup-dual-meet-spec.md)**
   — the event that drove the dual-meet template's first real run.
 - **[Event attendance](implemented/event-attendance-spec.md)** — a
@@ -217,11 +222,6 @@ to the `...` form rather than repointing it.
 - **[Calculator team format](not-started/calculator-team-format-spec.md)** — a third Format option
   in the Tournament Calculator: one team competition planned in matchups, with the group stage,
   quarterfinal-to-final playoffs, slots and finish time worked out from teams, groups and courts.
-- **[Team tournament event-site template](not-started/team-tournament-template-spec.md)**
-  — `_templates/team-tournament-template/`, with everything the other two templates give an
-  event: a Hub and a schedule board as shells on the site engine, the scorer and desk pages
-  working on team data, and the team checks in the dry-run runbook. S.A.G.E.-themed, with
-  pair labels per event from `events.json`.
 - **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
   workbook generator for team events, phased, starting from the optimised workbook.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea

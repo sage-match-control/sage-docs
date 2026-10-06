@@ -106,7 +106,12 @@ colour off the match's bracket (Bracket 1, Bracket 2, Bracket 3) or, for any pla
 match, a single Playoffs colour, chosen from the event's own artwork because
 the organizer's SCHEDULE tab is uncoloured. Each card also names both teams
 above their players and carries the pair label; a side whose lineup isn't set
-reads *Lineup TBD*. The rest of this section describes category-coloured
+(its first player cell is empty or holds the side's own code) reads *Lineup TBD*.
+The page sets `type: 'team'`, and the board reads the event's `display.pairs`
+from `events.json` for the pair chip (`MD`, `XD 1`). The colour key is
+`CAT_META` with one entry per bracket, keyed `G<n>`, and `PO` for every
+playoff; a bracket with no entry reads `BR <n>` in grey. A team cell keeps its
+chips on one line (`.cell.team`). The rest of this section describes category-coloured
 events.
 
 Read directly off the color-coded SCHEDULE tab of the source spreadsheet so

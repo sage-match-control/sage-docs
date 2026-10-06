@@ -52,7 +52,7 @@
 > **Supersedes, in part:** the consistency and parity layers of the
 > [site test suite](../not-started/site-test-suite-spec.md), and the "carry the shared blocks
 > byte-identical" steps of the
-> [team tournament template](../not-started/team-tournament-template-spec.md). §9 lists what
+> [team tournament template](team-tournament-template-spec.md). §9 lists what
 > changes in each.
 
 The site's pages share a great deal of code, and every shared line is copied by
@@ -291,7 +291,7 @@ Two more copies are kept by hand today:
   another page moves. §11 lists splitting CC further as a later option.
 - A team-type Hub. CC keeps its team views, and they move into the engine
   because CC uses them. A team event's Hub shell is the
-  [team template spec](../not-started/team-tournament-template-spec.md)'s job (§9).
+  [team template spec](team-tournament-template-spec.md)'s job (§9).
 - The other tools (`scoresheet-generator.html`, `tournament-calculator.html`,
   `bracket-generator.html`, `tools/index.html`) and `field-guide.html`.
 - Any change to `sage-tools-api`, or to `event-data` beyond one documentation sentence (§4.6).
@@ -1224,7 +1224,7 @@ Each spec is revised properly when this one is implemented.
   - Its **parity** layer becomes `_tests/unit/`.
   - Its **page tests** remain, run against the shells.
   - Revise it after Phase 5, before building it.
-- **[Team tournament template](../not-started/team-tournament-template-spec.md).** A team
+- **[Team tournament template](team-tournament-template-spec.md).** A team
   event's Hub becomes a shell on the engine, with a team branch in
   `apps/hub.js` built from the `views/teams.js` CC already uses. It does not
   copy PickleDrive's inline code or the shared blocks. Revise it after Phase 5.

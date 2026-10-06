@@ -9,7 +9,7 @@
 > facility was stamped complete at 21:37. The event's pages now have live
 > push off (`LIVE_BASE_URL = ''`), as every finished event's do. The follow-on
 > work is its own specs: the
-> [event-site template](../not-started/team-tournament-template-spec.md) and the
+> [event-site template](team-tournament-template-spec.md) and the
 > [workbook generator](../not-started/team-tournament-master-spec.md) (§15).
 >
 > **The workbook was slow to read, and was trimmed afterwards.** 161 of the
@@ -1173,7 +1173,7 @@ the three READMEs and `mkdocs.yml`.
 Not part of this build, and no longer part of this spec. What the event leaves
 behind is two pieces of follow-on work, each its own spec:
 
-- [Team tournament event-site template](../not-started/team-tournament-template-spec.md):
+- [Team tournament event-site template](team-tournament-template-spec.md):
   extracting `_templates/team-tournament-template/` from this event's pages,
   S.A.G.E.-themed like the other two templates, with the event's values
   tokenised and the hard-coded constants (pairs, stages, group count, who

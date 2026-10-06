@@ -57,7 +57,11 @@ the tab is hidden. See [Sync pipeline § Pages](sync-pipeline.md#pages).
 `loadData` keeps the whole snapshot. One snapshot holds every venue of the day, so
 switching venue rebuilds the match list from `lastSnapshot` with no request: the
 chosen facility's CSV goes through `rowsToMatches`, BYEs are dropped, and a team
-event's names come from that facility's standings. A 404 reads "schedule isn't
+event's names come from that facility's standings (`sideLabel` over the
+standings rows by team code): a playoff side whose slot holds a team letter
+shows that team's name, an open one reads "Seed n · TBD". The dialog's sub
+line for a team match is the stage and the pair, from the event's
+`display.pairs` (for example "Bracket 2 · Mixed Doubles 1"), not the matchup key. A 404 reads "schedule isn't
 published yet" and a failure reads "Retrying"; both keep polling. Each rebuild
 redraws the list and calls the dialog's `refresh()`.
 

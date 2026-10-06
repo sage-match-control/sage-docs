@@ -1,7 +1,7 @@
 # Adding a new event
 
 Instantiating a new tournament site is a copy-and-fill job against one of
-two reusable templates in `sage-match-control.github.io/_templates/`, not a
+three reusable templates in `sage-match-control.github.io/_templates/`, not a
 copy-an-old-event-and-hunt-for-hardcoded-strings job. This page is a
 condensed overview; the full step-by-step (with the complete token table)
 is `_templates/CLAUDE.md` in that repo.
@@ -9,22 +9,28 @@ is `_templates/CLAUDE.md` in that repo.
 ## Choosing a template
 
 - **Two clubs facing off** → `dual-meet-template/`
+- **Named teams meeting in matchups** (a team tournament) → `team-tournament-template/`.
+  Its `type` is `"team"` in `events.json`, and its pair labels (MD, WD, XD…) are
+  the event's `display.pairs` there. The rules and the first event, PickleDrive
+  Club One Year Celebration (hand-built as `events/pickledrive-anniversary-2026/`
+  before the template existed), are in the
+  [team tournament spec](../specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md);
+  the template is the
+  [team tournament template spec](../specs/implemented/team-tournament-template-spec.md).
 - **Everything else** (open-entry bracket tournament) → `standard-tournament-template/`
 
-- **Named teams meeting in four-match matchups** (a team tournament) → there
-  is no template yet. The first one, PickleDrive Club One Year Celebration,
-  was built by hand as `events/pickledrive-anniversary-2026/`, and the
-  template is a separate piece of work. See
-  `sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md` (an
-  [implemented spec](../specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md);
-  the [template](../specs/not-started/team-tournament-template-spec.md) and
-  [workbook generator](../specs/not-started/team-tournament-master-spec.md) have their own specs) for the
-  rules and the build; its `type` is `"team"` in `events.json`.
+Day count and category count don't affect this choice — all three templates
+handle any number of tournament days. The standard and dual-meet templates
+handle any number of divisions/events. `dual-meet-template/` additionally
+handles exactly two clubs; it's not a general multi-club template.
 
-Day count and category count don't affect this choice — both templates
-handle any number of tournament days and divisions/events.
-`dual-meet-template/` additionally handles exactly two clubs; it's not a
-general multi-club template.
+> **A team event's workbook, for now.** There is no Team Tournament Master
+> yet (its [spec](../specs/not-started/team-tournament-master-spec.md) is
+> separate work), so a team event of PickleDrive's shape (15 teams in three
+> brackets of five, four pairs per matchup, 152 matches, one facility) is
+> made by copying PickleDrive's workbook and clearing its inputs. The cells
+> to clear are in the runbook, `_templates/CLAUDE.md`, "Team events: the
+> workbook". Any other shape waits for the master.
 
 > **Generate the scoring workbook, don't copy last event's.** These steps
 > instantiate the *site*; they assume the event's Google Sheets already exist
@@ -123,6 +129,8 @@ common cause. Exact, case-sensitive:
 - Standard: `<DIVISION><EVENT>_<REST>` (e.g. `B18MD_1`, `HI40XD_SF_2`,
   `B35XD_F_1_(2)`)
 - Dual meet: `<CLUB>_<DIVISION><EVENT>_<REST>`
+- Team: `<SIDE>_<PAIR>` (e.g. `A_3`, `QF-3_4`, `SF-A_2`, `Fi-J_1`): the pair
+  number in the matchup, after a team letter or a playoff side
 
 `_(N)` suffixes mark a twice-to-beat playoff instance. See [Control
 Center, incl. Awards tab](control-center.md) for how that gets parsed and

@@ -74,7 +74,9 @@ after every match, with whichever club is ahead visually highlighted.
 
 ## Team events
 
-A team event has named teams instead of pairs. Two teams meet in a
+A team event's page is a Tournament Hub like the others, with a fourth
+tab, Teams. Its pair labels (MD, WD, XD…) are the event's own, set by the
+organizer in the event's settings. A team event has named teams instead of pairs. Two teams meet in a
 **matchup** — four matches (men's doubles, women's doubles and two mixed
 doubles) between the same two teams — and **team names appear everywhere a
 team does**: Standings, Match Finder, Live Matches and the schedule board.

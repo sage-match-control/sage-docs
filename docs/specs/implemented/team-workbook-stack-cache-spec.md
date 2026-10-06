@@ -40,7 +40,7 @@ workbook:
 3. Remove the 15 named functions nothing calls once 1 and 2 are in.
 
 The PickleDrive workbook is the prototype the team template and the team
-generator start from ([Team tournament event-site template](../not-started/team-tournament-template-spec.md),
+generator start from ([Team tournament event-site template](team-tournament-template-spec.md),
 [Team Tournament Master](../not-started/team-tournament-master-spec.md)), so this is worth doing in
 it before either, not only for its own sake: the event is over.
 
@@ -839,7 +839,7 @@ every one is a commit of unchanged data to `event-data`.
   `= ""`; a cleared score still has to be a truly empty cell for the
   standard and dual-meet libraries. Then move this spec to `implemented/`
   by the procedure in [`docs/specs/README.md`](../README.md).
-- **The team template ([its spec](../not-started/team-tournament-template-spec.md)) and the
+- **The team template ([its spec](team-tournament-template-spec.md)) and the
   generator ([its spec](../not-started/team-tournament-master-spec.md))** start from the
   optimised workbook and ship with the cache from the start, written for the
   event's court count, `SCHEDULE` trimmed to its real height, and no unused

@@ -10,7 +10,7 @@
 > Split out of [Team tournament](../implemented/pickledrive-club-anniversary-team-tournament-spec.md)
 > §15 item 5 ("consider a *Team Tournament Master* sheet generator. This event's
 > workbook was built by hand."). Its sibling,
-> [Team tournament event-site template](team-tournament-template-spec.md), is the
+> [Team tournament event-site template](../implemented/team-tournament-template-spec.md), is the
 > website half and is separate.
 
 Build the third generator: a **SAGE Team Tournament Master** workbook whose
@@ -98,7 +98,7 @@ it grows one ([Calculator team format](calculator-team-format-spec.md); §8, Q1)
 - **Pinned tab GIDs.** `SCHEDULE` and `Court Control` GIDs are pinned in
   `sheets-sync.gs`; the master must keep them.
 - **The template's data contract.** The generated `CSV` and `STANDINGSCSV` columns are
-  exactly what [the site template](team-tournament-template-spec.md) and Control
+  exactly what [the site template](../implemented/team-tournament-template-spec.md) and Control
   Center's `team` type read; the generator ships with a fixture snapshot of its own
   output so both can be tested without Google.
 - **Written as phases**, like the dual-meet generator's three.
@@ -134,7 +134,7 @@ generator is not a deploy and does not bump `package.json`.
 
 - Nothing hard. [Team workbook recalculation](../implemented/team-workbook-stack-cache-spec.md) is applied to the PickleDrive
   workbook, which is the generator's starting point; the master is built from it by hand in the Sheets UI.
-- Nothing from the website: the [template](team-tournament-template-spec.md) reads
+- Nothing from the website: the [template](../implemented/team-tournament-template-spec.md) reads
   the published tabs and can be built first or in parallel.
 
 ## 10. Out of scope

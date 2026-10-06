@@ -1,15 +1,16 @@
 # Spec — Team tournament event-site template
 
-> **Status: not started.** Nothing here is built. Revised 2026-10-06 against
+> **Status: implemented.** Built on the site repo's `team-template` branch in
+> the two merges of §8. Revised 2026-10-06 against
 > `sage-match-control.github.io` at `170de3b`, the first commit after the
-> [site engine](../implemented/site-engine-spec.md) merged (`179217f`). It
+> [site engine](site-engine-spec.md) merged (`179217f`). It
 > also reads `events/pickledrive-anniversary-2026/` (the prototype),
 > `tools/control-center.html` and `lib/v1/`.
 >
 > **Every decision is made.** The owner settled Q1–Q6 on 2026-10-06 (§13).
 >
 > **PickleDrive's pages are the reference.** The owner builds the
-> [Team Tournament Master](team-tournament-master-spec.md) from PickleDrive's
+> [Team Tournament Master](../not-started/team-tournament-master-spec.md) from PickleDrive's
 > workbook. So what `events/pickledrive-anniversary-2026/index.html` and
 > `schedule.html` read and show is the contract, and the template matches
 > it. Any difference the harness finds that §9 doesn't list is fixed to
@@ -22,8 +23,8 @@
 > team views Control Center uses, so the template is a set of shells on the
 > engine, like the other two templates.
 >
-> Split out of [Team tournament](../implemented/pickledrive-club-anniversary-team-tournament-spec.md)
-> §15. Its sibling, [Team Tournament Master](team-tournament-master-spec.md),
+> Split out of [Team tournament](pickledrive-club-anniversary-team-tournament-spec.md)
+> §15. Its sibling, [Team Tournament Master](../not-started/team-tournament-master-spec.md),
 > is the workbook generator and is a separate piece of work.
 
 Make `_templates/team-tournament-template/`, which gives a team tournament
@@ -176,7 +177,7 @@ In this order:
 | Dry-run runbook | `_templates/dry-run-checklist-template.md`, shared | PickleDrive's own copy, with team lines added by hand | §6.1 |
 | Hub board QR panel | `_templates/hub-pubmat/render.mjs` reads the Hub's markup | Works if the team Hub keeps that markup | §6.2 |
 | Runbook in `_templates/CLAUDE.md` | §1–§5 | "There is no template yet" | §12 |
-| The workbook | generated from the Dual Meet or Standard Master | No master | Interim: a cleared copy of PickleDrive's workbook, for PickleDrive's shape only (§7). The master is [its own spec](team-tournament-master-spec.md) |
+| The workbook | generated from the Dual Meet or Standard Master | No master | Interim: a cleared copy of PickleDrive's workbook, for PickleDrive's shape only (§7). The master is [its own spec](../not-started/team-tournament-master-spec.md) |
 | Control Center | its type branches | serves every team event | one call site (§2.1) |
 
 ---
@@ -1151,7 +1152,7 @@ concern, and the change is made in the engine like any other.
 ## 15. Out of scope
 
 - The Team Tournament Master and the
-  [calculator's team format](calculator-team-format-spec.md). §7 is the
+  [calculator's team format](../not-started/calculator-team-format-spec.md). §7 is the
   interim.
 - Control Center beyond the `pairLabel` call and the player tags. Its own
   score dialog keeps `matchUp · pair`.
@@ -1207,3 +1208,14 @@ The implementer fills this in:
 
 | # | What | Pages | Kept | Proved by | Note |
 | --- | --- | --- | --- | --- | --- |
+| 1 | §9 row 8: a player result shows level and gender in Control Center | cc | as spec | `ACCEPTED` entry, `cc/pickledrive-anniversary-2026/finder-search/*` | The harness's only change to that event's cases |
+| 2 | §9 row 9: the demo's pair labels (MD, WD, XD) and player tags | cc | as spec | `ACCEPTED` entry, `cc/team-demo-2026/*` | |
+| 3 | §9 row 10: playoff side names and the dialog's sub line | scorer | as spec | `ACCEPTED` entry, `scorer/team-demo-2026/*` | A filled playoff side reads its team's name, an open one "Seed n · TBD"; the sub line is "stage · pair" |
+| 4 | Prototype check (§10.3), all 48 Hub cases and 24 board cases | Hub, board | as spec | `proto-index` and `proto-schedule` cases, text only, then deleted | The only text difference from PickleDrive's pages was Mixed Doubles, `MXD` against `XD` (§9 row 2). Layout, compared by eye on the Hub's player result, Live Matches and the board at phone and desktop width, differs only in theme (§9 row 1). No difference outside §9 rows 1–7 was found, so nothing was fixed toward the prototype. Rows 4–7 produced no text difference to show: the search hint is the prototype's, the colour key in the cases is PickleDrive's own, and no bracket was left unlisted |
+| 5 | `white-space:nowrap` is held to team cells: `.cell-pair`, and `.cell.team .cell-cat` and `.cell.team .cell-stage`, not `.cell-cat, .cell-stage, .cell-pair` (§4.4) | board | changed | `npm run verify`: the first run changed `dm-schedule/pnf-x-bup-dual-meet/{default,compact}/mid/desktop` | Unscoped, the rule stops a dual meet's chip ("LI MD") wrapping on its live cells. §9 says to put a PickleDrive behaviour that would change another type behind something that keeps the default; the board adds `team` to the cell of a team event |
+| 6 | `pairLabel('A_9', true)` is `'Pair 9'` in the existing unit test, which asserted `''` | unit test | as spec (§2.1, §10.1) | `teams-awards-attendance-grid-model.test.mjs` | The old assertion recorded the behaviour §2.1 and §13 Q2 change |
+| 7 | The demo fixtures were committed before the §4.2 schedule-grid tests, which read them | commit order | changed | git history | §11 lists the schedule-grid step first; its test reads `team-demo-2026`, so the fixture went in first |
+| 8 | The `type` and fixture-mode unit tests (§10.1) were written after the code they cover | unit tests | changed | git history | The tests of §11 steps 1–3 were written first and failed first. The `type` and fixture-mode tests followed the code of steps 8–9, and the scorer and Hub changes are covered by harness cases, not unit tests |
+| 9 | The template `index.html` is 183 lines, not "about 210" | Hub | as spec | `diff` against the standard template | The own-touches block loses the standings rules (§3.1 item 3), which is most of the difference |
+| 10 | The board's header comment says "brackets' colours" for "categories' colours" | board | changed | `diff` against the standard template | A comment in the settings script; §4.1 asks for a team colour-key comment there |
+| 11 | The merges were not made | all | open | branch `team-template`; `team-template-merge-1` is the end of §11 step 4 | §0.4 rule 6 and §11 steps 5 and 13 need the owner's go-ahead for each. Steps 6–12 were built on the same branch; merge 1 is the commits up to `team-template-merge-1`, merge 2 the rest, ten minutes later |

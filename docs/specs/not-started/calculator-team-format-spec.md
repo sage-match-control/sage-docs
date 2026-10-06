@@ -234,4 +234,4 @@ copy is enough while building).
 **Related:** [Tournament Calculator usage](../../features/tournament-calculator.md) ·
 [technical](../../technical/tournament-calculator.md) ·
 [Team Tournament Master](team-tournament-master-spec.md) ·
-[Team tournament event-site template](team-tournament-template-spec.md)
+[Team tournament event-site template](../implemented/team-tournament-template-spec.md)

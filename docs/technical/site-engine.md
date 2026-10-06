@@ -92,17 +92,24 @@ offers it.
 | Match Finder | `searchHandlers`, `searchHint`, `delegate` | the match-number search; the team event's own finder |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos |
 | Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads |
-| team views | `decorateRow`, `expandAllClass` | the click-to-score row hook; the Teams tab's button class |
+| team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint` | the click-to-score row hook; the Teams tab's button class (Control Center); no organiser's team letters and the Hub's own search hint (a team event's Hub) |
 
 ## Settings, the shells and fixture mode
 
 Each `apps/` module documents its settings in its header and rejects an
 unknown or missing one with a console error that names it: `mountHub({
 eventKey, liveBaseUrl, clubLogos })`, `mountScheduleBoard({ eventKey, dayKey,
-liveBaseUrl, categoryColors, clubOrder })`, `mountScorer({ eventKey,
+liveBaseUrl, categoryColors, clubOrder, type })`, `mountScorer({ eventKey,
 liveBaseUrl })`, `mountAttendanceDesk({ eventKey })`. A shell keeps the
 constant names `EVENT_KEY`, `LIVE_BASE_URL` and (schedule board) `DAY_KEY`,
 which the harness and the runbook find by name.
+
+`mountHub` serves all three event types. For `"team"` it builds the team views
+(`views/teams.js`, the same component Control Center uses, so it has two
+callers) with `teamLetters: false` and its own `searchHint`, and shows a fourth
+Teams tab. The schedule board takes `type` (`'standard'`, `'dual-meet'` or
+`'team'`, inferred from `clubOrder` without it); a team board also reads the
+event's `display.pairs` from `events.json`.
 
 On `localhost`, `?fixture=<name>` makes the Hub and the schedule board read
 `/_fixtures/` instead of the published data, as the scorer and desk pages

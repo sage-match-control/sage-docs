@@ -50,7 +50,9 @@ Each match is a card: its number, time and court, both sides in the order the
 sheet has them, and the score on the right, or a dash while it has none. A card
 that says **To be decided** has players that aren't known yet and opens read-only.
 In a team event the cards show team names and **Lineup not set** where a lineup is
-missing.
+missing. A playoff side whose team isn't known yet reads *Seed 1 · TBD*. The
+score dialog names the stage and the pair under the title, for example
+*Semifinal · Men's Doubles*.
 
 ## Entering a score
 

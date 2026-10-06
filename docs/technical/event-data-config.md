@@ -53,8 +53,16 @@ default).
   never looks at it. Not inferred: an unmatched code would fail *silently*
   the moment the code shape ever changes, so it's required and explicit.
 - A `"team"` event takes its team names from `STANDINGSCSV` and needs no
-  `display` block. `sage-tools-api` never reads `type`, so it needs no
+  `display` block, except `display.pairs` when its pair labels aren't the
+  defaults. `sage-tools-api` never reads `type` or `display`, so it needs no
   backend change.
+- `display.pairs` (team events only) labels each pair of a matchup, keyed by
+  the pair number in a team code (the `3` of `A_3`):
+  `"3": { "full": "Mixed Doubles", "short": "XD" }`. Both labels are non-empty
+  strings. A type that repeats is numbered ("XD 1", "XD 2"). Without it the
+  labels are MD, WD, XD 1 and XD 2; a malformed map falls back to those with
+  a console warning on the page, and a pair number the map lacks reads
+  "Pair <n>". The Hub, the board, the scorer page and Control Center read it.
 - `display` maps are all `code → label`; **order comes from key order**, so
   there's no separate ordering config to keep in step. No logo field —
   `display.clubs` maps to a plain name string only; the console shows the

@@ -156,7 +156,8 @@ Full usage: [event attendance](event-attendance.md).
 For a team event: every team's roster, the same as the event page's Teams tab.
 Cards start collapsed and open to show each player's level and gender. Match
 Finder shows a team's roster with its matchups, and finds a player by name from
-the roster before their lineup is in.
+the roster before their lineup is in. A player's result shows their level and
+gender beside their name.
 
 ## Awards
 
