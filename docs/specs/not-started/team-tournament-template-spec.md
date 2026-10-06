@@ -10,6 +10,17 @@
 > §15, which asked for this "after the event". Its sibling,
 > [Team Tournament Master](team-tournament-master-spec.md), is the workbook
 > generator and is a separate, larger piece of work.
+>
+> **Revise before building: the [site engine](site-engine-spec.md) changes how
+> this template is made.**
+>
+> - Once the engine is in place, a team event's Hub is a shell on it, with a
+>   team branch in `apps/hub.js` built from the `views/teams.js` modules
+>   Control Center already uses.
+> - It does not copy PickleDrive's inline code or the shared blocks, so the
+>   "carry the blocks byte-identical" steps below no longer apply.
+>
+> Revise this spec after the engine's Phase 5.
 
 Make a third event-site template, `_templates/team-tournament-template/`, so a
 team tournament is a copy-and-fill job like the two existing templates

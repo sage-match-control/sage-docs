@@ -14,6 +14,18 @@
 > the dry run's rendering layer calls this suite's checks instead of
 > building its own.
 >
+> **Revise before building: the [site engine](site-engine-spec.md) comes
+> first.** That spec builds `_tests/` with the same runner, Playwright, router
+> and clock as §4, and moves the live pages onto shared modules. Once it is
+> implemented:
+>
+> - this suite's consistency layer is mostly not needed, because no
+>   byte-identical blocks are left;
+> - its parity layer becomes that spec's unit tests;
+> - its page tests remain, run against the engine's shells.
+>
+> Revise this spec after the engine's Phase 5.
+>
 > **Do not push any of this during an event, or in the days before one.**
 > `_tests/` is never published, but a push to `main` still runs a Pages
 > build.

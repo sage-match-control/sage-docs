@@ -11,7 +11,8 @@
 > production acceptance in §6.6. Phase 7's docs and root
 > `CLAUDE.md` rules are done and the workspace is a local repo; the
 > build-trigger filter and the workspace's GitHub repo are the owner's.
-> Phase 8's decision record is written and awaits the owner's decision.
+> Phase 8 is decided (2026-10-06): shared ES modules, specified in the
+> [site engine spec](../not-started/site-engine-spec.md); nothing of it is built.
 > Last revised 2026-10-06; before that 2026-10-05
 > against `sage-tools-api` **2.8.0** (`main` at `daad5a4`, score entry), where
 > `npm test` runs 957 tests, all passing. Earlier revisions were written
@@ -2427,40 +2428,24 @@ existing event workbook.
 - The root `CLAUDE.md` is tracked.
 - Phase 1's grep still returns nothing.
 
-### 6.8 Phase 8 — the site's duplicated code (decision only)
+### 6.8 Phase 8 — the site's duplicated code
 
-The site repeats code by hand:
+The site repeats code by hand: the `LIVE CHANNEL`, `ATTENDANCE CLIENT` and
+`SCORE CLIENT` blocks, the played/BYE/series rules, the team-event rules, and a
+second copy of most of the Tournament Hub inside Control Center. Fixing it
+changes the site's "one self-contained file per page" rule, so it was the
+owner's decision.
 
-- the `LIVE CHANNEL` block in 12 files;
-- the `ATTENDANCE CLIENT` and `SCORE CLIENT` blocks in 4 each;
-- the played/BYE/series rules in `facilityCompletion.mjs`, Control Center,
-  the templates' `index.html`/`schedule.html` and the scorer template;
-- the team-event rules and team rosters in 2 files each.
+This phase first compared three options: shared files, a script that stamps
+each block into its pages, and keeping the copies under the
+[site test suite](../not-started/site-test-suite-spec.md). On 2026-10-06 the
+owner chose shared files. They are native ES modules at `/lib/v1/`, widened to
+all code shared between live pages, with a versioning rule that keeps finished
+events working, and no frontend framework.
 
-This is the largest maintenance risk in the system, but fixing it changes the
-site's "one self-contained file per page" rule. That is a decision for the
-owner, not an implementation detail.
-
-This phase produces a one-page decision record in
-`sage-docs/docs/specs/not-started/`, comparing these three options, and
-nothing else:
-
-1. **Shared files** at root-absolute `/assets/js/*.js`, loaded with
-   `<script src>`. No build step, and no byte-identical copies to keep in
-   step. Costs: a page is no longer one file; `tools/sw.js` caching and
-   cache-busting (`?v=`) need care; an archived page that keeps loading a
-   shared file can break when that file changes.
-2. **A generation script** that stamps each shared block into its pages.
-   Pages stay self-contained. Costs: a script to run and a diff check to
-   keep.
-3. **Keep the copies** and rely on the
-   [site test suite](../not-started/site-test-suite-spec.md)'s consistency and parity checks
-   to catch drift. Nothing changes in the pages. Costs: the copies still have
-   to be edited by hand, and that spec has to be built first.
-
-Recommendation to evaluate: option 1 for the live channel, the attendance
-client and the score client, leaving archived events untouched; option 3 for
-the rule copies that also live in `sage-tools-api`.
+The decision and the build plan are the
+[site engine spec](../not-started/site-engine-spec.md). That spec replaces the
+decision record. Phase 8 is done when it is implemented.
 
 ---
 
