@@ -1,11 +1,13 @@
 # Spec — the site engine: shared modules for the event pages and Control Center
 
-> **Status: implemented, on branch `site-engine` of `sage-match-control.github.io`,
-> not yet merged.** Built 2026-10-06 in twelve commits (Phases 0 to 5; Phase 6 is
-> this documentation) on one branch rather than one per phase, which the owner
-> chose. Written against `7fb908e`, where no event is registered after
-> 3 October 2026. The merge is the owner's to say, and not within 3 days of an
-> event.
+> **Status: implemented and merged** into `main` of `sage-match-control.github.io`
+> (merge `179217f`, 2026-10-06). Built 2026-10-06 in twelve commits (Phases 0 to
+> 5; Phase 6 is this documentation) on one branch rather than one per phase,
+> which the owner chose, and merged as one. Written against `7fb908e`, where no
+> event is registered after 3 October 2026. The merge commit lists the cause-3
+> rows. `events/<event>-v2/` on the site are the templates instantiated for one
+> finished event per type, checked against the original pages on the real
+> published data before the merge.
 >
 > **Measured at Phase 5.** The six template pages are shells of 244 lines (the
 > standard Hub's `index.html`), 281 (the dual-meet Hub's), 153 and 157 (the two
@@ -1260,7 +1262,7 @@ Each spec is revised properly when this one is implemented.
       `views/` or `domain/` names an operator feature, and none takes a
       page-naming flag.
 - [x] All four §3.3 item 3 fixes show on both pages and §3.3 item 4 (§12 rows 5–10) is built as decided.
-- [ ] Every cause-3 row is listed for the owner at merge (rows 1–4 and 23, in the build report).
+- [x] Every cause-3 row is listed for the owner at merge (rows 1–4 and 23, in the build report and the merge commit).
 
 **Phase 4**
 

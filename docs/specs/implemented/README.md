@@ -14,7 +14,7 @@ Index and status-change procedure: [`../README.md`](../README.md).
 
 | Spec | Feature |
 | --- | --- |
-| [Site engine](site-engine-spec.md) | The shared modules at `sage-match-control.github.io/lib/v1/` (`domain/`, `data/`, `views/`, `apps/`, `css/`), every event template as a shell, Control Center on the same views, and the `_tests/` comparison harness. Built on branch `site-engine`, not yet merged |
+| [Site engine](site-engine-spec.md) | The shared modules at `sage-match-control.github.io/lib/v1/` (`domain/`, `data/`, `views/`, `apps/`, `css/`), every event template as a shell, Control Center on the same views, and the `_tests/` comparison harness. Merged 2026-10-06 |
 | [Runtime-fetched sync config](sync-config-runtime-spec.md) | `SyncConfigStore` fetching `event-data/config/events.json` at runtime |
 | [Sync script configuration](sync-script-configuration-spec.md) | `sheets-sync.gs`'s **SAGE → Set up live sync** and Script Properties |
 | [Immediate sync](immediate-sync-spec.md) | `sheets-sync.gs`'s lock-based sync from the edit, `SyncService`'s commit-conflict retry, `X-Edit-At` / `lastEditAt` timing, and Control Center's `edit→sync` figure |

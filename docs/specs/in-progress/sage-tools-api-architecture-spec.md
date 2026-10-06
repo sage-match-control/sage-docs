@@ -12,8 +12,8 @@
 > `CLAUDE.md` rules are done and the workspace is a local repo; the
 > build-trigger filter and the workspace's GitHub repo are the owner's.
 > Phase 8 is built (2026-10-06): shared ES modules, specified in the
-> [site engine spec](../implemented/site-engine-spec.md), on the site repo's
-> `site-engine` branch and not yet merged.
+> [site engine spec](../implemented/site-engine-spec.md), merged into the site
+> repo's `main`.
 > Last revised 2026-10-06; before that 2026-10-05
 > against `sage-tools-api` **2.8.0** (`main` at `daad5a4`, score entry), where
 > `npm test` runs 957 tests, all passing. Earlier revisions were written
@@ -2446,8 +2446,8 @@ events working, and no frontend framework.
 
 The decision and the build plan are the
 [site engine spec](../implemented/site-engine-spec.md). That spec replaces the
-decision record. Phase 8 is implemented, on the site repo's `site-engine`
-branch; it is done for good when the owner merges that branch.
+decision record. Phase 8 is implemented and merged into the site repo's
+`main`.
 
 ---
 

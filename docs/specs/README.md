@@ -62,7 +62,7 @@ to the `...` form rather than repointing it.
   modules at `/lib/v1/`, with no build step and no framework. Event pages are thin
   shells that read their settings from `events.json`, the rules have unit tests,
   and a harness proves nothing visible changed except the differences the owner
-  approved. Built on a branch, not yet merged. Phase 8 of the architecture spec.
+  approved. Merged 2026-10-06. Phase 8 of the architecture spec.
 
 ### Sync & live data
 
