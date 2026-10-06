@@ -41,9 +41,9 @@ changing any of them is not a deploy.
   builds one facility-day's standard-tournament workbook from a calculator
   CSV.
 - **[Event attendance](event-attendance.md)** — `src/attendance/` in
-  `sage-tools-api` (roster, the `ATTENDANCE` tab, desk tokens, the `/v1`
-  routes), the shared client block, and Pickle for Sight's earlier
-  `attendance.gs` version.
+  `sage-tools-api` (roster, the `ATTENDANCE` tab, desk tokens, the `/v3`
+  routes and their frozen `/v1` twins), the shared client block, and Pickle for
+  Sight's earlier `attendance.gs` version.
 - The sync trigger (`sheets-sync.gs`) is covered in
   [Sync pipeline](sync-pipeline.md).
 

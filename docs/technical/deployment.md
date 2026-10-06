@@ -87,7 +87,7 @@ Puppeteer import itself is lazy despite this.
 ### Which pushes build
 
 The build trigger rebuilds the image only for a change that is part of the
-service. A change to Apps Script, the live Worker, the spikes, the tests, the
+service. A change to Apps Script, the live Worker, the tests, the
 scripts, the git hooks, or any markdown, `.env.example` or `jsconfig.json` does
 not redeploy Cloud Run, because none of them is in the image: the `Dockerfile`
 copies only `package*.json`, `index.mjs`, `src/` and `templates/`. A change to
@@ -101,7 +101,7 @@ gcloud builds triggers list --project=sage-tools-api
 ```
 
 ```bash
-gcloud builds triggers update github <TRIGGER_NAME> --project=sage-tools-api --ignored-files="apps-script/**,live-worker/**,spikes/**,test/**,scripts/**,.githooks/**,**/*.md,.env.example,jsconfig.json"
+gcloud builds triggers update github <TRIGGER_NAME> --project=sage-tools-api --ignored-files="apps-script/**,live-worker/**,test/**,scripts/**,.githooks/**,**/*.md,.env.example,jsconfig.json"
 ```
 
 To check it, push a README-only commit to a branch the trigger watches and

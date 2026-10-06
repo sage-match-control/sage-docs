@@ -367,9 +367,10 @@ day or facility will not fix itself. Cloud Run retries its own commit
 conflicts (above), so this mostly covers a network error or a failed cold
 start.
 
-The lock is the *document* lock, not the script lock, because `attendance.gs`
-shares the project in live workbooks and holds the script lock while marking
-a player; sharing it would make edits made during a mark lose their sync.
+The lock is the *document* lock, not the script lock, because Pickle for
+Sight's live workbooks also carry `attendance.gs`, which holds the script lock
+while marking a player; sharing it would make edits made during a mark lose
+their sync.
 
 An edit storm that outlasts `SYNC_BUDGET_MS` hands over to a one-shot
 time-based trigger (`runIfSettled`, `DEBOUNCE_MS` later) instead of running

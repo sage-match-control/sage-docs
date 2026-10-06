@@ -152,14 +152,16 @@ fixtures and manual checks (spec section 7.3).
 
 # Earlier version: Pickle for Sight
 
-The notes below describe `apps-script/attendance.gs` and
-`events/pickle-for-sight-2026/attendance.html`, which are unchanged.
+The notes below describe Pickle for Sight's `attendance.gs` and
+`events/pickle-for-sight-2026/attendance.html`. The script runs in that event's
+workbooks but is no longer kept in `sage-tools-api`: its last version, with its
+harness `verify-attendance.mjs`, is in `apps-script/` at commit `198f02c`.
 
 
 Pickle for Sight's check-in page wrote to Google Sheets through a web app in
 each workbook. Two parts:
 
-- `sage-tools-api/apps-script/attendance.gs` — bound Apps Script, pasted into
+- `attendance.gs` — bound Apps Script, pasted into
   each of an event's **live** workbooks (never a master) beside
   `sheets-sync.gs` and the generator, and deployed there as a web app. Not
   part of the Cloud Run service: changing it is not a deploy and does not
@@ -278,9 +280,8 @@ its local state through a reload, since the sheet may not have it yet.
 
 ### Verifying a change
 
-    node apps-script/verify-attendance.mjs
-
-Runs the real `doGet`/`doPost`/`attendanceResync` against
+The harness, `verify-attendance.mjs`, is at the same commit as the script.
+It runs the real `doGet`/`doPost`/`attendanceResync` against
 `apps-script/mock-apps-script.mjs`: roster selection, marking and unmarking,
 every refusal, the re-draw rule, lock release, resync's pre-fill/no-op/swap
 behavior, and that `STANDINGSCSV` is never written. It also fails if a
