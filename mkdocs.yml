@@ -103,11 +103,11 @@ nav:
           - Immediate sync: specs/implemented/immediate-sync-spec.md
           - sage-tools-api test suite: specs/implemented/sage-tools-api-test-suite-spec.md
           - Bracket Generator keep-apart groups: specs/implemented/bracket-generator-keep-apart-spec.md
+          - Live push delivery: specs/implemented/durable-object-push-spec.md
+          - Live push delivery - explainer: specs/implemented/durable-object-push-explainer.md
+          - Score entry and scorer links: specs/implemented/control-center-score-entry-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
-          - Live push delivery: specs/in-progress/durable-object-push-spec.md
-          - Live push delivery - explainer: specs/in-progress/durable-object-push-explainer.md
-          - Score entry and scorer links: specs/in-progress/control-center-score-entry-spec.md
           - sage-tools-api architecture hardening: specs/in-progress/sage-tools-api-architecture-spec.md
       - Not started:
           - Overview: specs/not-started/README.md

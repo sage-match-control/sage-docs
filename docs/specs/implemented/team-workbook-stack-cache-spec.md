@@ -834,7 +834,7 @@ every one is a commit of unchanged data to `event-data`.
   and update the
   [Team tournament](pickledrive-club-anniversary-team-tournament-spec.md)
   spec's status note. In
-  [Control Center score entry](../in-progress/control-center-score-entry-spec.md)
+  [Control Center score entry](../implemented/control-center-score-entry-spec.md)
   §0.4, the row saying team workbooks test "unplayed" with `ISBLANK` becomes
   `= ""`; a cleared score still has to be a truly empty cell for the
   standard and dual-meet libraries. Then move this spec to `implemented/`

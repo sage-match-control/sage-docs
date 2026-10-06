@@ -15,7 +15,7 @@
 >
 > **Stands alone.** Build this on its own; it makes today's GitHub-based
 > pipeline faster and stops it losing updates. It is also the prerequisite
-> for both delivery designs, [Live push delivery](../in-progress/durable-object-push-spec.md)
+> for both delivery designs, [Live push delivery](../implemented/durable-object-push-spec.md)
 > and [Fast data delivery](../archived/fast-data-delivery-spec.md), which build on the
 > code this spec adds.
 
@@ -665,7 +665,7 @@ workbooks. To undo Part 1, revert the commit and push.
 
 ## 8. What the delivery specs build on
 
-[Live push delivery](../in-progress/durable-object-push-spec.md) and
+[Live push delivery](../implemented/durable-object-push-spec.md) and
 [Fast data delivery](../archived/fast-data-delivery-spec.md) both assume this spec is
 built. They rely on, by name:
 

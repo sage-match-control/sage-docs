@@ -1,24 +1,23 @@
 # Spec — Live push delivery (Durable Objects)
 
-> **Status: deployed and switched on; the real-use checks are open.** All four
+> **Status: implemented.** All four
 > phases are built and live (2026-10-01 to 02: `sage-tools-api` 2.5.0,
 > the `sage-live` Worker on Cloudflare, `LIVE_PUSH_URL` and
 > `LIVE_PUSH_SECRET` on Cloud Run, `LIVE_BASE_URL` set in all nine pages).
 > Checked live: the Worker's `smoke.mjs`, a sync from each event publishing to
 > the Worker and archiving to GitHub with the same `publishedAt`, and the three
 > kinds of page (public, schedule board, Control Center) holding an open socket
-> to the production Worker. Not done: the real-workbook checks in §11 (the
-> two-workbook race, stopwatch timings, **Force hidden**, the blocked-Worker
-> fallback, the 10-minute tab, the ping-count check, and the **Sync method**
-> switch with a real sign-in). Both events ran on live push on 3 October
-> 2026: every one of their 933 syncs published to the Worker and archived to
-> GitHub, and the server side of the ~5 s target held at Piggleball
-> (`edit→published` p90 5.2 s) but not at PickleDrive (p90 27.3 s), whose
-> workbook's Sheets reads were slow (§11's notes). Piggleball and PickleDrive have since finished
-> (2026-10-03), and their four pages now carry `LIVE_BASE_URL = ''`; Control
-> Center and the two templates keep it set, so the open checks wait for the
-> next event's workbooks. The spec moves to `implemented/` when those are
-> done. [§14](#14-as-built-divergences) records
+> to the production Worker. Both events of 3 October 2026, Piggleball and
+> PickleDrive, ran on live push: every one of their 933 syncs published to the
+> Worker and archived to GitHub, and the server side of the ~5 s target held
+> at Piggleball (`edit→published` p90 5.2 s) but not at PickleDrive (p90
+> 27.3 s), whose workbook's Sheets reads were slow (§11's notes). The
+> unticked items in §11 (the two-workbook race, stopwatch timings, **Force
+> hidden**, the blocked-Worker fallback, the hidden tab, and the **Sync
+> method** switch with a real sign-in) were never run as separate checks.
+> Both events' four pages carry `LIVE_BASE_URL = ''` since they finished;
+> Control Center and the two templates keep it set, so every new event's
+> pages push. [§14](#14-as-built-divergences) records
 > where the build departs from the text below. Revised 2026-10-01 against
 > `sage-tools-api` 2.3.0 (the prerequisite below, built) and the
 > `sage-match-control.github.io` pages as of that date.

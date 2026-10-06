@@ -647,7 +647,7 @@ although the edit itself reaches publication in about 2–6 s (see
 removes both the Pages build and the poll from the path: an edit reaches an
 open page in about **2–5 seconds**.
 
-[Live push delivery](../specs/in-progress/durable-object-push-spec.md) is the
+[Live push delivery](../specs/implemented/durable-object-push-spec.md) is the
 spec; [Immediate sync](../specs/implemented/immediate-sync-spec.md) is the
 prerequisite it builds on.
 

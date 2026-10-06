@@ -73,6 +73,12 @@ to the `...` form rather than repointing it.
   retried instead of dropped, and Apps Script syncing straight from the edit
   under a document lock instead of a delayed trigger. Both delivery specs
   build on it.
+- **[Live push delivery](implemented/durable-object-push-spec.md)** — a
+  Cloudflare Durable Object that pushes each snapshot to open pages over
+  WebSockets, with GitHub kept as archive and fallback. In use since the two
+  events of 3 October 2026.
+  - **[Plain-language explainer](implemented/durable-object-push-explainer.md)**
+    — the same, without the implementation detail.
 
 ### Control Center
 
@@ -85,6 +91,11 @@ to the `...` form rather than repointing it.
 - **[Facility progress](implemented/facility-progress-spec.md)** — matches
   done, matches left and estimated finish per facility, on Live Matches and
   in Mission Control.
+- **[Score entry and scorer links](implemented/control-center-score-entry-spec.md)**
+  — click a match in Match Finder, enter the scores, review (the winner named in large
+  text), save. The API writes the match's two `SCHEDULE` score cells, refuses if the
+  sheet changed meanwhile, and publishes at once. Scorer staff use the same dialog on a
+  per-event scorer page, through 24-hour links that a Mission Control switch can stop.
 
 ### Scoresheet Generator
 
@@ -171,18 +182,6 @@ to the `...` form rather than repointing it.
 
 ## In progress
 
-- **[Live push delivery](in-progress/durable-object-push-spec.md)** — a
-  Cloudflare Durable Object that pushes each snapshot to open pages over
-  WebSockets, with GitHub kept as archive and fallback. Deployed and switched
-  on; the real-workbook checks are still open.
-  - **[Plain-language explainer](in-progress/durable-object-push-explainer.md)**
-    — the same, without the implementation detail.
-- **[Score entry and scorer links](in-progress/control-center-score-entry-spec.md)**
-  — click a match in Match Finder, enter the scores, review (the winner named in large
-  text), save. The API writes the match's two `SCHEDULE` score cells, refuses if the
-  sheet changed meanwhile, and publishes at once. Scorer staff use the same dialog on a
-  per-event scorer page, through 24-hour links that a Mission Control switch can stop.
-  Built and tested against fakes; the real-workbook checks (§11.2) are still open.
 - **[sage-tools-api architecture hardening](in-progress/sage-tools-api-architecture-spec.md)** —
   revised against 2.8.0. Phases 1–5 are merged and deployed as 3.0.0 (the `/v3` API), and Phase 6's code
   is merged and the masters carry it: the site and every new workbook call `/v3`.

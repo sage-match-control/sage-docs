@@ -14,9 +14,10 @@ Either way, `sage-tools-api` writes the scores into that match's two score
 cells in the facility workbook's `SCHEDULE` tab (the cells a scorer types into
 by hand), then publishes the day at once.
 
-> **Status: in progress.** Built and tested against fakes (`sage-tools-api` 2.8.0,
-> Control Center, the scorer template, the docs); the real-Google checks in §11.2
-> (C1–C8) have not run. **Divergences:** Mission Control's Accepting / Stopped control is a
+> **Status: implemented.** Built in `sage-tools-api` 2.8.0, Control Center, the scorer
+> template and the docs, and deployed: Cloud Run serves it, on `/v3` since 3.0.0. It is
+> tested against fakes; the real-Google checks in §11.2 (C1–C8) have not run, so the
+> first event to set `"scoreEntry"` is also its first real-workbook use. **Divergences:** Mission Control's Accepting / Stopped control is a
 > single toggle, not two buttons (§5.8), and it and **Issue scorer link** are disabled when the
 > event's `scorer.html` isn't on the site; the score dialog leads each pair with its players'
 > names and shows the team code as a small tag (§5.3), instead of the code as the headline.

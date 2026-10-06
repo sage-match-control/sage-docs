@@ -76,7 +76,7 @@
 > **When to start.** Never on an event day or in the few days before one,
 > because merging deploys Cloud Run. Prefer to start after score entry's
 > real-Google checks (C1–C8 in §11.2 of the
-> [score entry spec](control-center-score-entry-spec.md)). Any
+> [score entry spec](../implemented/control-center-score-entry-spec.md)). Any
 > fix those checks need then lands on `main` before Phase 1 moves the files.
 > If `main` has moved past 2.8.0 by then, re-check §2's numbers and take the
 > next free version for each phase.

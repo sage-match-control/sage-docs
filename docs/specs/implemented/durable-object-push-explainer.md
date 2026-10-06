@@ -1,6 +1,6 @@
 # Live push delivery — plain-language explainer
 
-*Status (2 October 2026): built and running. The wording below was written
+*Status: implemented, and in use since the two events of 3 October 2026. The wording below was written
 before the build, so it still speaks of a plan; the implementation spec has the
 as-built details.*
 

@@ -6,7 +6,7 @@
 > far, not an implementation guide: §5 lists the owner's open decisions, and
 > the detail is written once those are settled.
 >
-> Builds on [Score entry from Control Center](../in-progress/control-center-score-entry-spec.md),
+> Builds on [Score entry from Control Center](../implemented/control-center-score-entry-spec.md),
 > and should wait for its real-Google checks (§11.2, C1–C8), since it reuses
 > the same write path.
 
@@ -100,6 +100,6 @@ the live Worker, score entry's routes and attendance.
 Score entry's real-Google checks (C1–C8). Not before or during an event.
 
 ---
-**Related:** [Score entry from Control Center](../in-progress/control-center-score-entry-spec.md) ·
+**Related:** [Score entry from Control Center](../implemented/control-center-score-entry-spec.md) ·
 [Running an event day](../../features/running-an-event-day.md) ·
 [Control Center technical](../../technical/control-center.md)

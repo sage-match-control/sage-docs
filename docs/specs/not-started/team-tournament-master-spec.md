@@ -41,7 +41,7 @@ ones `sage-tools-api` and the site depend on):
 | `STANDINGSCSV` | one row per team and per playoff slot: `teamCode`, `teamName`, `totalPoints`, `totalOpponentPoints`, `quotient`, `bracket` | the sync (`standingsSheetName`) |
 | `Teams` | the roster: eight players per team, with level and gender | the sync (`rosterSheetName`, default `Teams`) |
 | `MatchUps` | the organiser's entry tab: team names, the group draw, and the playoff seeds (the workbook's entry **is** the decision about who advances) | formulas |
-| `SCHEDULE` | the court-block grid scorers type scores into: 8-column court blocks, two rows per slot, the same geometry every other workbook has ([Control Center score entry](../in-progress/control-center-score-entry-spec.md) §3) | scorers, score entry, `sheets-sync.gs` |
+| `SCHEDULE` | the court-block grid scorers type scores into: 8-column court blocks, two rows per slot, the same geometry every other workbook has ([Control Center score entry](../implemented/control-center-score-entry-spec.md) §3) | scorers, score entry, `sheets-sync.gs` |
 | `Court Control` | which match is on which court now | operators, the schedule board |
 | `Standings`, `MatchLookup` | the workbook's own working tabs; the site ignores `Standings` | formulas |
 | `StackCache` (hidden) | `SCHEDULE`'s stacked columns built once | the named functions |

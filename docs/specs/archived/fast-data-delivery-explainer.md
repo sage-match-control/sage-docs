@@ -7,7 +7,7 @@ instructions an implementer should follow — read the spec for that.*
 *Archived — superseded: Live push delivery was chosen and built instead; this plan will not be built.*
 
 *This is one of two alternative plans for the same problem. The other is
-[Live push delivery](../in-progress/durable-object-push-explainer.md), which pushes each
+[Live push delivery](../implemented/durable-object-push-explainer.md), which pushes each
 update to open pages instead of having them check for one. Only one gets
 built.*
 
