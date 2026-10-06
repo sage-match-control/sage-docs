@@ -5,9 +5,10 @@
 > 5; Phase 6 is this documentation) on one branch rather than one per phase,
 > which the owner chose, and merged as one. Written against `7fb908e`, where no
 > event is registered after 3 October 2026. The merge commit lists the cause-3
-> rows. `events/<event>-v2/` on the site are the templates instantiated for one
-> finished event per type, checked against the original pages on the real
-> published data before the merge.
+> rows. Before and after the merge, the templates were instantiated for one
+> finished event per type (standard, dual meet, team) and matched the original
+> pages in every view on the real published data, on production as well
+> (site commits `2c2526e`, removed in `170de3b`).
 >
 > **Measured at Phase 5.** The six template pages are shells of 244 lines (the
 > standard Hub's `index.html`), 281 (the dual-meet Hub's), 153 and 157 (the two
