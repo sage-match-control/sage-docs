@@ -6,7 +6,7 @@ Worker that lives inside one of them.
 | Repo | What it is |
 | --- | --- |
 | [`sage-tools-api`](https://github.com/sage-match-control/sage-tools-api) | Node/Express backend on Google Cloud Run. Four features: scoresheet PDF generation, the Google Sheets → GitHub live-data sync, event attendance, and score entry (`src/scores/`). Its `live-worker/` folder holds the Cloudflare Worker that pushes snapshots to open pages; that folder is not part of the Cloud Run service. |
-| [`sage-match-control.github.io`](https://github.com/sage-match-control/sage-match-control.github.io) | GitHub Pages static site. Self-contained HTML pages (no build step, no framework) for the public tools and per-event pages. |
+| [`sage-match-control.github.io`](https://github.com/sage-match-control/sage-match-control.github.io) | GitHub Pages static site (no build step, no framework). The tools are self-contained HTML pages; the event pages and Control Center are shells and a console over the shared modules in `lib/v1/` (the [site engine](site-engine.md)). |
 | [`event-data`](https://github.com/sage-match-control/event-data) | Shared GitHub Pages target every event's sync writes snapshots to, and the runtime-fetched event/day/facility registry. |
 
 ## Data flow
@@ -246,8 +246,8 @@ validates it.
 There's no single source of truth enforcing these — they're conventions,
 not code:
 
-- `event-data/config/events.json`'s `events[<event>].days` ↔ the `DAYS`
-  array in that event's page ↔ each spreadsheet's day key and facility name,
+- `event-data/config/events.json`'s `events[<event>].days` ↔ the schedule
+  board's `DAY_KEY` ↔ each spreadsheet's day key and facility name,
   set through that workbook's **SAGE → Set up live sync** menu item and
   stored in its own Script Properties (`sheets-sync.gs`'s source is
   identical in every workbook). Facility names are compared exactly and are
@@ -256,19 +256,10 @@ not code:
   lives in developer metadata on the spreadsheet so that copies of the Dual
   Meet Master inherit it. See
   [sync pipeline](sync-pipeline.md#how-the-secret-reaches-a-workbook).
-- The `LIVE CHANNEL` block of JavaScript in `tools/control-center.html` and
-  both templates' and every unfinished event's `index.html` and
-  `schedule.html`, and the scorer template and every unfinished event's
-  `scorer.html`, must stay byte-identical in every page that carries it, and
-  its `LIVE_BASE_URL` constant points at the deployed Worker. A finished
-  event's pages keep the block with `LIVE_BASE_URL` empty. See
-  [sync pipeline](sync-pipeline.md#pages).
-- The `ATTENDANCE CLIENT` block of JavaScript in `tools/control-center.html`,
-  `_templates/attendance/attendance.html` and every `events/<key>/attendance.html`
-  must stay byte-identical. See [event attendance](event-attendance.md#the-client).
-- The `SCORE CLIENT` block of JavaScript in `tools/control-center.html`,
-  `_templates/scorer/scorer.html` and every `events/<key>/scorer.html` must stay
-  byte-identical. See [Control Center § Score entry](control-center.md#score-entry).
+- Each event shell's `LIVE_BASE_URL` constant points at the deployed Worker
+  (the live channel itself is `lib/v1/data/live-channel.js`). A finished
+  event's pages set it empty. See [sync pipeline](sync-pipeline.md#pages) and
+  the [site engine](site-engine.md).
 - Adding a scoresheet type = a new `templates/<name>.{html,css}` pair in
   `sage-tools-api` **and** an entry in `ScoresheetConfig.mjs`. Nothing else
   needs touching.

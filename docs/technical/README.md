@@ -49,6 +49,10 @@ changing any of them is not a deploy.
 
 ## Frontend (`sage-match-control.github.io`)
 
+- **[Site engine](site-engine.md)** — the shared modules under `lib/v1/` every
+  event page and Control Center import: layout, dependency rules, the
+  versioning rule, the model the views read, the extension points, the theme
+  contract and the comparison harness.
 - **[Control Center](control-center.md)** — the single-page operator
   console: config resolution, theming, the tabs (including the Attendance
   tab around the shared attendance client, score entry and its shared dialog,

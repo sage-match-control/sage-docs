@@ -47,9 +47,11 @@ general multi-club template.
 3. **Replace every `{{TOKEN}}`** — event identity, dates, venue, club
    names/codes. `grep -r '{{' events/<event-key>/` must come back empty
    when done.
-4. **Fill in the example config** in `index.html`'s `CONFIGURATION`
-   block — `DAYS`, `FACILITIES`, `DIVISIONS`, `EVENTS`, and (dual-meet)
-   `CLUBS`.
+4. **There is no config to fill in.** The pages are shells of the [site
+   engine](site-engine.md): the days, facilities and the division, event and
+   club labels come from the event's entry in `events.json` (step 7) at run
+   time. A dual meet's `index.html` adds `CLUB_LOGOS`, filled from the club
+   tokens.
 5. **Leave the theme alone** unless the event genuinely needs its own — every
    page ships the shared S.A.G.E. palette and re-skinning means changing
    one `:root` block, nothing else.
@@ -58,8 +60,10 @@ general multi-club template.
    spreadsheet's own color-coding — see [schedule board](schedule-board.md)
    for why these can't be read any other way).
 7. **Register the event** in `event-data/config/events.json` — `type`,
-   `title`, one entry per day, optional `display` labels. See [event
-   registry schema](event-data-config.md). Commit; no `sage-tools-api`
+   `title`, one entry per day, and the `display` labels the Hub shows (code to
+   label for divisions, events and clubs; key order is display order). See [event
+   registry schema](event-data-config.md). The event stays in the file for as long
+   as any page shows it: removing a finished event's entry blanks its Hub. Commit; no `sage-tools-api`
    redeploy needed, live within `SYNC_CONFIG_TTL_MS`.
 8. **Install the sync script** (`apps-script/sheets-sync.gs`, from
    `sage-tools-api` — a dual meet's workbook carries it already) once per
@@ -135,9 +139,9 @@ to re-prefix.
 
 ## After the event
 
-Once the event's last day is over, set `LIVE_BASE_URL = ''` in the
-`LIVE CHANNEL` block of its `index.html` and `schedule.html`, and change
-nothing else in the block. Nothing is published for the event any more, so
+Once the event's last day is over, set `LIVE_BASE_URL = ''` in the settings
+script of its `index.html`, `schedule.html` and `scorer.html`, and change
+nothing else. Nothing is published for the event any more, so
 an open socket would only cost Worker requests (a connect per visit and a
 ping every 50 s) against the free plan's daily cap. With the constant empty
 the pages read their snapshot from GitHub and show the final results as
@@ -146,8 +150,8 @@ to; archiving it is a separate step.
 
 ## Things kept in sync by hand (no automatic check)
 
-- `event-data/config/events.json`'s `days` ↔ the `DAYS` array in the event
-  page ↔ each spreadsheet's day key and facility name, set through
+- `event-data/config/events.json`'s `days` ↔ the schedule board's `DAY_KEY`
+  ↔ each spreadsheet's day key and facility name, set through
   **SAGE → Set up live sync** and stored in that workbook's Script
   Properties (not in `sheets-sync.gs`'s source, which is identical in every
   workbook). Facility names are compared exactly, case-sensitive.

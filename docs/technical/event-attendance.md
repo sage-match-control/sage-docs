@@ -11,7 +11,7 @@ The earlier, Pickle for Sight design is at the end of this page.
 
 ```
 Control Center "Attendance" tab          events/<key>/attendance.html (desk page, "desks" mode)
-        |   the same ATTENDANCE CLIENT block in both
+        |   the same view in both (lib/v1/views/attendance-view.js)
         | read:  ATTENDANCE tab CSV export (gviz), every 10 s while visible
         | write: PUT /v3/days/{day}/facilities/{facility}/people/{personKey}/attendance
         |        Authorization: Bearer <operator token | desk token>
@@ -131,11 +131,15 @@ day in Manila time; it is accepted only while the event is `"desks"`.
 
 ## The client
 
-One block of plain JavaScript, `ATTENDANCE CLIENT`, byte-identical in
-`tools/control-center.html` and `_templates/attendance/attendance.html` (and
-each event's `attendance.html` made from it). It injects its own styles, so a
-host needs no CSS for the list. `createAttendanceView` renders the list, the
-category bar and search, polls, and marks optimistically.
+One module of the [site engine](site-engine.md), `lib/v1/views/attendance-view.js`,
+imported by `tools/control-center.html` and by the desk page
+(`lib/v1/apps/attendance-desk.js`, which the attendance template's shell
+calls). Its stylesheet is `lib/v1/css/attendance.css`, which a page links after
+its own styles. `createAttendanceView` renders the list, the category bar and
+search, polls (every `pollMs`, passed in), and marks optimistically. The
+finished events' `attendance.html` files (Pickle for Sight, Piggleball,
+PickleDrive) keep their own copy of the block they were made with and do not
+use the engine.
 
 Control Center loads every facility of the day so counts are complete; the
 desk page loads only the venue being shown. With `?fixture=<name>` on

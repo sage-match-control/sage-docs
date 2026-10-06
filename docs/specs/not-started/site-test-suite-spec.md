@@ -14,7 +14,7 @@
 > the dry run's rendering layer calls this suite's checks instead of
 > building its own.
 >
-> **Revise before building: the [site engine](site-engine-spec.md) comes
+> **Revise before building: the [site engine](../implemented/site-engine-spec.md) comes
 > first.** That spec builds `_tests/` with the same runner, Playwright, router
 > and clock as §4, and moves the live pages onto shared modules. Once it is
 > implemented:

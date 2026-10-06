@@ -17,10 +17,11 @@ Mission Control's **Issue scorer link** produces the address,
 page's head, palette and header come from the attendance desk page. The
 instantiation step is in `_templates/CLAUDE.md`.
 
-The file is one page: inline `<style>`, inline classic `<script>`, no other
-dependency. The script, top to bottom, is its configuration constants, the
-`LIVE CHANNEL` block, helpers copied from Control Center, the `SCORE CLIENT`
-block, and the page's own code.
+The file is a shell of the [site engine](site-engine.md): its markup, its
+palette and one settings script (`EVENT_KEY`, `LIVE_BASE_URL`) that calls
+`mountScorer` in `lib/v1/apps/scorer.js`. The page's own code is that app; the
+score dialog is `lib/v1/views/score-dialog.js`, and the page's styles are
+`lib/v1/css/scorer.css` and `lib/v1/css/score-dialog.css`.
 
 ## Start-up
 
@@ -47,8 +48,8 @@ empties the list, stops its polling and shows the expired message.
 
 ## Data
 
-The page wires the `LIVE CHANNEL` block as the event pages do:
-`createLiveChannel`, a `fetchDaySnapshot` that prefers the pushed snapshot and
+The page wires the live channel as the event pages do
+(`lib/v1/data/live-channel.js`): `createLiveChannel`, a `fetchDaySnapshot` that prefers the pushed snapshot and
 otherwise fetches `<event>/data/<day>.json` from GitHub Pages and keeps the newer
 copy, `liveChannel.follow(EVENT_KEY, day)`, a 10-second poll, and a pause while
 the tab is hidden. See [Sync pipeline § Pages](sync-pipeline.md#pages).
@@ -71,22 +72,14 @@ The court buttons are rebuilt only when the set of courts or the selection
 changes, so typing in the search box keeps its focus across a poll. Cards are
 redrawn on every snapshot, which is fine because the dialog is modal.
 
-## Copied helpers and shared blocks
+## The engine's rules
 
-The page carries unchanged copies of Control Center's `parseCSV`,
-`rowsToMatches`, `BYE_RE`, `sideIsBye`, `matchByeSide`, `SERIES_GAME_RE`,
-`seriesGameOf`, `seriesGroups`, `walkSeries`, `unneededSeriesGames`,
-`HTTP_WORDS`, `httpWords`, `messageFromJson`, `friendlyApiMessage` and
-`escapeHtml`. They are copies, not shared blocks. The BYE and series rules also
-exist in `sage-tools-api`'s `facilityCompletion.mjs` and in the event pages, so
-a change to one is a change to all of them.
-
-Two blocks must stay byte-identical, and are compared with `diff`:
-
-- `SCORE CLIENT`, with `tools/control-center.html` and every event's `scorer.html`
-  (see [Control Center § Score entry](control-center.md#score-entry))
-- `LIVE CHANNEL`, with Control Center and the event pages. A finished event's
-  `scorer.html` keeps the block with `LIVE_BASE_URL = ''`, as its other pages do.
+The CSV parsers, the played/BYE and series rules, the API's error wording and
+`escapeHtml` are the engine's (`lib/v1/domain/`, `lib/v1/data/api.js`,
+`lib/v1/views/html.js`), the same modules Control Center and the event pages
+import, so there is nothing to keep in step by hand. The BYE and played rules
+also exist in `sage-tools-api`'s `facilityCompletion.mjs`; the parity test in
+`_tests/unit/parity-server.test.mjs` fails if the two disagree.
 
 ## Testing locally
 

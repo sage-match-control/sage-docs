@@ -7,7 +7,14 @@ why the console carries **no per-event configuration of its own**: it picks
 an event from
 `event-data/config/events.json` (see [event registry
 schema](event-data-config.md)), reads that event's registry entry, and
-renders.
+renders. Its views are the [site engine](site-engine.md)'s: the Match
+Finder, tickets, Live Matches, Standings, team views, score dialog and
+attendance list come from `lib/v1/views/` (and their CSS from `lib/v1/css/`),
+the rules from `lib/v1/domain/`, so the console and an event's Tournament Hub
+draw the same markup. The page itself keeps what only an operator has: the
+event picker, Mission Control, sign-in and the extension points that attach
+score entry, the match-number search and the facility progress cards to the
+shared views.
 
 > Renamed from "Match Control" to "Control Center" after the fact — the
 > file, the URL (`/tools/control-center`), and every reference were moved
@@ -44,8 +51,8 @@ share unmodified across every event type.
 
 **Live Matches, Match Finder, and Standings** have no club logos anywhere
 (no `.score-logo`/`.live-team-logo`/`.cs-logo` treatment); the console
-**ignores `isLive` and always shows live data** (`computeDayIsLive()` is
-hardcoded `true`), so an operator can preview a day before it's public;
+**ignores `isLive` and always shows live data** (it builds its day model with
+`alwaysLive: true`), so an operator can preview a day before it's public;
 and labels degrade to raw codes when `display` config is absent rather
 than erroring.
 
@@ -207,20 +214,20 @@ under the wrong day. Toasts are made visible by flushing styles
 
 ## Teams tab
 
-Team events only. `teamSetRoster()` parses each facility's `rosterCsv`
-(`teamCode,player,level,gender`) into `TEAM_ROSTER`, and
-`renderTeamRosters()` draws one collapsible card per team, grouped by
-bracket from `STANDINGS`, players sorted by level. `teamRebuildIndex()` adds
+Team events only. The day model parses each facility's `rosterCsv`
+(`teamCode,player,level,gender`) into `model.team.roster`, and
+`renderRosters()` (`createTeams` in `lib/v1/views/teams.js`) draws one collapsible card per team, grouped by
+bracket from the standings, players sorted by level. The finder's index adds
 roster players to Match Finder, and the team and player results carry a
-roster card. The parsing, ordering and cards are the same as the event page's
-Teams tab (`events/pickledrive-anniversary-2026/index.html`): change one,
-change the other.
+roster card. The rules (`lib/v1/domain/teams.js`) and the cards are a port of the event page's
+Teams tab (`events/pickledrive-anniversary-2026/index.html`), whose copy is
+frozen with that finished event.
 
 ## Attendance tab
 
-The list is the shared `ATTENDANCE CLIENT` block (`createAttendanceView`),
-byte-identical in this file, `_templates/attendance/attendance.html` and each
-event's `attendance.html`. It injects its own `.att-*` styles, reads each
+The list is `createAttendanceView` in `lib/v1/views/attendance-view.js`, shared
+with the desk page (`lib/v1/apps/attendance-desk.js`); its styles are
+`lib/v1/css/attendance.css`. It reads each
 facility's `ATTENDANCE` tab through the gviz CSV export every 10 s while
 visible, and marks through `PUT /v3/…/people/{personKey}/attendance` with the operator
 token. In this console it loads every facility of the day, so the counts are
@@ -247,13 +254,12 @@ feature is on for an event whose `events.json` entry has `"scoreEntry":
 "console" | "links"`, and the console only offers it while an operator is signed
 in. Usage: [Entering a score](../features/control-center.md#entering-a-score).
 
-### The `SCORE CLIENT` block
+### The score dialog
 
-The dialog is the `SCORE CLIENT` block (`createScoreDialog` and its three
-constants), byte-identical in this file, `_templates/scorer/scorer.html` and
-every `events/<key>/scorer.html`; compare them with `diff`. The `<dialog
-id="scoreDialog">` markup and the `.score-*` rules are copied the same way, and
-the block finds its parts inside the dialog by id. It uses no global of either
+The dialog is `createScoreDialog` in `lib/v1/views/score-dialog.js`, shared with
+the scorer page (`lib/v1/apps/scorer.js`); its `.score-*` rules are
+`lib/v1/css/score-dialog.css`. Each page carries the `<dialog
+id="scoreDialog">` markup, and the dialog finds its parts inside it by id. It uses no global of either
 page: everything that differs is passed in through `opts`.
 
 | Option | What it is |
@@ -274,11 +280,11 @@ It returns `{ open, close, refresh, isOpen }`.
 `scoreEntryAvailable()` reads the registry entry's `scoreEntry` and the sign-in.
 `scoreAttrs(m)` returns the `data-score-*`, `role` and `tabindex` attributes, or
 nothing for a BYE or when entry is not available; `scoreHintHTML(m)` is the
-pencil hint. Only Match Finder uses them, so the console's other tabs are
-read-only: `ticketHTML` calls `scoreAttrs` itself, and `teamMatchupCardHTML` takes
-a `scoreable` option that its four Match Finder callers (`teamResultHTML`,
-`teamPlayerResultHTML`, `allMatchupsHTML`, `renderMatchByNumber`) pass as `true`
-and Standings' two calls leave off. Two delegated listeners on the results
+pencil hint. `ticketDecorate(m)` packs them into the `decorate` option the
+shared ticket and the team matchup rows take (`decorateRow`). Only Match Finder
+asks for it, so the console's other tabs are read-only: the team views' Match
+Finder callers (the team and player results, the all-matchups list and the
+match-number search) pass `interactive: true` and Standings' calls leave it off. Two delegated listeners on the results
 container (click, and Enter or space on a focused match) open the dialog, because
 Match Finder redraws all its markup on every poll and push, which would drop any
 listener bound to a single match. Signing in or out redraws Match Finder, so the

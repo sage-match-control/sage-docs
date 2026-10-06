@@ -750,14 +750,15 @@ new revision, no code change. `GET /v3/diagnostics/sync` reports
 
 ### Pages
 
-Each page that shows live data carries one identical block, marked
-`LIVE CHANNEL`, which opens a WebSocket to `/live/<event>/<day>` for the day
-it is showing and reconnects with backoff. The pages are Control Center, both
-templates' `index.html` and `schedule.html`, and the same pair of every event
-that has not finished, plus the [scorer page](scorer-page.md) of an event that uses scorer links. The block must stay byte-identical in every copy. A
-finished event's pair keeps the block with `LIVE_BASE_URL` empty, the one
-line that differs: nothing is published for it any more, so its pages read
-GitHub and hold no socket against the Worker's request cap.
+Each page that shows live data uses one module, `lib/v1/data/live-channel.js`
+(`createLiveChannel`), of the [site engine](site-engine.md). It opens a
+WebSocket to `/live/<event>/<day>` for the day the page is showing and
+reconnects with backoff. The pages are Control Center, both templates'
+`index.html` and `schedule.html`, and the same pair of every event that has not
+finished, plus the [scorer page](scorer-page.md) of an event that uses scorer
+links. Each page's shell passes the Worker's address as `LIVE_BASE_URL`; a
+finished event's shells pass it empty: nothing is published for it any more,
+so its pages read GitHub and hold no socket against the Worker's request cap.
 
 `fetchDaySnapshot` keeps its name and callers. While the socket is open it
 returns the pushed snapshot without touching the network; every
@@ -769,7 +770,8 @@ the socket down, the page polls GitHub every 10 seconds exactly as it did
 before push existed. A hidden tab closes its socket and reopens it when shown.
 Pages opened with `?fixture=` on localhost never connect.
 
-`LIVE_BASE_URL` is one constant, inside the block, in every page. Empty
+`LIVE_BASE_URL` is one constant in every page's shell (and
+`lib/v1/data/live-channel.js` takes it as `baseUrl`). Empty
 disables push for that page. Control Center's Mission Control reads **Live
 updates: push connected** or **Live updates: polling GitHub (push not
 connected)**.

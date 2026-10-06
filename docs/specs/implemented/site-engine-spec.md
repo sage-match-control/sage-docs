@@ -1,8 +1,20 @@
 # Spec — the site engine: shared modules for the event pages and Control Center
 
-> **Status: not started.** Nothing here is built. Written 2026-10-06 against
-> `sage-match-control.github.io` at `7fb908e`, where no event is registered
-> after 3 October 2026.
+> **Status: implemented, on branch `site-engine` of `sage-match-control.github.io`,
+> not yet merged.** Built 2026-10-06 in twelve commits (Phases 0 to 5; Phase 6 is
+> this documentation) on one branch rather than one per phase, which the owner
+> chose. Written against `7fb908e`, where no event is registered after
+> 3 October 2026. The merge is the owner's to say, and not within 3 days of an
+> event.
+>
+> **Measured at Phase 5.** The six template pages are shells of 244 lines (the
+> standard Hub's `index.html`), 281 (the dual-meet Hub's), 153 and 157 (the two
+> schedule boards), 86 (the scorer page) and 62 (the attendance desk page).
+> `tools/control-center.html` fell from 9,875 lines at `7fb908e` to 4,405. The
+> engine, `lib/v1/`, is 43 files: 6,692 lines of JavaScript and 3,249 of CSS.
+> `npm run verify` runs 362 unit tests and 403 comparison cases (Control Center
+> over four events, both Hubs and boards, the scorer and desk pages, each at
+> phone and desktop width and in three data states).
 >
 > **The owner's decisions, 2026-10-06.** These are settled, not open
 > questions:
@@ -1222,56 +1234,56 @@ Each spec is revised properly when this one is implemented.
 
 **Phase 0**
 
-- [ ] `_tests/` exists, `npm run verify` is deterministic across three runs,
+- [x] `_tests/` exists, `npm run verify` is deterministic across three runs,
       and an injected change fails the expected cases.
 
 **Phase 1**
 
-- [ ] `lib/v1/platform.js` and every `domain/` module of §5.1 exist, with
+- [x] `lib/v1/platform.js` and every `domain/` module of §5.1 exist, with
       unit tests.
-- [ ] Every live page is a module script and imports `domain/`.
-- [ ] Characterization tests pass; §12 records every reconciliation.
+- [x] Every live page is a module script and imports `domain/`.
+- [x] Characterization tests pass; §12 records every reconciliation.
 
 **Phase 2**
 
-- [ ] No live page has a `LIVE CHANNEL` block; all use `data/live-channel.js`.
-- [ ] Every page reads the registry and snapshots through `data/`.
-- [ ] The templates' Hub and schedule board accept `?fixture=` on localhost.
+- [x] No live page has a `LIVE CHANNEL` block; all use `data/live-channel.js`.
+- [x] Every page reads the registry and snapshots through `data/`.
+- [x] The templates' Hub and schedule board accept `?fixture=` on localhost.
 
 **Phase 3**
 
-- [ ] The Hub and CC render Match Finder, tickets, Live Matches and Standings
+- [x] The Hub and CC render Match Finder, tickets, Live Matches and Standings
       with `views/` and the shared CSS files.
-- [ ] No live page has a `SCORE CLIENT` or `ATTENDANCE CLIENT` block.
-- [ ] CC's own features (score entry, match-number search, facility progress,
+- [x] No live page has a `SCORE CLIENT` or `ATTENDANCE CLIENT` block.
+- [x] CC's own features (score entry, match-number search, facility progress,
       the label warning) attach through §4.10's extension points; no file in
       `views/` or `domain/` names an operator feature, and none takes a
       page-naming flag.
-- [ ] All four §3.3 item 3 fixes show on both pages, §3.3 item 4 (§12 rows 5–10) is built as decided, and every cause-3 row was
-      listed for the owner at merge.
+- [x] All four §3.3 item 3 fixes show on both pages and §3.3 item 4 (§12 rows 5–10) is built as decided.
+- [ ] Every cause-3 row is listed for the owner at merge (rows 1–4 and 23, in the build report).
 
 **Phase 4**
 
-- [ ] The six template pages are shells under 300 lines.
-- [ ] The Hub takes its days and labels from `events.json`, with a last-good
+- [x] The six template pages are shells under 300 lines.
+- [x] The Hub takes its days and labels from `events.json`, with a last-good
       fallback.
-- [ ] The runbook instantiates a working event on fixtures.
+- [x] The runbook instantiates a working event on fixtures (`_tests/engine/fixture-mode.test.mjs` instantiates the templates and loads them on fixtures).
 
 **Phase 5**
 
-- [ ] No wrapper, allow-list or characterization test is left; guards are
+- [x] No wrapper, allow-list or characterization test is left; guards are
       green.
 
 **Phase 6**
 
-- [ ] Every file in §8 is updated; this spec is in `implemented/`.
+- [x] Every file in §8 is updated; this spec is in `implemented/`.
 
 **Always**
 
-- [ ] `npm run verify` passes on every merge, with every accepted difference
+- [x] `npm run verify` passes on every merge, with every accepted difference
       recorded in §12.
-- [ ] No finished event's folder, archived page or other tool changed.
-- [ ] Nothing merged during an event or in the 3 days before one.
+- [x] No finished event's folder, archived page or other tool changed.
+- [x] Nothing merged during an event or in the 3 days before one (nothing is merged yet).
 
 ---
 
@@ -1302,14 +1314,30 @@ by" cell is filled in when the work lands.
 
 | # | Phase | Function / rule | Copies | Cause (§5.2) | Kept | Proved by (harness case or unit test) | Owner (cause 3: listed at merge; cause 5: approved) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 3 | Series games after the decider: `ticketHTML`, `renderMatchup`, `runSearch`'s "Next Up", `UNNEEDED_GAMES` in `loadLiveData` | Hub {std, dm index} vs CC | 3 | the Hub's (greyed "Not needed"; never "Next Up"), now in CC too | | approved as a category 2026-10-06 |
-| 2 | 3 | BYE matches: `runSearch`'s pair list; `renderStageTables`/`renderSharedStages` dropping BYE rows and a bye-decided Bronze | CC vs Hub | 3 | CC's (`matchByeSide` filter; `isByeStandingRow` filter; `categoryBronzeIsByeDecided`), now on the Hub too | | approved as a category 2026-10-06 |
-| 3 | 3 | Match Finder "Teams" count (`renderIntro`) | Hub vs CC | 3 | the Hub's (bare-number codes only) | | approved as a category 2026-10-06 |
-| 4 | 3 | BYE pairs in the autocomplete (`rebuildTeamIndex`) | CC vs Hub | 3 | CC's (`sideIsBye` skip) | | approved as a category 2026-10-06 |
-| 5 | 3 | Dual-meet desktop Standings layout (dm `renderStandings` vs CC `renderDualMeetStandings`; `.standings-board-desktop`, `.standings-col-overflow`) | dm Hub vs CC | 5 | both: option `dualMeetDesktopLayout`, `'grid'` (Hub, default) / `'row'` (CC) | | owner 2026-10-06: keep both |
-| 6 | 3 | Round-robin pair names (`.br-table`, `td.pair`, `td.pair span`, `pairCell`'s `title`, `.br-table-wrap`) | Hub vs CC | 5 | both: Hub's in shared CSS; CC's whole names and sideways scroll in CC's deliberate-differences block | | owner 2026-10-06: keep both |
-| 7 | 3 | Round-robin table card style (`.br-table` radius, shadow, margin; `.br-table` sibling spacing rules) | Hub vs CC | 5 | both: Hub's in shared CSS; CC's plain tables in CC's deliberate-differences block | | owner 2026-10-06: keep both |
-| 8 | 3 | Ticket pair code `.team-block .team-name` | Hub vs CC | 5 | CC's (9.5px muted uppercase label) on both | | owner 2026-10-06: CC's |
-| 9 | 3 | Live Matches row divider `table.live-table td` | Hub vs CC | 5 | CC's (2px, `rgba(20,27,44,.4)`) on both | | owner 2026-10-06: CC's |
-| 10 | 3 | Phone sizes at most 480px: `.names-row` gap, `.team-block .players`, `.live-team-code`, `.live-team-players` | Hub vs CC | 5 | the Hub's on both | | owner 2026-10-06: the Hub's |
-| | | | | | | | |
+| 1 | 3 | Series games after the decider: `ticketHTML`, `renderMatchup`, `runSearch`'s "Next Up", `UNNEEDED_GAMES` in `loadLiveData` | Hub {std, dm index} vs CC | 3 | the Hub's (greyed "Not needed"; never "Next Up"), now in CC too | `unit/views/ticket.test.mjs`, `unit/views/standings.test.mjs` (a series game after the decider is greyed out), `unit/views/finder.test.mjs` (Next Up skips it); accepted in `accepted.mjs`: `cc/piggleball-2026/finder/*/desktop` | approved as a category 2026-10-06 |
+| 2 | 3 | BYE matches: `runSearch`'s pair list; `renderStageTables`/`renderSharedStages` dropping BYE rows and a bye-decided Bronze | CC vs Hub | 3 | CC's (`matchByeSide` filter; `isByeStandingRow` filter; `categoryBronzeIsByeDecided`), now on the Hub too | `unit/views/finder.test.mjs` (a BYE is not in a pair's list), `unit/views/standings.test.mjs` (a BYE row never shows), `unit/views/live-matches.test.mjs` (a BYE is not a court); no fixture case differs | approved as a category 2026-10-06 |
+| 3 | 3 | Match Finder "Teams" count (`renderIntro`) | Hub vs CC | 3 | the Hub's (bare-number codes only) | `unit/views/finder.test.mjs`; accepted: `cc/{piggleball,pickle-for-sight,pnf-x-bup}/finder/*` | approved as a category 2026-10-06 |
+| 4 | 3 | BYE pairs in the autocomplete (`rebuildTeamIndex`) | CC vs Hub | 3 | CC's (`sideIsBye` skip) | `unit/views/finder.test.mjs` (the pair index skips a BYE); no fixture case differs | approved as a category 2026-10-06 |
+| 5 | 3 | Dual-meet desktop Standings layout (dm `renderStandings` vs CC `renderDualMeetStandings`; `.standings-board-desktop`, `.standings-col-overflow`) | dm Hub vs CC | 5 | both: option `dualMeetDesktopLayout`, `'grid'` (Hub, default) / `'row'` (CC) | `unit/views/standings.test.mjs` (both layouts); the `dm-index` and `cc` standings cases are identical to the baseline | owner 2026-10-06: keep both |
+| 6 | 3 | Round-robin pair names (`.br-table`, `td.pair`, `td.pair span`, `pairCell`'s `title`, `.br-table-wrap`) | Hub vs CC | 5 | both: Hub's in shared CSS; CC's whole names and sideways scroll in CC's deliberate-differences block | `cc/*/standings/*` and `std-index`, `dm-index` standings cases, identical to the baseline | owner 2026-10-06: keep both |
+| 7 | 3 | Round-robin table card style (`.br-table` radius, shadow, margin; `.br-table` sibling spacing rules) | Hub vs CC | 5 | both: Hub's in shared CSS; CC's plain tables in CC's deliberate-differences block | the same cases, identical to the baseline | owner 2026-10-06: keep both |
+| 8 | 3 | Ticket pair code `.team-block .team-name` | Hub vs CC | 5 | CC's (9.5px muted uppercase label) on both | accepted: `std-index/*/finder*` (pixels); `unit/views/ticket.test.mjs` | owner 2026-10-06: CC's |
+| 9 | 3 | Live Matches row divider `table.live-table td` | Hub vs CC | 5 | CC's (2px, `rgba(20,27,44,.4)`) on both | accepted: `std-index/*/live/*` (pixels) | owner 2026-10-06: CC's |
+| 10 | 3 | Phone sizes at most 480px: `.names-row` gap, `.team-block .players`, `.live-team-code`, `.live-team-players` | Hub vs CC | 5 | the Hub's on both | accepted: `cc/*`, `dm-index/*` finder and live cases at phone width, and `cc-signed-in` score entry (pixels). Checked by reverting the changed values: the cases then match the baseline exactly | owner 2026-10-06: the Hub's |
+| | 11 | 3 | `.names-row` base `margin-bottom` (the ticket's names row) | std Hub 12px vs dm Hub and CC 14px | 5 | both: the standard Hub's in `css/ticket.css`; the dual-meet Hub and CC keep 14px in their own block | `cc/*/finder/*`, `dm-index/*/finder/*` identical to the baseline | owner 2026-10-06: any undecided CSS difference keeps both |
+| 12 | 3 | Live Matches at phone width: the match number (`.live-match-pill`), the VS or score (`.live-vs-score`), the category line (`td.live-cat-cell`); the standard Hub's `td.live-vs-cell` and `td.live-cat-cell` | std Hub vs dm Hub and CC | 5 | both: each page keeps its own rules in its own block | `*/live/*/phone` cases (identical to the baseline apart from row 10) | owner 2026-10-06: keep both |
+| 13 | 3 | The dual-meet Hub's Round Robin: one table with a `Br` bracket column. CC draws the same data as a grid of bracket tables | dm Hub vs CC | 5 | both: option `rrBracketLayout`, `'grid'` (default, CC) / `'column'` (dual-meet Hub) | `unit/views/standings.test.mjs` (no fixture has sub-brackets, so no harness case shows it) | owner 2026-10-06: keep both |
+| 14 | 3 | Dual-meet Hub's club logos in the ticket, the Live Matches row and the club bar | dm Hub only | 1 | options `teamLogoHTML` (ticket, Live Matches) and `clubLogoHTML` (club bar), passed by `apps/hub.js` from the shell's `CLUB_LOGOS` | `dm-index/*` cases identical to the baseline | n/a |
+| 15 | 3 | Divergence: `beforeStandings(model) → html` (§4.10) is not built. The category-code warning sits outside the Standings panel, so CC passes the `unresolved` Set the views fill and draws the warning itself after `render()` | CC | 1 | `options.unresolved` | `cc` standings cases | n/a |
+| 16 | 3 | Divergence: Live Matches `facilityExtras(name, model) → html` writes into a separate element, `options.extrasEl`, because CC's facility progress cards are not inside the board | CC | 1 | `facilityExtras` with `extrasEl` | `cc/*/live/*` | n/a |
+| 17 | 3 | Divergence: `onTicketClick` (§4.10) is not built. A ticket's `decorate` marks its click target (the class, `data-score-*` and `role`), and CC's two delegated listeners on its results container open the dialog | CC | 1 | `decorate`, and CC's own listeners | `cc-signed-in/*/score-entry-save/*` | n/a |
+| 18 | 3 | Live Matches courts: the Hubs listed every court in their configured `FACILITIES` ranges, CC lists each facility's scheduled courts from its own matches. The engine takes CC's | Hub vs CC | 2 | CC's, on both | `unit/views/live-matches.test.mjs`. It shows only where a configured range and the data disagree, which no fixture does | n/a |
+| 19 | 3 | The dual-meet Hub treated a team code naming a club not in its `CLUBS` as unparsed; the engine reads it as CC does, the club being the code's first segment | dm Hub vs CC | 2 | CC's | `unit/domain/matches-standings-codes.test.mjs` | n/a |
+| 20 | 3 | A team event's views, the score dialog and the attendance list moved out of CC without a change: `createTeams` takes `decorateRow` and `expandAllClass` as options (the guard forbids the operator words in `views/teams.js`); the attendance list's poll interval comes in as `pollMs` (a view imports no `platform.js`) | CC | 1 | options | `cc/pickledrive-anniversary-2026/*`, `attendance/*` | n/a |
+| 21 | 3 | The attendance list's stylesheet, injected as a `<style>` at run time, is `css/attendance.css`, linked after the page's own styles. The desk page's `--att-*` overrides in its `<style>` never took effect (the injected defaults came later and won); they are kept as they were, so the page looks as before | desk page, CC | 0 | the same order as before | `attendance/*` identical to the baseline | n/a |
+| 22 | 1 | Placement: `matchInstanceOf` is in `domain/codes.js` (re-exported by `matches.js`); `courtNumberFrom` and `formatMinutesAsClock` are in `domain/` (`progress.js`, `golive.js`) and `views/live-matches.js` re-exports the first; CC's `computeDayIsLive` is `consoleDayIsLive` and the schedule board's `stageOf` is `ladderStageOf`, so that no page defines what the engine exports | all | 0 | as listed | `unit/no-copies.test.mjs` | n/a |
+| 23 | 1 | Scorer page: on expiry the poller is stopped and stays stopped (it could be restarted by a visibility change before); the registry error wording keeps "replied N" | scorer | 3 | the fix | `scorer/*` | approved as a category 2026-10-06 |
+| 24 | 2 | `eventConfigFrom` orders a day list by date, as CC does (its typedef said listing order); a registry that fails to load falls back to the last good copy | all | 2 | CC's | `unit/data/data-modules.test.mjs` | owner 2026-10-06: date order |
+| 25 | 4 | The Hub's days, facilities and labels come from `events.json`, so a Hub shows the registry's day label, not the one its page carried. A Hub whose event is missing from the registry, or whose type is not `standard` or `dual-meet`, says so in its prompt | both Hubs | 2 | the registry's | `std-index/*`, `dm-index/*` identical to the baseline (the fixtures' labels agree); `engine/fixture-mode.test.mjs` | owner 2026-10-06: settings from `events.json` |
+| 26 | 6 | The wrapper allowance in `no-copies.test.mjs` (§7.1 step 3) existed from Phase 1 to Phase 5 and is gone; Control Center's adapters that add its own behaviour are named `consoleTicketHTML`, `drawLiveMatches`, `loadDaySnapshot`, `resolveFacilityEnd` and `progressForFacility` | CC | 0 | as listed | `unit/no-copies.test.mjs` | n/a |
+| 27 | 0 | Harness: a step that times out under load, a page that reports its own load timing out, and a page caught in a poll's reload are run again, up to three times; a real difference is still there. The attendance desk case runs in state `pre` only (the page has no other state) | harness | 0 | as listed | `engine/harness.test.mjs` | n/a |

@@ -22,9 +22,13 @@ Center](control-center.md)).
   fraction of that standalone. Folding it in would tax every phone visitor
   for a view they'll never open.
 
-It needs almost none of the shared config surface (`DIVISIONS`, `EVENTS`,
-`CLUBS`, `STAGE_META`, search, standings, or bracket logic) — just the
-event/day key, the data-repo location, and a category color map.
+It needs almost none of the shared config surface (the division and event labels,
+clubs, search, standings, or bracket logic) — just the event/day key, the
+data-repo location, and a category color map. The page is a shell of the
+[site engine](site-engine.md): its markup, its palette and a settings script
+(`EVENT_KEY`, `DAY_KEY`, `CAT_META` passed as `categoryColors`, and a dual
+meet's `CLUB_ORDER` as `clubOrder`) that calls `mountScheduleBoard` in
+`lib/v1/apps/schedule-board.js`; its styles are `lib/v1/css/schedule-board.css`.
 
 ## Match cell
 

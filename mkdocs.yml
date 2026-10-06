@@ -66,6 +66,7 @@ nav:
       - Standard Tournament Generator: technical/standard-tournament-generator.md
       - Event attendance: technical/event-attendance.md
       - Scorer page: technical/scorer-page.md
+      - Site engine: technical/site-engine.md
       - Control Center: technical/control-center.md
       - Schedule board: technical/schedule-board.md
       - Tournament Calculator: technical/tournament-calculator.md
@@ -106,12 +107,12 @@ nav:
           - Live push delivery: specs/implemented/durable-object-push-spec.md
           - Live push delivery - explainer: specs/implemented/durable-object-push-explainer.md
           - Score entry and scorer links: specs/implemented/control-center-score-entry-spec.md
+          - Site engine: specs/implemented/site-engine-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
           - sage-tools-api architecture hardening: specs/in-progress/sage-tools-api-architecture-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
-          - Site engine: specs/not-started/site-engine-spec.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Calculator team format: specs/not-started/calculator-team-format-spec.md
           - Team tournament event-site template: specs/not-started/team-tournament-template-spec.md

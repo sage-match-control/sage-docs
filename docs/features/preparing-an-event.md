@@ -193,8 +193,11 @@ roster and the codes haven't met.
 ## 4. Build the event site
 
 Copy the matching template — `dual-meet-template/` or
-`standard-tournament-template/` — into `events/<event-key>/`, replace the
-tokens, and fill in the days, facilities and categories.
+`standard-tournament-template/` — into `events/<event-key>/` and replace the
+tokens. There are no days, facilities or categories to fill in on the pages:
+the Hub reads them from the event's entry in `events.json` (step 5), so that
+entry has to carry the event's type, its day and venue names and the labels for
+its divisions, events and clubs.
 
 The step-by-step is [adding a new event](../technical/adding-a-new-event.md);
 the exhaustive version, with the full token table, is `_templates/CLAUDE.md`
@@ -206,8 +209,10 @@ both clubs' logos for a dual meet.
 Three connections, and the event is inert until all of them exist:
 
 - **Register the event** in `event-data/config/events.json` — its type,
-  title, and one entry per day with that day's venues. This takes effect
-  within minutes of the commit; nothing needs redeploying.
+  title, one entry per day with that day's venues, and the labels the Hub
+  shows for its categories. This takes effect within minutes of the commit;
+  nothing needs redeploying. The event stays in the file for as long as its
+  pages are up: removing a finished event's entry would blank its Hub.
 - **Turn on attendance** if the event wants check-in: add
   `"attendance": "console"` (operators mark people in Control Center) or
   `"desks"` (desk staff also get a link) to the event's entry, and share
@@ -347,5 +352,6 @@ At that point the event is ready, and the rest is
 
 ---
 **Technical:** [adding a new event](../technical/adding-a-new-event.md) ·
+[site engine](../technical/site-engine.md) ·
 [dual meet sheet generator](../technical/dual-meet-sheet-generator.md) ·
 [standard tournament generator](../technical/standard-tournament-generator.md)

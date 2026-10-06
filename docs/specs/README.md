@@ -54,6 +54,16 @@ to the `...` form rather than repointing it.
 
 ## Implemented
 
+### The site
+
+- **[Site engine](implemented/site-engine-spec.md)** — the code the site's
+  pages copied by hand (the live channel, the score and attendance clients, the
+  rules, and the second Tournament Hub inside Control Center) is now shared ES
+  modules at `/lib/v1/`, with no build step and no framework. Event pages are thin
+  shells that read their settings from `events.json`, the rules have unit tests,
+  and a harness proves nothing visible changed except the differences the owner
+  approved. Built on a branch, not yet merged. Phase 8 of the architecture spec.
+
 ### Sync & live data
 
 - **[Runtime-fetched sync config](implemented/sync-config-runtime-spec.md)** —
@@ -198,13 +208,6 @@ to the `...` form rather than repointing it.
 
 ## Not started
 
-- **[Site engine](not-started/site-engine-spec.md)** — the code the site's
-  pages copy by hand (the live channel, the score and attendance clients, the
-  rules, and the second Tournament Hub inside Control Center) moved into shared
-  ES modules at `/lib/v1/`, with no build step and no framework. Event pages
-  become thin shells that read their settings from `events.json`, the rules get
-  unit tests, and a harness proves nothing visible changes. Phase 8 of the
-  architecture spec, after the owner's decision.
 - **[Site test suite](not-started/site-test-suite-spec.md)** — Control
   Center, the current event pages and the attendance desk pages tested in a
   real browser on fixture data, with every hand-copied rule (the live

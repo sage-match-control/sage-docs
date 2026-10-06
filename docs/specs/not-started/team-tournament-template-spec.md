@@ -11,7 +11,7 @@
 > [Team Tournament Master](team-tournament-master-spec.md), is the workbook
 > generator and is a separate, larger piece of work.
 >
-> **Revise before building: the [site engine](site-engine-spec.md) changes how
+> **Revise before building: the [site engine](../implemented/site-engine-spec.md) changes how
 > this template is made.**
 >
 > - Once the engine is in place, a team event's Hub is a shell on it, with a
