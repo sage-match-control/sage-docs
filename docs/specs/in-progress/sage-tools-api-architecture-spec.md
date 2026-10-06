@@ -4,9 +4,11 @@
 > deployed: Cloud Run serves 3.0.0 since 2026-10-06. Phase 6's code is merged:
 > the site (Control Center, the scoresheet generator, every copy of the
 > `ATTENDANCE CLIENT` and `SCORE CLIENT` blocks) calls `/v3`, and the repo's
-> `sheets-sync.gs` calls `/v3`, checked by `verify-sheets-sync.mjs`. Left of
-> Phase 6: pasting that script into the two masters, checking a fresh copy of
-> each, and the production acceptance in §6.6. Phase 7's docs and root
+> `sheets-sync.gs` calls `/v3`, checked by `verify-sheets-sync.mjs`. Both
+> masters carry it (live sync 3.0.0, beside dual-meet generator 1.3.0 and
+> standard tournament generator 1.2.0), byte-identical to the repo as of
+> 2026-10-06. Left of Phase 6: checking a fresh copy of each master, and the
+> production acceptance in §6.6. Phase 7's docs and root
 > `CLAUDE.md` rules are done and the workspace is a local repo; the
 > build-trigger filter and the workspace's GitHub repo are the owner's.
 > Phase 8's decision record is written and awaits the owner's decision.

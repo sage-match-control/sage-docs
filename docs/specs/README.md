@@ -185,7 +185,7 @@ to the `...` form rather than repointing it.
   Built and tested against fakes; the real-workbook checks (§11.2) are still open.
 - **[sage-tools-api architecture hardening](in-progress/sage-tools-api-architecture-spec.md)** —
   revised against 2.8.0. Phases 1–5 are merged and deployed as 3.0.0 (the `/v3` API), and Phase 6's code
-  is merged: the site and the repo's `sheets-sync.gs` call `/v3`; pasting it into the masters is left.
+  is merged and the masters carry it: the site and every new workbook call `/v3`.
   The service moves to ports-and-adapters, checked
   against SOLID. The conflict retry is written once, behind two delivery
   strategies and a `SnapshotPublisher` selector. There is one error handler, one auth-middleware module,
