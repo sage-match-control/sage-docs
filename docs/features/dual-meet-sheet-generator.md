@@ -1,5 +1,8 @@
 # Dual Meet Sheet Generator
 
+**Used in:** [2. Build the workbooks](../usage/build-the-workbooks.md) ·
+[3. Draw and fill rosters](../usage/draw-and-rosters.md)
+
 Builds a dual meet's event workbook — every category tab, ready to score —
 from a plan you exported out of the Tournament Calculator. It replaces the
 old routine of duplicating last event's spreadsheet and find-replacing every
@@ -47,16 +50,12 @@ title followed by the venue label in capitals, e.g.
 `2026-09-12 PNF x BUP Dual Meet - PPC`. With no venue label the dash part is
 left off. A run that fails partway leaves the name as it was.
 
-## How to use it
+## The sidebar
 
-1. Build the plan in the [Tournament Calculator](tournament-calculator.md)
-   and switch the format to **Dual meet**.
-2. Click **Copy plan & open generator**. This copies the plan to your
-   clipboard and opens the master workbook's copy dialog.
-3. Click **Make a copy**. Work in *your copy* — never the master.
-4. In your copy, choose **SAGE → Generate event tabs** from the menu.
-5. Paste the plan into the sidebar (Ctrl+V, or Cmd+V on Mac), add the venue
-   name, and click **Generate**.
+The generator runs from **SAGE → Generate event tabs** in a copy of the Dual Meet
+Master, with the plan pasted into the sidebar. The steps, in order, are in
+[Usage step 2](../usage/build-the-workbooks.md). The rest of the SAGE menu is on
+[the scoring workbook](scoring-workbook.md#the-sage-menu).
 
 While it runs, a progress bar under the button shows how far it has got
 ("Step 12 of 31", with the time so far), and the box under it lists what it is
@@ -67,37 +66,11 @@ stay as they are, and the copy cannot be generated again, so make a fresh copy
 of the master and generate there. The sidebar's foot shows the generator's
 version.
 
-If you would rather work from the file than the clipboard, you can **drag the
-calculator's exported `.csv` straight onto the big box**, or use the
-sidebar's **Choose file** button — either one fills the same box, so you can
-still read over the plan, or edit it, before generating. All three routes are
-equivalent; a file is read on your own machine and never uploaded anywhere.
-
-The first time you run it, Google will ask you to authorize the script. That
-is expected — it is the workbook's own script asking for permission to write
-to the workbook.
-
-A generated workbook carries the live sync script already, so the **SAGE**
-menu always has both features in it: **Generate event tabs**, and — once
-[live sync is set up](preparing-an-event.md) — **Generate Scoresheets**,
-**Sync now**, **Pause live sync** (or **Resume live sync**), and **Live sync
-settings**. Before setup it's just **Set up live sync** instead. **Fill match
-numbers** and **Help** are always there either way. Help has a workflow
-refresher, this workbook's current status, what to check when something
-looks wrong, and the version of each SAGE script installed in the workbook.
-
-**Fill match numbers** renumbers the matches on SCHEDULE from a number you
-give it: enter 0 to start at 1, or 2000 to start at 2001. Only slots with a
-team on both sides count as matches, and empty slots show `-`. It also
-writes the same numbers into the CSV tab's `matchNumber` column, which is
-what the website reads. You don't need to touch that tab yourself.
-
-**Set up live sync**/**Live sync settings** is safe and repeatable to click
-any time; so is **Generate Scoresheets**, which just opens the [Scoresheet
-Generator](scoresheet-generator.md) in a new tab with this workbook's day and
-venue already selected and makes no changes to the spreadsheet. **Generate
-event tabs** is the opposite — it runs once per workbook and then disappears
-from the menu, since a second run can only fail.
+The plan can be pasted (Ctrl+V, or Cmd+V on Mac), or the calculator's exported
+`.csv` can be **dragged straight onto the big box** or chosen with the sidebar's
+**Choose file** button. All three routes fill the same box, so you can still read
+over the plan, or edit it, before generating. A file is read on your own machine
+and never uploaded anywhere.
 
 ## Drawing the roster codes
 

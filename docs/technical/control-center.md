@@ -252,7 +252,7 @@ An operator enters, corrects or clears one match's score from Match Finder
 pipeline § Score entry writes](sync-pipeline.md#score-entry-writes)). The
 feature is on for an event whose `events.json` entry has `"scoreEntry":
 "console" | "links"`, and the console only offers it while an operator is signed
-in. Usage: [Entering a score](../features/control-center.md#entering-a-score).
+in. Usage: [Entering a score](../features/score-entry.md).
 
 ### The score dialog
 

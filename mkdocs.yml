@@ -40,19 +40,44 @@ markdown_extensions:
 
 nav:
   - Home: README.md
-  - Features & Usage:
+  - Usage:
+      - Start here: usage/README.md
+      - Roles, access and kit: usage/before-you-start.md
+      - Glossary: usage/glossary.md
+      - Preparing the event:
+          - 1. Plan it: usage/plan-the-event.md
+          - 2. Build the workbooks: usage/build-the-workbooks.md
+          - 3. Draw and fill rosters: usage/draw-and-rosters.md
+          - 4. Register and build the site: usage/register-and-build-the-site.md
+          - 5. Connect the workbooks: usage/connect-the-workbooks.md
+          - 6. Print: usage/printables.md
+          - 7. Rehearse: usage/rehearse.md
+      - On the day:
+          - 8. Run the day: usage/run-the-day.md
+          - 9. When something's wrong: usage/troubleshooting.md
+      - Handouts:
+          - Scorers: usage/scorer-handout.md
+          - Attendance desks: usage/desk-handout.md
+      - After the event: usage/after-the-event.md
+  - Features:
       - Overview: features/README.md
-      - Tournament Hub: features/tournament-hub.md
-      - Control Center: features/control-center.md
-      - Preparing an event: features/preparing-an-event.md
-      - Running an event, day of: features/running-an-event-day.md
-      - Scoresheet Generator: features/scoresheet-generator.md
-      - Tournament Calculator: features/tournament-calculator.md
-      - Bracket Generator: features/bracket-generator.md
-      - Dual Meet Sheet Generator: features/dual-meet-sheet-generator.md
-      - Standard Tournament Generator: features/standard-tournament-generator.md
-      - Event attendance: features/event-attendance.md
-      - Scorer page: features/scorer-page.md
+      - Public pages:
+          - Tournament Hub: features/tournament-hub.md
+          - Schedule board: features/schedule-board.md
+      - Running the day:
+          - Control Center: features/control-center.md
+          - Score entry: features/score-entry.md
+          - Scorer page: features/scorer-page.md
+          - Event attendance: features/event-attendance.md
+      - Scoring workbooks:
+          - The scoring workbook: features/scoring-workbook.md
+          - Dual Meet Sheet Generator: features/dual-meet-sheet-generator.md
+          - Standard Tournament Generator: features/standard-tournament-generator.md
+          - Team workbook: features/team-workbook.md
+      - Planning and print tools:
+          - Tournament Calculator: features/tournament-calculator.md
+          - Bracket Generator: features/bracket-generator.md
+          - Scoresheet Generator: features/scoresheet-generator.md
   - Technical:
       - Overview: technical/README.md
       - Architecture: technical/architecture.md

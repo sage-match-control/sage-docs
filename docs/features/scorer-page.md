@@ -1,10 +1,15 @@
 # Scorer page
 
+**Used in:** [4. Register and build the site](../usage/register-and-build-the-site.md) ·
+[8. Run the day](../usage/run-the-day.md) · [Scorer handout](../usage/scorer-handout.md)
+
 The scorer page is for the staff who enter match scores on tournament day. It
 does one thing: it lists a venue's matches and lets you type in a match's score.
 It has no standings, no schedule board and nothing to sign into. The operator
 gives you a **scorer link**, from [Control Center's Mission
-Control](control-center.md#scorer-links), and the link is all you need.
+Control](control-center.md#scorer-links), and the link is all you need. The
+one-page brief to send with the link is the
+[scorer handout](../usage/scorer-handout.md).
 
 ## Opening it
 
@@ -56,8 +61,8 @@ score dialog names the stage and the pair under the title, for example
 
 ## Entering a score
 
-Tap a match. The dialog works as it does in Control Center:
-[Entering a score](control-center.md#entering-a-score). In short: type both scores,
+Tap a match. The dialog is the same one Control Center uses:
+[Score entry](score-entry.md). In short: type both scores,
 check the **Winner** line and the score on the **Review** step, then **Save**. You
 can correct a score that is already there, or clear it with **Clear score**.
 

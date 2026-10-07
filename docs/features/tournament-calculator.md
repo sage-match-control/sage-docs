@@ -1,5 +1,8 @@
 # Tournament Calculator
 
+**Used in:** [1. Plan it](../usage/plan-the-event.md) ·
+[2. Build the workbooks](../usage/build-the-workbooks.md)
+
 Set up your categories and court plan, and see instantly how many matches
 you're running and what time the last match finishes — before the draw is
 even final. A standalone planning tool; nothing here is live tournament data.

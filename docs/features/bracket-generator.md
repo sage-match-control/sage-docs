@@ -1,5 +1,8 @@
 # Bracket Generator
 
+**Used in:** [3. Draw and fill rosters](../usage/draw-and-rosters.md) ·
+[6. Print](../usage/printables.md)
+
 Settle who plays in which bracket, in front of the room if you want, without
 wrestling a spreadsheet into a diagram. A standalone tool, no sign-in, nothing
 saved anywhere but your own browser.
@@ -130,8 +133,8 @@ draw needs. A standard tournament takes those text files straight into the
 workbook — every category at once — with
 [**SAGE → Import bracket draws**](standard-tournament-generator.md#filling-the-rosters-from-the-draw),
 which reads the names, the bracket order and the seed off them, so nothing is
-typed twice. Where this sits in the setup sequence is step 3 of
-[preparing an event](preparing-an-event.md#3-draw-the-brackets-and-enter-the-names).
+typed twice. Where this sits in the setup sequence is
+[Usage step 3](../usage/draw-and-rosters.md).
 
 Filenames include the category (and the event name, if you set one), so
 they're easy to find again after exporting eight categories in a row —
@@ -148,5 +151,5 @@ is uniformly random with no rankings: it won't keep training partners or
 club-mates apart unless you tell it to.
 
 ---
-**Features:** [preparing an event](preparing-an-event.md) ·
+**Usage:** [3. Draw and fill rosters](../usage/draw-and-rosters.md) ·
 **Technical:** [bracket generator](../technical/bracket-generator.md)

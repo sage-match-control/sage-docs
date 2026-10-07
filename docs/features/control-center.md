@@ -1,5 +1,9 @@
 # Control Center
 
+**Used in:** [4. Register and build the site](../usage/register-and-build-the-site.md) ·
+[5. Connect the workbooks](../usage/connect-the-workbooks.md) ·
+[7. Rehearse](../usage/rehearse.md) · [8. Run the day](../usage/run-the-day.md)
+
 Control Center is the operator's console for running a tournament day —
 one page, covering every registered event, always showing live data (unlike
 Tournament Hub, it never hides scores while previewing a day before it's
@@ -133,32 +137,6 @@ A scorer page that is already open finds out about a stop when a save is refused
 ("Scorer links are stopped for this event. Ask the operator."); one that is
 reloaded says so as soon as it loads.
 
-## Attendance
-
-Staff check-in, for an event whose entry in `events.json` has an
-`attendance` setting. The tab lists everyone playing at each venue that day,
-grouped by category (or by team, for a team event), with a switch per person.
-Flip it to mark someone in; it records the time. Above the list:
-
-- the number of people in at each venue
-- **Update roster**, to bring the list up to date with the workbook now
-  instead of waiting for the next sync
-- **Issue desk link**, for an event set to `"desks"`: a link for one day that
-  lets desk staff mark people in from their own phones, with **Copy**,
-  **Share** and **Show QR**
-- **Needs attention**: names that might be the same person written two ways,
-  people listed twice in one category, and **Show withdrawn**
-
-Full usage: [event attendance](event-attendance.md).
-
-## Teams
-
-For a team event: every team's roster, the same as the event page's Teams tab.
-Cards start collapsed and open to show each player's level and gender. Match
-Finder shows a team's roster with its matchups, and finds a player by name from
-the roster before their lineup is in. A player's result shows their level and
-gender beside their name.
-
 ## Awards
 
 The podium tab: once a category's Final and Bronze matches are scored, this
@@ -209,6 +187,46 @@ A few things the Awards tab is careful about:
   round-robin match in that category has a score — before then the top three
   are only the current leaders.
 
+## Attendance
+
+Staff check-in, for an event whose entry in `events.json` has an
+`attendance` setting. The tab lists everyone playing at each venue that day,
+grouped by category (or by team, for a team event), with a switch per person.
+Flip it to mark someone in; it records the time. Above the list:
+
+- the number of people in at each venue
+- **Update roster**, to bring the list up to date with the workbook now
+  instead of waiting for the next sync
+- **Issue desk link**, for an event set to `"desks"`: a link for one day that
+  lets desk staff mark people in from their own phones, with **Copy**,
+  **Share** and **Show QR**
+- **Needs attention**: names that might be the same person written two ways,
+  people listed twice in one category, and **Show withdrawn**
+
+Full reference: [event attendance](event-attendance.md).
+
+## Match Finder
+
+Identical to Tournament Hub's Match Finder — search a pair's name, see
+their full day of matches with Live/Next Up flags and scores. Useful for an
+operator fielding "where's my match" questions without having to also pull up
+Tournament Hub itself. Before a search it lists every match of the day in
+match-number order (a team event: its team chips, then every matchup,
+ordered by its lowest match number).
+
+The search box sits just above the list, not in the banner, and on a phone it
+stays pinned to the top of the screen while you scroll.
+
+Control Center's search also takes a **match number**: type `42` or `#42`
+to see just that match (for a team event, its matchup card narrowed to that
+match). A number that isn't on the day says so.
+
+### Entering a score
+
+For an event with score entry turned on, a signed-in operator can enter, correct
+or clear a match's score from Match Finder without opening the workbook. See
+[Score entry](score-entry.md).
+
 ## Live Matches
 
 A board of every court currently in use, grouped by venue if the event has
@@ -233,85 +251,6 @@ how early or late the venue finished (for example "1 h 15 min early"). The actua
 the moment the last score first arrives, and every phone and laptop reads the
 same time. A later **Resync this day now** doesn't move it. Clearing a score
 reopens the venue, and it gets a new actual end when the score goes back in.
-
-## Match Finder
-
-Identical to Tournament Hub's Match Finder — search a pair's name, see
-their full day of matches with Live/Next Up flags and scores. Useful for an
-operator fielding "where's my match" questions without having to also pull up
-Tournament Hub itself. Before a search it lists every match of the day in
-match-number order (a team event: its team chips, then every matchup,
-ordered by its lowest match number).
-
-The search box sits just above the list, not in the banner, and on a phone it
-stays pinned to the top of the screen while you scroll.
-
-Control Center's search also takes a **match number**: type `42` or `#42`
-to see just that match (for a team event, its matchup card narrowed to that
-match). A number that isn't on the day says so.
-
-### Entering a score
-
-For an event whose `events.json` entry has a `scoreEntry` setting, a signed-in
-operator can enter, correct or clear a match's score from Match Finder without
-opening the workbook. Without the setting, or while signed out, nothing in
-Match Finder is clickable.
-
-Every match in Match Finder carries a small **✎ Enter score** hint, or **✎ Edit
-score** once it has a score. Click a match, or focus it and press Enter, to open
-the score dialog. For a team event the clickable parts are the match lines
-inside each matchup card. Live Matches, Standings and Awards stay read-only. A
-BYE can't be scored. In a standard or dual-meet event a match whose players
-aren't decided yet opens read-only and says so; in a team event a match with no
-lineup can still be scored, with a warning.
-
-The dialog puts the people first: for a pair, the two players' names are the bold
-headline of each side and the team code is a small tag beside them; for a team, the team
-name leads and the players sit underneath. On Review, a team’s win reads the team name in
-bold with its two players on the next line in larger type.
-
-The dialog has two steps.
-
-1. **Enter.** The two sides sit in the same order as the sheet, team 1 on the
-   left. Each score takes up to two digits. Enter moves from the first box to
-   the second, and from the second to the next step.
-2. **Review.** The winner is named in the largest text, above the score, so a
-   pair of scores typed against the wrong sides shows up before anything is
-   saved. A tie reads **Tied — neither side wins this match**. Anything unusual
-   is listed as a warning and never refuses the save: a tie, neither side
-   reaching 11, a win by one point, a score over 21, a series game that isn't
-   needed because the series is already decided, or a team match with no lineup.
-   Pressing Enter twice in a row on the last box does not save: the second
-   press is ignored for a moment after Review appears.
-
-**Save** writes both scores into that match's cells of the venue's workbook and
-publishes the venue straight away, so pages update within a few seconds, just as
-if a scorer had typed them in the sheet. A message at the top of the screen
-confirms it. A big workbook can be slow to answer: after a few seconds the
-dialog says it is still waiting, and a save that gets no answer in two minutes
-says so. Saving again is safe, because a score already in the sheet is not
-written twice.
-
-**Corrections and clearing.** Opening a match that already has a score shows
-that score in the boxes, and Review adds **Was 11 – 9**. **Clear score**, on the
-first step, empties both cells again, after a Review that reads **Clear the
-score of match #42**.
-
-**When the sheet changed.** If the match's cells changed since the dialog opened
-(someone typed into the sheet, or another operator saved), nothing is written.
-The dialog shows what the sheet reads now and what you entered, and offers
-**Keep the sheet's score** or **Replace with yours**. If the match number now
-belongs to a different pairing, the only choice is **Close**. While the dialog is
-open, a note appears under the scores when a new snapshot shows that the sheet's
-score changed; the boxes are left as they are.
-
-**Publishing failed.** If the score reached the sheet but the update could not be
-published, a warning says so. Use **Resync this day now** on Mission Control.
-
-**Setup and sign-in.** Saving needs the venue's workbook to be shared with the
-API's service account as Editor; if it isn't, the dialog names the account to
-share it with. If the sign-in has expired the dialog says so; sign in on Mission
-Control and save again.
 
 ## Standings
 
@@ -354,6 +293,14 @@ Finder searches by team or player.
 If a match's team code doesn't match any configured category, a visible
 warning banner names it rather than silently lumping it into an "Other"
 bucket — so a data problem in the spreadsheet gets noticed instead of hidden.
+
+## Teams
+
+For a team event: every team's roster, the same as the event page's Teams tab.
+Cards start collapsed and open to show each player's level and gender. Match
+Finder shows a team's roster with its matchups, and finds a player by name from
+the roster before their lineup is in. A player's result shows their level and
+gender beside their name.
 
 ---
 **Technical:** [Control Center architecture, incl. Awards tab internals](../technical/control-center.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md) · [event attendance](../technical/event-attendance.md) · [scorer page](../technical/scorer-page.md)

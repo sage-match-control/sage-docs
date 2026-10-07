@@ -1,5 +1,8 @@
 # Standard Tournament Generator
 
+**Used in:** [2. Build the workbooks](../usage/build-the-workbooks.md) ·
+[3. Draw and fill rosters](../usage/draw-and-rosters.md)
+
 Builds one venue's scoring workbook for one day of a standard tournament —
 every category tab, ready to score — from the plan you exported from the
 Tournament Calculator. It replaces duplicating last event's venue
@@ -77,31 +80,31 @@ partway leaves the name as it was.
 
 The generator doesn't place matches on courts; you do, by copying from
 `MATCHES` into `SCHEDULE`. That keeps you in charge of which categories share
-the courts when.
+the courts when. The steps, in order, are in
+[Usage step 2](../usage/build-the-workbooks.md#pack-schedule-standard-only). The rules:
 
-1. On `MATCHES`, select whole court blocks — both rows of the slot, starting
-   at a block's left edge — and paste them onto a `SCHEDULE` slot with
-   **Paste special → Formula only**. The label beside each row (`RR 1`, `SF`,
-   `F + B`) is to the left of the block, so it doesn't come with it.
-2. Keep to the rules nothing checks for you: no pair twice in one slot; a
-   playoff round only after the round before it has finished, with a free
-   slot after the round robin for the qualifier draw; a final and its bronze
-   in the same slot; mixed doubles after the same-gender categories.
-3. Leave unused courts blank or `-`.
-4. **SAGE → Fill match numbers.** Each venue takes its own thousand: the
-   first venue enters `1000` (matches `1001` onward), the second `2000`, and
-   so on. Nothing checks the venues against each other.
-5. Check `Timeline`: its total should equal the match count on `MATCHES`, and
-   no cell should show more than 1.
-6. Set up live sync.
+- Select whole court blocks on `MATCHES` (both rows of the slot, starting at a
+  block's left edge) and paste them onto a `SCHEDULE` slot with **Paste special →
+  Formula only**. The label beside each row (`RR 1`, `SF`, `F + B`) is to the
+  left of the block, so it doesn't come with it.
+- Keep to the rules nothing checks for you: no pair twice in one slot; a playoff
+  round only after the round before it has finished, with a free slot after the
+  round robin for the qualifier draw; a final and its bronze in the same slot;
+  mixed doubles after the same-gender categories.
+- Leave unused courts blank or `-`.
+- After [**SAGE → Fill match numbers**](scoring-workbook.md#the-sage-menu), each
+  venue takes its own thousand: the first venue `1000` (matches `1001` onward),
+  the second `2000`, and so on. Nothing checks the venues against each other.
+- On `Timeline`, the total should equal the match count on `MATCHES`, and no cell
+  should show more than 1.
 
 The generator's execution log carries a suggested layout that follows those
 rules, if you'd rather copy one than work one out.
 
 ## Filling the rosters from the draw
 
-Once the brackets are drawn, **SAGE → Import bracket draws** fills the
-rosters from the [Bracket Generator](bracket-generator.md)'s text exports, so
+Once the brackets are drawn (see [Usage step 3](../usage/draw-and-rosters.md)),
+**SAGE → Import bracket draws** fills the rosters from the [Bracket Generator](bracket-generator.md)'s text exports, so
 no pair is typed in twice. Drop in every category's `.txt` file at once — they
 are read in your browser and never uploaded anywhere.
 
@@ -136,7 +139,7 @@ The item stays in the menu after a successful import, so it can be run again.
 
 **Where's the qualifier draw?** Untouched. That is a second draw, made after
 the round robin from the standings, with no file to import — you still fill it
-in on the day.
+in on the day. See [Usage step 8](../usage/run-the-day.md#playoff-hand-offs).
 
 ## If it refuses to run
 

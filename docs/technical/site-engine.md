@@ -172,5 +172,5 @@ reconciliations table ([§12](../specs/implemented/site-engine-spec.md))
 records each difference and the decision behind it.
 
 ---
-**Features:** [Preparing an event](../features/preparing-an-event.md) · [The Tournament Hub](../features/tournament-hub.md)
+**Features:** [Usage guide](../usage/README.md) · [The Tournament Hub](../features/tournament-hub.md)
 **Spec:** [`site-engine-spec.md`](../specs/implemented/site-engine-spec.md) (the plan, the phases and the reconciliations).

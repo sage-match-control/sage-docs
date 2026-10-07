@@ -579,7 +579,7 @@ workbook instead of reading them. `PUT /v3/days/{day}/facilities/{facility}/matc
 (`src/scores/`, `ScoreService.submit`) writes one match's two score cells in the
 workbook's `SCHEDULE` tab as the attendance service account, then publishes the
 day itself, in the same request. Usage and the dialog:
-[Entering a score](../features/control-center.md#entering-a-score).
+[Entering a score](../features/score-entry.md).
 
 **Why the API publishes.** The normal sync starts from an installable onEdit
 trigger, and Google documents that script executions and Sheets API requests do

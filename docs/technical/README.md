@@ -2,8 +2,8 @@
 
 Architecture, code, and deployment for S.A.G.E. If you want to know what a
 feature *does* rather than how it's built, its counterpart lives in
-[Features & Usage](../features/README.md) and is linked from the bottom of
-each page here.
+[Features](../features/README.md) and is linked from the bottom of
+each page here. To run an event, start with the [Usage guide](../usage/README.md).
 
 ## Start here
 
@@ -24,10 +24,14 @@ each page here.
   legacy shared-secret path, and the desk and scorer tokens.
 - **[Deployment](deployment.md)** — Cloud Run setup, the version/changelog
   convention, environment variables.
+- **[Event attendance](event-attendance.md)** — `src/attendance/`: the roster,
+  the `ATTENDANCE` tab, desk tokens, and the `/v3` routes and their frozen `/v1`
+  twins. It is part of the API, not Apps Script. Also the shared client block, and
+  Pickle for Sight's earlier `attendance.gs` version.
 
 ## Bound Apps Script (in `sage-tools-api`, but not the API)
 
-All four live in `sage-tools-api/apps-script/` for versioning, run inside a
+The three files live in `sage-tools-api/apps-script/` for versioning, run inside a
 Google Sheet, and ship by being pasted into that sheet's own script project —
 changing any of them is not a deploy.
 
@@ -40,10 +44,6 @@ changing any of them is not a deploy.
 - **[Standard Tournament Generator](standard-tournament-generator.md)** —
   builds one facility-day's standard-tournament workbook from a calculator
   CSV.
-- **[Event attendance](event-attendance.md)** — `src/attendance/` in
-  `sage-tools-api` (roster, the `ATTENDANCE` tab, desk tokens, the `/v3`
-  routes and their frozen `/v1` twins), the shared client block, and Pickle for
-  Sight's earlier `attendance.gs` version.
 - The sync trigger (`sheets-sync.gs`) is covered in
   [Sync pipeline](sync-pipeline.md).
 

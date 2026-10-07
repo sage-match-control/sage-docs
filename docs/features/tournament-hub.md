@@ -1,5 +1,8 @@
 # Tournament Hub
 
+**Used in:** [4. Register and build the site](../usage/register-and-build-the-site.md) ·
+[6. Print](../usage/printables.md) · [7. Rehearse](../usage/rehearse.md)
+
 Every S.A.G.E. event gets its own Tournament Hub — a public page linked
 from a QR code posted at the venue. No app to install, no login to
 remember — open it on a phone and everything below is already running.
@@ -7,7 +10,7 @@ remember — open it on a phone and everything below is already running.
 The QR code sits on the venue's **hub board**, a 2 × 3 ft sign showing the
 hub on three phones and how to use it. The board is the same at every event;
 only its QR panel changes. See
-[Preparing an event § Print the hub board's QR panel](preparing-an-event.md#10-print-the-hub-boards-qr-panel).
+[Usage § 6. Print](../usage/printables.md#the-hub-boards-qr-panel).
 
 ## For players: find your matches
 
@@ -147,25 +150,9 @@ the roster, but their matches appear once their lineup is in. The same player ma
 
 ## At the venue: the schedule board
 
-A wall display meant for a screen at the venue, not a phone — courts as
-columns, time slots as rows, one card per match, color-coded by category.
-Live matches get a highlighted ring; finished ones dim and show their score.
-It's unlisted (nothing on Tournament Hub links to it) — an operator launches
-it from Mission Control and hands the URL to whoever's running the venue's
-screen. See [Control Center § Mission Control](control-center.md#mission-control).
-
-When a day is played at more than one venue, a **Venue** picker at the top
-narrows the board to one venue's matches and courts, so each venue's screen
-shows only its own. The board also supports splitting by court range (so a
-two-screen venue can show different courts on each), collapsing its header
-down to just the essentials for a screen that needs every pixel, and
-printing/exporting to PDF for a paper copy at the front desk. The venue and
-court choices stay in the page address, so bookmark each screen's page once
-and it comes back the same after a restart.
-
-At a team event each card names both teams above their players and carries the
-pair label (MD, WD or XD), and cards are coloured by bracket rather than by
-category, with playoffs in their own colour.
+A wall display for a screen at the venue, not a phone. It is unlisted: nothing
+here links to it, and an operator launches it from Control Center. See
+[Schedule board](schedule-board.md).
 
 ## What you *won't* see here
 

@@ -1,5 +1,9 @@
 # Event attendance
 
+**Used in:** [4. Register and build the site](../usage/register-and-build-the-site.md) ·
+[5. Connect the workbooks](../usage/connect-the-workbooks.md) ·
+[8. Run the day](../usage/run-the-day.md) · [Desk handout](../usage/desk-handout.md)
+
 Staff check-in for any event. A person is marked in once, and that covers
 every category they play that day at that venue. Marks are made in
 [Control Center](control-center.md), or on a desk page opened from a link, and
@@ -16,8 +20,10 @@ Attendance is a setting on the event, in `event-data/config/events.json`:
 | *(absent)* | The event has no attendance. The tab does not appear. |
 
 Each venue's workbook must be shared with the API's service account as
-**Editor**, so it can write the tab. See
-[Preparing an event](preparing-an-event.md#5-register-it-and-wire-up-the-sync).
+**Editor**, so it can write the tab. Workbooks filed in the event's folder under
+**1. TOURNAMENTS** inherit the share; see
+[Usage step 2](../usage/build-the-workbooks.md#file-it). The procedure is in
+[Usage steps 4 and 5](../usage/register-and-build-the-site.md).
 
 ## The tab
 
@@ -51,17 +57,15 @@ comes from its **Teams** tab.
 
 ## Using it
 
-- **Pick the venue** at the top, if the day has more than one.
-- **Find the person** with the search box (a name, a team code or an exact
-  shirt size), by tapping a category (or team) chip to show only that one, or
-  with **Jump to…** to scroll to a section while still showing everything.
-- **Flip their switch.** It shows *Saving…* for a moment, then *In 8:14 AM*.
-  A person who plays in two categories is one switch, shown in both places.
-  When everyone on a team is in, it shows **Ready**.
-- **Marked the wrong person?** Flip it back. That clears the time.
+Desk staff open a desk link on a phone, pick the venue, find the person with the
+search box or a category (or team) chip, and flip their switch. It shows
+*Saving…* for a moment, then *In 8:14 AM*. Flipping it back clears the time. A
+person who plays in two categories is one switch, shown in both places. When
+everyone on a team is in, it shows **Ready**. Marks made on other devices appear
+within about 10 seconds, or when you press **Refresh**.
 
-Marks made on other devices appear within about 10 seconds, or when you press
-**Refresh**.
+The step-by-step is the [desk handout](../usage/desk-handout.md), a page to send
+with the desk link.
 
 ## Control Center extras
 

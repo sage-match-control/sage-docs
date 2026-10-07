@@ -3,9 +3,9 @@
 Design specs written before (or while) a feature was built — the reasoning
 behind non-obvious decisions, worked examples, and the divergences section
 each one keeps up to date when the built feature departs from what's written
-here. These are reference material, not onboarding reading: start with
-[Features & Usage](../features/README.md) or [Technical](../technical/README.md)
-instead, and come here when you need the *why* behind a specific piece.
+here. These are reference material, not onboarding reading: start with the
+[Usage guide](../usage/README.md), [Features](../features/README.md) or
+[Technical](../technical/README.md) instead, and come here when you need the *why* behind a specific piece.
 
 ## How this folder is organised
 

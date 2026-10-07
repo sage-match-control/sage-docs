@@ -101,5 +101,5 @@ Score entry's real-Google checks (C1–C8). Not before or during an event.
 
 ---
 **Related:** [Score entry from Control Center](../implemented/control-center-score-entry-spec.md) ·
-[Running an event day](../../features/running-an-event-day.md) ·
+[Run the day](../../usage/run-the-day.md) ·
 [Control Center technical](../../technical/control-center.md)

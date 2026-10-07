@@ -165,5 +165,5 @@ stale data beats one showing an error message. Re-rendering preserves the
 current court filter and scroll position.
 
 ---
-**Features:** [The schedule board, for spectators/operators](../features/tournament-hub.md#at-the-venue-the-schedule-board) · [launching it from Mission Control](../features/control-center.md#mission-control)
+**Features:** [Schedule board](../features/schedule-board.md) · [launching it from Mission Control](../features/control-center.md#mission-control)
 **Spec:** [`schedule-screen-spec.md`](../specs/implemented/schedule-screen-spec.md) (full layout spec, pagination math, acceptance checklist).

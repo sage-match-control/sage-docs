@@ -7,7 +7,7 @@ cell reference or a line number.
 
 These are the specs to read when you need to understand something that is
 already running. For what a tool does rather than why it is shaped that way,
-start at [Features & Usage](../../features/README.md) or
+start at [Usage](../../usage/README.md), [Features](../../features/README.md) or
 [Technical](../../technical/README.md).
 
 Index and status-change procedure: [`../README.md`](../README.md).

@@ -1,5 +1,7 @@
 # Scoresheet Generator
 
+**Used in:** [6. Print](../usage/printables.md)
+
 Turns a matches CSV into a ready-to-print PDF of paper scoresheets — one per
 match. A standalone tool, no sign-in, nothing saved: your CSV goes straight
 to the generator and nothing is stored afterward.
@@ -39,8 +41,7 @@ Every registered facility spreadsheet's **SAGE** menu also has a
 **Generate Scoresheets** item that opens this page with that workbook's day
 and venue already selected.
 
-Printing these is the last step of setting an event up — step 9 of
-[preparing an event](preparing-an-event.md#9-generate-the-scoresheets) —
+Printing these comes once the schedule is final — [Usage step 6](../usage/printables.md#scoresheets) —
 because every slip carries a match number, court and time, so a schedule
 change after printing means printing again.
 

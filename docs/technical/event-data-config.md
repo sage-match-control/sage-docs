@@ -72,7 +72,7 @@ default).
   allows desk links. Anything else is rejected on load. A day used with desk
   links needs a `date`.
 - `scoreEntry` turns on entering a match's score from Control Center and the API
-  (see [Entering a score](../features/control-center.md#entering-a-score)):
+  (see [Entering a score](../features/score-entry.md)):
   `"console"` for signed-in operators, `"links"` for operators **and** scorer
   links (see [Scorer page](scorer-page.md)). Absent means off. Anything else is
   rejected on load. Mission Control's **Scorer links** switch moves an event between
