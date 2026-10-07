@@ -39,17 +39,18 @@ has been replaced.
 
 ## [2.2.0] — 2026-10-08
 
-The roles match how SAGE works: the organizer is the client, and SAGE members do the
-work.
+The roles match how SAGE works: the organizer hires SAGE and decides, and SAGE members
+do the work.
 
 ### Changed
 
 - [Roles, access and kit](usage/before-you-start.md) defines four roles. The
-  **organizer** is the client who hires SAGE and decides; they do nothing in the
-  workbooks or the system. The **coordinator**, a SAGE member, prepares the event:
-  plan, workbooks, draw, rosters, printing. The **developer**, a SAGE member, does
-  everything technical. The **operators** are the SAGE members on site on the day.
-  Scorers and desk staff can be SAGE members or the organizer's volunteers.
+  **organizer** hires SAGE and decides; they do nothing in the workbooks or the
+  system. The **coordinator**, a SAGE member, prepares the event: plan, workbooks,
+  draw, rosters, printing. The **developer**, a SAGE member, does everything
+  technical. The **operators** are the SAGE members on site on the day, and they set
+  up and run the venue screens. Scorers and desk staff can be SAGE members or the
+  organizer's volunteers.
 - New section: [What SAGE needs from the organizer](usage/before-you-start.md#what-sage-needs-from-the-organizer).
 - Every Usage step names the coordinator, developer or operators as its owner. *Admin
   task* boxes are **Developer task** boxes.

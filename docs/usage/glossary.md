@@ -79,9 +79,9 @@ total points. See [the team workbook](../features/team-workbook.md).
 **Operator.** A SAGE member on site on the day, running Control Center, the
 workbook, the screens and the desks. The operator login is theirs.
 
-**Organizer.** The client who hires SAGE to run their tournament. They decide the
-format, the entries and each late change, and do nothing in the workbooks or the
-system.
+**Organizer.** The person or group who hires SAGE to run their tournament. They
+decide the format, the entries and each late change, and do nothing in the
+workbooks or the system.
 
 **Playoff.** The rounds after the round robin: Quarterfinal, Semifinal, Bronze,
 Final. See [Run the day](run-the-day.md#playoff-hand-offs).

@@ -8,16 +8,16 @@ needs access to, what gear the day needs, and who enters scores.
 
 ## Roles
 
-The **organizer** is the client who hires SAGE to run their tournament. Everyone else
+The **organizer** hires SAGE to run their tournament. Everyone else
 in this guide is a SAGE member, except scorers and desk staff, who can be SAGE members
 or volunteers the organizer provides.
 
 | Role | Who | What they do | Steps |
 | --- | --- | --- | --- |
-| **Organizer** | The client | Hires SAGE and owns the tournament's decisions: the format, the categories and entries, the venue and hours, how a qualifier draw is run, and each late change. Does nothing in the workbooks or the system. | Gives the brief below |
+| **Organizer** | Not SAGE | Hires SAGE and owns the tournament's decisions: the format, the categories and entries, the venue and hours, how a qualifier draw is run, and each late change. Does nothing in the workbooks or the system. | Gives the brief below |
 | **Coordinator** | A SAGE member | Prepares the event: the plan, the workbooks, the draw, the rosters, connecting the workbooks, the printing, the rehearsal. Hands the developer what the site needs. | 1–7, [After the event](after-the-event.md) |
 | **Developer** | A SAGE member | Everything technical: the event's registration, its website pages, the hub board's QR panel, and the changes marked **Developer task**. Can also be the coordinator. | 4, 6 (the QR panel), [After the event](after-the-event.md) |
-| **Operators** | SAGE members on site | Run the day: Control Center, the workbook, Court Control, the screens, the desks, players' questions. | 7, 8, 9 |
+| **Operators** | SAGE members on site | Run the day: Control Center, the workbook, Court Control, setting up and running the venue screens, the desks, players' questions. | 7, 8, 9 |
 | **Scorers** | SAGE members or the organizer's volunteers | Enter match scores on their phones from a scorer link, if the event uses them. | [Scorer handout](scorer-handout.md) |
 | **Desk staff** | SAGE members or the organizer's volunteers | Mark people in from a desk link, if the event has attendance with desks. | [Desk handout](desk-handout.md) |
 
@@ -42,7 +42,8 @@ jobs on the day:
 
 1. **Console and workbook.** Control Center, Court Control, the scores if an
    operator enters them, resyncs, awards.
-2. **Screens and desks.** Wall displays, the hub board, attendance desks, scorers.
+2. **Screens and desks.** Setting up and running the wall displays, the hub board,
+   attendance desks, scorers.
 3. **Players' questions.** Match Finder, the desk, "where is my match?".
 
 With three operators, each takes one. With two, one takes job 1 and the other takes

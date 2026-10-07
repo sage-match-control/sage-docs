@@ -10,8 +10,8 @@ its own, with no refreshing.
 
 The board is unlisted. Nothing on [Tournament Hub](tournament-hub.md) links to
 it. An operator launches it with **Open schedule** in
-[Control Center's Mission Control](control-center.md#mission-control) and hands
-the address to whoever runs the venue's screen.
+[Control Center's Mission Control](control-center.md#mission-control) and puts it on
+the venue's screen.
 
 ## Reading a card
 
