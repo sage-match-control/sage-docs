@@ -232,6 +232,9 @@ to the `...` form rather than repointing it.
   — outline only: an operator puts a match on a court, or clears it, from Live
   Matches, through the same write-then-publish path as score entry. Waits for
   score entry's real-workbook checks.
+- **[Usage guide and docs restructure](not-started/docs-usage-guide-spec.md)**
+  — Features & Usage split in two: a Usage tab that trains a new operator from
+  planning to the day of, and Features as a per-tool reference. Decided; ready to build.
 
 ---
 
