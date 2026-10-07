@@ -122,8 +122,8 @@ for, and the slot table beside it lists every slot the draw can land on. This is
 [step 2](build-the-workbooks.md#pack-schedule-standard-only) leaves a free slot after the
 round robin.
 
-A category with two brackets has no qualifier draw. Its semifinals are a crossover (Br 1
-#1 v Br 2 #2, Br 2 #1 v Br 1 #2), so the slots come filled in.
+A category with two brackets has no qualifier draw. Its semifinals are a crossover (Br 1 #1
+v Br 2 #2, Br 2 #1 v Br 1 #2), so the slots come filled in.
 
 Then check that the playoff matches show the right names:
 
@@ -142,8 +142,8 @@ that each card changes from *Seed n · TBD* to the team's name and that the team
 
 ### Twice-to-beat finals
 
-In a category settled by a twice-to-beat final, the #1 pair wins by winning once and the
-#2 pair by winning twice. If #1 wins game 1, game 2 is not needed. It greys out, never
+In a category settled by a twice-to-beat final, the #1 pair wins by winning once and the #2
+pair by winning twice. If #1 wins game 1, game 2 is not needed. It greys out, never
 shows **Next Up**, and doesn't count as a match left. Don't put it on a court. If #2 wins
 game 1, game 2 is played, and gold waits for it.
 

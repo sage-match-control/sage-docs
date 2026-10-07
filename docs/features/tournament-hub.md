@@ -58,8 +58,8 @@ takes the space of two names, one line each, and a name too long for its line
 ends in "…" (hover for the full names). A bronze won by
 walkover (the round robin's #3 against a **BYE**, as in a twice-to-beat
 category) has no **Bronze Battle** block at all: there is no matchup to show.
-In a twice-to-beat or best-of-3 final, a game that is no longer needed (the
-#1 pair won twice-to-beat's game 1, or someone already has two wins) is
+In a twice-to-beat or best-of-3 final, a game that is no longer needed (the #1
+pair won twice-to-beat's game 1, or someone already has two wins) is
 greyed out: in Standings, on the pair's Match Finder tickets, where it is
 never **Next Up**, and on the schedule board.
 

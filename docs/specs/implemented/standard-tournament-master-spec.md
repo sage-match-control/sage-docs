@@ -363,8 +363,8 @@ site — `matchInstanceOf()` in the standard template parses it and
 plan = { rounds: [], total:0, qualifiers:0, single:true, rrOnly:true, bronzeText:null }
 ```
 
-No playoff at all. The round-robin standings decide every medal: RR #1 gold,
-#2 silver, #3 bronze. `rounds` is empty rather than a zero-match round, so
+No playoff at all. The round-robin standings decide every medal: RR #1 gold, #2
+silver, #3 bronze. `rounds` is empty rather than a zero-match round, so
 the generator builds nothing from it: no stage banner, no playoff block, no
 qualifier scaffold rows and no playoff slot table.
 

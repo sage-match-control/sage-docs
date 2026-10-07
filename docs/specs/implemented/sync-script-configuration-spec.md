@@ -339,6 +339,7 @@ single workbook the readable set is unchanged — `DOCUMENT` metadata and Script
 Properties are both readable by anyone with edit access — so this widens §10.1's
 accepted exposure by exactly one thing: sharing a copy now shares the secret.
 It stops being an acceptable trade at the same moment §10.1 says it does.
+
 ---
 
 ## 4. Validation

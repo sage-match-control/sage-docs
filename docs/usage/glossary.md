@@ -101,8 +101,8 @@ on every workbook of an event that uses score entry or attendance.
 
 **Tournament Hub.** The public event page. See [Tournament Hub](../features/tournament-hub.md).
 
-**Twice-to-beat.** A final in which the round robin's #1 only has to win once and
-#2 has to win twice. If #2 wins game 1, game 2 decides it.
+**Twice-to-beat.** A final in which the round robin's #1 only has to win once and #2
+has to win twice. If #2 wins game 1, game 2 decides it.
 
 **Walkover.** A match not played because one side is absent or withdrawn. The
 opponent's win is entered as a score. See [Late changes](run-the-day.md#late-changes).

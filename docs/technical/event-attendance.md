@@ -153,7 +153,7 @@ fixtures and manual checks (spec section 7.3).
 
 ---
 
-# Pickle for Sight's attendance
+## Pickle for Sight's attendance
 
 The notes below describe Pickle for Sight's `attendance.gs` and
 `events/pickle-for-sight-2026/attendance.html`. The script runs in that event's

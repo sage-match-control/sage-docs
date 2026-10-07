@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.1.1] — 2026-10-08
+
+### Fixed
+
+- Stray headings in the middle of paragraphs. A wrapped line starting with `#1` or
+  `#2` rendered as a page title (Run the day, Glossary, Tournament Hub, Tournament
+  Calculator, the Standard Tournament Master spec), and a sentence directly above a
+  `---` rule rendered as a section heading (the Sync script configuration spec).
+- Technical → Event attendance: *Pickle for Sight's attendance* is a section, not a
+  second page title.
+
 ## [2.1.0] — 2026-10-08
 
 Spec statuses brought in line with what is built.
