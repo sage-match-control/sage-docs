@@ -85,8 +85,8 @@ coordinator types them in.
 
 1. Type or paste each team's name and its players (with level and gender) into
    **`Teams`**. Captains can change it through the day.
-2. Lineups go on `MatchUps` later: an operator types each one in as the team's captain
-   hands it over. See
+2. Lineups go on `MatchUps` later: on the day, the operator on scores types each one in
+   as the team's captain hands it over. See
    [the team workbook](../features/team-workbook.md).
 
 ## Check it worked

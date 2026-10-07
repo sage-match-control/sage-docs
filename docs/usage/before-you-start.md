@@ -17,7 +17,7 @@ or volunteers the organizer provides.
 | **Organizer** | Not SAGE | Hires SAGE and owns the tournament's decisions: the format, the categories and entries, the venue and hours, how a qualifier draw is run, and each late change. Does nothing in the workbooks or the system. | Gives the brief below |
 | **Coordinator** | A SAGE member | Prepares the event: the plan, the workbooks, the draw, the rosters, connecting the workbooks, the printing, the rehearsal. Hands the developer what the site needs. | 1–7, [After the event](after-the-event.md) |
 | **Developer** | A SAGE member | Everything technical: the event's registration, its website pages, the hub board's QR panel, and the changes marked **Developer task**. Can also be the coordinator. | 4, 6 (the QR panel), [After the event](after-the-event.md) |
-| **Operators** | SAGE members on site | Run the day: Control Center, the workbook, Court Control, setting up and running the venue screens, the desks, players' questions. | 7, 8, 9 |
+| **Operators** | SAGE members on site | Run the day in three jobs (below): calling matches, scores and playoff names, and players and the organizer. Also set up and run the venue screens. | 7, 8, 9 |
 | **Scorers** | SAGE members or the organizer's volunteers | Enter match scores on their phones from a scorer link, if the event uses them. | [Scorer handout](scorer-handout.md) |
 | **Desk staff** | SAGE members or the organizer's volunteers | Mark people in from a desk link, if the event has attendance with desks. | [Desk handout](desk-handout.md) |
 
@@ -40,15 +40,23 @@ The coordinator collects this before step 1, and checks it again when entries cl
 It depends on who is available: **at least 2 operators, ideally 3.** There are three
 jobs on the day:
 
-1. **Console and workbook.** Control Center, Court Control, the scores if an
-   operator enters them, resyncs, awards.
-2. **Screens and desks.** Setting up and running the wall displays, the hub board,
-   attendance desks, scorers.
-3. **Players' questions.** Match Finder, the desk, "where is my match?".
+1. **Calling matches.** Runs the matches: puts each match on its court in
+   `Court Control`, calls it to the court, and runs the playoff qualifier draws.
+2. **Scores and playoff names.** Enters the scores, and writes in the playoff names
+   once a qualifier draw is done (and a team event's seeds and lineups).
+3. **Players and the organizer.** Answers players' questions ("where is my match?")
+   with Match Finder, and is the one who coordinates with the organizer: late
+   changes, decisions, anything the organizer needs from SAGE.
 
-With three operators, each takes one. With two, one takes job 1 and the other takes
-jobs 2 and 3. Do not fold job 1 onto someone with another full-time job: the court
-rhythm needs someone looking at the sheet all day.
+Jobs can overlap, with one rule: **the operator calling matches never also
+coordinates with the organizer.** Calling matches needs someone on the courts all day,
+and the organizer needs someone who can stop and talk.
+
+With three operators, each takes one job. With two, one calls matches and the other
+coordinates with the organizer; scores go to whichever of them has room, usually the
+one not calling matches.
+
+Before doors open, any operator sets up the venue screens and the hub board.
 
 ### Who enters scores
 

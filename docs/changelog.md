@@ -51,6 +51,11 @@ do the work.
   technical. The **operators** are the SAGE members on site on the day, and they set
   up and run the venue screens. Scorers and desk staff can be SAGE members or the
   organizer's volunteers.
+- The operators' three jobs on the day: **calling matches** (Court Control, calling
+  matches to courts, the qualifier draws), **scores and playoff names**, and **players
+  and the organizer**. Jobs can overlap, but the operator calling matches never also
+  coordinates with the organizer. [Run the day](usage/run-the-day.md) says which job
+  does each part of play.
 - New section: [What SAGE needs from the organizer](usage/before-you-start.md#what-sage-needs-from-the-organizer).
 - Every Usage step names the coordinator, developer or operators as its owner. *Admin
   task* boxes are **Developer task** boxes.

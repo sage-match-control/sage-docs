@@ -1,6 +1,6 @@
 # 8. Run the day
 
-**Who:** operator, with scorers and desk staff · **When:** doors open to the last
+**Who:** operators, with scorers and desk staff · **When:** doors open to the last
 match · **You need:** the event ready ([step 7](rehearse.md)), the operator login,
 the gear from [Roles, access and kit](before-you-start.md#equipment), and
 [9. When something's wrong](troubleshooting.md) open in another tab
@@ -56,16 +56,31 @@ show it sooner, for example so players can check their schedule when they arrive
 
 ## During play
 
+Three jobs run at once, as set out in
+[Roles, access and kit](before-you-start.md#how-many-operators):
+
+- **Calling matches:** Court Control, calling each match to its court, and the playoff
+  qualifier draws.
+- **Scores and playoff names:** entering scores, and writing in the playoff names after
+  each draw.
+- **Players and the organizer:** players' questions, and every conversation with the
+  organizer.
+
+The operator calling matches never also coordinates with the organizer.
+
 ### The court rhythm
 
-At each court, as matches happen, in the workbook's **Court Control** tab:
+The operator calling matches, at each court as matches happen, in the workbook's
+**Court Control** tab:
 
 1. As a court frees up, enter the **next** match's number against that court. This is what
    makes the match show as live on the Live Matches tab, the schedule board and the Hub.
 2. When a match finishes, replace that court's entry with the **following** match number
    immediately. **Never leave a court blank.** A blank court shows as idle instead of
    telling anyone what's coming up.
-3. Enter the finished match's **score**.
+3. Call the next match to its court.
+
+The operator on scores enters each finished match's **score**.
 
 Everything else happens on its own. Scores and court status reach the public site and the
 wall display within a few seconds.
@@ -104,8 +119,8 @@ overwriting it.
   links** on Mission Control to **Stopped**: within about a minute every scorer's save is
   refused, and you can still enter scores yourself in Match Finder. Set it back to
   **Accepting** when ready.
-- **A player asking where their match is.** Use Match Finder right there in Control
-  Center.
+- **A player asking where their match is.** The operator on players and the organizer
+  uses Match Finder, in Control Center or on the Hub.
 
 ## Playoff hand-offs
 
@@ -116,8 +131,8 @@ until they do, the playoff matches read **TBD**.
 
 After the round robin, before the first playoff slot, a category's qualifiers are drawn
 by lot into playoff slots. **How it is drawn varies by event, and how and by whom is the
-organizer's call.** What matters is where the result goes: an operator types it into the
-category tab's **qualifier draw** area. The draw lists which finisher each row is waiting
+organizer's call.** The operator calling matches runs it, and the operator on scores
+writes the result into the category tab's **qualifier draw** area. The draw lists which finisher each row is waiting
 for, and the slot table beside it lists every slot the draw can land on. This is why
 [step 2](build-the-workbooks.md#pack-schedule-standard-only) leaves a free slot after the
 round robin.
@@ -133,8 +148,8 @@ Then check that the playoff matches show the right names:
 
 ### Team event: the seed cells
 
-When the group stage ends, an operator types each qualifier's team letter into its
-quarterfinal seed cell on `MatchUps`. After each playoff round, enter the next round's teams the same way.
+When the group stage ends, the operator on scores types each qualifier's team letter into
+its quarterfinal seed cell on `MatchUps`. After each playoff round, enter the next round's teams the same way.
 The site takes every playoff team from those cells and never picks them itself. The cells
 are listed on [the team workbook](../features/team-workbook.md#playoff-seed-cells). Check
 that each card changes from *Seed n · TBD* to the team's name and that the team is marked
@@ -149,13 +164,13 @@ game 1, game 2 is played, and gold waits for it.
 
 ## Late changes
 
-The organizer decides each case, and an operator makes the change in the workbook. The
-options and their effect:
+The organizer decides each case, through the operator on players and the organizer. The
+operator on scores makes the change in the workbook. The options and their effect:
 
 - **A substitute, or a replacement for a pair that hasn't played yet.** Overwrite the names
   in `STEP 1 · NAMES`. The codes and the schedule stay.
 - **A walkover.** The opponent's win is entered as a score.
-- **Either way,** tell the operator at the console, and check the change reaches the Hub.
+- **Either way,** tell the operator calling matches, and check the change reaches the Hub.
 - **A schedule change after the scoresheets are printed.** For a minor change, correct the
   slips by hand. For a major one, generate the scoresheets again and reprint
   ([step 6](printables.md#scoresheets)).
