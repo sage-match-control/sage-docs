@@ -21,7 +21,7 @@ finished event's entry blanks its Hub, schedule board, scorer page and desk page
     `schedule.html` and `scorer.html` (if it has one), and change nothing else. Nothing is
     published for the event any more, so an open connection would only cost requests
     against a daily cap. With the constant empty, the pages read their snapshot from GitHub
-    and show the final results as before. The mechanics are in
+    and show the final results. The mechanics are in
     [Adding a new event § After the event](../technical/adding-a-new-event.md#after-the-event).
 
 Check afterwards that the Hub and schedule board still load and still show the final

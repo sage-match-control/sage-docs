@@ -27,7 +27,7 @@ each page here. To run an event, start with the [Usage guide](../usage/README.md
 - **[Event attendance](event-attendance.md)** — `src/attendance/`: the roster,
   the `ATTENDANCE` tab, desk tokens, and the `/v3` routes and their frozen `/v1`
   twins. It is part of the API, not Apps Script. Also the shared client block, and
-  Pickle for Sight's earlier `attendance.gs` version.
+  Pickle for Sight's own `attendance.gs`.
 
 ## Bound Apps Script (in `sage-tools-api`, but not the API)
 

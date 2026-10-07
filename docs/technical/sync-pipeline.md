@@ -149,34 +149,9 @@ signed in; inner double quotes escaped as `\"`):
 gcloud logging read 'resource.type=cloud_run_revision AND resource.labels.service_name=sage-tools-api AND textPayload:\"timing edit\"' --freshness=1d --format='value(timestamp,textPayload)' --project=sage-tools-api
 ```
 
-#### Baseline: the time-based trigger
-
-Before the lock-based sync, `sheets-sync.gs` scheduled a one-shot
-`.timeBased().after(DEBOUNCE_MS)` trigger (`runIfSettled`) from every edit.
-Measured on the Piggleball workbook on 1 October 2026 (five bursts, from the
-Executions page: start of the last `onEditInstallable` to start of the
-`runIfSettled` that followed):
-
-| Burst | Delay |
-| --- | --- |
-| single edit | 119 s |
-| single edit | 70 s |
-| 3 edits | 74 s |
-| 19 edits | 22 s |
-| 6 edits | 108 s |
-
-That is a median of about 74 s against the 3 s intended, and up to about two
-minutes before the sync even started. Each `onEditInstallable` run took
-1.3–3.3 s, mostly deleting and recreating triggers. Edits running in
-parallel raced on that delete-and-create and left a stray trigger: the
-19-edit burst produced a second `runIfSettled` about a minute after the
-first, which is the same workbook syncing twice. The lock-based sync
-replaces all of this.
-
 #### Measured: the lock-based sync
 
-The same workbook, 1 October 2026, after the lock-based script was pasted
-in, before and after `SYNC_MIN_GAP_MS` (Cloud Run's `timing` lines plus the
+The Piggleball workbook, 1 October 2026, without and with `SYNC_MIN_GAP_MS` (Cloud Run's `timing` lines plus the
 Executions page). Without the gap: about 20 syncs across a single edit, two
 edits 3 s apart and two bursts of rapid edits. With the 5 s gap: 10 syncs
 across a single edit, a two-edit burst, a 22 s burst of about 14 edits and a
@@ -204,8 +179,8 @@ short burst of four.
 - The lock holder's own run is longer with the gap (up to about 15 s for a
   22 s burst) because sleeping counts as trigger runtime. That cost follows
   the length of a burst, not the number of edits.
-- An `onEditInstallable` run that does not hold the lock still takes
-  0.6–2.2 s, median about 1.1 s, against 1.3–3.3 s before. That is the
+- An `onEditInstallable` run that does not hold the lock takes
+  0.6–2.2 s, median about 1.1 s. That is the
   figure trigger-runtime quota is spent at, so a busy three-facility day
   lands nearer 50–60 minutes than the 20–30 an estimate of under a second
   per edit gives.
@@ -261,12 +236,12 @@ the 936 archive commits in `event-data`.
   account.
 - Every sync both published to the Worker and committed to GitHub, the
   commit about 0.2 s after `publishedAt` (p50; 1.6 s at most).
-- **After the PickleDrive workbook was trimmed (5 October 2026).** Its
-  `StackCache` tab, rewritten matchup family and 15 removed named functions
+- **PickleDrive's workbook with `StackCache` (5 October 2026).** Its
+  `StackCache` tab, its matchup family and its trimmed named functions
   (see the
   [team workbook recalculation](../specs/implemented/team-workbook-stack-cache-spec.md)
   and [the Named Function library](named-function-library.md#the-team-workbooks-library))
-  left every published value unchanged. Three **Sync now** syncs ten seconds
+  change no published value. Three **Sync now** syncs ten seconds
   apart read in `fetch=` 345, 391 and 441 ms, in Piggleball's range and against
   the event day's p50 0.3 s and p90 22.6 s. They ran with no edit in between, so
   they show the read is fast, not how it behaves under a run of score edits.
@@ -434,7 +409,7 @@ copy of an event workbook and so inherits that workbook's secret; using
 apart from its master by name: `Copy of …` until it is generated, then the
 event's own name. `secretMenuItem_` makes the decision and is checked by
 `apps-script/verify-standard-tournament-generator.mjs`.
-The secret now travels inside the spreadsheet file, so sharing a copy of the
+The secret travels inside the spreadsheet file, so sharing a copy of the
 Master shares the secret with it.
 
 `sheets-sync.gs` also declares `onOpen`, contributing **Generate
@@ -641,7 +616,7 @@ seconds (`POLL_INTERVAL_MS`). Measured at Pickle for Sight (27 September
 2026), Cloud Run's sync takes **1.6s** (p50) but GitHub Pages takes **25s**
 (p50) / **52s** (p90) from the data commit to a finished deploy, longer in busy
 stretches because each new commit cancels the build in progress. With the poll,
-a score reached a viewer in roughly **35–40 seconds** once it was published,
+a score reaches a viewer in roughly **35–40 seconds** once it is published,
 although the edit itself reaches publication in about 2–6 s (see
 [Measured: the lock-based sync](#measured-the-lock-based-sync)). Live push
 removes both the Pages build and the poll from the path: an edit reaches an
@@ -737,7 +712,7 @@ the config, not in the Worker, so it works when the Worker is the thing that is
 broken. The instance that takes the request applies it at once; the others
 within `SYNC_CONFIG_TTL_MS`. Pages with an open socket notice within a minute:
 GitHub's copies carry newer `publishedAt` values, which the safety poll
-prefers, and from then on they poll GitHub as before push existed. The switch
+prefers, and from then on they poll GitHub every 10 seconds. The switch
 cannot turn on live push the environment does not configure.
 `GET /v3/diagnostics/sync` reports it as `live.switch` (`on`/`off`) and `live.active`
 (configured and switched on).
@@ -766,8 +741,7 @@ returns the pushed snapshot without touching the network; every
 has the later `publishedAt`, which catches a push path that has quietly
 stopped while the socket stays open. If GitHub fails (a `404` before a day's
 first archive, say) but a pushed copy exists, the pushed copy is used. With
-the socket down, the page polls GitHub every 10 seconds exactly as it did
-before push existed. A hidden tab closes its socket and reopens it when shown.
+the socket down, the page polls GitHub every 10 seconds. A hidden tab closes its socket and reopens it when shown.
 Pages opened with `?fixture=` on localhost never connect.
 
 `LIVE_BASE_URL` is one constant in every page's shell (and

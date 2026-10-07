@@ -42,7 +42,7 @@ the dependency floor, never the capacity estimate alone:
 The same `max` shape already governs playoff rounds and best-of-3/
 twice-to-beat series, and `calcAll()` folds every category's floor into the
 day's total via `maxSeq`. The practical consequence is that a small bracket
-leaves courts idle, and the projected finish now says so.
+leaves courts idle, and the projected finish says so.
 
 ## Playoff round naming
 
@@ -66,10 +66,10 @@ emits. Treat that example as the regression test for any change here.
 
 `plan.prelims` and `plan.prelimSpots` count the rounds the lower tiers play
 before the top tier enters. They drive `legendTxt()` and the chart's
-`freshIndex` (which round the group winners enter at), never the labels. The
-legend previously inferred "are there extra rounds?" from `plan.byes`, which
-is a bye count rather than a round count, and which wildcards zero out — so
-it claimed "no preliminary rounds needed" directly above a chart showing two.
+`freshIndex` (which round the group winners enter at), never the labels.
+`plan.byes` is not a substitute: it is a bye count rather than a round count,
+and wildcards zero it out, so a legend read from it would say "no preliminary
+rounds needed" above a chart showing two.
 
 ## The two fill modes are different shapes, not just different counts
 
@@ -136,9 +136,8 @@ categories that actually resolve to one bracket. `standard-tournament-generator.
 reads it to choose between the twice-to-beat final and round robin only;
 `dual-meet-generator.gs` parses the plan CSV positionally and is dual-only, so
 the column is inert there. An older 11-column export imports with
-`soloFormat` defaulting to `'ttb'`, preserving what those files meant when
-they were written, and the standard generator reads a missing column the
-same way.
+`soloFormat` defaulting to `'ttb'` (the twice-to-beat final), and the
+standard generator reads a missing column the same way.
 
 ## PWA (installable, offline)
 

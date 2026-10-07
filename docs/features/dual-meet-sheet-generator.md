@@ -4,9 +4,8 @@
 [3. Draw and fill rosters](../usage/draw-and-rosters.md)
 
 Builds a dual meet's event workbook — every category tab, ready to score —
-from a plan you exported out of the Tournament Calculator. It replaces the
-old routine of duplicating last event's spreadsheet and find-replacing every
-team code by hand.
+from a plan you exported out of the Tournament Calculator. There is no
+spreadsheet to duplicate and no team code to find-replace by hand.
 
 **Dual meets only.** A standard-format plan is rejected rather than
 approximated; standard tournaments have their own

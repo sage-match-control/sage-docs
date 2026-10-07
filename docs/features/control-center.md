@@ -83,8 +83,7 @@ signing in, and the tab it opens on. From top to bottom:
   `Force hidden` — for quietly correcting a bad score before anyone sees it.
 - **Sync method** — an emergency switch between **Live push + GitHub** (the
   normal way: scores reach open pages in a few seconds) and **GitHub only**
-  (every score goes through GitHub, so pages catch up within 30–60 seconds, as
-  before live push). Use it if live updates misbehave: pages stop updating, or
+  (every score goes through GitHub, so pages catch up within 30–60 seconds). Use it if live updates misbehave: pages stop updating, or
   show stale scores. Switching to GitHub only asks you to confirm, and either
   way it takes effect within about a minute. It shows the current method, and it
   is hidden until you sign in. If Cloud Run has no live push configured at all,

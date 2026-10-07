@@ -23,11 +23,11 @@ draw hashes. Spec:
 The fingerprints and their sort are untouched. `orderForDraw(sorted, groups)`
 then builds the list the deal runs on: each group's members in fingerprint
 order, group 1 first, then every pair not in a group, also in fingerprint
-order. `dealBrackets` deals that list round-robin as before. Any run of up to
+order. `dealBrackets` deals that list round-robin. Any run of up to
 `N` consecutive pairs lands in `N` different brackets, so a group no larger
 than the bracket count is always split, with no search or retry involved. With
-no groups the list is unchanged, so a draw without groups is byte-for-byte what
-it was before groups existed (the text export included).
+no groups the list is the plain fingerprint order, so groups add nothing to a
+draw that has none (the text export included).
 
 Rules the code enforces:
 
@@ -99,7 +99,7 @@ Because each pair's fingerprint depends only on the seed and its own name, the
 order of the pasted list does not affect the result — which is what lets the
 export stay verifiable without recording the input order.
 
-`shuffle()` still exists and is still Fisher-Yates, but now feeds only
+`shuffle()` is Fisher-Yates and feeds only
 `runShuffleAnimation()`'s cosmetic per-tick frames. Those are thrown away and
 never exported, so they need no reproducibility.
 
@@ -173,16 +173,13 @@ imported back into. That link is built in `sheets-sync.gs`
 see [bracket draw name import](../specs/implemented/bracket-draw-name-import-spec.md)
 §11.
 
-## Replaced a per-event copy
+## One tool, no per-event copies
 
-Four near-identical copies of this file used to exist — two event-site
-templates (kept byte-identical by a documented-but-manual convention) plus
-one live event's own copy that had already drifted to a stale, pre-S.A.G.E.
-palette. The live event's copy is now a redirect stub to
-`/tools/bracket-generator.html` (preserving `?event=` and any hash), matching
-the precedent `tools/match-control.html` set when Control Center was renamed.
-An archived event's own copy is left exactly as it was — it's frozen, and a
-redirect there would point at a tool that no longer says that event's name.
+The tool lives only at `/tools/bracket-generator.html`. A live event's own
+bracket page is a redirect stub to it (preserving `?event=` and any hash), as
+`tools/match-control.html` is for Control Center. An archived event's own copy
+is frozen and left as it is: a redirect there would point at a tool that doesn't
+carry that event's name.
 
 ---
 **Features:** [bracket generator](../features/bracket-generator.md)

@@ -74,7 +74,6 @@ Some steps cannot start until another has finished:
 - **Register before you build the site and connect.** The Hub reads its days,
   venues and labels from the event's entry in `events.json`, and **Set up live
   sync** checks the day key against it. So the registration comes first.
-  Older write-ups build the site first; this order replaces them.
 - **The workbook comes before the draw.** The workbook says how many brackets each
   category has and how many pairs go in each. The Bracket Generator opens from a
   category tab.

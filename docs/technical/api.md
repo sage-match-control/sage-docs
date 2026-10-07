@@ -30,7 +30,7 @@ The `Link` is the twin's path with that request's parameters filled in. No
 `deprecated: true`.
 
 **There is no `/v2`.** The URL version is the package's major version, so the
-surface introduced in 3.0.0 is `/v3`; `/v1` was the partial REST surface of the
+surface of 3.x is `/v3`; `/v1` is the frozen partial REST surface of the
 2.x releases. Nothing answers under `/v2`.
 
 ### The versioning rule

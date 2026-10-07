@@ -13,9 +13,8 @@ is `_templates/CLAUDE.md` in that repo.
 - **Two clubs facing off** → `dual-meet-template/`
 - **Named teams meeting in matchups** (a team tournament) → `team-tournament-template/`.
   Its `type` is `"team"` in `events.json`, and its pair labels (MD, WD, XD…) are
-  the event's `display.pairs` there. The rules and the first event, PickleDrive
-  Club One Year Celebration (hand-built as `events/pickledrive-anniversary-2026/`
-  before the template existed), are in the
+  the event's `display.pairs` there. The rules, and PickleDrive Club One Year
+  Celebration's hand-built pages (`events/pickledrive-anniversary-2026/`), are in the
   [team tournament spec](../specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md);
   the template is the
   [team tournament template spec](../specs/implemented/team-tournament-template-spec.md).
@@ -112,9 +111,7 @@ the day key against it, so the registration comes first.
     roster update, every mark and every score save fail with a message naming the
     account. **The share is inherited from the Drive folder:** the shared drive
     folder `1. TOURNAMENTS` is shared with the account as Editor, and a workbook
-    moved into the event's folder under it inherits that share. This was confirmed
-    on 2026-10-08, when Piggleball's workbook in `1. TOURNAMENTS` listed the account
-    as Editor. So move the workbook into the event's folder, and check its Share
+    moved into the event's folder under it inherits that share. So move the workbook into the event's folder, and check its Share
     dialog lists the account. Share it by hand only for a workbook kept outside that
     folder. A workbook also needs **General access: Anyone with the link: Viewer**,
     which the folder does not set; the sync reads the workbook with an API key.

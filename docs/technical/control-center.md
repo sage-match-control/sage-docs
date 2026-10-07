@@ -16,13 +16,11 @@ event picker, Mission Control, sign-in and the extension points that attach
 score entry, the match-number search and the facility progress cards to the
 shared views.
 
-> Renamed from "Match Control" to "Control Center" after the fact — the
-> file, the URL (`/tools/control-center`), and every reference were moved
-> together; `tools/match-control.html` survives only as a redirect stub so
-> an already-bookmarked link keeps working. [`match-control-console-spec.md`](../specs/implemented/match-control-console-spec.md)
-> and [`awards-podium-tab-spec.md`](../specs/implemented/awards-podium-tab-spec.md), both
-> written before the rename, still use the old name throughout — treat them as a
-> historical record, not out of date documentation.
+> `tools/match-control.html` is a redirect stub to `/tools/control-center`, so a
+> bookmarked link to it keeps working. [`match-control-console-spec.md`](../specs/implemented/match-control-console-spec.md)
+> and [`awards-podium-tab-spec.md`](../specs/implemented/awards-podium-tab-spec.md)
+> call the console *Match Control* throughout; they are a record of how it was
+> built.
 
 ## Config resolution
 
@@ -176,10 +174,10 @@ PickleDrive's event page carries the same two functions.
 `runSearch()` records what it shows (`shownQuery`, and the picked
 `shownTeam`/`shownEntry`). Every data refresh calls `refreshFinder()`, which
 re-runs that search, or redraws the all-matches list when nothing was
-searched, then puts back whatever is half-typed in the box. Before this a
-refresh ran `runSearch()` on the box's text, so typing "Jo" and pausing
-swapped the list for a short "Several pairs match" message, the page shrank,
-and the pinned search box had nothing left to scroll against. A new day clears
+searched, then puts back whatever is half-typed in the box. Running the box's
+text instead would swap the list for a short "Several pairs match" message while
+someone pauses mid-word, shrinking the page so the pinned search box has nothing
+left to scroll against. A new day clears
 `shownQuery`. The event pages work the same way. `runSearch()` first checks `MATCH_NUMBER_SEARCH_RE` (`42` or `#42`);
 a match number goes to `renderMatchByNumber()` (the ticket, or the matchup
 card with `onlyMatch`) and is not saved as the remembered search. The event
@@ -389,7 +387,7 @@ for `facilityFinishParts`, which rounds it to 5 minutes and reports the
 difference from `plannedEnd` as "late", "early" or "on schedule". (An
 unfinished facility's estimate keeps "behind" and "ahead".)
 
-For a snapshot published before `completedAt` existed, the fallback is the
+For a snapshot with no `completedAt`, the fallback is the
 earliest `syncedAt` this browser has seen while the facility was complete,
 kept in `localStorage` under `sage.facilityEnds` (keyed
 `event|day|facility`) and dropped when the facility reopens. It is
@@ -572,7 +570,7 @@ presents match data as something to watch or play, not just the podium:
 `sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md`). It is additive: every
 change to a shared function is either inside a `CURRENT_TYPE === 'team'`
 branch or an extra parsed field nothing else reads, so `dual-meet` and
-`standard` behave exactly as before. The team logic lives in one bannered
+`standard` are unaffected by it. The team logic lives in one bannered
 block (`// ---- team type (...) ----`, just below `pairCell`), ported from the
 event page's `index.html` so the two agree on every rule.
 
@@ -663,4 +661,4 @@ wrong while the on-screen tab looks fine.
 
 ---
 **Features:** [Control Center](../features/control-center.md) · [Awards tab usage](../features/control-center.md#awards)
-**Specs:** [`match-control-console-spec.md`](../specs/implemented/match-control-console-spec.md) and [`awards-podium-tab-spec.md`](../specs/implemented/awards-podium-tab-spec.md) (full build history, acceptance checklists — both written under the console's old name).
+**Specs:** [`match-control-console-spec.md`](../specs/implemented/match-control-console-spec.md) and [`awards-podium-tab-spec.md`](../specs/implemented/awards-podium-tab-spec.md) (full build history, acceptance checklists — both call the console Match Control).

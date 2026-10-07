@@ -113,11 +113,10 @@ it is, so put the formula in `J2` by hand there
 The tab can be read by anyone who has the workbook's ID, so keep phone numbers
 and emails out of it.
 
-## The earlier version: Pickle for Sight
+## Pickle for Sight
 
-Pickle for Sight 2026 used an older page and a per-workbook Apps Script. They
-stay as they were, and are not affected by the above. That version keeps one
-row per pair slot, has its own page at `/events/pickle-for-sight-2026/attendance`
+Pickle for Sight 2026 has its own check-in page and a per-workbook Apps Script,
+and nothing above applies to it. It keeps one row per pair slot, has its own page at `/events/pickle-for-sight-2026/attendance`
 and does not use desk links or the Attendance tab.
 
 ---

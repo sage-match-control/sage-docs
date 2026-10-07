@@ -121,8 +121,8 @@ event's own folder, named `<YYYY-MM-DD> <event name>`, for example
 holds the event's `BRACKETS` folder and the schedule PDF.
 
 **`1. TOURNAMENTS` is shared with the API's service account as Editor, and a
-workbook inside it inherits that share.** This was checked on Piggleball's workbook
-on 2026-10-08, so there is no separate share step. The service account is what lets
+workbook inside it inherits that share.** There is no separate share step. The
+service account is what lets
 score entry and attendance write to the workbook.
 
 Then set **General access** to **Anyone with the link: Viewer** on **every workbook,

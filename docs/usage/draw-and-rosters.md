@@ -4,7 +4,7 @@
 **You need:** the generated workbooks from [step 2](build-the-workbooks.md), and
 each category's list of pairs
 
-Now that the workbook exists, it says how many brackets each category has and how
+The workbook says how many brackets each category has and how
 many pairs go in each. This step draws the brackets, puts the names in the
 workbook, and checks that they show.
 

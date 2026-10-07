@@ -5,9 +5,8 @@
 
 Builds one venue's scoring workbook for one day of a standard tournament —
 every category tab, ready to score — from the plan you exported from the
-Tournament Calculator. It replaces duplicating last event's venue
-spreadsheet and find-replacing every category key, court number and team
-code by hand.
+Tournament Calculator. There is no venue spreadsheet to duplicate and no
+category key, court number or team code to find-replace by hand.
 
 It runs in the **SAGE Standard Tournament Master** workbook: make a copy of
 it for each venue-day, then **SAGE → Generate event tabs** in the copy. The

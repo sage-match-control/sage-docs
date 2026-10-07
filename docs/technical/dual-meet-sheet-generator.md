@@ -182,8 +182,7 @@ prefixed `[sage]`. Find it under **Extensions → Apps Script → Executions**.
 
 This exists because layout bugs here are invisible in the finished artifact —
 a block one row off looks like a perfectly normal spreadsheet unless you
-already know which row it should have been on. Every bug found while building
-this was of that kind.
+already know which row it should be on.
 
 ## The `onOpen` it shares with `sheets-sync.gs`
 
@@ -218,8 +217,8 @@ action that can only produce an error.
 `Shuffle roster codes` sits **outside** that guard and stays in the menu for
 the workbook's whole life, because the roster arrives after generation and a
 re-draw is a legitimate repeat. The builder adds its leading separator once,
-before either item, so a generated workbook gets no stray divider where
-`Generate event tabs` used to be.
+before either item, so a generated workbook, whose menu has no `Generate event
+tabs`, gets no stray divider.
 
 ## Shuffling the roster codes
 
@@ -270,8 +269,7 @@ computation but never by generating a real tab.
 ## Reading the spec
 
 [`dual-meet-sheet-generator-spec.md`](../specs/implemented/dual-meet-sheet-generator-spec.md)
-is the design document, but it was written before the workbook was read
-closely, and **§13 records where the two disagree** — the CODES column's row
+is the design document, and **§13 records where it and the workbook disagree** — the CODES column's row
 count, the roster's position, the feeder formulas, and an entire undocumented
 score grid on the playoff blocks. Read §13 before trusting a cell reference
 anywhere else in it.

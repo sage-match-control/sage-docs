@@ -51,8 +51,7 @@ column J list below. `verify-dual-meet-generator.mjs` and
 `verify-standard-tournament-generator.mjs` import `HEADERS` from `attendanceTab.mjs`, so
 the generated header cannot drift from the one the API requires. A tab of that
 name already in the workbook is left alone. The API creates the tab itself only
-when it is missing (a workbook made before this, or a hand-built one such as
-PickleDrive's).
+when it is missing (a workbook not built by a generator, such as PickleDrive's).
 
 One exception to "never past G": when the API creates the tab it also writes a
 **Not yet in** list in column J (`J1` the header, `J2` a `FILTER` formula listing
@@ -154,15 +153,14 @@ fixtures and manual checks (spec section 7.3).
 
 ---
 
-# Earlier version: Pickle for Sight
+# Pickle for Sight's attendance
 
 The notes below describe Pickle for Sight's `attendance.gs` and
 `events/pickle-for-sight-2026/attendance.html`. The script runs in that event's
-workbooks but is no longer kept in `sage-tools-api`: its last version, with its
+workbooks and is not kept in `sage-tools-api`'s current tree: its source, with its
 harness `verify-attendance.mjs`, is in `apps-script/` at commit `198f02c`.
 
-
-Pickle for Sight's check-in page wrote to Google Sheets through a web app in
+Pickle for Sight's check-in page writes to Google Sheets through a web app in
 each workbook. Two parts:
 
 - `attendance.gs` — bound Apps Script, pasted into
@@ -184,8 +182,8 @@ lists them in its `VENUES` constant, for marking only — the page's reads go
 elsewhere (below).
 
 - `doGet` returns `{ ok, pairs: [{ teamCode, category, players: [{ slot,
-  name, present, timeIn }] }] }`. The page no longer calls this; it's kept as
-  a diagnostic endpoint, useful to open directly in a browser.
+  name, present, timeIn }] }] }`. The page does not call this; it is a
+  diagnostic endpoint, useful to open directly in a browser.
 - `doPost` takes a JSON body `{ teamCode, slot, present }` and returns the
   saved player. The code must be a real pair row and the slot a named player.
 - `attendanceResync` pre-fills `ATTENDANCE` with every player at
@@ -294,8 +292,8 @@ generator — they share one script project, where a repeated name silently
 replaces the other file's.
 
 The page has no test file. The spec's §5.4 serves it with `fetch` stubbed and
-the real roster from `event-data`; the CSV read path was additionally
-verified against the live PCPH Main workbook (§11 of the spec).
+the real roster from `event-data`; §11 of the spec checks the CSV read path
+against the live PCPH Main workbook.
 
 ---
 **Features:** [event attendance](../features/event-attendance.md)

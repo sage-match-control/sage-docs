@@ -113,7 +113,7 @@ event's `display.pairs` from `events.json`.
 
 On `localhost`, `?fixture=<name>` makes the Hub and the schedule board read
 `/_fixtures/` instead of the published data, as the scorer and desk pages
-always could (`platform.js` `fixtureName()`; inert on the live site).
+do (`platform.js` `fixtureName()`; inert on the live site).
 
 ## The theme contract
 
