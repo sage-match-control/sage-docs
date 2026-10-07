@@ -99,12 +99,12 @@ A collapsible header (chevron, state also carried in the URL as
 chrome — the venue and court filters and the PDF button — while keeping the
 color legend, since a viewer still needs that to read the board at all.
 
-## Category colors are organizer-owned, not invented
+## Category colors come from the workbook, not invented
 
 *Team events colour by bracket, not category.* A team event's board keys its
 colour off the match's bracket (Bracket 1, Bracket 2, Bracket 3) or, for any playoff
 match, a single Playoffs colour, chosen from the event's own artwork because
-the organizer's SCHEDULE tab is uncoloured. Each card also names both teams
+the team workbook's SCHEDULE tab is uncoloured. Each card also names both teams
 above their players and carries the pair label; a side whose lineup isn't set
 (its first player cell is empty or holds the side's own code) reads *Lineup TBD*.
 The page sets `type: 'team'`, and the board reads the event's `display.pairs`
@@ -115,12 +115,12 @@ chips on one line (`.cell.team`). The rest of this section describes category-co
 events.
 
 Read directly off the color-coded SCHEDULE tab of the source spreadsheet so
-the wall display and the organizer's own printed schedule agree. These are
+the wall display and the workbook's own printed schedule agree. These are
 **not exportable** — cell fills are formatting, absent from both the CSV
 and gviz exports, and Sheets paints its own grid to a `<canvas>` with
 nothing recoverable from the DOM — so they're recovered by sampling
 rendered pixels and cross-checked, and **must be re-read by hand if the
-organizer ever recolors the sheet**; nothing detects that drift. Applied as
+sheet is ever recolored**; nothing detects that drift. Applied as
 a 40% tint over white (the measured contrast ceiling for navy body text on
 the darkest category) with the solid hue as a left rule; chip text color is
 derived per-category from luminance rather than hardcoded, since the

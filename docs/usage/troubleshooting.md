@@ -1,6 +1,6 @@
 # 9. When something's wrong
 
-**Who:** operator · **When:** any time, but mostly on the day · **You need:** Control
+**Who:** operators · **When:** any time, but mostly on the day · **You need:** Control
 Center signed in, and the workbook open
 
 Find the symptom, read the cause, do the fix. For a message shown *inside* a workbook,
@@ -31,7 +31,7 @@ version of each SAGE script.
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
 | A bad score is already public | Typo in the sheet | **Public site status → Force hidden**, correct the sheet, resync, set it back to **Auto**. Control Center keeps showing everything throughout. |
-| A warning banner names an unmapped code | A team code's division or event prefix isn't in the registration's labels | Correct the code in the sheet, or ask the admin to add the label to `display`. |
+| A warning banner names an unmapped code | A team code's division or event prefix isn't in the registration's labels | Correct the code in the sheet, or ask the developer to add the label to `display`. |
 | Playoff matches read **TBD** | The qualifier draw or the seed cells haven't been filled | See [Playoff hand-offs](run-the-day.md#playoff-hand-offs). |
 | Names show as codes (`ND_1`) | The roster and the codes haven't met | Check `STEP 1` and `STEP 3` on the category tab. |
 | *Lineup not set* (team) | The matchup's lineup isn't on `MatchUps` yet, or `MatchUps` isn't ticked in **Live sync settings** | Enter the lineup, and tick `MatchUps` in **SAGE → Live sync settings**. |
@@ -56,7 +56,7 @@ version of each SAGE script.
 | *Sign-in expired* | The operator's 12-hour sign-in ended | Sign in on Mission Control and save again. |
 | The dialog says the **sheet changed** | Someone typed into the sheet, or another operator or scorer saved | Choose **Keep the sheet's score** or **Replace with yours**. |
 | *Publishing failed* | The score reached the sheet but couldn't be published | Click **Resync this day now**. |
-| Nothing in Match Finder is clickable | Signed out, or the event has no `scoreEntry` | Sign in. If it still isn't, the admin must add `scoreEntry`. |
+| Nothing in Match Finder is clickable | Signed out, or the event has no `scoreEntry` | Sign in. If it still isn't, the developer must add `scoreEntry`. |
 | The dialog is slow | A big workbook | Wait. Saving again is safe, because a score already in the sheet isn't written twice. |
 
 ## Scorer links and desk links
@@ -66,9 +66,9 @@ version of each SAGE script.
 | *Ask the operator for a scorer link.* | No link on this device, or it isn't a scorer link | Send the link again. |
 | *This scorer link has expired.* | It ran past its 24 hours | Issue a new link and send it. |
 | *Scorer links are stopped for this event.* | The operator set the switch to **Stopped** | Set **Scorer links** back to **Accepting**. Scorers reload. |
-| **Issue scorer link** is off | The event has no scorer page, or the switch is **Stopped** | The admin adds `scorer.html`. Or set **Accepting**. |
+| **Issue scorer link** is off | The event has no scorer page, or the switch is **Stopped** | The developer adds `scorer.html`. Or set **Accepting**. |
 | *Ask the operator for a new desk link.* | The event was switched to `"console"`, or the link's day ended | Issue a new desk link. |
-| A desk link opens a missing page | The event has no `attendance.html` | The admin adds it. |
+| A desk link opens a missing page | The event has no `attendance.html` | The developer adds it. |
 
 ## Attendance
 

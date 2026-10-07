@@ -282,7 +282,7 @@ player name is never cut off — its table scrolls sideways instead.
 At a **team event**, Standings has three parts, the same as on the public
 event page: a table per bracket ranked by points scored, then quotient, then
 head-to-head points, then pair wins (with the eight quarterfinalists the
-organizer entered in the workbook marked **Advances**), the playoff matchups
+operators entered in the workbook marked **Advances**), the playoff matchups
 — Quarterfinals, Semifinals, Final, Bronze — as full cards, and each bracket's matchups behind a collapsible heading. A
 matchup is won on total points across its four matches — see
 [Tournament Hub § Team events](tournament-hub.md#team-events). Live Matches

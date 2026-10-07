@@ -1,8 +1,9 @@
 # 1. Plan it
 
-**Who:** organizer · **When:** 1–2 weeks before · **You need:** the date or dates,
-the venues and how many courts each has, the hours each venue gives you, and a
-count of entries per category (an estimate is fine)
+**Who:** coordinator · **When:** 1–2 weeks before · **You need:**
+[the organizer's brief](before-you-start.md#what-sage-needs-from-the-organizer): the
+date or dates, the venues and how many courts each has, the hours each venue gives
+you, and a count of entries per category (an estimate is fine)
 
 The cheapest place to find out an event doesn't fit is here. Moving a number in
 the calculator costs nothing. Moving it after the workbook is generated means
@@ -11,7 +12,7 @@ starting the workbook again.
 ## Choose the format
 
 Pick the format first. It decides which master workbook you copy and which site
-template the admin uses. See [the three kinds of event](README.md#the-three-kinds-of-event).
+template the developer uses. See [the three kinds of event](README.md#the-three-kinds-of-event).
 
 ## Choose the keys
 
@@ -26,7 +27,7 @@ Two kinds of key, both chosen now and used **byte-identically** from here on.
   just this one, because a day key is also part of the address each sync is sent
   to. Prefix it with something specific to the event (`<event-key>-day1`).
 
-Write both down in a place the organizer and the admin can see. A key typed two
+Write both down in a place the coordinator and the developer can see. A key typed two
 ways is the most common cause of an event that "looks right and does nothing".
 
 ## Steps
@@ -42,8 +43,9 @@ ways is the most common cause of an event that "looks right and does nothing".
    and the finish time updates as you switch.
 5. If the event runs across several days or venues, make **one plan per day** (and
    per venue, for a standard tournament).
-6. Check the **finish time** against what the venue will tolerate. If it is too
-   late, change courts, match length or bracket sizes here, not later.
+6. Check the **finish time** against the hours the organizer has the venue. If it is
+   too late, agree a change with the organizer (courts, match length or bracket
+   sizes) and make it here, not later.
 7. When the plan is right, click **Copy plan & open generator**. It puts the plan on
    your clipboard and opens the copy dialog of the master for the plan's format.
    Keep that tab open for [step 2](build-the-workbooks.md).

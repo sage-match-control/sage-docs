@@ -1,6 +1,6 @@
 # 4. Register and build the site
 
-**Who:** organizer hands over the list below; **admin** makes the changes ·
+**Who:** the coordinator hands over the list below; the **developer** makes the changes ·
 **When:** about a week before · **You need:** the keys from
 [step 1](plan-the-event.md#choose-the-keys), each workbook filed in
 [step 2](build-the-workbooks.md#file-it) with its link, and the event's images
@@ -11,7 +11,7 @@ repo). Register first. The Hub reads its days, venues and labels from the
 registration, and [step 5](connect-the-workbooks.md)'s **Set up live sync** checks
 the day key against it.
 
-## What to hand the admin
+## What to hand the developer
 
 Send this list, filled in, in one message.
 
@@ -26,12 +26,12 @@ Send this list, filled in, in one message.
   (`console` or `links`). See [who enters scores](before-you-start.md#who-enters-scores).
 - [ ] The images: a **QR image** that opens the event's page, its **short link**, the
   event's **logo**, and for a dual meet **both clubs' logos**.
-- [ ] The schedule board's **category colours**, read off the organizer's
+- [ ] The schedule board's **category colours**, read off the workbook's
   colour-coded `SCHEDULE` tab (standard and dual meet).
 
 ## Register the event
 
-!!! note "Admin task — needs GitHub access to `event-data`"
+!!! note "Developer task — needs GitHub access to `event-data`"
     Add the event's entry to `event-data/config/events.json` and commit it to
     `main`. No redeploy: it takes effect within about a minute. The mechanics are in
     [Adding a new event](../technical/adding-a-new-event.md).
@@ -53,7 +53,7 @@ event's pages are up: removing a finished event's entry blanks its Hub.
 
 ## Build the site
 
-!!! note "Admin task — needs GitHub access to the site repo"
+!!! note "Developer task — needs GitHub access to the site repo"
     Copy the matching template to `events/<event-key>/`, replace its tokens, add
     the images, and commit. The mechanics are in
     [Adding a new event](../technical/adding-a-new-event.md).
@@ -65,9 +65,9 @@ event's pages are up: removing a finished event's entry blanks its Hub.
    `{{` in the folder must come back empty.
 3. Put the images in the folder.
 4. On the **schedule board** (`schedule.html`), set the **day key** it shows and its
-   `CAT_META`: each category's wall-display colour, read off the organizer's
+   `CAT_META`: each category's wall-display colour, read off the workbook's
    `SCHEDULE` tab. A team event's board is coloured by bracket and has one colour
-   for playoffs. Nothing detects it if the organizer recolours the sheet later.
+   for playoffs. Nothing detects it if the workbook is recoloured later.
 5. Leave the theme alone unless the event genuinely needs its own.
 
 There are no days, venues or categories to fill in on the pages: they come from the
@@ -75,7 +75,7 @@ registration.
 
 ## Add the desk page and the scorer page, if used
 
-!!! note "Admin task — needs GitHub access to the site repo"
+!!! note "Developer task — needs GitHub access to the site repo"
     Copy `_templates/attendance/attendance.html` to
     `events/<event-key>/attendance.html` if the event is `"desks"`, and
     `_templates/scorer/scorer.html` to `events/<event-key>/scorer.html` if it is
@@ -87,7 +87,7 @@ note. `"console"` score entry needs neither page.
 
 ## Check it worked
 
-Once the admin says it is done, **give it a minute**, then check:
+Once the developer says it is done, **give it a minute**, then check:
 
 - [ ] The event appears in Control Center's event picker, with its days.
 - [ ] The Hub (`/events/<event-key>/`) loads and shows the right **days** and
@@ -106,7 +106,7 @@ The Hub shows no scores yet. That is [step 5](connect-the-workbooks.md).
   labels exist. See [When something's wrong](troubleshooting.md).
 - **The event is missing from Control Center.** The commit has not landed, or the
   file failed validation. A file that fails any rule is rejected as a whole: ask the
-  admin to check the commit.
+  developer to check the commit.
 - **A day key is rejected.** It is already used by another event. Choose a new one
   and use it everywhere.
 

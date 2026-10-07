@@ -1,8 +1,8 @@
 # 3. Draw and fill rosters
 
-**Who:** organizer · **When:** as soon as entries close (7–10 days before) ·
+**Who:** coordinator · **When:** as soon as entries close (7–10 days before) ·
 **You need:** the generated workbooks from [step 2](build-the-workbooks.md), and
-each category's list of pairs
+each category's list of pairs from the organizer
 
 The workbook says how many brackets each category has and how
 many pairs go in each. This step draws the brackets, puts the names in the
@@ -80,11 +80,13 @@ re-points every pair.
 
 ### Team: type the `Teams` tab
 
-A team event has no bracket draw to import. The organizer decides the groups.
+A team event has no bracket draw to import. The organizer decides the groups, and the
+coordinator types them in.
 
 1. Type or paste each team's name and its players (with level and gender) into
    **`Teams`**. Captains can change it through the day.
-2. Lineups are entered on `MatchUps` later, as captains hand them in. See
+2. Lineups go on `MatchUps` later: an operator types each one in as the team's captain
+   hands it over. See
    [the team workbook](../features/team-workbook.md).
 
 ## Check it worked

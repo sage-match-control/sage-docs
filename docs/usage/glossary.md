@@ -9,12 +9,12 @@ covers every category they play that day at that venue. Set per event as
 **Awards.** Control Center's podium tab. Gold, silver and bronze come from the
 scored Final and Bronze matches. See [Control Center](../features/control-center.md#awards).
 
-**BYE.** A slot with no opponent. A pair with a bye advances without a match. A
-BYE can't be scored.
-
 **Bracket.** A group of pairs who play each other in a round robin. A category can
 have several. Also what the Bracket Generator draws. Not to be confused with a
 team event's *bracket stage*, which is its group.
+
+**BYE.** A slot with no opponent. A pair with a bye advances without a match. A
+BYE can't be scored.
 
 **Category.** One division × event, for example Beginner 18 Men's Doubles. A
 category has its own tab in the workbook.
@@ -26,6 +26,10 @@ label. A code the registration doesn't know shows a warning on the console.
 **Club code.** The short code of a club in a dual meet, e.g. `PNF`. A dual meet's
 team codes start with it.
 
+**Coordinator.** The SAGE member who prepares an event: the plan, the workbooks,
+the draw, the rosters and the printing. See [Roles, access and
+kit](before-you-start.md#roles).
+
 **Court Control.** The workbook tab that says which match is on which court right
 now. Entering a match number against a court makes the match **live**. See
 [the scoring workbook](../features/scoring-workbook.md).
@@ -36,6 +40,10 @@ its day key during **Set up live sync**.
 
 **Desk link.** A link that lets desk staff mark people in from their phone, for
 one day. See the [desk handout](desk-handout.md).
+
+**Developer.** The SAGE member who does everything technical: the event's
+registration, its website pages and the hub board's QR panel. Their changes are
+marked **Developer task** in this guide.
 
 **Event key.** The identifier of the whole event (e.g. `pnf-x-bup-dual-meet`). It is
 the event's folder name in the site repo and in `event-data`, its key in
@@ -68,6 +76,13 @@ get their own range (1000, 2000…). See [2. Build the workbooks](build-the-work
 **Matchup.** At a team event: four matches between the same two teams, won on
 total points. See [the team workbook](../features/team-workbook.md).
 
+**Operator.** A SAGE member on site on the day, running Control Center, the
+workbook, the screens and the desks. The operator login is theirs.
+
+**Organizer.** The client who hires SAGE to run their tournament. They decide the
+format, the entries and each late change, and do nothing in the workbooks or the
+system.
+
 **Playoff.** The rounds after the round robin: Quarterfinal, Semifinal, Bronze,
 Final. See [Run the day](run-the-day.md#playoff-hand-offs).
 
@@ -82,7 +97,7 @@ day, for 24 hours. See the [scorer handout](scorer-handout.md).
 
 **Seed (Bracket Generator).** The word or number that decides a draw. Anyone can
 re-check a draw from it. **Seed (team event).** The number of a playoff slot,
-replaced by a team letter once the organizer decides who advances.
+replaced by a team letter when an operator enters who advances.
 
 **Service account.** The Google account the API uses to write scores and
 attendance into a workbook:

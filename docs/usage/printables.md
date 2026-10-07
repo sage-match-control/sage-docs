@@ -1,6 +1,6 @@
 # 6. Print
 
-**Who:** organizer (admin for the QR panel) · **When:** the last few days; the
+**Who:** coordinator (developer for the QR panel) · **When:** the last few days; the
 scoresheets once the schedule has stopped moving · **You need:** the event synced
 ([step 5](connect-the-workbooks.md)) and a printer, or a print shop
 
@@ -49,7 +49,7 @@ The venue's **hub board** is a 2 × 3 ft sintra print that tells players the
 but the QR panel is the same at every event, so the board is printed once and only the
 panel changes.
 
-!!! note "Admin task — needs the site repo (and Chrome) on the admin's computer"
+!!! note "Developer task — needs the site repo (and Chrome) on the developer's computer"
     Render the event's panel with `node _templates/hub-pubmat/render.mjs <event-key>`.
     It reads the panel from the event's own page, so the event page must be built
     first ([step 4](register-and-build-the-site.md)). It writes `qr-panel.pdf` and
@@ -62,7 +62,7 @@ panel changes.
   reprint than re-sticker, or the board is lost.
 
 **Scan the printed panel with a phone and check that it opens this event's page**
-before mounting it. If a line on the panel is wrong, ask the admin to fix it on the
+before mounting it. If a line on the panel is wrong, ask the developer to fix it on the
 event page and make the panel again.
 
 ## Bracket images

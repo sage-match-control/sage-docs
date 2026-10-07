@@ -1,6 +1,6 @@
 # 2. Build the workbooks
 
-**Who:** organizer · **When:** 1–2 weeks before · **You need:** the plan from
+**Who:** coordinator · **When:** 1–2 weeks before · **You need:** the plan from
 [step 1](plan-the-event.md), with **Copy plan & open generator** already clicked
 (or, for a team event, the PickleDrive workbook); Google access to the masters
 and to the shared drive folder **SAGE → 1. TOURNAMENTS**

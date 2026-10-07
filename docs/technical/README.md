@@ -74,6 +74,6 @@ changing any of them is not a deploy.
 
 ## Operations
 
-- **[Adding a new event](adding-a-new-event.md)** — the admin's mechanics for
+- **[Adding a new event](adding-a-new-event.md)** — the developer's mechanics for
   Usage steps 4–6: registering the event, instantiating a template, connecting the
   workbooks, the QR panel.

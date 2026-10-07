@@ -1,6 +1,6 @@
 # 5. Connect the workbooks
 
-**Who:** organizer · **When:** 4–7 days before, **after** the roster and schedule
+**Who:** coordinator · **When:** 4–7 days before, **after** the roster and schedule
 fixes are done · **You need:** the event registered and its site built
 ([step 4](register-and-build-the-site.md)), every workbook filed and numbered
 ([step 2](build-the-workbooks.md)), and rosters in

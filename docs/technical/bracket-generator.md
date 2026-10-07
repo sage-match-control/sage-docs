@@ -110,7 +110,7 @@ Typing one is optional; having one is not. A blank field generates an
 so it survives being read aloud), fills the field with it and draws — so every
 draw is reproducible whether or not anyone asked for a ceremony. Both exports
 label the source, `(entered)` or `(auto)`, because only a seed supplied by a
-person shows the organiser did not go looking for one they liked.
+person shows whoever ran the draw did not go looking for one they liked.
 
 The last generated seed is kept in `lastAutoSeed`. If the field still holds it
 at the next seeded draw, that draw is labelled `(auto)`, not `(entered)` —

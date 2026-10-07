@@ -580,7 +580,7 @@ Data comes only from the two published CSVs. `rowsToMatches` reads a
 `matchUp` alone. `teamMatchupResult` decides a matchup on total points (equal
 points is a tie), and `sideLabel` / `teamNameOf` / `baseTeamOf` turn a code
 such as `SF-A_2` into a team name and letter, reading a playoff slot as its
-team once the organizer has typed the letter into the workbook. `STAGES`
+team once an operator has typed the letter into the workbook. `STAGES`
 maps a playoff side's prefix to its label and order: `QF` Quarterfinal, `SF`
 Semifinal, `Br` Bronze, `Fi` Final. A team is marked **Advances** when its
 letter fills any playoff slot, which with quarterfinals means the eight

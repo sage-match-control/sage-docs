@@ -68,11 +68,10 @@ in its own colour.
 ## What it needs
 
 The board shows exactly one day. The event's page is set to that day, and the
-colour key for the categories is set by hand from the organizer's own workbook.
-Both are part of
-[Usage step 4](../usage/register-and-build-the-site.md). If the organizer
-recolours the workbook, the board's colours are re-set by hand: nothing detects
-the change.
+colour key for the categories is set by hand from the scoring workbook's own
+colour coding. Both are part of
+[Usage step 4](../usage/register-and-build-the-site.md). If the workbook is
+recoloured, the board's colours are re-set by hand: nothing detects the change.
 
 ---
 **Features:** [Tournament Hub](tournament-hub.md) · [Control Center](control-center.md)

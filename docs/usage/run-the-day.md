@@ -115,8 +115,8 @@ until they do, the playoff matches read **TBD**.
 ### Standard tournament: the qualifier draw
 
 After the round robin, before the first playoff slot, a category's qualifiers are drawn
-by lot into playoff slots. **How it is drawn varies by event, and whoever runs it is the
-organizer's call.** What matters is where the result goes: the organizer types it into the
+by lot into playoff slots. **How it is drawn varies by event, and how and by whom is the
+organizer's call.** What matters is where the result goes: an operator types it into the
 category tab's **qualifier draw** area. The draw lists which finisher each row is waiting
 for, and the slot table beside it lists every slot the draw can land on. This is why
 [step 2](build-the-workbooks.md#pack-schedule-standard-only) leaves a free slot after the
@@ -133,8 +133,8 @@ Then check that the playoff matches show the right names:
 
 ### Team event: the seed cells
 
-When the group stage ends, type each qualifier's team letter into its quarterfinal seed
-cell on `MatchUps`. After each playoff round, enter the next round's teams the same way.
+When the group stage ends, an operator types each qualifier's team letter into its
+quarterfinal seed cell on `MatchUps`. After each playoff round, enter the next round's teams the same way.
 The site takes every playoff team from those cells and never picks them itself. The cells
 are listed on [the team workbook](../features/team-workbook.md#playoff-seed-cells). Check
 that each card changes from *Seed n · TBD* to the team's name and that the team is marked
@@ -149,12 +149,13 @@ game 1, game 2 is played, and gold waits for it.
 
 ## Late changes
 
-The organizer decides each case. The options and their effect:
+The organizer decides each case, and an operator makes the change in the workbook. The
+options and their effect:
 
 - **A substitute, or a replacement for a pair that hasn't played yet.** Overwrite the names
   in `STEP 1 · NAMES`. The codes and the schedule stay.
 - **A walkover.** The opponent's win is entered as a score.
-- **Either way,** tell the operator, and check the change reaches the Hub.
+- **Either way,** tell the operator at the console, and check the change reaches the Hub.
 - **A schedule change after the scoresheets are printed.** For a minor change, correct the
   slips by hand. For a major one, generate the scoresheets again and reprint
   ([step 6](printables.md#scoresheets)).

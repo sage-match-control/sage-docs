@@ -421,7 +421,7 @@ sync settings** once configured (or **Set up live sync** otherwise),
 and **Help**. The last two are always present regardless of configuration
 state, since this is the one file guaranteed to be in every workbook. Help
 shows a workflow refresher plus this workbook's live status (configured/not,
-paused/not) in one dialog, written for organizers rather than developers.
+paused/not) in one dialog, written for the coordinator and operators rather than developers.
 
 **Fill match numbers** numbers the matches on `SCHEDULE`. It asks for a base
 and gives the first match base + 1. It reads the grid by its fixed shape:

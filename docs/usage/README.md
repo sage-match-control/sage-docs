@@ -25,7 +25,7 @@ phone, screen and console at the venue. Nothing else needs to be typed.
               ┌──────────────────────┼───────────────────────┐
               ▼                      ▼                       ▼
      Tournament Hub          Schedule board            Control Center
-  (players' phones: Match   (wall display: courts   (the operator: resync,
+  (players' phones: Match   (wall display: courts   (operators: resync,
   Finder, live scores,       by time slots, live     go-live switch, awards,
   standings)                 matches ringed)         attendance, score entry)
 ```
@@ -39,7 +39,7 @@ Around that chain sit the tools you use to get ready: the
 ## The three kinds of event
 
 Decide which one yours is before anything else. It decides which master workbook
-you copy, which site template the admin uses, and which parts of the guide apply.
+you copy, which site template the developer uses, and which parts of the guide apply.
 
 | Kind | How to tell | Workbooks |
 | --- | --- | --- |
@@ -54,18 +54,18 @@ section.
 
 | Step | Page | Who | When |
 | --- | --- | --- | --- |
-| Before | [Roles, access and kit](before-you-start.md) · [Glossary](glossary.md) | everyone | read first |
-| 1 | [Plan it](plan-the-event.md) | organizer | 1–2 weeks before |
-| 2 | [Build the workbooks](build-the-workbooks.md) | organizer | 1–2 weeks before |
-| 3 | [Draw and fill rosters](draw-and-rosters.md) | organizer | once entries close |
-| 4 | [Register and build the site](register-and-build-the-site.md) | organizer + admin | about a week before |
-| 5 | [Connect the workbooks](connect-the-workbooks.md) | organizer | after rosters and schedule are final |
-| 6 | [Print](printables.md) | organizer (admin for the QR panel) | the last few days |
-| 7 | [Rehearse](rehearse.md) | operator | the last few days |
-| 8 | [Run the day](run-the-day.md) | operator, scorers, desk staff | the day |
-| 9 | [When something's wrong](troubleshooting.md) | operator | open it on the day |
+| Before | [Roles, access and kit](before-you-start.md) · [Glossary](glossary.md) | every SAGE member | read first |
+| 1 | [Plan it](plan-the-event.md) | coordinator | 1–2 weeks before |
+| 2 | [Build the workbooks](build-the-workbooks.md) | coordinator | 1–2 weeks before |
+| 3 | [Draw and fill rosters](draw-and-rosters.md) | coordinator | once entries close |
+| 4 | [Register and build the site](register-and-build-the-site.md) | coordinator + developer | about a week before |
+| 5 | [Connect the workbooks](connect-the-workbooks.md) | coordinator | after rosters and schedule are final |
+| 6 | [Print](printables.md) | coordinator (developer for the QR panel) | the last few days |
+| 7 | [Rehearse](rehearse.md) | coordinator + operators | the last few days |
+| 8 | [Run the day](run-the-day.md) | operators, scorers, desk staff | the day |
+| 9 | [When something's wrong](troubleshooting.md) | operators | open it on the day |
 | | [Scorer handout](scorer-handout.md) · [Desk handout](desk-handout.md) | scorers · desk staff | send with their links |
-| After | [After the event](after-the-event.md) | organizer + admin | the days after |
+| After | [After the event](after-the-event.md) | coordinator + developer | the days after |
 
 ### The order, and why it is that order
 
@@ -93,7 +93,7 @@ workbooks come first, and the rehearsal and printing in the last days.
 | When | Do |
 | --- | --- |
 | 10–14 days before | **1. Plan it.** **2. Build the workbooks**, including filing and sharing. |
-| 7–10 days before | **3. Draw and fill rosters** as soon as entries close. **4. Register and build the site**; send the admin their list early. |
+| 7–10 days before | **3. Draw and fill rosters** as soon as entries close. **4. Register and build the site**; send the developer their list early. |
 | 4–7 days before | Fix the roster and schedule. Then **5. Connect the workbooks**. |
 | 2–4 days before | **6. Print** the schedule PDF and the QR panel. **7. Rehearse**. |
 | 1–2 days before | Print the scoresheets once the schedule has stopped moving. Brief the scorers and desk staff with their [handouts](scorer-handout.md). |
@@ -107,7 +107,7 @@ the rehearsal.
 
 Every step page has the same frame, so you always know where to look:
 
-> **Who:** organizer / admin / operator · **When:** how far ahead · **You need:**
+> **Who:** coordinator / developer / operators · **When:** how far ahead · **You need:**
 > what has to exist first
 >
 > *Steps*, numbered, one action each, with the exact menu or button name in bold.
@@ -123,12 +123,12 @@ Every step page has the same frame, so you always know where to look:
 
 A step that needs repo access is set off like this:
 
-!!! note "Admin task — needs GitHub access to `event-data` / the site repo"
-    One line naming the change. The step gives you a list to hand the admin, and
+!!! note "Developer task — needs GitHub access to `event-data` / the site repo"
+    One line naming the change. The step gives you a list to hand the developer, and
     what to check once they have done it. The mechanics are in
     [Adding a new event](../technical/adding-a-new-event.md).
 
-If you are the organizer and not the admin, the box tells you what to ask for.
+If you are the coordinator and not the developer, the box tells you what to ask for.
 Menu names in **bold** are exactly as they appear in the workbook's **SAGE** menu
 or on the page.
 

@@ -26,7 +26,7 @@ below.
 | --- | --- |
 | **`Title`** | The event's title and date. |
 | **`Teams`** | The roster: each team's name, and its players with their level and gender. The site's Teams tab, and the roster on Match Finder, read it. Captains can change it through the day. |
-| **`MatchUps`** | The organizer's entry tab, with two kinds of input: each matchup's **lineup** (the players for each pair) and the **playoff seed cells**. |
+| **`MatchUps`** | The entry tab, with two kinds of input: each matchup's **lineup** (the players for each pair) and the **playoff seed cells**. |
 | **`SCHEDULE`** | Scores, as in every workbook. |
 | **`Court Control`** | The match number on each court, as in every workbook. |
 
@@ -38,8 +38,8 @@ ignore it.
 
 ### Lineups
 
-A team captain gives the organizer each matchup's players before it is played.
-The organizer types them into `MatchUps`. Until a matchup's lineup is in, its
+A team captain gives an operator each matchup's players before it is played.
+The operator types them into `MatchUps`. Until a matchup's lineup is in, its
 match rows read **Lineup not set** on the site (the schedule board says **Lineup
 TBD**). A player can still be found by name from `Teams`. The same player may
 play a different pair in each matchup. A match with no lineup can still be scored
@@ -47,10 +47,10 @@ in the score dialog, with a warning.
 
 ### Playoff seed cells
 
-The site never works out who advances. The organizer types it.
+The site never works out who advances. An operator types it.
 
 Each playoff slot has a **seed cell** in `MatchUps` that starts as a seed number.
-When the group stage ends the organizer types the team's letter (`A`–`O`) over the
+When the group stage ends an operator types the team's letter (`A`–`O`) over the
 seed number. The site then shows that team in the slot and marks the team
 **Advances**. Until a seed is filled in, its card reads *Seed 3 · TBD*.
 
@@ -62,7 +62,7 @@ seed number. The site then shows that team in the slot and marks the team
 | Final | 1–2 | `D744`, `D754` |
 
 Eight teams reach the quarterfinals, seeded 1–8 and paired 3 v 6, 1 v 8, 2 v 7
-and 4 v 5. After each playoff round the organizer types the next round's teams
+and 4 v 5. After each playoff round an operator types the next round's teams
 the same way. When rehearsing, put each seed cell back to its seed number
 afterwards.
 
@@ -80,7 +80,7 @@ how a matchup card reads, and the standings tiebreakers.
 A team code is `<SIDE>_<PAIR>`: `A_3`, `QF-3_4`, `SF-A_2`, `Fi-J_1`. `PAIR` is the
 pair number in the matchup. `SIDE` is a team letter in the group stage and
 `<stage>-<slot>` in a playoff, where the stage is `QF`, `SF`, `Br` or `Fi` and
-the slot is a seed number until the organizer types a team letter over it.
+the slot is a seed number until an operator types a team letter over it.
 
 ---
 **Features:** [The scoring workbook](scoring-workbook.md) · [Tournament Hub § Team events](tournament-hub.md#team-events)

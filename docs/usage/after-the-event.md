@@ -1,6 +1,6 @@
 # After the event
 
-**Who:** organizer, with the admin · **When:** the days after the last day · **You need:**
+**Who:** coordinator, with the developer · **When:** the days after the last day · **You need:**
 the final results on the Hub and the event's workbooks
 
 ## Final results
@@ -16,7 +16,7 @@ finished event's entry blanks its Hub, schedule board, scorer page and desk page
 
 ## Turn off live push for the event's pages
 
-!!! note "Admin task — needs GitHub access to the site repo"
+!!! note "Developer task — needs GitHub access to the site repo"
     Set `LIVE_BASE_URL = ''` in the settings script of the event's `index.html`,
     `schedule.html` and `scorer.html` (if it has one), and change nothing else. Nothing is
     published for the event any more, so an open connection would only cost requests
@@ -25,7 +25,7 @@ finished event's entry blanks its Hub, schedule board, scorer page and desk page
     [Adding a new event § After the event](../technical/adding-a-new-event.md#after-the-event).
 
 Check afterwards that the Hub and schedule board still load and still show the final
-results. Later, the admin can archive the event's folder, which is a separate step.
+results. Later, the developer can archive the event's folder, which is a separate step.
 
 ## What to keep
 
@@ -40,6 +40,6 @@ results. Later, the admin can archive the event's folder, which is a separate st
 
 - [ ] The Hub, schedule board and Awards still show the final results.
 - [ ] The workbooks, draw files and schedule PDF are filed in the event's folder.
-- [ ] The admin has turned off live push for the event's pages.
+- [ ] The developer has turned off live push for the event's pages.
 
 **Back to** [the Usage guide](README.md).

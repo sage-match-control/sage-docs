@@ -92,7 +92,7 @@ offers it.
 | Match Finder | `searchHandlers`, `searchHint`, `delegate` | the match-number search; the team event's own finder |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos |
 | Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads |
-| team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint` | the click-to-score row hook; the Teams tab's button class (Control Center); no organiser's team letters and the Hub's own search hint (a team event's Hub) |
+| team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub) |
 
 ## Settings, the shells and fixture mode
 

@@ -2,7 +2,7 @@
 
 Instantiating a new tournament site is a copy-and-fill job against one of
 three reusable templates in `sage-match-control.github.io/_templates/`, not a
-copy-an-old-event-and-hunt-for-hardcoded-strings job. This page is the admin's
+copy-an-old-event-and-hunt-for-hardcoded-strings job. This page is the developer's
 mechanics page for [Usage steps 4 to 6](../usage/register-and-build-the-site.md):
 what to change in the repos, in the order it has to happen. It is a condensed
 overview; the full step-by-step (with the complete token table)

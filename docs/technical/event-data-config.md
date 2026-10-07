@@ -133,7 +133,7 @@ expected — sheet IDs aren't secrets, the sheets are already
 link-shareable by design, and the published snapshots already contain
 everything on their synced tabs. But it does make the *set* of
 spreadsheets enumerable: only register spreadsheets that are already
-meant to be public, and never keep private organizer notes in an extra tab
+meant to be public, and never keep private notes in an extra tab
 of a spreadsheet that's registered here.
 
 ---

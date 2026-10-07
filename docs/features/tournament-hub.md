@@ -67,7 +67,7 @@ Within each round-robin table, pairs are ranked by **wins**, then
 **head-to-head** (among pairs level on wins, whoever won the matches
 between them), then **quotient**. When three or more pairs are level and
 their results against each other go in a circle, quotient decides. This is
-the website's ranking only: the organizer's spreadsheet picks who advances
+the website's ranking only: the scoring workbook picks who advances
 to the playoffs by wins and then quotient, so on a head-to-head tie the
 two can differ.
 
@@ -78,12 +78,12 @@ after every match, with whichever club is ahead visually highlighted.
 ## Team events
 
 A team event's page is a Tournament Hub like the others, with a fourth
-tab, Teams. Its pair labels (MD, WD, XD…) are the event's own, set by the
-organizer in the event's settings. A team event has named teams instead of pairs. Two teams meet in a
+tab, Teams. Its pair labels (MD, WD, XD…) are the event's own, set in the
+event's settings. A team event has named teams instead of pairs. Two teams meet in a
 **matchup** — four matches (men's doubles, women's doubles and two mixed
 doubles) between the same two teams — and **team names appear everywhere a
 team does**: Standings, Match Finder, Live Matches and the schedule board.
-The letter codes the organizer uses in the workbook (`A`, `B`…) are not shown here;
+The letter codes the workbook uses (`A`, `B`…) are not shown here;
 Control Center still shows them beside each team name.
 
 **Reading a matchup card.** The header gives the stage (a bracket,
@@ -114,8 +114,8 @@ tiebreakers, in order:
 
 Teams level on all four stay in the workbook's order. Before the first result
 the tables list the teams without rank numbers. Eight teams reach the
-**quarterfinals**, seeded 1–8 and paired 3 v 6, 1 v 8, 2 v 7 and 4 v 5. The
-organizer decides who they are by typing their letters into the workbook
+**quarterfinals**, seeded 1–8 and paired 3 v 6, 1 v 8, 2 v 7 and 4 v 5. An
+operator enters who they are by typing their letters into the workbook
 against each seed; the site marks those teams **Advances** and never works it
 out for itself. Until a seed is filled in, its card reads *Seed 3 · TBD* and so
 on. Below the tables come the playoff matchups — Quarterfinals, Semifinals,
@@ -137,7 +137,7 @@ team runs its search.
 card per team with its name and player count, which opens to show the players
 with their level and gender, lowest level first. **Expand all** opens every
 card. It shows before the day goes live too, since rosters give nothing away,
-and it updates when the organizer changes the workbook's `Teams` tab. Match
+and it updates when the workbook's `Teams` tab changes. Match
 Finder uses the roster as well: a team result starts with that team's roster,
 and a player can be found by name before any lineup is in, showing the team
 they play for and their teammates. A player's result shows their level and

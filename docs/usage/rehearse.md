@@ -1,6 +1,6 @@
 # 7. Rehearse
 
-**Who:** operator (with the organizer) · **When:** the last few days, well before
+**Who:** the coordinator with the operators who will run the day · **When:** the last few days, well before
 the event, while it doesn't matter if something is briefly wrong · **You need:**
 every earlier step done, the real workbooks and the real site, and the operator
 login
