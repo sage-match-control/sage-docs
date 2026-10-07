@@ -33,6 +33,11 @@ decisions. Start here if you're maintaining or extending S.A.G.E. itself.
 while a feature was built, by build status. Come here for the *why* behind a specific
 piece.
 
+## [Changelog](changelog.md)
+
+**What changed in these docs**, release by release, and how they are versioned. The
+version is in the footer of every page.
+
 ---
 
 ## The three repos

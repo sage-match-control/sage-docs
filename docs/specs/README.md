@@ -45,6 +45,8 @@ Because of the rule above, this is confined to `sage-docs`:
 4. Update `mkdocs.yml`'s nav.
 5. Fix any real markdown link to it — `grep -rn "<name>-spec.md" docs/`. A link
    from another folder needs `../<folder>/`.
+6. Add a MINOR entry to the [changelog](../changelog.md#releasing-a-version) and bump
+   the version in `mkdocs.yml`.
 
 Nothing outside `sage-docs` should need touching. If a grep of the other three
 repos turns up a folder-qualified path, that reference is the bug — rewrite it
