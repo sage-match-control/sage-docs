@@ -74,5 +74,6 @@ changing any of them is not a deploy.
 
 ## Operations
 
-- **[Adding a new event](adding-a-new-event.md)** — instantiating a template,
-  wiring the sync, the day-of rehearsal.
+- **[Adding a new event](adding-a-new-event.md)** — the admin's mechanics for
+  Usage steps 4–6: registering the event, instantiating a template, connecting the
+  workbooks, the QR panel.

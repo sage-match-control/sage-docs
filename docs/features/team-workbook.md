@@ -33,8 +33,8 @@ below.
 Every other tab is computed. `Standings`, `FINAL RANK`, `Awards`, `CSV`,
 `STANDINGSCSV`, `MatchLookup` and the hidden `StackCache` are formulas. Leave them
 alone. `StackCache` is why the workbook answers in seconds rather than a minute.
-`Raffle` is a leftover input tab from the first event. `Brackets` is a leftover
-to ignore.
+`Raffle` is an input tab that is cleared for a new event. `Brackets` is a leftover
+from another event; ignore it.
 
 ### Lineups
 

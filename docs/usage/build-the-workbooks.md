@@ -65,10 +65,8 @@ can be made this way**: 15 teams `A`–`O` in three brackets of five, four pairs
 matchup, 152 matches, one venue and 10 courts. Any other shape waits for the
 master.
 
-!!! note "Admin task — needs the team workbook and the site repo's runbook"
-    The cells to clear are listed in `_templates/CLAUDE.md`, "Team events: the
-    workbook", in the site repo. They are repeated below. The organizer can do the
-    copy; ask the admin if a cell is unclear.
+The cells to clear come from the site repo's runbook, `_templates/CLAUDE.md`,
+"Team events: the workbook", and are repeated below.
 
 1. Open the source: the workbook **2026-10-03 PickleDrive Club One Year
    Celebration**. **Never edit it.** Choose **File → Make a copy** and name the copy

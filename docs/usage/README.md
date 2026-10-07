@@ -60,7 +60,7 @@ section.
 | 3 | [Draw and fill rosters](draw-and-rosters.md) | organizer | once entries close |
 | 4 | [Register and build the site](register-and-build-the-site.md) | organizer + admin | about a week before |
 | 5 | [Connect the workbooks](connect-the-workbooks.md) | organizer | after rosters and schedule are final |
-| 6 | [Print](printables.md) | organizer | the last few days |
+| 6 | [Print](printables.md) | organizer (admin for the QR panel) | the last few days |
 | 7 | [Rehearse](rehearse.md) | operator | the last few days |
 | 8 | [Run the day](run-the-day.md) | operator, scorers, desk staff | the day |
 | 9 | [When something's wrong](troubleshooting.md) | operator | open it on the day |

@@ -11,7 +11,7 @@ needs access to, what gear the day needs, and who enters scores.
 | Role | What they do | Steps |
 | --- | --- | --- |
 | **Organizer** | Owns the event: the plan, the workbooks, the draw, the registration list, the printing. Decides each late change. | 1–7, [After the event](after-the-event.md) |
-| **Admin** | Has GitHub access to the site repo and `event-data`. Makes the changes marked **Admin task**. Often the same person as the organizer, but often not. | 4, [After the event](after-the-event.md) |
+| **Admin** | Has GitHub access to the site repo and `event-data`. Makes the changes marked **Admin task**. Often the same person as the organizer, but often not. | 4, 6 (the QR panel), [After the event](after-the-event.md) |
 | **Operator** | Runs the console and the workbook on the day. Signs in to Control Center, watches sync, flips the go-live switch, puts matches on courts, resyncs. | 7, 8, 9 |
 | **Scorers** | Enter match scores on their phones from a scorer link, if the event uses them. | [Scorer handout](scorer-handout.md) |
 | **Desk staff** | Mark people in from a desk link, if the event has attendance with desks. | [Desk handout](desk-handout.md) |

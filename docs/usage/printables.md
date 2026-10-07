@@ -49,7 +49,7 @@ The venue's **hub board** is a 2 × 3 ft sintra print that tells players the
 but the QR panel is the same at every event, so the board is printed once and only the
 panel changes.
 
-!!! note "Admin task — needs the site repo on a computer with Chrome"
+!!! note "Admin task — needs the site repo (and Chrome) on the admin's computer"
     Render the event's panel with `node _templates/hub-pubmat/render.mjs <event-key>`.
     It reads the panel from the event's own page, so the event page must be built
     first ([step 4](register-and-build-the-site.md)). It writes `qr-panel.pdf` and
@@ -81,7 +81,7 @@ each category's image for the noticeboard, and keep the text files.
 
 - **The scoresheet card says the day hasn't synced.** Run
   [step 5](connect-the-workbooks.md)'s first sync, or upload the CSV.
-- **The PDF is missing colours or courts.** Check the venue picker and the court
+- **The PDF shows the wrong venue or courts.** Check the venue picker and the court
   buttons on the page you printed from.
 - **The QR panel refuses.** The event page still has `{{TOKENS}}` in it. Fix the page
   and render again.

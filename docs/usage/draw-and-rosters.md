@@ -82,7 +82,7 @@ re-points every pair.
 
 A team event has no bracket draw to import. The organizer decides the groups.
 
-1. Type or paste each team's name, group, and players (with level and gender) into
+1. Type or paste each team's name and its players (with level and gender) into
    **`Teams`**. Captains can change it through the day.
 2. Lineups are entered on `MatchUps` later, as captains hand them in. See
    [the team workbook](../features/team-workbook.md).

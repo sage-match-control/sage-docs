@@ -35,7 +35,7 @@ version of each SAGE script.
 | Playoff matches read **TBD** | The qualifier draw or the seed cells haven't been filled | See [Playoff hand-offs](run-the-day.md#playoff-hand-offs). |
 | Names show as codes (`ND_1`) | The roster and the codes haven't met | Check `STEP 1` and `STEP 3` on the category tab. |
 | *Lineup not set* (team) | The matchup's lineup isn't on `MatchUps` yet, or `MatchUps` isn't ticked in **Live sync settings** | Enter the lineup, and tick `MatchUps` in **SAGE → Live sync settings**. |
-| The Hub shows nothing for the day | The day isn't live yet | Public site status is **Auto**, live about 4 hours before the first match. Click **Force live** to show it sooner. |
+| The Hub hides scores and standings | The day isn't live yet | Public site status is **Auto**, live about 4 hours before the first match. Click **Force live** to show it sooner. |
 
 ## A generator refuses to run
 
