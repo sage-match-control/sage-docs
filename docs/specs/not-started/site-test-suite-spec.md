@@ -1,6 +1,11 @@
 # Spec — site test suite (Control Center and the event pages)
 
-> **Status: not started.** Nothing here is built. Written 2026-10-02 against
+> **Status: not started; revise before building.** None of this suite's own
+> page tests are built. The [site engine](../implemented/site-engine-spec.md),
+> merged 2026-10-06, built the `_tests/` layout, runner, fixtures and helpers this
+> spec shares, and unit tests that take the place of its parity layer; with the
+> shared modules, the consistency layer is mostly not needed. Revise §4 against the
+> engine's `_tests/` before starting. Written 2026-10-02 against
 > `sage-match-control.github.io` at `89a7476` (live push switched on in the
 > pages). Revised 2026-10-03 against `9b49558`: the attendance desk pages and
 > the console's **Attendance** tab, and team rosters (the **Teams** tab in

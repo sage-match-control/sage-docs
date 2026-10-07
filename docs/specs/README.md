@@ -211,16 +211,20 @@ to the `...` form rather than repointing it.
   `/v1`), and every client moves onto it. Every existing URL is kept, frozen.
   `/ping` is unchanged.
 
+- **[Usage guide and docs restructure](in-progress/docs-usage-guide-spec.md)** —
+  Features & Usage split in two: a Usage tab that trains a new operator from
+  planning to the day of, and Features as a per-tool reference. Merged as docs
+  2.0.0; the newcomer read-through and the site repo's checklist fixes are left.
+
 ---
 
 ## Not started
 
 - **[Site test suite](not-started/site-test-suite-spec.md)** — Control
   Center, the current event pages and the attendance desk pages tested in a
-  real browser on fixture data, with every hand-copied rule (the live
-  channel and attendance client blocks, played/BYE, the team-event rules,
-  team rosters, go-live) checked across its copies. No page changes. It
-  provides the dry run's rendering layer.
+  real browser on fixture data. No page changes. It provides the dry run's
+  rendering layer. To be revised first: the site engine built its `_tests/`
+  runner, fixtures and unit tests.
 - **[Calculator team format](not-started/calculator-team-format-spec.md)** — a third Format option
   in the Tournament Calculator: one team competition planned in matchups, with the group stage,
   quarterfinal-to-final playoffs, slots and finish time worked out from teams, groups and courts.
@@ -234,9 +238,6 @@ to the `...` form rather than repointing it.
   — outline only: an operator puts a match on a court, or clears it, from Live
   Matches, through the same write-then-publish path as score entry. Waits for
   score entry's real-workbook checks.
-- **[Usage guide and docs restructure](not-started/docs-usage-guide-spec.md)**
-  — Features & Usage split in two: a Usage tab that trains a new operator from
-  planning to the day of, and Features as a per-tool reference. Decided; ready to build.
 
 ---
 

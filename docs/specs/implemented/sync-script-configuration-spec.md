@@ -1,5 +1,7 @@
 # Spec — Live sync script configuration
 
+> **Status: implemented.** Built and in use.
+
 Move `sheets-sync.gs`'s per-spreadsheet configuration out of source and into
 Script Properties, collected through a menu-driven setup dialog that validates
 what it is given before saving it. Ship the sync script inside the Dual Meet

@@ -1,5 +1,7 @@
 # Spec — Tournament Calculator dual-meet fixes
 
+> **Status: implemented.** Built and in use.
+
 Two changes to dual-meet mode in `tools/tournament-calculator.html`: collapse
 the two club-pair inputs into one, and give dual meets their own bracket
 default.

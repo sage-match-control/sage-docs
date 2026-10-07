@@ -1,5 +1,7 @@
 # Spec — Dual Meet Schedule Generator (Phase 2)
 
+> **Status: implemented.** Built and in use.
+
 Phase 2 of the Dual Meet Sheet Generator: the `SCHEDULE` tab. Split out of
 `dual-meet-sheet-generator-spec.md` §10.1, which now stubs to this file.
 

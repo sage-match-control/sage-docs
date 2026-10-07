@@ -1,5 +1,7 @@
 # Spec — Event site templates
 
+> **Status: implemented.** Built and in use.
+
 Create two reusable event-site templates in the `sage-match-control.github.io`
 repo, so a new tournament site is a copy-and-fill job rather than a
 copy-an-old-event-and-hunt-for-hardcoded-strings job.

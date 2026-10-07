@@ -1,5 +1,7 @@
 # Spec — Tournament Calculator as a PWA
 
+> **Status: implemented.** Built and in use.
+
 Make `tools/tournament-calculator.html` installable and offline-capable, without
 affecting any other page on the site.
 

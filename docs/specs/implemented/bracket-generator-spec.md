@@ -1,5 +1,7 @@
 # Spec — Bracket Generator
 
+> **Status: implemented.** Built and in use.
+
 Promote the per-event `bracket-generator.html` into a single evergreen tool at
 `tools/bracket-generator.html`, branded as S.A.G.E. rather than as whichever
 event it was copied for, and give it an **optional Event name field** that

@@ -37,11 +37,28 @@ has been replaced.
 
 ---
 
+## [2.1.0] — 2026-10-08
+
+Spec statuses brought in line with what is built.
+
+### Changed
+
+- [Usage guide and docs restructure](specs/in-progress/docs-usage-guide-spec.md)
+  moves from Not started to **In progress**: merged as 2.0.0, with the newcomer
+  read-through and the site repo's checklist fixes left.
+- [Site test suite](specs/not-started/site-test-suite-spec.md) stays Not started,
+  with its status revised: the site engine built the `_tests/` runner, fixtures and
+  unit tests it shares, and its page tests are not built.
+- Nine implemented specs that had no status line carry one: Bracket Generator,
+  Calculator dual-meet fixes, Calculator PWA, Dual Meet Schedule Generator, Event
+  site templates, PNF × BUP dual meet, Scoresheet event picker, Runtime-fetched sync
+  config and Sync script configuration.
+
 ## [2.0.0] — 2026-10-08
 
 The Features & Usage tab splits in two: a **Usage** guide that trains a new
 operator, and **Features** as a per-tool reference. Built from the
-[usage guide spec](specs/not-started/docs-usage-guide-spec.md).
+[usage guide spec](specs/in-progress/docs-usage-guide-spec.md).
 
 ### Added
 

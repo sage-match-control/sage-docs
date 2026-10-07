@@ -1,5 +1,7 @@
 # Spec — Runtime-fetched sync config
 
+> **Status: implemented.** Built and in use.
+
 Move the event/day/facility registry out of `sage-tools-api/src/registry/SyncConfig.mjs`
 and into a JSON file in the shared `event-data` repo, fetched at runtime via the
 GitHub Contents API.

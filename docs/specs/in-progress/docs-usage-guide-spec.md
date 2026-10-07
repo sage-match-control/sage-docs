@@ -1,6 +1,15 @@
 # Spec — Usage guide and docs restructure
 
-> **Status: not started — ready to build.** Written 2026-10-08 from an audit of
+> **Status: in progress.** Built and merged to `sage-docs` `main` on 2026-10-08 as
+> docs 2.0.0 (see the [changelog](../../changelog.md)): the Usage tab (§4), the
+> Features changes (§5), the corrections in §2.2 inside `sage-docs`, and §6. Not
+> yet: the read-through by someone who has never run an event (§7 step 5), and
+> D5 with the two site-repo fixes in §2.2 (the dry-run checklist template's
+> labels and scorer links, and `_templates/CLAUDE.md` step 13), which need a push
+> to `sage-match-control.github.io`. When both land, this moves to
+> `implemented/`.
+>
+> Written 2026-10-08 from an audit of
 > every page in `features/`, `technical/README.md`, `technical/adding-a-new-event.md`,
 > the root `README.md`, and the site repo's `_templates/CLAUDE.md` and
 > `_templates/dry-run-checklist-template.md` as of that date. The owner's

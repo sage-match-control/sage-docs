@@ -1,5 +1,7 @@
 # Spec — Pickle & Friends × 1Bataan United Picklers dual meet
 
+> **Status: implemented.** The event site was built and the event ran on 12 September 2026.
+
 Instantiate `_templates/dual-meet-template/` for a one-day dual meet on
 **12 September 2026** at **Pampanga Pickleball Center**.
 

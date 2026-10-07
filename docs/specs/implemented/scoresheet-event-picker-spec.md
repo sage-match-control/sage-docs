@@ -1,5 +1,7 @@
 # Spec — Scoresheet Generator event picker
 
+> **Status: implemented.** Built and in use.
+
 Give `tools/scoresheet-generator.html` a second way to supply its matches:
 pick a registered **event → day → facility** and pull that facility's matches
 straight from the published snapshot in `event-data`, instead of downloading
