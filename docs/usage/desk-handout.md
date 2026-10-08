@@ -1,3 +1,8 @@
+---
+hide:
+  - footer
+---
+
 # Desk handout
 
 *Send this with your desk link. It is written to read on a phone.*
@@ -40,6 +45,3 @@ Marks made on other phones appear within about 10 seconds, or when you press **R
 | **Ask the operator for a new desk link.** | Your link has stopped. Ask for a new one. |
 
 A name missing from the list, or written two ways: tell the operator. Don't type a new one.
-
----
-*For the operator:* the full reference is [event attendance](../features/event-attendance.md).

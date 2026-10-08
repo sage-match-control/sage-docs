@@ -1,3 +1,8 @@
+---
+hide:
+  - footer
+---
+
 # Scorer handout
 
 *Send this with your scorer link. It is written to read on a phone.*
@@ -54,7 +59,3 @@ score**.
 | **The score reached the sheet but could not be published** | **Tell the operator.** They will resync. |
 
 When in doubt, ask the operator.
-
----
-*For the operator:* the full reference is the [scorer page](../features/scorer-page.md)
-and [Score entry](../features/score-entry.md).

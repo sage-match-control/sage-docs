@@ -268,7 +268,8 @@ All decided 2026-10-08.
   `technical/adding-a-new-event.md` for the git mechanics.
 - **D2. Usage comes first:** Home, Usage, Features, Technical, Specs.
 - **D3. Handouts are separate pages,** short and readable on a phone, meant
-  to be sent with the scorer link or the desk link.
+  to be sent with the scorer link or the desk link. Each stands alone: no
+  links or references to other pages, and no previous/next footer.
 - **D4. The operational knowledge**, as Usage writes it:
   - **Qualifier draw (standard).** It varies by event. Step 8 describes it
     as a hand-off: it happens after the round robin, before the first playoff

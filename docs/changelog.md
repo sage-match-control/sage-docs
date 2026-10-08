@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.2.1] — 2026-10-08
+
+### Fixed
+
+- The [scorer handout](usage/scorer-handout.md) and [desk handout](usage/desk-handout.md)
+  stand alone: they no longer end with links to the Features pages, and they hide the
+  previous/next page footer. A scorer or desk volunteer reads only the one page.
+
 ## [2.2.0] — 2026-10-08
 
 The roles match how SAGE works: the organizer hires SAGE and decides, and SAGE members
