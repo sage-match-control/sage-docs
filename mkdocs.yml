@@ -12,6 +12,7 @@ docs_dir: docs
 
 theme:
   name: material
+  custom_dir: overrides
   font: false
   favicon: https://sage-match-control.github.io/assets/logo.png
   logo: https://sage-match-control.github.io/assets/logo.png

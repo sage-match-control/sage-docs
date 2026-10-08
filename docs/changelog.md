@@ -42,8 +42,10 @@ has been replaced.
 ### Fixed
 
 - The [scorer handout](usage/scorer-handout.md) and [desk handout](usage/desk-handout.md)
-  stand alone: they no longer end with links to the Features pages, and they hide the
-  previous/next page footer. A scorer or desk volunteer reads only the one page.
+  stand alone, with no way to reach another page. They no longer end with links to the
+  Features pages, and a page template, `overrides/handout.html`, drops the menu, tabs,
+  search, repository and edit links, and the footer. A scorer or desk volunteer sees
+  only the one page.
 
 ## [2.2.0] — 2026-10-08
 

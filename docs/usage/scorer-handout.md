@@ -1,6 +1,5 @@
 ---
-hide:
-  - footer
+template: handout.html
 ---
 
 # Scorer handout
