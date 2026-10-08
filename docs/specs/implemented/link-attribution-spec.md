@@ -13,10 +13,17 @@ facility workbook carries that label:
 
 Operator writes from Control Center are labelled `Control Center`.
 
-> **Status: not started.** Written 2026-10-08 against `sage-tools-api` 3.0.1,
-> `sage-match-control.github.io` at `lib/v1` and `tools/control-center.html` as of
-> that date. **Every decision is settled (§1).** There are no open questions: do not
-> stop to ask about anything §1 covers.
+> **Status: implemented.** Built in `sage-tools-api` 3.1.0, Control Center, the desk and
+> scorer pages (`lib/v1`) and the docs, and merged into `main` on 2026-10-09. Written
+> 2026-10-08 against `sage-tools-api` 3.0.1. It is tested against fakes; the real-Google
+> checks in §10.2 (L1–L7) have not run, so the first event to issue a labelled link is
+> also its first real-workbook use. **Divergence:** in fixture mode a desk link works like
+> a scorer link (§5.3 gives it only a real payload): it opens the local `attendance.html`
+> with the same `&fixture=` and lasts to the end of the event's day in Manila, or of today
+> once that day has passed, so §6 step 3 can follow it. **Note:** the label shows on desk
+> pages made from `_templates/attendance/`; the three desk pages of Pickle for Sight,
+> PickleDrive and Piggleball are older inline copies, frozen with their events, and don't
+> show it. The workbook records `markedBy` either way.
 >
 > Builds on [Score entry and scorer links](../implemented/control-center-score-entry-spec.md)
 > and [Attendance for every event](../implemented/multi-event-attendance-spec.md).

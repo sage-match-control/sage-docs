@@ -108,6 +108,10 @@ to the `...` form rather than repointing it.
   text), save. The API writes the match's two `SCHEDULE` score cells, refuses if the
   sheet changed meanwhile, and publishes at once. Scorer staff use the same dialog on a
   per-event scorer page, through 24-hour links that a Mission Control switch can stop.
+- **[Link attribution](implemented/link-attribution-spec.md)** — desk and scorer
+  links say who they were issued to, with a note, and the workbook records it: a
+  `markedBy` column in `ATTENDANCE`, and a note on each edited score cell listing
+  its last five edits.
 
 ### Scoresheet Generator
 
@@ -238,10 +242,6 @@ to the `...` form rather than repointing it.
   — outline only: an operator puts a match on a court, or clears it, from Live
   Matches, through the same write-then-publish path as score entry. Waits for
   score entry's real-workbook checks.
-- **[Link attribution](not-started/link-attribution-spec.md)** — desk and scorer
-  links say who they were issued to, with a note, and the workbook records it: a
-  `markedBy` column in `ATTENDANCE`, and a note on each edited score cell listing
-  its last five edits.
 
 ---
 

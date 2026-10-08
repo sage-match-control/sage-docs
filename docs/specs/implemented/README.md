@@ -46,3 +46,4 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Live push delivery](durable-object-push-spec.md) | `sage-tools-api/live-worker/` (the `sage-live` Worker and its `DayChannel` Durable Object), `LivePublisher` and the publish-then-archive flow, and the `LIVE CHANNEL` block in Control Center, the templates and every current event's pages. In use since 3 October 2026 |
 | [Live push delivery — explainer](durable-object-push-explainer.md) | The same, in plain language |
 | [Score entry and scorer links](control-center-score-entry-spec.md) | `sage-tools-api/src/scores/`, Match Finder's score dialog and Mission Control's Scorer links in Control Center, and `_templates/scorer/scorer.html` |
+| [Link attribution](link-attribution-spec.md) | The **Issued to** and **Note** of a desk or scorer link (signed into the token as `to` and `note`), `ATTENDANCE`'s `markedBy` column, and the note on both score cells of a saved match. `sage-tools-api` 3.1.0 |

@@ -37,7 +37,7 @@ has been replaced.
 
 ---
 
-## [2.4.0] — 2026-10-08
+## [2.4.0] — 2026-10-09
 
 Desk and scorer links name who they were issued to, and the workbook records it.
 
@@ -59,12 +59,14 @@ Desk and scorer links name who they were issued to, and the workbook records it.
 - [Run the day](usage/run-the-day.md): issue one link per person, with their name and gate or
   courts. The [scorer](usage/scorer-handout.md) and [desk](usage/desk-handout.md) handouts say
   the page shows who the link was issued to, and not to pass it on.
+- Spec: [Link attribution](specs/implemented/link-attribution-spec.md) moves from Not started
+  to **Implemented**.
 
 ## [2.3.0] — 2026-10-08
 
 ### Added
 
-- Spec: [Link attribution](specs/not-started/link-attribution-spec.md). Desk and scorer
+- Spec: [Link attribution](specs/implemented/link-attribution-spec.md). Desk and scorer
   links name who they were issued to, and the workbook records it on every mark and
   score they make. Not started.
 
