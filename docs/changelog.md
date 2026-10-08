@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.3.0] — 2026-10-08
+
+### Added
+
+- Spec: [Link attribution](specs/not-started/link-attribution-spec.md). Desk and scorer
+  links name who they were issued to, and the workbook records it on every mark and
+  score they make. Not started.
+
 ## [2.2.1] — 2026-10-08
 
 ### Fixed

@@ -238,6 +238,10 @@ to the `...` form rather than repointing it.
   — outline only: an operator puts a match on a court, or clears it, from Live
   Matches, through the same write-then-publish path as score entry. Waits for
   score entry's real-workbook checks.
+- **[Link attribution](not-started/link-attribution-spec.md)** — desk and scorer
+  links say who they were issued to, with a note, and the workbook records it: a
+  `markedBy` column in `ATTENDANCE`, and a note on each edited score cell listing
+  its last five edits.
 
 ---
 
