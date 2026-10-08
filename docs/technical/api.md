@@ -64,10 +64,10 @@ day-scoped tokens (see [Auth](auth.md)).
 | `GET /v3/events/{event}/score-entry` | read the event's score-entry mode | operator | `200 { event, scoreEntry }` (`"console"`, `"links"` or `null`) | — |
 | `PUT /v3/events/{event}/score-entry` | set it | operator | `200 { event, scoreEntry, changed }` | `PUT /v1/events/:event/score-entry` |
 | `PUT /v3/days/{day}/facilities/{facility}/people/{personKey}/attendance` | mark one person present or not | operator or desk | `200` the row | `PUT /v1/days/:day/facilities/:facility/attendance/:key` |
-| `POST /v3/days/{day}/attendance/desk-links` | issue a desk link | operator | `201` | `POST /v1/days/:day/attendance/desk-links` |
+| `POST /v3/days/{day}/attendance/desk-links` | issue a desk link; optional body `{ issuedTo?, note? }` | operator | `201 { token, expiresAt, day, issuedTo, note }` | `POST /v1/days/:day/attendance/desk-links` |
 | `POST /v3/days/{day}/attendance/reconciliations` | update the `ATTENDANCE` roster | operator | `200` | `POST /v1/days/:day/attendance/reconciliations` |
 | `PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score` | enter, correct or clear a score | operator or scorer | `200` | `PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score` |
-| `POST /v3/days/{day}/scores/scorer-links` | issue a scorer link | operator | `201` | `POST /v1/days/:day/scores/scorer-links` |
+| `POST /v3/days/{day}/scores/scorer-links` | issue a scorer link; optional body `{ issuedTo?, note? }` | operator | `201 { token, expiresAt, day, issuedTo, note }` | `POST /v1/days/:day/scores/scorer-links` |
 
 That is sixteen routes on thirteen paths. Details a twin does not show:
 
@@ -77,6 +77,11 @@ That is sixteen routes on thirteen paths. Details a twin does not show:
   (the legacy route silently uses `sheets`), as is an `editedAt` that does not
   parse; one outside the last hour (or in the future) is ignored, as `X-Edit-At`
   is. A day-level sync takes no `editedAt`. The body is optional.
+- **The two issue routes take an optional body.** `{ "issuedTo"?: string, "note"?: string }`, each
+  at most 40 characters after trimming (inner whitespace collapsed, control characters removed,
+  counted in code points) and signed into the token. A value that is not text, or too long, is a
+  `400`; a body that is not JSON is a `415`. The `201` echoes `issuedTo` and `note`, `null` when not
+  given. The `/v1` twins ignore any body and answer exactly `{ token, expiresAt, day }`.
 - **Scoresheets** negotiate on `Accept` before the upload is read:
   `application/pdf` (or no `Accept`, or `*/*`) returns the PDF;
   `application/x-ndjson` streams progress lines ending with the PDF

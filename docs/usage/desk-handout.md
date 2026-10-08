@@ -12,7 +12,8 @@ category they play that day at your venue. You can't do anything else with this 
 ## Open it
 
 Open the **link** the operator sent you (or scan its QR code). It works for **one day**,
-until the end of that day in Manila time.
+until the end of that day in Manila time. The page shows who the link was issued to, and
+every check-in you make is recorded under that name, so don't pass the link on.
 
 If it shows *Ask the operator for a new desk link*, the link has stopped. Ask the operator.
 

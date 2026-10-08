@@ -37,6 +37,29 @@ has been replaced.
 
 ---
 
+## [2.4.0] — 2026-10-08
+
+Desk and scorer links name who they were issued to, and the workbook records it.
+
+### Added
+
+- [Who a link was issued to](features/control-center.md#who-a-link-was-issued-to):
+  the optional **Issued to** and **Note** fields when issuing a desk or scorer link.
+- [Who marked someone in](features/event-attendance.md#who-marked-someone-in): the
+  `markedBy` column of the `ATTENDANCE` tab.
+- [Who entered a score](features/score-entry.md#who-entered-a-score): the note on both
+  score cells of a match.
+- [Technical](technical/auth.md#who-a-scoped-token-was-issued-to): the `to` and `note` keys
+  of a scoped token, the optional body of the two `/v3` issue routes, how `markedByColumn`
+  picks a column, and the one-cell widening of the attendance write allowlist.
+
+### Changed
+
+- The scorer and desk pages show the label after the day.
+- [Run the day](usage/run-the-day.md): issue one link per person, with their name and gate or
+  courts. The [scorer](usage/scorer-handout.md) and [desk](usage/desk-handout.md) handouts say
+  the page shows who the link was issued to, and not to pass it on.
+
 ## [2.3.0] — 2026-10-08
 
 ### Added

@@ -31,8 +31,8 @@ its `WWW-Authenticate` header come from there):
 | --- | --- | --- |
 | `requireOperator` | an operator bearer token | `{ kind: "operator" }` |
 | `requireOperatorOrSyncSecret` | an operator token, or the `X-Sync-Secret` header | `{ kind: "operator" }` for a token |
-| `requireOperatorOr("desk")` | an operator token, or a desk token | `{ kind: "desk", day }` for a desk token |
-| `requireOperatorOr("scorer")` | an operator token, or a scorer token | `{ kind: "scorer", day }` for a scorer token |
+| `requireOperatorOr("desk")` | an operator token, or a desk token | `{ kind: "desk", day, issuedTo, note }` for a desk token |
+| `requireOperatorOr("scorer")` | an operator token, or a scorer token | `{ kind: "scorer", day, issuedTo, note }` for a scorer token |
 
 A desk or scorer token is not an operator token, and an operator token is not a
 scoped one, so the wrong kind gets the same 401 as no token. A new token scope is
@@ -85,6 +85,25 @@ setting is `"desks"`.
   `/v1` twin, with the same auth.)
 
 See [event attendance](event-attendance.md).
+
+### Who a scoped token was issued to
+
+A desk or scorer token can say who it was issued to and carry a short note: `to` and
+`note` in the signed payload, in the key order `exp, scope, day, to, note`. Each is
+present only when given (a non-empty string), so a link issued without them has just
+`exp, scope, day`, and any token with that payload verifies, unlabelled.
+`issueDeskToken` and `issueScorerToken` take `issuedTo` and `note`; `verifyDeskToken` and
+`verifyScorerToken` return `{ day, exp, issuedTo, note }`, each `null` when the payload has
+none (or has a value that is not text). The payload is part of what is signed, so a holder
+can't edit the name.
+
+The issue routes accept them in an optional `/v3` body (each at most 40 characters after
+trimming, counted in code points) and echo them. The middleware copies them onto `req.actor`,
+and `actorLabel` (`src/shared/issuedLink.mjs`) turns an actor into the label written beside
+what it changed: `Ana (Gate A)`, `Ana`, `Desk link (Gate A)`, `Desk link`, and `Control Center`
+for an operator. It is attribution, not authentication: the token proves the link was issued,
+and the label is what the operator said it was issued to. Anyone holding a forwarded link acts
+under its label.
 
 ## Scorer tokens
 

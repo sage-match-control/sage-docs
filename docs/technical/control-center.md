@@ -333,8 +333,21 @@ a reload. **Issue scorer link** calls `POST /v3/days/{day}/scores/scorer-links` 
 `renderScorerLink` draws the result like a desk link: a read-only input, **Copy**,
 **Share**, **Show QR** (`attConsoleShowQr`, which takes a label for the canvas's
 `aria-label`) and the validity line. In a fixture no request is made; the issued
-token has a real payload (`scope: "score-desk"` and the day) so the scorer page
-can decode it, and the link points at the local `scorer.html`.
+token has a real payload (`scope: "score-desk"`, the day, and `to` and `note` when given) so the
+scorer page can decode it, and the link points at the local `scorer.html`.
+
+**Who the link is for.** Above **Issue scorer link** (`#scorerLinkFields`) and above **Issue desk
+link** (`#deskLinkFields`) sit two optional text inputs, **Issued to** and **Note**, each
+`maxlength="40"`; the block is shown and hidden with its button. `linkIssueFields()` reads
+them, trims them, and sends only the non-empty ones as the JSON body of `POST
+/v3/days/{day}/scores/scorer-links` or `…/attendance/desk-links`. After the link is shown both
+inputs are cleared, so the next link isn't labelled with the last one's name. The result title
+becomes `Scorer link for Oct 3 · Ana (Gate A)` from the echoed `issuedTo` and `note`
+(`issuedLabel`, set with `textContent`). Fixture links, desk links too, have a real payload, built by
+`fixtureLinkToken()` as UTF-8 JSON in base64url, the way the API writes one. A fixture desk link
+works like a fixture scorer link: it points at the local `attendance.html` with the same
+`&fixture=`, and it lasts to the end of the event's day in Manila, or of today once that day has
+passed, so it opens when issued.
 
 **The scorer page must exist.** `scorerPageKnown(eventKey)` does a same-origin `HEAD` request for
 `/events/<key>/scorer.html` (a fixture also accepts `scorer-beta.html`), remembers the answer

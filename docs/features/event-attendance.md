@@ -67,6 +67,28 @@ within about 10 seconds, or when you press **Refresh**.
 The step-by-step is the [desk handout](../usage/desk-handout.md), a page to send
 with the desk link.
 
+## Who marked someone in
+
+Each mark or unmark also records who made it and when, in a **`markedBy`** column of the
+`ATTENDANCE` tab: `In · Ana (Gate A) · 14:32`, or `Out · Control Center · 09:05`, in
+Manila time. It holds the **last** change to that person, not a history.
+
+The name is the label of the link used: the **Issued to** and **Note** the operator gave
+when issuing the [desk link](control-center.md#who-a-link-was-issued-to), or `Desk link`
+if it was issued with neither. A mark made in Control Center reads `Control Center`. The
+label says who the link was issued to, not who typed, so a forwarded link writes under the
+same name.
+
+Where the column goes is decided for you, and never over a column of your own:
+
+- if a column from H to Z has the header `markedBy`, that is the one;
+- otherwise the first mark claims the first column from H to Z, skipping J (the **Not yet
+  in** list lives there), whose header and rows are all empty, and writes the header into
+  it;
+- if every column is taken, the mark is still saved, without `markedBy`.
+
+A new workbook's tab has no `markedBy` header until the first mark claims a column.
+
 ## Control Center extras
 
 The Attendance tab, for operators, also has:

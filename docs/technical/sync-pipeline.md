@@ -578,8 +578,18 @@ score cell is a 422, so the API never overwrites one. `SheetsClient.writeScores`
 `clearScores` accept only a range of the form `SCHEDULE!<team 1 score><row>:<team 2
 score><row>` at row 6 or below, checked before any request is made. A clear uses
 `values:batchClear`, so the cells are truly empty, which the team workbooks'
-`ISBLANK` test needs. `updateValues`, attendance's write, keeps its own `ATTENDANCE!A:G`
-allowlist.
+`ISBLANK` test needs. `updateValues`, attendance's write, has its own allowlist
+(`ATTENDANCE!A:G` and one `markedBy` cell).
+
+**Who entered it.** After a save that changed the score, `ScoreService` reads the notes on
+the two score cells (`SheetsClient.readScoreNotes`), puts a new line first
+(`buildNote` in `src/scores/domain/scoreNote.mjs`: the score, the
+[label](auth.md#who-a-scoped-token-was-issued-to), the Manila time and the score it replaced,
+with the last five such lines kept and every line a person wrote kept below them), and writes
+the same note on both cells (`writeScoreNote`, a `repeatCell` request with `fields: note`, under
+the same range check as the scores). This runs after the publish and is best effort: a failure
+logs a warning and the save still answers 200. A save that is `unchanged` reads and writes no
+note. What the note looks like: [Score entry § Who entered a score](../features/score-entry.md#who-entered-a-score).
 
 **The optimistic check.** The client sends the match as it showed it (`expected`: the
 two codes and two scores). If the sheet's codes differ, or its scores differ from both
@@ -597,7 +607,8 @@ written and can take up to a minute to answer the read that follows. The client'
 two-minute request timeout covers the read, the write and the publish.
 
 **Audit.** Every save logs one line: the day, facility, match, cells, old and new
-scores, who (`operator` or `scorer`) and whether the publish worked.
+scores, who (`operator` or `scorer`, as `scorer[Ana (Courts 3–4)]` for a link issued with a
+name or note) and whether the publish worked.
 
 Who may call it, and the switch that stops scorer links: [Auth § Scorer tokens](auth.md#scorer-tokens).
 

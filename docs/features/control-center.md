@@ -128,13 +128,41 @@ and do nothing else; they never see Control Center.
   every venue of that day and is valid for 24 hours from when it is issued, not
   until midnight. It can't be issued once the day is over (from 6:00 AM the
   morning after), or while the switch reads **Stopped**.
+- Above the button, two optional fields, **Issued to** and **Note** (at most 40
+  characters each), say who the link is for: a name, and for example the courts
+  they cover. See [Who a link was issued to](#who-a-link-was-issued-to).
 - The link appears with **Copy**, **Share** (on devices that support it),
   **Show QR** and **Valid until Mon, Oct 5, 8:30 AM (24 hours)**, in Manila
-  time. Send it, or have the scorers scan the QR code.
+  time. When it was issued to someone, the title names them. Send it, or have the
+  scorers scan the QR code.
 
 A scorer page that is already open finds out about a stop when a save is refused
 ("Scorer links are stopped for this event. Ask the operator."); one that is
 reloaded says so as soon as it loads.
+
+#### Who a link was issued to
+
+Both **Issue scorer link** and **Issue desk link** have two optional text fields
+above the button: **Issued to** (a name) and **Note** (for example `Gate A` or
+`Courts 3–4`). Each is at most 40 characters. Both are signed into the link, so the
+holder can't change them, and they are cleared once the link is shown so the next
+link isn't labelled with the last one's name.
+
+They show up in three places:
+
+- the page the link opens, after the day: ` · Day 1 · Ana (Gate A)`;
+- the `markedBy` column of the workbook's `ATTENDANCE` tab, for a desk link: see
+  [event attendance](event-attendance.md#who-marked-someone-in);
+- the note on both score cells of a match, for a scorer link: see
+  [score entry](score-entry.md#who-entered-a-score).
+
+The label reads `Ana (Gate A)` with both, `Ana` with only a name, `Desk link (Gate A)`
+or `Scorer link (Courts 3–4)` with only a note, and `Desk link` or `Scorer link` with
+neither. An operator's own marks and scores in Control Center read `Control Center`.
+
+The label says who the link was **issued to**, not who typed. Anyone holding a
+forwarded link writes under its label, so give each person or desk their own link.
+A link issued with neither field works the same way, with no label.
 
 ## Awards
 
@@ -198,7 +226,8 @@ Flip it to mark someone in; it records the time. Above the list:
   instead of waiting for the next sync
 - **Issue desk link**, for an event set to `"desks"`: a link for one day that
   lets desk staff mark people in from their own phones, with **Copy**,
-  **Share** and **Show QR**
+  **Share** and **Show QR**. Above it, the optional **Issued to** and **Note**
+  fields, as for [scorer links](#who-a-link-was-issued-to)
 - **Needs attention**: names that might be the same person written two ways,
   people listed twice in one category, and **Show withdrawn**
 

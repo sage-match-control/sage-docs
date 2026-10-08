@@ -27,6 +27,11 @@ expires. A newer link replaces an older one.
   has stopped scorer links. Nothing can be saved until they accept them again,
   and the page checks every time it loads, so reload once they have.
 
+If the operator issued the link to someone, the line under the page name ends with
+who: ` · Day 1 · Ana (Courts 3–4)`. It is the label that goes on every score saved with
+this link, so it shows who the link was given to. It is shown only when the link has a
+name or a note.
+
 ## Picking a venue
 
 If the day has several venues, the page asks **Which venue are you at?** and

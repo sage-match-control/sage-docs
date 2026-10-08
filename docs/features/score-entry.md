@@ -70,6 +70,30 @@ Opening a match that already has a score shows that score in the boxes, and
 Review adds **Was 11 – 9**. **Clear score**, on the first step, empties both
 cells again, after a Review that reads **Clear the score of match #42**.
 
+## Who entered a score
+
+After a save that changed the score, both score cells of the match get a Google Sheets
+**note** (the small corner triangle) listing the last five score-entry edits, newest first:
+
+```
+11–7 · Ana (Courts 3–4) · Oct 8 14:32 · was 9–11
+```
+
+A line has the score, the label of whoever saved it, the Manila time, and the score it
+replaced (`was …`, left out when the cells were empty). A clear reads
+`cleared · Scorer link · Oct 8 14:40 · was 11–7`. A missing side of a half-filled earlier
+score prints `?`.
+
+The label is the **Issued to** and **Note** the operator gave when issuing the
+[scorer link](control-center.md#who-a-link-was-issued-to) (`Ana (Courts 3–4)`), or
+`Scorer link` if it was issued with neither. A save made in Control Center reads `Control
+Center`. The label says who the link was issued to, not who typed.
+
+Anything a person wrote in the same note stays, below the score-entry lines, and is never
+trimmed. A save that changes nothing leaves the note as it is. The note is written after the
+score and the publish, and is best effort: if it can't be written the save still succeeds.
+Notes are for the people running the workbook and never reach the public pages.
+
 ## When the sheet changed
 
 If the match's cells changed since the dialog opened (someone typed into the

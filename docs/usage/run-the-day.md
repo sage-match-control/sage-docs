@@ -54,6 +54,13 @@ show it sooner, for example so players can check their schedule when they arrive
   covers every venue of the day and is valid for 24 hours, so issue it that morning. It
   can't be issued once the day is over.
 
+When you issue a desk or scorer link, fill in **Issued to** with the person's name and
+**Note** with their gate or courts (`Ana`, `Gate A`; `Courts 3–4`). The workbook then shows
+who did what: the `markedBy` column of `ATTENDANCE` and the note on each score cell read
+`Ana (Gate A)`, not just `Desk link`. Issue one link per person or desk, and ask them not
+to pass it on: the label records who the link was issued to, not who typed, so a forwarded
+link writes under its first owner's name.
+
 ## During play
 
 Three jobs run at once, as set out in

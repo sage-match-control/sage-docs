@@ -16,7 +16,8 @@ can't change anything else.
    replaces an older one.
 
 Your link works for **one day**, at **every venue** that day, for **24 hours** from when
-it was made.
+it was made. The page shows who the link was issued to, and every score you save is
+recorded under that name, so don't pass the link on.
 
 ## Pick your venue
 

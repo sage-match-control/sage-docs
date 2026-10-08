@@ -42,8 +42,9 @@ Row 1 is `key | player | teams | categories | present | timeIn | withdrawn`
 `personKey()` in `src/attendance/domain/personKey.mjs` (accents stripped, whitespace
 collapsed, lower-cased), the only definition of identity. `teams` and
 `categories` are comma-joined and parallel. `timeIn` is `yyyy-MM-dd HH:mm`
-(Asia/Manila). Columns H onward belong to people; the API never reads or
-writes them.
+(Asia/Manila). Columns H onward belong to the people running the workbook; the
+API reads them only to find a free column for [markedBy](#markedby), and writes one
+cell there per mark.
 
 Both generators (`dual-meet-generator.gs`, `standard-tournament-generator.gs`) create this tab
 empty when they build a workbook: the header, a frozen first row, and the
@@ -53,11 +54,11 @@ the generated header cannot drift from the one the API requires. A tab of that
 name already in the workbook is left alone. The API creates the tab itself only
 when it is missing (a workbook not built by a generator, such as PickleDrive's).
 
-One exception to "never past G": when the API creates the tab it also writes a
+When the API creates the tab it also writes a
 **Not yet in** list in column J (`J1` the header, `J2` a `FILTER` formula listing
 everyone neither present nor withdrawn). That write is fixed in
 `SheetsClient.createAttendanceTab` and entered as a formula; `updateValues`
-still refuses anything outside A to G. A tab that already exists is not changed.
+refuses column J. A tab that already exists is not changed.
 
 Cells are written with `valueInputOption: RAW`, and `present` and `withdrawn`
 are always booleans, so a column never mixes types (gviz's CSV export empties
@@ -93,6 +94,30 @@ instance overwrote them, so the next sync adds the missing people.
 It is idempotent, so a repeat keeps the first `timeIn`. No lock: two people
 marking different people write different rows.
 
+### markedBy
+
+A mark that changes something also writes who did it: `In · Ana (Gate A) · 14:32` or
+`Out · Control Center · 09:05` (`formatMarkedBy`, Manila time, 24-hour). The label is
+`actorLabel(actor)`: the desk link's `issuedTo` and `note`, or `Control Center` for an
+operator ([auth](auth.md#who-a-scoped-token-was-issued-to)). It is one `updateValues` call with
+`E:F`, so the mark and its label land together; a mark that changes nothing writes nothing.
+
+`mark` reads `ATTENDANCE!A1:Z`, not `A1:G`, and gives `parseTab` only the first seven cells of
+each row. `parseTab` is strict on A–G (a header that is not exactly the seven `HEADERS`
+throws `AttendanceLayoutError`), and a person's own columns beyond G don't trip it.
+
+`markedByColumn(values)` picks the column from that read. H onward belongs to the people running the workbook, and J
+holds the **Not yet in** formula, so it never takes a column that is in use:
+
+1. a column in H–Z (J excepted) whose row-1 header is exactly `markedBy` wins, and nothing more
+   is written for the header;
+2. otherwise the first column in H, I, K…Z whose row 1 **and every data row** are blank is claimed,
+   and the same call writes the `markedBy` header into it;
+3. otherwise `null`: the mark is written without it and a warning is logged.
+
+`HEADERS` is the seven columns A–G, and neither generator writes a `markedBy` header, so a
+new tab has no `markedBy` until the first mark claims a column.
+
 ## Routes
 
 Mounted at `/v3` (`src/attendance/routes.mjs`), which every page calls:
@@ -117,10 +142,11 @@ on `/v3`), never raw Google JSON.
 `SheetsClient` reads with the API key and writes with the service account's
 token (`GoogleAccessToken`, from the metadata server; `GOOGLE_ACCESS_TOKEN`
 overrides it for local development). **Every attendance write range must be
-inside `ATTENDANCE!A:G`** (`updateValues`); anything else throws before a request
-is made, so a bug here cannot overwrite scores or formulas. The client’s only other
+inside `ATTENDANCE!A:G`, or be one single cell in `H`–`Z` other than `J`** (the
+`markedBy` cell or its header; `updateValues`); anything else throws before a request
+is made, so a bug here cannot overwrite scores or formulas, or the Not yet in list. The client’s only other
 writes are score entry’s, which have their own allowlist (one match’s two `SCHEDULE`
-score cells; see [sync pipeline](sync-pipeline.md#score-entry-writes)). There is no append call. Google
+score cells and the note on them; see [sync pipeline](sync-pipeline.md#score-entry-writes)). There is no append call. Google
 `429` is retried once after a second, then answers 503.
 
 ## Desk tokens

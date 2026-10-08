@@ -35,13 +35,18 @@ the message line and stops:
    read back from storage, so a reload keeps working.
 2. **Decoding**, for display only: the payload must carry `scope: "score-desk"`, a
    string `day` and a numeric `exp`. The API decides what the token may do. No
-   token or a bad one, or one past `exp`, stops the page.
+   token or a bad one, or one past `exp`, stops the page. The base64 is decoded to bytes
+   and the bytes as UTF-8 (`lib/v1/data/tokens.js`), because the API writes the payload as
+   UTF-8 JSON and a name like "Niño" would otherwise read as mojibake.
 3. **The registry.** `events.json` is fetched (a fixture reads
    `/_fixtures/config.json`). The event must exist with `scoreEntry: "links"`;
    `"console"` or no setting reads as "Scorer links are stopped". It is checked on
    every load. The token's day must be one of the event's days.
 4. **Venues.** The day's facilities that have a `sheetId`. The title line reads
-   `<event> · <day> · <venue>` and follows the chosen venue.
+   `<event> · <day> · <venue>` and follows the chosen venue. When the token carries `to` or
+   `note`, the line ends with `Ana (Gate A)`, `Ana` or `Gate A` (`issuedText`, a local function
+   of the page module). It is set with `textContent` only, never HTML: a person typed it. The desk
+   page's day line does the same.
 
 A timer checks `exp` every minute; once it passes, the page closes the dialog,
 empties the list, stops its polling and shows the expired message.
