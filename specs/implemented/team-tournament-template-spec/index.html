@@ -1,0 +1,6884 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/implemented/team-tournament-template-spec/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../sync-config-runtime-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Team tournament event-site template - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-team-tournament-event-site-template" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Team tournament event-site template
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../usage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/before-you-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles, access and kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing the event
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparing the event
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/plan-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Plan it
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/build-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Build the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/draw-and-rosters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Draw and fill rosters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/register-and-build-the-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Register and build the site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/connect-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Connect the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/printables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Print
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/rehearse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Rehearse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    On the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/run-the-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Run the day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. When something's wrong
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handouts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Handouts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/scorer-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/desk-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance desks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/after-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    After the event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public pages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Public pages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Running the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/score-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoring workbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scoring workbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoring-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The scoring workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/team-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and print tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and print tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/site-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament event-site template
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament event-site template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0. Read this first (implementer orientation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#01-the-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1 The workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#02-words-used-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.2 Words used here
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#03-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3 Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#04-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4 Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#05-read-these-before-coding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.5 Read these before coding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#06-parity-with-the-other-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.6 Parity with the other templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-engine-changes-shared-by-the-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Engine changes shared by the pages
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Engine changes shared by the pages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-pair-labels-per-event-displaypairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Pair labels per event (display.pairs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-options-in-libv1viewsteamsjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Options in lib/v1/views/teams.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Hub
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-_templatesteam-tournament-templateindexhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 _templates/team-tournament-template/index.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-team-branch-in-libv1appshubjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The team branch in lib/v1/apps/hub.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-what-it-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 What it shows
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-schedule-board" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The schedule board
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The schedule board">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-_templatesteam-tournament-templateschedulehtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 _templates/team-tournament-template/schedule.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-libv1domainschedule-gridjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 lib/v1/domain/schedule-grid.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-libv1appsschedule-boardjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 lib/v1/apps/schedule-board.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-libv1cssschedule-boardcss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 lib/v1/css/schedule-board.css
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-scorer-and-desk-pages-on-a-team-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The scorer and desk pages on a team event
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The scorer and desk pages on a team event">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-scorer-libv1appsscorerjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Scorer (lib/v1/apps/scorer.js)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-attendance-desk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Attendance desk
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-runbook-and-the-hub-board" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The runbook and the hub board
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The runbook and the hub board">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-_templatesdry-run-checklist-templatemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 _templates/dry-run-checklist-template.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-the-hub-boards-qr-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 The hub board's QR panel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-workbook-until-the-team-tournament-master-exists-13-q6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The workbook, until the Team Tournament Master exists (§13 Q6)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-the-order-of-pushes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. The order of pushes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-known-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Known differences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Tests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-unit-_testsunit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Unit (_tests/unit/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-the-harness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 The harness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-one-check-against-the-prototype-before-merge-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 One check against the prototype (before merge 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-by-hand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 By hand
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-runbook-and-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Runbook and documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-blocked-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Blocked on
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-reconciliations-and-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. Reconciliations and divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../team-workbook-stack-cache-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook recalculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control-center-score-entry-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry and scorer links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../site-engine-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../link-attribution-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/docs-usage-guide-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage guide and docs restructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/calculator-team-format-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator team format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/team-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/control-center-court-control-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Court Control from Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archived/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archived
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archived
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0. Read this first (implementer orientation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#01-the-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1 The workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#02-words-used-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.2 Words used here
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#03-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3 Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#04-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4 Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#05-read-these-before-coding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.5 Read these before coding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#06-parity-with-the-other-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.6 Parity with the other templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-engine-changes-shared-by-the-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Engine changes shared by the pages
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Engine changes shared by the pages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-pair-labels-per-event-displaypairs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Pair labels per event (display.pairs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-options-in-libv1viewsteamsjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Options in lib/v1/views/teams.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Hub
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-_templatesteam-tournament-templateindexhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 _templates/team-tournament-template/index.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-team-branch-in-libv1appshubjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The team branch in lib/v1/apps/hub.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-what-it-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 What it shows
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-schedule-board" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The schedule board
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The schedule board">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-_templatesteam-tournament-templateschedulehtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 _templates/team-tournament-template/schedule.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-libv1domainschedule-gridjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 lib/v1/domain/schedule-grid.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-libv1appsschedule-boardjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 lib/v1/apps/schedule-board.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-libv1cssschedule-boardcss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 lib/v1/css/schedule-board.css
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-scorer-and-desk-pages-on-a-team-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The scorer and desk pages on a team event
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The scorer and desk pages on a team event">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-scorer-libv1appsscorerjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Scorer (lib/v1/apps/scorer.js)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-attendance-desk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Attendance desk
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-runbook-and-the-hub-board" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The runbook and the hub board
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The runbook and the hub board">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-_templatesdry-run-checklist-templatemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 _templates/dry-run-checklist-template.md
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-the-hub-boards-qr-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 The hub board's QR panel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-workbook-until-the-team-tournament-master-exists-13-q6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The workbook, until the Team Tournament Master exists (§13 Q6)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-the-order-of-pushes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. The order of pushes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-known-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Known differences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Tests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-unit-_testsunit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Unit (_tests/unit/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-the-harness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 The harness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-one-check-against-the-prototype-before-merge-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 One check against the prototype (before merge 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-by-hand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 By hand
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-runbook-and-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Runbook and documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-blocked-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Blocked on
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-reconciliations-and-divergences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. Reconciliations and divergences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/implemented/team-tournament-template-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-team-tournament-event-site-template">Spec — Team tournament event-site template<a class="headerlink" href="#spec-team-tournament-event-site-template" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: implemented.</strong> Built on the site repo's <code>team-template</code> branch in
+the two merges of §8. Revised 2026-10-06 against
+<code>sage-match-control.github.io</code> at <code>170de3b</code>, the first commit after the
+<a href="../site-engine-spec/">site engine</a> merged (<code>179217f</code>). It
+also reads <code>events/pickledrive-anniversary-2026/</code> (the prototype),
+<code>tools/control-center.html</code> and <code>lib/v1/</code>.</p>
+<p><strong>Every decision is made.</strong> The owner settled Q1–Q6 on 2026-10-06 (§13).</p>
+<p><strong>PickleDrive's pages are the reference.</strong> The owner builds the
+<a href="../../not-started/team-tournament-master-spec/">Team Tournament Master</a> from PickleDrive's
+workbook. So what <code>events/pickledrive-anniversary-2026/index.html</code> and
+<code>schedule.html</code> read and show is the contract, and the template matches
+it. Any difference the harness finds that §9 doesn't list is fixed to
+match PickleDrive's page and recorded in §17. It is not a question for
+the owner.</p>
+<p>The first version (2026-10-05, sage-docs <code>d967994</code>) planned to copy
+PickleDrive's inline code into the template, and asked to be revised once
+the engine existed. This is that revision. The engine already holds the
+team views Control Center uses, so the template is a set of shells on the
+engine, like the other two templates.</p>
+<p>Split out of <a href="../pickledrive-club-anniversary-team-tournament-spec/">Team tournament</a>
+§15. Its sibling, <a href="../../not-started/team-tournament-master-spec/">Team Tournament Master</a>,
+is the workbook generator and is a separate piece of work.</p>
+</blockquote>
+<p>Make <code>_templates/team-tournament-template/</code>, which gives a team tournament
+<strong>everything a standard or dual-meet event gets from <code>_templates/</code></strong>:</p>
+<ul>
+<li>a Tournament Hub and a schedule board;</li>
+<li>a scorer page and an attendance desk page that work on a team event;</li>
+<li>the dry-run runbook;</li>
+<li>the hub board's QR panel;</li>
+<li>the runbook steps, including an interim way to get the workbook (§7).</li>
+</ul>
+<p>A new team event then becomes a copy-and-fill job like the other two. It no
+longer means copying PickleDrive's 3,006-line Hub and 1,387-line board and
+hunting down their event values.</p>
+<p><strong>The deliverables are the template and the engine changes it needs, not an
+event.</strong> This work creates no real event.</p>
+<hr />
+<h2 id="0-read-this-first-implementer-orientation">0. Read this first (implementer orientation)<a class="headerlink" href="#0-read-this-first-implementer-orientation" title="Permanent link">&para;</a></h2>
+<p>This spec and the repos are all you need. Read all of §0, then §1–§8 before
+touching a file, then follow §11's steps in order. Every path is relative to
+the repo the section names. Most are in <code>sage-match-control.github.io/</code>
+("the site").</p>
+<h3 id="01-the-workspace">0.1 The workspace<a class="headerlink" href="#01-the-workspace" title="Permanent link">&para;</a></h3>
+<p><code>D:\Personal\SAGE</code> is itself a git repo, holding the workspace <code>CLAUDE.md</code>,
+and it contains four more repos. Read that <code>CLAUDE.md</code> once; it describes
+everything below.</p>
+<table>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Role here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sage-match-control.github.io/</code></td>
+<td><strong>Almost all the work.</strong> The public site, served by GitHub Pages from <code>main</code>, with no build step. <code>lib/v1/</code> is the engine, <code>_templates/</code> the templates, <code>_tests/</code> the tests (never published), and <code>_fixtures/</code> the local test data (never published)</td>
+</tr>
+<tr>
+<td><code>event-data/</code></td>
+<td>One documentation edit (§12): <code>config/README.md</code>. <code>config/events.json</code> is the event registry every page reads; you do not edit it</td>
+</tr>
+<tr>
+<td><code>sage-docs/</code></td>
+<td>Documentation edits (§12), and this spec's move to <code>implemented/</code> at the end</td>
+</tr>
+<tr>
+<td><code>sage-tools-api/</code></td>
+<td><strong>Not changed.</strong> It reads no <code>display</code> block</td>
+</tr>
+<tr>
+<td><code>D:\Personal\SAGE</code> itself</td>
+<td>The workspace <code>CLAUDE.md</code> (§12)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="02-words-used-here">0.2 Words used here<a class="headerlink" href="#02-words-used-here" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hub</strong></td>
+<td>An event's public page, <code>events/&lt;event-key&gt;/index.html</code>: Match Finder, Live Matches, Standings (and for a team event, Teams)</td>
+</tr>
+<tr>
+<td><strong>Board</strong></td>
+<td>The venue wall display, <code>events/&lt;event-key&gt;/schedule.html</code>: courts across, time slots down, one cell per match</td>
+</tr>
+<tr>
+<td><strong>Shell</strong></td>
+<td>A page that holds only markup, a <code>THEME</code> block of CSS colours and one <code>&lt;script type="module"&gt;</code> calling an engine <code>mount…</code> function</td>
+</tr>
+<tr>
+<td><strong>Engine</strong></td>
+<td><code>lib/v1/</code>: <code>platform.js</code>, <code>domain/</code> (pure rules, no DOM), <code>data/</code> (registry, snapshots, live channel), <code>views/</code> (HTML builders and components), <code>apps/</code> (<code>mountHub</code>, <code>mountScheduleBoard</code>, <code>mountScorer</code>, <code>mountAttendanceDesk</code>) and <code>css/</code>. Imports point one way: platform ← domain ← data ← views ← apps</td>
+</tr>
+<tr>
+<td><strong>Snapshot</strong></td>
+<td>One day's published JSON. <code>{ day, label, isLive, generatedAt, facilities: [{ name, matchesCsv, standingsCsv, rosterCsv, … }] }</code></td>
+</tr>
+<tr>
+<td><strong>Registry</strong></td>
+<td><code>event-data/config/events.json</code>. <code>data/registry.js</code> reads it and <code>eventConfigFrom</code> turns one event into an <code>EventConfig</code> (<code>domain/model.js</code> documents the shape)</td>
+</tr>
+<tr>
+<td><strong>Team code</strong></td>
+<td><code>&lt;SIDE&gt;_&lt;PAIR&gt;</code>, e.g. <code>A_3</code>, <code>QF-3_4</code>, <code>SF-A_2</code>, <code>Fi-J_1</code>. <code>PAIR</code> is the pair number in the matchup (1 = MD at PickleDrive). <code>SIDE</code> is a <strong>base team</strong> letter (<code>A</code>) in the bracket stage, or <code>&lt;STAGE&gt;-&lt;SLOT&gt;</code> in a playoff. <code>STAGE</code> is <code>QF</code>, <code>SF</code>, <code>Br</code> or <code>Fi</code>. <code>SLOT</code> is a <strong>seed</strong> number (<code>3</code>) until the organiser types a team letter over it (<code>A</code>)</td>
+</tr>
+<tr>
+<td><strong>Matchup</strong></td>
+<td>Two teams' set of matches, one per pair, won on total points. The <code>matchUp</code> column holds its key, e.g. <code>A v B</code> or <code>SF-1 v SF-2</code></td>
+</tr>
+<tr>
+<td><strong>Bracket</strong></td>
+<td>A group in the group stage. A team's bracket number is the <code>bracket</code> column of <code>STANDINGSCSV</code></td>
+</tr>
+<tr>
+<td><strong>Lineup not set</strong></td>
+<td>A match whose player cells are empty or equal their own team code. <code>domain/matches.js</code> turns both into <code>TBD</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="03-commands">0.3 Commands<a class="headerlink" href="#03-commands" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Node</strong> 22.23.3 or later.</li>
+<li><strong>Tests</strong>, from <code>sage-match-control.github.io/_tests/</code> (run <code>npm install</code>
+  once):</li>
+<li><code>npm test</code> runs the unit tests: <code>node --test</code> over <code>unit/**</code>, fast.</li>
+<li><code>npm run compare</code> runs the comparison harness. Every case renders on the
+    <strong>baseline</strong> (the merge-base with <code>main</code>, checked out to a temp folder)
+    and on your working tree in Playwright's Chromium, and the text and
+    screenshots are compared. It takes a long time.<ul>
+<li><code>CASE='team-index/.*' npm run compare</code> runs only matching cases.</li>
+<li>A failing case writes <code>baseline.png</code>, <code>branch.png</code>, <code>diff.png</code> and
+  <code>text.diff</code> to <code>_tests/out/&lt;case&gt;/</code>.</li>
+</ul>
+</li>
+<li><code>npm run verify</code> runs both, and must pass before every push to <code>main</code>.</li>
+<li>If Chromium is missing: <code>npx playwright install chromium</code>.</li>
+<li><strong>Serving the site by hand.</strong> Module scripts don't load from <code>file://</code>.</li>
+<li>Python is <strong>not</strong> installed on this machine, so the <code>static-site</code>
+    entry in <code>D:\Personal\SAGE\.claude\launch.json</code> does not work.</li>
+<li>Instead, write a 20-line <code>node:http</code> static server in your scratchpad
+    (not in a repo). It serves the site folder on port 8123, maps an
+    extensionless path to <code>.html</code> and a folder to <code>index.html</code>.</li>
+<li>Then open <code>http://localhost:8123/&lt;path&gt;</code>.</li>
+<li><strong>Fixture mode.</strong> On <code>localhost</code> only, <code>?fixture=&lt;name&gt;</code> makes every
+  engine page read <code>/_fixtures/config.json</code> as the registry and
+  <code>/_fixtures/&lt;event&gt;/&lt;name&gt;.json</code> as the snapshot (<code>lib/v1/platform.js</code>
+  <code>fixtureName()</code>). A template page under <code>_templates/</code> still has its
+  <code>{{TOKENS}}</code> and won't run as it is. To check a template by hand,
+  instantiate a copy (§10.4).</li>
+</ul>
+<h3 id="04-rules">0.4 Rules<a class="headerlink" href="#04-rules" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>The engine's versioning rule</strong> (<code>_templates/CLAUDE.md</code> §8). Only edit
+   <code>lib/v1/</code> compatibly:</li>
+<li>you may add a module, an export, an optional parameter, an option
+     or a CSS class, and you may fix a bug;</li>
+<li>never remove or rename an export, a CSS class a page uses, or a theme
+     property, and never change what an existing call returns.</li>
+</ol>
+<p>A module may start using another module's <strong>new</strong> export or option only
+   in a <strong>later push to <code>main</code></strong>, because browsers cache a file for up to
+   10 minutes. That is why §8 has two pushes.
+2. <strong>Never edit a finished event's pages:</strong> <code>events/pickledrive-anniversary-2026/</code>,
+   <code>events/piggleball-2026/</code>, <code>events/pickle-for-sight-2026/</code>,
+   <code>events/pnf-x-bup-dual-meet/</code>, <code>events/archives/</code>. PickleDrive's pages
+   keep their own inline code and their <code>MXD</code> labels for good. Read them;
+   don't change them.
+3. <strong>Never weaken or delete a test to make a change pass.</strong> If an existing
+   case changes, it is either a difference this spec lists (§9), which gets
+   an <code>ACCEPTED</code> entry naming its §17 row, or a bug.
+4. <strong>Don't merge within 3 days of an event.</strong> Check <code>event-data/config/events.json</code>
+   for a day dated within 3 days; at the time of writing none is after
+   2026-10-03.
+5. <strong>Work on a branch</strong> in the site repo, <code>team-template</code>. The engine and
+   the pages are two merges into <code>main</code> (§8). The docs repos take ordinary
+   commits on <code>main</code> after the second merge.
+6. <strong>Commits.</strong> One per step of §11, with a plain message saying what
+   changed. End every commit message with the attribution line your
+   session's instructions give. Don't push or merge without the owner's
+   go-ahead.
+7. <strong>Docs</strong> (<code>sage-docs</code>) are in the present tense: what the system does
+   now, never "used to" or "was changed".
+8. <strong>Citing a spec from outside <code>sage-docs</code></strong> (code comments, <code>CLAUDE.md</code>
+   files, READMEs): write <code>sage-docs/docs/specs/.../team-tournament-template-spec.md</code>,
+   with literally <code>...</code> in place of the status folder.</p>
+<h3 id="05-read-these-before-coding">0.5 Read these before coding<a class="headerlink" href="#05-read-these-before-coding" title="Permanent link">&para;</a></h3>
+<p>In this order:</p>
+<ol>
+<li><code>_templates/CLAUDE.md</code>, the instantiation runbook (§2's 14 steps and §8).</li>
+<li><code>_templates/standard-tournament-template/index.html</code> and
+   <code>schedule.html</code>, the shells you start from.</li>
+<li><code>lib/v1/apps/hub.js</code> and <code>lib/v1/apps/schedule-board.js</code>, which you
+   branch.</li>
+<li><code>lib/v1/views/teams.js</code>, <code>lib/v1/domain/teams.js</code> and
+   <code>lib/v1/domain/schedule-grid.js</code>.</li>
+<li><code>tools/control-center.html</code>: search for <code>createTeams(</code>, <code>drawLiveMatches</code>,
+   <code>isTeamKey</code> and <code>pairLabel(</code>. That is how Control Center wires the team
+   views, and the Hub copies its wiring.</li>
+<li><code>events/pickledrive-anniversary-2026/index.html</code> and <code>schedule.html</code>,
+   the behaviour reference.</li>
+<li><code>_tests/engine/cases.mjs</code>, <code>_tests/engine/compare.test.mjs</code>,
+   <code>_tests/engine/accepted.mjs</code> and <code>_tests/helpers/fixtures.mjs</code>, the
+   harness.</li>
+</ol>
+<h3 id="06-parity-with-the-other-templates">0.6 Parity with the other templates<a class="headerlink" href="#06-parity-with-the-other-templates" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>What a standard or dual-meet event gets</th>
+<th>Where it comes from</th>
+<th>A team event today</th>
+<th>This spec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hub, <code>index.html</code></td>
+<td>a template shell on <code>mountHub</code></td>
+<td><strong>None.</strong> <code>mountHub</code> refuses a team event ("This event's type isn't set up for a Tournament Hub")</td>
+<td>§3</td>
+</tr>
+<tr>
+<td>Board, <code>schedule.html</code></td>
+<td>a template shell on <code>mountScheduleBoard</code></td>
+<td><strong>None.</strong> The board has no team branch; PickleDrive's is inline and frozen</td>
+<td>§4</td>
+</tr>
+<tr>
+<td>Scorer page, <code>scorer.html</code></td>
+<td><code>_templates/scorer/</code>, shared by every type</td>
+<td><code>scorer.js</code> has a team branch that has never run at an event (PickleDrive used <code>"console"</code>). It shows a seeded playoff side's raw code and has no harness case</td>
+<td>§5.1</td>
+</tr>
+<tr>
+<td>Attendance desk page, <code>attendance.html</code></td>
+<td><code>_templates/attendance/</code>, shared</td>
+<td>Works: PickleDrive ran it</td>
+<td>§5.2: a harness case</td>
+</tr>
+<tr>
+<td>Dry-run runbook</td>
+<td><code>_templates/dry-run-checklist-template.md</code>, shared</td>
+<td>PickleDrive's own copy, with team lines added by hand</td>
+<td>§6.1</td>
+</tr>
+<tr>
+<td>Hub board QR panel</td>
+<td><code>_templates/hub-pubmat/render.mjs</code> reads the Hub's markup</td>
+<td>Works if the team Hub keeps that markup</td>
+<td>§6.2</td>
+</tr>
+<tr>
+<td>Runbook in <code>_templates/CLAUDE.md</code></td>
+<td>§1–§5</td>
+<td>"There is no template yet"</td>
+<td>§12</td>
+</tr>
+<tr>
+<td>The workbook</td>
+<td>generated from the Dual Meet or Standard Master</td>
+<td>No master</td>
+<td>Interim: a cleared copy of PickleDrive's workbook, for PickleDrive's shape only (§7). The master is <a href="../../not-started/team-tournament-master-spec/">its own spec</a></td>
+</tr>
+<tr>
+<td>Control Center</td>
+<td>its type branches</td>
+<td>serves every team event</td>
+<td>one call site (§2.1)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-what-exists">1. What exists<a class="headerlink" href="#1-what-exists" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>Where</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The team rules</td>
+<td><code>lib/v1/domain/teams.js</code></td>
+<td>Pure functions with unit tests: <code>parseSideCode</code>, <code>sideOf</code>, <code>pairOf</code>, <code>stageOf</code>, <code>slotOf</code>, <code>isGroupTeamCode</code>, <code>baseTeamOf</code>, <code>teamNameOf</code>, <code>sideLabel</code> ("Seed 3 · TBD" for an unfilled slot), <code>groupOf</code>, <code>stageLabel</code>, <code>pairLabel</code>, <code>teamMatchupResult</code>, <code>buildTeamData</code>, <code>teamRankBracket</code>, rosters. <code>PAIRS</code> and <code>STAGES</code> are module constants</td>
+</tr>
+<tr>
+<td>The team views</td>
+<td><code>lib/v1/views/teams.js</code>, <code>css/teams.css</code></td>
+<td><code>createTeams(options)</code>: matchup cards, bracket tables and playoffs, roster cards (the Teams tab), the Live Matches row (<code>liveRow</code>), and the team Match Finder as a <code>delegate</code> of <code>createFinder</code>. <strong>Only Control Center calls it</strong></td>
+</tr>
+<tr>
+<td>The day model</td>
+<td><code>lib/v1/domain/model.js</code></td>
+<td><code>buildDayModel</code> adds <code>model.team</code> = <code>{ rowByCode, matchups, advancing, roster, rosterByCode }</code> for a team event</td>
+</tr>
+<tr>
+<td>The Hub app</td>
+<td><code>lib/v1/apps/hub.js</code></td>
+<td>Refuses a team event</td>
+</tr>
+<tr>
+<td>The board app</td>
+<td><code>lib/v1/apps/schedule-board.js</code>, <code>lib/v1/domain/schedule-grid.js</code></td>
+<td>Standard and dual meet only. The type is inferred from the <code>clubOrder</code> setting. The category is a segment of the team code, and the stage comes from the code's tail (<code>ladderStageOf</code>). No team names, no <code>events.json</code></td>
+</tr>
+<tr>
+<td>The scorer app</td>
+<td><code>lib/v1/apps/scorer.js</code></td>
+<td>Has <code>entry.type === 'team'</code> branches. <code>sideName(code)</code> looks up <code>teamNames[side]</code>, built from the venue's <code>STANDINGSCSV</code> by exact <code>teamCode</code>. The dialog's sub line (<code>describe</code>) is <code>m.matchUp</code>. "Lineup not set" is a warning</td>
+</tr>
+<tr>
+<td>The desk app</td>
+<td><code>lib/v1/apps/attendance-desk.js</code>, <code>domain/attendance.js</code></td>
+<td>Groups a team event's people by team</td>
+</tr>
+<tr>
+<td>The prototype</td>
+<td><code>events/pickledrive-anniversary-2026/</code></td>
+<td>Inline code, pubmat theme, frozen</td>
+</tr>
+<tr>
+<td>Fixtures, harness</td>
+<td><code>_tests/fixtures/config.json</code> (registry), <code>_tests/fixtures/pickledrive-anniversary-2026/pickledrive-anniversary-2026-day1.json</code> (the finished day, with quarterfinals)</td>
+<td>Listed in <code>SNAPSHOTS</code> in <code>_tests/helpers/fixtures.mjs</code>. <code>deriveState</code> makes <code>pre</code> and <code>mid</code> from it</td>
+</tr>
+<tr>
+<td>Fixtures, local</td>
+<td><code>_fixtures/config.json</code>, <code>_fixtures/pickledrive-anniversary-2026/{pre,finished,edge,qf-pre}.json</code> and <code>attendance-kingcourts-pre.csv</code></td>
+<td>For <code>?fixture=</code></td>
+</tr>
+</tbody>
+</table>
+<p>PickleDrive's published day has 15 teams <code>A</code>–<code>O</code> in three brackets of five,
+120 group matches (#1–120), quarterfinals <code>QF-3 v QF-6</code>, <code>QF-1 v QF-8</code>,
+<code>QF-2 v QF-7</code> and <code>QF-4 v QF-5</code> (#121–136), semifinals <code>SF-1 v SF-2</code> and
+<code>SF-3 v SF-4</code>, then <code>Br-1 v Br-2</code> and <code>Fi-1 v Fi-2</code>. That is 152 matches in
+all, four pairs per matchup, one facility (Kingcourts) and 10 courts.</p>
+<p>Already derived from the data, so nothing in the template sets them:</p>
+<ul>
+<li>the groups (<code>groupOf</code> reads <code>bracket</code>);</li>
+<li>who advances (<code>buildTeamData</code>'s <code>advancing</code>: any base team in a playoff
+  slot);</li>
+<li>facilities and courts (<code>events.json</code> and the matches).</li>
+</ul>
+<p>An unknown stage prefix shows its raw code. <strong>The pair labels are not yet
+derived:</strong> §2.1 fixes that.</p>
+<hr />
+<h2 id="2-engine-changes-shared-by-the-pages">2. Engine changes shared by the pages<a class="headerlink" href="#2-engine-changes-shared-by-the-pages" title="Permanent link">&para;</a></h2>
+<h3 id="21-pair-labels-per-event-displaypairs">2.1 Pair labels per event (<code>display.pairs</code>)<a class="headerlink" href="#21-pair-labels-per-event-displaypairs" title="Permanent link">&para;</a></h3>
+<p>The pair layout belongs to the event, so it moves into the registry. The
+Hub, the board, the scorer and Control Center all read the registry, so
+nothing is kept in step by hand.</p>
+<p><strong><code>events.json</code> shape</strong> (documented in <code>event-data/config/README.md</code>, §12).
+A team event may carry <code>display.pairs</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"display"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"pairs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"full"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Men's Doubles"</span><span class="p">,</span><span class="w"> </span><span class="nt">"short"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MD"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">"2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"full"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Women's Doubles"</span><span class="p">,</span><span class="w"> </span><span class="nt">"short"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WD"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">"3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"full"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mixed Doubles"</span><span class="p">,</span><span class="w"> </span><span class="nt">"short"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XD"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">"4"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"full"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mixed Doubles"</span><span class="p">,</span><span class="w"> </span><span class="nt">"short"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XD"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong><code>lib/v1/data/registry.js</code>, <code>eventConfigFrom</code>:</strong></p>
+<ul>
+<li>Import <code>numberRepeatedPairs</code> and <code>PAIRS</code> from <code>../domain/teams.js</code>.</li>
+<li>Add a <code>pairs</code> property to the returned object:</li>
+<li><code>numberRepeatedPairs(raw.display.pairs)</code> when <code>raw.display.pairs</code> is an
+    object whose every key matches <code>/^\d+$/</code> and every value has
+    non-empty string <code>full</code> and <code>short</code>;</li>
+<li>when it is present but fails that check, <code>PAIRS</code>, plus one
+    <code>console.warn('events.json: display.pairs for &lt;eventKey&gt; is malformed; using the default pair labels')</code>;</li>
+<li>otherwise <code>PAIRS</code>.</li>
+<li>Add <code>@property {Record&lt;string,{full:string,short:string}&gt;} pairs</code> to the
+  <code>EventConfig</code> typedef in <code>domain/model.js</code>.</li>
+</ul>
+<p><strong><code>lib/v1/domain/teams.js</code>:</strong></p>
+<ul>
+<li>Change <code>pairLabel(code, short)</code> to <code>pairLabel(code, short, pairs = PAIRS)</code>.</li>
+<li>An unknown pair number (one not in <code>pairs</code>, or no pair number) now
+  returns <code>`Pair ${n}`</code> when the code has a pair number <code>n</code>, and <code>''</code>
+  when it has none. Today it returns <code>''</code> for both.</li>
+</ul>
+<p><strong>Callers.</strong> Pass the event's pairs everywhere:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Where</th>
+<th>Becomes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lib/v1/views/teams.js</code></td>
+<td><code>matchupRowHTML</code>: <code>pairLabel(m.t1, true)</code></td>
+<td><code>pairLabel(m.t1, true, model.event.pairs)</code></td>
+</tr>
+<tr>
+<td><code>lib/v1/views/teams.js</code></td>
+<td><code>liveRowHTML</code>: <code>pairLabel(m.t1, false)</code></td>
+<td><code>pairLabel(m.t1, false, model.event.pairs)</code></td>
+</tr>
+<tr>
+<td><code>tools/control-center.html</code></td>
+<td>the dialog <code>describe</code>: <code>pairLabel(m.t1, true)</code> (search <code>[m.matchUp, pairLabel(</code>)</td>
+<td><code>pairLabel(m.t1, true, MODEL.event.pairs)</code>, in push 2</td>
+</tr>
+<tr>
+<td><code>lib/v1/domain/schedule-grid.js</code>, <code>lib/v1/apps/scorer.js</code></td>
+<td>new code (§4, §5)</td>
+<td>the event's <code>pairs</code></td>
+</tr>
+</tbody>
+</table>
+<p>A view must tolerate an <code>EventConfig</code> without <code>pairs</code> (a cached older
+<code>registry.js</code>): write <code>model.event.pairs || undefined</code>, so the default
+parameter applies.</p>
+<p>PickleDrive has no <code>display.pairs</code>, so Control Center keeps showing it as
+MD, WD, XD 1, XD 2. <code>STAGES</code> stays a constant: the stage prefixes are part
+of the code format.</p>
+<h3 id="22-options-in-libv1viewsteamsjs">2.2 Options in <code>lib/v1/views/teams.js</code><a class="headerlink" href="#22-options-in-libv1viewsteamsjs" title="Permanent link">&para;</a></h3>
+<p><code>createTeams(options)</code> gains three things. Each default is what Control
+Center gets today, so Control Center passes nothing new.</p>
+<p><strong><code>options.teamLetters</code></strong> (default <code>true</code>). With <code>false</code>, no organiser's team
+letter appears anywhere in the team views. That covers these seven places,
+all of which draw one today:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Function</th>
+<th>Today</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>matchupCardHTML</code></td>
+<td><code>sideChipHTML(model, side)</code> after each team name</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>groupTableHTML</code></td>
+<td><code>&lt;span class="chip"&gt;${teamCode}&lt;/span&gt;</code> after the team name</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>liveRowHTML</code></td>
+<td><code>sideChipHTML(model, side)</code> after each team name</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>teamResultHTML</code></td>
+<td><code>&lt;span class="chip"&gt;${base}&lt;/span&gt;</code> in the <code>&lt;h2&gt;</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>autocompleteHTML</code></td>
+<td><code>&lt;span class="chip"&gt;${e.base}&lt;/span&gt;</code> in a team suggestion</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>introHTML</code></td>
+<td><code>&lt;span class="chip"&gt;${t.base}&lt;/span&gt;</code> in each team chip button</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>rosterCardHTML</code></td>
+<td>the meta line <code>Team ${teamCode} · N players</code>. With <code>false</code> it reads <code>N players</code>, as on the prototype</td>
+</tr>
+</tbody>
+</table>
+<p>How the option reaches them:</p>
+<ul>
+<li><code>createTeams</code> builds <code>const hooks = { decorateRow: options.decorateRow, teamLetters: options.teamLetters !== false }</code>.</li>
+<li>Functions that already take <code>hooks</code> read <code>hooks.teamLetters !== false</code>.
+  Treat a missing <code>hooks.teamLetters</code> as <code>true</code>, so a direct call from a
+  unit test is unchanged.</li>
+<li>Functions that don't take it gain a <strong>trailing optional</strong> parameter:</li>
+<li><code>groupTableHTML(model, group, rows, hooks = {})</code>, passed by
+    <code>teamStandingsHTML</code>;</li>
+<li><code>liveRowHTML(model, court, m, hooks = {})</code>, passed by <code>createTeams</code>'s
+    <code>liveRow</code>;</li>
+<li><code>autocompleteHTML(matches, hooks = {})</code>, passed by the delegate's
+    <code>renderAutocomplete</code>;</li>
+<li><code>rosterCardHTML(model, teamCode, { …, teamLetters = true })</code>;</li>
+<li><code>rostersHTML(model, openSet, { expandAllClass, teamLetters = true })</code>,
+    passed by <code>renderRosters</code> and passed on to <code>rosterCardHTML</code>;</li>
+<li>also the two <code>rosterCardHTML</code> calls inside <code>teamResultHTML</code> and
+    <code>playerResultHTML</code>.</li>
+<li>The no-name fallback <code>Team ${teamCode}</code> in <code>rosterCardHTML</code> (a team whose
+  workbook row has no name) stays: without a name the letter is the only
+  label.</li>
+</ul>
+<p>This is a presentation option like the standings view's <code>rrBracketLayout</code>
+(site engine §12 rows 5 and 13), not a page flag. The guard test forbids
+<code>isHub</code>, <code>isConsole</code> and <code>mode: 'hub'</code>, and nothing here uses them. The
+public pages hide the letters because the
+<a href="../../../features/tournament-hub/#team-events">Tournament Hub</a> page says
+"The letter codes the organizer uses in the workbook (<code>A</code>, <code>B</code>…) are not
+shown here; Control Center still shows them".</p>
+<p><strong><code>options.searchHint</code></strong> (default
+<code>'Search a team, a player or a match number above.'</code>, the string
+<code>createTeams</code> hard-codes today as <code>hint</code>). The Hub passes
+<code>'Search a team or a player above.'</code>: it has no match-number search.</p>
+<p><strong>Player tags</strong> (decided: on both pages, §13 Q1). A player's level and
+gender show beside their name in a player result, as on the prototype:</p>
+<ul>
+<li><code>buildTeamIndex</code>: when a roster row first sets <code>entry.rosterTeam</code>, also
+  set <code>entry.level = r.level</code> and <code>entry.gender = r.gender</code>.</li>
+<li><code>playerResultHTML</code>: the heading becomes
+  <code>&lt;span class="player-head"&gt;&lt;h2&gt;${name}&lt;/h2&gt;${tags}&lt;/span&gt;</code>.</li>
+<li><code>tags</code> is
+    <code>&lt;span class="roster-tags"&gt;</code> + one <code>&lt;span class="roster-tag"&gt;</code> per
+    non-empty value of <code>[entry.level ? teamLevelLabel(entry.level) : '', entry.gender]</code><ul>
+<li><code>&lt;/span&gt;</code>;</li>
+</ul>
+</li>
+<li>it is <code>''</code> when both are empty.</li>
+<li><code>css/teams.css</code> adds
+  <code>.results-head .player-head{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }</code>.
+  <code>.roster-tags</code> and <code>.roster-tag</code> already exist there.</li>
+</ul>
+<p>Finally, <code>css/teams.css</code>'s header comment "Only Control Center has a team
+event" becomes "Control Center and a team event's Hub".</p>
+<hr />
+<h2 id="3-the-hub">3. The Hub<a class="headerlink" href="#3-the-hub" title="Permanent link">&para;</a></h2>
+<h3 id="31-_templatesteam-tournament-templateindexhtml">3.1 <code>_templates/team-tournament-template/index.html</code><a class="headerlink" href="#31-_templatesteam-tournament-templateindexhtml" title="Permanent link">&para;</a></h3>
+<p>Copy <code>_templates/standard-tournament-template/index.html</code> and change only
+what this list names:</p>
+<ol>
+<li><strong><code>&lt;head&gt;</code>.</strong> Add <code>&lt;link rel="stylesheet" href="/lib/v1/css/teams.css"&gt;</code>
+   after <code>standings.css</code>.</li>
+<li>Meta description and <code>og:description</code>: "Find your team's matchups,
+     live scores, and standings."</li>
+<li>Keep <code>&lt;title&gt;{{EVENT_TITLE}} — Tournament Hub&lt;/title&gt;</code> exactly:
+     <code>render.mjs</code> strips that suffix.</li>
+<li><strong><code>THEME</code> banner and <code>:root</code>:</strong> unchanged, byte for byte.</li>
+<li><strong>The own-touches block</strong> (<code>/* ==== THIS TEMPLATE'S OWN TOUCHES … */</code>):</li>
+<li>delete the §12 rows 5–7 and 13 rules (<code>.standings-board</code>,
+     <code>.standings-col</code>, <code>.br-table …</code>, <code>.rr-bracket-label …</code>,
+     <code>.standings-board-desktop …</code>), which style category standings a
+     team event doesn't have;</li>
+<li>keep the two §12 row 12 Live Matches phone rules;</li>
+<li>add, under a comment
+     <code>/* four tabs fit a 375px phone (the prototype's rule) */</code>:
+     <code>@media (max-width:480px){ .view-tabs{gap:6px;} .view-tab{font-size:11px; padding:9px 12px;} }</code>.</li>
+<li><strong>Hero:</strong></li>
+<li>keep the QR panel, logos, tagline, <code>.eyebrow</code>, title and
+     <code>.domination-line</code>, exactly as in the standard template;</li>
+<li>subtitle: "Follow every team, every matchup and every court — live.".</li>
+<li><strong>Tabs:</strong> after the Standings button, add
+   <code>&lt;button class="view-tab" data-view="teams" type="button" hidden style="display:none;"&gt;Teams&lt;/button&gt;</code>.</li>
+<li><strong>Search panel:</strong></li>
+<li>label <code>Search a team or a player</code>;</li>
+<li>placeholder <code>e.g. a team name or a player's name</code>.</li>
+<li><strong>Standings panel:</strong> delete <code>#categoryToggleBar</code> and the whole
+   <code>#categoryFilterWrap</code> block. Keep <code>#standingsResults</code> and
+   <code>#standingsBody</code>.</li>
+<li>After <code>#standingsResults</code>, add
+   <code>&lt;div id="teamsResults" style="display:none;"&gt;&lt;div id="teamsBody"&gt;&lt;/div&gt;&lt;/div&gt;</code>.</li>
+<li><strong>Footer and the settings script:</strong> unchanged.</li>
+<li><code>mountHub({ eventKey: EVENT_KEY, liveBaseUrl: LIVE_BASE_URL })</code>.</li>
+<li><code>LIVE_BASE_URL = 'wss://sage-live.sagematchcontrol.workers.dev'</code>, a
+     literal and not a token.</li>
+</ol>
+<p>The tokens are the standard set: <code>EVENT_KEY</code>, <code>EVENT_TITLE</code>,
+<code>EVENT_TAGLINE</code>, <code>EVENT_HEADLINE</code>, <code>EVENT_DATE_RANGE</code>, <code>VENUE</code>,
+<code>EVENT_LOGO</code>, <code>QR_IMAGE</code>, <code>QR_URL</code>. Expect about 210 lines.</p>
+<h3 id="32-the-team-branch-in-libv1appshubjs">3.2 The team branch in <code>lib/v1/apps/hub.js</code><a class="headerlink" href="#32-the-team-branch-in-libv1appshubjs" title="Permanent link">&para;</a></h3>
+<p><code>mountHub</code>'s <code>KNOWN_SETTINGS</code> don't change.</p>
+<ol>
+<li><strong>Type check:</strong> accept <code>'team'</code> too. The refusal message stays for any
+   other type.</li>
+<li><code>const teamEvent = EVENT_TYPE === 'team';</code></li>
+<li><strong>Teams view.</strong> Before <code>createFinder</code>, when <code>teamEvent</code>, build:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nx">teams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createTeams</span><span class="p">({</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nx">getModel</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">MODEL</span><span class="p">,</span><span class="w"> </span><span class="nx">getFinder</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">finder</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nx">input</span><span class="p">,</span><span class="w"> </span><span class="nx">acList</span><span class="o">:</span><span class="w"> </span><span class="nx">byId</span><span class="p">(</span><span class="s1">'acList'</span><span class="p">),</span><span class="w"> </span><span class="nx">resultsEl</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nx">standingsEl</span><span class="o">:</span><span class="w"> </span><span class="nx">standingsBodyEl</span><span class="p">,</span><span class="w"> </span><span class="nx">rostersEl</span><span class="o">:</span><span class="w"> </span><span class="nx">byId</span><span class="p">(</span><span class="s1">'teamsBody'</span><span class="p">),</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nx">saveSearch</span><span class="o">:</span><span class="w"> </span><span class="nx">saveSearchState</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nx">renderStandings</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">teams</span><span class="p">.</span><span class="nx">renderStandings</span><span class="p">(),</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nx">searchHint</span><span class="o">:</span><span class="w"> </span><span class="s1">'Search a team or a player above.'</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nx">teamLetters</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">});</span>
+</code></pre></div>
+<p>Import <code>createTeams</code> from <code>../views/teams.js</code>.
+4. <strong>Finder:</strong> pass <code>delegate: teams ? teams.delegate : null</code> to
+   <code>createFinder</code>.
+5. <strong>Standings:</strong>
+   - construct <code>createStandings</code> only when not <code>teamEvent</code>;
+   - define <code>renderStandings()</code> as <code>teamEvent ? teams.renderStandings() : standings.render()</code>;
+   - replace every <code>standings.render()</code> and <code>standings.reset()</code> call with
+     <code>renderStandings()</code> and a matching guarded reset.
+6. <strong>Live Matches:</strong> for a team event, <code>renderLiveMatches</code> passes
+   <code>liveRow: teams.liveRow</code> and
+   <code>emptyMatchupHTML: '&lt;div class="live-matchup"&gt;&amp;nbsp;&lt;/div&gt;'</code>, and no
+   <code>teamLogoHTML</code>.
+7. <strong><code>showView(view)</code>:</strong>
+   - toggle <code>#teamsResults</code> with <code>view === 'teams'</code>;
+   - call <code>teams.renderRosters()</code> when <code>view === 'teams'</code>;
+   - guard the lookup with <code>byId('teamsResults')</code> being present, so a
+     standard shell without it is unaffected.
+8. <strong><code>loadLiveData</code>:</strong> after <code>MODEL = model</code>, when <code>teamEvent</code>, call
+   <code>teams.syncTab()</code>. If the Teams tab is the active one, call
+   <code>teams.renderRosters()</code>.
+   - The tab shows whenever the snapshot carries a roster, <strong>before
+     go-live too</strong>.
+   - Standings and Live Matches stay gated on <code>dayIsLive</code>, as now.
+9. <strong><code>selectDay</code>:</strong> hide <code>#teamsResults</code> with the other panels, and call
+   <code>teams.reset()</code> beside <code>finder.reset()</code>.
+10. <strong><code>revealLiveTabsAfterLoad</code>:</strong> unchanged. It must not touch the Teams
+    tab's visibility; <code>syncTab</code> owns that. Its saved-view rule already lands
+    on <code>'teams'</code> only when that tab is showing.
+11. <strong>Restoring a saved search on the first load</strong>, for a team event. This
+    is what Control Center's <code>selectDay</code> does (search <code>isTeamKey</code> in
+    <code>tools/control-center.html</code>):
+    - a saved value matching <code>/^(team|player):/</code> goes through
+      <code>teams.entryForSearchKey(saved)</code>;
+    - if found, set <code>finder.selection = entry</code> and call
+      <code>finder.setQuery(entry.kind === 'team' ? entry.label : entry.name)</code>;
+    - otherwise drop it.
+    - For a standard or dual-meet event, a saved <code>team:</code>/<code>player:</code> value
+      is dropped too.</p>
+<p>A standard or dual-meet event must behave exactly as before. Their harness
+cases prove it (§10.2).</p>
+<h3 id="33-what-it-shows">3.3 What it shows<a class="headerlink" href="#33-what-it-shows" title="Permanent link">&para;</a></h3>
+<p>These are the prototype's views, all in <code>views/teams.js</code>:</p>
+<ul>
+<li><strong>Day picker, sync status and go-live gating:</strong> as on the other Hubs.</li>
+<li><strong>Four tabs.</strong> The Teams tab shows whenever the event has a roster,
+  before go-live too.</li>
+<li><strong>Match Finder:</strong></li>
+<li>before a search: the stats row, team chips by bracket, then every
+    matchup by its lowest match number;</li>
+<li>a team result: its roster card, then its matchups with <strong>Next up</strong>;</li>
+<li>a player result: the player's tags, roster card, and each of their
+    matches on its matchup card.</li>
+<li><strong>Standings:</strong> bracket tables with <strong>Advances</strong> marks, the playoff
+  rounds, and each bracket's matchups behind a toggle.</li>
+<li><strong>Live Matches:</strong> two lines per court, the match and the running matchup
+  total.</li>
+<li><strong>Teams:</strong> roster cards by bracket, with Expand all.</li>
+</ul>
+<hr />
+<h2 id="4-the-schedule-board">4. The schedule board<a class="headerlink" href="#4-the-schedule-board" title="Permanent link">&para;</a></h2>
+<h3 id="41-_templatesteam-tournament-templateschedulehtml">4.1 <code>_templates/team-tournament-template/schedule.html</code><a class="headerlink" href="#41-_templatesteam-tournament-templateschedulehtml" title="Permanent link">&para;</a></h3>
+<p>Copy <code>_templates/standard-tournament-template/schedule.html</code> and change only
+the settings script:</p>
+<ul>
+<li>The comment above <code>CAT_META</code> describes the team colour key:</li>
+<li>one entry per bracket, keyed <code>G&lt;n&gt;</code>, and one <code>PO</code> for every playoff
+    match;</li>
+<li>a team workbook's <code>SCHEDULE</code> tab is uncoloured, so we choose these
+    colours;</li>
+<li>keep each hue dark enough that navy text stays readable on its 40%
+    tint;</li>
+<li>marked <code>// EXAMPLE — replace</code>.</li>
+<li><code>CAT_META</code> (the example; §13 Q4):</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">CAT_META</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nx">G1</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'BR 1'</span><span class="p">,</span><span class="w">     </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#1155CC'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nx">G2</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'BR 2'</span><span class="p">,</span><span class="w">     </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#B45F06'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nx">G3</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'BR 3'</span><span class="p">,</span><span class="w">     </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#741B47'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nx">G4</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'BR 4'</span><span class="p">,</span><span class="w">     </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#38761D'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nx">PO</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'PLAYOFFS'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#14263C'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">};</span>
+</code></pre></div>
+<p>The first three are hues the standard template already ships; <code>G4</code> is a
+  green and <code>PO</code> the house navy. They are examples: each event replaces
+  them (<code>_templates/CLAUDE.md</code> step 6).
+- The call: <code>mountScheduleBoard({ eventKey: EVENT_KEY, dayKey: DAY_KEY, liveBaseUrl: LIVE_BASE_URL, categoryColors: CAT_META, type: 'team' })</code>.</p>
+<p>The tokens are the board's existing set: <code>{{EVENT_KEY}}</code>, <code>{{EVENT_TITLE}}</code>
+and <code>{{SCHEDULE_DAY_KEY}}</code>. The <code>THEME</code> block is unchanged.</p>
+<h3 id="42-libv1domainschedule-gridjs">4.2 <code>lib/v1/domain/schedule-grid.js</code><a class="headerlink" href="#42-libv1domainschedule-gridjs" title="Permanent link">&para;</a></h3>
+<p>Add the team rows; the existing ones don't change.</p>
+<ul>
+<li><strong><code>parseFacilityCsv(text, type, team = null)</code>.</strong></li>
+<li>For <code>type === 'team'</code>, <code>team</code> is <code>{ rowByCode, pairs }</code>.</li>
+<li>Read the <code>matchUp</code> column too (<code>idx('matchUp')</code>).</li>
+<li>Each row is the usual row plus:<ul>
+<li><code>matchUp</code>;</li>
+<li><code>team1: sideLabel(sideOf(c1), rowByCode)</code> and
+  <code>team2: sideLabel(sideOf(c2), rowByCode)</code>;</li>
+<li><code>pair: pairLabel(c1, true, pairs)</code>;</li>
+<li><code>stage: ladderStageForTeam(c1)</code>;</li>
+<li><code>cat</code>, computed instead of a code segment: <code>'PO'</code> when
+  <code>stageOf(sideOf(c1)) !== null</code>, else <code>`G${groupOf(sideOf(c1), rowByCode)}`</code>
+  when that group isn't null, else <code>''</code>.</li>
+</ul>
+</li>
+<li>Leave the player fields as they are parsed now. The view decides
+    "Lineup TBD" (§4.3).</li>
+<li><strong><code>ladderStageForTeam(code)</code></strong>, a new export. It maps the side's prefix
+  (<code>stageOf(sideOf(code))</code>): <code>'QF'</code> → <code>'QF'</code>, <code>'SF'</code> → <code>'SF'</code>,
+  <code>'Br'</code> → <code>'B'</code>, <code>'Fi'</code> → <code>'F'</code>, <code>null</code> → <code>'RR'</code>, anything else → <code>'RR'</code>.</li>
+<li><strong><code>buildScheduleData(snapshot, venueName, type, { pairs } = {})</code>.</strong></li>
+<li>For <code>'team'</code>, first build <code>rowByCode</code> from every facility's
+    <code>standingsCsv</code>: <code>new Map(rowsToStandings(parseCSV(f.standingsCsv || '')).map(s =&gt; [s.teamCode, s]))</code>
+    over all facilities.</li>
+<li>Pass <code>{ rowByCode, pairs: pairs || PAIRS }</code> to each <code>parseFacilityCsv</code>.</li>
+<li><strong>Imports:</strong> <code>sideOf</code>, <code>stageOf</code>, <code>groupOf</code>, <code>sideLabel</code>, <code>pairLabel</code> and
+  <code>PAIRS</code> from <code>./teams.js</code>, and <code>rowsToStandings</code> from <code>./standings.js</code>.</li>
+<li>Series "not needed" marking (<code>markUnneededGames</code>) runs as now; a team day
+  has no series.</li>
+<li>Update the file's header comment: board rows for a team day also carry
+  <code>matchUp</code>, <code>team1</code>, <code>team2</code>, <code>pair</code> and <code>stage</code>.</li>
+</ul>
+<h3 id="43-libv1appsschedule-boardjs">4.3 <code>lib/v1/apps/schedule-board.js</code><a class="headerlink" href="#43-libv1appsschedule-boardjs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Settings:</strong> <code>KNOWN_SETTINGS</code> gains <code>'type'</code>. Document it in the header
+  comment: <code>'standard' | 'dual-meet' | 'team'</code>, default inferred from
+  <code>clubOrder</code> as today.</li>
+<li>Any other value: <code>console.error('mountScheduleBoard: unknown type "&lt;value&gt;" (known: standard, dual-meet, team)')</code>,
+    then return.</li>
+<li><code>const EVENT_TYPE = type || (clubOrder ? 'dual-meet' : 'standard');</code></li>
+<li><strong>Pair labels</strong>, team only. Before the first <code>loadSchedule(true)</code>, read
+  them:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">pairs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">eventConfigFrom</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="nx">loadRegistry</span><span class="p">({</span><span class="w"> </span><span class="nx">fixture</span><span class="o">:</span><span class="w"> </span><span class="nx">FIXTURE</span><span class="w"> </span><span class="p">}),</span><span class="w"> </span><span class="nx">eventKey</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">pairs</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="sb">`mountScheduleBoard: couldn't read events.json (</span><span class="si">${</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="si">}</span><span class="sb">); using the default pair labels`</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>mountScheduleBoard</code> becomes <code>async</code>, which is compatible: callers
+    ignore its return value.</li>
+<li>The other types never fetch the registry.</li>
+<li>Pass <code>{ pairs }</code> to <code>buildScheduleData</code>.</li>
+<li><strong><code>cellHTML(m)</code></strong>, when <code>EVENT_TYPE === 'team'</code>:</li>
+<li>the stage pill reads <code>STAGE_META[m.stage]</code>;</li>
+<li>after the stage pill, add <code>&lt;span class="cell-pair"&gt;${esc(m.pair)}&lt;/span&gt;</code>
+    when <code>m.pair</code> is set;</li>
+<li>each side's <code>.fo-names</code> holds <code>&lt;span class="fo-team"&gt;${esc(teamN)}&lt;/span&gt;</code>,
+    then the two players, or <code>&lt;span class="fo-name unknown"&gt;Lineup TBD&lt;/span&gt;</code>
+    when the lineup isn't set. Not set means the first player is <code>null</code> or
+    equals the side's own code; <code>domain/matches.js</code> uses the same rule;</li>
+<li>no club tag.</li>
+</ul>
+<p>Every other cell is unchanged.
+- <strong><code>meta(cat)</code> fallback:</strong> for a <code>cat</code> matching <code>/^G(\d+)$/</code> that
+  <code>categoryColors</code> lacks, return <code>{ short: 'BR ' + n, color: FALLBACK.color }</code>.</p>
+<h3 id="44-libv1cssschedule-boardcss">4.4 <code>lib/v1/css/schedule-board.css</code><a class="headerlink" href="#44-libv1cssschedule-boardcss" title="Permanent link">&para;</a></h3>
+<p>Add, beside the matching existing rules and in the board's fonts (Barlow
+Condensed for labels, as <code>.cell-stage</code> uses):</p>
+<ul>
+<li><code>.cell-pair</code>: the same box as <code>.cell-stage</code>, and
+  <code>.cell-cat, .cell-stage, .cell-pair{ white-space:nowrap; }</code>;</li>
+<li><code>.fo-team{ font-weight:700; font-size:12px; line-height:1.3; color:var(--navy); max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }</code>;</li>
+<li>inside <code>@media screen and (max-width: 720px)</code> (where <code>.faceoff</code> stacks):
+  <code>.fo-team{ font-size:11.5px; }</code>;</li>
+<li>inside the first <code>@media print</code>: <code>.print-grid .cell-pair{ font-size:5.5pt; }</code>
+  and <code>.print-grid .fo-team{ font-size:6.5pt; line-height:1.15; }</code>.</li>
+</ul>
+<p>These sizes are the prototype's (<code>events/pickledrive-anniversary-2026/schedule.html</code>,
+lines 239–270, 437 and 488–489), set in the board's own fonts. Use only the
+board's contract properties: the <code>THEME CONTRACT</code> comment at the top of the
+file, which <code>theme-contract.test.mjs</code> reads.</p>
+<hr />
+<h2 id="5-the-scorer-and-desk-pages-on-a-team-event">5. The scorer and desk pages on a team event<a class="headerlink" href="#5-the-scorer-and-desk-pages-on-a-team-event" title="Permanent link">&para;</a></h2>
+<h3 id="51-scorer-libv1appsscorerjs">5.1 Scorer (<code>lib/v1/apps/scorer.js</code>)<a class="headerlink" href="#51-scorer-libv1appsscorerjs" title="Permanent link">&para;</a></h3>
+<p>The template <code>_templates/scorer/scorer.html</code> is shared and does not change.
+In <code>scorer.js</code>'s team branches:</p>
+<ul>
+<li><strong>Names.</strong> Replace <code>teamNames</code> with <code>rowByCode</code>, built in <code>applySnapshot</code>
+  from the chosen venue's <code>standingsCsv</code>:
+  <code>new Map(rowsToStandings(parseCSV(f.standingsCsv || '')).map(s =&gt; [s.teamCode, s]))</code>.</li>
+<li><code>sideName(code)</code> returns <code>sideLabel(sideOf(code), rowByCode)</code> for a
+    team event.</li>
+<li>So a filled playoff side (<code>SF-A_2</code>) shows its team's name, and an
+    unfilled one shows "Seed 1 · TBD".</li>
+<li><strong>Pair labels.</strong> At start, keep <code>eventConfigFrom(registry, EVENT_KEY)</code>
+  beside <code>entry</code> and read its <code>pairs</code>.</li>
+<li><strong>The dialog's sub line</strong> (<code>describe</code>), for a team event:
+  <code>[stageLabel(sideOf(m.t1), rowByCode), pairLabel(m.t1, false, pairs)].filter(Boolean).join(' · ')</code>.
+  For example, "Bracket 2 · Mixed Doubles 1" or "Semifinal · Men's Doubles"
+  (§13 Q5).</li>
+<li><strong>Unchanged:</strong></li>
+<li>search (it matches whatever <code>sideName</code> returns);</li>
+<li>the <code>.sc-chip</code> showing the raw code under a name (scorers are staff);</li>
+<li>"Lineup not set";</li>
+<li>the score dialog, conflicts, expiry and court chips.</li>
+</ul>
+<p>Control Center's own score dialog keeps its <code>matchUp · pair</code> sub line. Only
+the scorer page changes.</p>
+<h3 id="52-attendance-desk">5.2 Attendance desk<a class="headerlink" href="#52-attendance-desk" title="Permanent link">&para;</a></h3>
+<p>No change. A team event's desk groups people by team already. It gains a
+harness case on team data (§10.2).</p>
+<hr />
+<h2 id="6-the-runbook-and-the-hub-board">6. The runbook and the hub board<a class="headerlink" href="#6-the-runbook-and-the-hub-board" title="Permanent link">&para;</a></h2>
+<h3 id="61-_templatesdry-run-checklist-templatemd">6.1 <code>_templates/dry-run-checklist-template.md</code><a class="headerlink" href="#61-_templatesdry-run-checklist-templatemd" title="Permanent link">&para;</a></h3>
+<p>Add PickleDrive's team checks, marked "(team events)", worded by role
+rather than by cell (§7 gives the cells of PickleDrive's workbook):</p>
+<ul>
+<li>In the rehearsal section, after the existing first edit check:</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <strong>Lineup and playoff slots (team events).</strong> Enter one matchup's
+  lineup on <code>MatchUps</code>. Within about 30 seconds the site shows those
+  players' names in place of <em>Lineup not set</em>; if not, check <code>MatchUps</code>
+  is ticked in <strong>SAGE → Set up live sync</strong>. Then type a team letter into
+  one quarterfinal seed cell on <code>MatchUps</code>. That quarterfinal card
+  switches from <em>Seed n · TBD</em> to the team's name, and the team gets an
+  <em>Advances</em> label. Put the seed number back afterwards.</li>
+</ul>
+</blockquote>
+<ul>
+<li>In the during-play section:</li>
+</ul>
+<blockquote>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <strong>Playoff teams (team events).</strong> When the bracket stage ends,
+  enter each qualifier's letter against its seed on <code>MatchUps</code>; after
+  each playoff round, enter the next round's teams the same way. The
+  site takes every playoff team from these cells and never picks them
+  itself. The seed cells are listed in <code>_templates/CLAUDE.md</code> (the
+  team workbook step).</li>
+</ul>
+</blockquote>
+<h3 id="62-the-hub-boards-qr-panel">6.2 The hub board's QR panel<a class="headerlink" href="#62-the-hub-boards-qr-panel" title="Permanent link">&para;</a></h3>
+<p><code>node _templates/hub-pubmat/render.mjs &lt;event-key&gt;</code> reads four things from
+the event's <code>index.html</code>:</p>
+<ul>
+<li><code>&lt;title&gt;</code>;</li>
+<li><code>&lt;div class="eyebrow"&gt;</code>;</li>
+<li>the <code>&lt;img … alt="QR code…"&gt;</code>;</li>
+<li><code>&lt;div class="qr-link-text"&gt;</code>.</li>
+</ul>
+<p>§3.1 keeps all four in the standard form, so it works unchanged. Check it
+once (§10.4).</p>
+<hr />
+<h2 id="7-the-workbook-until-the-team-tournament-master-exists-13-q6">7. The workbook, until the Team Tournament Master exists (§13 Q6)<a class="headerlink" href="#7-the-workbook-until-the-team-tournament-master-exists-13-q6" title="Permanent link">&para;</a></h2>
+<p>The other two formats generate their workbook from a master. A team event
+has none yet. The interim rule:</p>
+<ul>
+<li><strong>Only for an event of PickleDrive's shape</strong>, make the workbook by copying
+  PickleDrive's and clearing it. That shape is:</li>
+<li>15 teams <code>A</code>–<code>O</code> in three brackets of five;</li>
+<li>four pairs per matchup;</li>
+<li>a group-stage round robin;</li>
+<li>eight quarterfinalists, then semifinals, Bronze and Final;</li>
+<li>152 matches, one facility and 10 courts.</li>
+<li>The team codes are generic (<code>A_3</code>, <code>QF-3_4</code>), so copying carries over no
+  other event's names. Carried-over names are why the runbook forbids
+  copying for the other formats.</li>
+<li><strong>Any other shape waits for the master.</strong></li>
+</ul>
+<p>The implementer writes this as a new subsection of <code>_templates/CLAUDE.md</code>
+§2 step 8 or just before it: "<strong>Team events: the workbook</strong>". Its content:</p>
+<ol>
+<li><strong>Source:</strong> the live PickleDrive workbook, Drive file
+   <code>1Bk3iAqB6Fdt6t-EiI8MrU0Or8UZc4MAZcnWcMUOCkOA</code>
+   ("2026-10-03 PickleDrive Club One Year Celebration"). It carries the
+   optimised calculation (the hidden <code>StackCache</code> tab;
+   <code>sage-docs/docs/specs/.../team-workbook-stack-cache-spec.md</code>). <strong>Never
+   edit the source:</strong> <strong>File → Make a copy</strong>, named
+   <code>&lt;date&gt; &lt;title&gt; - &lt;FACILITY&gt;</code> like a generated workbook.</li>
+<li><strong>Its tabs:</strong></li>
+<li><strong>input:</strong> <code>Title</code>, <code>Teams</code>, <code>MatchUps</code>, <code>SCHEDULE</code>, <code>Court Control</code>,
+     <code>ATTENDANCE</code>, <code>Raffle</code>;</li>
+<li><strong>computed:</strong> <code>Standings</code>, <code>FINAL RANK</code>, <code>Awards</code>, <code>CSV</code>,
+     <code>STANDINGSCSV</code>, <code>MatchLookup</code>, <code>StackCache</code>, <code>Variables</code>,
+     <code>Variables V2</code>, <code>Reference for Players</code>, <code>Timeline</code>,
+     <code>Timeline (Individual}</code>, <code>Pairings Guide</code>;</li>
+<li><strong><code>Brackets</code></strong> is a leftover from another event; ignore it.</li>
+<li><strong>Clear the inputs. Clear values only, and never a cell holding a
+   formula:</strong> turn on <strong>View → Show → Formulas</strong> first, and leave any cell
+   that starts with <code>=</code>.</li>
+<li><strong><code>Teams</code>:</strong> type the new event's team names and players over the old
+     ones.</li>
+<li><strong><code>MatchUps</code>:</strong><ul>
+<li>clear every lineup;</li>
+<li>type each playoff seed cell back to its seed number: quarterfinal
+   seeds 3, 6, 1, 8, 2, 7, 4, 5 in <code>D604</code>, <code>D614</code>, <code>D624</code>, <code>D634</code>,
+   <code>D644</code>, <code>D654</code>, <code>D664</code>, <code>D674</code>; semifinal seeds 1–4 in <code>D684</code>,
+   <code>D694</code>, <code>D704</code>, <code>D714</code>; Bronze 1–2 in <code>D724</code>, <code>D734</code>; Final 1–2 in
+   <code>D744</code>, <code>D754</code>.</li>
+</ul>
+</li>
+<li><strong><code>SCHEDULE</code>:</strong> clear every typed score. A score must be a truly empty
+     cell (<strong>Delete</strong>, not a space), because the formulas test for an
+     empty cell.</li>
+<li><strong><code>Court Control</code>:</strong> clear every match number on a court.</li>
+<li><strong><code>ATTENDANCE</code>:</strong> clear rows 2 down in <code>A:G</code>. <strong>Update roster</strong>
+     refills them.</li>
+<li><strong><code>Title</code>:</strong> the new event's title and date.</li>
+<li><strong><code>Raffle</code>:</strong> clear it.</li>
+<li>The scorers' <strong>slot times</strong> are <code>SCHEDULE!B6:B</code>: retype them if the
+     new event starts at another time and they are typed values.</li>
+<li><strong>Check before wiring it up:</strong></li>
+<li><code>STANDINGSCSV</code> lists the 15 new team names with zero points;</li>
+<li><code>CSV</code> has 152 rows with every score empty;</li>
+<li>every quarterfinal and later row reads its seed (<code>QF-3_1</code> …).</li>
+<li><strong>Then step 8 as usual.</strong> The copy keeps the bound <code>sheets-sync.gs</code> but
+   not its trigger. Run <strong>SAGE → Set up live sync</strong> with the new day key
+   and facility; that creates the trigger and replaces the copied day key.
+   Then share it with the service account (step 13).</li>
+</ol>
+<p>Write the cell addresses exactly as above. They come from PickleDrive's
+workbook through its runbook (<code>events/pickledrive-anniversary-2026/dry-run-checklist.md</code>),
+which is the reference (see the status note). The Team Tournament Master
+starts from the same workbook, so when it exists its spec replaces this
+subsection with "generate it from the master", and the site needs no change.</p>
+<hr />
+<h2 id="8-the-order-of-pushes">8. The order of pushes<a class="headerlink" href="#8-the-order-of-pushes" title="Permanent link">&para;</a></h2>
+<p>The versioning rule (§0.4 rule 1) needs two merges into <code>main</code>:</p>
+<ol>
+<li><strong>Merge 1, the engine below the apps.</strong> No page uses anything new yet:</li>
+<li><code>data/registry.js</code> (<code>pairs</code>) and <code>domain/model.js</code> (the typedef);</li>
+<li><code>domain/teams.js</code> (<code>pairLabel</code>, <code>Pair &lt;n&gt;</code>);</li>
+<li><code>domain/schedule-grid.js</code> (team rows, <code>ladderStageForTeam</code>);</li>
+<li><code>views/teams.js</code> (<code>teamLetters</code>, <code>searchHint</code>, player tags, pairs
+     passed through);</li>
+<li><code>css/teams.css</code> and <code>css/schedule-board.css</code>;</li>
+<li>their unit tests, the demo fixtures (§10.2), and the harness changes
+     that need no new page.</li>
+<li><strong>Wait at least 10 minutes after merge 1 is live.</strong> Then <strong>merge 2, the
+   apps and pages:</strong></li>
+<li><code>apps/hub.js</code>, <code>apps/schedule-board.js</code> and <code>apps/scorer.js</code>;</li>
+<li>the two template pages;</li>
+<li>Control Center's <code>pairLabel</code> call;</li>
+<li>the dry-run template and <code>_templates/CLAUDE.md</code>;</li>
+<li>the harness cases for the new pages.</li>
+</ol>
+<p>Run <code>npm run verify</code> before each merge.</p>
+<hr />
+<h2 id="9-known-differences">9. Known differences<a class="headerlink" href="#9-known-differences" title="Permanent link">&para;</a></h2>
+<p><strong>From the prototype</strong>, which the one-time check in §10.3 shows:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Page</th>
+<th>Difference</th>
+<th>Prototype</th>
+<th>Template</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>both</td>
+<td>Theme and fonts</td>
+<td>pubmat: Montserrat, Playfair Display, Satisfy, its own palette</td>
+<td>the S.A.G.E. house theme</td>
+</tr>
+<tr>
+<td>2</td>
+<td>both</td>
+<td>Mixed doubles label</td>
+<td><code>MXD</code></td>
+<td><code>XD</code>; an event that wants <code>MXD</code> sets <code>display.pairs</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Hub</td>
+<td>Hero</td>
+<td>PickleDrive's own wording and title kicker</td>
+<td>the standard hero with tokens</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Hub</td>
+<td>Intro hint</td>
+<td>"Search a team or a player above."</td>
+<td>the same</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Hub</td>
+<td>The Live Matches team cell's markup</td>
+<td>name and players directly in the cell</td>
+<td>Control Center's wrapper (<code>.live-team-cell-inner</code> &gt; <code>.live-team-text</code>) (§13 Q3)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>board</td>
+<td>Colour key hues</td>
+<td>olive, sky, gold, forest (the pubmat's)</td>
+<td>the §4.1 examples (§13 Q4)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>board</td>
+<td>Fallback chip for an unlisted bracket</td>
+<td><code>?</code></td>
+<td><code>BR &lt;n&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>From the baseline in existing harness cases</strong>, each needing an
+<code>ACCEPTED</code> entry (§10.2):</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Cases</th>
+<th>Difference</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td><code>cc/pickledrive-anniversary-2026/finder-search/*</code></td>
+<td>A player result gains the level and gender tags</td>
+<td>§13 Q1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>every <code>cc/team-demo-2026/*</code></td>
+<td>The baseline reads the demo's three pairs with the old constant (MD, WD, "XD 1"); the branch reads <code>display.pairs</code> (MD, WD, XD). The baseline has no player tags</td>
+<td>§2.1, §13 Q1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>every <code>scorer/team-demo-2026/*</code></td>
+<td>Playoff side names and the dialog's sub line</td>
+<td>§5.1, §13 Q5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Any other difference from PickleDrive's pages is a bug in the template or
+the engine change.</strong> Fix it to match PickleDrive's page: its text, which
+views show what, and its layout where the shared CSS lacks a rule.
+Exceptions:</p>
+<ul>
+<li>a fix would change Control Center or a standard or dual-meet page. Then
+  put the PickleDrive behaviour behind an option whose default keeps the
+  existing page, as <code>teamLetters</code> does;</li>
+<li>the difference is one of rows 1–7.</li>
+</ul>
+<p>Record each fix in §17. None of this needs the owner.</p>
+<p>Any other difference in an <strong>existing</strong> harness case (one that isn't rows
+8–10) means the change broke something. Fix the change, not the case.</p>
+<hr />
+<h2 id="10-tests">10. Tests<a class="headerlink" href="#10-tests" title="Permanent link">&para;</a></h2>
+<h3 id="101-unit-_testsunit">10.1 Unit (<code>_tests/unit/</code>)<a class="headerlink" href="#101-unit-_testsunit" title="Permanent link">&para;</a></h3>
+<p>Add cases to the existing files; write each test first and watch it fail.</p>
+<ul>
+<li><code>data/data-modules.test.mjs</code>:</li>
+<li><code>eventConfigFrom</code> gives <code>pairs</code> from <code>display.pairs</code>, numbered for
+    repeats (two XD → "XD 1", "XD 2");</li>
+<li>without the map, <code>pairs</code> is <code>PAIRS</code>;</li>
+<li>a malformed map (key <code>"x"</code>, or an entry without <code>short</code>) gives <code>PAIRS</code>
+    and warns once.</li>
+<li><code>domain/teams-awards-attendance-grid-model.test.mjs</code>:</li>
+<li><code>pairLabel</code> with and without <code>pairs</code>;</li>
+<li>a three-pair layout;</li>
+<li><code>pairLabel('A_7', true)</code> is <code>'Pair 7'</code> and <code>pairLabel('A', true)</code> is
+    <code>''</code>;</li>
+<li><code>ladderStageForTeam</code> for <code>A_1</code>, <code>QF-3_1</code>, <code>SF-A_2</code>, <code>Br-1_1</code>, <code>Fi-J_4</code>
+    and <code>ZZ-1_1</code>;</li>
+<li><code>buildScheduleData(snapshot, null, 'team', { pairs })</code> on the demo
+    fixture: <code>team1</code>/<code>team2</code> (a seed reads "Seed 4 · TBD"), <code>pair</code>,
+    <code>stage</code>, and <code>cat</code> (<code>G1</code>, <code>G2</code>, <code>PO</code>);</li>
+<li>the standard and dual-meet results equal what they are today.</li>
+<li><code>views/teams.test.mjs</code>:</li>
+<li>with default options, all seven places of §2.2 draw a letter;</li>
+<li>with <code>teamLetters: false</code>, none do: no <code>class="chip"</code> in the card,
+    bracket table, live row, team result, autocomplete or intro, and the
+    roster card meta has no <code>Team A ·</code>;</li>
+<li><code>searchHint</code> reaches the intro;</li>
+<li>a player result carries the tags;</li>
+<li>pair labels follow <code>model.event.pairs</code>.</li>
+<li><code>apps/settings.test.mjs</code>:</li>
+<li><code>mountScheduleBoard({ eventKey: 'e', dayKey: 'd', type: 'nope' })</code>
+    logs exactly one error naming <code>type</code>;</li>
+<li><code>'type'</code> is a known setting;</li>
+<li>the existing unknown-setting cases still pass.</li>
+<li><code>engine/fixture-mode.test.mjs</code>: on localhost with <code>?fixture=finished</code>, an
+  instantiated team Hub and board load <code>team-demo-2026</code> with no console
+  error. Follow the file's existing pattern.</li>
+<li>The guards stay green: <code>guards.test.mjs</code> (dependency direction, no
+  operator words, no page flags), <code>no-copies.test.mjs</code>,
+  <code>theme-contract.test.mjs</code> and <code>live-pages.test.mjs</code>.</li>
+</ul>
+<h3 id="102-the-harness">10.2 The harness<a class="headerlink" href="#102-the-harness" title="Permanent link">&para;</a></h3>
+<p><strong>A demo event of another shape, <code>team-demo-2026</code></strong> (merge 1). It is
+fixture-only, so never add it to <code>event-data</code>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Title</td>
+<td><code>Team Demo (fixture only)</code></td>
+</tr>
+<tr>
+<td>Type, settings</td>
+<td><code>"team"</code>, <code>"scoreEntry": "links"</code>, <code>"attendance": "desks"</code></td>
+</tr>
+<tr>
+<td>Day</td>
+<td><code>team-demo-2026-day1</code>, label <code>Oct 10</code>, date <code>2026-10-10</code>, <code>isLive: "auto"</code></td>
+</tr>
+<tr>
+<td>Facility</td>
+<td><code>Demo Courts</code>. <code>sheetId</code> <code>test</code> in <code>_tests/fixtures/config.json</code> (Control Center's routed CSV); <code>FIXTURETEAMSHEETID000000000000000</code> in <code>_fixtures/config.json</code> (the desk case)</td>
+</tr>
+<tr>
+<td><code>display.pairs</code></td>
+<td><code>1</code> MD Men's Doubles, <code>2</code> WD Women's Doubles, <code>3</code> XD Mixed Doubles</td>
+</tr>
+<tr>
+<td>Teams</td>
+<td>Bracket 1: <code>A</code> Aces, <code>B</code> Bandits, <code>C</code> Comets, <code>D</code> Dynamos. Bracket 2: <code>E</code> Eagles, <code>F</code> Falcons, <code>G</code> Giants, <code>H</code> Hawks</td>
+</tr>
+<tr>
+<td>Group matchups</td>
+<td>Per bracket, in this order: <code>A v B</code>, <code>C v D</code>, <code>A v C</code>, <code>B v D</code>, <code>A v D</code>, <code>B v C</code> (and the same with <code>E</code>–<code>H</code>). Bracket 1's six, then bracket 2's six: 12 matchups × 3 pairs = matches #1–36, pairs in order</td>
+</tr>
+<tr>
+<td>Playoffs</td>
+<td><code>SF-A v SF-4</code> (#37–39: seed 1 already filled with <code>A</code>), <code>SF-2 v SF-3</code> (#40–42), <code>Br-1 v Br-2</code> (#43–45), <code>Fi-1 v Fi-2</code> (#46–48)</td>
+</tr>
+<tr>
+<td>Times and courts</td>
+<td>4 courts. Match <em>n</em> is on <code>Court ((n−1) mod 4)+1</code> at <code>9:00 AM</code> + 20 min × ⌊(n−1)/4⌋. <code>court</code> (live) is empty</td>
+</tr>
+<tr>
+<td>Players</td>
+<td>Each team has 6 rostered players, 3 <code>M</code> and 3 <code>F</code>, levels <code>3.0</code>/<code>3.5</code>. Names are <code>&lt;First name&gt; &lt;Last name&gt;</code>, the first names starting with the team's letter (e.g. Aces: <code>Alma Reyes</code>, <code>Ana Cruz</code>, …), so the first player's first word is 3+ letters. Lineups are filled for every group match, except match #11 (<code>B v D</code>, pair 2), where team 2's two player cells equal its code <code>D_2</code>. In the playoffs, <code>SF-A</code> has a lineup; seeds <code>SF-4</code>, <code>SF-2</code>, <code>SF-3</code>, <code>Br-*</code> and <code>Fi-*</code> have player cells equal to their own codes</td>
+</tr>
+<tr>
+<td>Scores (the <code>final</code> file)</td>
+<td>#1–36 and #37–42 scored with any plausible pickleball scores (11–n, n &lt; 10); #43–48 empty</td>
+</tr>
+<tr>
+<td><code>standingsCsv</code></td>
+<td>Header <code>teamCode,teamName,totalPoints,totalOpponentPoints,quotient,bracket</code>. One row per team <code>A</code>–<code>H</code> with its points from the scores, a quotient to 5 places, and its bracket. Then <code>SF-A,Aces,…</code>, <code>SF-4,,0,0,-,</code>, <code>SF-2,,0,0,-,</code>, <code>SF-3,,0,0,-,</code>, <code>Br-1,,0,0,-,</code>, <code>Br-2,,0,0,-,</code>, <code>Fi-1,,0,0,-,</code>, <code>Fi-2,,0,0,-,</code></td>
+</tr>
+<tr>
+<td><code>rosterCsv</code></td>
+<td>Header <code>teamCode,player,level,gender</code>; 48 rows</td>
+</tr>
+<tr>
+<td><code>matchesCsv</code></td>
+<td>The header PickleDrive's fixture uses: <code>matchNumber,matchUp,court,Schedule,CourtAssignment,teamCode1,team1Player1,team1Player2,team1Score,teamCode2,team2Player1,team2Player2,team2Score</code></td>
+</tr>
+</tbody>
+</table>
+<p>Write the snapshot with a small script in your scratchpad, not in the repo,
+and commit only its output:</p>
+<ul>
+<li><code>_tests/fixtures/team-demo-2026/team-demo-2026-day1.json</code> (the harness),
+  and a byte-identical <code>_fixtures/team-demo-2026/finished.json</code> (fixture
+  mode);</li>
+<li><code>_fixtures/team-demo-2026/attendance-demo-courts-pre.csv</code>, in the format
+  of <code>_fixtures/pickledrive-anniversary-2026/attendance-kingcourts-pre.csv</code>,
+  listing the 48 players with their team letter in <code>teams</code>, all <code>FALSE</code>
+  except two.</li>
+</ul>
+<p>Register the event in three places:</p>
+<ul>
+<li><code>_tests/fixtures/config.json</code> and <code>_fixtures/config.json</code> (with their
+  sheet IDs above);</li>
+<li><code>SNAPSHOTS</code> in <code>_tests/helpers/fixtures.mjs</code>:
+  <code>'team-demo-2026': { day: 'team-demo-2026-day1', file: 'team-demo-2026/team-demo-2026-day1.json' }</code>.</li>
+</ul>
+<p>Because Control Center's cases iterate <code>SNAPSHOTS</code>, it gets
+<code>cc/team-demo-2026/*</code> cases on its own.</p>
+<p><strong>New pages have no baseline.</strong> The harness renders every case on the
+baseline tree, where the new templates don't exist yet. Change
+<code>compare.test.mjs</code> as follows:</p>
+<ul>
+<li>when the case's file (its <code>path</code> without the query, resolved under
+  <code>baseline.dir</code>) does not exist, run the case on the branch tree only;</li>
+<li>fail it on any page error;</li>
+<li>otherwise write <code>branch.png</code> and <code>branch.txt</code> to <code>_tests/out/&lt;case&gt;/</code>
+  for review, and pass;</li>
+<li>log <code>new page, no baseline: &lt;case id&gt;</code>.</li>
+</ul>
+<p>After merge 2 the baseline has the files, and these become ordinary
+regression cases with no further change.</p>
+<p><strong>New cases</strong> in <code>_tests/engine/cases.mjs</code>, following the existing
+generators:</p>
+<ul>
+<li><strong><code>team-index</code></strong> (merge 2): in <code>hubCases</code>, add
+  <code>{ label: 'team-index', path: '/_templates/team-tournament-template/index.html', events: ['pickledrive-anniversary-2026', 'team-demo-2026'] }</code>.</li>
+<li>Its views are its own list, not the standard Hub's:<ul>
+<li><code>finder</code> (no steps);</li>
+<li><code>finder-team</code>: <code>click('.team-chip-btn')</code>;</li>
+<li><code>finder-player</code>: <code>type('#teamInput', word)</code>, then
+  <code>click('#acList .ac-item:last-child')</code>;</li>
+<li><code>live</code>: <code>tab('Live Matches')</code>;</li>
+<li><code>standings</code>: <code>tab('Standings')</code>;</li>
+<li><code>standings-bracket-open</code>: <code>tab('Standings')</code>, then
+  <code>click('[data-tm-group]')</code>;</li>
+<li><code>teams</code>: <code>tab('Teams')</code>;</li>
+<li><code>teams-expanded</code>: <code>tab('Teams')</code>, then
+  <code>click('[data-roster-all]')</code>.</li>
+</ul>
+</li>
+<li>Wrap any step whose element may be missing in a state with
+    <code>ifPresent</code>/<code>ifVisible</code>, as the existing cases do.</li>
+<li><strong><code>team-schedule</code></strong> (merge 2): in <code>scheduleCases</code>, add
+  <code>{ label: 'team-schedule', path: '/_templates/team-tournament-template/schedule.html', events: [both] }</code>,
+  with views <code>default</code>, <code>compact</code>, <code>print</code> and <code>courts-1-2</code>.</li>
+<li><strong>Tokens and settings:</strong> <code>tokensFor</code>/<code>eventSettings</code> read PickleDrive's
+  <code>DAYS</code>, <code>FACILITIES</code>, <code>CAT_META</code> and <code>DAY_KEY</code> from its finished pages.</li>
+<li>Add <code>'pickledrive-anniversary-2026': 'events/pickledrive-anniversary-2026'</code>
+    to <code>FINISHED_PAGES</code>.</li>
+<li>For <code>team-demo-2026</code>, which has no pages, give <code>eventSettings</code> a fixed
+    entry: <code>DAY_KEY</code> <code>team-demo-2026-day1</code>, <code>CAT_META</code> the §4.1 example.</li>
+<li><strong>Scorer on team data</strong> (merge 1): in <code>scorerCases</code>, run the four
+  existing views for <code>team-demo-2026</code> as well, with the registry from
+  <code>_tests/fixtures/config.json</code> (already <code>"links"</code>).</li>
+<li><strong>Desk on team data</strong> (merge 1): in <code>attendanceCases</code>, run the three
+  existing views for <code>team-demo-2026</code> with the site <code>_fixtures/config.json</code>
+  registry. Its mark step clicks the first <code>input.att-switch</code>, and it
+  stays identical to the baseline.</li>
+<li>Generalise <code>attendanceBackend(event, files)</code> so each venue is
+    <code>{ name, sheetIdPrefix, file }</code>, and build <code>external</code> from that list
+    instead of the two hard-coded patterns.</li>
+<li>The <code>attendance-demo-2026</code> cases must still match the baseline
+    exactly.</li>
+<li><strong><code>ACCEPTED</code> entries</strong> (<code>_tests/engine/accepted.mjs</code>) for §9 rows 8–10,
+  each <code>kind: 'both'</code>, with <code>row</code> set to the string <code>'team §17 row &lt;n&gt;'</code>.</li>
+<li>Change the log line in <code>compare.test.mjs</code> from
+    <code>`§12 rows ${…}`</code> to <code>`rows ${…}`</code>, so both kinds of row read
+    well.</li>
+<li>Add no other entry. Any other difference is fixed, not accepted
+    (§9).</li>
+</ul>
+<p>Everything else that exists today is identical to the baseline: every
+<code>std-*</code>, <code>dm-*</code>, <code>cc*</code>, <code>scorer/piggleball-2026/*</code> and
+<code>attendance/attendance-demo-2026/*</code> case.</p>
+<h3 id="103-one-check-against-the-prototype-before-merge-2">10.3 One check against the prototype (before merge 2)<a class="headerlink" href="#103-one-check-against-the-prototype-before-merge-2" title="Permanent link">&para;</a></h3>
+<p>Compare the template with PickleDrive's own pages: text by machine, layout
+by eye.</p>
+<ul>
+<li>Add an optional case field <code>baselinePath</code>. When set, the baseline tree
+  serves that path and the branch serves <code>path</code>.</li>
+<li>Add temporary cases <code>proto-index/pickledrive-anniversary-2026/&lt;view&gt;/&lt;state&gt;/&lt;vp&gt;</code>
+  and <code>proto-schedule/…</code>:</li>
+<li><code>baselinePath</code> <code>/events/pickledrive-anniversary-2026/index.html</code> (or
+    <code>schedule.html</code>);</li>
+<li><code>path</code> the team template, instantiated with PickleDrive's tokens;</li>
+<li>the <code>team-index</code> and <code>team-schedule</code> views;</li>
+<li><code>root: '.wrap'</code> for the Hub, so the hero (§9 row 3) is not compared,
+    and <code>root: '#grid'</code> for the board.</li>
+<li>For these cases compare <strong>text only</strong>: pixels differ by design (§9 row
+  1). Save both screenshots side by side, and compare their layout
+  yourself: what sits where, what is shown or hidden, what wraps at
+  375 px. Colours and fonts don't count.</li>
+<li>Every text difference must be a §9 row (rows 2 and 4–7 show up here).
+  Fix anything else, and any layout difference beyond the theme, to match
+  PickleDrive's page (§9).</li>
+<li>Record the outcome in §17. Then delete these cases and <code>baselinePath</code>
+  handling in the same commit, as the site engine removed its check pages.</li>
+</ul>
+<h3 id="104-by-hand">10.4 By hand<a class="headerlink" href="#104-by-hand" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Instantiate both pages into <code>events/team-check-beta/</code>. The
+   <code>**/*beta*</code> git-ignore rule keeps it out of commits. Use:</li>
+<li><code>EVENT_KEY</code> <code>team-demo-2026</code>;</li>
+<li><code>SCHEDULE_DAY_KEY</code> <code>team-demo-2026-day1</code>;</li>
+<li>the other tokens any plain text;</li>
+<li><code>QR_IMAGE</code> <code>/assets/logo.png</code>.</li>
+<li>With your static server, open <code>/events/team-check-beta/?fixture=finished</code>
+   and <code>/events/team-check-beta/schedule?fixture=finished</code>:</li>
+<li>no console error, at 375 px and at desktop width;</li>
+<li>the four tabs fit on one row at 375 px;</li>
+<li>no team letter anywhere on the Hub;</li>
+<li>print the board to PDF once.</li>
+<li>Repeat with <code>EVENT_KEY</code> <code>pickledrive-anniversary-2026</code> and
+   <code>?fixture=pre</code>, <code>finished</code>, <code>edge</code> and <code>qf-pre</code>.</li>
+<li><code>grep -rn '{{' events/team-check-beta/</code> prints nothing.</li>
+<li><code>node _templates/hub-pubmat/render.mjs team-check-beta</code> writes a QR
+   panel. It needs the <code>sage-tools-api/node_modules</code> puppeteer (see that
+   folder's <code>README.md</code>).</li>
+<li>Delete the folder.</li>
+</ol>
+<hr />
+<h2 id="11-steps">11. Steps<a class="headerlink" href="#11-steps" title="Permanent link">&para;</a></h2>
+<p>Branch <code>team-template</code> in the site repo. One commit per step.</p>
+<ol>
+<li>Unit tests for §2.1, then <code>registry.js</code>, <code>model.js</code>'s typedef and
+   <code>teams.js</code>'s <code>pairLabel</code> (§2.1).</li>
+<li>Unit tests for §2.2, then <code>views/teams.js</code> and <code>css/teams.css</code> (§2.2).</li>
+<li>Unit tests for §4.2, then <code>domain/schedule-grid.js</code> and
+   <code>css/schedule-board.css</code> (§4.2, §4.4).</li>
+<li>The demo fixtures, <code>SNAPSHOTS</code>, the generalised desk backend, the
+   scorer and desk cases on team data, the "no baseline" rule, and the
+   <code>ACCEPTED</code> entries for §9 rows 8–10 (§10.2). Run <code>npm run verify</code>; only
+   the accepted rows may differ.</li>
+<li><strong>Merge 1</strong> with the owner's go-ahead. Wait 10 minutes after it is live.</li>
+<li><code>apps/scorer.js</code> (§5.1) and Control Center's <code>pairLabel</code> call (§2.1).</li>
+<li><code>_templates/team-tournament-template/index.html</code> and <code>apps/hub.js</code>
+   (§3).</li>
+<li><code>_templates/team-tournament-template/schedule.html</code> and
+   <code>apps/schedule-board.js</code> (§4.1, §4.3).</li>
+<li>The <code>team-index</code> and <code>team-schedule</code> cases (§10.2), and the settings
+   and fixture-mode unit tests (§10.1).</li>
+<li>The prototype check (§10.3). Fix every difference toward PickleDrive, fill
+    §17, then delete its cases.</li>
+<li>The by-hand checks (§10.4).</li>
+<li>The dry-run template (§6.1) and <code>_templates/CLAUDE.md</code> (§7, §12).</li>
+<li><code>npm run verify</code>, then <strong>merge 2</strong> with the owner's go-ahead.</li>
+<li>The docs in the other repos (§12), then move this spec to
+    <code>implemented/</code> by the procedure in the <a href="../../">specs index</a>,
+    with §17 filled in.</li>
+</ol>
+<hr />
+<h2 id="12-runbook-and-documentation">12. Runbook and documentation<a class="headerlink" href="#12-runbook-and-documentation" title="Permanent link">&para;</a></h2>
+<p><strong><code>_templates/CLAUDE.md</code></strong> (site repo, step 12):</p>
+<ul>
+<li>§1, Choosing a template: add "Named teams meeting in matchups (a team
+  tournament) → <code>team-tournament-template/</code>".</li>
+<li>§2:</li>
+<li><strong>step 1:</strong> <code>team-tournament-template</code> is the third choice;</li>
+<li><strong>step 4:</strong> a team event's labels are <code>display.pairs</code>;</li>
+<li><strong>step 6:</strong> for a team event, <code>CAT_META</code> is one hue per bracket
+    (<code>G&lt;n&gt;</code>) plus <code>PO</code>, chosen by us because the team <code>SCHEDULE</code> tab is
+    uncoloured. Keep the 40% tint readable;</li>
+<li><strong>step 7:</strong> <code>type: "team"</code>, <code>display.pairs</code> (with the example of
+    §2.1), and <code>rosterSheetName</code> on a facility whose roster tab isn't
+    <code>Teams</code>;</li>
+<li><strong>the workbook:</strong> the "Team events: the workbook" subsection of §7.</li>
+<li>Steps 10–14 apply as written; the team checks are in the shared
+    dry-run template.</li>
+<li>§3, tokens: the team template uses the standard set for <code>index.html</code>
+  and the board's set for <code>schedule.html</code>.</li>
+<li>§5, the team code format: <code>&lt;SIDE&gt;_&lt;PAIR&gt;</code> (<code>A_3</code>, <code>QF-3_4</code>, <code>SF-A_2</code>,
+  <code>Fi-J_1</code>), seeds and letters (§0.2), and that the board reads a team
+  match's stage from the side's prefix.</li>
+<li>§5.1: nothing new is kept in sync by hand. Pair labels live only in
+  <code>events.json</code>, and the colour key only in the board.</li>
+</ul>
+<p><strong>Workspace <code>CLAUDE.md</code></strong> (<code>D:\Personal\SAGE</code>):</p>
+<ul>
+<li>In the <code>events/pickledrive-anniversary-2026/</code> bullet, PickleDrive is "the
+  first <code>"team"</code> event, hand-built before the team template existed",
+  not "the prototype the team template will be extracted from".</li>
+<li><code>_templates/</code>: "the three event-site templates (<code>dual-meet-template/</code>,
+  <code>standard-tournament-template/</code>, <code>team-tournament-template/</code>)".</li>
+<li>The team-event rules bullet under "Things that must be kept in sync by
+  hand": <code>lib/v1/domain/teams.js</code> is used by Control Center, the team Hub,
+  board and scorer, and pair labels come from <code>display.pairs</code>.</li>
+</ul>
+<p><strong><code>event-data/config/README.md</code>:</strong> in the <code>display</code> bullet, add <code>pairs</code>,
+which is team events only:</p>
+<ul>
+<li>the shape;</li>
+<li>the key is the pair number in a team code;</li>
+<li>a type that repeats is numbered;</li>
+<li>without it, the labels are MD, WD, XD 1, XD 2.</li>
+</ul>
+<p><strong>sage-docs:</strong></p>
+<ul>
+<li><code>technical/adding-a-new-event.md</code>: the team choice points at the
+  template and at the interim workbook rule;</li>
+<li><code>technical/site-engine.md</code>: <code>mountHub</code> serves all three types,
+  <code>views/teams.js</code> has two callers with <code>teamLetters</code> and <code>searchHint</code>, and
+  the board takes <code>type</code>;</li>
+<li><code>technical/schedule-board.md</code>: the team cell (team name, pair chip,
+  Lineup TBD) and the colour key;</li>
+<li><code>technical/scorer-page.md</code>: team names and the sub line;</li>
+<li><code>technical/event-data-config.md</code>: <code>display.pairs</code>;</li>
+<li><code>features/tournament-hub.md</code>, Team events: a team event's page is a Hub
+  like the others; the pair labels are the event's; a player result shows
+  the player's level and gender;</li>
+<li><code>features/control-center.md</code>: a player result shows the player's level
+  and gender;</li>
+<li><code>features/scorer-page.md</code>: what a team match shows;</li>
+<li><code>specs/README.md</code>, <code>specs/not-started/README.md</code> →
+  <code>specs/implemented/README.md</code>, and <code>mkdocs.yml</code>, by the move procedure.</li>
+</ul>
+<hr />
+<h2 id="13-decisions">13. Decisions<a class="headerlink" href="#13-decisions" title="Permanent link">&para;</a></h2>
+<p>All settled by the owner on 2026-10-06. Don't revisit them.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>Decided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td>Player level and gender tags in a player result?</td>
+<td><strong>On both pages</strong>, the Hub and Control Center (§2.2)</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>An unknown pair number's label?</td>
+<td><strong><code>Pair &lt;n&gt;</code></strong>. A blank label hides a workbook mistake (§2.1)</td>
+</tr>
+<tr>
+<td>Q3</td>
+<td>Control Center's Live Matches cell markup on the Hub?</td>
+<td><strong>Yes.</strong> One markup for both pages. It must still lay out as PickleDrive's does (§10.3)</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>The board's colour key?</td>
+<td><strong>The prototype's scheme:</strong> one hue per bracket plus one for playoffs, in the §4.1 example hues</td>
+</tr>
+<tr>
+<td>Q5</td>
+<td>The scorer's sub line?</td>
+<td><strong><code>&lt;stage&gt; · &lt;pair&gt;</code></strong>, not the <code>matchUp</code> key (§5.1)</td>
+</tr>
+<tr>
+<td>Q6</td>
+<td>The workbook before the Team Tournament Master exists?</td>
+<td><strong>A cleared copy of PickleDrive's workbook, for an event of PickleDrive's shape only</strong>; any other shape waits for the master (§7)</td>
+</tr>
+</tbody>
+</table>
+<p>Also settled, in the first version: the template uses the S.A.G.E. house
+theme, and the pubmat theme stays PickleDrive's.</p>
+<hr />
+<h2 id="14-blocked-on">14. Blocked on<a class="headerlink" href="#14-blocked-on" title="Permanent link">&para;</a></h2>
+<p>Nothing. The engine is merged, and the team views and rules exist. The
+pages read <code>CSV</code>, <code>STANDINGSCSV</code> and the roster tab in the format
+PickleDrive's workbook publishes, so they need neither the Team
+Tournament Master nor the calculator's team format.</p>
+<p>The master starts from that same workbook, so it publishes the same tabs in
+the same shape. When it arrives, the pages built here need no change. If the
+master ever changes a published column, that is the master's spec's
+concern, and the change is made in the engine like any other.</p>
+<hr />
+<h2 id="15-out-of-scope">15. Out of scope<a class="headerlink" href="#15-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The Team Tournament Master and the
+  <a href="../../not-started/calculator-team-format-spec/">calculator's team format</a>. §7 is the
+  interim.</li>
+<li>Control Center beyond the <code>pairLabel</code> call and the player tags. Its own
+  score dialog keeps <code>matchUp · pair</code>.</li>
+<li>PickleDrive's own pages, which are frozen.</li>
+<li>Team logos, and scoresheets for team codes.</li>
+<li>Any change to <code>sage-tools-api</code> or to <code>event-data/config/events.json</code>.</li>
+</ul>
+<hr />
+<h2 id="16-acceptance-checklist">16. Acceptance checklist<a class="headerlink" href="#16-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Implementer:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Merge 1:</li>
+<li><code>display.pairs</code> reaches <code>EventConfig.pairs</code>;</li>
+<li><code>pairLabel</code> takes <code>pairs</code> and returns <code>Pair &lt;n&gt;</code>;</li>
+<li><code>createTeams</code> takes <code>teamLetters</code> and <code>searchHint</code>, and player tags
+    show;</li>
+<li><code>buildScheduleData</code> handles a team day;</li>
+<li>the demo fixtures and the scorer and desk cases on team data are in;</li>
+<li><code>npm run verify</code> passes with only §9 rows 8–10 accepted.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Merge 2:</li>
+<li><code>mountHub</code> serves a team event;</li>
+<li><code>mountScheduleBoard</code> takes <code>type: 'team'</code>;</li>
+<li>the scorer names playoff sides and shows <code>&lt;stage&gt; · &lt;pair&gt;</code>;</li>
+<li>Control Center passes its event's pairs.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>_templates/team-tournament-template/</code> holds <code>index.html</code> and
+  <code>schedule.html</code>, whose <code>THEME</code> blocks are byte-identical to the standard
+  template's.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The <code>team-index</code> and <code>team-schedule</code> cases run over both events, both
+  widths and three states, with no page error.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Every case that existed before is identical to the baseline, apart
+  from §9 rows 8–10.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The prototype check is done, its results recorded in §17, and its
+  cases deleted.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The by-hand checks pass, including the QR panel render.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The dry-run template, <code>_templates/CLAUDE.md</code>, the workspace
+  <code>CLAUDE.md</code>, <code>event-data/config/README.md</code> and the sage-docs pages of
+  §12 are updated.</li>
+</ul>
+<p>Nothing on this list waits for the owner, apart from the go-ahead for each
+merge (§0.4 rule 6).</p>
+<hr />
+<h2 id="17-reconciliations-and-divergences">17. Reconciliations and divergences<a class="headerlink" href="#17-reconciliations-and-divergences" title="Permanent link">&para;</a></h2>
+<p>The implementer fills this in:</p>
+<ul>
+<li>rows 8–10 of §9 as they land;</li>
+<li>one row per difference the prototype check (§10.3) finds;</li>
+<li>one row per place the built template departs from this spec.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>What</th>
+<th>Pages</th>
+<th>Kept</th>
+<th>Proved by</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>§9 row 8: a player result shows level and gender in Control Center</td>
+<td>cc</td>
+<td>as spec</td>
+<td><code>ACCEPTED</code> entry, <code>cc/pickledrive-anniversary-2026/finder-search/*</code></td>
+<td>The harness's only change to that event's cases</td>
+</tr>
+<tr>
+<td>2</td>
+<td>§9 row 9: the demo's pair labels (MD, WD, XD) and player tags</td>
+<td>cc</td>
+<td>as spec</td>
+<td><code>ACCEPTED</code> entry, <code>cc/team-demo-2026/*</code></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>§9 row 10: playoff side names and the dialog's sub line</td>
+<td>scorer</td>
+<td>as spec</td>
+<td><code>ACCEPTED</code> entry, <code>scorer/team-demo-2026/*</code></td>
+<td>A filled playoff side reads its team's name, an open one "Seed n · TBD"; the sub line is "stage · pair"</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Prototype check (§10.3), all 48 Hub cases and 24 board cases</td>
+<td>Hub, board</td>
+<td>as spec</td>
+<td><code>proto-index</code> and <code>proto-schedule</code> cases, text only, then deleted</td>
+<td>The only text difference from PickleDrive's pages was Mixed Doubles, <code>MXD</code> against <code>XD</code> (§9 row 2). Layout, compared by eye on the Hub's player result, Live Matches and the board at phone and desktop width, differs only in theme (§9 row 1). No difference outside §9 rows 1–7 was found, so nothing was fixed toward the prototype. Rows 4–7 produced no text difference to show: the search hint is the prototype's, the colour key in the cases is PickleDrive's own, and no bracket was left unlisted</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>white-space:nowrap</code> is held to team cells: <code>.cell-pair</code>, and <code>.cell.team .cell-cat</code> and <code>.cell.team .cell-stage</code>, not <code>.cell-cat, .cell-stage, .cell-pair</code> (§4.4)</td>
+<td>board</td>
+<td>changed</td>
+<td><code>npm run verify</code>: the first run changed <code>dm-schedule/pnf-x-bup-dual-meet/{default,compact}/mid/desktop</code></td>
+<td>Unscoped, the rule stops a dual meet's chip ("LI MD") wrapping on its live cells. §9 says to put a PickleDrive behaviour that would change another type behind something that keeps the default; the board adds <code>team</code> to the cell of a team event</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>pairLabel('A_9', true)</code> is <code>'Pair 9'</code> in the existing unit test, which asserted <code>''</code></td>
+<td>unit test</td>
+<td>as spec (§2.1, §10.1)</td>
+<td><code>teams-awards-attendance-grid-model.test.mjs</code></td>
+<td>The old assertion recorded the behaviour §2.1 and §13 Q2 change</td>
+</tr>
+<tr>
+<td>7</td>
+<td>The demo fixtures were committed before the §4.2 schedule-grid tests, which read them</td>
+<td>commit order</td>
+<td>changed</td>
+<td>git history</td>
+<td>§11 lists the schedule-grid step first; its test reads <code>team-demo-2026</code>, so the fixture went in first</td>
+</tr>
+<tr>
+<td>8</td>
+<td>The <code>type</code> and fixture-mode unit tests (§10.1) were written after the code they cover</td>
+<td>unit tests</td>
+<td>changed</td>
+<td>git history</td>
+<td>The tests of §11 steps 1–3 were written first and failed first. The <code>type</code> and fixture-mode tests followed the code of steps 8–9, and the scorer and Hub changes are covered by harness cases, not unit tests</td>
+</tr>
+<tr>
+<td>9</td>
+<td>The template <code>index.html</code> is 183 lines, not "about 210"</td>
+<td>Hub</td>
+<td>as spec</td>
+<td><code>diff</code> against the standard template</td>
+<td>The own-touches block loses the standings rules (§3.1 item 3), which is most of the difference</td>
+</tr>
+<tr>
+<td>10</td>
+<td>The board's header comment says "brackets' colours" for "categories' colours"</td>
+<td>board</td>
+<td>changed</td>
+<td><code>diff</code> against the standard template</td>
+<td>A comment in the settings script; §4.1 asks for a team colour-key comment there</td>
+</tr>
+<tr>
+<td>11</td>
+<td>The merges were not made</td>
+<td>all</td>
+<td>open</td>
+<td>branch <code>team-template</code>; <code>team-template-merge-1</code> is the end of §11 step 4</td>
+<td>§0.4 rule 6 and §11 steps 5 and 13 need the owner's go-ahead for each. Steps 6–12 were built on the same branch; merge 1 is the commits up to <code>team-template-merge-1</code>, merge 2 the rest, ten minutes later</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../sync-config-runtime-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Runtime-fetched sync config">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Runtime-fetched sync config
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

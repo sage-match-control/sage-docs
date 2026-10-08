@@ -1,0 +1,6052 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/implemented/piggleball-chairmans-cup-spec/">
+      
+      
+        <link rel="prev" href="../pickle-for-sight-spec/">
+      
+      
+        <link rel="next" href="../pickledrive-club-anniversary-team-tournament-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Piggleball Chairman's Cup - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-piggleball-chairmans-cup" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Piggleball Chairman's Cup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../usage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/before-you-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles, access and kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing the event
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparing the event
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/plan-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Plan it
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/build-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Build the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/draw-and-rosters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Draw and fill rosters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/register-and-build-the-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Register and build the site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/connect-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Connect the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/printables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Print
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/rehearse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Rehearse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    On the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/run-the-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Run the day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. When something's wrong
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handouts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Handouts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/scorer-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/desk-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance desks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/after-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    After the event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public pages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Public pages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Running the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/score-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoring workbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scoring workbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoring-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The scoring workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/team-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and print tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and print tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/site-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../team-tournament-template-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament event-site template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-how-to-use-this-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. How to use this spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-event-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Event facts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-create-the-event-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Create the event folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-replace-the-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Replace the {{TOKENS}}
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-indexhtml-content-edits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. index.html — content edits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. index.html — content edits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-configuration-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Configuration block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-hero-title" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Hero — title
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-hero-slogan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Hero — slogan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-footer-cause-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Footer cause line
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-example-text-left-over-from-the-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Example text left over from the template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-theme-colours-from-the-pubmat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Theme — colours from the pubmat
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Theme — colours from the pubmat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-the-palette" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 The palette
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-edit-the-root-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Edit the :root blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-replace-hard-coded-copies-of-the-old-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Replace hard-coded copies of the old colours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-update-the-contrast-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Update the contrast note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-fonts-from-the-pubmat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Fonts — from the pubmat
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Fonts — from the pubmat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-indexhtml-google-fonts-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 index.html — Google Fonts link
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-indexhtml-heading-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 index.html — heading rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-indexhtml-title-accent-stars-and-slogan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 index.html — title accent, stars and slogan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-schedulehtml-fonts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 schedule.html — fonts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-schedulehtml-category-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. schedule.html — category colours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-dry-run-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Dry-run checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-verify-in-a-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Verify in a browser
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-register-the-event-in-event-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Register the event in event-data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-done-report-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Done — report back
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-operator-tasks-people-not-the-implementer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Operator tasks — people, not the implementer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. Operator tasks — people, not the implementer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-workbook-fixes-before-sync-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 Workbook fixes before sync setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-live-sync-setup-once-last" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 Live sync setup — once, last
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-go-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3 Go-live
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4 Dry run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-decisions-for-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Decisions, for reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../team-workbook-stack-cache-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook recalculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control-center-score-entry-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry and scorer links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../site-engine-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../link-attribution-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/docs-usage-guide-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage guide and docs restructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/calculator-team-format-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator team format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/team-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/control-center-court-control-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Court Control from Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archived/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archived
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archived
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-how-to-use-this-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. How to use this spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-event-facts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Event facts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Inputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-create-the-event-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Create the event folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-replace-the-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Replace the {{TOKENS}}
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-indexhtml-content-edits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. index.html — content edits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. index.html — content edits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-configuration-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Configuration block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-hero-title" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Hero — title
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-hero-slogan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Hero — slogan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-footer-cause-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Footer cause line
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-example-text-left-over-from-the-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Example text left over from the template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-theme-colours-from-the-pubmat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Theme — colours from the pubmat
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Theme — colours from the pubmat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-the-palette" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 The palette
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-edit-the-root-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Edit the :root blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-replace-hard-coded-copies-of-the-old-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Replace hard-coded copies of the old colours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-update-the-contrast-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Update the contrast note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-fonts-from-the-pubmat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Fonts — from the pubmat
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Fonts — from the pubmat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-indexhtml-google-fonts-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 index.html — Google Fonts link
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-indexhtml-heading-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 index.html — heading rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-indexhtml-title-accent-stars-and-slogan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 index.html — title accent, stars and slogan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-schedulehtml-fonts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 schedule.html — fonts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-schedulehtml-category-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. schedule.html — category colours
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-dry-run-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Dry-run checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-verify-in-a-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Verify in a browser
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-register-the-event-in-event-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Register the event in event-data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-done-report-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Done — report back
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-operator-tasks-people-not-the-implementer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Operator tasks — people, not the implementer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. Operator tasks — people, not the implementer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-workbook-fixes-before-sync-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 Workbook fixes before sync setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-live-sync-setup-once-last" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 Live sync setup — once, last
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-go-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3 Go-live
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4 Dry run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-decisions-for-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Decisions, for reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/implemented/piggleball-chairmans-cup-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-piggleball-chairmans-cup">Spec — Piggleball Chairman's Cup<a class="headerlink" href="#spec-piggleball-chairmans-cup" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: implemented.</strong> The event ran on Saturday 3 October 2026. The
+site (<code>events/piggleball-2026/</code>: <code>index.html</code>, <code>schedule.html</code>,
+<code>dry-run-checklist.md</code> and the attendance desk page), its registry entry
+(§11) and the QR image are built, and live sync ran from the second
+workbook (§1) from 07:25 to 16:07, publishing 238 syncs with live push on.
+The rosters were pasted in and <code>isLive</code> was back on <code>"auto"</code> for the day.
+All 68 matches were published, the facility was stamped complete at 16:07,
+and the event's pages now have live push off (<code>LIVE_BASE_URL = ''</code>), as
+every finished event's do. Sync timings for the day are in
+<a href="../../../technical/sync-pipeline/#measured-at-two-events-3-october-2026">Sync pipeline</a>.</p>
+<p>§13.1's IXD bronze (item 3) went as a walkover: the organiser scheduled it
+as match #100, <code>IXD_B_1</code> against <code>IXD_B_2</code>, with the absent side's names
+entered as <code>-</code> and a score of 11–0, not as a BYE. The Awards tab reads that
+as an ordinary win; see the <a href="../awards-podium-tab-spec/">Awards tab</a>'s §8.</p>
+</blockquote>
+<p>Build the event site for the <strong>1st Piggleball Chairman's Cup</strong>, a one-day
+open-entry pickleball tournament on <strong>Saturday, 3 October 2026</strong> at
+<strong>Centro Atletico, Cubao, Quezon City</strong>. The National Federation of Hog
+Farmers, Inc. (NFHFI, "NATFED") presents it as part of its <strong>Pig Sports
+Festival</strong>.</p>
+<p>The festival also includes a badminton tournament, the 23rd Pigminton
+Chairman's Cup. <strong>That tournament is out of scope.</strong> The site covers only
+the pickleball tournament and never mentions the badminton one.</p>
+<p>The site is an instance of <code>_templates/standard-tournament-template/</code>. The
+runbook for instantiating a template is
+<code>sage-match-control.github.io/_templates/CLAUDE.md</code>. This spec gives every
+value and every edit for this event, so you should not need to make any
+design decisions. If this spec and the runbook disagree, <strong>stop and ask</strong>.
+Don't pick one.</p>
+<hr />
+<h2 id="0-how-to-use-this-spec">0. How to use this spec<a class="headerlink" href="#0-how-to-use-this-spec" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Do sections 3–11 in order.</strong> Each section lists exact edits, then a
+  check to run. Don't move on until the check passes.</li>
+<li><strong>Where you work:</strong> <code>D:\Personal\SAGE\sage-match-control.github.io</code> (the
+  site repo) for §3–§10. §11 edits <code>D:\Personal\SAGE\event-data</code>. All paths
+  in §3–§10 are relative to the site repo.</li>
+<li><strong>Find edits by their anchor text, not line numbers.</strong> Every edit quotes
+  the exact text to find. The template changes over time, so line numbers
+  would drift.</li>
+<li><strong>Use a shell with <code>grep</code></strong> (Git Bash) for the checks. Python is not
+  installed on this machine. Node is.</li>
+<li><strong>Don't commit or push</strong> unless the user asks.</li>
+<li><strong>Don't edit anything under <code>_templates/</code>.</strong> If a template edit seems
+  necessary, stop and report it instead.</li>
+<li>Don't rename, "fix" or tidy anything this spec doesn't mention.</li>
+</ul>
+<hr />
+<h2 id="1-event-facts">1. Event facts<a class="headerlink" href="#1-event-facts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Presenter</td>
+<td>National Federation of Hog Farmers, Inc. (NFHFI), called "NATFED" on the pubmat</td>
+</tr>
+<tr>
+<td>Event name</td>
+<td>1st Piggleball Chairman's Cup (pickleball tournament)</td>
+</tr>
+<tr>
+<td>Festival</td>
+<td>Pig Sports Festival. The site mentions it once, in the hero tagline</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>Saturday, 3 October 2026 — one day</td>
+</tr>
+<tr>
+<td>Venue</td>
+<td>Centro Atletico, West Road, Cubao, Quezon City. One facility, 3 courts</td>
+</tr>
+<tr>
+<td>Divisions</td>
+<td>Novice, Intermediate</td>
+</tr>
+<tr>
+<td>Categories</td>
+<td>Novice Open Doubles (<code>ND</code>, 10 pairs), Intermediate Men's Doubles (<code>IMD</code>, 9 pairs), Intermediate Mixed Doubles (<code>IXD</code>, 5 pairs)</td>
+</tr>
+<tr>
+<td>Matches</td>
+<td>56, numbered 1–56, first serve 9:00 AM, 25-minute slots, last slot 4:30 PM</td>
+</tr>
+<tr>
+<td>Slogan</td>
+<td>"Let's rally and dink for fun, camaraderie and a stronger pig industry!"</td>
+</tr>
+<tr>
+<td>Closing line</td>
+<td>"One Pig Industry. Stronger Together!"</td>
+</tr>
+<tr>
+<td>Beneficiary</td>
+<td>Proceeds go to scholarship programs</td>
+</tr>
+<tr>
+<td>Short link</td>
+<td><code>tinyurl.com/SAGExPiggleball</code> → <code>https://sage-match-control.github.io/events/piggleball-2026/</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The site shows none of these:</strong> the badminton tournament, the four
+contact names and phone numbers, the pubmat's "8:00 AM onwards" (the
+workbook's first match is 9:00 AM), and the four pubmat icons (friendships,
+healthy living, industry, scholarships). The site is a live results hub for
+players who have already entered.</p>
+<p><strong>Same day as PickleDrive.</strong> <code>pickledrive-anniversary-2026</code> runs on 3 October
+2026 too, at Kingcourts. The two events have separate keys, pages and
+workbooks, and never share data. Nothing in this spec touches PickleDrive's
+files.</p>
+<hr />
+<h2 id="2-inputs">2. Inputs<a class="headerlink" href="#2-inputs" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Status</th>
+<th>Used in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFHFI logo</td>
+<td><strong>Staged</strong> at <code>events/piggleball-2026/assets/logo.webp</code> (960×958, white background). Use it as is: no conversion, no cropping</td>
+<td>§4 <code>{{EVENT_LOGO}}</code></td>
+</tr>
+<tr>
+<td>Pubmat</td>
+<td><strong>Staged</strong> at <code>events/piggleball-2026/assets/pubmat.webp</code> (1736×2000). Reference for §6–§7 only. No page loads it</td>
+<td>—</td>
+</tr>
+<tr>
+<td>QR image for the short link</td>
+<td><strong>To follow from the user</strong> as <code>events/piggleball-2026/assets/qr.png</code>. The short link itself, <code>tinyurl.com/SAGExPiggleball</code>, is confirmed. If the image isn't there yet, do everything else and report it missing. Don't generate one</td>
+<td>Template QR panel</td>
+</tr>
+<tr>
+<td>Event workbook</td>
+<td><code>1QAa2FlH2uiY0JWJNSpe5JGuwlWYE544_UPfYYHnDJmU</code> (replaced <code>1PLbtKQWYCEejy0a9EWFbdx51BDss6G_v1k-kdCKA4zo</code> and, before that, <code>1zdmfKXpz9jrNLSU--3h-GhEueuSRH6IoSmtgfaliveM</code>, on 1 October 2026; that one had itself replaced the first workbook, <code>1QX38GVquZjsha24BLJkx7tTWxc09sc6oWW99ALUsegE</code>, on 30 September 2026)</td>
+<td>§11</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-create-the-event-folder">3. Create the event folder<a class="headerlink" href="#3-create-the-event-folder" title="Permanent link">&para;</a></h2>
+<p>The folder already exists, because it holds the staged images. Copy the
+template's <strong>contents</strong> into it. The trailing <code>/.</code> matters: without it,
+<code>cp</code> would create a nested <code>standard-tournament-template/</code> folder inside
+the existing one.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cp<span class="w"> </span>-r<span class="w"> </span>_templates/standard-tournament-template/.<span class="w"> </span>events/piggleball-2026/
+</code></pre></div>
+<p><strong>Check:</strong> <code>ls events/piggleball-2026</code> shows <code>index.html</code>, <code>schedule.html</code>
+and <code>assets/</code>, and <code>assets/</code> still contains <code>logo.webp</code> and <code>pubmat.webp</code>.</p>
+<hr />
+<h2 id="4-replace-the-tokens">4. Replace the <code>{{TOKENS}}</code><a class="headerlink" href="#4-replace-the-tokens" title="Permanent link">&para;</a></h2>
+<p>Replace every occurrence in both <code>events/piggleball-2026/index.html</code> and
+<code>events/piggleball-2026/schedule.html</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Replace with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{EVENT_KEY}}</code></td>
+<td><code>piggleball-2026</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TITLE}}</code></td>
+<td><code>Piggleball Chairman's Cup</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_TAGLINE}}</code></td>
+<td><code>NATFED presents · Pig Sports Festival</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_HEADLINE}}</code></td>
+<td><code>1st Chairman's Cup</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_DATE_RANGE}}</code></td>
+<td><code>3 October 2026</code></td>
+</tr>
+<tr>
+<td><code>{{VENUE}}</code></td>
+<td><code>Centro Atletico, Cubao</code></td>
+</tr>
+<tr>
+<td><code>{{QR_IMAGE}}</code></td>
+<td><code>assets/qr.png</code></td>
+</tr>
+<tr>
+<td><code>{{QR_URL}}</code></td>
+<td><code>tinyurl.com/SAGExPiggleball</code></td>
+</tr>
+<tr>
+<td><code>{{EVENT_LOGO}}</code></td>
+<td><code>assets/logo.webp</code></td>
+</tr>
+<tr>
+<td><code>{{SCHEDULE_DAY_KEY}}</code></td>
+<td><code>piggleball-day1</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The apostrophe in <code>Chairman's</code> is a plain ASCII <code>'</code>. It is safe
+  everywhere these tokens land: HTML text, double-quoted attributes, and
+  one JavaScript <strong>backtick</strong> template literal in <code>schedule.html</code>
+  (<code>print-title</code>). No token lands in a single-quoted JS string.</li>
+<li>The <code>·</code> in the tagline is the literal middle-dot character (U+00B7). The
+  files are UTF-8, so type it as is, not as <code>&amp;middot;</code>.</li>
+<li>None of these values contain <code>&amp;</code>, so no HTML-entity escaping is needed.</li>
+</ul>
+<p><strong>Check:</strong> this must print nothing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>grep<span class="w"> </span>-rn<span class="w"> </span><span class="s1">'{{'</span><span class="w"> </span>events/piggleball-2026/
+</code></pre></div>
+<hr />
+<h2 id="5-indexhtml-content-edits">5. <code>index.html</code> — content edits<a class="headerlink" href="#5-indexhtml-content-edits" title="Permanent link">&para;</a></h2>
+<p>All edits are in <code>events/piggleball-2026/index.html</code>.</p>
+<h3 id="51-configuration-block">5.1 Configuration block<a class="headerlink" href="#51-configuration-block" title="Permanent link">&para;</a></h3>
+<p>Inside the <code>CONFIGURATION</code> section of the <code>&lt;script&gt;</code>, replace each of these
+four <code>// EXAMPLE — replace</code> blocks completely, including the
+<code>// EXAMPLE — replace</code> comment line.</p>
+<p><code>DAYS</code>: find</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAYS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="c1">// EXAMPLE — replace</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">'piggleball-2026-day1'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Day 1'</span><span class="p">,</span><span class="w"> </span><span class="nx">date</span><span class="o">:</span><span class="w"> </span><span class="s1">'2026-01-01'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">];</span>
+</code></pre></div>
+<p>(the token replacement in §4 has already filled in the key). Replace it
+with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DAYS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">'piggleball-day1'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Oct 3'</span><span class="p">,</span><span class="w"> </span><span class="nx">date</span><span class="o">:</span><span class="w"> </span><span class="s1">'2026-10-03'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">];</span>
+</code></pre></div>
+<p><code>FACILITIES</code>: replace the whole array with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">FACILITIES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Centro Atletico'</span><span class="p">,</span><span class="w"> </span><span class="nx">courts</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">];</span>
+</code></pre></div>
+<p><code>DIVISIONS</code>: replace the whole object with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">DIVISIONS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nx">N</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'N'</span><span class="p">,</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'Novice'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nx">I</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'I'</span><span class="p">,</span><span class="w"> </span><span class="nx">full</span><span class="o">:</span><span class="w"> </span><span class="s1">'Intermediate'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>EVENTS</code>: replace the whole object with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">EVENTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nx">D</span><span class="o">:</span><span class="w">  </span><span class="s1">'Open Doubles'</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nx">MD</span><span class="o">:</span><span class="w"> </span><span class="s2">"Men's Doubles"</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nx">XD</span><span class="o">:</span><span class="w"> </span><span class="s1">'Mixed Doubles'</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">};</span>
+</code></pre></div>
+<p>Leave <code>DIVISION_ORDER</code>, <code>EVENT_ORDER</code>, <code>CODE_REGEX</code>, <code>GO_LIVE_LEAD_HOURS</code>,
+<code>STAGE_META</code> and everything else in the block unchanged.</p>
+<p><strong>Why a one-letter event code works.</strong> <code>CODE_REGEX</code> is built from these keys
+as <code>^(N|I)(D|MD|XD)_(.+)$</code>. <code>ND_1</code> splits to <code>N</code> + <code>D</code>. <code>IMD_1</code> can't split
+as <code>I</code> + <code>D</code>, because the character after <code>I</code> is <code>M</code>, so it splits to
+<code>I</code> + <code>MD</code>. No division key is a prefix of another, and no code is
+ambiguous.</p>
+<p><strong>Check:</strong> <code>grep -n "EXAMPLE" events/piggleball-2026/index.html</code> prints
+nothing. Then run this from the site repo root. It must print
+<code>N D | I MD | I XD | N D | I XD</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>node<span class="w"> </span>-e<span class="w"> </span><span class="s2">"const re=/^(N|I)(D|MD|XD)_(.+)</span>$<span class="s2">/;console.log(['ND_1','IMD_SF_2','IXD_F_1_(1)','ND_B_1','IXD_5'].map(c=&gt;{const m=c.match(re);return m[1]+' '+m[2]}).join(' | '))"</span>
+</code></pre></div>
+<h3 id="52-hero-title">5.2 Hero — title<a class="headerlink" href="#52-hero-title" title="Permanent link">&para;</a></h3>
+<p>Find (as it reads after §4):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Piggleball Chairman's Cup<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Replace with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"accent"</span><span class="p">&gt;</span>Pig<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>gleball<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>The headline line directly below it already reads "1st Chairman's Cup"
+from §4, so the two lines together say "PIGGLEBALL / 1ST CHAIRMAN'S CUP",
+as on the pubmat.</p>
+<h3 id="53-hero-slogan">5.3 Hero — slogan<a class="headerlink" href="#53-hero-slogan" title="Permanent link">&para;</a></h3>
+<p>Find:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"subtitle"</span><span class="p">&gt;</span>Find your pair's full match schedule — every round, every opponent, in order.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Directly <strong>above</strong> it, add:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"slogan-script"</span><span class="p">&gt;</span>Let's rally and dink for fun, camaraderie and a stronger pig industry!<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>The hero now stacks: NFHFI logo × S.A.G.E. logo → "NATFED PRESENTS · PIG
+SPORTS FESTIVAL" → "3 OCTOBER 2026 · CENTRO ATLETICO, CUBAO" → "<strong>PIG</strong>GLEBALL"
+→ "★ 1ST CHAIRMAN'S CUP ★" → slogan in script → subtitle. The CSS for the
+new line and the stars is in §7.</p>
+<h3 id="54-footer-cause-line">5.4 Footer cause line<a class="headerlink" href="#54-footer-cause-line" title="Permanent link">&para;</a></h3>
+<p>Find (as it reads after §4):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  Piggleball Chairman's Cup <span class="ni">&amp;middot;</span> 3 October 2026 <span class="ni">&amp;middot;</span> Centro Atletico, Cubao<span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>  Powered by S.A.G.E. Match Control Experts
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Replace with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  Piggleball Chairman's Cup <span class="ni">&amp;middot;</span> 3 October 2026 <span class="ni">&amp;middot;</span> Centro Atletico, Cubao<span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>  One Pig Industry. Stronger Together! Proceeds support scholarship programs.<span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>  Powered by S.A.G.E. Match Control Experts
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="55-example-text-left-over-from-the-template">5.5 Example text left over from the template<a class="headerlink" href="#55-example-text-left-over-from-the-template" title="Permanent link">&para;</a></h3>
+<p>Find:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>placeholder="e.g. Beginner 18+ Men's Doubles"
+</code></pre></div>
+<p>Replace with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>placeholder="e.g. Intermediate Men's Doubles"
+</code></pre></div>
+<p>Leave the code comments that mention <code>B18MD_1</code> / <code>B35XD_F_1_(1)</code> alone.
+They document the code format, not this event.</p>
+<hr />
+<h2 id="6-theme-colours-from-the-pubmat">6. Theme — colours from the pubmat<a class="headerlink" href="#6-theme-colours-from-the-pubmat" title="Permanent link">&para;</a></h2>
+<p>The pubmat is navy and red on white, with yellow highlights (the Philippine
+flag's colours). The values below were <strong>sampled from the pubmat's pixels</strong>
+(the dominant colour of each region), not judged by eye:</p>
+<table>
+<thead>
+<tr>
+<th>Pubmat element</th>
+<th>Sampled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"SPORTS", the date/time/venue banner</td>
+<td>navy <code>#022058</code></td>
+</tr>
+<tr>
+<td>"PIG", "Festival", the "PICKLEBALL TOURNAMENT" bar</td>
+<td>red <code>#D40202</code></td>
+</tr>
+<tr>
+<td>The pickleball, "STRONGER TOGETHER!"</td>
+<td>yellow <code>#FBAB04</code></td>
+</tr>
+<tr>
+<td>Page background</td>
+<td>cool white <code>#F2F9FE</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="61-the-palette">6.1 The palette<a class="headerlink" href="#61-the-palette" title="Permanent link">&para;</a></h3>
+<p>The token <strong>names</strong> stay the same (<code>--navy</code>, <code>--green</code>, …), so every rule
+in the template keeps resolving. Only their values change. The template's
+<code>--green</code> is its accent <em>fill</em>, used on navy panels and under navy text, and
+<code>--green-dark</code> is its accent for <em>text and fills on light backgrounds</em> and
+for the "live" state. Yellow fills the first role and red the second, so
+"green" here no longer means green.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Old (house)</th>
+<th>New</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--navy</code></td>
+<td><code>#14263C</code></td>
+<td><code>#022058</code></td>
+<td>Pubmat navy</td>
+</tr>
+<tr>
+<td><code>--navy-deep</code></td>
+<td><code>#0B1826</code></td>
+<td><code>#01153D</code></td>
+<td>Navy darkened for shadows. The pubmat has no darker navy</td>
+</tr>
+<tr>
+<td><code>--green</code></td>
+<td><code>#7CB92C</code></td>
+<td><code>#FBAB04</code></td>
+<td>Pubmat yellow — accent <strong>fill</strong></td>
+</tr>
+<tr>
+<td><code>--green-dark</code></td>
+<td><code>#5C8F1F</code></td>
+<td><code>#D40202</code></td>
+<td>Pubmat red — accent <strong>text</strong>, live dot, live pill</td>
+</tr>
+<tr>
+<td><code>--paper</code></td>
+<td><code>#F6F7F2</code></td>
+<td><code>#F4F8FC</code></td>
+<td>Pubmat's cool white</td>
+</tr>
+<tr>
+<td><code>--paper-dim</code></td>
+<td><code>#ECEEE6</code></td>
+<td><code>#E8EEF6</code></td>
+<td>Cool, to match</td>
+</tr>
+<tr>
+<td><code>--line</code></td>
+<td><code>#D9DED2</code></td>
+<td><code>#D2DBE8</code></td>
+<td>Cool, to match</td>
+</tr>
+<tr>
+<td><code>--ink</code></td>
+<td><code>#14263C</code></td>
+<td><code>#022058</code></td>
+<td>Same as <code>--navy</code></td>
+</tr>
+<tr>
+<td><code>--ink-soft</code></td>
+<td><code>#5B6B74</code></td>
+<td><code>#4A5572</code></td>
+<td>Navy-tinted grey</td>
+</tr>
+<tr>
+<td><code>--white</code>, <code>--radius</code></td>
+<td>—</td>
+<td>unchanged</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Measured contrast (WCAG 2.x):</p>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Ratio</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ink</code> on <code>--paper</code></td>
+<td>14.58</td>
+<td>body text</td>
+</tr>
+<tr>
+<td><code>--ink-soft</code> on <code>--paper</code> / <code>--paper-dim</code></td>
+<td>6.95 / 6.35</td>
+<td>secondary text</td>
+</tr>
+<tr>
+<td><code>--green-dark</code> (red) on white / <code>--paper</code> / <code>--paper-dim</code></td>
+<td>5.51 / 5.17 / 4.72</td>
+<td>accent text, stat numbers</td>
+</tr>
+<tr>
+<td>white on <code>--green-dark</code> (red)</td>
+<td>5.51</td>
+<td>live pill, <code>.badge-2</code></td>
+</tr>
+<tr>
+<td><code>--navy</code> text on <code>--green</code> (yellow)</td>
+<td>8.09</td>
+<td>active tabs, chips</td>
+</tr>
+<tr>
+<td><code>--green</code> (yellow) on <code>--navy</code> / <code>--navy-deep</code></td>
+<td>8.09 / 9.29</td>
+<td>eyebrow, headline in the hero</td>
+</tr>
+<tr>
+<td>white on <code>--navy</code></td>
+<td>15.55</td>
+<td>hero text</td>
+</tr>
+<tr>
+<td><code>--green</code> (yellow) on white</td>
+<td><strong>1.92 — fails</strong></td>
+<td>never use <code>--green</code> as text on a light background</td>
+</tr>
+<tr>
+<td>red on <code>--navy</code></td>
+<td><strong>2.82 — fails</strong></td>
+<td>never put red text directly on navy. §7.3 gives the title's red "PIG" a white outline for this reason</td>
+</tr>
+</tbody>
+</table>
+<p>Every rule in the template that uses <code>--green</code>/<code>--court</code> as a <strong>text</strong>
+colour sits on a navy panel (checked for this spec), so the yellow is safe
+everywhere it lands.</p>
+<h3 id="62-edit-the-root-blocks">6.2 Edit the <code>:root</code> blocks<a class="headerlink" href="#62-edit-the-root-blocks" title="Permanent link">&para;</a></h3>
+<p>In <strong>both</strong> <code>index.html</code> and <code>schedule.html</code>, change the brand tokens in
+the <code>:root{ … }</code> block under the <code>THEME</code> banner to the "New" column above.
+Leave the role aliases in <code>index.html</code> (<code>--court:var(--green);</code> and the
+rest) unchanged. They resolve through the tokens automatically.</p>
+<h3 id="63-replace-hard-coded-copies-of-the-old-colours">6.3 Replace hard-coded copies of the old colours<a class="headerlink" href="#63-replace-hard-coded-copies-of-the-old-colours" title="Permanent link">&para;</a></h3>
+<p>Some rules use the house colours as raw <code>rgba()</code>/hex instead of <code>var()</code>.
+Replace every occurrence below, in every file that contains it. Keep each
+alpha value (the last number) as it is. Only the three colour channels
+change.</p>
+<table>
+<thead>
+<tr>
+<th>Find</th>
+<th>Replace with</th>
+<th>Files</th>
+<th>Was</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rgba(124,185,44,</code></td>
+<td><code>rgba(251,171,4,</code></td>
+<td>both</td>
+<td>old <code>--green</code></td>
+</tr>
+<tr>
+<td><code>rgba(92,143,31,</code></td>
+<td><code>rgba(212,2,2,</code></td>
+<td><code>index.html</code></td>
+<td>old <code>--green-dark</code> (the live dot's pulse)</td>
+</tr>
+<tr>
+<td><code>rgba(11,24,38,</code></td>
+<td><code>rgba(1,21,61,</code></td>
+<td>both</td>
+<td>old <code>--navy-deep</code></td>
+</tr>
+<tr>
+<td><code>rgba(20,38,60,</code></td>
+<td><code>rgba(2,32,88,</code></td>
+<td><code>index.html</code></td>
+<td>old <code>--navy</code></td>
+</tr>
+<tr>
+<td><code>rgba(246,247,242,</code></td>
+<td><code>rgba(244,248,252,</code></td>
+<td><code>index.html</code></td>
+<td>old <code>--paper</code></td>
+</tr>
+<tr>
+<td><code>.badge-2{background:#4C7A19;}</code></td>
+<td><code>.badge-2{background:var(--green-dark);}</code></td>
+<td><code>index.html</code></td>
+<td>Its comment says it was darkened because the old <code>--green-dark</code> failed with white text. The red passes (5.51:1)</td>
+</tr>
+<tr>
+<td><code>'#14263C'</code> (in <code>readableOn()</code>)</td>
+<td><code>'#022058'</code></td>
+<td><code>schedule.html</code></td>
+<td>navy chip text</td>
+</tr>
+<tr>
+<td><code>color:'#5B6B74'</code> (in <code>FALLBACK</code>)</td>
+<td><code>color:'#4A5572'</code></td>
+<td><code>schedule.html</code></td>
+<td>old <code>--ink-soft</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Leave these alone:</strong> <code>rgba(20,27,44,…)</code> (neutral shadow), the error reds
+<code>#B3261E</code>/<code>#FFB4A2</code> and their <code>rgba(179,38,30,…)</code>/<code>rgba(255,180,162,…)</code>/
+<code>rgba(255,90,110,…)</code>, <code>rgba(52,199,120,…)</code>, <code>#6C5CE0</code> (<code>.badge-3</code>), every
+<code>rgba(255,255,255,…)</code> and <code>rgba(0,0,0,…)</code>, and the <code>CAT_META</code> hues (§8).</p>
+<h3 id="64-update-the-contrast-note">6.4 Update the contrast note<a class="headerlink" href="#64-update-the-contrast-note" title="Permanent link">&para;</a></h3>
+<p>In <code>index.html</code>'s <code>THEME</code> banner comment, replace these lines:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>       - --green on white is ~2.3:1 and fails AA at any size. Use it as a
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>         background (with --navy text on top, ~5.4:1) or on a navy panel.
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>       - --green-dark on white is ~4.0:1 — still under the 4.5:1 body
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>         floor, so keep it for large/display text only.
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>       - Small text on paper is --ink (~13.8:1) or --ink-soft (~5.9:1).
+</code></pre></div>
+<p>with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>       - --green is a YELLOW fill (~1.9:1 on white — never text on a light
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>         background). Put --navy text on it (~8.1:1), or use it as text on
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>         a --navy/--navy-deep panel (~8.1 / 9.3:1).
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>       - --green-dark is RED. Safe for text on white/--paper (~5.5 / 5.2:1)
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>         and under white text (~5.5:1). Never as text on navy (~2.8:1).
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>       - Small text on paper is --ink (~14.6:1) or --ink-soft (~7.0:1).
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>     Piggleball Chairman's Cup: palette sampled from the event pubmat
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>     (navy #022058, red #D40202, yellow #FBAB04). Fonts: Archivo italic
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>     for display headings, Kaushan Script for the hero slogan.
+</code></pre></div>
+<p><strong>Check:</strong> each of these must print nothing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"#14263C\|#0B1826\|#7CB92C\|#5C8F1F\|#F6F7F2\|#ECEEE6\|#D9DED2\|#5B6B74\|#4C7A19"</span><span class="w"> </span>events/piggleball-2026/*.html
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"rgba(124,185,44\|rgba(92,143,31\|rgba(11,24,38\|rgba(20,38,60\|rgba(246,247,242"</span><span class="w"> </span>events/piggleball-2026/*.html
+</code></pre></div>
+<hr />
+<h2 id="7-fonts-from-the-pubmat">7. Fonts — from the pubmat<a class="headerlink" href="#7-fonts-from-the-pubmat" title="Permanent link">&para;</a></h2>
+<p>The pubmat's faces and their nearest Google Fonts:</p>
+<table>
+<thead>
+<tr>
+<th>Pubmat</th>
+<th>Google Font</th>
+<th>Role on the site</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"PIG SPORTS", "PIGGLEBALL" — heavy italic grotesque</td>
+<td><strong>Archivo</strong> italic 800/900</td>
+<td>Hero title, headline and section headings only</td>
+</tr>
+<tr>
+<td>"CHAIRMAN'S CUP", "PICKLEBALL TOURNAMENT", the banners — bold condensed italic caps</td>
+<td><strong>Barlow Condensed</strong> italic 700 (already loaded upright)</td>
+<td>Hero tagline and eyebrow</td>
+</tr>
+<tr>
+<td>"Festival", "Let's rally and dink for fun…" — brush script</td>
+<td><strong>Kaushan Script</strong></td>
+<td>Hero slogan only</td>
+</tr>
+</tbody>
+</table>
+<p>Everything else keeps the template's fonts: Archivo Black (upright) for
+scores and numbers, Barlow Condensed (upright) for labels and tabs, Inter
+for body text. They are close to the pubmat already, and upright figures
+are easier to read in score tables. <strong>Archivo</strong> (the family with italics)
+and <strong>Archivo Black</strong> (the template's single-weight upright face) are two
+different Google families. Both are loaded, and both names appear in the
+CSS.</p>
+<h3 id="71-indexhtml-google-fonts-link">7.1 <code>index.html</code> — Google Fonts link<a class="headerlink" href="#71-indexhtml-google-fonts-link" title="Permanent link">&para;</a></h3>
+<p>Find:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Barlow+Condensed:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Replace with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://fonts.googleapis.com/css2?family=Archivo:ital,wght@1,800;1,900&amp;family=Archivo+Black&amp;family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,700&amp;family=Inter:wght@400;500;600;700&amp;family=Kaushan+Script&amp;display=swap"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="72-indexhtml-heading-rules">7.2 <code>index.html</code> — heading rules<a class="headerlink" href="#72-indexhtml-heading-rules" title="Permanent link">&para;</a></h3>
+<p>In each rule below, replace only the lines shown. Leave its other
+declarations (size, colour, spacing, margins) as they are.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Replace</th>
+<th>With</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>h1.title{</code></td>
+<td><code>font-family:'Archivo Black',sans-serif;</code> and <code>font-weight:400;</code></td>
+<td><code>font-family:'Archivo',sans-serif;</code> <code>font-style:italic;</code> <code>font-weight:900;</code></td>
+</tr>
+<tr>
+<td><code>.domination-line{</code></td>
+<td><code>font-family:'Archivo Black',sans-serif;</code></td>
+<td><code>font-family:'Archivo',sans-serif;</code> <code>font-style:italic;</code> <code>font-weight:900;</code></td>
+</tr>
+<tr>
+<td><code>.results-head h2{</code></td>
+<td><code>font-family:'Archivo Black',sans-serif;</code> and <code>font-weight:400;</code></td>
+<td><code>font-family:'Archivo',sans-serif;</code> <code>font-style:italic;</code> <code>font-weight:800;</code></td>
+</tr>
+<tr>
+<td><code>.standings-col-head .cat-title{</code></td>
+<td>same as above</td>
+<td>same as above</td>
+</tr>
+<tr>
+<td><code>.stage-banner .stage-title{</code></td>
+<td>same as above</td>
+<td>same as above</td>
+</tr>
+<tr>
+<td><code>.eyebrow{</code></td>
+<td><code>font-weight:600;</code></td>
+<td><code>font-weight:700;</code> <code>font-style:italic;</code></td>
+</tr>
+<tr>
+<td><code>.tagline-script{</code></td>
+<td><code>font-family:'Inter',sans-serif;</code></td>
+<td><code>font-family:'Barlow Condensed',sans-serif;</code> <code>text-transform:uppercase;</code></td>
+</tr>
+</tbody>
+</table>
+<p>In <code>.tagline-script</code>, also change <code>letter-spacing:.01em;</code> to
+<code>letter-spacing:.14em;</code>. It keeps <code>font-style:italic;</code> and
+<code>font-weight:700;</code>.</p>
+<h3 id="73-indexhtml-title-accent-stars-and-slogan">7.3 <code>index.html</code> — title accent, stars and slogan<a class="headerlink" href="#73-indexhtml-title-accent-stars-and-slogan" title="Permanent link">&para;</a></h3>
+<p>Find this line:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="w">  </span><span class="nt">h1</span><span class="p">.</span><span class="nc">title</span><span class="w"> </span><span class="p">.</span><span class="nc">accent</span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--green</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Replace it with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="w">  </span><span class="c">/* Piggleball: "PIG" is red with a white outline, as on the pubmat. Red on</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c">     navy alone is ~2.8:1, so the outline is what makes it readable. It is</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c">     drawn with eight text-shadows instead of -webkit-text-stroke, because a</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c">     stroke eats into the glyphs and thins the italic. */</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">  </span><span class="nt">h1</span><span class="p">.</span><span class="nc">title</span><span class="w"> </span><span class="p">.</span><span class="nc">accent</span><span class="p">{</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--green-dark</span><span class="p">);</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">    </span><span class="k">text-shadow</span><span class="p">:</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="w">      </span><span class="mi">-2</span><span class="kt">px</span><span class="w"> </span><span class="mi">-2</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">),</span><span class="w">  </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">-2</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">),</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="w">      </span><span class="mi">-2</span><span class="kt">px</span><span class="w">  </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">),</span><span class="w">  </span><span class="mi">2</span><span class="kt">px</span><span class="w">  </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">),</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="w">       </span><span class="mi">0</span><span class="w">   </span><span class="mi">-2</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">),</span><span class="w">  </span><span class="mi">0</span><span class="w">    </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">),</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="w">      </span><span class="mi">-2</span><span class="kt">px</span><span class="w">  </span><span class="mi">0</span><span class="w">   </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">),</span><span class="w">  </span><span class="mi">2</span><span class="kt">px</span><span class="w">  </span><span class="mi">0</span><span class="w">   </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="w">  </span><span class="c">/* Stars either side of the headline, as around "CHAIRMAN'S CUP" on the</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="c">     pubmat. The second `content` gives them empty alt text, so screen</span>
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a><span class="c">     readers skip them. A browser that doesn't know that syntax keeps the</span>
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="c">     first line. */</span>
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="w">  </span><span class="p">.</span><span class="nc">domination-line</span><span class="p">::</span><span class="nd">before</span><span class="p">{</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="s2">"★ "</span><span class="p">;</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="s2">"★ "</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s2">""</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a><span class="w">  </span><span class="p">.</span><span class="nc">domination-line</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="s2">" ★"</span><span class="p">;</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="s2">" ★"</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s2">""</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="w">  </span><span class="c">/* The pubmat's brush-script slogan. White, not red: red on navy fails. */</span>
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a><span class="w">  </span><span class="p">.</span><span class="nc">slogan-script</span><span class="p">{</span>
+<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a><span class="w">    </span><span class="k">font-family</span><span class="p">:</span><span class="s1">'Kaushan Script'</span><span class="p">,</span><span class="kc">cursive</span><span class="p">;</span>
+<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a><span class="w">    </span><span class="k">font-size</span><span class="p">:</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">17</span><span class="kt">px</span><span class="p">,</span><span class="mf">4.4</span><span class="kt">vw</span><span class="p">,</span><span class="mi">22</span><span class="kt">px</span><span class="p">);</span>
+<a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a><span class="w">    </span><span class="k">line-height</span><span class="p">:</span><span class="mf">1.35</span><span class="p">;</span>
+<a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a><span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="nf">var</span><span class="p">(</span><span class="nv">--white</span><span class="p">);</span>
+<a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a><span class="w">    </span><span class="k">max-width</span><span class="p">:</span><span class="mi">520</span><span class="kt">px</span><span class="p">;</span>
+<a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a><span class="w">    </span><span class="k">margin</span><span class="p">:</span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="kc">auto</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+<a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a><span class="w">  </span><span class="p">}</span>
+</code></pre></div>
+<h3 id="74-schedulehtml-fonts">7.4 <code>schedule.html</code> — fonts<a class="headerlink" href="#74-schedulehtml-fonts" title="Permanent link">&para;</a></h3>
+<p>Find:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Barlow+Condensed:wght@500;600;700&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Replace with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://fonts.googleapis.com/css2?family=Archivo:ital,wght@1,900&amp;family=Archivo+Black&amp;family=Barlow+Condensed:wght@500;600;700&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>In the <code>.bezel h1{</code> rule, replace <code>font-family:'Archivo Black',sans-serif;</code>
+with <code>font-family:'Archivo',sans-serif; font-style:italic;</code>, and on its next
+line replace <code>font-weight:400;</code> with <code>font-weight:900;</code>. Change nothing else
+on the board: it is a wall display, and upright type reads better across a
+room.</p>
+<p><strong>Check:</strong> both must print a match:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"Kaushan+Script"</span><span class="w"> </span>events/piggleball-2026/index.html
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"family=Archivo:ital"</span><span class="w"> </span>events/piggleball-2026/schedule.html
+</code></pre></div>
+<hr />
+<h2 id="8-schedulehtml-category-colours">8. <code>schedule.html</code> — category colours<a class="headerlink" href="#8-schedulehtml-category-colours" title="Permanent link">&para;</a></h2>
+<p>These are the <strong>organiser's</strong> colours: the category fills on the
+workbook's own SCHEDULE tab, read from the sheet's HTML export for this
+spec. They are all in Google Sheets' standard palette.</p>
+<p>In <code>events/piggleball-2026/schedule.html</code>, replace the <strong>entire</strong>
+<code>const CAT_META = { … };</code> object (it currently holds another event's seven
+categories, including <code>AMD</code>) with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">CAT_META</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="nx">ND</span><span class="o">:</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'NOVICE'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#666666'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="nx">IMD</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'INT MD'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#3C78D8'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">  </span><span class="nx">IXD</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">short</span><span class="o">:</span><span class="s1">'INT XD'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="s1">'#E69138'</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="p">};</span>
+</code></pre></div>
+<p>The keys are exactly the category prefix of each team code (<code>ND_1</code> →
+<code>ND</code>), which is what the board looks them up by. <code>readableOn()</code> picks the
+chip text: white on <code>ND</code> and <code>IMD</code>, navy on <code>IXD</code>.</p>
+<p>Then find the comment line:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1">// The palette spans very light (LI XD #F6B26B) to very dark (HI WD #741B47),</span>
+</code></pre></div>
+<p>and replace it with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1">// The palette spans light (IXD #E69138) to dark (ND #666666),</span>
+</code></pre></div>
+<p><strong>Check:</strong> <code>grep -n "AMD\|LIWD\|HIXD" events/piggleball-2026/schedule.html</code>
+prints nothing.</p>
+<hr />
+<h2 id="9-dry-run-checklist">9. Dry-run checklist<a class="headerlink" href="#9-dry-run-checklist" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>cp<span class="w"> </span>_templates/dry-run-checklist-template.md<span class="w"> </span>events/piggleball-2026/dry-run-checklist.md
+</code></pre></div>
+<p>Replace <code>{{EVENT_TITLE}}</code> with <code>Piggleball Chairman's Cup</code> in the copy.</p>
+<p><strong>Check:</strong> <code>grep -rn '{{' events/piggleball-2026/</code> still prints nothing.</p>
+<hr />
+<h2 id="10-verify-in-a-browser">10. Verify in a browser<a class="headerlink" href="#10-verify-in-a-browser" title="Permanent link">&para;</a></h2>
+<p>Serve the <strong>repo root</strong>, not the event folder. The pages load
+root-absolute <code>/assets/…</code> paths, which fail from a sub-folder or from
+<code>file://</code>. From <code>sage-match-control.github.io/</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>npx<span class="w"> </span>--yes<span class="w"> </span>http-server<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span><span class="w"> </span>-c-1
+</code></pre></div>
+<p>Open <code>http://localhost:8000/events/piggleball-2026/</code> and
+<code>http://localhost:8000/events/piggleball-2026/schedule.html</code>.</p>
+<p><strong>Expected before the first sync:</strong> the fetch of
+<code>…/event-data/piggleball-2026/data/piggleball-day1.json</code> fails (404), so
+the page shows no match data. That is correct, not a bug.</p>
+<p>Check each of these at <strong>375px</strong> and <strong>desktop</strong> width:</p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> The hero reads, top to bottom: the NFHFI logo × the S.A.G.E. logo,
+      "NATFED PRESENTS · PIG SPORTS FESTIVAL" (italic condensed caps),
+      "3 OCTOBER 2026 · CENTRO ATLETICO, CUBAO" (yellow), "<strong>PIG</strong>GLEBALL"
+      (italic, "PIG" red with a white outline, the rest white),
+      "★ 1ST CHAIRMAN'S CUP ★" (yellow, white stars), the slogan in brush
+      script, then the subtitle.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> "PIGGLEBALL" fits on one line at 375px.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The slogan wraps to at most three lines at 375px.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The NFHFI logo shows whole inside its white tile. Nothing is cropped.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The day picker is hidden. There is one day, so it auto-loads.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Desktop only: the QR panel shows the image (if <code>qr.png</code> was supplied)
+      and the text <code>tinyurl.com/SAGExPiggleball</code>.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The footer shows three lines, with the "One Pig Industry" line in the
+      middle.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The navy is deeper and bluer than the house navy. The paper is cool
+      white, not cream. Nothing on the page is green.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> DevTools → Network: <code>Archivo</code>, <code>Kaushan Script</code> and the other fonts
+      load without errors. The hero title is not a synthesised (slanted
+      Archivo Black) italic: its letterforms are narrower than the upright
+      score numbers.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The schedule board's bezel title reads "Piggleball Chairman's Cup" in
+      italic, on the new navy.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The console shows no errors except the expected
+      <code>piggleball-day1.json</code> fetch failure. No 404s for <code>/assets/…</code> or
+      <code>assets/logo.webp</code>.</li>
+</ul>
+<p>Stop the server when you're done.</p>
+<hr />
+<h2 id="11-register-the-event-in-event-data">11. Register the event in <code>event-data</code><a class="headerlink" href="#11-register-the-event-in-event-data" title="Permanent link">&para;</a></h2>
+<p>In <code>D:\Personal\SAGE\event-data\config\events.json</code>, add this entry inside
+<code>"events"</code>, <strong>after</strong> <code>"pickledrive-anniversary-2026"</code> (currently the last
+entry), and add a comma after the closing brace of that entry:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nt">"piggleball-2026"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"standard"</span><span class="p">,</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Piggleball Chairman's Cup"</span><span class="p">,</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">  </span><span class="nt">"days"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="w">    </span><span class="nt">"piggleball-day1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="w">      </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oct 3"</span><span class="p">,</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="w">      </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-03"</span><span class="p">,</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="w">      </span><span class="nt">"isLive"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">,</span>
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="w">      </span><span class="nt">"facilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Centro Atletico"</span><span class="p">,</span><span class="w"> </span><span class="nt">"sheetId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1QAa2FlH2uiY0JWJNSpe5JGuwlWYE544_UPfYYHnDJmU"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a><span class="w">      </span><span class="p">]</span>
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a><span class="w">  </span><span class="nt">"display"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a><span class="w">    </span><span class="nt">"divisions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"N"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Novice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"I"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Intermediate"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-31-16" name="__codelineno-31-16" href="#__codelineno-31-16"></a><span class="w">    </span><span class="nt">"events"</span><span class="p">:</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"D"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Open Doubles"</span><span class="p">,</span><span class="w"> </span><span class="nt">"MD"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Men's Doubles"</span><span class="p">,</span><span class="w"> </span><span class="nt">"XD"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mixed Doubles"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-31-17" name="__codelineno-31-17" href="#__codelineno-31-17"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-31-18" name="__codelineno-31-18" href="#__codelineno-31-18"></a><span class="p">}</span>
+</code></pre></div>
+<p>Control Center splits a category like <code>IMD</code> by matching the longest
+division key first, then looking the remainder up in <code>events</code>. <code>N</code> and <code>I</code>
+are both one letter and neither prefixes the other, so <code>ND</code> → Novice +
+Open Doubles and <code>IMD</code> → Intermediate + Men's Doubles. Key order sets
+display order: Novice first.</p>
+<p><strong>Before saving, confirm no other event already uses this day key:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s1">'"piggleball-day1"'</span><span class="w"> </span>config/events.json
+</code></pre></div>
+<p>This must print nothing. Day keys are validated as <strong>globally unique
+across every event</strong> in this file (<code>SyncConfigStore.mjs</code>), because the day
+key alone is the sync route (<code>POST /sync/:day</code>). A duplicate makes the
+whole file fail validation. Cloud Run then keeps serving the last good
+config, so this event never registers. If the key is taken, <strong>stop and
+ask</strong>. Don't pick a different key yourself.</p>
+<p><strong>Check:</strong> run from <code>event-data/</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>node<span class="w"> </span>-e<span class="w"> </span><span class="s2">"JSON.parse(require('fs').readFileSync('config/events.json','utf8'))"</span>
+</code></pre></div>
+<p>It must run without error.</p>
+<hr />
+<h2 id="12-done-report-back">12. Done — report back<a class="headerlink" href="#12-done-report-back" title="Permanent link">&para;</a></h2>
+<p>Report:
+- which of §3–§10 passed,
+- whether <code>qr.png</code> was present,
+- whether §11 passed,
+- the uncommitted files, in both repos.</p>
+<hr />
+<h2 id="13-operator-tasks-people-not-the-implementer">13. Operator tasks — people, not the implementer<a class="headerlink" href="#13-operator-tasks-people-not-the-implementer" title="Permanent link">&para;</a></h2>
+<p>These happen in Google Sheets and on the day. They are listed so the
+constraints they put on the data are written down. The workbook was
+checked on 30 September 2026. Items 1–3 were true then.</p>
+<h3 id="131-workbook-fixes-before-sync-setup">13.1 Workbook fixes before sync setup<a class="headerlink" href="#131-workbook-fixes-before-sync-setup" title="Permanent link">&para;</a></h3>
+<p>The workbook was generated from the
+<a href="../standard-tournament-master-spec/">Standard Tournament Master</a>,
+so its tabs, codes and columns already match what the site reads. <code>CSV</code>
+and <code>STANDINGSCSV</code> have the runbook §4 columns, <code>Schedule</code> values are
+<code>h:mm AM/PM</code>, and <code>CourtAssignment</code> is <code>Court 1</code>–<code>Court 3</code>.</p>
+<ol>
+<li><strong><code>Court Control</code> shows <code>#REF!</code>.</strong> Its match columns read <code>#REF!</code> on all
+   three courts. That may only be because no match is on court yet, or it
+   may be a broken formula. The Live board depends on the <code>CSV</code> tab's
+   <code>court</code> column, which Court Control feeds, so test it: put a match on
+   Court 1 the way operators will on the day, and confirm the <code>#REF!</code>
+   clears and <code>CSV</code>'s <code>court</code> column picks the match up. If it doesn't,
+   compare the formulas with the master's Court Control and repair them.
+   Undo the test afterwards.</li>
+<li><strong>Rosters aren't in yet.</strong> Every pair still shows its code (<code>ND_1</code>, …) as
+   its player names. Paste the names into each category tab (<code>ND</code>, <code>IMD</code>,
+   <code>IXD</code>).</li>
+<li><strong><code>IXD</code> has a bronze placeholder with no match.</strong> <code>STANDINGSCSV</code> lists
+   <code>IXD_B_1</code> and <code>IXD_B_2</code> (a BYE), but no IXD bronze match is scheduled:
+   IXD is one 5-pair bracket with a twice-to-beat final (<code>IXD_F_*_(1)</code> and
+   <code>_(2)</code>). The site builds standings from <code>STANDINGSCSV</code>, so expect an IXD
+   "Bronze Battle" block showing TBD against BYE. Ask the organiser whether
+   IXD awards a bronze. If it does, schedule the match. If it doesn't, the
+   block is harmless but confusing: remove the IXD bronze rows where the
+   IXD tab produces them, so they drop out of <code>STANDINGSCSV</code>.</li>
+<li><strong>Match numbers are fine as they are.</strong> One facility, numbered 1–56, so
+   there is no range to reserve. Re-run <strong>SAGE → Fill match numbers</strong>
+   (starting after 0) only if the schedule changes.</li>
+<li><strong>Start time.</strong> The pubmat says "8:00 AM onwards". The workbook's first
+   match is 9:00 AM. Confirm 9:00 with the organiser. The site's auto
+   go-live reads the workbook, not the pubmat.</li>
+<li><strong>Colours.</strong> Keep the SCHEDULE tab's category fills as they are. §8's
+   <code>CAT_META</code> copies them. If the organiser recolours them, §8 has to be
+   redone by hand.</li>
+</ol>
+<h3 id="132-live-sync-setup-once-last">13.2 Live sync setup — once, last<a class="headerlink" href="#132-live-sync-setup-once-last" title="Permanent link">&para;</a></h3>
+<p>Do this <strong>after</strong> §13.1 is done. Until setup runs, nothing publishes, so
+you can edit freely before it.</p>
+<p><strong>Before you start:</strong> the <code>events.json</code> entry (§11) must be committed to
+<code>event-data</code>. Setup checks the day key and venue name against the server,
+so it rejects them if the event isn't registered yet. After committing,
+allow about a minute for the server to pick it up.</p>
+<ol>
+<li><strong>Extensions → Apps Script.</strong> Confirm <code>sheets-sync.gs</code> is there. A
+   workbook copied from the master already carries it. If the <strong>SAGE</strong> menu
+   lacks <strong>Set up live sync</strong>, replace the whole file with the current
+   <code>sage-tools-api/apps-script/sheets-sync.gs</code> and save.</li>
+<li>Reload the spreadsheet.</li>
+<li><strong>SAGE → Set up live sync</strong> (or <strong>Live sync settings</strong>). Enter:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day</td>
+<td><code>piggleball-day1</code></td>
+</tr>
+<tr>
+<td>Venue</td>
+<td><code>Centro Atletico</code> — exact, including capitals. <strong>Not</strong> "Quezon City", which is what the workbook's <code>Variables</code> tab has in its facility column</td>
+</tr>
+<tr>
+<td>Tabs to watch</td>
+<td><code>SCHEDULE</code> and <code>Court Control</code> (pre-ticked)</td>
+</tr>
+<tr>
+<td>Secret</td>
+<td>Only if asked. It is <code>SYNC_SHARED_SECRET</code> from Cloud Run's env vars. Get it from whoever manages Cloud Run. Never paste it into chat, a doc or this spec</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>Save.</strong> Setup checks the secret, day and venue, then sends one real
+   test update before saving. If anything is wrong it says what and saves
+   nothing.</li>
+</ol>
+<p><strong>Confirm it's live:</strong> open
+<code>https://sage-match-control.github.io/event-data/piggleball-2026/data/piggleball-day1.json</code>
+about a minute after setup. It should list one facility, <code>Centro Atletico</code>.
+<strong>SAGE → Sync now</strong> re-sends immediately and reports the result.</p>
+<h3 id="133-go-live">13.3 Go-live<a class="headerlink" href="#133-go-live" title="Permanent link">&para;</a></h3>
+<p>The site shows scores and the Live/Standings tabs from <strong>4 hours before the
+earliest scheduled match</strong>: 5:00 AM on the day, for a 9:00 AM start. It
+needs no configuration. To show them earlier or later, use Control
+Center's go-live override.</p>
+<h3 id="134-dry-run">13.4 Dry run<a class="headerlink" href="#134-dry-run" title="Permanent link">&para;</a></h3>
+<p>Run the dry run against the real workbook by <strong>Friday 2 October</strong>, using
+<code>dry-run-checklist.md</code>. Also check:</p>
+<ul>
+<li>Control Center renders this event with the <strong>standard</strong> layout, and
+  labels the categories "Novice Open Doubles", "Intermediate Men's
+  Doubles" and "Intermediate Mixed Doubles", with no <em>Unmapped category</em>
+  warning.</li>
+<li>The Live board shows three courts and no venue heading row (one
+  facility).</li>
+<li>The schedule screen draws 3 court columns, with <code>ND</code> cells grey, <code>IMD</code>
+  blue and <code>IXD</code> orange.</li>
+<li>An <code>IXD</code> final result shows both <code>_(1)</code> and <code>_(2)</code> games under one
+  twice-to-beat final, not as two separate finals.</li>
+</ul>
+<hr />
+<h2 id="14-decisions-for-reference">14. Decisions, for reference<a class="headerlink" href="#14-decisions-for-reference" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Event key <code>piggleball-2026</code>, day key <code>piggleball-day1</code>.</strong> The key is the
+  tournament's own name, not the festival's, because the site covers only
+  the pickleball. The day key carries an event prefix because day keys must
+  be globally unique (§11), following <code>pickle-for-sight-day1</code>.</li>
+<li><strong>Title "Piggleball Chairman's Cup", "1st" in the headline.</strong> The pubmat
+  reads "1st PIGGLEBALL ★ CHAIRMAN'S CUP ★". An ordinal is wrong in a
+  <code>&lt;title&gt;</code> or the Control Center masthead, and would date next year's
+  page, so it sits only in the hero headline.</li>
+<li><strong>Divisions <code>N</code>/<code>I</code>, events <code>D</code>/<code>MD</code>/<code>XD</code>.</strong> These are the workbook's
+  own codes (<code>ND</code>, <code>IMD</code>, <code>IXD</code>), so nothing in the sheet changes. "Open
+  Doubles" is the event's name for <code>ND</code>. The workbook's <code>Variables</code> tab
+  labels it "Genderless Doubles", but neither the site nor Control Center
+  reads that tab, so the two can differ.</li>
+<li><strong>Yellow in the fill role, red in the text role.</strong> The template's accent
+  fill sits under navy text and on navy panels. Red fails there (2.82:1),
+  and yellow passes (8.09:1). Red passes as text on white and under white
+  text (5.51:1), which is the other role. Both pubmat accents therefore
+  appear without any rule changing its structure.</li>
+<li><strong>No pubmat pink.</strong> The pig's skin (<code>#FD9E83</code>) and the logo's pink are
+  illustration colours, not brand colours. The NFHFI logo already carries
+  them onto the page.</li>
+<li><strong>The hero stays navy.</strong> The pubmat's ground is white, but the template's
+  hero controls (tabs, day picker, sync line) are styled for a navy panel. A
+  white hero is a template redesign, not a re-skin.</li>
+<li><strong>Upright numbers.</strong> Archivo Black stays upright for scores and stats,
+  and only headings go italic. Italic figures in a dense score table are
+  harder to read at a glance.</li>
+<li><strong>The pubmat is staged but not loaded.</strong> It is 477 KB and duplicates what
+  the hero already says. It stays in <code>assets/</code> as the colour and font
+  reference.</li>
+<li><strong>No contact numbers.</strong> The pubmat lists four private individuals' phone
+  numbers for registration enquiries. Registration is closed by the time
+  anyone uses this site.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../pickle-for-sight-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: CLSO Pickle for Sight">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                CLSO Pickle for Sight
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../pickledrive-club-anniversary-team-tournament-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Team tournament">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Team tournament
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

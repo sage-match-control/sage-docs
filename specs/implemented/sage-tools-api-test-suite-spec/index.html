@@ -1,0 +1,5995 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/implemented/sage-tools-api-test-suite-spec/">
+      
+      
+        <link rel="prev" href="../immediate-sync-spec/">
+      
+      
+        <link rel="next" href="../bracket-generator-keep-apart-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>sage-tools-api test suite - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-sage-tools-api-test-suite-unit-and-integration-tests-first" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              sage-tools-api test suite
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../usage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/before-you-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles, access and kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing the event
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparing the event
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/plan-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Plan it
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/build-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Build the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/draw-and-rosters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Draw and fill rosters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/register-and-build-the-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Register and build the site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/connect-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Connect the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/printables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Print
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/rehearse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Rehearse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    On the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/run-the-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Run the day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. When something's wrong
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handouts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Handouts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/scorer-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/desk-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance desks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/after-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    After the event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public pages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Public pages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Running the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/score-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoring workbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scoring workbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoring-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The scoring workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/team-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and print tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and print tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/site-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../team-tournament-template-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament event-site template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../team-workbook-stack-cache-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook recalculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-goals-non-goals-and-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Goals, non-goals and constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-behaviour-the-suite-pins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Behaviour the suite pins
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Behaviour the suite pins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-must-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What must not change
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-behaviour-pinned-now-that-a-later-phase-changes-on-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Behaviour pinned now that a later phase changes on purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Layers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-tooling-and-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Tooling and scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-layout-and-naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Layout and naming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-helpers-specified-so-every-test-builds-on-the-same-ones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Helpers (specified so every test builds on the same ones)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-rules-for-every-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Rules for every test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-characterization-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Characterization policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-coverage-matrix-what-each-modules-tests-must-reach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Coverage matrix: what each module's tests must reach
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-proof-that-the-net-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Proof that the net works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-build-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Build steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-hand-off-to-the-architecture-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Hand-off to the architecture spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-keeping-the-suite-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Keeping the suite current
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Keeping the suite current">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-the-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 The rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-what-each-kind-of-change-requires" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 What each kind of change requires
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-the-guards-tests-that-fail-when-a-test-is-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 The guards: tests that fail when a test is missing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-where-the-rule-lives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Where the rule lives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-the-changelog-shows-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 The Changelog shows it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-the-architecture-specs-phases-follow-it-too" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 The architecture spec's phases follow it too
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-as-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. As built
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control-center-score-entry-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry and scorer links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../site-engine-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../link-attribution-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/docs-usage-guide-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage guide and docs restructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/calculator-team-format-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator team format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/team-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../not-started/control-center-court-control-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Court Control from Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archived/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archived
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archived
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-goals-non-goals-and-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Goals, non-goals and constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-behaviour-the-suite-pins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Behaviour the suite pins
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Behaviour the suite pins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-must-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What must not change
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-behaviour-pinned-now-that-a-later-phase-changes-on-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Behaviour pinned now that a later phase changes on purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Layers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-tooling-and-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Tooling and scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-layout-and-naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Layout and naming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-helpers-specified-so-every-test-builds-on-the-same-ones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Helpers (specified so every test builds on the same ones)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-rules-for-every-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Rules for every test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-characterization-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Characterization policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-coverage-matrix-what-each-modules-tests-must-reach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Coverage matrix: what each module's tests must reach
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-proof-that-the-net-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Proof that the net works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-build-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Build steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-acceptance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Acceptance checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-hand-off-to-the-architecture-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Hand-off to the architecture spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-keeping-the-suite-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Keeping the suite current
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Keeping the suite current">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-the-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 The rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-what-each-kind-of-change-requires" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 What each kind of change requires
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-the-guards-tests-that-fail-when-a-test-is-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 The guards: tests that fail when a test is missing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-where-the-rule-lives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Where the rule lives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-the-changelog-shows-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 The Changelog shows it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-the-architecture-specs-phases-follow-it-too" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 The architecture spec's phases follow it too
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-as-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. As built
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/implemented/sage-tools-api-test-suite-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-sage-tools-api-test-suite-unit-and-integration-tests-first">Spec — <code>sage-tools-api</code> test suite (unit and integration tests first)<a class="headerlink" href="#spec-sage-tools-api-test-suite-unit-and-integration-tests-first" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: implemented</strong> (2026-10-03). Written 2026-10-02 against
+<code>sage-tools-api</code> 2.5.0 (live push, the operator switch, the Apps Script
+verify scripts), split out of the
+<a href="../../in-progress/sage-tools-api-architecture-spec/">architecture hardening spec</a>, whose
+Phase 0 this is. Revised 2026-10-03 against 2.7.0: attendance (2.6.0,
+2.6.1) and team rosters (2.7.0) are on <code>main</code>, and this page covers both.
+Built the same day with no production file changed; §11 records where the
+built suite departs from the text below.</p>
+<p><strong>This spec comes first.</strong> It builds a unit and integration test suite against
+the code <strong>as it is today</strong> and ends green, with no production file changed.
+The architecture spec's Phases 1 to 7 start only after this one's acceptance
+checklist (§7) is complete, and every one of them has to leave this suite
+green.</p>
+<p><strong>The suite is kept, not just built.</strong> From the commit it lands in, every
+change to the API changes its tests in the same commit (§9). The suite
+carries guard tests that fail when a module or route has none, and the
+rule goes into the root <code>CLAUDE.md</code> and the README as part of this spec.</p>
+<p><strong>Part of <code>test/</code> already exists.</strong> The
+<a href="../multi-event-attendance-spec/">attendance spec</a> (2.6.0) created <code>test/</code>,
+the <code>test</code>/<code>test:unit</code>/<code>test:integration</code> scripts, <code>test/helpers/logger.mjs</code>
+and <code>test/helpers/fakeSheets.mjs</code>, in this spec's layout, and team rosters
+(2.7.0) added to them. At 2.7.0, <code>npm test</code> runs 192 tests in 13 files,
+all green:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test/unit/attendance/*.test.mjs</code> (6 files)</td>
+<td>every <code>src/attendance/</code> module except <code>routes.mjs</code></td>
+</tr>
+<tr>
+<td><code>test/integration/attendance-routes.test.mjs</code></td>
+<td>the three <code>/v1</code> attendance routes over HTTP</td>
+</tr>
+<tr>
+<td><code>test/unit/auth/AuthService.test.mjs</code></td>
+<td>desk tokens only; login and the operator token are not tested yet</td>
+</tr>
+<tr>
+<td><code>test/unit/sync/attendanceConfig.test.mjs</code></td>
+<td>the <code>attendance</code> setting in <code>events.json</code></td>
+</tr>
+<tr>
+<td><code>test/unit/sync/onFacilitiesSynced.test.mjs</code></td>
+<td><code>SyncService</code>'s attendance hook</td>
+</tr>
+<tr>
+<td><code>test/unit/sync/teamRoster.test.mjs</code></td>
+<td><code>teamRoster.mjs</code>, and the roster cases of <code>SheetsCsvFetcher</code>, <code>sheetsFor</code> and the <code>SyncService</code> merge</td>
+</tr>
+</tbody>
+</table>
+<p>Extend these files; do not recreate or rewrite them, and do not copy their
+cases into new files. What follows from them: <code>Access-Control-Allow-Methods</code>
+is <code>GET, POST, PUT, OPTIONS</code> (B3); §2.1 includes the three <code>/v1</code> routes;
+the OpenAPI path list has 11 paths and the route manifest 12 routes; and
+<code>src/attendance/routes.mjs</code> is the only attendance module in
+<code>coveredElsewhere.mjs</code>.</p>
+</blockquote>
+<p>Pin what <code>sage-tools-api</code> does today, in tests, so the refactor in the
+architecture spec can change its insides without anyone having to take it on
+trust that nothing visible changed.</p>
+<hr />
+<h2 id="0-read-this-first-implementer-orientation">0. Read this first (implementer orientation)<a class="headerlink" href="#0-read-this-first-implementer-orientation" title="Permanent link">&para;</a></h2>
+<p>Assume no knowledge of this project beyond this page.</p>
+<p><strong>Repos.</strong> <code>D:\Personal\SAGE</code> is a plain folder holding four git repos. This
+spec changes <code>sage-tools-api/</code> (Node 22, Express, ESM <code>.mjs</code>, deployed to Google
+Cloud Run by a build trigger on every push to <code>main</code>) and adds a <strong>Testing</strong>
+section to its README. Outside the repos it adds the test rule to the root
+<code>D:\Personal\SAGE\CLAUDE.md</code> (§9.4), which no repo tracks. It changes nothing in
+the other repos.</p>
+<p><strong>Rules that apply to every change</strong> (from the root <code>CLAUDE.md</code>):</p>
+<ul>
+<li>Tests and README text do not bump <code>package.json</code>'s version, because nothing
+  that runs on Cloud Run changes. The only edit to <code>package.json</code> is its
+  <code>scripts</code>.</li>
+<li>Cite a spec from outside <code>sage-docs</code> as
+  <code>sage-docs/docs/specs/.../sage-tools-api-test-suite-spec.md</code>, literally <code>...</code>
+  where the status folder goes. Inside <code>sage-docs</code>, links carry the real folder.</li>
+<li>Documentation is written in the present tense.</li>
+<li><strong>Do not merge to <code>main</code> on an event day, or in the few days before one.</strong>
+  Pushing <code>sage-tools-api</code> <code>main</code> deploys Cloud Run. Work on a branch
+  (<code>test-suite</code>); a tests-only branch is safe to deploy, but the owner decides.</li>
+<li>Working copies use CRLF line endings. Keep them.</li>
+<li>No new <strong>runtime</strong> dependency, and no dev dependency either: the runner is
+  Node's built-in <code>node:test</code>.</li>
+</ul>
+<p><strong>Tooling facts.</strong></p>
+<ul>
+<li>Node 22. The <code>Dockerfile</code> pins <code>node:22-slim</code>, which is the latest 22.x;
+  work locally on <strong>22.23.3 or later</strong> (installed with nvm-windows:
+  <code>nvm install 22.23.3</code>, then <code>nvm use 22.23.3</code> from an Administrator
+  terminal). Anything below 22.12 is too old for puppeteer, and below 22.8 has
+  no coverage thresholds. Checked on 22.23.3: <code>node --test</code> with a glob,
+  <code>node:assert/strict</code>, <code>mock.fn</code>, <code>mock.timers</code> (including <code>Date</code>; it prints
+  an <code>ExperimentalWarning</code>, which is expected), <code>t.assert.snapshot</code> with no
+  flag, and <code>--experimental-test-coverage</code> with <code>--test-coverage-include</code> and
+  <code>--test-coverage-lines</code>, which fails the run when a threshold is missed.
+  Coverage still needs the <code>--experimental-</code> flag on Node 22.</li>
+<li><code>GitHubPublisher</code>, <code>LivePublisher</code> and both CSV fetchers call the global
+  <code>fetch</code>, so tests replace <code>globalThis.fetch</code>. They have no injection point
+  today and this spec does not add one.</li>
+<li>The HTTP server is <code>http2.createServer({ allowHTTP1: true }, app)</code>. Cleartext
+  HTTP/1.1 does not work on it (a plain <code>fetch</code> to it fails with
+  <code>HPE_INVALID_CONSTANT</code>), but <code>server.app</code> is an ordinary Express app, so tests
+  mount it on <code>http.createServer(server.app)</code> on port 0 and use <code>fetch</code>. This was
+  checked: <code>/ping</code>, <code>/sync/config</code> and <code>/openapi.json</code> all answer.</li>
+</ul>
+<p><strong>Commands that exist today</strong> (run from <code>sage-tools-api/</code>, each exits non-zero
+on failure):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>npm<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>npm<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>npm<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>node<span class="w"> </span>apps-script/verify-attendance.mjs
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>node<span class="w"> </span>apps-script/verify-standard-tournament-generator.mjs
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>node<span class="w"> </span>apps-script/verify-dual-meet-generator.mjs
+</code></pre></div>
+<p><strong>How to work.</strong> One branch, <code>test-suite</code>, one commit per step in §6. If a test
+fails, the production code is right until proven otherwise (this suite describes
+it); fix the test, not the code. If a behaviour looks wrong, pin it as it is,
+mark it <code>// CHARACTERIZATION</code> (§3.6), and tell the owner.</p>
+<hr />
+<h2 id="1-goals-non-goals-and-constraints">1. Goals, non-goals and constraints<a class="headerlink" href="#1-goals-non-goals-and-constraints" title="Permanent link">&para;</a></h2>
+<p><strong>Goals</strong></p>
+<ol>
+<li>A unit test for every module that exists today, and an integration test for
+   every route, so a later change to any of them fails a test if it changes what
+   a deployed client can see.</li>
+<li>Integration tests of the whole sync pipeline against an in-memory fake of
+   GitHub, Google Sheets and the live Worker, including deterministic race
+   conditions.</li>
+<li>The two ad hoc <code>verify-*</code> scripts that cover <code>src/</code> ported to the same
+   runner, with no loss of coverage.</li>
+<li>Evidence the suite can fail: eleven deliberate breakages, each caught.</li>
+<li>A suite that stays current: every later change to the API updates its tests
+   in the same commit, and forgetting to fails a test (§9).</li>
+</ol>
+<p><strong>Non-goals</strong></p>
+<ul>
+<li>Changing production code. No refactor, no seam, no new option on any class.</li>
+<li>Tests for the Apps Script files or the live Worker (they keep their own
+  harnesses, §3.1).</li>
+<li>Tests for modules the architecture spec creates; those are written in the
+  phase that creates them (architecture spec §5.2).</li>
+</ul>
+<p><strong>Constraint.</strong> The suite pins today's behaviour <strong>including known defects</strong>.
+It must not "fix" anything to make a test pass or look right.</p>
+<hr />
+<h2 id="2-behaviour-the-suite-pins">2. Behaviour the suite pins<a class="headerlink" href="#2-behaviour-the-suite-pins" title="Permanent link">&para;</a></h2>
+<h3 id="21-what-must-not-change">2.1 What must not change<a class="headerlink" href="#21-what-must-not-change" title="Permanent link">&para;</a></h3>
+<p>For every existing route, the <strong>status code, response body, and the response
+headers listed here</strong> are identical before and after the refactor. This suite
+pins them; the architecture spec's later phases may not move them.</p>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Pinned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /ping</code></td>
+<td><code>200</code>, body exactly <code>PONG!</code>, <code>X-App-Version</code> equal to <code>package.json</code>'s version, <code>X-Sync-Config</code> as <code>&lt;7-char sha&gt;/remote</code>, <code>seed/fallback</code>, or absent when nothing is cached. No config fetch. Remains in <code>Server.mjs</code>.</td>
+</tr>
+<tr>
+<td><code>GET /openapi.json</code></td>
+<td><code>200</code>, a valid OpenAPI 3.0.3 document, <code>servers[0].url</code> built from the request host</td>
+</tr>
+<tr>
+<td><code>POST /auth/login</code></td>
+<td><code>400</code> for a missing field, <code>401</code> for bad credentials or missing server config, <code>200 { token, expiresAt }</code></td>
+</tr>
+<tr>
+<td><code>POST /sync/:day</code></td>
+<td>the sync response shape: <code>day, label, method, facilitiesSynced, facilitiesFailed, facilitiesStale, commitSha, attempts, live?, archive?, timing</code> (<code>timing</code>: <code>editToRequestMs, fetchMs, publishMs, editToPublishedMs, liveMs, archiveMs</code>); <code>X-Edit-At</code> accepted only within the last hour and at most 5 s in the future; <code>?facility=</code>, <code>?method=csv</code>; auth by <code>X-Sync-Secret</code> <strong>or</strong> a bearer token</td>
+</tr>
+<tr>
+<td><code>POST /sync/:day/live</code></td>
+<td>bearer token only (the secret is refused); body <code>{ isLive: true \| false \| "auto" }</code>; <code>400</code> otherwise; <code>{ day, label, isLive, republished, live?, archive? }</code></td>
+</tr>
+<tr>
+<td><code>POST /sync/live-push</code></td>
+<td>bearer token only; body <code>{ enabled: boolean }</code>; <code>{ enabled, changed, available }</code></td>
+</tr>
+<tr>
+<td><code>GET /sync/config</code></td>
+<td>secret or token; <code>{ sha, source, loadedAt, ageMs, events, days, live: { enabled, baseUrl, switch, active } }</code>, never the secret. Control Center reads <code>live.enabled</code>, <code>live.switch</code> (<code>"on"</code>/<code>"off"</code>) and <code>live.baseUrl</code></td>
+</tr>
+<tr>
+<td><code>PUT /v1/days/:day/facilities/:facility/attendance/:key</code></td>
+<td>operator or desk token; body <code>{ present: boolean }</code>, <code>400</code> otherwise; <code>200 { key, player, present, timeIn, withdrawn }</code> (<a href="../multi-event-attendance-spec/">attendance spec</a> §4.8)</td>
+</tr>
+<tr>
+<td><code>POST /v1/days/:day/attendance/desk-links</code></td>
+<td>operator token only (a desk token is <code>401</code>); <code>201 { token, expiresAt, day }</code></td>
+</tr>
+<tr>
+<td><code>POST /v1/days/:day/attendance/reconciliations</code></td>
+<td>operator token only; optional <code>?facility=</code>; <code>200 { day, facilities: [result] }</code></td>
+</tr>
+<tr>
+<td><code>POST /scoresheets/generate</code></td>
+<td>multipart <code>csv</code> + <code>evt</code>, <code>type</code>, <code>out</code>, <code>blanks</code>; <code>200</code> PDF with <code>Content-Type: application/pdf</code> and <code>Content-Disposition: attachment; filename="&lt;name&gt;.pdf"</code></td>
+</tr>
+<tr>
+<td><code>POST /scoresheets/generate/stream</code></td>
+<td><code>400 { error }</code> before streaming for a missing field; otherwise <code>200 application/x-ndjson</code> lines <code>parsing</code>, <code>rendering</code>, <code>merging</code>, then <code>done</code> (with <code>pdfBase64</code>) or <code>error</code></td>
+</tr>
+<tr>
+<td>every response</td>
+<td><code>X-App-Version</code>, <code>Access-Control-Allow-Origin</code>, <code>Access-Control-Expose-Headers: X-App-Version, X-Sync-Config</code>; <code>OPTIONS</code> answers <code>204</code></td>
+</tr>
+<tr>
+<td>error statuses</td>
+<td>validation <code>400</code>, unauthorized <code>401</code>, unknown day <code>400</code>, upstream failure <code>502</code>, config unavailable <code>503</code>, anything else <code>500</code>; from attendance: forbidden <code>403</code>, not found and unknown event <code>404</code>, <code>ATTENDANCE</code> layout <code>409</code>, Google failure <code>502</code>, Google busy <code>503</code></td>
+</tr>
+</tbody>
+</table>
+<p>Sync semantics that are pinned by the existing <code>verify-sync-merge.mjs</code> (70
+checks) are part of the contract: facility merge and carry-forward,
+<code>completedAt</code>, <code>lastEditAt</code> survival across a full resync, live-first
+publishing with GitHub archive, fallback to GitHub on any Worker failure, the
+<code>409</code> retries, the operator switch, the stale-object rule (merge into the
+newer of the Worker's and GitHub's copy by <code>publishedAt</code>). So are two later
+additions, pinned by <code>teamRoster.test.mjs</code> and <code>onFacilitiesSynced.test.mjs</code>:</p>
+<ul>
+<li><strong>Team rosters.</strong> For an event of <code>type: "team"</code>, the snapshot's
+  <code>facilities[]</code> carry <code>rosterCsv</code> (<code>teamCode,player,level,gender</code>, CRLF),
+  read from the day's <code>rosterSheetName</code> tab (default <code>Teams</code>). A fetch that
+  brings no roster (the <code>?method=csv</code> fallback, a workbook without the tab,
+  a tab with no recognisable header) keeps the last published <code>rosterCsv</code>.
+  Other event types never carry one.</li>
+<li><strong>The attendance hook.</strong> After the publish and archive, <code>syncDay</code> awaits
+  <code>onFacilitiesSynced({ day, event, facilities })</code> with the facilities
+  fetched fresh. A throw from it is logged and never changes the sync's
+  status or body. <code>setLiveOverride</code> does not call it.</li>
+</ul>
+<h3 id="22-behaviour-pinned-now-that-a-later-phase-changes-on-purpose">2.2 Behaviour pinned now that a later phase changes on purpose<a class="headerlink" href="#22-behaviour-pinned-now-that-a-later-phase-changes-on-purpose" title="Permanent link">&para;</a></h3>
+<p>The architecture spec (§3.2) changes four visible behaviours. Each is pinned
+here as it is <strong>today</strong>, in a test marked <code>// CHARACTERIZATION B&lt;n&gt;</code> (§3.6), so
+the phase that changes it edits one named test in the same commit.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Today (what the marked test asserts)</th>
+<th>Changed in architecture-spec phase</th>
+<th>Marked test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td>Three conflicting GitHub commits in a row surface as HTTP <code>500</code> (the raw GitHub error has no <code>statusCode</code>), for <code>syncDay</code>'s GitHub path, <code>setIsLive</code> and <code>setLivePush</code></td>
+<td>3</td>
+<td>the pipeline case "three conflicts on GitHub" and the <code>SyncConfigStore</code> "three 409s throw" cases</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>Error bodies are exactly <code>{ "error": "&lt;message&gt;" }</code></td>
+<td>2</td>
+<td>every whole-body assertion on an error response</td>
+</tr>
+<tr>
+<td>B3</td>
+<td><code>Access-Control-Allow-Methods</code> is exactly <code>GET, POST, PUT, OPTIONS</code> (<code>PUT</code> since the attendance spec)</td>
+<td>2</td>
+<td><code>headers.test.mjs</code></td>
+</tr>
+<tr>
+<td>B4</td>
+<td>A day key of <code>config</code> or <code>live-push</code> passes config validation</td>
+<td>2</td>
+<td>the <code>SyncConfigStore</code> validation cases</td>
+</tr>
+</tbody>
+</table>
+<p>Everything else in §2.1 must still pass unchanged after every later phase.</p>
+<hr />
+<h2 id="3-strategy">3. Strategy<a class="headerlink" href="#3-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="31-layers">3.1 Layers<a class="headerlink" href="#31-layers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it is</th>
+<th>What is real</th>
+<th>What is faked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Unit</strong></td>
+<td>one module in isolation</td>
+<td>the module</td>
+<td>its collaborators (hand-written fakes), or <code>globalThis.fetch</code> for the four HTTP clients</td>
+</tr>
+<tr>
+<td><strong>Integration</strong></td>
+<td>the real wiring, driven over HTTP</td>
+<td><code>Server</code>, routes, middleware, <code>SyncService</code>, <code>SyncConfigStore</code>, publishers, fetchers</td>
+<td>the three outside services (GitHub, Google Sheets, the live Worker), replaced at <code>globalThis.fetch</code> by one in-memory <code>FakeWorld</code> (§5.4)</td>
+</tr>
+<tr>
+<td><strong>End-to-end (opt-in)</strong></td>
+<td>real Chromium renders a real PDF</td>
+<td>the scoresheet pipeline</td>
+<td>nothing; skipped unless <code>RUN_PDF_E2E=1</code></td>
+</tr>
+</tbody>
+</table>
+<p>The Apps Script harnesses (<code>verify-attendance</code>, <code>verify-standard-tournament-generator</code>,
+<code>verify-dual-meet-generator</code>) and the live Worker's <code>smoke.mjs</code> stay as they are;
+they test code that is not the Cloud Run service. <code>npm run verify</code> runs them
+beside the new suite.</p>
+<h3 id="32-tooling-and-scripts">3.2 Tooling and scripts<a class="headerlink" href="#32-tooling-and-scripts" title="Permanent link">&para;</a></h3>
+<p><code>node:test</code> and <code>node:assert/strict</code>. No test dependency is added.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>// package.json "scripts" — added by this spec; "start" is unchanged
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>{
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  "start": "node index.mjs",
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  "test": "node --test \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  "test:unit": "node --test \"test/unit/**/*.test.mjs\"",
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  "test:integration": "node --test \"test/integration/**/*.test.mjs\"",
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  "test:e2e": "node --test \"test/e2e/**/*.test.mjs\"",
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  "test:snapshots": "node --test --test-update-snapshots \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  "test:coverage": "npm run test:coverage:sync &amp;&amp; npm run test:coverage:auth &amp;&amp; npm run test:coverage:server",
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  "test:coverage:sync": "node --test --experimental-test-coverage --test-coverage-include=\"src/sync/**\" --test-coverage-lines=90 \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  "test:coverage:auth": "node --test --experimental-test-coverage --test-coverage-include=\"src/auth/**\" --test-coverage-lines=95 \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  "test:coverage:server": "node --test --experimental-test-coverage --test-coverage-include=\"src/server/**\" --test-coverage-lines=90 \"test/unit/**/*.test.mjs\" \"test/integration/**/*.test.mjs\"",
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  "test:appscript": "node scripts/run-appscript-verifies.mjs",
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>  "verify": "npm test &amp;&amp; npm run test:coverage &amp;&amp; npm run test:appscript"
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>}
+</code></pre></div>
+<p><code>scripts/run-appscript-verifies.mjs</code> is a ten-line script that runs the three
+Apps Script verify scripts in turn and exits non-zero if any does. (After
+the architecture spec's Phase 1 it points at <code>apps-script/</code>.) The two <code>verify-*</code>
+scripts that cover <code>src/</code> (<code>verify-sync-merge</code>, <code>verify-facility-completion</code>) are
+ported to <code>node:test</code> here; the originals are removed in the architecture spec's
+Phase 6.</p>
+<p>Coverage is <strong>enforced</strong> by line, per folder: <code>src/sync</code> ≥ 90 %, <code>src/auth</code>
+≥ 95 %, <code>src/server</code> ≥ 90 %. A threshold applies to everything one run
+includes, so each folder is its own run of the whole suite (the suite is fast;
+§3.5 rule 1). <code>npm run verify</code> includes it, so a push to <code>main</code> that follows
+the rule in §9.4 cannot lower coverage below the floor. Other folders are
+reported but have no threshold: <code>src/scoresheets</code> is mostly Chromium, covered by
+the opt-in E2E, and <code>src/shared</code> and <code>src/docs</code> are small. The architecture
+spec's Phase 2 creates <code>src/config</code> and adds <code>test:coverage:config</code> at ≥ 95 %
+in the same commit (§9.2). If a run falls short, write the missing tests.
+Never lower a threshold to make a change pass without the owner agreeing.</p>
+<p><code>test:snapshots</code> rewrites the snapshot files (§3.5 rule 7). It is the only
+script that changes files under <code>test/</code>.</p>
+<h3 id="33-layout-and-naming">3.3 Layout and naming<a class="headerlink" href="#33-layout-and-naming" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>test/
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  helpers/
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    logger.mjs         # silentLogger, capturingLogger()
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    builders.mjs       # snapshot, facility, config builders (§3.4)
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    fakes.mjs          # FakePublisher, FakeLivePublisher (moved from verify-sync-merge.mjs)
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    fakeWorld.mjs      # in-memory GitHub + Sheets + Worker behind globalThis.fetch
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    http.mjs           # startApp(), multipart()
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    routes.mjs         # registeredRoutes(app): walks server.app._router.stack
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    coveredElsewhere.mjs  # modules with no unit test file, and where they are tested (§9.3)
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    routeManifest.mjs  # every route and the integration test file that covers it (§9.3)
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>  unit/&lt;area&gt;/&lt;Module&gt;.test.mjs
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>  unit/guards/         # the suite-maintenance guards (§9.3)
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  integration/&lt;feature&gt;.test.mjs
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>  e2e/pdf.e2e.test.mjs
+</code></pre></div>
+<ul>
+<li>A test file mirrors the module it covers; when the architecture
+  spec's Phase 1 or 4 moves a module, its test file moves with it (<code>git mv</code>).</li>
+<li><code>describe(&lt;module or route&gt;)</code> then <code>it("&lt;observable behaviour in plain words&gt;")</code>.
+  Names read as a specification: <code>it("answers 401 when neither a secret nor a token is sent")</code>.</li>
+<li>One behaviour per <code>it</code>. Arrange, act, assert, in that order, with no logic
+  in the assertion.</li>
+</ul>
+<h3 id="34-helpers-specified-so-every-test-builds-on-the-same-ones">3.4 Helpers (specified so every test builds on the same ones)<a class="headerlink" href="#34-helpers-specified-so-every-test-builds-on-the-same-ones" title="Permanent link">&para;</a></h3>
+<p><strong><code>logger.mjs</code></strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">silentLogger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">info</span><span class="p">()</span><span class="w"> </span><span class="p">{},</span><span class="w"> </span><span class="nx">warn</span><span class="p">()</span><span class="w"> </span><span class="p">{},</span><span class="w"> </span><span class="nx">error</span><span class="p">()</span><span class="w"> </span><span class="p">{},</span><span class="w"> </span><span class="nx">child</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">silentLogger</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">capturingLogger</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">lines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">log</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">        </span><span class="nx">lines</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="nx">info</span><span class="o">:</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">lines</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s2">"info"</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">]),</span><span class="w"> </span><span class="nx">warn</span><span class="o">:</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">lines</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s2">"warn"</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">]),</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">lines</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s2">"error"</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">]),</span><span class="w"> </span><span class="nx">child</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">log</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">log</span><span class="p">;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong><code>builders.mjs</code></strong>: <code>facilityRow(name, csv, extra)</code>, <code>snapshot({ day, facilities, publishedAt, isLive })</code>,
+<code>registryConfig({ livePush })</code> returning a valid <code>events.json</code> object with one
+event <code>evt</code>, days <code>day1</code> (facilities <code>A</code>, <code>B</code>) and <code>day2</code>, plus a second
+event <code>team</code> of <code>type: "team"</code> with one day <code>tday1</code> (facility <code>T</code>), and
+<code>configSnapshot(raw)</code> wrapping it in <code>SyncConfigSnapshot</code>. Neither event has
+an <code>attendance</code> setting, so the attendance hook does nothing in the pipeline
+tests; attendance has its own integration test. Defaults match the fixtures in
+<code>verify-sync-merge.mjs</code> (<code>PATH = "evt/data/day1.json"</code>, facility CSVs
+<code>A-old</code>/<code>B-old</code>, fresh <code>A-new</code>/<code>B-new</code>).</p>
+<p><strong><code>http.mjs</code></strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">import</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"node:http"</span><span class="p">;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Server</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"../../src/server/Server.mjs"</span><span class="p">;</span><span class="w">   </span><span class="c1">// path updates when Server moves</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="cm">/** Builds the real Server with fakes for whatever is passed, listens on an ephemeral port. */</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">startApp</span><span class="p">({</span><span class="w"> </span><span class="nx">services</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span><span class="w"> </span><span class="nx">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"9.9.9"</span><span class="p">,</span><span class="w"> </span><span class="nx">corsOrigin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w"> </span><span class="nx">syncSharedSecret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"test-secret"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Server</span><span class="p">({</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nx">getScoresheetService</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"scoresheet service not faked"</span><span class="p">);</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="nx">syncService</span><span class="o">:</span><span class="w"> </span><span class="p">{},</span><span class="w"> </span><span class="nx">syncConfigStore</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">peek</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nx">get</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"no config"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="nx">authService</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">verify</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">login</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="nx">logger</span><span class="o">:</span><span class="w"> </span><span class="nx">silentLogger</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">corsOrigin</span><span class="p">,</span><span class="w"> </span><span class="nx">syncSharedSecret</span><span class="p">,</span><span class="w"> </span><span class="nx">version</span><span class="p">,</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">        </span><span class="p">...</span><span class="nx">services</span><span class="p">,</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="p">});</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">listener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">server</span><span class="p">.</span><span class="nx">app</span><span class="p">);</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">listener</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">));</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`http://127.0.0.1:</span><span class="si">${</span><span class="nx">listener</span><span class="p">.</span><span class="nx">address</span><span class="p">().</span><span class="nx">port</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">baseUrl</span><span class="p">,</span><span class="w"> </span><span class="nx">close</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">listener</span><span class="p">.</span><span class="nx">close</span><span class="p">(</span><span class="nx">r</span><span class="p">)),</span><span class="w"> </span><span class="nx">server</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">}</span>
+</code></pre></div>
+<p>The architecture spec's Phases 2 and 4 change the <code>Server</code> constructor to take the composed modules rather than
+these arguments; <code>startApp</code> is updated in the same commit so tests do not change.
+<code>multipart(fields, file)</code> builds a <code>FormData</code> with a <code>Blob</code> for the <code>csv</code> part.</p>
+<p><strong><code>fakeWorld.mjs</code></strong>: one object that replaces <code>globalThis.fetch</code> and behaves like
+the three outside services. It is the riskiest helper, so its contract is exact:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createFakeWorld</span><span class="p">({</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="nx">github</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">owner</span><span class="o">:</span><span class="w"> </span><span class="s2">"o"</span><span class="p">,</span><span class="w"> </span><span class="nx">repo</span><span class="o">:</span><span class="w"> </span><span class="s2">"r"</span><span class="p">,</span><span class="w"> </span><span class="nx">branch</span><span class="o">:</span><span class="w"> </span><span class="s2">"main"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nx">sheets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span><span class="w">                 </span><span class="c1">// { "&lt;sheetId&gt;": { CSV: [[...]], STANDINGSCSV: [[...]] } }  (tab name -&gt; 2D values)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nx">worker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">baseUrl</span><span class="o">:</span><span class="w"> </span><span class="s2">"https://worker.test"</span><span class="p">,</span><span class="w"> </span><span class="nx">secret</span><span class="o">:</span><span class="w"> </span><span class="s2">"pub-secret"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* returns world */</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nx">world</span><span class="p">.</span><span class="nx">install</span><span class="p">()</span><span class="w">   </span><span class="c1">// sets globalThis.fetch, returns an uninstall function; call in before/after</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nx">world</span><span class="p">.</span><span class="nx">github</span><span class="p">.</span><span class="nx">files</span><span class="w">        </span><span class="c1">// Map&lt;path, { json, sha }&gt;   — seed with world.github.set(path, json)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nx">world</span><span class="p">.</span><span class="nx">worker</span><span class="p">.</span><span class="nx">objects</span><span class="w">      </span><span class="c1">// Map&lt;"event/day", { version, snapshot }&gt;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nx">world</span><span class="p">.</span><span class="nx">calls</span><span class="w">               </span><span class="c1">// [{ service: "github"|"sheets"|"gviz"|"worker", method, key, status }]</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nx">world</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">method</span><span class="p">,</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">500</span><span class="p">,</span><span class="w"> </span><span class="nx">times</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">mutate</span><span class="w"> </span><span class="p">})</span><span class="w">   </span><span class="c1">// next N matching calls answer `status` after running mutate(world)</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="nx">world</span><span class="p">.</span><span class="nx">worker</span><span class="p">.</span><span class="nx">down</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span><span class="c1">// every Worker call rejects with TypeError("fetch failed")</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="nx">world</span><span class="p">.</span><span class="nx">hold</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">method</span><span class="w"> </span><span class="p">})</span><span class="w">  </span><span class="c1">// the next matching call waits: returns { release() } and, once called, proceeds</span>
+</code></pre></div>
+<p>Behaviour it must reproduce, each pinned by its own test in
+<code>test/unit/helpers/fakeWorld.test.mjs</code> so a bug in the helper cannot hide a bug
+in the service:</p>
+<ul>
+<li><strong>GitHub Contents API</strong> at
+  <code>https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/contents/&lt;path&gt;</code>:
+  <code>GET ?ref=&lt;branch&gt;</code> returns <code>200 { content: &lt;base64 of the JSON text&gt;, sha }</code>
+  or <code>404</code>; <code>PUT { message, content, branch, sha? }</code> returns <code>409</code> when the file
+  exists and <code>sha</code> is missing or differs, <code>422</code> when <code>sha</code> is given but the file
+  does not exist, otherwise stores the file with a new sha and returns
+  <code>200 { commit: { sha }, content: { html_url } }</code>. Requires an
+  <code>Authorization: Bearer</code> header, else <code>401</code>.</li>
+<li><strong>Google Sheets</strong> <code>GET https://sheets.googleapis.com/v4/spreadsheets/&lt;id&gt;/values:batchGet</code>
+  with repeated <code>ranges=</code> (two, or three for a team event's roster tab) and
+  <code>key=</code>: <code>{ valueRanges: [{ values }, …] }</code> in the order asked; <code>400</code> with no
+  <code>key</code>; <code>404</code> for an unknown id; <code>400</code> with a body containing
+  <code>Unable to parse range: &lt;tab&gt;</code> when an asked-for tab does not exist, which
+  is what the real API answers and what <code>SheetsCsvFetcher</code>'s roster fallback
+  looks for. (The fetcher's "fewer than two ranges" error is reached in its
+  unit test with a stubbed <code>fetch</code>, not through <code>FakeWorld</code>.)</li>
+<li><strong>Google gviz</strong> <code>GET https://docs.google.com/spreadsheets/d/&lt;id&gt;/gviz/tq?tqx=out:csv&amp;sheet=&lt;tab&gt;</code>:
+  the tab as CSV text.</li>
+<li><strong>Live Worker</strong> <code>GET &lt;base&gt;/snapshot/&lt;event&gt;/&lt;day&gt;</code> → <code>200 { version, snapshot }</code>
+  or <code>404 { version: 0 }</code>; <code>POST &lt;base&gt;/publish/&lt;event&gt;/&lt;day&gt;</code> with
+  <code>{ expectedVersion, snapshot }</code> → <code>200 { version, clients: 0 }</code>, <code>409 { error:
+  "version conflict", version }</code> when <code>expectedVersion</code> is stale, <code>400</code> on a bad
+  body. Both <code>401</code> without the right <code>X-Publish-Secret</code>.</li>
+<li><code>hold</code> is what makes races deterministic: start sync A, let it reach its
+  GitHub <code>PUT</code> (held), run sync B to completion, then <code>release()</code> A and observe A
+  get <code>409</code> and retry. No test may rely on timing or <code>setTimeout</code> to interleave.</li>
+</ul>
+<h3 id="35-rules-for-every-test">3.5 Rules for every test<a class="headerlink" href="#35-rules-for-every-test" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>No real network, no real clock waits.</strong> Tests that exercise the fetchers'
+   retry back-off (1 s, then 2 s) use <code>mock.timers.enable({ apis: ["setTimeout"] })</code>
+   and <code>tick</code>. Nothing sleeps for more than 50 ms.</li>
+<li><strong>Independent and order-free.</strong> Each test builds its own fixtures. Anything
+   that installs <code>globalThis.fetch</code> restores it in <code>afterEach</code>.</li>
+<li><strong>Deterministic.</strong> No <code>Math.random</code>, no dependence on <code>Date.now()</code> ordering
+   without <code>mock.timers</code>'s <code>Date</code> control (<code>apis: ["Date"]</code>) or a tolerance
+   stated in the test.</li>
+<li><strong>Assert exactly.</strong> Compare whole response bodies with <code>assert.deepEqual</code>.
+   <code>JSON.stringify</code> equality for contract tests is fine. Do not assert on log
+   text except where the log line is itself the contract (the three conflict
+   log lines, architecture spec §4.5).</li>
+<li><strong>Failure paths get as many tests as success paths.</strong> Every <code>throw</code> in a
+   module has a test that reaches it.</li>
+<li><strong>Secrets never appear in test output.</strong> Use obviously fake values.</li>
+<li><strong>Snapshots only for large generated output.</strong> <code>t.assert.snapshot</code> is for
+   output too big to write out by hand and meant to change only on purpose:
+   the OpenAPI document and each scoresheet type's rendered HTML (§4). Small
+   things, like response bodies, status codes and headers, are asserted
+   explicitly (rule 4), so the expectation can be read in the test.
+   Snapshot input must be deterministic, with a fixed version (<code>"9.9.9"</code>),
+   fixture and clock. The <code>.snapshot</code> files sit beside their tests, are
+   committed, and are never edited by hand. When output changes on purpose,
+   run <code>npm run test:snapshots</code>, read the <code>.snapshot</code> diff, and commit it with
+   the change. A snapshot diff nobody read is a test nobody ran.</li>
+</ol>
+<h3 id="36-characterization-policy">3.6 Characterization policy<a class="headerlink" href="#36-characterization-policy" title="Permanent link">&para;</a></h3>
+<p>These tests describe <strong>what the code does today</strong>, including behaviour that
+is a known defect. A test that pins a behaviour the architecture spec's §3.2 will change is written as
+it passes today and carries a marker comment:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// CHARACTERIZATION B1 (architecture spec, Phase 3): today three GitHub 409s surface as HTTP 500.</span>
+</code></pre></div>
+<p>In the phase that changes it, the test is edited to the new expectation in the
+same commit, and the commit message names the B-number. <code>grep -rn
+"CHARACTERIZATION B" test/</code> lists what is still pending; after the architecture
+spec's Phase 3 that grep returns nothing.</p>
+<h2 id="4-coverage-matrix-what-each-modules-tests-must-reach">4. Coverage matrix: what each module's tests must reach<a class="headerlink" href="#4-coverage-matrix-what-each-modules-tests-must-reach" title="Permanent link">&para;</a></h2>
+<p>Every case below is required. Cases for modules that do not exist yet
+(<code>safeEqual</code>, <code>conflictRetry</code>, the auth middleware, <code>mergeSnapshot</code> and the other
+extracted modules, <code>loadConfig</code>, <code>errorHandler</code>, the <code>/v1</code> routes) are in the
+architecture spec §5.2, because they are written first in the phase that creates
+the module.</p>
+<p><strong>Unit: shared</strong></p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errors.mjs</code></td>
+<td>each class's <code>statusCode</code>, <code>name</code> and message; <code>UnknownSyncDayError</code> lists the valid days; <code>SyncUpstreamError</code> joins reasons with <code>;</code>; default <code>AppError</code> is <code>500</code>; subclass <code>instanceof</code> chain</td>
+</tr>
+<tr>
+<td><code>Logger.mjs</code></td>
+<td><code>info</code>→<code>console.log</code>, <code>warn</code>→<code>console.warn</code>, <code>error</code>→<code>console.error</code> with the error as second argument; line is <code>&lt;ISO timestamp&gt; :: [&lt;scope&gt;] &lt;msg&gt;</code>; <code>child("b")</code> of <code>a</code> has scope <code>a:b</code>; a <code>null</code> message prints empty</td>
+</tr>
+<tr>
+<td><code>ConcurrencyPool.mjs</code></td>
+<td>never more than <code>limit</code> tasks in flight; results keep input order; a rejection propagates; <code>limit</code> of 1 is sequential</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit: auth</strong></p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AuthService.mjs</code></td>
+<td><code>login</code>: valid <code>username:password</code> against a hash produced the way <code>scripts/hash-password.mjs</code> does (scrypt, 16-byte salt, 64-byte key, <code>&lt;saltHex&gt;:&lt;hashHex&gt;</code>) returns <code>{ token, expiresAt }</code> with <code>expiresAt = now + ttl</code>; wrong password, wrong username, malformed hash and a missing <code>passwordHash</code> or <code>tokenSecret</code> all return <code>null</code> (the last logs an error); <code>verify</code>: a fresh token true, an expired token false, a tampered payload or signature false, a token with no <code>.</code> false, a non-string false, a token signed with another secret false; default TTL is 12 h; the username is never stored (changing it breaks login). These go in the existing <code>AuthService.test.mjs</code>, beside its desk-token cases</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit: sync domain</strong></p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>facilityCompletion.mjs</code></td>
+<td>every case in <code>verify-facility-completion.mjs</code>, 1:1: all non-BYE matches scored, partial, BYE by team code, by either player name, case-insensitive <code>bye</code>, stamp kept once set, cleared when a score is removed, an empty CSV</td>
+</tr>
+<tr>
+<td><code>SyncService</code> merge</td>
+<td>every scenario in <code>verify-sync-merge.mjs</code>, 1:1 (the 70 checks): scoped sync, carry-forward, conflict retry, three 409s, non-409, <code>setLiveOverride</code> retry, <code>lastEditAt</code> survival, branch-level conflict, live disabled, empty live object, live conflict, live read/publish throws, three live conflicts, archive 409 and 403, <code>setLiveOverride</code> through the Worker and its fallbacks, switch off, stale live object, newer live object, GitHub read failing. The roster merge (a fresh <code>rosterCsv</code> replaces the old one; a fetch without one keeps it) is already in <code>teamRoster.test.mjs</code>, and the hook in <code>onFacilitiesSynced.test.mjs</code></td>
+</tr>
+<tr>
+<td><code>teamRoster.mjs</code></td>
+<td>already tested by <code>teamRoster.test.mjs</code>; nothing to add</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit: sync config</strong></p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SyncConfigSnapshot.mjs</code></td>
+<td><code>getDay</code> returns only facilities with a non-blank <code>sheetId</code>, <code>isLive</code> defaults to <code>"auto"</code>, includes <code>event</code>; unknown day throws <code>UnknownSyncDayError</code>; <code>repoPathFor</code> is <code>&lt;event&gt;/data/&lt;day&gt;.json</code>; <code>sheetsFor</code> falls back day → <code>defaults</code> → <code>CSV</code>/<code>STANDINGSCSV</code>; <code>knownDays</code>, <code>eventKeys</code>; <code>livePushOn</code> is <code>false</code> only for an explicit <code>false</code>. <code>sheetsFor</code>'s <code>rosterSheetName</code> (the day's value or <code>Teams</code> for a team event, <code>null</code> otherwise) is already in <code>teamRoster.test.mjs</code></td>
+</tr>
+<tr>
+<td><code>SyncConfigStore.mjs</code></td>
+<td>one case per validation rule: wrong <code>version</code>; no <code>events</code>; event key not a slug; event with no days; day key not a slug; day key declared by two events; missing/blank label; <code>facilities</code> not an array; invalid <code>isLive</code>; duplicate facility name; blank facility name; non-boolean <code>livePush</code>; a <code>rosterSheetName</code> that is not a non-blank string. (The <code>attendance</code> setting's rules are already in <code>attendanceConfig.test.mjs</code>.) Day keys <code>config</code> and <code>live-push</code> are <strong>accepted today</strong> (pinned as <code>// CHARACTERIZATION B4</code>). Caching: a second <code>get</code> inside the TTL does not fetch; after the TTL it does; concurrent <code>get</code>s share one fetch. Failure: a remote failure serves the last good config and renews its TTL; no cache and a failure serves the bundled seed (<code>source: "fallback"</code>, <code>sha: "seed"</code>); no cache and no seed throws <code>SyncConfigUnavailableError</code>; an invalid remote keeps the last good config. <code>peek()</code> never fetches. <code>setIsLive</code>: sets the value and returns <code>{ event, label }</code>; unknown day throws; a 409 is retried keeping a concurrent change to another day; three 409s throw; success clears the cache. <code>setLivePush</code>: commits <code>livePush</code>, an unchanged value commits nothing, a 409 is retried, a non-boolean in the file is rejected</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit: sync infrastructure</strong> (stub <code>globalThis.fetch</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GitHubPublisher.mjs</code></td>
+<td><code>publish</code>: <code>PUT</code> to <code>…/contents/&lt;path&gt;</code> with <code>Authorization: Bearer</code>, <code>Accept: application/vnd.github+json</code>, <code>X-GitHub-Api-Version: 2022-11-28</code>, a <code>User-Agent</code>; body has <code>message</code>, <code>branch</code>, <code>content</code> (base64 of <code>JSON.stringify(json, null, 2)</code>) and <code>sha</code> only when known; a <code>null</code> sha triggers a <code>GET ?ref=&lt;branch&gt;</code> lookup first, a <code>404</code> lookup sends no sha; failure throws <code>GitHub commit failed: HTTP &lt;status&gt; &lt;detail&gt;</code> with <code>err.status</code>; success returns <code>{ committed: true, commitSha, htmlUrl }</code>. <code>fetchExisting</code>: <code>404</code> gives <code>{ json: null, sha: null }</code>; success decodes and parses; another failure throws <code>GitHub lookup failed: HTTP …</code></td>
+</tr>
+<tr>
+<td><code>LivePublisher.mjs</code></td>
+<td><code>enabled</code> needs both URL and secret; a trailing slash on the URL is dropped; <code>read</code>: <code>404</code> is <code>{ version: 0, snapshot: null }</code>, <code>200</code> is <code>{ version, snapshot }</code>, <code>401</code> and <code>5xx</code> throw <code>live Worker read failed: HTTP &lt;status&gt; &lt;body&gt;</code>, a network error throws <code>live Worker read failed: &lt;message&gt;</code>, a stalled call throws <code>live Worker read timed out after &lt;n&gt;ms</code>; <code>publish</code>: <code>200</code> is <code>{ ok: true, version }</code>, <code>409</code> is <code>{ ok: false, conflict: true, version }</code>, other statuses and network errors throw; event and day are URL-encoded; <code>X-Publish-Secret</code> on every call, <code>Content-Type</code> only on <code>POST</code></td>
+</tr>
+<tr>
+<td><code>SheetsCsvFetcher.mjs</code></td>
+<td>URL has two <code>ranges</code> (matches tab then standings tab; the roster tab third when <code>rosterSheetName</code> is set, cases already in <code>teamRoster.test.mjs</code>), <code>key</code>, <code>valueRenderOption=FORMATTED_VALUE</code>; no API key throws before any request; values become CSV with rows padded to the header width and fields quoted when they contain <code>,</code>, <code>"</code> or a newline, <code>null</code> as empty; HTTP error message <code>&lt;facility&gt;: HTTP &lt;status&gt; &lt;detail&gt;</code>; fewer than two ranges throws the tab-name hint; a timeout throws <code>&lt;facility&gt;: timed out after &lt;n&gt;ms</code>; three attempts in total with 1 s then 2 s waits (mock timers) and the last error thrown; <code>timeoutMs: 0</code> sends no abort signal</td>
+</tr>
+<tr>
+<td><code>GvizCsvFetcher.mjs</code></td>
+<td>the export URL it builds for each tab; both tabs fetched in parallel; same retry and timeout rules as above; same <code>{ name, matchesCsv, standingsCsv }</code> shape, never with a <code>rosterCsv</code> (a team event's CSV fallback keeps the last published roster)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit: scoresheets</strong> (read the file, then pin it)</p>
+<p><code>CsvService</code>, <code>TemplateService</code>, <code>PageChunkBuilder</code>, <code>ScoresheetConfig</code> (registry,
+unknown type throws <code>UnknownScoresheetTypeError</code> naming the valid types) and
+<code>ScoresheetService.generate</code> with fakes for the browser, renderer and merger:
+the progress events in order (<code>parsing</code>, <code>rendering</code> with <code>completed</code>/<code>total</code>,
+<code>merging</code>), blank-row padding, a missing CSV or unknown type is a
+<code>ValidationError</code>, concurrency is passed through. <code>TemplateService</code> also
+renders every type registered in <code>ScoresheetConfig</code> from one fixed fixture CSV
+and snapshots the HTML (§3.5 rule 7). This is the only check on <code>templates/</code>
+short of the opt-in E2E, so a template edit shows up as a snapshot diff.</p>
+<p><strong>Unit: other</strong></p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>openapiSpec.mjs</code></td>
+<td>the spec is OpenAPI <code>3.0.3</code>, has the five tags (<code>health</code>, <code>scoresheets</code>, <code>sync</code>, <code>auth</code>, <code>attendance</code>) and two security schemes, and documents exactly these 11 paths today: <code>/ping</code>, <code>/scoresheets/generate</code>, <code>/scoresheets/generate/stream</code>, <code>/sync/{day}</code>, <code>/sync/{day}/live</code>, <code>/sync/live-push</code>, <code>/sync/config</code>, <code>/auth/login</code>, <code>/v1/days/{day}/facilities/{facility}/attendance/{key}</code>, <code>/v1/days/{day}/attendance/desk-links</code>, <code>/v1/days/{day}/attendance/reconciliations</code>; it is cached after the first build; <code>info.version</code> is the version passed in; the whole document from <code>getOpenApiSpec("9.9.9")</code> (its <code>servers</code> is empty; <code>Server</code> fills it in per request) matches its snapshot (§3.5 rule 7)</td>
+</tr>
+<tr>
+<td>every <code>src/**/*.mjs</code></td>
+<td>one test imports each module dynamically, so a broken import path after a move fails here first (<code>test/unit/imports.test.mjs</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit: guards</strong> (<code>test/unit/guards/</code>; what they check is in §9.3)</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>every-module-tested.test.mjs</code></td>
+<td>every <code>src/**/*.mjs</code> has a mirrored unit test file or an entry in <code>coveredElsewhere.mjs</code>; every entry names a module that exists and a test file that exists; no module has both</td>
+</tr>
+<tr>
+<td><code>every-route-tested.test.mjs</code></td>
+<td>the routes <code>registeredRoutes(server.app)</code> finds equal the routes in <code>routeManifest.mjs</code>, as sets; each manifest entry's test file exists and contains the route's path text</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Integration: HTTP contract</strong> (<code>startApp</code> with faked services; real routes and middleware)</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ping.test.mjs</code></td>
+<td><code>200</code> and body <code>PONG!</code>; <code>X-App-Version</code>; <code>X-Sync-Config</code> is <code>abc1234/remote</code>, <code>seed/fallback</code>, or absent (config store <code>peek()</code> returning those); <code>/ping</code> never calls <code>get()</code></td>
+</tr>
+<tr>
+<td><code>headers.test.mjs</code></td>
+<td>CORS headers on every route, including a <code>401</code> and a <code>404</code>; <code>OPTIONS</code> on any path answers <code>204</code> with the allow headers; <code>Access-Control-Expose-Headers</code> lists <code>X-App-Version, X-Sync-Config</code>; a <code>corsOrigin</code> other than <code>*</code> is echoed</td>
+</tr>
+<tr>
+<td><code>openapi.test.mjs</code></td>
+<td><code>GET /openapi.json</code> is <code>200</code> JSON; <code>servers[0].url</code> is the request's host; every documented path answers something other than <code>404</code> to an unauthenticated request (it exists); every route registered on the app is documented, except <code>/openapi.json</code> itself, found by <code>registeredRoutes(server.app)</code> from <code>test/helpers/routes.mjs</code>, which walks <code>server.app._router.stack</code> (Express 4 internal; the helper has its own test that it finds the twelve routes registered today: <code>/ping</code>, <code>/openapi.json</code>, the two <code>/scoresheets</code>, <code>/auth/login</code>, the four <code>/sync</code> and the three <code>/v1</code> attendance routes)</td>
+</tr>
+<tr>
+<td><code>auth.test.mjs</code></td>
+<td>missing <code>username</code> or <code>password</code> or a non-string is <code>400</code>; wrong password <code>401</code>; unconfigured auth <code>401</code>; success <code>200 { token, expiresAt }</code> and the token then works on a token-only route</td>
+</tr>
+<tr>
+<td><code>sync-routes.test.mjs</code></td>
+<td><code>POST /sync/:day</code> is <code>401</code> with neither header; works with the secret and with a token; a wrong secret is <code>401</code>; <code>?facility=</code> and <code>?method=csv</code> reach the service; <code>X-Edit-At</code> reaches it only inside the window (cases from <code>editAt</code>); the service result is returned as JSON <code>200</code>; an <code>UnknownSyncDayError</code> is <code>400</code>, <code>SyncUpstreamError</code> <code>502</code>, <code>SyncConfigUnavailableError</code> <code>503</code>, a plain <code>Error</code> <code>500</code> with its message. <code>POST /sync/:day/live</code>: the secret is refused (<code>401</code>), a token works, an invalid body is <code>400</code>, each of <code>true</code>/<code>false</code>/<code>"auto"</code> reaches the service and its result, including <code>live.published</code> (which Control Center reads), is returned unchanged. <code>POST /sync/live-push</code>: token only, body must be boolean, result passed through, <strong>registered before <code>/:day</code></strong> (a test posts to it and expects the switch handler, not the sync handler). <code>GET /sync/config</code>: secret or token, <code>401</code> otherwise, payload as §2 with no secret in it</td>
+</tr>
+<tr>
+<td><code>scoresheets-routes.test.mjs</code></td>
+<td><code>/generate</code> with a fake service: PDF headers and body, field mapping (<code>evt</code>, <code>type</code>, <code>out</code>, <code>blanks</code>), a service error is <code>err.statusCode ?? 500</code>; <code>/generate/stream</code>: a missing field is <code>400 { error }</code>, a good run writes the NDJSON lines in order and ends with <code>done</code> carrying base64, a failing service writes an <code>error</code> line after a <code>200</code> and ends the response</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Integration: the sync pipeline</strong> (<code>test/integration/sync-pipeline.test.mjs</code>; real services, <code>FakeWorld</code>)</p>
+<p>Wired exactly as <code>index.mjs</code> wires them (a <code>buildApp({ world, env })</code> helper
+calls the same composition code <code>index.mjs</code> uses: a copy of those lines now, which
+the architecture spec's Phase 4 replaces with the shared function).</p>
+<ol>
+<li>GitHub only (no <code>LIVE_PUSH_*</code>): a scoped sync of facility A commits
+   <code>evt/data/day1.json</code> with A fresh and B carried forward; response shape
+   matches §2; <code>publishedAt</code> is stamped.</li>
+<li>Live on: the Worker object gets the snapshot (version 1), then GitHub gets
+   the same snapshot (archive); the response has <code>live.published: true</code> and an
+   <code>archive.committed: true</code>; the order of <code>world.calls</code> is Sheets, Worker read,
+   GitHub read, Worker publish, GitHub write.</li>
+<li>Worker down: the sync still succeeds through GitHub, <code>live.published:
+   false</code> with the reason; no archive field.</li>
+<li>Worker returns <code>401</code> (wrong secret): same fallback, reason names the status.</li>
+<li>Switch off through <code>POST /sync/live-push</code> (token): the next sync does not
+   touch the Worker; <code>GET /sync/config</code> reports <code>switch: "off"</code>, <code>active:
+   false</code>; the config file in the fake GitHub has <code>livePush: false</code>; switching
+   back on restores live publishing.</li>
+<li>Stale Worker object: sync A and B with the switch off, switch on, sync A:
+   B's newer data survives (the stale-object rule), in the Worker and in GitHub.</li>
+<li><strong>Race:</strong> two facilities' syncs, GitHub <code>PUT</code> of the first held; the second
+   completes; release; the first gets <code>409</code>, re-reads, re-merges, and the final
+   file holds both facilities' new data; <code>attempts</code> is <code>2</code> on the first.</li>
+<li><strong>Race on the Worker:</strong> same, holding the Worker publish; both facilities
+   survive; <code>live.version</code> is <code>2</code>.</li>
+<li>Three conflicts in a row on the Worker fall back to GitHub; three on GitHub
+   answer <code>500</code> today (pinned as <code>// CHARACTERIZATION B1</code>; the architecture spec's
+   Phase 3 makes it <code>409</code>).</li>
+<li>Archive fails with <code>403</code>: the request succeeds, <code>archive.committed: false</code>,
+    <code>commitSha: null</code>, the Worker holds the data.</li>
+<li>Live/Hide through the Worker: version increments, <code>isLive</code> set, <code>publishedAt</code>
+    newer, archived; with the Worker down it goes through GitHub with <code>live.published: false</code>.</li>
+<li>Live/Hide on a day never published: <code>republished: false</code>, config updated.</li>
+<li>Full resync keeps <code>lastEditAt</code>; <code>X-Edit-At</code> inside the window is recorded.</li>
+<li>A failed fetch (Sheets <code>500</code>, after the retry delays with mock timers)
+    carries the facility's previous data forward and lists it in
+    <code>facilitiesStale</code>; every facility failing on an empty day is <code>502</code>.</li>
+<li>Config change takes effect: editing <code>config/events.json</code> in the fake GitHub
+    (a new sheet id) is used by the next sync after the TTL (mock timers).</li>
+<li>Team roster: a sync of <code>team</code>/<code>tday1</code> asks Sheets for three ranges and
+    publishes <code>rosterCsv</code> on facility <code>T</code>; a later <code>?method=csv</code> sync keeps
+    that <code>rosterCsv</code> unchanged; a workbook with no <code>Teams</code> tab (the fake
+    answers <code>400 Unable to parse range: Teams</code>) still syncs, with two Sheets
+    calls and no <code>rosterCsv</code>; a sync of <code>evt</code>/<code>day1</code> asks for two ranges and
+    publishes none.</li>
+</ol>
+<hr />
+<h2 id="5-proof-that-the-net-works">5. Proof that the net works<a class="headerlink" href="#5-proof-that-the-net-works" title="Permanent link">&para;</a></h2>
+<p>With the suite green, before it is handed over, the implementer makes each of these
+deliberate breakages one at a time, confirms <strong>at least one test fails</strong>, and
+reverts it. The list goes in the commit message.</p>
+<ol>
+<li>In <code>SyncService</code>, change the stale-object comparison <code>&gt;</code> to <code>&gt;=</code>.</li>
+<li>In <code>handleSync</code>, widen the <code>X-Edit-At</code> window from <code>3600_000</code> to <code>36_000_000</code>.</li>
+<li>In <code>GitHubPublisher</code>, drop the <code>sha</code> from the <code>PUT</code> body.</li>
+<li>In <code>routes.mjs</code>, register <code>/live-push</code> after <code>/:day</code>.</li>
+<li>In <code>Server.mjs</code>, remove <code>X-Sync-Config</code> from the exposed headers.</li>
+<li>In <code>AuthService.verify</code>, skip the expiry check.</li>
+<li>In <code>SyncConfigStore</code>, stop clearing the cache after <code>setIsLive</code>.</li>
+<li>In <code>LivePublisher.publish</code>, treat <code>409</code> as success.</li>
+<li>In <code>#buildSnapshot</code> stop carrying forward
+   <code>completedAt</code>.</li>
+<li>In <code>handleSetLive</code>, accept the shared secret.</li>
+<li>In <code>SyncService</code>'s merge, drop the line that keeps the prior <code>rosterCsv</code>
+    when a fetch brings none.</li>
+</ol>
+<hr />
+<h2 id="6-build-steps">6. Build steps<a class="headerlink" href="#6-build-steps" title="Permanent link">&para;</a></h2>
+<p><strong>Goal.</strong> A suite that describes today's behaviour, green on the unmodified
+production code.</p>
+<p><strong>Rule.</strong> The only non-test files this spec may touch are <code>package.json</code>
+(scripts), the new <code>scripts/run-appscript-verifies.mjs</code>, the new
+<code>.githooks/pre-push</code>, <code>README.md</code>, and (outside the repo) the root
+<code>CLAUDE.md</code>. If a
+module cannot be tested without changing it, stop and note it in the hand-off
+report (§8). Today none needs it (<code>Server.app</code> is public, the clients use the
+global <code>fetch</code>, services take their dependencies in their constructors).</p>
+<p>Steps:</p>
+<ol>
+<li>Create <code>test/</code> per §3.3 and add the <code>package.json</code> scripts from §3.2.</li>
+<li>Write the helpers (§3.4), including <code>fakeWorld.test.mjs</code> for the helper itself.</li>
+<li>Move the fakes out of <code>verify-sync-merge.mjs</code> into <code>test/helpers/fakes.mjs</code>
+   unchanged.</li>
+<li>Port <code>verify-sync-merge.mjs</code> and <code>verify-facility-completion.mjs</code> to
+   <code>node:test</code>, 1:1: same scenarios, same assertions, one <code>it</code> per <code>check</code>. The
+   old scripts stay in place and keep passing; they are removed in the architecture spec's Phase 6.</li>
+<li>Write every unit test in §4 for modules that exist today.</li>
+<li>Write the integration tests in §4 (HTTP contract, then the pipeline).</li>
+<li>Write the opt-in E2E: with <code>RUN_PDF_E2E=1</code>, post a three-row CSV to the real
+   pipeline (<code>createScoresheetService</code>) and assert the response starts with
+   <code>%PDF-</code> and is more than 1 KB. Without the variable the test is <code>skip</code>ped.</li>
+<li>Write the guards (§9.3): <code>coveredElsewhere.mjs</code>, <code>routeManifest.mjs</code> and
+   the two tests in <code>test/unit/guards/</code>, and confirm each fails when a module's
+   test file is renamed away or a route's manifest line is deleted.</li>
+<li>Run the sabotage list (§5).</li>
+<li>Add <code>.githooks/pre-push</code> (§9.4) and run <code>git config core.hooksPath
+    .githooks</code> in this clone; confirm a push with a failing test is refused.</li>
+<li>README: add a <strong>Testing</strong> section (commands, layout, the characterization
+    marker, the maintenance rule and table from §9.1–9.2, the hook setup line).
+    Do not bump the version.</li>
+<li>Root <code>CLAUDE.md</code>: add the rule from §9.4. This is the last step, so the
+    rule never names tests that do not exist yet.</li>
+</ol>
+<hr />
+<h2 id="7-acceptance-checklist">7. Acceptance checklist<a class="headerlink" href="#7-acceptance-checklist" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>npm test</code> and <code>npm run verify</code> pass on unmodified production code, on
+      Node 22.23.3 or later (<code>verify</code> includes the per-folder coverage
+      thresholds of §3.2).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The OpenAPI and template snapshot files are committed, and
+      <code>npm test</code> passes without <code>--test-update-snapshots</code>.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Every case in §4 exists, for every module that exists today.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The ported sync-merge suite has at least the 70 original assertions, and the
+      ported facility-completion suite every original assertion.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>test/helpers/fakeWorld.mjs</code> has its own passing tests (§3.4).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All eleven sabotage breakages were caught (§5).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>git diff --stat</code> against <code>main</code> shows changes only under <code>test/</code>,
+      <code>package.json</code> (scripts only), <code>scripts/run-appscript-verifies.mjs</code>,
+      <code>.githooks/pre-push</code> and <code>README.md</code>.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Both guards in <code>test/unit/guards/</code> pass, and each was seen to fail when
+      its rule was broken (§6 step 8).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The pre-push hook refuses a push with a failing test (§6 step 10).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The README's <strong>Testing</strong> section and the root <code>CLAUDE.md</code> carry the
+      maintenance rule (§9).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>grep -rn "CHARACTERIZATION B" test/</code> lists B1 to B4 and nothing else.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>npm run test:e2e</code> with <code>RUN_PDF_E2E=1</code> passes on a machine with Chromium;
+      without the variable it is skipped, not failed.</li>
+</ul>
+<h2 id="8-hand-off-to-the-architecture-spec">8. Hand-off to the architecture spec<a class="headerlink" href="#8-hand-off-to-the-architecture-spec" title="Permanent link">&para;</a></h2>
+<p>When §7 is complete, report to the owner: the test and assertion counts, the
+coverage report's per-folder lines, anything pinned as a defect that the owner
+should know about, and any module that could not be tested without a production
+change (none is expected). The architecture spec's Phase 1 starts from this
+branch. This spec then moves to <code>implemented/</code> per <code>docs/specs/README.md</code>.</p>
+<h2 id="9-keeping-the-suite-current">9. Keeping the suite current<a class="headerlink" href="#9-keeping-the-suite-current" title="Permanent link">&para;</a></h2>
+<p>Building the suite once is half the job. It only stays a net if every later
+change to the API changes its tests too. This section is the standing rule from
+the commit the suite lands in onward, for the owner, for anyone else, and for
+Claude Code sessions alike.</p>
+<h3 id="91-the-rule">9.1 The rule<a class="headerlink" href="#91-the-rule" title="Permanent link">&para;</a></h3>
+<p><strong>A change to the API is not finished until its tests are.</strong> The test change
+goes in the <strong>same commit</strong> as the code change, never a follow-up. It is the
+same kind of rule as the version bump: a commit that touches what runs on
+Cloud Run without touching <code>test/</code> is incomplete, unless it is one of the
+exceptions below.</p>
+<p>"The API" here means everything that ships to Cloud Run: <code>index.mjs</code>, every
+file under <code>src/</code>, <code>templates/</code>, and <code>package.json</code>'s dependencies. It does
+<strong>not</strong> mean the Apps Script files, the live Worker or the site, which keep
+their own harnesses (§3.1). A change to a <code>.gs</code> file updates its own <code>verify-*</code>
+script in the same way, but that is outside this suite.</p>
+<p>The only changes that may skip a test edit are ones no test can observe: a
+comment, a log line that is not part of the contract (§3.5 rule 4), a
+dependency patch bump. The Changelog entry says so (§9.5).</p>
+<h3 id="92-what-each-kind-of-change-requires">9.2 What each kind of change requires<a class="headerlink" href="#92-what-each-kind-of-change-requires" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Tests in the same commit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New module</td>
+<td>its mirrored unit test file <code>test/unit/&lt;area&gt;/&lt;Module&gt;.test.mjs</code>, with every <code>throw</code> reached (§3.5 rule 5). If it is only testable through HTTP or Chromium, an entry in <code>coveredElsewhere.mjs</code> naming that test instead</td>
+</tr>
+<tr>
+<td>New route</td>
+<td>its cases in the matching <code>test/integration/*-routes.test.mjs</code> (auth, success, every error status), a <code>routeManifest.mjs</code> line, its <code>@openapi</code> block, and the route count in the <code>registeredRoutes</code> helper test and in <code>openapiSpec.test.mjs</code></td>
+</tr>
+<tr>
+<td>New behaviour in an existing module or route</td>
+<td>a new <code>it</code> describing it</td>
+</tr>
+<tr>
+<td>Changed behaviour that a deployed client can see (status, body, a §2.1 header)</td>
+<td>the pinned test edited to the new expectation, and the Changelog entry says which client-visible thing changed. If §2.1 lists it, update §2.1 too: the table describes the API as it is</td>
+</tr>
+<tr>
+<td>Bug fix</td>
+<td>a test that fails on the code before the fix and passes after it. If a test pinned the bug (<code>// CHARACTERIZATION</code>), that test is the one that changes</td>
+</tr>
+<tr>
+<td>Removed behaviour, module or route</td>
+<td>its tests, manifest line or <code>coveredElsewhere.mjs</code> entry removed in the same commit</td>
+</tr>
+<tr>
+<td>Moved or renamed module</td>
+<td>its test file moved with <code>git mv</code> to mirror the new path</td>
+</tr>
+<tr>
+<td>A new call to GitHub, Google Sheets or the Worker, or a change in how one is called</td>
+<td><code>fakeWorld.mjs</code> taught the new behaviour, with its own case in <code>fakeWorld.test.mjs</code>, before the pipeline test that uses it</td>
+</tr>
+<tr>
+<td>A new <code>throw</code> or error class</td>
+<td>a test that reaches it, and its status in <code>errors.test.mjs</code></td>
+</tr>
+<tr>
+<td>A change to the "played" or "BYE" rule</td>
+<td><code>facilityCompletion.test.mjs</code>, and the console's copy in <code>control-center.html</code> (root <code>CLAUDE.md</code>, "kept in sync by hand"); the <a href="../../not-started/site-test-suite-spec/">site test suite</a>'s <code>played-bye</code> parity test runs both copies on the same cases</td>
+</tr>
+<tr>
+<td>A change to a template, a scoresheet type or an <code>@openapi</code> block</td>
+<td><code>npm run test:snapshots</code>, and the reviewed <code>.snapshot</code> diff committed with it (§3.5 rule 7)</td>
+</tr>
+<tr>
+<td>A new folder under <code>src/</code> that the §3.2 thresholds should cover</td>
+<td>its <code>test:coverage:&lt;folder&gt;</code> script, added to <code>test:coverage</code></td>
+</tr>
+<tr>
+<td>Coverage drops below a threshold</td>
+<td>more tests, not a lower threshold</td>
+</tr>
+</tbody>
+</table>
+<h3 id="93-the-guards-tests-that-fail-when-a-test-is-missing">9.3 The guards: tests that fail when a test is missing<a class="headerlink" href="#93-the-guards-tests-that-fail-when-a-test-is-missing" title="Permanent link">&para;</a></h3>
+<p>Two guard tests make the most common omissions fail <code>npm test</code>, so the rule
+does not rest on memory alone.</p>
+<ul>
+<li><strong><code>every-module-tested.test.mjs</code>.</strong> Lists <code>src/**/*.mjs</code> and, for each,
+  expects <code>test/unit/&lt;path under src&gt;/&lt;Name&gt;.test.mjs</code>. A module with no unit
+  test file must be in <code>test/helpers/coveredElsewhere.mjs</code>, a map from module
+  path to the test file that covers it and a one-line reason:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">coveredElsewhere</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="s2">"src/server/Server.mjs"</span><span class="o">:</span><span class="w">               </span><span class="p">[</span><span class="s2">"test/integration/headers.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"middleware and mounting; only observable over HTTP"</span><span class="p">],</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="s2">"src/sync/routes.mjs"</span><span class="o">:</span><span class="w">                 </span><span class="p">[</span><span class="s2">"test/integration/sync-routes.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"route handlers"</span><span class="p">],</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="s2">"src/auth/routes.mjs"</span><span class="o">:</span><span class="w">                 </span><span class="p">[</span><span class="s2">"test/integration/auth.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"route handlers"</span><span class="p">],</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="s2">"src/scoresheets/routes.mjs"</span><span class="o">:</span><span class="w">          </span><span class="p">[</span><span class="s2">"test/integration/scoresheets-routes.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"route handlers"</span><span class="p">],</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="s2">"src/attendance/routes.mjs"</span><span class="o">:</span><span class="w">           </span><span class="p">[</span><span class="s2">"test/integration/attendance-routes.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"route handlers"</span><span class="p">],</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="s2">"src/scoresheets/index.mjs"</span><span class="o">:</span><span class="w">           </span><span class="p">[</span><span class="s2">"test/e2e/pdf.e2e.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"composes the Chromium pipeline"</span><span class="p">],</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="s2">"src/scoresheets/BrowserManager.mjs"</span><span class="o">:</span><span class="w">  </span><span class="p">[</span><span class="s2">"test/e2e/pdf.e2e.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"drives real Chromium"</span><span class="p">],</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="s2">"src/scoresheets/PdfRenderer.mjs"</span><span class="o">:</span><span class="w">     </span><span class="p">[</span><span class="s2">"test/e2e/pdf.e2e.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"drives real Chromium"</span><span class="p">],</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="s2">"src/scoresheets/PdfMergerService.mjs"</span><span class="o">:</span><span class="p">[</span><span class="s2">"test/e2e/pdf.e2e.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"merges real PDFs"</span><span class="p">],</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="s2">"src/scoresheets/Workspace.mjs"</span><span class="o">:</span><span class="w">       </span><span class="p">[</span><span class="s2">"test/e2e/pdf.e2e.test.mjs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"temp-directory lifecycle of a real run"</span><span class="p">],</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">};</span>
+</code></pre></div>
+<p>(The implementer confirms each entry while writing it; a module that turns
+  out to be unit-testable gets a unit test instead.) The guard also fails on a
+  stale entry: a module that no longer exists, a test file that does not
+  exist, or a module that has both an entry and a unit test file.</p>
+<ul>
+<li><strong><code>every-route-tested.test.mjs</code>.</strong> Builds the app with <code>startApp()</code> and
+  compares <code>registeredRoutes(server.app)</code> with <code>test/helpers/routeManifest.mjs</code>
+  as sets of <code>"&lt;METHOD&gt; &lt;path&gt;"</code>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">routeManifest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"GET /ping"</span><span class="p">,</span><span class="w">                         </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/ping.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"GET /openapi.json"</span><span class="p">,</span><span class="w">                 </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/openapi.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST /auth/login"</span><span class="p">,</span><span class="w">                  </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/auth.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST /sync/live-push"</span><span class="p">,</span><span class="w">              </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/sync-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST /sync/:day"</span><span class="p">,</span><span class="w">                   </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/sync-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST /sync/:day/live"</span><span class="p">,</span><span class="w">              </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/sync-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"GET /sync/config"</span><span class="p">,</span><span class="w">                  </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/sync-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST /scoresheets/generate"</span><span class="p">,</span><span class="w">        </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/scoresheets-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST /scoresheets/generate/stream"</span><span class="p">,</span><span class="w"> </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/scoresheets-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"PUT /v1/days/:day/facilities/:facility/attendance/:key"</span><span class="p">,</span><span class="w"> </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/attendance-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST /v1/days/:day/attendance/desk-links"</span><span class="p">,</span><span class="w">               </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/attendance-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">route</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST /v1/days/:day/attendance/reconciliations"</span><span class="p">,</span><span class="w">          </span><span class="nx">test</span><span class="o">:</span><span class="w"> </span><span class="s2">"test/integration/attendance-routes.test.mjs"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="p">];</span>
+</code></pre></div>
+<p>A route on the app and not in the manifest fails; so does a manifest line
+  for a route that no longer exists, or whose test file is missing or never
+  mentions the route's path text. Together with <code>openapi.test.mjs</code> (every
+  route documented), adding a route without its tests and its documentation
+  cannot pass.</p>
+<p>The guards check that a test <strong>exists</strong>, not that it is good. What a test must
+cover is §9.2, and review checks that.</p>
+<h3 id="94-where-the-rule-lives">9.4 Where the rule lives<a class="headerlink" href="#94-where-the-rule-lives" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Root <code>CLAUDE.md</code></strong>, in the <code>sage-tools-api</code> section beside the version-bump
+  rule (§6 step 12), so every Claude Code session in the workspace sees it.
+  The text to add:</li>
+</ul>
+<blockquote>
+<p>Every change to <code>index.mjs</code>, <code>src/</code> or <code>templates/</code> changes <code>test/</code> in the
+same commit: a new module gets its mirrored unit test file, a new route
+its integration cases and a <code>test/helpers/routeManifest.mjs</code> line, a bug
+fix a test that failed before it, a client-visible change its pinned test
+edited. The full table is in the README's <strong>Testing</strong> section. Run
+<code>npm test</code> before every commit; <code>npm run verify</code> before every push to
+<code>main</code>. Never weaken or delete a test to make a change pass. A failing
+test means the change is wrong until shown otherwise; if the test is the
+one that is wrong, say so in the commit message.</p>
+</blockquote>
+<ul>
+<li>
+<p><strong><code>sage-tools-api/README.md</code></strong>, in the <strong>Testing</strong> section (§6 step 11):
+  the rule, the §9.2 table, and the hook setup line.</p>
+</li>
+<li>
+<p><strong><code>.githooks/pre-push</code></strong>, a POSIX <code>sh</code> script that runs <code>npm test</code> and
+  refuses the push if it fails (Git for Windows runs it too; commit it with
+  <code>git update-index --chmod=+x .githooks/pre-push</code> so it is executable on a
+  Mac or Linux clone). Git does not
+  enable a versioned hook by itself, so each clone runs this once, and the
+  README says so:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>git<span class="w"> </span>config<span class="w"> </span>core.hooksPath<span class="w"> </span>.githooks
+</code></pre></div>
+<p>The hook is the last check before a push to <code>main</code> deploys to Cloud Run. It
+  can be bypassed with <code>git push --no-verify</code>. Do that only when the owner
+  says so, for an emergency fix during an event, and follow it with the
+  missing tests before anything else is pushed.</p>
+<h3 id="95-the-changelog-shows-it">9.5 The Changelog shows it<a class="headerlink" href="#95-the-changelog-shows-it" title="Permanent link">&para;</a></h3>
+<p>Every Changelog entry for a code change ends with a <strong>Tests:</strong> line naming
+the test files added or changed, for example
+<code>Tests: sync-routes.test.mjs (X-Edit-At window), editAt.test.mjs (new)</code>. An
+entry that changes no test says why: <code>Tests: none, comment-only</code>. A version
+bump whose entry has no <strong>Tests:</strong> line is the visible sign that the rule was
+skipped.</p>
+<h3 id="96-the-architecture-specs-phases-follow-it-too">9.6 The architecture spec's phases follow it too<a class="headerlink" href="#96-the-architecture-specs-phases-follow-it-too" title="Permanent link">&para;</a></h3>
+<p>Every phase of the architecture spec is a change to the API, so the rule
+applies there unchanged. The architecture spec's own "write the failing test
+first" instruction is stricter and takes precedence. When a phase moves or
+adds modules or routes, <code>coveredElsewhere.mjs</code> and <code>routeManifest.mjs</code> change
+in that phase's commit. Phase 5's <code>/v1</code> routes each get a manifest line
+pointing at <code>test/integration/v1.test.mjs</code>.</p>
+<h2 id="10-out-of-scope">10. Out of scope<a class="headerlink" href="#10-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Any production-code change, including adding injection points.</li>
+<li>Tests for the Apps Script files, the live Worker, or the site.</li>
+<li>Coverage thresholds for <code>src/scoresheets</code>, <code>src/shared</code> and <code>src/docs</code>
+  (§3.2), mutation-testing tools, load tests.</li>
+<li>Running the suite in the Cloud Run build (a <code>RUN npm test</code> in the
+  <code>Dockerfile</code>) or in GitHub Actions. That would change the deploy pipeline,
+  which this spec does not touch. The pre-push hook (§9.4) is the gate
+  instead.</li>
+<li>Tests for the modules and routes the architecture spec adds (architecture spec
+  §5.2 and Phase 5).</li>
+</ul>
+<h2 id="11-as-built">11. As built<a class="headerlink" href="#11-as-built" title="Permanent link">&para;</a></h2>
+<p>Where the suite as built departs from the text above. Everything else is as
+written.</p>
+<ul>
+<li><strong>Size.</strong> 777 tests in 43 test files under <code>test/unit/</code> and
+  <code>test/integration/</code>, plus the opt-in end-to-end test. Line coverage is 99.6 %
+  for <code>src/sync</code>, 99.0 % for <code>src/auth</code> and 92.1 % for <code>src/server</code>.</li>
+<li><strong>Two modules are unit-tested instead of listed in <code>coveredElsewhere.mjs</code>.</strong>
+  <code>Workspace.mjs</code> (a real temp directory) and <code>PdfRenderer.mjs</code> (a fake page)
+  turned out to be unit-testable, which §9.3 says to prefer, and the guard fails
+  on a module that has both. <code>coveredElsewhere.mjs</code> lists eight modules: the
+  five route files and <code>Server.mjs</code> over HTTP, and <code>BrowserManager</code>,
+  <code>PdfMergerService</code> and <code>scoresheets/index.mjs</code> through the end-to-end test.</li>
+<li><strong>Helpers beyond §3.4.</strong> <code>buildApp.mjs</code> (the pipeline's copy of <code>index.mjs</code>'s
+  composition), <code>auth.mjs</code> (a real <code>AuthService</code> with token shortcuts) and
+  <code>timers.mjs</code> (<code>withTimers</code>, <code>settle</code>, <code>waitFor</code>). <code>FakeWorld</code>'s <code>hold()</code>
+  also returns a <code>reached</code> promise, so a test can wait for the held call to
+  arrive, and a Sheets entry in <code>world.calls</code> records its <code>ranges</code>.
+  <code>http.mjs</code>'s <code>call()</code> keeps a reference to the real <code>fetch</code>, because a
+  <code>FakeWorld</code> replaces <code>globalThis.fetch</code> and would otherwise intercept the test's
+  own requests to the app.</li>
+<li><strong>Retry delays in the pipeline tests.</strong> Case 14 releases the fetchers' waits
+  with <code>mock.timers.tick</code> only after <code>waitFor</code> has seen the next Sheets call
+  arrive, because the request crosses a real socket and a free-running tick would
+  race it. Case 15 mocks <code>Date</code> for the config's TTL.</li>
+<li><strong>Snapshots.</strong> The scoresheet templates inline their logo as base64, so the
+  template snapshot collapses each data URI to a hash of its bytes: a changed
+  image still changes the snapshot, which stays about 150 KB.</li>
+<li><strong>Calls are listed in invocation order.</strong> In the GitHub race case the held
+  <code>PUT</code> is the first entry (it answered 409), then the second sync's, then the
+  retry.</li>
+<li><strong>A test the checklist did not ask for.</strong> The sabotage run found that nothing
+  caught dropping <code>completedAt</code>'s carry-forward in the merge (breakage 9), so
+  <code>SyncService.test.mjs</code> gained a <code>completedAt</code> group.</li>
+<li><strong>The hook runs <code>node --test</code> directly, not <code>npm test</code>.</strong> From GitHub Desktop
+  on Windows, <code>npm</code> resolves to its shell-script wrapper, which runs through WSL
+  bash and fails on a <code>D:\</code> path. The command in <code>.githooks/pre-push</code> has to be
+  kept the same as the <code>test</code> script.</li>
+<li><strong>A defect, pinned and not fixed.</strong> <code>AuthService.login</code> accepts any username and
+  password when <code>AUTH_PASSWORD_HASH</code>'s key part is not hex (for example
+  <code>zz:zz</code>): <code>Buffer.from("zz", "hex")</code> is empty, scrypt of a zero-length key is
+  empty, and two empty buffers compare equal. The test is marked
+  <code>// CHARACTERIZATION</code> with no B-number. It needs its own change, with a version
+  bump.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../immediate-sync-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Immediate sync">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Immediate sync
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../bracket-generator-keep-apart-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Bracket Generator keep-apart groups">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Bracket Generator keep-apart groups
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

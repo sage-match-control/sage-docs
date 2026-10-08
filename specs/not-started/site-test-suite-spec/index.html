@@ -1,0 +1,5908 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/not-started/site-test-suite-spec/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../calculator-team-format-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Site test suite - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-site-test-suite-control-center-and-the-event-pages" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Site test suite
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../usage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/before-you-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles, access and kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing the event
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparing the event
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/plan-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Plan it
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/build-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Build the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/draw-and-rosters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Draw and fill rosters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/register-and-build-the-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Register and build the site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/connect-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Connect the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/printables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Print
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/rehearse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Rehearse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    On the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/run-the-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Run the day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. When something's wrong
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handouts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Handouts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/scorer-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/desk-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance desks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/after-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    After the event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public pages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Public pages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Running the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/score-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoring workbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scoring workbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoring-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The scoring workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/team-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and print tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and print tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/site-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/team-tournament-template-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament event-site template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/team-workbook-stack-cache-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook recalculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/control-center-score-entry-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry and scorer links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/site-engine-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/link-attribution-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/docs-usage-guide-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage guide and docs restructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-goals-non-goals-and-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Goals, non-goals and constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-overlap-with-the-automated-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Overlap with the automated dry run
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pages-in-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pages in scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-layers-and-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Layers and tooling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-determinism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Determinism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-fixtures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Fixtures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-coverage-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Coverage matrix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Coverage matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-consistency-no-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Consistency (no browser)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-parity-each-copy-run-in-its-own-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Parity (each copy run in its own page)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-pages-browser-real-pages-routed-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Pages (browser, real pages, routed data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-the-runbook-checks-checksrunbookmjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 The runbook checks (checks/runbook.mjs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-rules-for-every-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Rules for every test
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Rules for every test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-known-difference-marker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Known-difference marker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-proof-that-the-net-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Proof that the net works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-keeping-the-suite-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Keeping the suite current
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Keeping the suite current">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-the-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 The rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-the-guards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 The guards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-where-the-rule-lives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Where the rule lives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-build-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Build steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist-and-hand-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist and hand-off
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope-and-what-comes-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope, and what comes next
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-team-format-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator team format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../team-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control-center-court-control-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Court Control from Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archived/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archived
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archived
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-read-this-first-implementer-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Read this first (implementer orientation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-goals-non-goals-and-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Goals, non-goals and constraints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-overlap-with-the-automated-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Overlap with the automated dry run
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pages-in-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pages in scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-layers-and-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Layers and tooling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-determinism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Determinism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-fixtures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Fixtures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-coverage-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Coverage matrix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Coverage matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-consistency-no-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Consistency (no browser)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-parity-each-copy-run-in-its-own-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Parity (each copy run in its own page)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-pages-browser-real-pages-routed-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Pages (browser, real pages, routed data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-the-runbook-checks-checksrunbookmjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 The runbook checks (checks/runbook.mjs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-rules-for-every-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Rules for every test
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Rules for every test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-known-difference-marker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Known-difference marker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-proof-that-the-net-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Proof that the net works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-keeping-the-suite-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Keeping the suite current
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Keeping the suite current">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-the-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 The rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-the-guards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 The guards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-where-the-rule-lives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Where the rule lives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-build-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Build steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-checklist-and-hand-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance checklist and hand-off
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope-and-what-comes-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope, and what comes next
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/not-started/site-test-suite-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-site-test-suite-control-center-and-the-event-pages">Spec — site test suite (Control Center and the event pages)<a class="headerlink" href="#spec-site-test-suite-control-center-and-the-event-pages" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: not started; revise before building.</strong> None of this suite's own
+page tests are built. The <a href="../../implemented/site-engine-spec/">site engine</a>,
+merged 2026-10-06, built the <code>_tests/</code> layout, runner, fixtures and helpers this
+spec shares, and unit tests that take the place of its parity layer; with the
+shared modules, the consistency layer is mostly not needed. Revise §4 against the
+engine's <code>_tests/</code> before starting. Written 2026-10-02 against
+<code>sage-match-control.github.io</code> at <code>89a7476</code> (live push switched on in the
+pages). Revised 2026-10-03 against <code>9b49558</code>: the attendance desk pages and
+the console's <strong>Attendance</strong> tab, and team rosters (the <strong>Teams</strong> tab in
+PickleDrive's hub and the console, level and gender in Match Finder) are
+on <code>main</code>, and this page covers them. The sibling of the
+<a href="../../implemented/sage-tools-api-test-suite-spec/"><code>sage-tools-api</code> test suite</a>, which
+covers the Cloud Run service and stops at its HTTP boundary.</p>
+<p><strong>Overlaps the <a href="../automated-dry-run-spec/">automated dry run</a>.</strong> §2 is the
+line between them: this suite owns every check that runs on fixtures, and
+the dry run's rendering layer calls this suite's checks instead of
+building its own.</p>
+<p><strong>Revise before building: the <a href="../../implemented/site-engine-spec/">site engine</a> comes
+first.</strong> That spec builds <code>_tests/</code> with the same runner, Playwright, router
+and clock as §4, and moves the live pages onto shared modules. Once it is
+implemented:</p>
+<ul>
+<li>this suite's consistency layer is mostly not needed, because no
+  byte-identical blocks are left;</li>
+<li>its parity layer becomes that spec's unit tests;</li>
+<li>its page tests remain, run against the engine's shells.</li>
+</ul>
+<p>Revise this spec after the engine's Phase 5.</p>
+<p><strong>Do not push any of this during an event, or in the days before one.</strong>
+<code>_tests/</code> is never published, but a push to <code>main</code> still runs a Pages
+build.</p>
+</blockquote>
+<p>Pin what Control Center and the event pages do today, in tests that run the
+pages' <strong>own code</strong> in a real browser against fixture data, so that a change
+to a page, or to one copy of a rule that exists in several pages, fails a test
+instead of surfacing on event day.</p>
+<hr />
+<h2 id="0-read-this-first-implementer-orientation">0. Read this first (implementer orientation)<a class="headerlink" href="#0-read-this-first-implementer-orientation" title="Permanent link">&para;</a></h2>
+<p>Assume no knowledge of this project beyond this page.</p>
+<p><strong>Repos.</strong> <code>D:\Personal\SAGE</code> is a plain folder holding four git repos. This
+spec adds a <code>_tests/</code> folder, one <code>.gitignore</code> line and a pre-push hook to
+<code>sage-match-control.github.io</code> (the GitHub Pages site), adds fixtures under its
+existing <code>_fixtures/</code>, and changes <strong>no page</strong>. It reads one file from the
+sibling <code>sage-tools-api</code> repo (§5.2) and changes nothing there.</p>
+<p><strong>What the site is.</strong> Hand-written, self-contained HTML. Each page is one file
+with an inline <code>&lt;style&gt;</code> and <strong>one classic inline <code>&lt;script&gt;</code></strong>: no modules, no
+bundler, no <code>package.json</code>, no tests. Pages deploy on push to <code>main</code>. GitHub
+Pages runs Jekyll over the repo (there is no <code>.nojekyll</code>, on purpose), and
+Jekyll does not publish top-level folders whose names begin with <code>_</code>. That is
+what keeps <code>_templates/</code> and <code>_fixtures/</code> off the live site, and it is why the
+suite lives in <strong><code>_tests/</code></strong>: its <code>package.json</code>, tests and <code>node_modules</code>
+are never published.</p>
+<p><strong>Facts checked against the code</strong> (each one shapes the design):</p>
+<ul>
+<li><strong>Page functions are globals.</strong> Every page's script is a classic <code>&lt;script&gt;</code>,
+  so its top-level <code>function</code> declarations are properties of <code>window</code>, and its
+  top-level <code>const</code>s are visible to code evaluated in the page. A test can call
+  <code>sideIsBye(...)</code> or <code>teamMatchupResult(...)</code> in the loaded page and get the
+  page's real answer. No extraction or reimplementation is needed, and no
+  page has to change.</li>
+<li><strong>Only some pages support <code>?fixture=</code>.</strong> <code>tools/control-center.html</code>,
+  PickleDrive's two pages and the attendance desk pages (the template and
+  each event's copy) define <code>FIXTURE</code>: on <code>localhost</code>/<code>127.0.0.1</code>,
+  <code>?fixture=&lt;name&gt;</code> loads <code>/_fixtures/...</code> instead of the published data.
+  Piggleball and both templates do not; they only test
+  <code>typeof FIXTURE !== 'undefined'</code> to keep the live channel off. So the suite
+  does <strong>not</strong> rely on <code>?fixture=</code>. It answers the pages' <strong>real</strong> data URLs
+  (<code>https://sage-match-control.github.io/event-data/...</code>) from inside the
+  browser (§4.3), which works for every page, needs no page change, and tests
+  the real URL each page builds.</li>
+<li><strong>Templates are runnable once their tokens are filled.</strong> Both templates'
+  <code>index.html</code> and <code>schedule.html</code> contain <code>{{TOKEN}}</code> placeholders
+  (<code>{{EVENT_KEY}}</code>, <code>{{EVENT_TITLE}}</code>, <code>{{SCHEDULE_DAY_KEY}}</code>, the club tokens
+  in the dual meet, …; <code>_templates/CLAUDE.md</code> §3 lists them) and <code>// EXAMPLE</code>
+  config arrays (<code>DAYS</code>, <code>FACILITIES</code>, …). The suite's static server fills the
+  tokens with fixed test values on the fly (§4.3). Every new event is copied
+  from a template, so testing the templates tests what the next event starts
+  from.</li>
+<li><strong>Rules are copied by hand between pages.</strong> These are the copies:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Copies</th>
+<th>Listed in root <code>CLAUDE.md</code>?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LIVE CHANNEL</code> block (between <code>// ==== LIVE CHANNEL</code> and <code>// ==== END LIVE CHANNEL ====</code>)</td>
+<td>9 files: <code>tools/control-center.html</code>, PickleDrive's and Piggleball's <code>index.html</code> + <code>schedule.html</code>, both templates' <code>index.html</code> + <code>schedule.html</code>. Byte-identical by rule</td>
+<td>yes ("compare them with <code>diff</code>")</td>
+</tr>
+<tr>
+<td>"Played" and "BYE"</td>
+<td><code>sage-tools-api/src/sync/domain/facilityCompletion.mjs</code> (<code>facilityIsComplete</code>) and the console's <code>rowsToMatches</code> (<code>played</code> = both scores present), <code>sideIsBye</code>, <code>matchByeSide</code>, <code>computeFacilityProgress</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>ATTENDANCE CLIENT</code> block (<code>createAttendanceView</code> and its helpers)</td>
+<td>4 files: <code>tools/control-center.html</code>, <code>_templates/attendance/attendance.html</code>, Piggleball's and PickleDrive's <code>attendance.html</code>. Byte-identical by rule</td>
+<td>yes ("compare them with <code>diff</code>")</td>
+</tr>
+<tr>
+<td>Team-event rules</td>
+<td><code>events/pickledrive-anniversary-2026/index.html</code> and the console's <code>team type</code> block. 21 functions exist under the same name in both (listed in §5.2)</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Team rosters (the snapshot's <code>rosterCsv</code>: parsing, order by level, the Teams tab's cards)</td>
+<td>PickleDrive's <code>index.html</code> (<code>rowsToRoster</code>, <code>rosterOf</code>, <code>levelLabel</code>) and the console (<code>teamRowsToRoster</code>, <code>teamRosterOf</code>, <code>teamLevelLabel</code>). Same logic, <strong>different names</strong></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Pair labels</td>
+<td>the console's <code>PAIRS</code> (<code>XD</code>) and PickleDrive <code>schedule.html</code>'s <code>PAIR_SHORT</code> (<code>MXD</code>), both built with <code>numberRepeatedPairs</code>. The <code>MXD</code>/<code>XD</code> difference is deliberate</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Go-live rule</td>
+<td><code>computeDayIsLive</code>, <code>earliestScheduleMinutesFrom</code>, <code>parseScheduleTimeToMinutes</code> and <code>GO_LIVE_LEAD_HOURS = 4</code> in every current event's <code>index.html</code> and both templates. The console has its own <code>computeDayIsLive(_day)</code> and <code>parseScheduleTimeToMinutes</code></td>
+<td><strong>no</strong></td>
+</tr>
+<tr>
+<td>Shared constants</td>
+<td><code>POLL_INTERVAL_MS = 10000</code>, <code>LIVE_SAFETY_POLL_MS = 60000</code>, <code>GHPAGES_OWNER</code>/<code>GHPAGES_REPO</code>, <code>CLOUD_RUN_BASE_URL</code></td>
+<td>partly (<code>CLAUDE.md</code>'s "hard-coded constants")</td>
+</tr>
+</tbody>
+</table>
+<p>Today the only check on any of these is a person remembering to run <code>diff</code>.</p>
+<p>The <code>ATTENDANCE CLIENT</code> block comes from the
+  <a href="../../implemented/multi-event-attendance-spec/">attendance spec</a>, which also
+  added the console's <strong>Attendance</strong> tab and fixtures named
+  <code>_fixtures/&lt;event&gt;/attendance-&lt;facility&gt;-&lt;name&gt;.csv</code> (PickleDrive's
+  <code>attendance-kingcourts-pre.csv</code>, and a whole <code>attendance-demo-2026</code> test
+  event with two venues).
+- <strong>One page loads a script from a CDN at run time.</strong> The console's
+  <strong>Issue desk link</strong> loads <code>qrcode-generator</code> 1.4.4 from cdnjs, pinned
+  with an SRI hash (<code>attConsoleLoadQr</code>). The router serves it from a copy
+  committed at <code>_tests/vendor/qrcode.min.js</code>, byte-identical to the
+  pinned file so the hash still matches. <code>shared-constants.test.mjs</code> checks
+  that copy against the hash in the page, so a version bump in the page
+  cannot pass with a stale copy.
+- <strong>Live/Hide and the sync-method switch are real writes.</strong> The console's
+  <code>window.confirm</code> prompts guard <code>POST /sync/:day/live</code> (<code>isLive: false</code>) and
+  <code>POST /sync/live-push</code> (<code>enabled: false</code>). A test that reached Cloud Run would
+  change production config, so the suite intercepts every request to Cloud
+  Run, GitHub and the Worker, and <strong>fails any test whose page tries to reach
+  a host it did not intercept</strong> (§4.3).
+- <strong>Time drives behaviour.</strong> The 10 s poll, the 60 s safety poll while a live
+  socket is open, the 4-hour go-live lead, facility ETAs and "stale" warnings
+  all depend on the clock. The suite controls the page's clock (§4.2).</p>
+<p><strong>Rules that apply to every change</strong> (from the root <code>CLAUDE.md</code> and this repo's):</p>
+<ul>
+<li>No page changes. If a behaviour cannot be tested without changing a page,
+  stop and record it in the hand-off (§10).</li>
+<li>Working copies use CRLF line endings. Keep them.</li>
+<li><code>.gitignore</code> is a single rule today (<code>**/*beta*</code>). This spec adds exactly one
+  more, <code>_tests/node_modules/</code>. <code>beta.html</code> scratch copies stay untracked and
+  are never tested.</li>
+<li>Cite a spec from outside <code>sage-docs</code> as
+  <code>sage-docs/docs/specs/.../site-test-suite-spec.md</code>.</li>
+<li>Documentation is written in the present tense.</li>
+</ul>
+<p><strong>How to work.</strong> One branch, <code>site-tests</code>, one commit per build step (§9). If
+a test fails, the page is right until proven otherwise: this suite describes
+it. Fix the test, not the page. If a behaviour looks wrong, or two copies of a
+rule disagree, pin what each does today, mark it <code>// KNOWN DIFFERENCE</code>
+(§6.1), and tell the owner.</p>
+<hr />
+<h2 id="1-goals-non-goals-and-constraints">1. Goals, non-goals and constraints<a class="headerlink" href="#1-goals-non-goals-and-constraints" title="Permanent link">&para;</a></h2>
+<p><strong>Goals</strong></p>
+<ol>
+<li>Every hand-copied rule in the table above is checked mechanically: the
+   byte-identical ones by text, the ported ones by running both copies on the
+   same inputs and comparing the answers.</li>
+<li>Every current event-day page (§3) is loaded in a real browser on fixture
+   data for each state an event goes through (before play, mid-play, finished,
+   edge cases), and its key content is asserted, including the runbook's
+   rehearsal checks.</li>
+<li>The live channel's behaviour is tested against a fake Worker: a pushed
+   snapshot re-renders the page; a dropped socket falls back to polling.</li>
+<li>The runbook checks are a reusable module the automated dry run calls (§2).</li>
+<li>The suite stays current: a page change updates its tests in the same
+   commit, and a new event cannot be added without being added to the suite
+   (§8).</li>
+</ol>
+<p><strong>Non-goals</strong></p>
+<ul>
+<li>Changing any page, including adding <code>?fixture=</code> support, test hooks or
+  <code>data-testid</code> attributes.</li>
+<li>Talking to any real service: GitHub, Cloud Run, the live Worker, Google
+  Sheets. That is the dry run's preflight and rehearsal (§2).</li>
+<li>Visual regression (screenshot diffs), accessibility audits, cross-browser
+  runs. Chromium only.</li>
+<li>The evergreen tools other than Control Center (calculator, bracket
+  generator, scoresheet generator, <code>tools/index.html</code>), <code>field-guide.html</code>,
+  finished events and <code>events/archives/</code>. §11 says what comes next.</li>
+</ul>
+<p><strong>Constraint.</strong> The suite pins today's behaviour <strong>including known
+differences between copies</strong>. It must not "fix" a page to make a test pass.</p>
+<hr />
+<h2 id="2-overlap-with-the-automated-dry-run">2. Overlap with the automated dry run<a class="headerlink" href="#2-overlap-with-the-automated-dry-run" title="Permanent link">&para;</a></h2>
+<p>The <a href="../automated-dry-run-spec/">automated dry run</a> (idea only, not started)
+proposes one command that runs the runbook's rehearsal in three layers. Its
+middle layer and this suite are largely the same work. Building both
+independently would produce two browser harnesses, two sets of fixtures, and
+two copies of the runbook's checks. That is the very duplication both specs
+exist to reduce.</p>
+<table>
+<thead>
+<tr>
+<th>Dry run layer</th>
+<th>What it does</th>
+<th>Overlap with this suite</th>
+<th>Who owns it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Preflight</strong></td>
+<td><code>GET /ping</code>, <code>GET /sync/config</code>, <code>POST /sync/:day</code> against <strong>production</strong>; every facility recently synced; go-live state</td>
+<td>None. This suite never touches a real service</td>
+<td>Dry run</td>
+</tr>
+<tr>
+<td><strong>Rendering</strong></td>
+<td>Builds a snapshot from the real one with matches A/B/C applied, opens the console and public pages on localhost, asserts the runbook's §1.2–§1.3 checks</td>
+<td><strong>Almost total.</strong> Same pages, same checks, same "real page code, never a reimplementation" principle, fixture data instead of live data</td>
+<td><strong>This suite.</strong> It provides the browser harness, the runbook checks (<code>_tests/checks/runbook.mjs</code>, §5.4) and committed A/B/C fixtures per event type. The dry run's rendering layer shrinks to: build a fixture from the real snapshot, then call <code>runbook.mjs</code> on it</td>
+</tr>
+<tr>
+<td><strong>Rehearsal</strong></td>
+<td>Edits the real facility sheet in an automated browser, waits for the snapshot to change, runs the rendering checks on live data, restores</td>
+<td>Reuses the same checks, against live data instead of a fixture</td>
+<td>Dry run. Its spikes (Google sign-in, cell targeting, restore) are untouched by this spec</td>
+</tr>
+</tbody>
+</table>
+<p>What follows from that split:</p>
+<ul>
+<li><strong>One set of runbook checks.</strong> <code>runbook.mjs</code> takes a Playwright <code>page</code>
+  already pointed at a page and a scenario
+  (<code>{ finished: &lt;match A&gt;, live: { match: &lt;B&gt;, court }, unmapped: &lt;code C&gt; }</code>),
+  and asserts the runbook's lines. It does not care where the data came from,
+  so the dry run passes live data and this suite passes a fixture.</li>
+<li><strong>One browser library.</strong> This suite uses Playwright (§4.1). The dry run's
+  rendering layer, built on <code>runbook.mjs</code>, uses it too. Its rehearsal layer
+  still plans Puppeteer, which <code>sage-tools-api</code> already depends on. Whether
+  the rehearsal moves to Playwright (which also has persistent profiles for
+  the Google sign-in spike) is the dry run's decision, recorded there.</li>
+<li><strong>Fixtures.</strong> The dry run notes "only PickleDrive has fixtures today". This
+  suite commits fixtures for all three event types, including an A/B/C
+  <code>runbook</code> fixture per type (§4.4). That answers the dry run's open question
+  of whether fixtures are committed per event: committed per <strong>type</strong> here,
+  generated per <strong>event</strong> by the dry run and discarded.</li>
+<li><strong>Order.</strong> This suite has no blocking spikes and can be built first. The dry
+  run's rendering layer then needs only a fixture generator.</li>
+</ul>
+<p>The dry run spec carries a matching note.</p>
+<hr />
+<h2 id="3-pages-in-scope">3. Pages in scope<a class="headerlink" href="#3-pages-in-scope" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Page</th>
+<th>Type</th>
+<th>Live channel</th>
+<th><code>?fixture=</code> today</th>
+<th>Tested as</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tools/control-center.html</code></td>
+<td>all three</td>
+<td>yes</td>
+<td>yes</td>
+<td>console, once per type</td>
+</tr>
+<tr>
+<td><code>events/pickledrive-anniversary-2026/index.html</code></td>
+<td>team</td>
+<td>yes</td>
+<td>yes</td>
+<td>public page</td>
+</tr>
+<tr>
+<td><code>events/pickledrive-anniversary-2026/schedule.html</code></td>
+<td>team</td>
+<td>yes</td>
+<td>yes</td>
+<td>schedule board</td>
+</tr>
+<tr>
+<td><code>events/piggleball-2026/index.html</code></td>
+<td>standard</td>
+<td>yes</td>
+<td>no</td>
+<td>public page</td>
+</tr>
+<tr>
+<td><code>events/piggleball-2026/schedule.html</code></td>
+<td>standard</td>
+<td>yes</td>
+<td>no</td>
+<td>schedule board</td>
+</tr>
+<tr>
+<td><code>_templates/standard-tournament-template/index.html</code>, <code>schedule.html</code></td>
+<td>standard</td>
+<td>yes</td>
+<td>no</td>
+<td>public page, board (tokens filled)</td>
+</tr>
+<tr>
+<td><code>_templates/dual-meet-template/index.html</code>, <code>schedule.html</code></td>
+<td>dual meet</td>
+<td>yes</td>
+<td>no</td>
+<td>public page, board (tokens filled)</td>
+</tr>
+<tr>
+<td><code>_templates/attendance/attendance.html</code></td>
+<td>any (<code>"attendance": "desks"</code>)</td>
+<td>no</td>
+<td>yes</td>
+<td>desk page (tokens filled), on <code>attendance-demo-2026</code></td>
+</tr>
+<tr>
+<td><code>events/piggleball-2026/attendance.html</code></td>
+<td>standard</td>
+<td>no</td>
+<td>yes</td>
+<td>desk page</td>
+</tr>
+<tr>
+<td><code>events/pickledrive-anniversary-2026/attendance.html</code></td>
+<td>team</td>
+<td>no</td>
+<td>yes</td>
+<td>desk page</td>
+</tr>
+</tbody>
+</table>
+<p>Not in scope: <code>events/pnf-x-bup-dual-meet/</code> and
+<code>events/pickle-for-sight-2026/</code> carry no <code>LIVE CHANNEL</code> block, which root
+<code>CLAUDE.md</code> reserves for events that haven't finished, so they are frozen.
+That includes Pickle for Sight's <code>attendance.html</code>, which predates the
+<code>ATTENDANCE CLIENT</code> block and talks to its own <code>attendance.gs</code> web app.
+<code>events/archives/</code>, <code>tools/match-control.html</code> (a redirect stub), the other
+tools, and <code>beta.html</code> copies are out too. The page manifest (§8.2) lists every
+HTML file in the repo with its status, so nothing is left out silently.</p>
+<hr />
+<h2 id="4-strategy">4. Strategy<a class="headerlink" href="#4-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="41-layers-and-tooling">4.1 Layers and tooling<a class="headerlink" href="#41-layers-and-tooling" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Folder</th>
+<th>Needs a browser</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Consistency</strong></td>
+<td><code>_tests/consistency/</code></td>
+<td>no</td>
+<td>page <strong>text</strong>: byte-identical blocks, shared constants, leftover <code>{{TOKEN}}</code>s</td>
+</tr>
+<tr>
+<td><strong>Parity</strong></td>
+<td><code>_tests/parity/</code></td>
+<td>yes</td>
+<td>two or more copies of a rule, each <strong>run</strong> in its own page (or the server's module), give the same answers on the same inputs</td>
+</tr>
+<tr>
+<td><strong>Pages</strong></td>
+<td><code>_tests/pages/</code></td>
+<td>yes</td>
+<td>each page in §3, on each fixture, shows what it should, and its live channel and clock-driven behaviour work</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Runner: <code>node:test</code></strong>, the same as <code>sage-tools-api</code> (Node 22.23.3 or later),
+so the workspace has one test idiom. <strong>Browser: Playwright</strong> (the <code>playwright</code>
+library, not <code>@playwright/test</code>'s runner), Chromium only, pinned to an exact
+version in <code>_tests/package.json</code>. It is a <strong>dev-only</strong> dependency in a folder
+Jekyll never publishes, so nothing reaches the site.</p>
+<p>Playwright over Puppeteer, despite Puppeteer already being in <code>sage-tools-api</code>,
+because three things this suite needs are built in and would otherwise be
+hand-made fakes, each a place for the harness itself to be wrong:</p>
+<ul>
+<li><code>page.clock</code> installs a controllable clock (<code>Date</code>, timers) before the page's
+  script runs, so the 10 s poll and the 4-hour go-live lead are tested with
+  <code>clock.runFor(...)</code> instead of real waiting.</li>
+<li><code>page.routeWebSocket(...)</code> stands in for the live Worker: the test accepts
+  the page's socket, sends it snapshots, and closes it on demand.</li>
+<li><code>page.route(...)</code> answers HTTP requests by URL pattern, and Playwright's
+  assertions wait for the page to settle instead of sleeping.</li>
+</ul>
+<p>The consistency layer needs no browser and no install, so it runs on its own
+(<code>npm run test:fast</code>) and lands first (§9 step 1).</p>
+<h3 id="42-determinism">4.2 Determinism<a class="headerlink" href="#42-determinism" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Clock.</strong> Every browser test installs <code>page.clock</code> at a fixed instant
+   before navigation, in context timezone <code>Asia/Manila</code> (the venues'), and
+   moves time only with <code>clock.runFor</code> / <code>clock.fastForward</code>. Nothing
+   sleeps. A test never reads the real time.</li>
+<li><strong>Network.</strong> Every request leaving <code>127.0.0.1</code> is routed (§4.3). An
+   unrouted request <strong>fails the test</strong> with its URL. Google Fonts requests
+   are answered with an empty <code>200</code> so text renders in the fallback font
+   without a network.</li>
+<li><strong>Viewport.</strong> 1280 × 800 by default. Public pages are also loaded at
+   375 × 812 for the overflow check (§5.3).</li>
+<li><strong>Errors.</strong> Every browser test fails on any <code>pageerror</code> (an uncaught
+   exception) or <code>console.error</code> from the page, unless the test expects that
+   exact message. A page that throws silently on some fixture is the most
+   likely event-day failure, and this rule catches it on every test for
+   free.</li>
+<li><strong>Independent.</strong> One browser per test file, a fresh context per test, no
+   state carried between tests (the pages use <code>localStorage</code> for saved
+   searches and day choice; a fresh context starts empty).</li>
+</ol>
+<h3 id="43-helpers">4.3 Helpers<a class="headerlink" href="#43-helpers" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>_tests/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  package.json            # "type": "module", "private": true, devDependency playwright (exact)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  helpers/
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    server.mjs            # startSite(): static server over the repo root
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    browser.mjs           # launch(), openPage(), the request router and error collector
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    fakeWorker.mjs        # the live Worker, via page.routeWebSocket
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    extract.mjs           # pulls a marked block or a `const NAME = &lt;literal&gt;` out of a page's text
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    fixtures.mjs          # loads _fixtures/ files, builds config for an event key
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  pages.mjs               # the page manifest (§8.2)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  checks/runbook.mjs      # the runbook checks (§5.4), shared with the dry run
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>  vendor/qrcode.min.js    # qrcode-generator 1.4.4, byte-identical to the console's SRI-pinned file
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>  cases/played-bye.json   # the played/BYE case table (§5.2)
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  consistency/*.test.mjs
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  parity/*.test.mjs
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>  pages/*.test.mjs
+</code></pre></div>
+<p><strong><code>server.mjs</code>.</strong> <code>startSite()</code> serves the repo root on <code>127.0.0.1</code>, port 0,
+and returns <code>{ baseUrl, close }</code>. It resolves an extensionless path to <code>.html</code>,
+as GitHub Pages does (<code>/events/&lt;key&gt;/schedule</code> is how the console opens the
+board). For any path under <code>/_templates/</code> it substitutes every <code>{{TOKEN}}</code> from
+the template's entry in <code>pages.mjs</code> (fixed test values such as
+<code>EVENT_KEY: "test-standard"</code>, <code>EVENT_TITLE: "Test Standard Event"</code>, and
+<code>SCHEDULE_DAY_KEY</code> set to the first key in the template's example <code>DAYS</code>) and
+answers <code>500</code> naming any token it has no value for. It serves bytes otherwise
+unchanged. It never serves <code>beta</code> files.</p>
+<p><strong><code>browser.mjs</code>.</strong> <code>openPage(browser, path, options)</code> creates a context
+(timezone, viewport), installs the clock at <code>options.now</code>, installs the router,
+navigates, and waits for the page's first render. Options:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nx">now</span><span class="o">:</span><span class="w"> </span><span class="s2">"2026-10-03T08:00:00+08:00"</span><span class="p">,</span><span class="w">   </span><span class="c1">// required; there is no default clock</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nx">config</span><span class="o">:</span><span class="w"> </span><span class="o">&lt;</span><span class="nx">events</span><span class="p">.</span><span class="nx">json</span><span class="w"> </span><span class="nx">object</span><span class="o">&gt;</span><span class="p">,</span><span class="w">       </span><span class="c1">// answers .../event-data/config/events.json</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nx">snapshots</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"&lt;event&gt;/&lt;day&gt;"</span><span class="o">:</span><span class="w"> </span><span class="o">&lt;</span><span class="nx">snapshot</span><span class="o">&gt;</span><span class="w"> </span><span class="p">},</span><span class="w">   </span><span class="c1">// answers .../event-data/&lt;event&gt;/data/&lt;day&gt;.json</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nx">worker</span><span class="o">:</span><span class="w"> </span><span class="s2">"absent"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s2">"refuses"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">fakeWorker</span><span class="p">,</span><span class="w">    </span><span class="c1">// the live channel's fate (default "refuses")</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nx">cloudRun</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"&lt;METHOD&gt; &lt;path&gt;"</span><span class="o">:</span><span class="w"> </span><span class="nx">handler</span><span class="w"> </span><span class="p">},</span><span class="w">     </span><span class="c1">// console and desk pages; see below</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nx">attendance</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"&lt;sheetId&gt;"</span><span class="o">:</span><span class="w"> </span><span class="o">&lt;</span><span class="nx">csv</span><span class="w"> </span><span class="nx">text</span><span class="o">&gt;</span><span class="w"> </span><span class="p">},</span><span class="w">      </span><span class="c1">// answers the gviz ATTENDANCE export</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nx">viewport</span><span class="p">,</span><span class="w"> </span><span class="nx">expectErrors</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="sr">/.../</span><span class="p">],</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>The router answers <code>https://sage-match-control.github.io/event-data/...</code> from
+<code>config</code> and <code>snapshots</code> (a snapshot not supplied answers <code>404</code>, as GitHub
+does for a day never published), records every request in
+<code>page.requests</code> (method, URL, body), and fails the test on anything else
+leaving <code>127.0.0.1</code>. It also answers
+<code>https://docs.google.com/spreadsheets/d/&lt;sheetId&gt;/gviz/tq?…&amp;sheet=ATTENDANCE</code>
+from <code>attendance</code> (an unknown sheet fails the test), and the cdnjs
+<code>qrcode-generator</code> URL from <code>_tests/vendor/qrcode.min.js</code> (§0). For the
+console and the desk pages, requests to <code>CLOUD_RUN_BASE_URL</code> go to
+<code>cloudRun</code> handlers. An unhandled Cloud Run route fails the test, so no test
+can reach the real API, let alone write config. The default handlers answer
+<code>GET /ping</code> and <code>GET /sync/config</code> with fixed, plausible bodies, and
+<code>POST /auth/login</code> with a fake token.</p>
+<p><strong><code>fakeWorker.mjs</code>.</strong> <code>createFakeWorker()</code> returns an object that
+<code>openPage</code> passes to <code>page.routeWebSocket</code> for the page's <code>LIVE_BASE_URL</code>
+address. It records <code>connections</code>, and offers <code>push(snapshot)</code> (sends it to
+every open socket in the message shape the <code>LIVE CHANNEL</code> block expects; the
+implementer reads that shape from the block), <code>close(code)</code> and <code>refuse()</code>.
+<code>"refuses"</code> (the default) closes every connection at once, so a page falls
+back to polling. Its own tests in <code>_tests/consistency/</code> cannot cover it (it
+needs a browser), so <code>pages/live-channel.test.mjs</code> starts with a case that
+proves the fake connects and delivers on one page before any page relies on
+it.</p>
+<p><strong><code>extract.mjs</code>.</strong> <code>block(text, startMarker, endMarker)</code> returns the exact
+bytes between the markers inclusive, and throws if either marker is missing
+or appears twice. <code>constLiteral(text, name)</code> returns the source text of a
+top-level <code>const &lt;name&gt; = &lt;literal&gt;;</code> and throws if it is absent or declared
+twice.</p>
+<h3 id="44-fixtures">4.4 Fixtures<a class="headerlink" href="#44-fixtures" title="Permanent link">&para;</a></h3>
+<p>Fixtures are snapshot JSON files in the shape <code>event-data</code> publishes. They
+live under the existing <code>_fixtures/&lt;event-key&gt;/&lt;name&gt;.json</code>, so <code>?fixture=</code>
+still works by hand on the pages that support it. Test events are added to
+<code>_fixtures/config.json</code> beside PickleDrive's.</p>
+<table>
+<thead>
+<tr>
+<th>Event key</th>
+<th>Type</th>
+<th>Pages it feeds</th>
+<th>Fixtures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pickledrive-anniversary-2026</code></td>
+<td>team</td>
+<td>PickleDrive pages, console (team)</td>
+<td>existing <code>pre</code>, <code>finished</code>, <code>edge</code>, <code>qf-pre</code> (all four carry <code>rosterCsv</code>) and <code>attendance-kingcourts-pre.csv</code>; new <code>mid</code>, <code>runbook</code>, and <code>no-roster</code> (a snapshot without <code>rosterCsv</code>, as published before 2.7.0)</td>
+</tr>
+<tr>
+<td><code>piggleball-2026</code></td>
+<td>standard</td>
+<td>Piggleball pages, console (standard)</td>
+<td>new <code>pre</code>, <code>mid</code>, <code>finished</code>, <code>edge</code>, <code>runbook</code>, and an <code>attendance-centro-atletico-pre.csv</code></td>
+</tr>
+<tr>
+<td><code>attendance-demo-2026</code></td>
+<td>standard, <code>"attendance": "console"</code></td>
+<td>console (Attendance tab); the attendance template, with the config the router serves switched to <code>"desks"</code></td>
+<td>existing <code>pre</code> and two venues' <code>attendance-*-pre.csv</code></td>
+</tr>
+<tr>
+<td><code>test-standard</code></td>
+<td>standard</td>
+<td>the standard template</td>
+<td>the same five, against the template's example <code>DAYS</code>/<code>FACILITIES</code></td>
+</tr>
+<tr>
+<td><code>test-dual-meet</code></td>
+<td>dual meet</td>
+<td>the dual-meet template, console (dual meet)</td>
+<td>the same five, against the template's example config and test club codes</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>pre</code>: scheduled, nothing played or live.</li>
+<li><code>mid</code>: some matches played, some live on courts, others pending.</li>
+<li><code>finished</code>: every non-BYE match scored, <code>completedAt</code> stamped.</li>
+<li><code>edge</code>: a BYE by team code, by each player name, mixed-case <code>Bye</code>, both
+  sides BYE (the data error), an unparseable court, a duplicate court/time,
+  a blank <code>Schedule</code>.</li>
+<li><code>runbook</code>: exactly the rehearsal's state. Match A finished, match B live on a
+  court, match C with an unmapped category code. Each fixture's matches A/B/C
+  are named in <code>_tests/fixtures.mjs</code> so <code>runbook.mjs</code> gets them from one place.</li>
+</ul>
+<p>Fixtures are built <strong>from real data shapes</strong>. For Piggleball, start from
+<code>event-data</code>'s published day file once it exists and strip it to the needed
+state; until then, and for the templates, from the column list in
+<code>_templates/CLAUDE.md</code> §4. A fixture never contains a real person's phone,
+email or anything beyond the player names a published snapshot already
+carries.</p>
+<hr />
+<h2 id="5-coverage-matrix">5. Coverage matrix<a class="headerlink" href="#5-coverage-matrix" title="Permanent link">&para;</a></h2>
+<p>Every case below is required.</p>
+<h3 id="51-consistency-no-browser">5.1 Consistency (no browser)<a class="headerlink" href="#51-consistency-no-browser" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>live-channel-identical.test.mjs</code></td>
+<td>every file containing <code>// ==== LIVE CHANNEL</code> has exactly one block (<code>block()</code> throws otherwise), and every block is byte-identical to the console's. On failure, the message names the file and the first differing line. The set of files carrying the block equals the manifest's <code>liveChannel: true</code> set (§8.2)</td>
+</tr>
+<tr>
+<td><code>shared-constants.test.mjs</code></td>
+<td><code>POLL_INTERVAL_MS</code>, <code>LIVE_SAFETY_POLL_MS</code>, <code>GO_LIVE_LEAD_HOURS</code>, <code>GHPAGES_OWNER</code>, <code>GHPAGES_REPO</code> and <code>CLOUD_RUN_BASE_URL</code> have one value across every in-scope page that declares them (a page that does not declare one is fine; two values are not); <code>_tests/vendor/qrcode.min.js</code> hashes (SHA-384) to the <code>integrity</code> value in the console's <code>attConsoleLoadQr</code></td>
+</tr>
+<tr>
+<td><code>attendance-client-identical.test.mjs</code></td>
+<td>the same rules as <code>live-channel-identical</code> for the <code>ATTENDANCE CLIENT</code> block, against the console's copy; the files carrying it equal the manifest's <code>attendanceClient: true</code> set</td>
+</tr>
+<tr>
+<td><code>no-leftover-tokens.test.mjs</code></td>
+<td>no file under <code>events/</code> (outside <code>archives/</code>) contains <code>{{</code>. This is <code>_templates/CLAUDE.md</code> §2 step 3's <code>grep</code>, automated</td>
+</tr>
+<tr>
+<td><code>manifest.test.mjs</code></td>
+<td>the page manifest guards (§8.2)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-parity-each-copy-run-in-its-own-page">5.2 Parity (each copy run in its own page)<a class="headerlink" href="#52-parity-each-copy-run-in-its-own-page" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>played-bye.test.mjs</code></td>
+<td><code>cases/played-bye.json</code> holds matches CSVs. It starts with every case in <code>sage-tools-api/verify-facility-completion.mjs</code>: all non-BYE scored, partial, BYE by team code, by either player name, case-insensitive <code>bye</code>, a score removed, empty CSV, header-only CSV. Each CSV is run through the console's own <code>parseCSV</code> → <code>rowsToMatches</code> → <code>computeFacilityProgress</code> in the loaded console, and the console's "complete" (<code>left === 0</code>, which is what prints "All matches done") is compared with the server's <code>facilityIsComplete(csv)</code>, imported from <code>../../sage-tools-api/src/sync/domain/facilityCompletion.mjs</code>. If that sibling repo is absent, the server half is <strong>skipped with a message, not failed</strong>, and the console half still runs against the expected answers stored in the case file. <strong>Empty and header-only CSVs</strong>: the server says not complete; the console's <code>left</code> is <code>0</code> for both. Pin what each copy does, and what the facility card actually shows in that state (§5.3), as <code>// KNOWN DIFFERENCE</code> if they disagree, and report it</td>
+</tr>
+<tr>
+<td><code>team-rules.test.mjs</code></td>
+<td>PickleDrive's <code>index.html</code> and the console (team event loaded) open on the same fixture, for each of the six team fixtures. These rule functions are called in both pages with the same inputs, and the results compared as JSON: <code>baseTeamOf</code>, <code>groupOf</code>, <code>isGroupTeamCode</code>, <code>pairOf</code>, <code>parseSideCode</code>, <code>sideOf</code>, <code>slotOf</code>, <code>stageOf</code>, <code>stageLabel</code>, <code>teamNameOf</code>, <code>teamMatchupResult</code>, <code>teamRankBracket</code>, <code>teamCourtsLabel</code>, <code>teamTimesLabel</code>, <code>pairLabel</code>, <code>sideLabel</code>, <code>numberRepeatedPairs</code>. Inputs: every team code, matchup and group in the fixture. <code>pairLabel</code>/<code>sideLabel</code> compare after mapping the public page's <code>MXD</code> to <code>XD</code> (deliberate). The <code>*HTML</code> builders (<code>teamMatchupCardHTML</code>, <code>teamMatchupRowHTML</code>, <code>teamResultHTML</code>) are excluded because their markup differs by design, and so is <code>rebuildTeamData</code> (state, not a rule). A rule function listed here that is missing from either page fails the test, so a rename in one copy cannot drop it from the check</td>
+</tr>
+<tr>
+<td><code>team-roster.test.mjs</code></td>
+<td>PickleDrive's <code>index.html</code> and the console (team event loaded) on each team fixture that carries <code>rosterCsv</code>. The pairs are mapped by name: <code>rowsToRoster</code> ↔ <code>teamRowsToRoster</code> (on the fixture's parsed <code>rosterCsv</code>, plus a header-only CSV, a missing <code>player</code> column, extra columns, blank codes or names), <code>rosterOf</code> ↔ <code>teamRosterOf</code> (every team code: lowest level first, sheet order within a level, a non-numeric level last), <code>levelLabel</code> ↔ <code>teamLevelLabel</code> (<code>3</code>, <code>3.5</code>, <code>Open</code>, <code>''</code>). The roster card builders are excluded, as for the team rules. A missing function on either side fails the test</td>
+</tr>
+<tr>
+<td><code>pair-labels.test.mjs</code></td>
+<td>PickleDrive <code>schedule.html</code>'s <code>PAIR_SHORT</code> equals the console's <code>PAIRS[n].short</code> for every pair number, after <code>MXD</code> → <code>XD</code></td>
+</tr>
+<tr>
+<td><code>go-live.test.mjs</code></td>
+<td><code>computeDayIsLive(day, snapshot)</code> in every in-scope <code>index.html</code> (both events, both templates) gives the same answer for a table of cases: <code>isLive</code> <code>true</code>/<code>false</code> override in either direction; <code>auto</code> before, at and after the 4-hour lead before the earliest <code>Schedule</code> time; a snapshot with no parseable time; a different calendar day. The clock is set per case. The console's <code>computeDayIsLive(_day)</code> and its <code>parseScheduleTimeToMinutes</code> are compared on the same cases where their inputs overlap. Where the console's variant differs by design, pin it as <code>// KNOWN DIFFERENCE</code> with the reason read from its comment</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-pages-browser-real-pages-routed-data">5.3 Pages (browser, real pages, routed data)<a class="headerlink" href="#53-pages-browser-real-pages-routed-data" title="Permanent link">&para;</a></h3>
+<p><strong>Every page in §3, on every fixture of its type</strong> (a loop, one <code>it</code> per page ×
+fixture):</p>
+<ul>
+<li>loads with no <code>pageerror</code> and no <code>console.error</code> (§4.2 rule 4)</li>
+<li>renders its main content, not an empty or "error loading" state (the
+  implementer reads each page for the element that proves it)</li>
+<li>makes no request outside the router (§4.2 rule 2)</li>
+<li>at 375 px wide, public pages and boards have no horizontal page scroll
+  (<code>document.documentElement.scrollWidth &lt;= innerWidth</code>)</li>
+</ul>
+<p><strong>Console</strong> (<code>pages/console.test.mjs</code>, once per type):</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Event and day</td>
+<td>the registry's events and days are listed from <code>config</code>; picking one loads its snapshot URL (asserted in <code>page.requests</code>)</td>
+</tr>
+<tr>
+<td>Tabs and landing</td>
+<td>the tabs read Mission Control, Awards, Attendance, Live Matches, Match Finder, Standings, Teams, in that order, where <strong>Attendance</strong> shows only for an event with an <code>attendance</code> setting and <strong>Teams</strong> only for a team event whose snapshot carries a roster (hidden on <code>no-roster</code>); picking a day lands on <strong>Mission Control</strong> (its tab active, only <code>#organizerResults</code> shown); each tab shows only its own container; a later poll does not move the operator off the tab they chose</td>
+</tr>
+<tr>
+<td>Mission Control layout</td>
+<td>top to bottom: Sign in, Facility sync status, <strong>Resync this day now</strong> directly under the venues, the CSV fallback checkbox and the one-facility row, the resync result box, <strong>Check connection</strong> and its own result box, Public site status, Sync method, Public pages (assert DOM order)</td>
+</tr>
+<tr>
+<td>Facility progress</td>
+<td><code>pre</code>: done 0 / left = total; <code>mid</code>: the counts from the fixture; <code>finished</code>: "All matches done", and with <code>completedAt</code> the actual end; a facility whose <code>syncedAt</code> is old on event day shows the stale warning; BYE matches are not counted</td>
+</tr>
+<tr>
+<td>Live Matches, Standings, Match Finder, Awards</td>
+<td>the runbook checks (§5.4) on the <code>runbook</code> fixture, plus: every configured court shows a row; Awards reads "Pending" before any Final/Bronze is played and names finishers on <code>finished</code></td>
+</tr>
+<tr>
+<td>Sign-in</td>
+<td>a wrong password (router answers <code>401</code>) shows an error <strong>toast</strong> reading "wrong username or password" and no token is stored; a right one shows a <code>Signed in until …</code> toast and enables the operator controls; <strong>Sign out</strong> shows a <code>Signed out.</code> toast</td>
+</tr>
+<tr>
+<td>Resync</td>
+<td>posts <code>POST /sync/&lt;day&gt;</code> to <code>CLOUD_RUN_BASE_URL</code> with the bearer token (asserted in <code>page.requests</code>). The result appears in the box under the buttons, <strong>scrolled into view</strong>, as one labelled row per facility: <code>Synced</code>; <code>This attempt failed. Still showing its previous data.</code> (in <code>facilitiesStale</code>); <code>Failed. Nothing published for it yet.</code> (failed, not stale). Then a live-push row (<code>Pushed to open pages (version n)</code>, or its fallback with the reason), a GitHub archive row only when <code>archive.committed</code> is false, and <code>Took &lt;n&gt; s</code>. The box is <code>ok</code>, <code>warn</code> (some stale) or <code>error</code> (any hard failure). A <code>502</code> whose <code>error</code> is <code>Could not sync …: a; b</code> lists <code>a</code> and <code>b</code> as separate items. Not signed in, or no day: an error toast, and nothing is sent</td>
+</tr>
+<tr>
+<td>Live/Hide</td>
+<td>choosing <strong>false</strong> opens the <code>confirm</code> prompt; dismissing it sends nothing; accepting it sends <code>POST /sync/&lt;day&gt;/live</code> with <code>{"isLive":false}</code>; <strong>auto</strong> and <strong>true</strong> send without a prompt. The outcome is a <strong>toast</strong>, not a box: a <code>loading</code> toast replaced by the result (one toast per action, same key), and the current-state line updates</td>
+</tr>
+<tr>
+<td>Sync method</td>
+<td>switching to GitHub only opens its <code>confirm</code> prompt and sends <code>POST /sync/live-push</code> <code>{"enabled":false}</code> only when accepted; the outcome is a toast</td>
+</tr>
+<tr>
+<td>Check connection</td>
+<td>the result appears in <code>#orgConnResultBox</code>, <strong>directly under the button</strong>, scrolled into view, as rows: Response time, Version (from the router's <code>X-App-Version</code>), Event registry (<code>events.json, version &lt;sha&gt;</code> for <code>&lt;sha&gt;/remote</code>; the fallback wording, as <code>warn</code>, for <code>seed/fallback</code>), and Live push (from <code>/sync/config</code>'s <code>live</code>)</td>
+</tr>
+<tr>
+<td>Result boxes</td>
+<td>every finished box (resync, Check connection) has a close button that hides it; a box still showing its loading message has none; changing the event, the day or the tab hides and empties every box, while clicking the tab already selected does not; a resync whose response arrives after the day was changed shows its outcome as a toast, not in the box</td>
+</tr>
+<tr>
+<td>Toasts</td>
+<td>stack at the top of the viewport, newest first (inside it at 375 × 812 and 1280 × 800, whatever the scroll position); at most three; a toast with the same key replaces the last; <code>ok</code> disappears after about 4.5 s and <code>error</code> after about 9 s (<code>clock.runFor</code>), and the close button removes one at once; an <code>error</code> toast has <code>role="alert"</code>; a toast created while the page is hidden is visible once the page is shown</td>
+</tr>
+<tr>
+<td>Readable errors</td>
+<td>for each of these router replies, the text on screen contains the words, never <code>{</code> or a raw <code>HTTP 4xx</code>/<code>HTTP 5xx</code> followed by JSON: a Google body (<code>HTTP 403 {"error":{"code":403,"message":"The caller does not have permission"}}</code> → "refused access (403) — The caller does not have permission"), a GitHub body (<code>{"message": …}</code>), a Worker body (<code>{"error":"unauthorized"}</code>), a bare <code>HTTP 500</code> ("Cloud Run had a server error (500)"), and <code>timed out after 8000ms</code> ("8 s"). Checked on resync, Live/Hide and sign-in</td>
+</tr>
+<tr>
+<td>Schedule board link</td>
+<td><strong>Open schedule</strong> opens <code>/events/&lt;key&gt;/schedule</code> (extensionless)</td>
+</tr>
+<tr>
+<td>Teams (team)</td>
+<td>one card per team with a roster, grouped as the standings group them, with the player count; a card opens to its players, lowest level first, each with level and gender tags; cards left open stay open across a poll; Match Finder's result for a player shows their team's roster card with them highlighted</td>
+</tr>
+<tr>
+<td>Attendance (<code>attendance-demo-2026</code>)</td>
+<td>the roster from each venue's <code>ATTENDANCE</code> fixture; the category filter and jump; a person in two teams toggles in both places; withdrawn people hidden; <strong>Update roster</strong> posts <code>POST /v1/days/&lt;day&gt;/attendance/reconciliations</code> and shows each venue's result; marking someone sends <code>PUT /v1/days/&lt;day&gt;/facilities/&lt;facility&gt;/attendance/&lt;key&gt;</code> with <code>{"present":true}</code>. With the config switched to <code>"desks"</code>, <strong>Issue desk link</strong> posts <code>.../desk-links</code> and draws a QR code from the vendored library</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public pages and boards</strong> (<code>pages/public.test.mjs</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go-live</td>
+<td>with <code>isLive: "auto"</code>, before the 4-hour lead the page shows its not-live state and no scores; <code>clock.runFor</code> past the lead (no reload) switches to live; <code>isLive: false</code> hides it on the next poll; <code>true</code> shows it before the lead</td>
+</tr>
+<tr>
+<td>Content</td>
+<td>standings, live courts and schedule match the fixture for <code>mid</code> and <code>finished</code>; the team page shows matchup cards and group tables; the dual-meet template shows the club win summary</td>
+</tr>
+<tr>
+<td>Team rosters (PickleDrive <code>index.html</code>)</td>
+<td>the <strong>Teams</strong> tab as in the console's row above (hidden on <code>no-roster</code>); Match Finder's suggestions show names only, and a selected player's result shows their level and gender beside the name, plus their team's roster card with them highlighted</td>
+</tr>
+<tr>
+<td>Board</td>
+<td>courts as columns from the highest <code>CourtAssignment</code>; a live match highlighted; a duplicate court/time gets the <code>+n</code> badge; <code>?venue=</code> narrows to one facility; <code>?courts=</code> composes with it</td>
+</tr>
+<tr>
+<td>Saved state</td>
+<td>a search and the chosen day survive a reload in the same context (<code>localStorage</code>), and a fresh context starts clean</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Desk pages</strong> (<code>pages/attendance.test.mjs</code>: the template on <code>attendance-demo-2026</code>, then each event's copy):</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Opening</td>
+<td>no <code>?desk=</code> token, or an expired one (its payload's <code>exp</code> before the clock): "Ask the operator for a desk link." and no further request; the event not <code>"desks"</code>: "Check-in for this event is handled by staff."; a token for a day the event does not have: the "does not match a day" message; a <code>?desk=</code> token is kept in <code>localStorage</code> and dropped from the URL</td>
+</tr>
+<tr>
+<td>Marking</td>
+<td>with a valid token, the roster loads from each venue's <code>ATTENDANCE</code> fixture (team events also read team names from the snapshot's standings); marking a person sends the <code>PUT</code> with the desk token as bearer and the row updates; the category filter and jump; withdrawn people hidden; a <code>401</code> reply adds "This desk link has expired." and a <code>403</code> "Ask the operator for a new desk link.", never raw JSON</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Live channel</strong> (<code>pages/live-channel.test.mjs</code>, on the console and one
+public page per type):</p>
+<ol>
+<li>The fake Worker connects and delivers one snapshot (harness self-check, §4.3).</li>
+<li>With the socket open, a pushed snapshot re-renders the page <strong>without</strong> a
+   GitHub fetch (<code>page.requests</code> shows none between push and render).</li>
+<li>With the socket open, GitHub is polled every <code>LIVE_SAFETY_POLL_MS</code> and not
+   every <code>POLL_INTERVAL_MS</code> (<code>clock.runFor</code>, count the requests).</li>
+<li>Worker refuses: the page polls GitHub every <code>POLL_INTERVAL_MS</code>.</li>
+<li>Socket drops mid-session: polling resumes; a later reconnect (as the block
+   implements it) stops the fast poll again.</li>
+<li>A pushed snapshot older than the one shown (<code>publishedAt</code>) does not
+   replace it, if the block implements that. If it does not, pin that it does
+   replace it.</li>
+</ol>
+<h3 id="54-the-runbook-checks-checksrunbookmjs">5.4 The runbook checks (<code>checks/runbook.mjs</code>)<a class="headerlink" href="#54-the-runbook-checks-checksrunbookmjs" title="Permanent link">&para;</a></h3>
+<p>Two exported functions, one per runbook section. Each is written against
+whatever page it is handed, so the dry run can call them on live data.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cm">/** Runbook §1.2. `page` is the console, signed in, on the scenario's day. */</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">checkConsole</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">finished</span><span class="p">,</span><span class="w"> </span><span class="nx">live</span><span class="p">,</span><span class="w"> </span><span class="nx">unmapped</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cm">/** Runbook §1.3. `pages` are the board, the public page's Live tab and its Standings. */</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">checkPublic</span><span class="p">({</span><span class="w"> </span><span class="nx">board</span><span class="p">,</span><span class="w"> </span><span class="nx">live</span><span class="p">,</span><span class="w"> </span><span class="nx">standings</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">finished</span><span class="p">,</span><span class="w"> </span><span class="nx">live</span><span class="o">:</span><span class="w"> </span><span class="nx">liveMatch</span><span class="p">,</span><span class="w"> </span><span class="nx">unmapped</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>They assert, line for line, <code>_templates/dry-run-checklist-template.md</code> §1.2
+and §1.3:</p>
+<ul>
+<li>Live Matches shows match A's final score; match B has a live pill on its
+  court; every other configured court of that facility shows an idle
+  placeholder, not a blank.</li>
+<li>Standings shows a warning banner naming C's unmapped code, not a silent
+  "Other" bucket.</li>
+<li>Match Finder: searching a player from A returns their matches in schedule
+  order with the right opponent and score state.</li>
+<li>Awards loads and lists every category, with "Pending" where nothing is
+  decided.</li>
+<li>Board: courts and times render; B's court is in progress. Public Live
+  matches the console. Public Standings shows the same warning and
+  standings.</li>
+</ul>
+<p>The runbook's Live/Hide line is a console-only action and is tested in §5.3,
+not here: on live data it is a real write, and the dry run decides
+separately whether it tests it at all. <code>pages/runbook.test.mjs</code> runs both
+functions on each type's <code>runbook</code> fixture.</p>
+<hr />
+<h2 id="6-rules-for-every-test">6. Rules for every test<a class="headerlink" href="#6-rules-for-every-test" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>The page's code is the subject.</strong> Assertions read the DOM or call the
+   page's own functions. A test never reimplements a page rule to compute an
+   expected value, beyond fixed expected answers written out in the test or
+   case file.</li>
+<li><strong>No real network, no real waiting.</strong> §4.2.</li>
+<li><strong>Pin, then report.</strong> When two copies disagree, or a page does something
+   that looks wrong, pin what it does today, mark it as below, and list it in
+   the hand-off. Do not change the page.</li>
+<li><strong>Selectors by what a person sees.</strong> Prefer role and visible text
+   (<code>getByRole</code>, <code>getByText</code>) over CSS classes, so a restyle doesn't break a
+   test that isn't about style. Where a page offers neither, use the most
+   stable id or class and say why in a comment.</li>
+<li><strong>One behaviour per <code>it</code>.</strong> <code>describe(&lt;page&gt;)</code>, then
+   <code>it("&lt;what a person sees&gt;")</code>.</li>
+</ol>
+<h3 id="61-known-difference-marker">6.1 Known-difference marker<a class="headerlink" href="#61-known-difference-marker" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// KNOWN DIFFERENCE (played/BYE): the server says a header-only CSV is not complete;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// the console's computeFacilityProgress returns left === 0. The card shows "...".</span>
+</code></pre></div>
+<p><code>grep -rn "KNOWN DIFFERENCE" _tests/</code> lists every disagreement between copies
+the suite has found. Each one is the owner's decision: make the copies agree
+(and flip the test in that commit), or record why they differ in root
+<code>CLAUDE.md</code>'s "kept in sync by hand" list.</p>
+<hr />
+<h2 id="7-proof-that-the-net-works">7. Proof that the net works<a class="headerlink" href="#7-proof-that-the-net-works" title="Permanent link">&para;</a></h2>
+<p>With the suite green, make each breakage below in a scratch working copy,
+one at a time, confirm <strong>at least one test fails</strong>, and revert. The list goes
+in the commit message.</p>
+<ol>
+<li>Change one character inside Piggleball <code>schedule.html</code>'s <code>LIVE CHANNEL</code> block.</li>
+<li>Make the console's <code>sideIsBye</code> check only the team code.</li>
+<li>Make the console count a match as played with one score.</li>
+<li>Change the tie-break in PickleDrive <code>index.html</code>'s <code>teamMatchupResult</code>.</li>
+<li>Change <code>'WD'</code> in PickleDrive <code>schedule.html</code>'s <code>PAIR_SHORT</code>.</li>
+<li>Set <code>GO_LIVE_LEAD_HOURS</code> to 2 in the standard template.</li>
+<li>Remove the console's unmapped-code warning banner.</li>
+<li>Drop the <code>confirm</code> before Live/Hide <strong>false</strong> in the console.</li>
+<li>Make the live channel ignore pushed snapshots.</li>
+<li>Leave <code>{{VENUE}}</code> in a page under <code>events/</code>.</li>
+<li>In the console, make <code>revealLiveTabsAfterLoad</code> land on Live Matches again,
+    or show a resync error's raw <code>body.error</code> without <code>friendlyApiMessage</code>.</li>
+<li>Change one character inside Piggleball <code>attendance.html</code>'s
+    <code>ATTENDANCE CLIENT</code> block.</li>
+<li>Make the console's <code>teamRosterOf</code> sort highest level first.</li>
+</ol>
+<hr />
+<h2 id="8-keeping-the-suite-current">8. Keeping the suite current<a class="headerlink" href="#8-keeping-the-suite-current" title="Permanent link">&para;</a></h2>
+<p>The same principle as the
+<a href="../../implemented/sage-tools-api-test-suite-spec/#9-keeping-the-suite-current"><code>sage-tools-api</code> test suite's §9</a>,
+applied to the site.</p>
+<h3 id="81-the-rule">8.1 The rule<a class="headerlink" href="#81-the-rule" title="Permanent link">&para;</a></h3>
+<p><strong>A change to an in-scope page is not finished until its tests are.</strong> The
+test change goes in the same commit. In particular:</p>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Tests in the same commit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A page's visible behaviour</td>
+<td>the page test that pins it, edited or added</td>
+</tr>
+<tr>
+<td>One copy of a hand-copied rule (§0 table)</td>
+<td>the other copies changed too, and the consistency or parity test passes. If the copies are meant to differ from now on, a <code>KNOWN DIFFERENCE</code> and a line in root <code>CLAUDE.md</code></td>
+</tr>
+<tr>
+<td>The <code>LIVE CHANNEL</code> or <code>ATTENDANCE CLIENT</code> block</td>
+<td>every copy, in one commit; <code>live-channel-identical</code> and <code>attendance-client-identical</code> are the <code>diff</code></td>
+</tr>
+<tr>
+<td>A new event instantiated from a template</td>
+<td>its pages added to <code>pages.mjs</code>, its event to <code>_fixtures/config.json</code>, and <code>pre</code>/<code>mid</code>/<code>finished</code>/<code>runbook</code> fixtures, or a manifest entry reusing the template's fixtures when its config is the template's shape. Add this as a step in <code>_templates/CLAUDE.md</code> §2</td>
+</tr>
+<tr>
+<td>An event finishes</td>
+<td>its pages' manifest status set to <code>frozen</code> and <code>liveChannel: false</code>, in the same commit that drops their <code>LIVE CHANNEL</code> block</td>
+</tr>
+<tr>
+<td>A template change</td>
+<td>the template's tests; an event already copied from it is not changed unless its own commit says so</td>
+</tr>
+<tr>
+<td>A new page shape or snapshot field</td>
+<td>a fixture that exercises it</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-the-guards">8.2 The guards<a class="headerlink" href="#82-the-guards" title="Permanent link">&para;</a></h3>
+<p><code>_tests/pages.mjs</code> lists <strong>every</strong> <code>.html</code> file in the repo outside
+<code>node_modules</code> and <code>beta</code> copies, each with a status:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">pages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="s2">"tools/control-center.html"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s2">"tested"</span><span class="p">,</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"dual-meet"</span><span class="p">,</span><span class="w"> </span><span class="s2">"standard"</span><span class="p">,</span><span class="w"> </span><span class="s2">"team"</span><span class="p">],</span><span class="w"> </span><span class="nx">liveChannel</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">attendanceClient</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="s2">"events/piggleball-2026/attendance.html"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s2">"tested"</span><span class="p">,</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">"standard"</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="s2">"piggleball-2026"</span><span class="p">,</span><span class="w"> </span><span class="nx">liveChannel</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">attendanceClient</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="s2">"events/piggleball-2026/index.html"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s2">"tested"</span><span class="p">,</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">"standard"</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="s2">"piggleball-2026"</span><span class="p">,</span><span class="w"> </span><span class="nx">liveChannel</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="s2">"_templates/standard-tournament-template/index.html"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s2">"tested"</span><span class="p">,</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">"standard"</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="s2">"test-standard"</span><span class="p">,</span><span class="w"> </span><span class="nx">liveChannel</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nx">tokens</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">EVENT_KEY</span><span class="o">:</span><span class="w"> </span><span class="s2">"test-standard"</span><span class="p">,</span><span class="w"> </span><span class="nx">EVENT_TITLE</span><span class="o">:</span><span class="w"> </span><span class="s2">"Test Standard Event"</span><span class="p">,</span><span class="w"> </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="s2">"events/pnf-x-bup-dual-meet/index.html"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s2">"frozen"</span><span class="p">,</span><span class="w"> </span><span class="nx">reason</span><span class="o">:</span><span class="w"> </span><span class="s2">"finished; no LIVE CHANNEL"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="s2">"tools/bracket-generator.html"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s2">"untested"</span><span class="p">,</span><span class="w"> </span><span class="nx">reason</span><span class="o">:</span><span class="w"> </span><span class="s2">"evergreen tool; site test spec §11"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="c1">// … every other file</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>consistency/manifest.test.mjs</code> fails when:</p>
+<ul>
+<li>an <code>.html</code> file exists that <code>pages.mjs</code> does not list (a new event or page
+  cannot slip in untested without someone writing down why);</li>
+<li><code>pages.mjs</code> lists a file that does not exist;</li>
+<li>the files containing the <code>LIVE CHANNEL</code> marker differ from those with
+  <code>liveChannel: true</code>, or those containing <code>ATTENDANCE CLIENT</code> from those
+  with <code>attendanceClient: true</code>;</li>
+<li>a <code>tested</code> page has no <code>pages/</code> test that loads it (each page test file
+  exports the paths it covers);</li>
+<li>a <code>tested</code> event page's event has no <code>pre</code>, <code>mid</code>, <code>finished</code> and <code>runbook</code>
+  fixture.</li>
+</ul>
+<h3 id="83-where-the-rule-lives">8.3 Where the rule lives<a class="headerlink" href="#83-where-the-rule-lives" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Root <code>CLAUDE.md</code></strong>, in the <code>sage-match-control.github.io</code> section, replacing
+  "No bundler, no package.json, no tests":</li>
+</ul>
+<blockquote>
+<p>Tests live in <code>_tests/</code> (never published: Jekyll skips <code>_</code> folders):
+<code>npm test --prefix _tests</code>. Every change to an in-scope page changes
+<code>_tests/</code> in the same commit; a new event gets its <code>_tests/pages.mjs</code>
+entry and fixtures. The hand-copied rules below are checked by the suite:
+change every copy, never make a test pass by editing one side.</p>
+</blockquote>
+<p>The "kept in sync by hand" entries for the <code>LIVE CHANNEL</code> and
+  <code>ATTENDANCE CLIENT</code> blocks, played/BYE, the team-event rules and the team
+  rosters each gain "checked by <code>_tests/</code>". "Compare them
+  with <code>diff</code>" becomes "<code>npm test --prefix _tests</code> compares them". The go-live
+  rule is added to that list.
+- <strong><code>.githooks/pre-push</code></strong> in the site repo runs <code>npm run test:fast --prefix
+  _tests</code> (no browser, a second or two) and, if <code>_tests/node_modules</code> exists,
+  the full suite. It refuses the push on failure. Setup per clone:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>config<span class="w"> </span>core.hooksPath<span class="w"> </span>.githooks
+</code></pre></div>
+<ul>
+<li><strong><code>sage-docs/docs/technical/</code></strong>: a <code>site-tests.md</code> page (layers, commands,
+  fixtures, the marker, the rule), indexed in <code>technical/README.md</code> and linked
+  from <code>control-center.md</code>.</li>
+</ul>
+<hr />
+<h2 id="9-build-steps">9. Build steps<a class="headerlink" href="#9-build-steps" title="Permanent link">&para;</a></h2>
+<p><strong>Rule.</strong> The only files this spec touches outside <code>_tests/</code> are
+<code>_fixtures/</code> (new fixtures, new events in <code>config.json</code>), <code>.gitignore</code> (one
+line), <code>.githooks/pre-push</code>, <code>_templates/CLAUDE.md</code> (§8.1's new step), root
+<code>CLAUDE.md</code> and the <code>sage-docs</code> pages in §8.3. <strong>No page.</strong> <code>git diff --stat</code>
+against <code>main</code> shows no <code>.html</code> file.</p>
+<ol>
+<li><strong>Consistency layer first.</strong> <code>_tests/package.json</code> (no dependency yet),
+   <code>extract.mjs</code>, <code>pages.mjs</code>, and §5.1. This lands on its own: it already
+   replaces the hand <code>diff</code> and finds any drift that exists today. If it does
+   (two <code>LIVE CHANNEL</code> copies differ, say), report it; do not fix the page
+   in this commit.</li>
+<li>Add Playwright (exact version), <code>.gitignore</code>'s <code>_tests/node_modules/</code>,
+   <code>npm run setup</code> (<code>playwright install chromium</code>), and the helpers in §4.3.
+   Write <code>live-channel.test.mjs</code> case 1 first: it proves the harness.</li>
+<li>Fixtures (§4.4), then the parity layer (§5.2).</li>
+<li>The pages layer (§5.3) and <code>checks/runbook.mjs</code> (§5.4).</li>
+<li>Run the sabotage list (§7).</li>
+<li>The hook, <code>_templates/CLAUDE.md</code>'s new step, root <code>CLAUDE.md</code>, the
+   <code>sage-docs</code> technical page. Update the
+   <a href="../automated-dry-run-spec/">automated dry run</a>'s rendering layer to point
+   at the built <code>runbook.mjs</code>.</li>
+</ol>
+<p><code>_tests/package.json</code> scripts:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  "test": "node --test \"consistency/**/*.test.mjs\" \"parity/**/*.test.mjs\" \"pages/**/*.test.mjs\"",
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  "test:fast": "node --test \"consistency/**/*.test.mjs\"",
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  "test:parity": "node --test \"parity/**/*.test.mjs\"",
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  "test:pages": "node --test \"pages/**/*.test.mjs\"",
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  "setup": "playwright install chromium"
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>}
+</code></pre></div>
+<hr />
+<h2 id="10-acceptance-checklist-and-hand-off">10. Acceptance checklist and hand-off<a class="headerlink" href="#10-acceptance-checklist-and-hand-off" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>npm test --prefix _tests</code> passes on unmodified pages, on Node 22.23.3 or
+      later, with no network access beyond <code>127.0.0.1</code> (test it offline).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Every case in §5 exists.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All thirteen sabotage breakages were caught (§7).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>git diff --stat</code> against <code>main</code> shows no <code>.html</code> file, and nothing
+      outside the files listed in §9's rule.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>pages.mjs</code> lists every <code>.html</code> file; the manifest guards pass and each
+      was seen to fail when broken.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The pre-push hook refuses a push with a failing consistency test.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> The site's Pages build after the merge publishes nothing under
+      <code>_tests/</code> (check <code>https://sage-match-control.github.io/_tests/package.json</code>
+      is <code>404</code>).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Root <code>CLAUDE.md</code>, <code>_templates/CLAUDE.md</code>, the <code>sage-docs</code> technical page
+      and the dry run spec are updated (§8.3, §9 step 6).</li>
+</ul>
+<p><strong>Hand-off report to the owner:</strong> test counts per layer; every
+<code>KNOWN DIFFERENCE</code> found, with what each copy does; any page behaviour that
+could not be tested without a page change; how long <code>test:fast</code> and the full
+suite take. Then move this spec to <code>implemented/</code> per <code>docs/specs/README.md</code>.</p>
+<hr />
+<h2 id="11-out-of-scope-and-what-comes-next">11. Out of scope, and what comes next<a class="headerlink" href="#11-out-of-scope-and-what-comes-next" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Any page change, including test hooks, <code>data-testid</code>s or <code>?fixture=</code>
+  support for more pages.</li>
+<li>Real services. The dry run's preflight and rehearsal cover those (§2).</li>
+<li>Screenshot comparison, accessibility audits, browsers other than Chromium.</li>
+<li>Finished events and <code>events/archives/</code>.</li>
+</ul>
+<p><strong>Next candidates</strong>, each its own spec when wanted:</p>
+<ul>
+<li><strong>Tournament calculator → generator contract.</strong> <code>buildPlanCsv()</code> produces
+  the CSV the two Apps Script generators consume, and <code>sage-tools-api</code>'s
+  <code>apps-script/fixtures/</code> holds real plan CSVs those generators are verified
+  against. A test that the calculator, given the same inputs, still produces
+  CSVs of that shape would join the two harnesses.</li>
+<li><strong>Bracket generator's verifiable draw.</strong> It is deterministic by design and
+  so is well suited to pinned-output tests.</li>
+<li><strong>Moving the copied rules into shared files.</strong> The architecture spec's
+  Phase 7 decision. If it happens, the parity layer shrinks to ordinary unit
+  tests of the shared files, and this suite's fixtures and page tests carry
+  over unchanged.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../calculator-team-format-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Calculator team format">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Calculator team format
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
