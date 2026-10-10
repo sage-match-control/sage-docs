@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.5.0] — 2026-10-10
+
+### Added
+
+- Spec: [Hub player experience](specs/not-started/hub-player-experience-spec.md). Eight
+  independent proposals to make the Tournament Hub quicker on a phone, each for the owner
+  to keep or drop. Not started.
+
 ## [2.4.0] — 2026-10-09
 
 Desk and scorer links name who they were issued to, and the workbook records it.

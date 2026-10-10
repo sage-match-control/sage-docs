@@ -242,6 +242,13 @@ to the `...` form rather than repointing it.
   — outline only: an operator puts a match on a court, or clears it, from Live
   Matches, through the same write-then-publish path as score entry. Waits for
   score entry's real-workbook checks.
+- **[Hub player experience](not-started/hub-player-experience-spec.md)** —
+  eight independent proposals for the owner to keep or drop, to make *where and
+  when do I play next?* quicker on a phone. A search scrolls to its results, the
+  banner is shorter on phones, a "Your next match" card tops a pair's results,
+  and the Hub's tickets show names without codes. Then four extras: the tabs
+  along the bottom, a provisional-standings line, a rules link and following
+  more than one pair. Engine Hub and templates only; no new sections.
 
 ---
 
