@@ -37,6 +37,13 @@ has been replaced.
 
 ---
 
+## [2.6.0] — 2026-10-11
+
+### Added
+
+- Spec: [Code and access protection](specs/not-started/code-and-access-protection-spec.md).
+  A to-do list for protecting the code and the workbooks at little or no cost. Not started.
+
 ## [2.5.0] — 2026-10-10
 
 ### Added
