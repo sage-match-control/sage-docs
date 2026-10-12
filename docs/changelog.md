@@ -37,6 +37,16 @@ has been replaced.
 
 ---
 
+## [2.7.0] — 2026-10-12
+
+### Changed
+
+- Spec: [Code and access protection](specs/not-started/code-and-access-protection-spec.md)
+  gains §9, facility workbooks closed to link access (the server reads as its service
+  account, the desk page and Control Center read the roster through the API), and §10,
+  two fixes to `facilityCompletion.mjs`: its stale comments and how it reads a score's
+  value. Still not started.
+
 ## [2.6.0] — 2026-10-11
 
 ### Added
