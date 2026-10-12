@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.9.0] — 2026-10-12
+
+### Added
+
+- Spec: [Push for attendance](specs/not-started/attendance-push-spec.md). A check-in on one
+  desk reaches the other desks and Control Center within a second or two: the live Worker
+  relays a nudge that carries no data, on its own object per day, and each page re-reads
+  the list from the API. Not started.
+
 ## [2.8.0] — 2026-10-12
 
 A facility workbook is Restricted and read by the API's service account, and the
