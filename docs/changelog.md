@@ -43,9 +43,11 @@ has been replaced.
 
 - Spec: [Code and access protection](specs/not-started/code-and-access-protection-spec.md)
   gains §9, facility workbooks closed to link access (the server reads as its service
-  account, the desk page and Control Center read the roster through the API), and §10,
-  two fixes to `facilityCompletion.mjs`: its stale comments and how it reads a score's
-  value. Still not started.
+  account, the desk page and Control Center read the roster through a new API route), and
+  §10, two fixes to `facilityCompletion.mjs`: how it reads a score's value, and its stale
+  comments. Both are full designs with the owner's decisions recorded, written to be built
+  without other context. §6 now has the service account as Editor on every facility
+  workbook. Still not started.
 
 ## [2.6.0] — 2026-10-11
 
