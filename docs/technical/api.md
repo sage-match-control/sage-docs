@@ -165,7 +165,7 @@ with a body must say `Content-Type: application/json`, or it is a `415`.
 
 | Route | Rule it departs from | Why |
 | --- | --- | --- |
-| `PUT …/people/{personKey}/attendance` | a `GET` for every `PUT` | each person's state is read with `GET …/facilities/{facility}/people`, the list a desk polls; a per-person `GET` would have no reader |
+| `PUT …/people/{personKey}/attendance` | a `GET` for every `PUT` | each person's state is read with `GET …/facilities/{facility}/people`, the list a desk reads; a per-person `GET` would have no reader |
 | `PUT …/matches/{matchNumber}/score` | a `GET` for every `PUT` | scores are read from the published day snapshot, which pages already poll; a Sheets read per `GET` would spend Google quota for no reader |
 | `PUT …/matches/{matchNumber}/score` | concurrency through `If-Match` / `412` | the precondition is the values a person saw in two cells, not a version the API issues, so there is no `ETag`; `expected` travels in the body, and the `409` carries `current` |
 | `201` without `Location` (sessions, desk links, scorer links) | `Location` on a created resource | the result is a signed credential, not a stored resource, so there is no URL to point at |
