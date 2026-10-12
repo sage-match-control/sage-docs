@@ -1,16 +1,20 @@
 # Spec — `sage-tools-api` architecture hardening (tests first)
 
-> **Status: in progress.** Phases 1 to 5 (folder moves, 2.8.1; hardening and one composition root, 2.8.2; one retry loop, a store interface and domain extraction, 2.8.3; delivery strategies and the `SyncService` split, 2.8.4; the `/v3` API, 3.0.0) are merged and
+> **Status: implemented.** Moved to `implemented/` on 2026-10-13, by the owner's
+> decision, with three of its checks not run (below). Phases 1 to 5 (folder moves, 2.8.1; hardening and one composition root, 2.8.2; one retry loop, a store interface and domain extraction, 2.8.3; delivery strategies and the `SyncService` split, 2.8.4; the `/v3` API, 3.0.0) are merged and
 > deployed: Cloud Run serves 3.0.0 since 2026-10-06. Phase 6's code is merged:
 > the site (Control Center, the scoresheet generator, every copy of the
 > `ATTENDANCE CLIENT` and `SCORE CLIENT` blocks) calls `/v3`, and the repo's
 > `sheets-sync.gs` calls `/v3`, checked by `verify-sheets-sync.mjs`. Both
 > masters carry it (live sync 3.0.0, beside dual-meet generator 1.3.0 and
 > standard tournament generator 1.2.0), byte-identical to the repo as of
-> 2026-10-06. Left of Phase 6: checking a fresh copy of each master, and the
-> production acceptance in §6.6. Phase 7's docs and root
+> 2026-10-06. Phase 7's docs and root
 > `CLAUDE.md` rules are done, and the workspace is a GitHub repo,
-> `sage-match-control/sage-workspace`; the build-trigger filter is the owner's.
+> `sage-match-control/sage-workspace`. **Not run when it moved:** checking a
+> fresh copy of each master (§6.6 step 4), the production acceptance in §6.6
+> (its grep of the site's pages for the old routes passes), and the Cloud Build
+> trigger's ignored-files filter (§6.7 step 1). Until the filter is set, a push
+> that changes only docs or tests still rebuilds Cloud Run.
 > Phase 8 is built (2026-10-06): shared ES modules, specified in the
 > [site engine spec](../implemented/site-engine-spec.md), merged into the site
 > repo's `main`.

@@ -1192,7 +1192,7 @@ spec turns out wrong, and report it.
   that spec's layout. That spec then pins attendance's routes too (its §2.1
   gains them). Its characterization B3 changes from `GET, POST, OPTIONS` to
   `GET, POST, PUT, OPTIONS`. The spec is updated with this one.
-- **[Architecture hardening](../in-progress/sage-tools-api-architecture-spec.md):** Phase 2
+- **[Architecture hardening](../implemented/sage-tools-api-architecture-spec.md):** Phase 2
   moves attendance's auth checks into `src/auth/middleware.mjs` and adds
   `code` to its error bodies. Phase 5 adds the other `/v1` routes beside
   attendance's, on the same prefix. Phase 4's `SyncService` split keeps the

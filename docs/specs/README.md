@@ -80,6 +80,18 @@ to the `...` form rather than repointing it.
   live Worker, built with no production change. Kept current: every API change
   updates its tests in the same commit, enforced by guard tests and a pre-push
   hook. The gate for the architecture spec, which is now open.
+- **[sage-tools-api architecture hardening](implemented/sage-tools-api-architecture-spec.md)** —
+  revised against 2.8.0. Phases 1–5 are merged and deployed as 3.0.0 (the `/v3` API), Phase 6's code
+  is merged and the masters carry it, and Phases 7 and 8 are done. Its fresh-master check,
+  production acceptance and Cloud Build filter were not run.
+  The service moves to ports-and-adapters, checked
+  against SOLID. The conflict retry is written once, behind two delivery
+  strategies and a `SnapshotPublisher` selector. There is one error handler, one auth-middleware module,
+  and a validated config with a composition root that the tests share.
+  Outbound clients and the event registry get their own folders. Release
+  3.0.0 adds one REST surface, `/v3`, with a twin of every route (legacy and
+  `/v1`), and every client moves onto it. Every existing URL is kept, frozen.
+  `/ping` is unchanged.
 - **[Immediate sync](implemented/immediate-sync-spec.md)** — every sync
   measured from the edit, a sync that loses a GitHub commit race re-read and
   retried instead of dropped, and Apps Script syncing straight from the edit
@@ -199,26 +211,16 @@ to the `...` form rather than repointing it.
   Open Doubles plus Intermediate Men's and Mixed Doubles. Standard
   template, re-skinned from the pubmat. Ran 3 October 2026.
 
+### The docs
+
+- **[Usage guide and docs restructure](implemented/docs-usage-guide-spec.md)** —
+  Features & Usage split in two: a Usage tab that trains a new operator from
+  planning to the day of, and Features as a per-tool reference. Merged as docs
+  2.0.0, with the site repo's checklist fixes. The newcomer read-through was not done.
+
 ---
 
 ## In progress
-
-- **[sage-tools-api architecture hardening](in-progress/sage-tools-api-architecture-spec.md)** —
-  revised against 2.8.0. Phases 1–5 are merged and deployed as 3.0.0 (the `/v3` API), and Phase 6's code
-  is merged and the masters carry it: the site and every new workbook call `/v3`.
-  The service moves to ports-and-adapters, checked
-  against SOLID. The conflict retry is written once, behind two delivery
-  strategies and a `SnapshotPublisher` selector. There is one error handler, one auth-middleware module,
-  and a validated config with a composition root that the tests share.
-  Outbound clients and the event registry get their own folders. Release
-  3.0.0 adds one REST surface, `/v3`, with a twin of every route (legacy and
-  `/v1`), and every client moves onto it. Every existing URL is kept, frozen.
-  `/ping` is unchanged.
-
-- **[Usage guide and docs restructure](in-progress/docs-usage-guide-spec.md)** —
-  Features & Usage split in two: a Usage tab that trains a new operator from
-  planning to the day of, and Features as a per-tool reference. Merged as docs
-  2.0.0; the newcomer read-through is left.
 
 - **[Code and access protection](in-progress/code-and-access-protection-spec.md)** —
   a free to-do list (Viewer-only sharing of the masters, GitHub org settings within the free

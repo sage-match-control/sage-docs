@@ -3,7 +3,7 @@
 > **Status: implemented** (2026-10-03). Written 2026-10-02 against
 > `sage-tools-api` 2.5.0 (live push, the operator switch, the Apps Script
 > verify scripts), split out of the
-> [architecture hardening spec](../in-progress/sage-tools-api-architecture-spec.md), whose
+> [architecture hardening spec](../implemented/sage-tools-api-architecture-spec.md), whose
 > Phase 0 this is. Revised 2026-10-03 against 2.7.0: attendance (2.6.0,
 > 2.6.1) and team rosters (2.7.0) are on `main`, and this page covers both.
 > Built the same day with no production file changed; §11 records where the

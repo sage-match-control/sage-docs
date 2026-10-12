@@ -37,14 +37,24 @@ has been replaced.
 
 ---
 
+## [2.10.0] — 2026-10-13
+
+### Changed
+
+- Specs: [sage-tools-api architecture hardening](specs/implemented/sage-tools-api-architecture-spec.md)
+  and [Usage guide and docs restructure](specs/implemented/docs-usage-guide-spec.md) move from
+  In progress to **Implemented**, by the owner's decision. Their status lines name the checks
+  not run: the fresh-master check, the production acceptance and the Cloud Build filter; and
+  the newcomer read-through.
+
 ## [2.9.1] — 2026-10-12
 
 ### Fixed
 
-- [sage-tools-api architecture hardening](specs/in-progress/sage-tools-api-architecture-spec.md):
+- [sage-tools-api architecture hardening](specs/implemented/sage-tools-api-architecture-spec.md):
   the workspace is a GitHub repo, `sage-match-control/sage-workspace`. Phase 7 has only the
   build-trigger filter left.
-- [Usage guide and docs restructure](specs/in-progress/docs-usage-guide-spec.md): D5's
+- [Usage guide and docs restructure](specs/implemented/docs-usage-guide-spec.md): D5's
   site-repo fixes are done (the dry-run checklist template's labels and scorer links, and
   `_templates/CLAUDE.md` step 13). Only the newcomer read-through is left.
 
@@ -212,7 +222,7 @@ Spec statuses brought in line with what is built.
 
 ### Changed
 
-- [Usage guide and docs restructure](specs/in-progress/docs-usage-guide-spec.md)
+- [Usage guide and docs restructure](specs/implemented/docs-usage-guide-spec.md)
   moves from Not started to **In progress**: merged as 2.0.0, with the newcomer
   read-through and the site repo's checklist fixes left.
 - [Site test suite](specs/not-started/site-test-suite-spec.md) stays Not started,
@@ -227,7 +237,7 @@ Spec statuses brought in line with what is built.
 
 The Features & Usage tab splits in two: a **Usage** guide that trains a new
 operator, and **Features** as a per-tool reference. Built from the
-[usage guide spec](specs/in-progress/docs-usage-guide-spec.md).
+[usage guide spec](specs/implemented/docs-usage-guide-spec.md).
 
 ### Added
 

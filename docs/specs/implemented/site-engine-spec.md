@@ -41,7 +41,7 @@
 > to the owner when it comes up.
 >
 > This spec is **Phase 8** of the
-> [`sage-tools-api` architecture spec](../in-progress/sage-tools-api-architecture-spec.md).
+> [`sage-tools-api` architecture spec](../implemented/sage-tools-api-architecture-spec.md).
 > Phase 8 started as a decision record comparing three ways to stop
 > hand-copying code between the site's pages: shared files, a stamping
 > script, or keeping the copies under a test suite. The owner chose on
@@ -1202,7 +1202,7 @@ in [`../README.md`](../README.md).
 | `sage-docs/docs/technical/scorer-page.md`, `event-attendance.md`, `schedule-board.md`, `sync-pipeline.md` | any mention of the `LIVE CHANNEL`, `SCORE CLIENT` or `ATTENDANCE CLIENT` blocks or of byte-identical copies |
 | `sage-docs/docs/features/preparing-an-event.md` | any step that fills in `DAYS`/`DIVISIONS`/`EVENTS` in a page |
 | `sage-docs/docs/specs/README.md`, `not-started/README.md` → `implemented/README.md`, `mkdocs.yml` | this spec's status as it moves |
-| [`sage-tools-api-architecture-spec.md`](../in-progress/sage-tools-api-architecture-spec.md) §6.8 and status line | Phase 8 is this spec; done when this spec is implemented |
+| [`sage-tools-api-architecture-spec.md`](../implemented/sage-tools-api-architecture-spec.md) §6.8 and status line | Phase 8 is this spec; done when this spec is implemented |
 
 Grep `sage-docs/docs` and both `CLAUDE.md` files for `byte-identical`,
 `LIVE CHANNEL`, `SCORE CLIENT`, `ATTENDANCE CLIENT` and `self-contained`, and
