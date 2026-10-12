@@ -62,7 +62,8 @@ search box or a category (or team) chip, and flip their switch. It shows
 *Saving…* for a moment, then *In 8:14 AM*. Flipping it back clears the time. A
 person who plays in two categories is one switch, shown in both places. When
 everyone on a team is in, it shows **Ready**. Marks made on other devices appear
-within about 10 seconds, or when you press **Refresh**.
+within a second or two. If the page says *Live updates are off*, press **Refresh** to
+see them.
 
 The step-by-step is the [desk handout](../usage/desk-handout.md), a page to send
 with the desk link.

@@ -670,6 +670,14 @@ object, so an idle object hibernates and is not billed for duration. The
 version check and the write happen with no other request in between, which is
 what makes `expectedVersion` a safe compare-and-set.
 
+The Worker also relays [attendance](event-attendance.md#push) nudges, on a separate
+object per day (`attendance:<event>/<day>`, the same `DayChannel` class): `GET
+/attendance/<event>/<day>` is a socket that is sent nothing on connect, and `POST
+/nudge/<event>/<day>` with `{ facility }` and the publish secret sends
+`{"type":"attendance","facility":"…"}` to it. The message carries no check-in state, the
+object stores nothing, and the snapshot channel above is unchanged: a public viewer never
+receives a nudge.
+
 ### How a sync publishes
 
 After fetching the facilities, `LiveFirstDelivery` (live push on) does this:

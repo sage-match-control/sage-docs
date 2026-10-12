@@ -97,7 +97,10 @@ API. Details a twin does not show:
   `{ key, player, teams, categories, present, timeIn, withdrawn, shirt }`. It is read
   from the workbook at most once every 10 s per workbook however many desks ask, and
   again at once after a write to that tab. A workbook with no `ATTENDANCE` tab answers
-  `[]`. See [Event attendance](event-attendance.md#reading-the-list).
+  `[]`. See [Event attendance](event-attendance.md#reading-the-list). A write that changes
+  the `ATTENDANCE` tab (a mark, or a roster update that created the tab or wrote rows) also
+  nudges the live Worker, so other open pages re-read the list; no route is involved
+  ([push](event-attendance.md#push)).
 - **The score-entry body** is `{ "scoreEntry": "console" | "links" }` where `/v1`
   takes `{ "mode": … }`.
 

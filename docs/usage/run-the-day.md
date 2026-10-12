@@ -121,7 +121,8 @@ overwriting it.
   connection** says **Live push: on**. If the live service is the problem, switch **Sync
   method** to **GitHub only**: every score then goes through GitHub and pages catch up
   within 30–60 seconds. Switch it back when things are healthy. It takes effect within
-  about a minute.
+  about a minute. The switch does not change attendance: desks still get live updates while
+  the live service is up.
 - **Scorer links that should stop** (a link sent to the wrong person, say). Set **Scorer
   links** on Mission Control to **Stopped**: within about a minute every scorer's save is
   refused, and you can still enter scores yourself in Match Finder. Set it back to

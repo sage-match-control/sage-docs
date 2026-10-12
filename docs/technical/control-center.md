@@ -226,8 +226,9 @@ frozen with that finished event.
 The list is `createAttendanceView` in `lib/v1/views/attendance-view.js`, shared
 with the desk page (`lib/v1/apps/attendance-desk.js`); its styles are
 `lib/v1/css/attendance.css`. It reads each
-facility's people through `GET /v3/days/{day}/facilities/{facility}/people` every 10 s
-while visible, and marks through `PUT /v3/…/people/{personKey}/attendance`, both with
+facility's people through `GET /v3/days/{day}/facilities/{facility}/people` when the tab
+opens, when the page comes back into view, on **Refresh**, and when a nudge arrives (nothing
+polls), and marks through `PUT /v3/…/people/{personKey}/attendance`, both with
 the operator token. The tab needs a sign-in: signed out, the view fetches nothing and
 shows "Sign in to see attendance." where the list goes. A failed load keeps the list it had
 and shows the server's message. In this console it loads every facility of the day, so the counts are
@@ -238,7 +239,17 @@ counts, **Update roster** (`POST /v3/days/{day}/attendance/reconciliations`),
 **Issue desk link** (`POST …/desk-links`, QR drawn in a canvas from
 `qrcode-generator` 1.4.4 on cdnjs, SRI-pinned, loaded on first click) and
 **Needs attention**. `showView()` mounts the view on entering the tab and
-destroys it (and its poll) on leaving. Messages go through `showToast` and
+destroys it on leaving.
+
+**The attendance signal.** `attConsoleMount()` also opens `createAttendanceSignal`
+(`lib/v1/data/attendance-signal.js`), a socket to the Worker's attendance object for the
+day, kept in `attConsoleSignal`. A nudge makes the view re-read that facility
+(`changed(facility)`), and the socket opening or dropping tells it (`setLive(open)`),
+which shows or hides *Live updates are off…* under the search box. `attConsoleDestroy()`
+closes the signal, and every exit from the tab goes through it: another tab, a day or
+event change, a remount. Signing out does not tear the tab down, so the signal stays open and
+a nudge's read finds no token, leaving the view on *Sign in*. The day's `liveChannel` for
+snapshots is separate and untouched. See [push](event-attendance.md#push). Messages go through `showToast` and
 `showResultRows` like the rest of the console. With `?fixture=` on localhost
 everything reads `_fixtures/` and makes no API call; `?attfail` makes the first
 mark fail.

@@ -37,6 +37,26 @@ has been replaced.
 
 ---
 
+## [2.12.0] — 2026-10-13
+
+### Changed
+
+- [Event attendance](technical/event-attendance.md#push) (technical): the new **Push**
+  section describes the data-free nudge, the Worker's separate attendance object, when the API
+  nudges, and that nothing polls; the flow diagram, the list's cache and read-load paragraphs,
+  and the client paragraph follow it. It replaces the note that the live Worker is not used for
+  attendance.
+- [Sync pipeline](technical/sync-pipeline.md#the-worker), [API](technical/api.md),
+  [Control Center](technical/control-center.md#attendance-tab): the Worker also relays
+  attendance nudges on a separate object per day; a write that changes the tab nudges it; the
+  Attendance tab's attendance signal and when it is closed.
+- [Event attendance](features/event-attendance.md), [Desk handout](usage/desk-handout.md):
+  marks made on other devices appear within a second or two; if the page says *Live updates
+  are off*, press **Refresh**.
+- [Run the day](usage/run-the-day.md): the **Sync method** switch does not change attendance.
+
+---
+
 ## [2.11.0] — 2026-10-13
 
 ### Changed

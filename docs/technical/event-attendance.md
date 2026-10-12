@@ -12,21 +12,29 @@ The earlier, Pickle for Sight design is at the end of this page.
 ```
 Control Center "Attendance" tab          events/<key>/attendance.html (desk page, "desks" mode)
         |   the same view in both (lib/v1/views/attendance-view.js)
-        | read:  GET /v3/days/{day}/facilities/{facility}/people, every 10 s while visible
+        | read:  GET /v3/days/{day}/facilities/{facility}/people, on open, on a nudge,
+        |        on coming back into view, on Refresh (nothing polls)
         | write: PUT /v3/days/{day}/facilities/{facility}/people/{personKey}/attendance
         |        Authorization: Bearer <operator token | desk token>
         v
 sage-tools-api   src/attendance/
         | reads:  Sheets API, the service account's token (GOOGLE_SHEETS_API_KEY is the fallback)
         | writes: Sheets API, the service account's token (metadata server)
-        v
-Facility workbook -- ATTENDANCE tab
-        ^
+        | nudge:  after a write that changed the tab, POST /nudge/{event}/{day} {facility}
+        v                                                  |
+Facility workbook -- ATTENDANCE tab                        v
+        ^                            live Worker "sage-live": object attendance:<event>/<day>
+        |                                    | {"type":"attendance","facility":"Gym"}
+        |                                    v
+        |                            every other open page, over wss://.../attendance/<event>/<day>,
+        |                            which re-reads that facility's list from the API
         | after every sync of a facility, only when the roster changed
 a sync (Apps Script or Control Center) -- SyncService -- onFacilitiesSynced hook
 ```
 
-The live Worker is not used: its channel is public.
+The Worker's snapshot channel is public, so no check-in state travels over a socket:
+the Worker relays only a [nudge](#push), and each page re-reads the list from the API with its
+own token.
 
 ## The setting
 
@@ -170,15 +178,55 @@ caller, so the number of desks open does not multiply reads from Google. Calls m
 together share one read, a failed read is not cached, and any write to the
 workbook's `ATTENDANCE` tab (a mark that changed something, a roster update that
 created the tab or wrote rows) drops the entry. A person who marks sees their
-change at once; another desk sees it within one poll and one cache period (at most
-20 s). The cache is per instance and in memory.
+change at once; another desk is told by a [nudge](#push) and sees it within a second or
+two. The cache is per instance and in memory, so another Cloud Run instance can hold a
+list up to 10 s old; that is why a page reads once more 11 s after a read of everything.
 
 The reads a workbook sees at an event's busiest moment are the sync's (one
-`batchGet` each, about 5 a minute across two events on 3 October 2026), at most 6
-a minute per facility for the list, one per mark, and two per score save. All of
+`batchGet` each, about 5 a minute across two events on 3 October 2026), the list's (a
+page reads it on opening and once more 11 s later, then once per nudge, at most one per
+2 s per facility, and when a phone wakes), one per mark, and two per score save. All of
 them are the service account's, so the Sheets API's *Read requests per minute per
 user* quota is the limit that counts
 ([code and access protection](../specs/in-progress/code-and-access-protection-spec.md)).
+
+### Push
+
+Other pages learn that a list changed from a **nudge**, a message that says only *this
+facility's list changed*:
+`{"type":"attendance","facility":"<name>"}`. It carries no person, key, name, state, time
+or count, so it can travel on a public socket; a facility's name is already public in
+`events.json`. Spec: [push for attendance](../specs/not-started/attendance-push-spec.md).
+
+- **The Worker** (`live-worker/`) gives attendance its own object, `attendance:<event>/<day>`,
+  of the same `DayChannel` class as the snapshot channel, so a public viewer never receives a
+  nudge and a fault here cannot reach the public feed. It stores nothing.
+  `GET /attendance/<event>/<day>` is the socket (a WebSocket upgrade, the same `Origin` rule as
+  `/live`, no secret, nothing sent on connect); `POST /nudge/<event>/<day>` with `{ facility }`
+  and `X-Publish-Secret` broadcasts the message to that object's sockets and answers
+  `{ clients }`. See [sync pipeline](sync-pipeline.md#live-push-delivery).
+- **The API** (`AttendanceService`, through the `AttendanceSignals` port that `LivePublisher`
+  implements) nudges after every write that changes the tab: a mark that changed someone, a
+  roster update that created the tab, and a roster update that wrote rows. One nudge per write,
+  after the write and the cache drop. It is awaited before the response, because Cloud Run
+  throttles CPU once a response is sent, with a 2-second timeout. A failure or timeout logs one
+  `live nudge failed` warning and never changes the answer; after one, the instance sends none
+  for 60 s. It nudges whenever `LIVE_PUSH_URL` and `LIVE_PUSH_SECRET` are set, whatever the
+  **Sync method** switch says: that switch is about how snapshots are delivered.
+- **The page** (`lib/v1/data/attendance-signal.js`, wired by the desk page and Control Center,
+  never by the view) holds one socket to the day's attendance object, with a ping and the same
+  reconnect backoff as the snapshot channel. A nudge for a facility the page shows re-reads that
+  facility only, at most once every 2 s, and once more 11 s after the last nudge. Nudges for a
+  facility the page does not show, or received while the page is hidden, are ignored.
+
+**Nothing polls.** A page reads the list when it opens, when it comes back into view (a phone
+that slept missed nudges), when its socket opens again after a drop, on a nudge, and on
+**Refresh**. Each of those reads except a nudge's is followed by one more read 11 s later (the
+cache of another instance may be 10 s old, and a page that was not listening missed the nudges
+that would have corrected it); a newer such read restarts the 11 s, and the follow-up itself
+schedules nothing. When the socket is not open, or the page has no Worker address, the view shows
+*Live updates are off. Press Refresh to see marks from other devices.* The finished events'
+inline desk pages keep their own polling.
 
 ## Reading the workbook
 
@@ -217,7 +265,9 @@ imported by `tools/control-center.html` and by the desk page
 (`lib/v1/apps/attendance-desk.js`, which the attendance template's shell
 calls). Its stylesheet is `lib/v1/css/attendance.css`, which a page links after
 its own styles. `createAttendanceView` renders the list, the category bar and
-search, polls (every `pollMs`, passed in), and marks optimistically. The
+search, and marks optimistically; it reads on the events listed under [Push](#push)
+(`changed(facility)`, `setLive(open)`, and its own opening, visibility and **Refresh**) and
+sets an interval only when handed a positive `pollMs`, which the apps no longer pass. The
 finished events' `attendance.html` files (Pickle for Sight, Piggleball,
 PickleDrive) keep their own copy of the block they were made with and do not
 use the engine.

@@ -34,7 +34,7 @@ Flip the switch back. That clears the time.
 
 ## Seeing other desks' marks
 
-Marks made on other phones appear within about 10 seconds, or when you press **Refresh**.
+Marks made on other phones appear within a second or two. If the page says *Live updates are off*, press **Refresh** to see them.
 
 ## What the messages mean
 
