@@ -261,8 +261,8 @@ to the `...` form rather than repointing it.
 - **[Push for attendance](not-started/attendance-push-spec.md)** — other desks and
   Control Center see a check-in within a second or two. The live Worker relays a
   data-free nudge (*this facility's list changed*) on its own object per day, and each
-  page re-reads the list from the API with its own token. Polling stays as the fallback,
-  every 30 s while connected.
+  page re-reads the list from the API with its own token. Nothing polls: a page reads the
+  list when it opens, comes back into view or reconnects, and on **Refresh**.
 
 ---
 

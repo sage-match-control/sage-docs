@@ -2,7 +2,8 @@
 
 When someone is marked in at one desk, every other desk and Control Center's
 Attendance tab show it within a second or two, instead of within about 20 seconds.
-Pages poll a third as often while it works.
+Pages stop polling: they read the list when they open, when they come back into view,
+when a nudge arrives, and when someone presses **Refresh**.
 
 The live Worker pushes a **nudge**, a message that says only *this facility's list
 changed*. It carries no names and no check-in state, so it can travel on a public
@@ -50,7 +51,7 @@ it with a shared secret.
 |---|---|
 | `sage-tools-api/live-worker/` | §3: two routes on the Worker, the `DayChannel` object, `smoke.mjs`, `README.md` |
 | `sage-tools-api/` | §4: `LivePublisher.nudge`, `AttendanceService` sends nudges, a port, wiring, tests, version, Changelog |
-| `sage-match-control.github.io/` | §5: a new `lib/v1/data/attendance-signal.js`, `attendance-view.js`, `attendance-desk.js`, `tools/control-center.html`, the attendance template, `_tests/` |
+| `sage-match-control.github.io/` | §5: a new `lib/v1/data/attendance-signal.js`, `attendance-view.js`, `lib/v1/css/attendance.css`, `attendance-desk.js`, `tools/control-center.html`, the attendance template, `_tests/` |
 | `sage-docs/` | §7: feature and technical pages |
 | `D:\Personal\SAGE\CLAUDE.md` | §7: three sentences (not in any repo) |
 
@@ -116,10 +117,10 @@ it with a shared secret.
 | D3 | **Two Worker routes.** `GET /attendance/<event>/<day>` is the socket: `Upgrade: websocket`, the same `Origin` rule as `/live`, no secret, nothing sent on connect. `POST /nudge/<event>/<day>` with body `{ facility }` needs `X-Publish-Secret`, broadcasts the D1 message to that object's sockets and answers `200 {clients}`. A `facility` that isn't a 1–100 character string is `400` |
 | D4 | **The API nudges after every write that changes the tab**, and only then: a mark whose plan `changed`, a reconcile that created the tab, and a reconcile that wrote rows. One nudge per write, after the write and the cache drop |
 | D5 | **Best effort, awaited, short.** The nudge is awaited before the response, because Cloud Run throttles CPU once a response is sent, with a **2-second** timeout. A failure or timeout logs one warning and never changes the answer or throws |
-| D6 | **The same switches as live push.** The API nudges only when `LivePublisher.enabled` (URL and secret set) **and** `config.livePushOn` (the **Sync method** switch is not *GitHub only*). Otherwise it sends nothing, and pages fall back to their poll (D8) |
+| D6 | **Nudges follow the environment, not the Sync method switch.** The API nudges whenever `LivePublisher.enabled` (URL and secret set), whatever `config.livePushOn` says. With no polling (D8), a nudge is the only way other pages hear of a mark, and the switch is about how snapshots are delivered. After a failed nudge the service sends none for **60 s** (per instance), so a Worker outage costs a mark at most one 2-second wait a minute |
 | D7 | **Pages coalesce.** A nudge for a facility the page shows re-reads that facility only, at most once every 2 s (trailing). **And once more 11 s after the last nudge**, because another Cloud Run instance can hold a list up to 10 s old (`PEOPLE_CACHE_MS`), so the follow-up is never stale. Nudges for a facility the page doesn't show are ignored. While the page is hidden, nudges are ignored; the existing `visibilitychange` load catches up |
-| D8 | **Polling stays as the fallback, slower while connected.** With the socket closed, the page polls every 10 s as today. With it open, every 30 s, which covers a nudge path that has quietly stopped (the API's switch off, a failed nudge) |
-| D9 | **Where it runs.** The desk page (desks mode, from the template) and Control Center's Attendance tab. Off in fixture mode, and off when the page has no Worker address. The finished events' inline desk pages are untouched and keep polling |
+| D8 | **No polling.** The owner's call: no timer re-reads the list. A page reads it when it opens, when it comes back into view (`visibilitychange`: a phone that slept missed nudges), when its socket opens again after a drop (it missed nudges meanwhile), on a nudge (D7), and when someone presses the existing **Refresh** button. When the socket isn't open, the view says so in a line of its own: *Live updates are off. Press Refresh to see marks from other devices.* |
+| D9 | **Where it runs.** The desk page (desks mode, from the template) and Control Center's Attendance tab. Off in fixture mode. A page with no Worker address gets no nudges and shows the D8 line. The finished events' inline desk pages are untouched and keep their own polling |
 | D10 | **Rollout order.** (1) The Worker, deployed by hand, never within 3 days of an event. (2) The API: harmless before any page listens. (3) Site push A: `attendance-signal.js` (new) and `attendance-view.js`. (4) Site push B, at least 10 minutes after A: `attendance-desk.js` and `tools/control-center.html` start using them. (5) Site push C, at least 10 minutes after B: the attendance template passes the Worker address. A cached older `attendance-desk.js` refuses an unknown setting and renders nothing, which is why C waits |
 | D11 | **No read changes.** `GET …/people`, its 10-second cache and its response stay exactly as they are. Google reads per facility don't go up |
 | D12 | **Versions.** `sage-tools-api` **3.4.0** (minor: new behaviour, no new route). The Worker has no version; its `README.md` route table is its record |
@@ -147,7 +148,7 @@ desk A marks someone
 The cost is easy to see:
 
 - **Google reads:** unchanged. Every re-read goes through the existing 10 s cache.
-- **API requests:** fewer when quiet, since pages poll every 30 s instead of 10 s. At
+- **API requests:** none while nothing changes, instead of six a minute per page. At
   most one re-read per 2 s per page during a burst of marks, plus one follow-up.
 - **Worker:** one nudge per write that changed the tab. Each nudge goes to that day's
   attendance sockets only.
@@ -233,10 +234,13 @@ The timeout message reads `live Worker nudge timed out after 2000ms`, and failur
 - The constructor takes an optional `signals` (`AttendanceSignals`, default `null`).
   Type it in the JSDoc like the other dependencies.
 - A private `#nudge(config, event, day, facilityName)`:
-  - Return at once unless `this.signals?.enabled && config.livePushOn` (D6).
+  - Return at once unless `this.signals?.enabled` (D6). `config.livePushOn` is **not**
+    consulted.
+  - Return at once if the last failed nudge was less than `NUDGE_BACKOFF_MS` (60 000,
+    a constant beside `PEOPLE_CACHE_MS`) ago, by `this.now()`.
   - Otherwise `await this.signals.nudge(event, day, facilityName)` inside `try`. On any
-    error, log `this.logger.warn(\`attendance ${day}/${facilityName}: live nudge failed:
-    ${err.message}\`)` and return. Never throw.
+    error, remember the time, log `this.logger.warn(\`attendance ${day}/${facilityName}:
+    live nudge failed: ${err.message}\`)` and return. Never throw.
 - `mark`: after `updateValues` and the cache delete, inside `if (plan.changed)`, call
   `await this.#nudge(config, event, day, facilityName)`. The return value is unchanged.
 - `#reconcileFacility`: if this run called `createAttendanceTab` or wrote rows with
@@ -260,7 +264,7 @@ constructed.
 | File | Cases |
 |---|---|
 | `test/unit/clients/LivePublisher.test.mjs` | `nudge`: `POST` to `…/nudge/<event>/<day>` (URL-encoded), the secret header, the JSON body `{ facility }`; `200` resolves to `{ clients }`; `401` and `500` reject with `live Worker nudge failed: HTTP …`; a request that never answers rejects with `timed out after 2000ms` (use the file's existing timer approach), even when `timeoutMs` is 4000 |
-| `test/unit/attendance/AttendanceService.test.mjs` | A changed mark nudges once with the event, the day and the facility name, **after** `updateValues`. An unchanged mark sends no nudge. `livePushOn: false` and `enabled: false` each send none. A rejecting nudge leaves the mark's return value as it was, logs one `live nudge failed` warning, and doesn't throw. A reconcile that writes rows nudges once; one that creates the tab nudges once; a skipped reconcile and one with nothing to write send none. A service built **without** `signals` marks and reconciles as before |
+| `test/unit/attendance/AttendanceService.test.mjs` | A changed mark nudges once with the event, the day and the facility name, **after** `updateValues`. An unchanged mark sends no nudge. `enabled: false` sends none; `livePushOn: false` **still** nudges. A rejecting nudge leaves the mark's return value as it was, logs one `live nudge failed` warning, and doesn't throw. After it, marks within 60 s send no nudge, and one 60 s later does (drive `now`). A reconcile that writes rows nudges once; one that creates the tab nudges once; a skipped reconcile and one with nothing to write send none. A service built **without** `signals` marks and reconciles as before |
 | `test/integration/attendance-routes.test.mjs` | Through the real app with `FakeLivePublisher`: `PUT /v3/…/attendance` that changes someone records one nudge. The same `PUT` again records none. A nudge that rejects still answers `200` with the same body |
 
 ### 4.7 Version and Changelog
@@ -283,11 +287,11 @@ import { LIVE_PING_MS, LIVE_PONG_TIMEOUT_MS, LIVE_RETRY_MAX_MS } from './live-ch
 
 export const ATTENDANCE_NUDGE_GAP_MS = 2000;   // at most one re-read per facility this often
 export const ATTENDANCE_SETTLE_MS = 11000;     // sage-tools-api's PEOPLE_CACHE_MS (10 s) + 1 s
-export const ATTENDANCE_LIVE_POLL_MS = 30000;  // the view's poll while the socket is open
 
 /**
  * @param {{ baseUrl: string, enabled: boolean, event: string, day: string,
- *           onChange: (facility: string) => void }} options
+ *           onChange: (facility: string) => void,
+ *           onStatus?: (open: boolean) => void }} options
  * @returns {{ isOpen(): boolean, close(): void }}
  */
 export function createAttendanceSignal(options){ … }
@@ -308,42 +312,55 @@ in push A.
     `ATTENDANCE_NUDGE_GAP_MS` ago. Otherwise call it once when the gap ends.
   - After every nudge, (re)start that facility's settle timer: `onChange(facility)` again
     `ATTENDANCE_SETTLE_MS` after the **last** nudge.
+- **Status:** `onStatus(true)` when the socket opens; `onStatus(false)` when it closes or
+  a connection attempt fails, once per change (not once per retry). With
+  `enabled: false`, call `onStatus(false)` once, on the next tick.
 - `isOpen()` is `ws.readyState === WebSocket.OPEN`.
 
 ### 5.2 `lib/v1/views/attendance-view.js` — push A
 
-- New optional options:
-  - `isLive`, `() => boolean`. When it returns true, the interval skips a tick unless the
-    last load started at least `livePollMs` ago.
-  - `livePollMs`, default `30000`, defined as a literal in this file, not imported, since
-    a new import would break the rule in §0.3 rule 6.
-  - Without `isLive`, nothing changes.
+- **No timer without `pollMs`.** Today the interval is set whenever the view isn't in
+  fixture mode, and `setInterval(fn, undefined)` would fire constantly. Set it only when
+  `opts.pollMs` is a positive number. The apps stop passing it in push B (D8). Until
+  then, a cached older app passes it and keeps polling, which is harmless.
 - The returned object gains `changed(facility)`:
   - If the page is hidden, or the facility isn't one this view loads (desk mode: the
     chosen venue; console: any of `facilities`), do nothing.
   - Otherwise do a quiet load of **that facility only**. Give `load` an optional second
     argument naming one facility. The `loadSeq` rule must not drop the other facilities'
     data: only a newer load **of the same facility** supersedes it.
-  - Someone this device is still saving keeps their local state, as in a poll.
-- Don't change the existing behaviour of `refresh`, `destroy`, the interval with
-  `isLive` absent, `visibilitychange` or optimistic marking.
+  - Someone this device is still saving keeps their local state, as a load already
+    does.
+- It also gains `setLive(open)`:
+  - `false` shows the D8 line, `true` hides it. The line sits under the search bar, in
+    its own element with a new class `att-live-off` in `lib/v1/css/attendance.css`.
+    Adding a class is compatible. It isn't a `say()` message, because in Control
+    Center those become toasts and this line has to stay.
+  - When `setLive(true)` follows a `setLive(false)`, do one quiet load of everything the
+    view shows, to catch up on nudges missed while disconnected.
+  - Before the first call the line is hidden.
+- Don't change the behaviour of `refresh`, the **Refresh** button, `destroy`,
+  `visibilitychange` or optimistic marking.
 
 ### 5.3 `lib/v1/apps/attendance-desk.js` — push B
 
 - `KNOWN_SETTINGS` becomes `['eventKey', 'liveBaseUrl']` (optional, default `''`).
 - After `createAttendanceView`, keep the view it returns. Then
-  `createAttendanceSignal({ baseUrl: settings.liveBaseUrl, enabled: !!settings.liveBaseUrl && !FIXTURE, event: EVENT_KEY, day: info.day, onChange: f => view.changed && view.changed(f) })`,
-  and pass the view `isLive: () => signal.isOpen()`.
-  - Create the signal first and give the view a function that reads it, so neither
-    needs the other at construction.
-  - `view.changed &&` guards against a cached push-A-less view, which is harmless.
+  `createAttendanceSignal({ baseUrl: settings.liveBaseUrl, enabled: !!settings.liveBaseUrl && !FIXTURE, event: EVENT_KEY, day: info.day, onChange: f => view.changed && view.changed(f), onStatus: open => !FIXTURE && view.setLive && view.setLive(open) })`.
+  - Stop passing `pollMs` to `createAttendanceView` (D8). Drop `ATTENDANCE_POLL_MS`
+    from the import if nothing else uses it. The export stays in `platform.js`, since
+    nothing is removed from `lib/v1`.
+  - `view.changed &&` and `view.setLive &&` guard against a cached push-A-less view,
+    which is harmless.
 
 ### 5.4 `tools/control-center.html` — push B
 
 - Where the Attendance tab creates its view (`attConsoleView = createAttendanceView({…})`),
   also create an attendance signal for the event and day, with `baseUrl: LIVE_BASE_URL`
-  and `enabled: !!LIVE_BASE_URL && !FIXTURE`, and pass `isLive`.
-  `onChange` calls `attConsoleView.changed && attConsoleView.changed(f)`.
+  and `enabled: !!LIVE_BASE_URL && !FIXTURE`. `onChange` calls
+  `attConsoleView.changed && attConsoleView.changed(f)`, and `onStatus` calls
+  `!FIXTURE && attConsoleView.setLive && attConsoleView.setLive(open)`. Stop passing
+  `pollMs` (D8).
 - Close the signal wherever that view is destroyed or replaced: a day or event change,
   sign-out, leaving the tab if the view is destroyed then.
 - Import `createAttendanceSignal` from `/lib/v1/data/attendance-signal.js`.
@@ -371,14 +388,19 @@ aren't changed (D9).
   - junk, `pong` and other `type`s are ignored;
   - reconnect backoff after a close;
   - `close()` stops reconnecting and pending calls;
+  - `onStatus` fires once per change of state, not once per retry, and once with
+    `false` when `enabled` is false;
   - `isOpen()`.
-- `unit/views/attendance-view.test.mjs`: if `changed`, the one-facility load and the
-  `isLive` interval can be driven without a DOM by the file's existing means, add cases;
-  otherwise say so in your report, and §6 step 4 covers them.
+- `unit/views/attendance-view.test.mjs`: if `changed`, `setLive`, the one-facility load
+  and the absent interval can be driven without a DOM by the file's existing means, add
+  cases. Otherwise say so in your report, and §6 step 4 covers them.
 - `unit/live-pages.test.mjs` and `unit/no-copies.test.mjs` must still pass: no page
   defines its own copy of the signal.
-- `npm run verify`: the comparison harness must show **no difference** on any page.
-  Fixture mode turns the signal off.
+- `npm run verify`: the comparison harness must show no difference on any page, apart
+  from the D8 line on a page whose socket the harness can't open. Record each such case
+  in `_tests/engine/accepted.mjs`, like the rows already there, citing this spec, and
+  list them in your report. If a case relied on a poll to show a change, report it
+  rather than adding a timer back. Fixture mode turns the signal off and shows no line.
 
 ---
 
@@ -394,8 +416,11 @@ aren't changed (D9).
    Control Center's Attendance tab for one day, each pointed at `ws://localhost:8787`.
    - Mark someone on one desk. The other desk and the console show it within about
      2 s, and each makes one more read about 11 s later.
-   - With no marks, each page reads the list every 30 s, not 10 s.
-   - Stop the Worker: polling returns to every 10 s. Restart it: the pages reconnect.
+   - With no marks, no page reads the list again, however long you wait.
+   - Stop the Worker: each page shows *Live updates are off…*, and **Refresh** still
+     works. Restart it: the pages reconnect, the line goes, and each page reads its list
+     once.
+   - Hide a desk page, mark someone on another, show it again: it reads the list once.
 5. `grep -rn "attendance-signal" sage-match-control.github.io/events`: no matches.
    Finished desk pages don't use it.
 
@@ -405,12 +430,13 @@ aren't changed (D9).
 
 | Page | What it says |
 |---|---|
-| `sage-docs/docs/technical/event-attendance.md` | Replace *The live Worker is not used: its channel is public* with the nudge: the separate object, the data-free message, D4–D8, and the 30 s fallback poll. Add the nudge to the flow diagram. A **Push** subsection after *Reading the list* |
+| `sage-docs/docs/technical/event-attendance.md` | Replace *The live Worker is not used: its channel is public* with the nudge: the separate object, the data-free message, D4–D8, and that nothing polls. Add the nudge to the flow diagram. A **Push** subsection after *Reading the list* |
 | `sage-docs/docs/technical/sync-pipeline.md`, *Live push delivery* | One paragraph: the Worker also relays attendance nudges on a separate object per day; the snapshot channel is unchanged |
 | `sage-docs/docs/technical/api.md` | No route changes. Under attendance, one sentence that a write that changes the tab nudges the Worker |
 | `sage-docs/docs/technical/control-center.md` | The Attendance tab's attendance signal and when it is closed |
-| `sage-docs/docs/features/event-attendance.md` | Marks made on other devices appear within a second or two; within about 30 seconds if live updates are down, or press **Refresh** |
-| `sage-docs/docs/usage/desk-handout.md` | *Marks made on other phones appear within about 10 seconds* becomes *within a second or two* |
+| `sage-docs/docs/features/event-attendance.md` | Marks made on other devices appear within a second or two. If the page says *Live updates are off*, press **Refresh** to see them |
+| `sage-docs/docs/usage/desk-handout.md` | *Marks made on other phones appear within about 10 seconds* becomes *within a second or two*; if the page says *Live updates are off*, press **Refresh** |
+| `sage-docs/docs/usage/run-the-day.md` | Under *What to watch*, the **Sync method** bullet: switching to **GitHub only** doesn't change attendance; desks still get live updates while the Worker is up |
 | `sage-docs/docs/changelog.md`, `mkdocs.yml` | A MINOR entry and the version, per the changelog's rules |
 | `D:\Personal\SAGE\CLAUDE.md` | The data-flow note: the Worker also relays data-free attendance nudges (`/attendance`, `/nudge`). `live-worker/`'s layout entry: the two routes. `src/attendance/`: it nudges the Worker after a write |
 
@@ -436,6 +462,7 @@ aren't changed (D9).
 | An authenticated attendance socket, the Worker verifying desk and operator tokens | The Worker would need the token keys, a second copy of `AuthService`'s rules in another runtime, and their expiry rules kept in step. The data-free nudge needs none of it |
 | The nudge on the day's existing snapshot channel | Every public viewer would receive every nudge, which also reveals when check-in activity happens. A fault in the new code would share an object with the public feed. It saves one socket per staff page |
 | Server-Sent Events from Cloud Run | A long request per page keeps instances billed and busy, and a write on one instance can't reach a page connected to another |
+| Polling as a fallback (every 10 s, or 30 s while connected) | The owner's call: no polling. The **Refresh** button, a re-read when the page comes back into view or reconnects, and the *Live updates are off* line cover the same gap |
 | A shorter poll | More API requests with no fresher data: the 10 s cache sets the floor |
 | A `?since=` on `GET …/people` that forces a fresh read | A token holder could force a Google read per request; the 11 s follow-up gets the same freshness from the existing cache |
 
@@ -460,6 +487,7 @@ aren't changed (D9).
 | P1 | Deploy the Worker by hand (not within 3 days of an event); run `smoke.mjs` against it | every check passes; the public Hub still updates live |
 | P2 | Deploy the API; on a scratch event, mark someone from Control Center with no desk page open | the mark works; the log shows no `live nudge failed` |
 | P3 | Push A; 10 minutes later push B; open a desk link and Control Center's Attendance tab | a mark on one shows on the other within about 2 s |
-| P4 | Switch **Sync method** to **GitHub only** | marks still save; other pages catch up within about 30 s; switch back |
+| P4 | Switch **Sync method** to **GitHub only** | marks still save, and other pages still show them within about 2 s; switch back |
 | P5 | 10 minutes after B, push C; instantiate the template for a scratch event | its desk page connects and updates live |
-| P6 | With two desks open, watch Cloud Run's requests to `…/people` for ten quiet minutes | about 2 a minute per page, not 6 |
+| P6 | With two desks open, watch Cloud Run's requests to `…/people` for ten quiet minutes | none after each page's first load |
+| P7 | Block the Worker on one desk's network (or stop it) | that desk shows *Live updates are off*; **Refresh** shows other desks' marks |
