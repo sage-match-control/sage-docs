@@ -2,12 +2,13 @@
 
 > **Status: in progress.** Built and merged to `sage-docs` `main` on 2026-10-08 as
 > docs 2.0.0 (see the [changelog](../../changelog.md)): the Usage tab (§4), the
-> Features changes (§5), the corrections in §2.2 inside `sage-docs`, and §6. Not
-> yet: the read-through by someone who has never run an event (§7 step 5), and
-> D5 with the two site-repo fixes in §2.2 (the dry-run checklist template's
-> labels and scorer links, and `_templates/CLAUDE.md` step 13), which need a push
-> to `sage-match-control.github.io`. When both land, this moves to
-> `implemented/`.
+> Features changes (§5), the corrections in §2.2 inside `sage-docs`, and §6. D5's
+> two site-repo fixes in §2.2 are in `sage-match-control.github.io`:
+> `_templates/CLAUDE.md` step 13 says to share every facility workbook with the
+> service account, and the dry-run checklist template has the console's current
+> labels (**Auto / Force live / Force hidden**, **Open Tournament Hub**) and
+> scorer links. Not yet: the read-through by someone who has never run an event
+> (§7 step 5). When it is done, this moves to `implemented/`.
 >
 > Written 2026-10-08 from an audit of
 > every page in `features/`, `technical/README.md`, `technical/adding-a-new-event.md`,

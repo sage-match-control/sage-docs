@@ -218,7 +218,7 @@ to the `...` form rather than repointing it.
 - **[Usage guide and docs restructure](in-progress/docs-usage-guide-spec.md)** —
   Features & Usage split in two: a Usage tab that trains a new operator from
   planning to the day of, and Features as a per-tool reference. Merged as docs
-  2.0.0; the newcomer read-through and the site repo's checklist fixes are left.
+  2.0.0; the newcomer read-through is left.
 
 - **[Code and access protection](in-progress/code-and-access-protection-spec.md)** —
   a free to-do list (Viewer-only sharing of the masters, GitHub org settings within the free

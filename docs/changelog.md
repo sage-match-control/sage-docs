@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.9.1] — 2026-10-12
+
+### Fixed
+
+- [sage-tools-api architecture hardening](specs/in-progress/sage-tools-api-architecture-spec.md):
+  the workspace is a GitHub repo, `sage-match-control/sage-workspace`. Phase 7 has only the
+  build-trigger filter left.
+- [Usage guide and docs restructure](specs/in-progress/docs-usage-guide-spec.md): D5's
+  site-repo fixes are done (the dry-run checklist template's labels and scorer links, and
+  `_templates/CLAUDE.md` step 13). Only the newcomer read-through is left.
+
 ## [2.9.0] — 2026-10-12
 
 ### Added

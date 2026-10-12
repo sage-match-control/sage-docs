@@ -9,8 +9,8 @@
 > standard tournament generator 1.2.0), byte-identical to the repo as of
 > 2026-10-06. Left of Phase 6: checking a fresh copy of each master, and the
 > production acceptance in §6.6. Phase 7's docs and root
-> `CLAUDE.md` rules are done and the workspace is a local repo; the
-> build-trigger filter and the workspace's GitHub repo are the owner's.
+> `CLAUDE.md` rules are done, and the workspace is a GitHub repo,
+> `sage-match-control/sage-workspace`; the build-trigger filter is the owner's.
 > Phase 8 is built (2026-10-06): shared ES modules, specified in the
 > [site engine spec](../implemented/site-engine-spec.md), merged into the site
 > repo's `main`.
