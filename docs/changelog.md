@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.7.0] — 2026-10-12
+
+### Changed
+
+- Spec: [Code and access protection](specs/not-started/code-and-access-protection-spec.md)
+  gains §9, facility workbooks closed to link access (the server reads as its service
+  account, the desk page and Control Center read the roster through a new API route), and
+  §10, two fixes to `facilityCompletion.mjs`: how it reads a score's value, and its stale
+  comments. Both are full designs with the owner's decisions recorded, written to be built
+  without other context. §6 now has the service account as Editor on every facility
+  workbook, and signed out, Control Center's Attendance tab is to show a sign-in prompt.
+  §3 (a Cloud Run cap) and §4 (sign-in rate limiting) are not done, by the owner's
+  decision, and §5 keeps to what GitHub's free plan includes, with the paid options in
+  §11. Still not started.
+
 ## [2.6.0] — 2026-10-11
 
 ### Added

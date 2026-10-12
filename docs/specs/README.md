@@ -250,10 +250,13 @@ to the `...` form rather than repointing it.
   along the bottom, a provisional-standings line, a rules link and following
   more than one pair. Engine Hub and templates only; no new sections.
 - **[Code and access protection](not-started/code-and-access-protection-spec.md)** —
-  a free-or-nearly-free to-do list: Viewer-only workbook sharing, a Cloud Run
-  instance cap and budget alert, sign-in rate limiting, GitHub org settings,
-  least-privilege credentials, where the docs are hosted, and licence notices.
-  Records why the site is not obfuscated and the draw stays in the browser.
+  a free to-do list: Viewer-only workbook sharing, GitHub org settings within
+  the free plan, least-privilege credentials, where the docs are hosted, and
+  licence notices (a Cloud Run cap and sign-in rate limiting are not done).
+  Then facility workbooks closed to link access (the server reads as its
+  service account, the desk page reads the roster through the API), and two
+  small fixes to the played/series rules' server copy. Records why the site is
+  not obfuscated and the draw stays in the browser.
 
 ---
 
