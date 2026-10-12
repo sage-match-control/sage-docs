@@ -140,7 +140,7 @@ open it, so its `ATTENDANCE` tab (names, teams, shirt sizes, who is present)
 and every tab the sync does not publish stay inside the workbook. What the sync
 publishes to `event-data` stays public, as now.
 
-This applies to events built after §9.5–§9.8 ship. It changes nothing for an
+This applies to events built after §9.6–§9.9 ship. It changes nothing for an
 event already registered (§9.3, D4).
 
 ### 9.2 What reads a workbook today
@@ -169,36 +169,48 @@ constructed once in `src/app.mjs` (`googleAccessToken`).
 
 | | Decision | Consequence |
 | --- | --- | --- |
-| D1 | **`GOOGLE_SHEETS_API_KEY` stays, as a fallback.** | Reads use the token. The key is used when no token can be had (a local run with no metadata server and no `GOOGLE_ACCESS_TOKEN`), and once more after the token is refused with `403`, which lets a still link-shared workbook (a finished event) be read. |
-| D2 | **The gviz fallback (R2) is kept.** If spike S1 (§9.4) shows gviz accepts a bearer token, R2 sends the service account's token; if not, R2 stays as it is and works only on a link-shared workbook. | Either way the code stays and `{ method: "csv" }` keeps its meaning. The docs say which case holds. |
+| D1 | **`GOOGLE_SHEETS_API_KEY` stays, as a fallback.** | Reads use the token. The key is used when no token can be had (a local run with no metadata server and no `GOOGLE_ACCESS_TOKEN`). Whether a `403` to the token is retried once with the key depends on spike S1b (§9.4): only if a token cannot read a link-shared workbook the account was never given, since only then could the key succeed where the token failed. |
+| D2 | **The gviz fallback (R2) is kept.** If spike S1a (§9.4) shows gviz accepts the service account's bearer token, R2 sends it; if not, R2 stays as it is and works only on a link-shared workbook. | Either way the code stays and `{ method: "csv" }` keeps its meaning. The docs say which case holds. |
 | D3 | **The service account is Editor on every facility workbook**, whatever the event's `attendance` and `scoreEntry` settings. | One runbook step for every event, and turning attendance or score entry on later needs no re-share. §6 says the same. |
 | D4 | **Workbooks of events already registered keep their sharing.** | BKL Cup, PNF x BUP, Pickle for Sight, Piggleball and PickleDrive are finished. Pages that read their workbooks straight from Google (the archived pages under `events/archives/`, and the frozen desk pages of Pickle for Sight, Piggleball and PickleDrive) keep working. |
 | D5 | **The desk list is read through a new API route**, `GET /v3/days/{day}/facilities/{facility}/people` (§9.7). | Taken because R4 is the only reader in a browser, and a browser has no credential Google accepts. |
 | D6 | **The list read is cached on the server for 10 s per workbook**, shared by every caller, and dropped on every write to that workbook's `ATTENDANCE` tab. | The number of desks open does not multiply reads from Google (§9.4, O2). A marker sees their own change at once; another desk within one poll and one cache period (≤ 20 s). |
+| D7 | **Signed out, Control Center's Attendance tab shows a sign-in prompt** ("Sign in to see attendance") in place of the list, and fetches nothing. (Owner, 2026-10-12.) | Today the tab shows the list to anyone, because it reads the public CSV. That is the exposure §9 removes. The desk page always has its desk token, so it is unaffected. |
 
 ### 9.4 Owner tasks (not code)
 
 These need the Google account and the Cloud console, so the owner does them.
 
-- **S1, the gviz spike: does the gviz export accept a bearer token?** Make a
-  test spreadsheet, set it to Restricted, and type anything in `A1` of a tab
-  named `T`. In it, open **Extensions → Apps Script**, paste and run:
+- **S1, the spike: what the service account's own token can read.** Two
+  answers are needed before §9.6 starts, and they must come from the service
+  account's token with the `spreadsheets` scope, which is what the API sends
+  (your own token or an Apps Script token has other scopes and proves
+  nothing). In **Cloud Shell** (project `sage-tools-api`):
 
-  ```js
-  function spikeGvizBearer() {
-    const id = SpreadsheetApp.getActive().getId();
-    const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=T`;
-    const res = UrlFetchApp.fetch(url, {
-      headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() },
-      muteHttpExceptions: true,
-    });
-    Logger.log(res.getResponseCode() + ' ' + res.getContentText().slice(0, 200));
-  }
-  ```
+  1. Let yourself mint the account's tokens, once:
+     `gcloud iam service-accounts add-iam-policy-binding sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com --member="user:<your Google address>" --role=roles/iam.serviceAccountTokenCreator`
+  2. Make two test spreadsheets, each with a tab named `T` and any text in
+     `A1`. **A**: General access Restricted, shared with the service account as
+     Editor. **B**: General access "Anyone with the link: Viewer", **not**
+     shared with the service account.
+  3. Get a token:
+     `TOKEN=$(gcloud auth print-access-token --impersonate-service-account=sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com --scopes=https://www.googleapis.com/auth/spreadsheets)`
+  4. Check the token works at all: `curl -s -H "Authorization: Bearer $TOKEN" "https://sheets.googleapis.com/v4/spreadsheets/<A>/values/T!A1"`
+     should show `A1`'s text. If not, fix this before going on.
+  5. **S1a, does gviz take the token?**
+     `curl -s -H "Authorization: Bearer $TOKEN" "https://docs.google.com/spreadsheets/d/<A>/gviz/tq?tqx=out:csv&sheet=T" | head -3`.
+     The `A1` text, in quotes, means **yes**; an HTML page means **no**.
+  6. **S1b, does the token read a link-shared workbook it was never given?**
+     The same Sheets API call as step 4, on **B**. `A1`'s text means **yes**;
+     a `403` means **no**.
+  7. Remove the binding from step 1 (`remove-iam-policy-binding`, same
+     arguments) and delete the two spreadsheets.
 
-  CSV in the log (the `A1` text, quoted) means **yes**; an HTML page or a
-  `401`/`403` means **no**. Record the answer here, under D2, before §9.6
-  starts. The test spreadsheet can be deleted afterwards.
+  Record both answers here, under D1 and D2. S1a decides whether
+  `GvizCsvFetcher` sends the token (§9.6). S1b decides the `403` retry: if
+  **yes**, the key can never succeed where the token got `403`, so there is no
+  retry; if **no**, a `403` to the token is retried once with the key, so a
+  finished event's link-shared workbook still reads.
 - **O1, the Sheets API quota.** In the Google Cloud console (project
   `sage-tools-api`), open **APIs & Services → Google Sheets API → Quotas** and
   note *Read requests per minute per user*. Every read moves to one identity,
@@ -246,110 +258,163 @@ here:
 - **sage-docs:** present tense; every change carries its version (see
   `docs/changelog.md`, "Releasing a version").
 
-Ship §9.6, §9.7 and §9.8 as three separate releases, in that order. §9.6 and
-§9.7 each work on today's link-shared workbooks, so neither has to wait for an
-event to pass. §9.8 needs §9.7 deployed first.
+**Release order.** At the time of writing `sage-tools-api` is at 3.1.0; take
+the next free numbers when you build.
+
+| Order | What | Repo | Release |
+| --- | --- | --- | --- |
+| 1 | §10, the played and series fixes | `sage-tools-api`, then the site's `_tests` | patch (3.1.1) |
+| 2 | §9.6, Build 1 | `sage-tools-api` | minor (3.2.0) |
+| 3 | §9.7, Build 2 | `sage-tools-api` | minor (3.3.0) |
+| 4 | §9.8, Build 3 | site, plus a row in the site engine spec (sage-docs) | — |
+| 5 | §9.9, Build 4 | site runbook and sage-docs | — |
+
+§10 is independent of §9 and can ship at any point. §9.6 and §9.7 each work
+on today's link-shared workbooks, so neither has to wait for an event to pass.
+§9.8 needs §9.7 deployed first. §9.6 needs S1's answers.
 
 ### 9.6 Build 1: the server reads as the service account (R1, R2, R3)
 
-`sage-tools-api`, a **minor** release.
+`sage-tools-api`, a **minor** release. Needs S1's answers.
 
-**A read credential, in one place.** Add `src/clients/sheetsReadAuth.mjs`,
+**A read credential, in one place.** Add `src/clients/SheetsReadAuth.mjs`
+(PascalCase, like every other file in `src/clients/`) and its mirrored test,
 exporting `class SheetsReadAuth`:
 
 ```js
-// constructor({ accessToken, apiKey = null, logger, now = () => Date.now(), tokenRetryMs = 60_000 })
-//   accessToken: a GoogleAccessToken; apiKey: GOOGLE_SHEETS_API_KEY or null
+// constructor({ accessToken, apiKey = null, retryRefusedWithKey = false, logger,
+//               now = () => Date.now(), tokenRetryMs = 60_000 })
+//   accessToken: a GoogleAccessToken; apiKey: GOOGLE_SHEETS_API_KEY or null;
+//   retryRefusedWithKey: true only if S1b answered "no" (§9.4)
 //
 // async primary() -> { kind: "token", headers: { Authorization: "Bearer …" } }
 //                  | { kind: "key",   key: "<api key>" }
 //   The token, unless token() failed less than tokenRetryMs ago (remembered,
 //   so a local run without a metadata server does not wait 3 s on every read).
-//   Falls back to the key when no token can be had. Throws UpstreamError
+//   The key when no token can be had. Throws UpstreamError
 //   "Google Sheets: no credential (no service-account token and no
 //   GOOGLE_SHEETS_API_KEY)" when neither exists.
 //
-// fallbackAfter(credential) -> the key credential, when `credential` was the
-//   token and an API key is set; otherwise null.
+// fallbackAfter(credential) -> the key credential, when retryRefusedWithKey is
+//   true, `credential` was the token and an API key is set; otherwise null.
 //
-// async refusedMessage() -> "The API can't read this workbook. Share it with
-//   <email> as Editor." (email from accessToken.email(), or "the API's
-//   service account" when it is unknown)
+// async refused() -> a SheetsAccessError (below) whose message is
+//   "The API can't read this workbook. Share it with <email> as Editor."
+//   (email from accessToken.email(), or "the API's service account" when it
+//   is unknown)
 ```
 
-Every reader then follows the same steps:
+**A refusal is its own error,** so nothing retries it. Add to
+`src/shared/errors.mjs`: `export class SheetsAccessError extends UpstreamError {}`.
+It keeps `UpstreamError`'s `502` and `code: "upstream_failure"`, so no API
+answer changes. Add a case to `test/unit/shared/errors.test.mjs`: it is an
+`UpstreamError`, with status 502 and code `upstream_failure`.
+
+**Every reader then follows the same steps:**
 
 1. `const cred = await auth.primary()`. A token goes in the `Authorization`
    header; a key goes in the `key` query parameter, as today.
 2. If the answer is `403` and `auth.fallbackAfter(cred)` is not null, send the
    same request once more with that key credential.
-3. If the answer is still `403`, throw `UpstreamError(await auth.refusedMessage())`.
-   Any other status is handled exactly as today.
+3. If the answer is still `403`, `throw await auth.refused()`.
+4. Any other status is handled exactly as today.
 
-Changes:
+**Changes:**
 
 - **`SheetsCsvFetcher`** (R1): the constructor becomes
   `(logger, auth, timeoutMs)`, where `auth` is a `SheetsReadAuth`.
-  `#fetchBothOnce` uses it as above in place of `url.searchParams.set("key", …)`.
-  The "throws before any request when there is no API key" check becomes
-  `auth.primary()`'s throw. The roster-tab retry
-  (`400 Unable to parse range`) is unchanged.
+  `#fetchBothOnce` follows the steps in place of
+  `url.searchParams.set("key", …)`, and its "no API key" check goes (it is
+  `primary()`'s throw now). In `#fetchBoth`'s retry loop, rethrow a
+  `SheetsAccessError` at once instead of retrying: a refused workbook is
+  refused on every attempt, and retrying would cost six requests and 3 s of
+  sleep per facility per sync. `SyncService` records any thrown error as that
+  facility's failure and keeps its last published data, as now. The roster
+  tab's `400 Unable to parse range` retry is unchanged.
 - **`SheetsClient`** (R3): the constructor takes `auth` (a `SheetsReadAuth`)
-  in place of `apiKey`; keep `accessToken` for writes. `readValues` and
+  in place of `apiKey`, and keeps `accessToken` for writes. `readValues` and
   `readScoreNotes` build their URL without `key=` and send through a private
-  `#read(url)` that applies the steps above. `readValues`'s
-  `400 Unable to parse range → null` stays. Writes are unchanged, including
-  their own `403` message ("can't edit … as Editor").
-- **`GvizCsvFetcher`** (R2): only if S1 answered **yes**. The constructor takes
-  `auth`, and `#fetchTextOnce` sends the token's `Authorization` header when
-  `primary()` gives a token, and nothing when it gives a key (gviz takes no
-  key). If S1 answered **no**, leave this file unchanged.
-- **`src/app.mjs`**: construct one `SheetsReadAuth({ accessToken: googleAccessToken, apiKey: config.sheets.apiKey, logger })`
-  next to `googleAccessToken` and pass it to every `SheetsClient` and to
-  `SheetsCsvFetcher` (and to `GvizCsvFetcher` under S1 = yes). Move the comment
-  above `googleAccessToken` ("Attendance writes …") to say the account now
-  reads for the sync, attendance and score entry, and writes for attendance and
-  score entry.
+  `#read(url)` that follows the steps, reusing `#send`'s timeout and `429`
+  handling. `readValues`'s `400 Unable to parse range → null` stays. Writes are
+  unchanged, including their own `403` message ("can't edit … as Editor").
+- **`GvizCsvFetcher`** (R2): only if S1a answered **yes**. The constructor
+  takes `auth` as its second argument, and `#fetchTextOnce` sends the token's
+  `Authorization` header when `primary()` gives a token, and nothing when it
+  gives a key (gviz takes no key). If S1a answered **no**, change only its
+  header comment.
+- **`GoogleAccessToken.token()`**: share one in-flight request, so many reads
+  at once on a cold instance ask the metadata server once. Keep the promise
+  while it is pending; drop it when it settles, whether it resolved or
+  rejected.
+- **`src/app.mjs`**: construct one `SheetsReadAuth` next to `googleAccessToken`,
+  passing `retryRefusedWithKey` as S1b decided (a literal, with a comment
+  naming this section). Pass it to **both** `SheetsClient` constructions (the
+  attendance one and the score-entry one) and to `SheetsCsvFetcher` (and to
+  `GvizCsvFetcher` under S1a = yes). Rewrite the comment above
+  `googleAccessToken` ("Attendance writes …"): the account now reads for the
+  sync, attendance and score entry, and writes for attendance and score entry.
 - **Comments to correct:** the header of `SheetsClient.mjs` ("Reads use the API
-  key (the workbooks are link-viewable …)"), the `readScoreNotes` comment ("A
-  read, so the API key"), and `GoogleAccessToken.mjs`'s header, which names
-  attendance only.
-- `loadConfig.mjs` and `.env.example` need no change: `GOOGLE_SHEETS_API_KEY`
-  stays optional (D1). Update its line in `.env.example` to say it is the
-  fallback for reads.
+  key (the workbooks are link-viewable …)"); the `readScoreNotes` comment ("A
+  read, so the API key"); `GvizCsvFetcher.mjs`'s header ("needs no API key"):
+  say it works on a link-shared workbook, or also on a Restricted one with the
+  token under S1a = yes; and `GoogleAccessToken.mjs`'s header, which cites only
+  the attendance spec: name everything that uses the token.
+- `loadConfig.mjs` needs no change: `GOOGLE_SHEETS_API_KEY` stays optional
+  (D1). In `.env.example`, say on its line that it is the fallback for reads.
+- `src/shared/ports.mjs` needs no change: the ports describe the clients'
+  methods, which keep their signatures.
 
-Tests, written first:
+**Tests, written first.** Tests build a real `SheetsReadAuth` around a fake
+access token, `{ token: async () => "TOK", email: async () => "sa@example.com" }`,
+or one whose `token()` rejects. Wherever an existing test or helper passes an
+API key, pass `new SheetsReadAuth({ accessToken: <a rejecting fake>, apiKey: "KEY", logger })`:
+it then reads with the key exactly as today, so those tests keep their
+meaning. These call the changed constructors and must be updated:
+`SheetsClient.test.mjs`'s `client()` helper, `SheetsCsvFetcher.test.mjs`'s
+`make()` helper, `test/unit/sync/domain/teamRoster.test.mjs` (around line 75,
+`new SheetsCsvFetcher(silentLogger, "KEY", 1000)`), and `test/unit/app.test.mjs`
+if it asserts how the clients are built.
 
-- `test/unit/clients/sheetsReadAuth.test.mjs` (new, the mirrored file):
-  `primary()` gives the token when `token()` resolves; gives the key when
-  `token()` rejects and a key is set; throws `UpstreamError` when it rejects
-  and no key is set; after a rejection, does not call `token()` again within
-  `tokenRetryMs` (use the injected `now`) and does after it;
-  `fallbackAfter` gives the key after a token and null after a key or with no
-  key; `refusedMessage()` names the email, or "the API's service account" when
-  `email()` gives null.
-- `test/unit/clients/SheetsCsvFetcher.test.mjs`: sends `Authorization: Bearer …`
-  and no `key` parameter; uses the key when no token can be had; retries once
-  with the key after a `403` to the token; throws the refused message when the
-  key also gets `403`; throws before any request with neither credential. Its
-  existing test "asks for the matches tab then the standings tab, with the key
-  and FORMATTED_VALUE" changes on purpose: say so in the commit.
-- `test/unit/clients/SheetsClient.test.mjs`: the same five cases for
-  `readValues` and for `readScoreNotes`. Its existing test "sends the API key
-  and the render option, and no bearer token" changes on purpose.
-- `test/unit/clients/GvizCsvFetcher.test.mjs`, under S1 = yes only: sends the
+- `test/unit/clients/SheetsReadAuth.test.mjs` (new): `primary()` gives the
+  token when `token()` resolves; the key when it rejects and a key is set;
+  throws `UpstreamError` when it rejects and there is no key; after a
+  rejection does not call `token()` again within `tokenRetryMs` (injected
+  `now`) and does after it. `fallbackAfter` gives the key only with
+  `retryRefusedWithKey`, after a token, with a key set; otherwise null.
+  `refused()` gives a `SheetsAccessError` naming the email, or "the API's
+  service account" when `email()` gives null.
+- `test/unit/clients/SheetsCsvFetcher.test.mjs`: sends
+  `Authorization: Bearer TOK` and no `key` parameter; uses the key when no
+  token can be had; with `retryRefusedWithKey`, retries once with the key after
+  a `403` to the token; without it, does not; a refusal makes **one** attempt,
+  not three, and throws the refused message; throws before any request with
+  neither credential. These existing tests change on purpose, which the
+  commit message says: "asks for the matches tab then the standings tab, with
+  the key and FORMATTED_VALUE" (now with the token) and "throws before any
+  request when there is no API key" (now: neither credential). "makes three
+  attempts in total …" still holds for any other failure.
+- `test/unit/clients/SheetsClient.test.mjs`: the same cases for `readValues`
+  and `readScoreNotes`. Changing on purpose: "sends the API key and the render
+  option, and no bearer token" and "reads with the API key and the fields
+  mask, and no bearer token".
+- `test/unit/clients/GoogleAccessToken.test.mjs`: two `token()` calls made
+  together fetch from the metadata server once; after a rejection, the next
+  call fetches again.
+- `test/unit/clients/GvizCsvFetcher.test.mjs`, under S1a = yes only: sends the
   bearer token; sends no `Authorization` when only a key exists.
-- `test/unit/app.test.mjs`, if it asserts how the clients are constructed.
 
-Docs in the same release: [Sync pipeline](../../technical/sync-pipeline.md)
-(how the fetchers authenticate; what `{ method: "csv" }` needs, per S1),
+**Docs in the same release:** [Sync pipeline](../../technical/sync-pipeline.md)
+(how the fetchers authenticate; what `{ method: "csv" }` needs, per S1a),
 [Event attendance](../../technical/event-attendance.md) and
 [Deployment](../../technical/deployment.md) (`GOOGLE_SHEETS_API_KEY` is the
-read fallback). In the workspace `CLAUDE.md`: the `src/clients/` and
-`src/attendance/` bullets that say `SheetsClient` "reads with the API key".
+read fallback), and the `README.md` Changelog. In the workspace `CLAUDE.md`:
+the `src/clients/` and `src/attendance/` bullets that say `SheetsClient`
+"reads with the API key".
 
-**Done when:** `npm test` and `npm run verify` pass; with the token and no key
-every read sends only `Authorization`; with neither, the error names both.
+**Done when:** `npm test` and `npm run verify` pass; with a token every read
+sends only `Authorization`; with neither credential, the error names both; a
+refused workbook fails its sync in one attempt with the message naming the
+account.
 
 ### 9.7 Build 2: the attendance list from the API (R4, server half)
 
@@ -363,10 +428,12 @@ router.route("/days/:day/facilities/:facility/people")
     .all(methodNotAllowed);
 ```
 
-`handlers.listPeople` calls `attendanceService.listPeople({ day, facilityName: req.params.facility, actor: req.actor })`,
+Add `listPeople` to `attendanceHandlers`: it calls
+`attendanceService.listPeople({ day: req.params.day, facilityName: req.params.facility, actor: req.actor })`,
 sets `Cache-Control: no-store`, and answers `200` with the array itself (no
 envelope, per the [API](../../technical/api.md) conventions). There is no `/v1`
-twin: new routes are `/v3` only.
+twin: new routes are `/v3` only. It is the first `/v3` route that is not the
+twin of a frozen one.
 
 **The body:** a JSON array of people, in sheet order, one per key:
 
@@ -378,29 +445,37 @@ twin: new routes are `/v3` only.
 ]
 ```
 
-This is exactly the `Person` shape the site's `parseAttendanceCsv`
+This is the `Person` shape the site's `parseAttendanceCsv`
 (`lib/v1/domain/attendance.js`) builds today, so the page renders it
-unchanged.
+unchanged. The rules below copy that function's, so the same sheet gives the
+same list.
 
 **The rules,** a new pure function `peopleFromTab(values)` in
 `src/attendance/domain/attendanceTab.mjs`. `values` is what
 `readValues(sheetId, "ATTENDANCE!A1:Z", { render: "FORMATTED_VALUE" })`
-returned:
+returned, so every cell is display text:
 
-- Columns A–G go through the existing `parseTab` (so a wrong header row throws
-  `AttendanceLayoutError`, a `409 attendance_layout`, as a mark does).
-- One person per key: the first row with that key wins; rows with a blank key
-  are skipped.
-- `player` is the trimmed player text, or the key when it is blank.
-- `teams` and `categories` split on commas, each part trimmed, empty parts
+- **Layout:** pass `values.map(r => (r ?? []).slice(0, HEADERS.length))` to the
+  existing `parseTab`, exactly as `mark` does, because `parseTab` requires row 1
+  to be exactly the seven headers. A wrong header row throws
+  `AttendanceLayoutError`, a `409 attendance_layout`, as a mark does. Use
+  `parseTab`'s rows for the row order, `key` and the blank-key skip.
+- **One person per key:** the first row with that key wins.
+- `player`: the trimmed player text, or the key when it is blank.
+- `teams`, `categories`: split on commas, each part trimmed, empty parts
   dropped.
-- `present` and `withdrawn` are true for `true` or the text `TRUE` (any case):
-  `parseTab`'s `flag` already does this.
-- `timeIn` is the trimmed text.
-- `shirt` is the trimmed text of the first column in row 1 (A–Z) whose
-  trimmed header is one of `SHIRT_HEADERS`, or `""` when there is none. Add
-  `export const SHIRT_HEADERS = ["TShirt Size", "T-Shirt Size", "Shirt Size", "tshirtSize", "shirtSize"]`
-  to `attendanceTab.mjs`: the same list as the site's
+- `present`, `withdrawn`: true only when the cell's text is exactly `TRUE`, the
+  site's rule. A checkbox renders as `TRUE`/`FALSE` under `FORMATTED_VALUE`.
+  Do not use `parseTab`'s `flag`, which also accepts `true` and so differs
+  from the site.
+- `timeIn`: the trimmed text.
+- `shirt`: from the full row 1 (A–Z, not the seven-column slice), take the
+  first name in `SHIRT_HEADERS` order that some trimmed header equals, and
+  read that column; `""` when none does. List order, not column order, is the
+  site's rule: with both `Shirt Size` and `TShirt Size` present, `TShirt Size`
+  wins. Add
+  `export const SHIRT_HEADERS = ["TShirt Size", "T-Shirt Size", "Shirt Size", "tshirtSize", "shirtSize"];`
+  to `attendanceTab.mjs`: the same list, in the same order, as the site's
   `ATTENDANCE_SHIRT_HEADERS`, which stays where it is.
 
 `FORMATTED_VALUE` (not the mark's `UNFORMATTED_VALUE`) because the page shows
@@ -408,7 +483,7 @@ what the sheet displays: a hand-typed time stays text instead of arriving as a
 date serial number, as it did through gviz.
 
 **The service method,** `AttendanceService.listPeople({ day, facilityName, actor })`,
-checks exactly what `mark` checks, in the same order and with the same errors:
+makes exactly `mark`'s checks, in the same order, with the same errors:
 
 1. `config.getDay(day)` (an unknown day is a `404` on `/v3`), then the event's
    `attendance` setting: unset → `NotFoundError("Attendance is off for this event")`.
@@ -419,72 +494,108 @@ checks exactly what `mark` checks, in the same order and with the same errors:
    `null`) is `[]`, not an error: the page shows "no roster yet", as it does
    today.
 
-**The cache (D6):** `this.peopleCache`, a `Map` from `sheetId` to `{ at, promise }`:
+**The cache (D6):**
 
-- A call within `PEOPLE_CACHE_MS = 10_000` of the entry's `at` returns its
-  promise, so concurrent and repeated calls share one read.
+- Add a constructor option `peopleCacheMs = 10_000` and
+  `this.peopleCache = new Map()`, from `sheetId` to `{ at, promise }`. `at` is
+  `this.now().getTime()` (the service's injected clock, so tests control it).
+- A call within `peopleCacheMs` of an entry's `at` returns its promise, so
+  concurrent and repeated calls share one read.
 - A rejected promise is removed, so a failure is not cached.
-- `mark` deletes the facility's entry after a write (`plan.changed`), and so
-  does `#reconcileFacility` after it writes. Delete it after the write
-  resolves, so a list read cannot start between the delete and the write.
+- Delete the facility's entry after every write to its `ATTENDANCE` tab
+  resolves: in `mark` after `updateValues` (only when `plan.changed`), and in
+  `#reconcileFacility` after `createAttendanceTab` and after `updateValues`.
+  Deleting after the write means a read that started during the write is
+  dropped too.
 - It is per instance and in memory, like `fingerprints` and `teamsCache`.
 
-**OpenAPI and conventions:**
+**OpenAPI:**
 
 - An `@openapi` block above the route, in the style of the `PUT` beside it:
   `operationId: listFacilityPeople`, tag `attendance`, `security: bearerAuth`,
-  the `day` and `facility` parameters, `200` (array of
+  the `day` and `facility` parameters, `200` (an array of
   `#/components/schemas/AttendancePerson`), and `401`, `403`, `404`, `405`,
   `409`, `502`, `503` as problem details. Add `AttendancePerson` next to
   `AttendanceRow` in `src/docs/openapiSpec.mjs`: `AttendanceRow`'s fields plus
   `teams` and `categories` (arrays of strings) and `shirt` (string).
-- `test/unit/guards/rest-conventions.test.mjs`: the `EXCEPTIONS` entry for
-  `PUT /v3/days/:day/facilities/:facility/people/:personKey/attendance` keeps
-  its rule; change its reason to "each person's state is read with
-  GET …/facilities/{facility}/people, the list a desk polls; a per-person GET
-  would have no reader". Make the same change to that row of the exceptions
-  table on the [API](../../technical/api.md) page.
-- `test/helpers/routeManifest.mjs`: add
-  `{ route: "GET /v3/days/:day/facilities/:facility/people", test: "test/integration/v3.test.mjs" }`.
+- The `PUT …/attendance` descriptions in `routes.mjs` (the `/v3` one and the
+  `/v1` one) end "The state is read from the published ATTENDANCE tab, not
+  from this API." Make it "The list, with each person's state, is read with
+  GET /v3/days/{day}/facilities/{facility}/people."
 - Run `npm run test:snapshots`, read the diff of
   `test/unit/docs/openapiSpec.test.mjs.snapshot`, and commit it.
 
-Tests, written first:
+**Tests that count the routes, and change with it:**
+
+- `test/integration/v3.test.mjs`: add the route to `V3_ROUTES` (near the top);
+  "registers exactly the sixteen routes, on thirteen paths" becomes seventeen
+  routes on fourteen paths; give the fake `attendanceService` there a
+  `listPeople`; update the header comment's "the sixteen routes, each against
+  its frozen twin" (this one has none).
+- `test/unit/helpers/routes.test.mjs`: "the thirty-one routes … fifteen
+  frozen, sixteen on /v3" becomes thirty-two and seventeen.
+- `test/unit/guards/rest-conventions.test.mjs`: `assert.equal(seen, 16)`
+  becomes 17, and "names the sixteen operationIds" gains `listFacilityPeople`.
+  The `EXCEPTIONS` entry for
+  `PUT /v3/days/:day/facilities/:facility/people/:personKey/attendance` keeps
+  its rule; its reason becomes "each person's state is read with
+  GET …/facilities/{facility}/people, the list a desk polls; a per-person GET
+  would have no reader".
+- `test/integration/openapi.test.mjs`: `probed` 30 becomes 31 and its comment
+  "13 /v3 paths" becomes 14.
+- `test/helpers/routeManifest.mjs`: add
+  `{ route: "GET /v3/days/:day/facilities/:facility/people", test: "test/integration/v3.test.mjs" }`.
+
+**New tests, written first:**
 
 - `test/unit/attendance/domain/attendanceTab.test.mjs`, `peopleFromTab`: a
-  wrong header throws `AttendanceLayoutError`; a duplicate key keeps the first
-  row; a blank key is skipped; a blank player reads as the key; teams and
-  categories split and trim; `TRUE`, `true`, `FALSE` and booleans read as
-  flags; each of the five shirt spellings is found in any column H–Z; no shirt
-  column gives `""`; other columns past G are ignored.
+  wrong header throws `AttendanceLayoutError`; columns past G do not trip the
+  header check; a duplicate key keeps the first row; a blank key is skipped; a
+  blank player reads as the key; teams and categories split and trim; only the
+  text `TRUE` is true (`true`, `FALSE` and blank are not); each of the five
+  shirt spellings is found in any column H–Z; with two spellings present the
+  earlier one in `SHIRT_HEADERS` wins; no shirt column gives `""`.
 - `test/unit/attendance/AttendanceService.test.mjs`, `listPeople`, on
   `test/helpers/fakeSheets.mjs`: attendance off → `NotFoundError`; a desk
-  token for another day, or attendance `"console"` with a desk actor →
+  actor for another day, or a desk actor while attendance is `"console"` →
   `ForbiddenError`; an unknown facility → `UnknownFacilityError`; no tab →
-  `[]`; reads `ATTENDANCE!A1:Z` with `FORMATTED_VALUE`; two calls within 10 s
-  make one read, and a call after it another (inject `now`, or give the
-  constructor a `peopleCacheMs`); concurrent calls make one read; a failed
-  read is not cached; a `mark` that writes makes the next list call read again.
+  `[]`; it reads `ATTENDANCE!A1:Z` with `FORMATTED_VALUE`; two calls within
+  `peopleCacheMs` make one read and a call after it another (inject `now`);
+  concurrent calls make one read; a failed read is not cached; a `mark` that
+  writes, and a reconcile that writes, make the next list call read again.
 - `test/integration/v3.test.mjs`: `200` and the array with an operator token;
   `200` with a desk token for that day; `403` with one for another day; `401`
   with none; `404` for an unknown facility; `405` with `Allow: GET, HEAD` for
   a `POST`; `Cache-Control: no-store`.
 
-Docs in the same release: [API](../../technical/api.md) (the route in the `/v3`
-list, the changed exception row), [Event attendance](../../technical/event-attendance.md)
-(the desk reads through the API), the `README.md` endpoint list, and the
-workspace `CLAUDE.md`'s `/v3` list ("Sixteen routes" becomes seventeen, plus
-the new route's line).
+**Docs in the same release:**
 
-**Done when:** the route answers as above against the fake, `npm test` and
-`npm run verify` pass, and the release is deployed.
+- [API](../../technical/api.md): the route in the `/v3` list, and its count
+  ("sixteen", around line 72). In the exceptions table, the attendance `PUT`
+  shares one row and one reason with `PUT …/matches/{matchNumber}/score`:
+  split it into two rows, keep the score's reason, and give the attendance
+  row the new reason above.
+- [Event attendance](../../technical/event-attendance.md): the desk reads
+  through the API.
+- `README.md`: the endpoint list and its "sixteen" (around line 286), and the
+  Changelog.
+- The workspace `CLAUDE.md`'s `/v3` list: "Sixteen routes, each the twin of a
+  frozen route below" becomes seventeen, with a line for the new route as the
+  one that has no twin.
+
+**Done when:** the route answers as above, `npm test` and `npm run verify`
+pass, and the release is deployed.
 
 ### 9.8 Build 3: the page reads through the API (R4, site half)
 
-`sage-match-control.github.io`, `lib/v1/views/attendance-view.js` only. Ship
-after §9.7 is deployed.
+`sage-match-control.github.io`. Ship after §9.7 is deployed. The code change
+is one file, `lib/v1/views/attendance-view.js`; the harness and one row in the
+site engine spec change with it.
 
-- **Add an export,** beside `markPerson` and in the same style:
+**`attendance-view.js`:**
+
+- **Add an export,** beside `markPerson` and in the same style (views may not
+  import `data/api.js`):
 
   ```js
   // GET one facility's people. Resolves to Person[]. Rejects with
@@ -495,33 +606,79 @@ after §9.7 is deployed.
 
   It requests `${apiBase}/v3/days/${encodeURIComponent(day)}/facilities/${encodeURIComponent(facility)}/people`
   with `Authorization: Bearer ${token}` and `cache: 'no-store'`.
-- **`fetchFacility`** keeps its fixture branch exactly as it is (the fixtures
-  stay CSV, read by `parseAttendanceCsv`). Otherwise it returns
-  `fetchPeople({ apiBase: opts.apiBase, token: opts.getToken && opts.getToken(), day: opts.day, facility: f.name })`.
-  The gviz request and its `400`/`404` → `[]` rule go: the API answers `[]` for
-  a missing tab.
-- **A failed load** keeps the list it had and shows `Could not load <facility>: <message>`,
-  as now. Add the same hints `markFailure` gives: on `401`, "This desk link has
-  expired." on the desk page or "Sign in again." in Control Center; on `403`,
-  "Ask the operator for a new desk link."
-- **Keep every export,** `attendanceCsvUrl` included (compatibility rule), and
-  update the file's header comment: the list comes from sage-tools-api, not
-  the CSV export.
-- Control Center mounts the view only when signed in (`attConsoleSignedIn`),
-  and the desk page always has its desk token, so `getToken()` always gives a
-  token outside fixture mode. No change to `tools/control-center.html` or
-  `lib/v1/apps/attendance-desk.js`.
+- **`fetchFacility`** keeps its fixture branch exactly as it is: the fixtures
+  stay CSV, read by `parseAttendanceCsv`. Otherwise it returns
+  `fetchPeople({ apiBase: opts.apiBase, token, day: opts.day, facility: f.name })`.
+  The gviz request and its `400`/`404` → `[]` rule go: the API answers `[]`
+  for a missing tab.
+- **No token (D7).** At the top of `load()`, outside fixture mode, when
+  `opts.getToken` gives no token: fetch nothing, and show "Sign in to see
+  attendance." where the list goes, in the status line `load()` already uses
+  for "Loading…" and failures. This happens only in Control Center signed
+  out (it mounts the view whenever the Attendance tab opens, signed in or
+  not); the desk page always has its desk token. When the operator signs in,
+  Control Center remounts or refreshes the view as it does today; if it does
+  not, the next poll loads the list.
+- **A failed load** keeps the list it had and shows
+  `Could not load <facility>: <message>`, as now. Add hints for the failures
+  that now come from the API, in `load()` (not `markFailure`, which stays as
+  it is):
+  - no status: "Couldn't reach the server. Check this device's connection."
+    in place of the browser's own message ("Failed to fetch");
+  - `401`: "This desk link has expired." on the desk page, "Sign in again."
+    in Control Center (`opts.mode`);
+  - `403`: "Ask the operator for a new desk link."
+- **Keep every export,** `attendanceCsvUrl` included (the compatibility rule),
+  and rewrite the file's header comment: the list comes from sage-tools-api,
+  not the CSV export.
+- No change to `tools/control-center.html` or `lib/v1/apps/attendance-desk.js`.
 
-Tests: in `_tests/unit/views/attendance-view.test.mjs`, beside the
+**Unit tests,** in `_tests/unit/views/attendance-view.test.mjs`, beside the
 `markPerson` tests: `fetchPeople` requests the encoded URL with `GET` and the
 bearer token and resolves to the body; a refused read rejects with the
-server's message and its status. Keep the `attendanceCsvUrl` test. The
-harness's attendance cases run in fixture mode and should not change: if one
-does, the fixture branch was touched.
+server's message and its status. Keep the `attendanceCsvUrl` test.
 
-Docs in the same push: [Event attendance](../../technical/event-attendance.md)
-and [Control Center](../../technical/control-center.md), wherever they say the
-list is read from the CSV export.
+**The comparison harness** (`_tests/engine/cases.mjs`) runs every case on the
+baseline (`main`, which still reads the CSV) and on the branch (which reads the
+API) with the same mocks, so its mocks must answer both:
+
+- `attendanceBackend` (the desk-page cases, `attendance/<event>/…`): beside
+  the `PUT` in `cloudRun`, add a `GET` whose path is
+  `/\/v3\/days\/[^/]+\/facilities\/([^/]+)\/people$/`. It answers `200` with
+  `parseAttendanceCsv(csvOf(<facility lower-cased>))`, importing
+  `parseAttendanceCsv` from `lib/v1/domain/attendance.js`, so both trees show
+  the same people from the same CSV, and a mark changes both. Keep the
+  `external` `docs.google.com` mock for the baseline.
+- `controlCenterCases` (`cc/<event>/attendance/…`) run signed out, so the
+  branch shows the D7 prompt where the baseline shows the list. That is a
+  difference on purpose: add an entry to `_tests/engine/accepted.mjs`,
+  `{ case: /^cc\/[^/]+\/attendance\//, kind: 'both', row: 28, reason: 'signed out, the Attendance tab asks to sign in instead of showing the list (code-and-access-protection-spec §9.3 D7)' }`.
+- `controlCenterSignedInCases`: add an `['attendance', [tab('Attendance')]]`
+  view for an event with `attendance` set (`piggleball-2026` has it), and the
+  same `GET …/people` mock, answering from the CSV the case already loads. The
+  console's signed-in list then stays covered, and both trees should match.
+- Then run `npm run verify` in `_tests`. Only the `cc/*/attendance/*` cases
+  may differ.
+
+**The site engine spec** (sage-docs,
+`docs/specs/implemented/site-engine-spec.md` §12): add row 28 to the
+reconciliations table for the accepted difference. Read §5.2 for the cause
+number. Function: `createAttendanceView`'s signed-out load. Copies: CC.
+Kept: the sign-in prompt. Proved by: `cc/*/attendance/*`, accepted in
+`accepted.mjs`. Owner: "owner 2026-10-12: sign-in prompt
+(code-and-access-protection-spec §9.3 D7)". Release it with a sage-docs
+version, per that repo's changelog rules.
+
+**Docs in the same push** (sage-docs): [Event attendance](../../technical/event-attendance.md)
+(its diagram, around line 15, "read: ATTENDANCE tab CSV export (gviz), every
+10 s"; leave the section on Pickle for Sight's own page, around line 265,
+which describes that frozen page) and [Control Center](../../technical/control-center.md)
+(around line 229, "reads each facility's `ATTENDANCE` tab through the gviz CSV
+export"; also say the tab needs sign-in).
+
+**Done when:** the unit tests and `npm run verify` pass with only the accepted
+differences, and on the deployed site a desk link loads its list and a
+signed-out Control Center shows the prompt.
 
 ### 9.9 Build 4: sharing, the runbook and the docs
 
@@ -540,7 +697,9 @@ Ships after §9.8, before the first event that uses it (O3).
   [Troubleshooting](../../usage/troubleshooting.md) (its first check becomes
   "is the service account still on the workbook, as Editor?") and
   [Adding a new event](../../technical/adding-a-new-event.md). Find every
-  mention with `grep -rn -i -E "anyone with the link|link-viewable|link-shared|gviz" docs/`.
+  mention with `grep -rn -i -E "anyone with the link|link-viewable|link-shared|gviz|api key" docs/`,
+  including [Architecture](../../technical/architecture.md)'s data-flow
+  diagram. Leave pages that describe a frozen page or a finished event.
   The masters keep "Anyone with the link: Viewer", because the calculator's
   **Make a copy** handoff needs it; say so where the masters are described.
 - **This page:** §2's facility-workbook bullet points here, and the spec moves
@@ -560,8 +719,8 @@ one rule still kept by hand in two places:
   on the same inputs and fails if they disagree. It imports the server file
   from the sibling `sage-tools-api` checkout.
 
-Both fixes go in one `sage-tools-api` **patch** release. The rules in §9.5
-apply.
+Both fixes go in one `sage-tools-api` **patch** release, first in §9.5's
+release order (it does not depend on §9). The rules in §9.5 apply.
 
 ### 10.1 Reading a score's value
 
@@ -617,10 +776,12 @@ Fix these in the same release:
   `_tests/unit/parity-server.test.mjs` as the check that they agree.
 - **`SheetsCsvFetcher.mjs`'s header** says parsing "stays client-side in the
   site's HTML as the single source of truth, so this service and the browser
-  never have two copies". `facilityCompletion.mjs` parses the matches CSV and
-  `teamRoster.mjs` the Teams tab. Say that this class only fetches and
-  converts values to CSV, and that the sync's domain files parse what they
-  need.
+  never have two copies". That is no longer true: `facilityCompletion.mjs`
+  parses the matches CSV, and this class itself turns the Teams tab into
+  `rosterCsv` through `rosterCsvFromTeamsValues` (`teamRoster.mjs`). Say that
+  it fetches the tabs and hands them on as CSV text (the Teams tab through
+  `teamRoster.mjs`), that the pages parse that CSV for display, and that the
+  sync's domain files parse what the server itself needs.
 
 **Done when:** `npm test` and `npm run verify` pass in `sage-tools-api`, then
 `npm run verify` passes in the site's `_tests` with the new case, and the

@@ -47,7 +47,8 @@ has been replaced.
   §10, two fixes to `facilityCompletion.mjs`: how it reads a score's value, and its stale
   comments. Both are full designs with the owner's decisions recorded, written to be built
   without other context. §6 now has the service account as Editor on every facility
-  workbook. Still not started.
+  workbook, and signed out, Control Center's Attendance tab is to show a sign-in prompt.
+  Still not started.
 
 ## [2.6.0] — 2026-10-11
 
