@@ -18,7 +18,8 @@ Facility Google Sheet  (one per venue per tournament day)
 POST /v3/days/{day}/facilities/{facility}/syncs   on Cloud Run   (X-Sync-Secret header,
    |     body { editedAt }; a workbook made before 3.0.0 calls the legacy
    |     POST /sync/:day?facility= with X-Edit-At, which keeps working)
-   |  SheetsCsvFetcher (default) or GvizCsvFetcher ({ method: "csv" } fallback)
+   |  SheetsCsvFetcher (default; reads as the service account) or GvizCsvFetcher
+   |  ({ method: "csv" } fallback; needs a link-shared workbook)
    |  merge with published snapshot — never drop a facility on failure
    v
 Cloudflare Worker "sage-live" (live-worker/): one Durable Object per <event>/<day>

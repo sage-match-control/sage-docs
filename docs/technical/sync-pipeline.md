@@ -36,10 +36,21 @@ sync whose Worker calls fail.
 
 Key pieces, in `sage-tools-api/src/`:
 
-- **`clients/SheetsCsvFetcher`** — the default path, reads via the Sheets API.
+- **`clients/SheetsReadAuth`** — how the service reads a facility workbook, in one
+  place for the sync, attendance and score entry: the Cloud Run service account's
+  token (`GoogleAccessToken`, from the metadata server), `GOOGLE_SHEETS_API_KEY` as
+  the fallback when no token can be had, and one retry with the key after a `403`
+  to the token. A read still refused is a `SheetsAccessError` (an `UpstreamError`),
+  which names the account to share the workbook with.
+- **`clients/SheetsCsvFetcher`** — the default path, reads via the Sheets API as the
+  service account (through `SheetsReadAuth`), so a Restricted workbook shared with
+  the account reads. A refused workbook fails that facility after one attempt rather
+  than three, and the facility keeps its last published data.
 - **`clients/GvizCsvFetcher`** — a fallback path (`{ "method": "csv" }` in a
   `/v3` sync's body, `?method=csv` on the legacy route) using Google's
-  `gviz` CSV export, for when the Sheets API path has trouble. Both fetchers are
+  `gviz` CSV export, for when the Sheets API path has trouble. It sends no
+  credential, so it works only on a workbook shared as *Anyone with the link:
+  Viewer*; a Restricted workbook answers it with a sign-in page. Both fetchers are
   `FacilityFetcher`s, and `SyncService` picks one from a `{ sheets, csv }` map by
   the request's method.
 - **`clients/LivePublisher`** — the client for the live Worker: `read(event, day)`

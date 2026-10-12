@@ -17,8 +17,8 @@ No sign-in is needed to view Awards, Match Finder, Live Matches or
 Standings — they're read-only.
 Only the actions inside Mission Control (resyncing, forcing the public site
 live or hidden), marking people in on the Attendance tab and entering scores in
-Match Finder need an operator to sign in. Signed out, the Attendance list is
-read-only and no match in Match Finder can be scored.
+Match Finder need an operator to sign in. Signed out, the Attendance tab asks you to
+sign in instead of showing the list, and no match in Match Finder can be scored.
 
 **Installable** — from Chrome's install prompt on Android, or "Add to Home
 Screen" on iOS Safari — so an operator's device can launch straight into

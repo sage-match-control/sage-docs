@@ -105,16 +105,20 @@ the day key against it, so the registration comes first.
     Scoresheets** menu item deep-linking into the
     [Scoresheet Generator](../features/scoresheet-generator.md) with this
     workbook's day/venue preselected — no extra setup needed for it.
-12. **Share every facility workbook with the service account** as Editor, for an
-    event with any `attendance` or `scoreEntry` setting:
-    `sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com`. Without it the
-    roster update, every mark and every score save fail with a message naming the
-    account. **The share is inherited from the Drive folder:** the shared drive
-    folder `1. TOURNAMENTS` is shared with the account as Editor, and a workbook
-    moved into the event's folder under it inherits that share. So move the workbook into the event's folder, and check its Share
-    dialog lists the account. Share it by hand only for a workbook kept outside that
-    folder. A workbook also needs **General access: Anyone with the link: Viewer**,
-    which the folder does not set; the sync reads the workbook with an API key.
+12. **Share every facility workbook with the service account** as Editor, whatever
+    the event's `attendance` and `scoreEntry` settings:
+    `sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com`. The API reads
+    the workbook as that account for the sync, attendance and score entry, so
+    without it the sync, the roster update, every mark and every score save fail with
+    a message naming the account. **The share is inherited from the Drive folder:**
+    the shared drive folder `1. TOURNAMENTS` is shared with the account as Editor,
+    and a workbook moved into the event's folder under it inherits that share. So
+    move the workbook into the event's folder, and check its Share dialog lists the
+    account. Share it by hand only for a workbook kept outside that folder. Then set
+    the workbook's **General access** to **Restricted**, which the folder does not
+    set, and add the staff who edit it by name. The masters keep *Anyone with the
+    link: Viewer*, because the calculator's **Make a copy** needs it. See
+    [Event attendance](event-attendance.md#reading-the-workbook).
 13. **Copy the dry-run checklist** template into the event's own folder —
     a combined pre-event rehearsal (fake a few rows, verify the console
     catches them correctly, revert) and day-of runbook. The rehearsal is written

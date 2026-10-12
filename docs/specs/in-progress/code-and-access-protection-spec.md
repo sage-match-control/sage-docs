@@ -1,6 +1,6 @@
 # Spec — code and access protection
 
-> **Status: not started.** Sections 2–8 are a to-do list, not a design: each
+> **Status: in progress.** Sections 2–8 are a to-do list, not a design: each
 > item says what to change and where, and leaves the details to whoever builds
 > it, ordered by value. §3 and §4 are not done, by the owner's decision.
 > §9 (facility workbooks closed to link access) and §10 (two fixes to the
@@ -8,6 +8,16 @@
 > context. Written 2026-10-11; §9 and §10 added 2026-10-12. Everything to do
 > here is free; §11 records what would cost money. Each section is independent
 > and can be done on its own.
+>
+> **Built (2026-10-12):** §10 (`sage-tools-api` 3.1.1 and the site's parity
+> case), §9.6 (3.2.0), §9.7 (3.3.0), §9.8 and §9.9 (the site's attendance view,
+> its harness and runbook, and these docs), and §8's `LICENSE` files. §9.6
+> assumes the spike's answers are both *no* (§9.4). **Not done:** the owner's
+> tasks in §9.4 (S1, O1, O2, O3), deploying the two releases and the site, and
+> the Google, GitHub and Cloud settings of §2, §5, §6 and §7. §9.6–§9.9 are done
+> when the first event built after them runs with Restricted workbooks; the spec
+> then moves to `implemented/`. §9.10 records where the build departs from the
+> design.
 >
 > This page is public. It states the rules to follow, not which of them are
 > broken today: check each one when you pick it up.
@@ -43,9 +53,11 @@ every facility workbook's is in `event-data/config/events.json`.
 
 - **Every link-shared workbook is "Anyone with the link: Viewer", never
   Editor.** That covers both masters (SAGE Dual Meet Master, SAGE Standard
-  Tournament Master) and every event's facility workbooks, finished events
-  included. Staff who edit are added by name. The calculator's handoff still
-  works: **Make a copy** needs only view access.
+  Tournament Master) and the facility workbooks of the events registered before
+  §9 shipped (BKL Cup, PNF x BUP, Pickle for Sight, Piggleball, PickleDrive),
+  finished events included. Staff who edit are added by name. The calculator's
+  handoff still works: **Make a copy** needs only view access. The facility
+  workbooks of newer events are Restricted: §9.
 - **Why it matters:** an editor can change scores (the onEdit sync publishes
   them), change the bound Apps Script that every future workbook is copied
   from, and read Script Properties, where `sheets-sync.gs` keeps the sync
@@ -58,8 +70,8 @@ every facility workbook's is in `event-data/config/events.json`.
   (`_templates/dry-run-checklist-template.md`): check each facility workbook's
   sharing before the event.
 
-A facility workbook cannot go further than Viewer, to **Restricted**, until
-the readers that rely on link access change: that is §9.
+A facility workbook goes further than Viewer, to **Restricted**, once the readers
+that relied on link access read as the service account: that is §9.
 
 ## 3. Cloud Run cost cap: not done
 
@@ -209,6 +221,14 @@ These need the Google account and the Cloud console, so the owner does them.
   **yes**, the key can never succeed where the token got `403`, so there is no
   retry; if **no**, a `403` to the token is retried once with the key, so a
   finished event's link-shared workbook still reads.
+- **Until S1 is answered, the build assumes both answers are *no*,** the choice that
+  keeps every read working whichever way it turns out: S1b *no* means
+  `retryRefusedWithKey: true` in `src/app.mjs`, and S1a *no* means
+  `GvizCsvFetcher` is unchanged and works only on a link-shared workbook. If S1b
+  answers **yes**, set `retryRefusedWithKey` to `false` (a refused workbook then
+  costs one request, not two). If S1a answers **yes**, `GvizCsvFetcher` takes the
+  `SheetsReadAuth` as its second argument and sends the token as §9.6 describes,
+  with the two tests listed there.
 - **O1, the Sheets API quota.** In the Google Cloud console (project
   `sage-tools-api`), open **APIs & Services → Google Sheets API → Quotas** and
   note *Read requests per minute per user*. Every read moves to one identity,
@@ -703,6 +723,25 @@ Ships after §9.8, before the first event that uses it (O3).
 - **This page:** §2's facility-workbook bullet points here, and the spec moves
   to `implemented/` once §9.6–§9.9 ship (see `docs/specs/README.md` for the
   procedure).
+
+### 9.10 Where the build departs from the design
+
+- **The signed-out prompt is drawn in the list area,** as the empty-state line of
+  the view (`att-empty`), not in the status line (§9.8). Control Center passes a
+  `notify` callback, so the status line is never drawn there and the prompt would
+  not show. The view also hides its chips and counts while signed out and clears an
+  earlier load message.
+- **The runbook (site `_templates/CLAUDE.md` step 13) says to share before the test
+  sync,** because that sync reads the workbook as the service account.
+- **The `/v1` `PUT …/attendance` description is unchanged:** it never carried the
+  sentence §9.7 asks to replace, and a frozen route gets no new pointer. Only the
+  `/v3` description changes.
+- **`README.md`'s "sixteen" (§9.7) is the 3.0.0 changelog entry,** which records
+  that release and stays as it was. `README.md` has no other endpoint list; the
+  3.3.0 entry carries the new route.
+- **`test/unit/docs/openapiSpec.test.mjs`'s list of documented paths** also changes
+  with the new route (28 paths, not 27); §9.7's list of tests that count routes
+  omits it.
 
 ## 10. Played and series rules: two small fixes
 

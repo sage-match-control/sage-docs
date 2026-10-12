@@ -12,12 +12,12 @@ The earlier, Pickle for Sight design is at the end of this page.
 ```
 Control Center "Attendance" tab          events/<key>/attendance.html (desk page, "desks" mode)
         |   the same view in both (lib/v1/views/attendance-view.js)
-        | read:  ATTENDANCE tab CSV export (gviz), every 10 s while visible
+        | read:  GET /v3/days/{day}/facilities/{facility}/people, every 10 s while visible
         | write: PUT /v3/days/{day}/facilities/{facility}/people/{personKey}/attendance
         |        Authorization: Bearer <operator token | desk token>
         v
 sage-tools-api   src/attendance/
-        | reads:  Sheets API, existing API key (GOOGLE_SHEETS_API_KEY)
+        | reads:  Sheets API, the service account's token (GOOGLE_SHEETS_API_KEY is the fallback)
         | writes: Sheets API, the service account's token (metadata server)
         v
 Facility workbook -- ATTENDANCE tab
@@ -124,23 +124,79 @@ Mounted at `/v3` (`src/attendance/routes.mjs`), which every page calls:
 
 | Route | Auth |
 | --- | --- |
+| `GET /v3/days/{day}/facilities/{facility}/people` | operator token, or a desk token |
 | `PUT /v3/days/{day}/facilities/{facility}/people/{personKey}/attendance`, body `{ present }` | operator token, or a desk token |
 | `POST /v3/days/{day}/attendance/desk-links` | operator token only |
 | `POST /v3/days/{day}/attendance/reconciliations`, optional body `{ facility }` | operator token only |
 
-Each has a frozen `/v1` twin (`PUT /v1/days/:day/facilities/:facility/attendance/:key`,
+The three writes each have a frozen `/v1` twin (`PUT /v1/days/:day/facilities/:facility/attendance/:key`,
 `…/desk-links`, `…/reconciliations?facility=`) that copies of the pages from
-before 3.0.0 call; it answers the same, with the plain `{ error, code }` body
+before 3.0.0 call; the list has none, because nothing before it read through the API; it answers the same, with the plain `{ error, code }` body
 instead of problem details and `400` instead of `404` for an unknown day or
 facility ([API](api.md)).
 
 CORS allows `PUT`. Errors carry `error` in words (inside a problem details body
 on `/v3`), never raw Google JSON.
 
+## Reading the list
+
+`GET /v3/days/{day}/facilities/{facility}/people` answers one facility's people
+in sheet order as a JSON array (no envelope) with `Cache-Control: no-store`. Each
+person is `{ key, player, teams, categories, present, timeIn, withdrawn, shirt }`.
+It makes `mark`'s checks in `mark`'s order: attendance off for the event is a
+`404`, a desk token for another day, or while the event is `"console"`, is a
+`403`, an unknown day or facility is a `404`. A workbook with no `ATTENDANCE` tab
+answers `[]`, which the page shows as "no roster yet"; a wrong header row is a
+`409 attendance_layout`, as a mark gets.
+
+`AttendanceService.listPeople` reads `ATTENDANCE!A1:Z` with `FORMATTED_VALUE`, so
+every cell is the text the sheet displays (a checkbox reads `TRUE`, and a
+hand-typed time stays text), and hands it to `peopleFromTab`
+(`src/attendance/domain/attendanceTab.mjs`). That function gives the `Person`
+shape the site's `parseAttendanceCsv` builds, by the same rules, so the same sheet
+gives the same list:
+
+- the header check is `parseTab`'s, on the first seven columns, so columns past G
+  do not trip it; the first row of a key wins, and a blank key is skipped;
+- `player` is the trimmed name, or the key when it is blank; `teams` and
+  `categories` split on commas, trimmed, with empty parts dropped;
+- `present` and `withdrawn` are true only for the text `TRUE`;
+- `shirt` is read from the column of the first name in `SHIRT_HEADERS`
+  (`TShirt Size`, `T-Shirt Size`, `Shirt Size`, `tshirtSize`, `shirtSize`, in that
+  order, the site's list) that some header equals, and is empty when none does.
+
+**The read is cached for 10 s per workbook** (`peopleCacheMs`), shared by every
+caller, so the number of desks open does not multiply reads from Google. Calls made
+together share one read, a failed read is not cached, and any write to the
+workbook's `ATTENDANCE` tab (a mark that changed something, a roster update that
+created the tab or wrote rows) drops the entry. A person who marks sees their
+change at once; another desk sees it within one poll and one cache period (at most
+20 s). The cache is per instance and in memory.
+
+The reads a workbook sees at an event's busiest moment are the sync's (one
+`batchGet` each, about 5 a minute across two events on 3 October 2026), at most 6
+a minute per facility for the list, one per mark, and two per score save. All of
+them are the service account's, so the Sheets API's *Read requests per minute per
+user* quota is the limit that counts
+([code and access protection](../specs/in-progress/code-and-access-protection-spec.md)).
+
+## Reading the workbook
+
+The API reads every facility workbook as its own service account: `SheetsReadAuth`
+(`src/clients/`) gives each read the account's token, falls back to
+`GOOGLE_SHEETS_API_KEY` when no token can be had, and on a `403` to the token
+retries once with the key, so a finished event's link-shared workbook that the
+account was never given still reads. A read still refused after that is a
+`SheetsAccessError`, which answers like any upstream failure (`502`,
+`upstream_failure`) with "The API can't read this workbook. Share it with
+`<service account>` as Editor." So a facility workbook is **Restricted** and shared
+with the account as Editor, never anyone-with-the-link. The same reader serves
+[the sync](sync-pipeline.md) and [score entry](sync-pipeline.md#score-entry-writes).
+
 ## Writing to the workbook
 
-`SheetsClient` reads with the API key and writes with the service account's
-token (`GoogleAccessToken`, from the metadata server; `GOOGLE_ACCESS_TOKEN`
+`SheetsClient` reads through `SheetsReadAuth` (above) and writes with the service
+account's token (`GoogleAccessToken`, from the metadata server; `GOOGLE_ACCESS_TOKEN`
 overrides it for local development). **Every attendance write range must be
 inside `ATTENDANCE!A:G`, or be one single cell in `H`–`Z` other than `J`** (the
 `markedBy` cell or its header; `updateValues`); anything else throws before a request

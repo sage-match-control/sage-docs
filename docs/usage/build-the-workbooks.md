@@ -18,6 +18,11 @@ Two rules apply to every generator:
 - **The names come in step 3, not now.** The plan has no roster. The generator
   leaves the name columns blank and tells you so when it finishes.
 
+The two masters (Dual Meet Master and Standard Tournament Master) are shared as
+**Anyone with the link: Viewer**, because the calculator's **Make a copy** button
+needs only view access. **Your copy is a different matter**: it is restricted
+(see [File it](#file-it)).
+
 ## Steps
 
 ### Dual meet
@@ -122,12 +127,15 @@ holds the event's `BRACKETS` folder and the schedule PDF.
 
 **`1. TOURNAMENTS` is shared with the API's service account as Editor, and a
 workbook inside it inherits that share.** There is no separate share step. The
-service account is what lets
-score entry and attendance write to the workbook.
+service account is what lets the API read the workbook for the sync, attendance
+and score entry, and write to it for score entry and attendance.
 
-Then set **General access** to **Anyone with the link: Viewer** on **every workbook,
-every time**. The folder does not set it, and the sync reads the workbook with an
-API key, which needs it. A workbook that loses it shows **Sync failed** later.
+Then set **General access** to **Restricted** on **every workbook, every time**.
+Only the people added by name and the service account can open it, so its
+`ATTENDANCE` tab (names, teams, shirt sizes, who is present) and every tab the
+sync does not publish stay inside the workbook. Add the staff who edit it by name.
+What the sync publishes to the site stays public. A workbook that loses the
+service account shows **Sync failed** later.
 
 ## Fill match numbers
 
@@ -149,9 +157,9 @@ a pair booked twice in one slot.
 
 - Every workbook is in the event's folder, and its name reads
   `<date> <title> - <VENUE>`.
-- **File → Share** on each lists **Anyone with the link: Viewer**, and the
-  service account `sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com`
-  as Editor (inherited).
+- **File → Share** on each lists the service account
+  `sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com` as Editor
+  (inherited), and **General access** reads **Restricted**.
 - `SCHEDULE` is full of matches, each numbered, and no number repeats across a
   day's venues.
 - **SAGE → Help** reports the workbook's status and the script versions.

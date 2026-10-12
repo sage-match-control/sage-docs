@@ -20,6 +20,10 @@ connect, so a local check needs an h2c client such as Node's `http2`). Copy
 `.env.example` to `.env` first — it documents every variable. Secrets (`GITHUB_TOKEN`, `SYNC_SHARED_SECRET`,
 `GOOGLE_SHEETS_API_KEY`, `AUTH_PASSWORD_HASH`, `AUTH_TOKEN_SECRET`) are
 Cloud Run env vars in production and must never be committed.
+`GOOGLE_SHEETS_API_KEY` is the fallback for reading a workbook: reads go as the
+service account, and the key is used only when no token can be had and, once, after a
+`403` to the token, for a workbook that only anyone-with-the-link can open. It stays
+optional.
 `AUTH_PASSWORD_HASH` is generated locally with
 `node scripts/hash-password.mjs '<username>' '<password>'` — see
 [Auth](auth.md).

@@ -76,8 +76,8 @@ itself.
   workbook disagree. Venue names are case-sensitive. Fix whichever is wrong. If you
   just changed the registration, wait a minute.
 - **Sync failed.** The words after **Sync failed** say why, and **SAGE → Help**
-  explains each one. First check that the workbook's **General access** is still
-  **Anyone with the link: Viewer**.
+  explains each one. First check that the service account is still on the workbook as
+  **Editor** (**File → Share**).
 - **The Hub is empty.** The column names in `CSV` or `STANDINGSCSV` have changed.
   See [When something's wrong](troubleshooting.md).
 - **A venue shows no matches.** Its `SCHEDULE` is empty, or its matches have no

@@ -226,9 +226,11 @@ frozen with that finished event.
 The list is `createAttendanceView` in `lib/v1/views/attendance-view.js`, shared
 with the desk page (`lib/v1/apps/attendance-desk.js`); its styles are
 `lib/v1/css/attendance.css`. It reads each
-facility's `ATTENDANCE` tab through the gviz CSV export every 10 s while
-visible, and marks through `PUT /v3/…/people/{personKey}/attendance` with the operator
-token. In this console it loads every facility of the day, so the counts are
+facility's people through `GET /v3/days/{day}/facilities/{facility}/people` every 10 s
+while visible, and marks through `PUT /v3/…/people/{personKey}/attendance`, both with
+the operator token. The tab needs a sign-in: signed out, the view fetches nothing and
+shows "Sign in to see attendance." where the list goes. A failed load keeps the list it had
+and shows the server's message. In this console it loads every facility of the day, so the counts are
 complete.
 
 Around it, the console's own `attConsole*` section adds the per-facility

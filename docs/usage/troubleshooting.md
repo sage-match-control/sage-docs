@@ -9,8 +9,10 @@ version of each SAGE script.
 
 > **Check these two first.** Most trouble is one of them.
 >
-> 1. **Is the workbook's General access still *Anyone with the link: Viewer*?** The sync
->    reads it with an API key, which needs that.
+> 1. **Is the service account still on the workbook, as Editor?** (**File → Share**:
+>    `sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com`.) The sync reads the
+>    workbook as that account, and a workbook with General access *Restricted* is closed to
+>    everyone else.
 > 2. **Does Mission Control show a fresh *Synced* for the venue?** If not, click
 >    **Resync this day now**.
 
@@ -18,10 +20,10 @@ version of each SAGE script.
 
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
-| A venue reads stale in **Facility sync status**, or **Sync failed** | The workbook's General access changed; the workbook was edited in a way that broke a tab; the live sync is not set up | Check **General access** first. Click **Resync this day now**. In the workbook run **SAGE → Sync now**: the words after **Sync failed** say why, and **SAGE → Help** explains each one. |
+| A venue reads stale in **Facility sync status**, or **Sync failed** | The service account was removed from the workbook; the workbook was edited in a way that broke a tab; the live sync is not set up | Check that the service account is still on the workbook as Editor first. Click **Resync this day now**. In the workbook run **SAGE → Sync now**: the words after **Sync failed** say why, and **SAGE → Help** explains each one. |
 | A score or court entry hasn't appeared within about 2 minutes | A sync lost a race with another venue's sync, or another event's on the same day. Facility sync status only turns amber after 5 minutes. | Click **Resync this day now**. |
 | **Live updates** reads *polling GitHub (push not connected)* | The live push service isn't connected to this page | Updates still arrive, 30–60 seconds slower. Keep going and tell whoever maintains the system. To stop relying on it, switch **Sync method** to **GitHub only**, and back when healthy. |
-| Resync fails for one venue | Sheets API trouble | Tick **Use CSV export fallback** and resync again. |
+| Resync fails for one venue | Sheets API trouble | Tick **Use CSV export fallback** and resync again. The fallback reads with no sign-in, so it works only on a workbook shared as *Anyone with the link: Viewer* (an older event's); a Restricted workbook needs the Sheets API path. |
 | **Check connection** says live push is off | The sync method was switched, or the service is unavailable | Mission Control → **Sync method**. |
 | The Hub loads but is empty | A column name in `CSV` or `STANDINGSCSV` changed. The names are exact and case-sensitive. | Matches tab: `matchNumber`, `teamCode1`, `team1Player1`, `team1Player2`, `teamCode2`, `team2Player1`, `team2Player2`, `Schedule`, `team1Score`, `team2Score`, `CourtAssignment`, `court`. Standings tab: `teamCode`, `player1`, `player2`, `wins`, `loss`, `quotient`, `bracket`. Without `court`, every court sits on "No match playing". |
 | **Set up live sync** won't accept the day key or venue | The registration and the workbook disagree. Venue names are case-sensitive. A new day key takes about a minute to be live. | Fix whichever is wrong, wait a minute, and run setup again. |

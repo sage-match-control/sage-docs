@@ -101,8 +101,8 @@ The Attendance tab, for operators, also has:
 - **Needs attention**: possible duplicate names, people listed twice in a
   category, and a **Show withdrawn** switch.
 
-Sign in at the top of Mission Control first. Without signing in the list is
-read-only.
+Sign in at the top of Mission Control first. Without signing in the tab shows no
+list, only a prompt to sign in.
 
 ## Desk links
 

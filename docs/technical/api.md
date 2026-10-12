@@ -63,13 +63,16 @@ day-scoped tokens (see [Auth](auth.md)).
 | `POST /v3/sessions` | sign in | none | **`201`** `{ token, expiresAt }` | `POST /auth/login` (`200`) |
 | `GET /v3/events/{event}/score-entry` | read the event's score-entry mode | operator | `200 { event, scoreEntry }` (`"console"`, `"links"` or `null`) | — |
 | `PUT /v3/events/{event}/score-entry` | set it | operator | `200 { event, scoreEntry, changed }` | `PUT /v1/events/:event/score-entry` |
+| `GET /v3/days/{day}/facilities/{facility}/people` | list one facility's people and their check-in state | operator or desk | `200` an array of people, `Cache-Control: no-store` | — |
 | `PUT /v3/days/{day}/facilities/{facility}/people/{personKey}/attendance` | mark one person present or not | operator or desk | `200` the row | `PUT /v1/days/:day/facilities/:facility/attendance/:key` |
 | `POST /v3/days/{day}/attendance/desk-links` | issue a desk link; optional body `{ issuedTo?, note? }` | operator | `201 { token, expiresAt, day, issuedTo, note }` | `POST /v1/days/:day/attendance/desk-links` |
 | `POST /v3/days/{day}/attendance/reconciliations` | update the `ATTENDANCE` roster | operator | `200` | `POST /v1/days/:day/attendance/reconciliations` |
 | `PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score` | enter, correct or clear a score | operator or scorer | `200` | `PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score` |
 | `POST /v3/days/{day}/scores/scorer-links` | issue a scorer link; optional body `{ issuedTo?, note? }` | operator | `201 { token, expiresAt, day, issuedTo, note }` | `POST /v1/days/:day/scores/scorer-links` |
 
-That is sixteen routes on thirteen paths. Details a twin does not show:
+That is seventeen routes on fourteen paths. Sixteen are the twin of a frozen route;
+the people list is the one that has none, because nothing before it read through the
+API. Details a twin does not show:
 
 - **Sync input moves into a body.** `?facility=` becomes a path segment, and
   `?method=` and the `X-Edit-At` header become `{ "method"?: "sheets" | "csv",
@@ -90,6 +93,11 @@ That is sixteen routes on thirteen paths. Details a twin does not show:
   (`…/people/{personKey}/attendance`), replacing `/v1`'s `…/attendance/{key}`. A
   roster update names its facility in a body, `{ "facility": "…" }`; no body
   means every facility.
+- **The people list** is the array itself, in sheet order, one person per key:
+  `{ key, player, teams, categories, present, timeIn, withdrawn, shirt }`. It is read
+  from the workbook at most once every 10 s per workbook however many desks ask, and
+  again at once after a write to that tab. A workbook with no `ATTENDANCE` tab answers
+  `[]`. See [Event attendance](event-attendance.md#reading-the-list).
 - **The score-entry body** is `{ "scoreEntry": "console" | "links" }` where `/v1`
   takes `{ "mode": … }`.
 
@@ -154,7 +162,8 @@ with a body must say `Content-Type: application/json`, or it is a `415`.
 
 | Route | Rule it departs from | Why |
 | --- | --- | --- |
-| `PUT …/people/{personKey}/attendance` and `PUT …/matches/{matchNumber}/score` | a `GET` for every `PUT` | the state is read from the published day snapshot and the `ATTENDANCE` tab's published CSV, which pages already poll; a Sheets read per `GET` would spend Google quota for no reader |
+| `PUT …/people/{personKey}/attendance` | a `GET` for every `PUT` | each person's state is read with `GET …/facilities/{facility}/people`, the list a desk polls; a per-person `GET` would have no reader |
+| `PUT …/matches/{matchNumber}/score` | a `GET` for every `PUT` | scores are read from the published day snapshot, which pages already poll; a Sheets read per `GET` would spend Google quota for no reader |
 | `PUT …/matches/{matchNumber}/score` | concurrency through `If-Match` / `412` | the precondition is the values a person saw in two cells, not a version the API issues, so there is no `ETag`; `expected` travels in the body, and the `409` carries `current` |
 | `201` without `Location` (sessions, desk links, scorer links) | `Location` on a created resource | the result is a signed credential, not a stored resource, so there is no URL to point at |
 | `expiresAt` in the three token responses | timestamps are ISO 8601 | it is epoch milliseconds on every surface, and the pages compare it with `Date.now()` |

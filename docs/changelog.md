@@ -37,11 +37,49 @@ has been replaced.
 
 ---
 
+## [2.8.0] — 2026-10-12
+
+A facility workbook is Restricted and read by the API's service account, and the
+attendance list comes through the API.
+
+### Added
+
+- [Event attendance](technical/event-attendance.md#reading-the-list): the
+  people list route (`GET /v3/days/{day}/facilities/{facility}/people`), its rules, its
+  10-second cache, and [how the API reads a workbook](technical/event-attendance.md#reading-the-workbook).
+- [API](technical/api.md): the route, as the seventeenth `/v3` route and the one with no
+  frozen twin.
+- A `LICENSE` file (all rights reserved) in this repo.
+
+### Changed
+
+- [Build the workbooks](usage/build-the-workbooks.md#file-it),
+  [Connect the workbooks](usage/connect-the-workbooks.md),
+  [Troubleshooting](usage/troubleshooting.md) and
+  [Adding a new event](technical/adding-a-new-event.md): a facility workbook's General
+  access is **Restricted** and the service account is Editor on every event's workbooks.
+  The first check when a sync fails is the service account, not General access. The two
+  masters keep *Anyone with the link: Viewer*, which **Make a copy** needs.
+- [Sync pipeline](technical/sync-pipeline.md), [Deployment](technical/deployment.md) and
+  [Architecture](technical/architecture.md): the fetchers read as the service account;
+  `GOOGLE_SHEETS_API_KEY` is the fallback; the CSV export fallback needs a link-shared
+  workbook.
+- [Control Center](technical/control-center.md) and its
+  [feature page](features/control-center.md), and
+  [Event attendance](features/event-attendance.md): signed out, the Attendance tab asks to
+  sign in instead of listing people.
+- [Site engine spec](specs/implemented/site-engine-spec.md) §12: row 28, the signed-out
+  Attendance tab.
+- Spec: [Code and access protection](specs/in-progress/code-and-access-protection-spec.md)
+  moves from `not-started/` to `in-progress/`. The code, the runbook and these docs are
+  built; the owner's checks, the deploy and the account settings are left. It gains §9.10,
+  where the build departs from the design.
+
 ## [2.7.0] — 2026-10-12
 
 ### Changed
 
-- Spec: [Code and access protection](specs/not-started/code-and-access-protection-spec.md)
+- Spec: [Code and access protection](specs/in-progress/code-and-access-protection-spec.md)
   gains §9, facility workbooks closed to link access (the server reads as its service
   account, the desk page and Control Center read the roster through a new API route), and
   §10, two fixes to `facilityCompletion.mjs`: how it reads a score's value, and its stale
@@ -56,7 +94,7 @@ has been replaced.
 
 ### Added
 
-- Spec: [Code and access protection](specs/not-started/code-and-access-protection-spec.md).
+- Spec: [Code and access protection](specs/in-progress/code-and-access-protection-spec.md).
   A to-do list for protecting the code and the workbooks at little or no cost. Not started.
 
 ## [2.5.0] — 2026-10-10
