@@ -45,7 +45,10 @@ it with a shared secret.
 
 ### 0.2 Where things are
 
-`D:\Personal\SAGE` is a plain folder holding four git repos:
+`D:\Personal\SAGE` is a plain folder holding four git repos. Elsewhere (a cloud
+checkout, say), it is whichever folder holds the four repos side by side, and the
+workspace `CLAUDE.md` this spec calls `D:\Personal\SAGE\CLAUDE.md` is the one in the
+`sage-workspace` checkout beside them. Every path below is relative to that folder.
 
 | Path | What you change there |
 |---|---|
@@ -97,14 +100,21 @@ it with a shared secret.
 | `wrangler.jsonc` binds `DAY_CHANNEL` to `DayChannel`, migration tag `v1` | `live-worker/wrangler.jsonc` |
 | Every WebSocket client ignores a message whose `type` isn't `snapshot` (`if(msg.type !== 'snapshot' …) return;`) in `lib/v1/data/live-channel.js` and in the inline copies in `events/pickledrive-anniversary-2026/{index,schedule}.html` and `events/piggleball-2026/{index,schedule}.html` | those files |
 | `live-channel.js` exports `LIVE_PING_MS` (50000), `LIVE_PONG_TIMEOUT_MS` (10000), `LIVE_SAFETY_POLL_MS`, `LIVE_RETRY_MAX_MS` (30000) and `createLiveChannel` | `lib/v1/data/live-channel.js` |
-| `LivePublisher` has `enabled` (URL and secret both set), `read`, `publish`, and a private `#request(method, kind, event, day, body)` that sends `X-Publish-Secret` and times out at `timeoutMs` (4000) | `src/clients/LivePublisher.mjs` |
+| `LivePublisher` has `enabled` (URL and secret both set), `read`, `publish`, a private `#request(method, kind, event, day, body = null)` that sends `X-Publish-Secret`, times out at `timeoutMs` (4000) and **derives the word in its error messages from the method** (`GET` → `read`, anything else → `publish`), and `#failure(what, res)` → `Error("live Worker <what> failed: HTTP <status> <body>")` | `src/clients/LivePublisher.mjs` |
+| `smoke.mjs` uses **one** throwaway `key`, `` `smoke-test/run-${Date.now()}` ``, which is the event and the day together (event `smoke-test`, day `run-<ms>`), so a URL is `` `${base}/live/${key}` ``. It has helpers `report(step, ok, detail)` and `nextMessage(ws, ms)`, numbered steps 1–6, and `ws.close()` after step 6 | `live-worker/smoke.mjs` |
 | `config.livePushOn` is `raw.livePush !== false` (the **Sync method** switch); `SnapshotPublisher.liveActive(config)` is `livePublisher.enabled && config.livePushOn` | `src/registry/SyncConfigSnapshot.mjs`, `src/sync/publishing/SnapshotPublisher.mjs` |
-| `AttendanceService.mark` writes only when `planMark(…).changed`, then `this.peopleCache.delete(facility.sheetId)`. `#reconcileFacility` deletes the entry after `createAttendanceTab` and after `updateValues` with rows. `listPeople` → `#cachedPeople` reuses a read for `PEOPLE_CACHE_MS` (10 000) | `src/attendance/AttendanceService.mjs` |
-| `src/app.mjs` constructs one `LivePublisher` (`livePublisher`) and `new AttendanceService({ configStore, sheets, authService, logger })`; `test/helpers/fakes.mjs` has `FakeLivePublisher({ enabled, snapshot })` | `src/app.mjs`, `test/helpers/fakes.mjs` |
-| `createAttendanceView(opts)` polls with `setInterval(() => { if(!document.hidden) load(true); }, opts.pollMs)` and loads on `visibilitychange`; it returns `{ refresh, setShowWithdrawn, destroy }`. `load(quiet)` fetches every facility in console mode and the chosen venue in desk mode | `lib/v1/views/attendance-view.js` |
-| `mountAttendanceDesk(settings)` accepts only `KNOWN_SETTINGS = ['eventKey']`; any other name logs `unknown setting` and **returns without rendering** | `lib/v1/apps/attendance-desk.js` |
-| The attendance template's shell has no `LIVE_BASE_URL`; Control Center does (`'wss://sage-live.sagematchcontrol.workers.dev'`) and already runs `createLiveChannel` for the day's snapshot | `_templates/attendance/attendance.html`, `tools/control-center.html` |
-| The finished events' desk pages (Pickle for Sight, PickleDrive, Piggleball) are inline copies that do not use the engine | `events/*/attendance.html` |
+| `AttendanceService.mark` writes only when `planMark(…).changed`, then `this.peopleCache.delete(facility.sheetId)`. `#reconcileFacility` deletes the entry after `createAttendanceTab` and after `updateValues` with rows. `listPeople` → `#cachedPeople` reuses a read for `PEOPLE_CACHE_MS` (10 000). `this.now()` returns a `Date` | `src/attendance/AttendanceService.mjs` |
+| `#reconcileFacility({ config, day, type, facility, standingsRows, force })` is **not** given the event. Both callers have it: `reconcileAfterSync({ day, event, facilities })` as an argument, `reconcileDay` from `config.getDay(day)`. `reconcileAfterSync` waits for all facilities at most `RECONCILE_BUDGET_MS` (6000) | `src/attendance/AttendanceService.mjs` |
+| `src/app.mjs` constructs one `LivePublisher` (`livePublisher`) and `new AttendanceService({ configStore, sheets, authService, logger })`; `test/helpers/fakes.mjs` has `FakeLivePublisher({ enabled, snapshot })`. `test/unit/app.test.mjs` checks what `createApp` returns (`app.attendanceService instanceof AttendanceService`) | `src/app.mjs`, `test/helpers/fakes.mjs`, `test/unit/app.test.mjs` |
+| `AttendanceService.test.mjs` builds the service with `make(extra)` (a fresh `FakeSheets`, which records `writes`, `reads` and `created`; a `capturingLogger()`, whose `lines` holds `["warn", message]` pairs; `now: () => NOW`), and `...extra` overrides any dependency | `test/unit/attendance/AttendanceService.test.mjs` |
+| `attendance-routes.test.mjs` does **not** go through `createApp`: it serves the real routes with `startApp({ services })` (`test/helpers/http.mjs`). Its last block, *a desk link issued to someone, end to end*, builds a real `AttendanceService` over `FakeSheets` and marks through `PUT /v3/…/attendance` | `test/integration/attendance-routes.test.mjs` |
+| `createAttendanceView(opts)` polls with `setInterval(() => { if(!document.hidden) load(true); }, opts.pollMs)` and loads on `visibilitychange`; it returns `{ refresh, setShowWithdrawn, destroy }`. `load(quiet)` fetches every facility in console mode and the chosen venue in desk mode, and drops its reply when `st.loadSeq` has moved on. A successful mark already calls `load(true)`. The skeleton is `box.append(venuesEl, bar, countEl, catbar, listEl)`, where `bar` holds the search box and **Refresh** | `lib/v1/views/attendance-view.js` |
+| `mountAttendanceDesk(settings)` accepts only `KNOWN_SETTINGS = ['eventKey']`; any other name logs `unknown setting` and **returns without rendering**. It discards what `createAttendanceView` returns, and has `EVENT_KEY`, `FIXTURE` and `info.day` in scope | `lib/v1/apps/attendance-desk.js` |
+| The attendance template's shell has no `LIVE_BASE_URL`; Control Center does (`'wss://sage-live.sagematchcontrol.workers.dev'`) and already runs `createLiveChannel` for the day's snapshot. Its Attendance tab is built in **`attConsoleMount()`** (`attConsoleView = createAttendanceView({…, event: CURRENT_EVENT_KEY, day: day.key, …})`) and torn down only in **`attConsoleDestroy()`**, which every exit calls (another tab, a day or event change through `syncAttendanceTab`, a remount). `ATTENDANCE_POLL_MS` is imported from `platform.js` and used only as that `pollMs` | `_templates/attendance/attendance.html`, `tools/control-center.html` |
+| The finished events' desk pages (Pickle for Sight, PickleDrive, Piggleball) are inline copies that do not import the engine: PickleDrive's and Piggleball's carry their own inline `createAttendanceView` and poll with their own `ATTENDANCE_POLL_MS`. No live page imports `attendance-desk.js` today; only the template does | `events/*/attendance.html` |
+| Site test rules: `_tests/unit/guards.test.mjs` lets `views/` import only `views/` and `domain/`, and `data/` import `platform.js`, `domain/` and `data/`, so **the view never imports the signal**; the app and Control Center wire the two together. `_tests/unit/views/attendance-view.test.mjs` has **no DOM** and covers only `attendanceCsvUrl`, `fetchPeople` and `markPerson`. `_tests/unit/apps/settings.test.mjs` checks each mount's unknown and required settings. `_tests/unit/data/data-modules.test.mjs` has a `FakeSocket` class and a `liveSetup(t)` that installs it as `globalThis.WebSocket` under `mock.timers` | `_tests/unit/` |
+| The comparison harness answers every `sage-live` socket by closing it at once (`page.routeWebSocket(/sage-live/, ws => ws.close())` in `_tests/helpers/browser.mjs`) and installs a fake clock, so no timer fires unless a step moves it. Its attendance cases are `attendance/<event>/…` (the template's desk page, not in fixture mode), `cc/<event>/attendance/…` (signed out, already accepted as row 28) and `cc-signed-in/<event>/attendance/…` | `_tests/helpers/browser.mjs`, `_tests/engine/cases.mjs`, `_tests/engine/accepted.mjs` |
+| `npm test` in `sage-tools-api`, in a Linux checkout on 2026-10-12: 4 failures, all the HTML snapshots in `test/unit/scoresheets/TemplateService.test.mjs`, unrelated to this spec (§6 step 1 says what to do with them). The site's `_tests` `npm test`: all pass | — |
 
 ---
 
@@ -159,14 +169,17 @@ The cost is easy to see:
 
 ### 3.1 `src/index.js`, `fetch`
 
-- Widen `ROUTE` to `^/(live|snapshot|publish|attendance|nudge)/(KEY)/(KEY)$`.
+- Widen `ROUTE` to `^/(live|snapshot|publish|attendance|nudge)/(${KEY})/(${KEY})$`.
 - Name the object by kind: `attendance` and `nudge` use
   `` `attendance:${event}/${day}` ``, the rest `` `${event}/${day}` `` as now. Same
   `locationHint`.
 - `attendance`: the same checks as `live` (`426` without the upgrade header, `403` for a
-  disallowed `Origin`), then `stub.fetch(request)`.
+  disallowed `Origin`), then `stub.fetch(request)`. Today everything that isn't `live`
+  falls through to the secret check, so widen that branch's condition to
+  `kind === "live" || kind === "attendance"` rather than adding a second copy.
 - `nudge`: the same secret check as `publish` (`401`), `POST` only (else `405`), then
-  `stub.fetch(request)`.
+  `stub.fetch(request)`. That is one more `|| (kind === "nudge" && request.method === "POST")`
+  in the existing method check.
 
 ### 3.2 `DayChannel.fetch`
 
@@ -183,15 +196,21 @@ spec's path.
 
 ### 3.3 `smoke.mjs`
 
-Add these checks, on the same throwaway keys it already uses:
+Add these as steps 7–12, after step 6 and before the existing `ws.close()`, on the same
+`key` (so the URLs are `` `${wsBase}/attendance/${key}` `` and `` `${base}/nudge/${key}` ``).
+`ws` is the step-2 `/live` socket, still open, its greeting already read. Add one helper
+beside `nextMessage`: `noMessage(ws, ms)`, which resolves `true` if no message arrives
+within `ms` and `false` if one does.
 
-1. Open `/attendance/<key>/<day>` and `/live/<key>/<day>`.
-2. `POST /nudge/<key>/<day>` `{ "facility": "Smoke Court" }` answers `200` with
-   `clients ≥ 1`.
-3. The attendance socket receives exactly `{"type":"attendance","facility":"Smoke Court"}`.
-4. The live socket receives nothing within 2 s.
-5. `POST /nudge/…` without the secret is `401`. With `{ "facility": "" }` it is `400`.
-6. Attendance sockets connect with nothing sent first, and a `ping` gets `pong`.
+7. Open `` const att = new WebSocket(`${wsBase}/attendance/${key}`) ``, wait for its `open`
+   event, then: no message within 1 s (nothing is sent on connect).
+8. `POST /nudge/${key}` with the secret and `{ "facility": "Smoke Court" }` answers `200`
+   with `clients ≥ 1`. Start listening on both sockets **before** sending it.
+9. `att` receives exactly `{"type":"attendance","facility":"Smoke Court"}` within 2 s.
+10. `ws` (the `/live` socket) receives nothing within 2 s of that nudge.
+11. `POST /nudge/${key}` without the secret is `401`; with the secret and
+    `{ "facility": "" }` it is `400`; a `GET` with the secret is `405`.
+12. `att.send("ping")` gets `pong` within 3 s. Then `att.close()`.
 
 ### 3.4 `README.md`
 
@@ -213,9 +232,14 @@ async nudge(event, day, facility) { … }
 
 `POST {baseUrl}/nudge/{event}/{day}` with `X-Publish-Secret`, `Content-Type:
 application/json` and the body `{ facility }`. It times out after **2000 ms**, not
-`timeoutMs`. Give `#request` an optional timeout argument rather than duplicating it.
-The timeout message reads `live Worker nudge timed out after 2000ms`, and failures read
-`live Worker nudge failed: …`, in the shape `read` and `publish` use.
+`timeoutMs`. Don't duplicate `#request`: give it a sixth, optional argument
+`{ what, timeoutMs } = {}`, where `what` defaults to what it derives from the method today
+and `timeoutMs` to `this.timeoutMs`; `read` and `publish` keep calling it as they do. So
+`nudge` calls `this.#request("POST", "nudge", event, day, { facility }, { what: "nudge", timeoutMs: 2000 })`,
+throws `await this.#failure("nudge", res)` for any non-`ok` answer, and returns
+`{ clients: body.clients }`. The messages are then `live Worker nudge timed out after 2000ms`
+and `live Worker nudge failed: …`. Unlike `publish`, it logs nothing on success (one
+line per mark would flood the log).
 
 ### 4.2 The port (`src/shared/ports.mjs`)
 
@@ -233,25 +257,37 @@ The timeout message reads `live Worker nudge timed out after 2000ms`, and failur
 
 - The constructor takes an optional `signals` (`AttendanceSignals`, default `null`).
   Type it in the JSDoc like the other dependencies.
-- A private `#nudge(config, event, day, facilityName)`:
-  - Return at once unless `this.signals?.enabled` (D6). `config.livePushOn` is **not**
-    consulted.
-  - Return at once if the last failed nudge was less than `NUDGE_BACKOFF_MS` (60 000,
-    a constant beside `PEOPLE_CACHE_MS`) ago, by `this.now()`.
+- The constructor stores `this.signals = signals` and
+  `this.nudgeFailedAt = 0` (ms since the epoch of the last failed nudge; per instance,
+  in memory, like the caches).
+- A private `async #nudge(event, day, facilityName)`:
+  - Return at once unless `this.signals?.enabled` (D6). The registry's `livePushOn` is
+    **not** consulted, so `#nudge` takes no `config`.
+  - Return at once if `this.now().getTime() - this.nudgeFailedAt < NUDGE_BACKOFF_MS`
+    (60 000, a constant beside `PEOPLE_CACHE_MS`).
   - Otherwise `await this.signals.nudge(event, day, facilityName)` inside `try`. On any
-    error, remember the time, log `this.logger.warn(\`attendance ${day}/${facilityName}:
-    live nudge failed: ${err.message}\`)` and return. Never throw.
-- `mark`: after `updateValues` and the cache delete, inside `if (plan.changed)`, call
-  `await this.#nudge(config, event, day, facilityName)`. The return value is unchanged.
-- `#reconcileFacility`: if this run called `createAttendanceTab` or wrote rows with
-  `updateValues`, call `#nudge` **once**, after the race re-check, for that facility.
-  It needs the event: take it from `config.getDay(day)` as `mark` does. A skipped
-  reconcile (same fingerprint) and a run with nothing to write send nothing.
+    error, set `this.nudgeFailedAt = this.now().getTime()`, log
+    `` this.logger.warn(`attendance ${day}/${facilityName}: live nudge failed: ${err?.message ?? err}`) ``
+    and return. Never throw.
+- `mark`: inside `if (plan.changed)`, after `updateValues` and the cache delete, call
+  `await this.#nudge(event, day, facilityName)` (`event` is already in scope from
+  `config.getDay(day)`). The return value is unchanged.
+- `#reconcileFacility`: add `event` to its argument object, and pass it from both
+  callers (`reconcileAfterSync` has it as an argument, `reconcileDay` from
+  `config.getDay(day)`). Track whether this run called `createAttendanceTab` or called
+  `updateValues` (only done when `data.length > 0`). If either, call
+  `await this.#nudge(event, day, name)` **once**, after the race re-check and its
+  logging, whether or not it raced (the tab changed either way), before the `return`.
+  A skipped reconcile (same fingerprint) and a run with nothing to write send nothing.
+  A reconcile after a sync runs inside `RECONCILE_BUDGET_MS`. A failing nudge adds at
+  most 2 s, once a minute; if that ever tips a run past the budget,
+  `reconcileAfterSync` logs and moves on as it already does. Change nothing there.
 
 ### 4.4 Wiring (`src/app.mjs`)
 
 Pass `signals: livePublisher` to `new AttendanceService({ … })`. Nothing else is
-constructed.
+constructed. `livePublisher` is constructed above `attendanceService` already, so no
+lines move.
 
 ### 4.5 Test helpers
 
@@ -264,14 +300,15 @@ constructed.
 | File | Cases |
 |---|---|
 | `test/unit/clients/LivePublisher.test.mjs` | `nudge`: `POST` to `…/nudge/<event>/<day>` (URL-encoded), the secret header, the JSON body `{ facility }`; `200` resolves to `{ clients }`; `401` and `500` reject with `live Worker nudge failed: HTTP …`; a request that never answers rejects with `timed out after 2000ms` (use the file's existing timer approach), even when `timeoutMs` is 4000 |
-| `test/unit/attendance/AttendanceService.test.mjs` | A changed mark nudges once with the event, the day and the facility name, **after** `updateValues`. An unchanged mark sends no nudge. `enabled: false` sends none; `livePushOn: false` **still** nudges. A rejecting nudge leaves the mark's return value as it was, logs one `live nudge failed` warning, and doesn't throw. After it, marks within 60 s send no nudge, and one 60 s later does (drive `now`). A reconcile that writes rows nudges once; one that creates the tab nudges once; a skipped reconcile and one with nothing to write send none. A service built **without** `signals` marks and reconciles as before |
-| `test/integration/attendance-routes.test.mjs` | Through the real app with `FakeLivePublisher`: `PUT /v3/…/attendance` that changes someone records one nudge. The same `PUT` again records none. A nudge that rejects still answers `200` with the same body |
+| `test/unit/attendance/AttendanceService.test.mjs` | Build with `make({ signals: new FakeLivePublisher() })`. A changed mark nudges once with the event, the day and the facility name, **after** `updateValues` (a `nudge` that records `sheets.writes.length` when called sees the write already there). An unchanged mark sends no nudge. `enabled: false` sends none. An event in a registry with top-level `livePush: false` **still** nudges (build a second `SyncConfigSnapshot` from `{ ...RAW, livePush: false }`). A rejecting nudge leaves the mark's return value as it was, logs exactly one warning containing `live nudge failed`, and doesn't throw. After it, a mark 59 s later sends no nudge, and one 60 s later does (pass `now: () => current` and move `current`). A reconcile that writes rows nudges once; one that creates the tab nudges once (not twice when it also writes rows); a skipped reconcile (the same roster again with `force: false`) and a forced one with nothing to write send none. A service built **without** `signals` marks and reconciles as before. Use the file's existing `reconcileAfterSync`/`reconcileDay` cases as the pattern for setting up each tab |
+| `test/integration/attendance-routes.test.mjs` | In a new `describe` modelled on *a desk link issued to someone, end to end* (its own `RAW`, `FakeSheets` and `startApp`), with a real `AttendanceService` given `signals: new FakeLivePublisher()`: an operator's `PUT /v3/…/attendance` that changes someone records one nudge `{ event, day, facility }`. The same `PUT` again records none. With `nudgeFails` set, the `PUT` still answers `200` with the same body as without it |
+| `test/unit/app.test.mjs` | `createApp` gives the attendance service the app's `LivePublisher`: `app.attendanceService.signals === app.livePublisher` |
 
 ### 4.7 Version and Changelog
 
 `package.json` **3.4.0**. A `### 3.4.0` entry at the top of `README.md`'s Changelog in
 its usual shape, saying what pages now get and that nothing private crosses the socket.
-It ends with a **Tests:** line naming the three test files and `test/helpers/fakes.mjs`.
+It ends with a **Tests:** line naming the four test files and `test/helpers/fakes.mjs`.
 
 ---
 
@@ -313,9 +350,15 @@ in push A.
   - After every nudge, (re)start that facility's settle timer: `onChange(facility)` again
     `ATTENDANCE_SETTLE_MS` after the **last** nudge.
 - **Status:** `onStatus(true)` when the socket opens; `onStatus(false)` when it closes or
-  a connection attempt fails, once per change (not once per retry). With
-  `enabled: false`, call `onStatus(false)` once, on the next tick.
-- `isOpen()` is `ws.readyState === WebSocket.OPEN`.
+  a connection attempt fails, once per change (not once per retry). The state starts
+  unknown, so the first open or the first failure always reports. With
+  `enabled: false`, never create a socket and call `onStatus(false)` once, on the next
+  tick (`setTimeout(…, 0)`, so the caller has its view by then).
+- `isOpen()` is `!!ws && ws.readyState === WebSocket.OPEN`, as in `createLiveChannel`.
+- After `close()`, no callback fires again: clear the ping, pong, retry, gap and settle
+  timers, and detach the socket's handlers before closing it.
+- No pause on a hidden page: the view ignores nudges while hidden (§5.2), and a socket
+  that died while a phone slept reconnects through the normal backoff.
 
 ### 5.2 `lib/v1/views/attendance-view.js` — push A
 
@@ -327,18 +370,35 @@ in push A.
   - If the page is hidden, or the facility isn't one this view loads (desk mode: the
     chosen venue; console: any of `facilities`), do nothing.
   - Otherwise do a quiet load of **that facility only**. Give `load` an optional second
-    argument naming one facility. The `loadSeq` rule must not drop the other facilities'
-    data: only a newer load **of the same facility** supersedes it.
+    argument naming one facility: `load(quiet, only)`, whose targets are
+    `[that facility]` when `only` is given and what they are today otherwise.
+  - The `loadSeq` rule must not drop the other facilities' data: only a newer load
+    **of the same facility** supersedes it. Do it this way: keep the global counter,
+    add `st.facilitySeq = new Map()` (facility name → the seq of the newest load that
+    included it); a load records its seq for each of its targets before fetching, and
+    on reply applies only the results whose `st.facilitySeq.get(name) === seq`. If
+    none apply, it returns without rendering, as a superseded load does today. A full
+    load records every target, so it supersedes any single-facility load still in
+    flight, and vice versa for that one facility.
   - Someone this device is still saving keeps their local state, as a load already
     does.
 - It also gains `setLive(open)`:
-  - `false` shows the D8 line, `true` hides it. The line sits under the search bar, in
-    its own element with a new class `att-live-off` in `lib/v1/css/attendance.css`.
+  - `false` shows the D8 line, `true` hides it. The line is its own element,
+    `el('div', 'att-live-off', 'Live updates are off. Press Refresh to see marks from other devices.')`,
+    placed straight after `bar` (`box.append(venuesEl, bar, liveOffEl, countEl, catbar, listEl)`)
+    and shown or hidden with its `hidden` property. Add `.att-live-off` to
+    `lib/v1/css/attendance.css` beside `.att-status`, in that file's one-line style:
+    the same size as `.att-status`, `color: var(--att-red)`, a small top margin.
     Adding a class is compatible. It isn't a `say()` message, because in Control
     Center those become toasts and this line has to stay.
   - When `setLive(true)` follows a `setLive(false)`, do one quiet load of everything the
-    view shows, to catch up on nudges missed while disconnected.
+    view shows (`load(true)`), to catch up on nudges missed while disconnected. The
+    first `setLive(true)` loads nothing: the view's own first load covers it.
   - Before the first call the line is hidden.
+- A successful mark keeps calling `load(true)`. The device that marked also gets its
+  own nudge; the second read is served from the API's cache and costs nothing.
+- Update the header comment (`returns { refresh(), destroy(), setShowWithdrawn(v) }`
+  and the `pollMs` line) to describe `changed`, `setLive`, and `pollMs` as optional.
 - Don't change the behaviour of `refresh`, the **Refresh** button, `destroy`,
   `visibilitychange` or optimistic marking.
 
@@ -352,18 +412,24 @@ in push A.
     nothing is removed from `lib/v1`.
   - `view.changed &&` and `view.setLive &&` guard against a cached push-A-less view,
     which is harmless.
+  - Update the header comment's usage line to
+    `mountAttendanceDesk({ eventKey, liveBaseUrl })` and describe `liveBaseUrl`
+    (optional; `''` or absent: no nudges, and the page says live updates are off).
 
 ### 5.4 `tools/control-center.html` — push B
 
-- Where the Attendance tab creates its view (`attConsoleView = createAttendanceView({…})`),
-  also create an attendance signal for the event and day, with `baseUrl: LIVE_BASE_URL`
-  and `enabled: !!LIVE_BASE_URL && !FIXTURE`. `onChange` calls
-  `attConsoleView.changed && attConsoleView.changed(f)`, and `onStatus` calls
-  `!FIXTURE && attConsoleView.setLive && attConsoleView.setLive(open)`. Stop passing
-  `pollMs` (D8).
-- Close the signal wherever that view is destroyed or replaced: a day or event change,
-  sign-out, leaving the tab if the view is destroyed then.
-- Import `createAttendanceSignal` from `/lib/v1/data/attendance-signal.js`.
+- Beside `let attConsoleView = null;` add `let attConsoleSignal = null;`.
+- In `attConsoleMount()`, after `attConsoleView = createAttendanceView({…})`, set
+  `attConsoleSignal = createAttendanceSignal({ baseUrl: LIVE_BASE_URL, enabled: !!LIVE_BASE_URL && !FIXTURE, event: CURRENT_EVENT_KEY, day: day.key, onChange: f => attConsoleView && attConsoleView.changed && attConsoleView.changed(f), onStatus: open => !FIXTURE && attConsoleView && attConsoleView.setLive && attConsoleView.setLive(open) })`.
+  Stop passing `pollMs` (D8), and drop `ATTENDANCE_POLL_MS` from the `platform.js`
+  import, since nothing else in the page uses it (the export stays).
+- In `attConsoleDestroy()`, close the signal before the view:
+  `if(attConsoleSignal){ attConsoleSignal.close(); attConsoleSignal = null; }`. Every
+  teardown goes through it, so nothing else needs to close it. Signing out doesn't
+  tear the tab down: the signal stays open, a nudge's load finds no token and the view
+  shows *Sign in* as it does today.
+- Import `createAttendanceSignal` from `/lib/v1/data/attendance-signal.js`, beside the
+  `live-channel.js` import.
 - The day's existing `liveChannel` is untouched.
 
 ### 5.5 `_templates/attendance/attendance.html` — push C
@@ -371,7 +437,9 @@ in push A.
 Add `const LIVE_BASE_URL = 'wss://sage-live.sagematchcontrol.workers.dev';` beside
 `EVENT_KEY`, the same literal as Control Center: a literal, not a `{{TOKEN}}`. Pass
 `liveBaseUrl: LIVE_BASE_URL` to `mountAttendanceDesk`. The finished events' desk pages
-aren't changed (D9).
+aren't changed (D9). Jekyll doesn't publish `_templates/`, so this reaches a live page
+only when an event is next instantiated from the template; the wait in D10 protects
+that page.
 
 ### 5.6 `_tests/`
 
@@ -391,16 +459,34 @@ aren't changed (D9).
   - `onStatus` fires once per change of state, not once per retry, and once with
     `false` when `enabled` is false;
   - `isOpen()`.
-- `unit/views/attendance-view.test.mjs`: if `changed`, `setLive`, the one-facility load
-  and the absent interval can be driven without a DOM by the file's existing means, add
-  cases. Otherwise say so in your report, and §6 step 4 covers them.
-- `unit/live-pages.test.mjs` and `unit/no-copies.test.mjs` must still pass: no page
-  defines its own copy of the signal.
+  Put them in a new `// ---- attendance signal ----` section after the live-channel
+  tests, reusing `FakeSocket` with a setup function like `liveSetup` that calls
+  `createAttendanceSignal` and records `onChange` and `onStatus` calls.
+- `unit/apps/settings.test.mjs`: one case in the style of *mountScheduleBoard knows
+  "type"*: `mountAttendanceDesk({ eventKey: 'e', liveBaseUrl: 'wss://x' })` logs no
+  `unknown setting` error. Past the settings check the mount reads `location`, which
+  Node lacks, so it rejects with `location is not defined`: call it as
+  `errorsFrom(() => mountAttendanceDesk({…}).catch(() => {}))` and assert only that no
+  error mentions `unknown setting`.
+- `unit/views/attendance-view.test.mjs` has no DOM, so `changed`, `setLive`, the
+  one-facility load and the absent interval can't be unit tested there. Add no DOM
+  library (no new dependency). The harness (below) and §6 step 4 cover them; say so in
+  your report.
+- `unit/guards.test.mjs`, `unit/live-pages.test.mjs` and `unit/no-copies.test.mjs` must
+  still pass: the view imports nothing from `data/`, and no page defines its own copy
+  of the signal.
 - `npm run verify`: the comparison harness must show no difference on any page, apart
-  from the D8 line on a page whose socket the harness can't open. Record each such case
-  in `_tests/engine/accepted.mjs`, like the rows already there, citing this spec, and
-  list them in your report. If a case relied on a poll to show a change, report it
-  rather than adding a timer back. Fixture mode turns the signal off and shows no line.
+  from the D8 line. The harness closes every `sage-live` socket at once (§0.4), so on
+  the branch the line shows on every non-fixture attendance case: the desk page
+  (`attendance/…`) and Control Center's tab signed in (`cc-signed-in/…/attendance/…`).
+  `cc/…/attendance/…` is already accepted in full (row 28). Add one entry per new
+  pattern to `ACCEPTED` in `_tests/engine/accepted.mjs`, under a heading comment
+  `// ---- push for attendance (sage-docs/docs/specs/.../attendance-push-spec.md §1 D8) ----`,
+  shaped like the rows there, for example
+  `{ case: /^attendance\//, kind: 'both', row: 'attendance-push D8', reason: 'with the live Worker unreachable the list says live updates are off' }`.
+  Accept only the cases that actually differ, and list them in your report. If a case
+  relied on a poll to show a change, report it rather than adding a timer back.
+  Fixture mode turns the signal off and shows no line.
 
 ---
 
@@ -409,11 +495,24 @@ aren't changed (D9).
 1. `npm run verify` in `sage-tools-api`: passes, apart from any failure that also fails
    on `main` in your checkout. Name those.
 2. `npm run verify` in `sage-match-control.github.io/_tests`: passes.
-3. `cd sage-tools-api/live-worker && npx wrangler dev` with a `.dev.vars` secret, then
-   `node smoke.mjs http://localhost:8787 <secret>`: every check passes, the old and the
-   §3.3 ones.
-4. Serve the site locally, with a local API and the local Worker. Open two desk pages and
-   Control Center's Attendance tab for one day, each pointed at `ws://localhost:8787`.
+3. In `sage-tools-api/live-worker`: `npm install` (installs the existing `wrangler`
+   devDependency from its lockfile; not a new dependency), create `.dev.vars` holding
+   `PUBLISH_SECRET=local-test-secret` (git-ignored), run `npx wrangler dev`, then
+   `node smoke.mjs http://localhost:8787 local-test-secret`: every check passes, the old
+   and the §3.3 ones. If `wrangler dev` can't run where you are (no network for its
+   runtime, say), report that and the smoke output you could get.
+4. This one needs a local API (`npm start` in `sage-tools-api` with a `.env` that has
+   `LIVE_PUSH_URL=http://localhost:8787`, `LIVE_PUSH_SECRET=local-test-secret`, sign-in
+   settings, and Google access to a scratch facility workbook) and the local Worker.
+   If you don't have Google access or a scratch workbook, don't improvise one: say so
+   in your report, and the owner's P3, P6 and P7 cover it. Otherwise serve the site from
+   its root (`python3 -m http.server 8000`, or any static server; imports are
+   root-absolute), and point the pages at the local services with **temporary** edits
+   that you revert before reporting: `CLOUD_RUN_BASE_URL` in `lib/v1/platform.js`
+   becomes `http://localhost:8080`, and `LIVE_BASE_URL` in `tools/control-center.html`
+   and in a scratch copy of the desk page becomes `ws://localhost:8787` (name the copy
+   `attendance-beta.html`: the site's `**/*beta*` rule keeps it out of git). Open two desk
+   pages and Control Center's Attendance tab for one day.
    - Mark someone on one desk. The other desk and the console show it within about
      2 s, and each makes one more read about 11 s later.
    - With no marks, no page reads the list again, however long you wait.
@@ -436,7 +535,7 @@ aren't changed (D9).
 | `sage-docs/docs/technical/control-center.md` | The Attendance tab's attendance signal and when it is closed |
 | `sage-docs/docs/features/event-attendance.md` | Marks made on other devices appear within a second or two. If the page says *Live updates are off*, press **Refresh** to see them |
 | `sage-docs/docs/usage/desk-handout.md` | *Marks made on other phones appear within about 10 seconds* becomes *within a second or two*; if the page says *Live updates are off*, press **Refresh** |
-| `sage-docs/docs/usage/run-the-day.md` | Under *What to watch*, the **Sync method** bullet: switching to **GitHub only** doesn't change attendance; desks still get live updates while the Worker is up |
+| `sage-docs/docs/usage/run-the-day.md` | Under *What to watch*, the **Live updates misbehaving** bullet (the one that says to switch **Sync method** to **GitHub only**): one sentence that the switch doesn't change attendance; desks still get live updates while the Worker is up |
 | `sage-docs/docs/changelog.md`, `mkdocs.yml` | A MINOR entry and the version, per the changelog's rules |
 | `D:\Personal\SAGE\CLAUDE.md` | The data-flow note: the Worker also relays data-free attendance nudges (`/attendance`, `/nudge`). `live-worker/`'s layout entry: the two routes. `src/attendance/`: it nudges the Worker after a write |
 

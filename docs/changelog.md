@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.10.1] — 2026-10-13
+
+### Fixed
+
+- [Push for attendance](specs/not-started/attendance-push-spec.md), checked again against the
+  code so it can be built without other context. §0.4 gains the facts the work depends on: how
+  `LivePublisher` labels its errors, that `#reconcileFacility` isn't given the event, how the
+  attendance tests build the service, where Control Center's Attendance tab mounts and tears
+  down, the site's import rules, and the harness closing every live socket. §3 names `smoke.mjs`'s
+  one combined key and numbers the new checks. §4 says how `nudge` reuses `#request`, where the
+  back-off time is kept, and adds a wiring test. §5 spells out the per-facility load sequence,
+  where the *Live updates are off* line goes, what closes Control Center's signal, and which
+  harness cases to accept. §6 says what the local checks need, and to report rather than
+  improvise when there is no Google access. §7 names the right bullet in *Run the day*.
+
 ## [2.10.0] — 2026-10-13
 
 ### Changed
