@@ -37,7 +37,15 @@ has been replaced.
 
 ---
 
-## [2.10.1] — 2026-10-13
+## [2.11.0] — 2026-10-13
+
+### Changed
+
+- [Push for attendance](specs/not-started/attendance-push-spec.md), by the owner's decision:
+  a page's read on opening, on coming back into view, on reconnecting and on **Refresh** gets
+  one follow-up read 11 s later, because it may have come from another instance's cache up to
+  10 s old (D8, §5.2). The implementer commits to a feature branch instead of leaving the
+  work uncommitted, one site commit per push (§0.3, §10.1).
 
 ### Fixed
 

@@ -63,8 +63,12 @@ workspace `CLAUDE.md` this spec calls `D:\Personal\SAGE\CLAUDE.md` is the one in
 
 ### 0.3 Hard rules
 
-1. **Leave every change uncommitted.** No `git add`, `commit`, `push`, branch, switch or
-   stash. The owner reviews, commits and deploys.
+1. **Commit to a feature branch, never to `main`.** In each repo you change, create one
+   branch (the same name in every repo, e.g. `attendance-push`, unless your session
+   names one for you), commit there in small steps with clear messages, and push it.
+   No pull request, no merge, no rebase of `main`, no force-push. The owner reviews the
+   branches, merges and deploys. The workspace `CLAUDE.md` follows its own repo
+   (`sage-workspace`) the same way.
 2. **Never deploy the Worker** (`npx wrangler deploy`), never call the production API or
    the production Worker, and never touch the real `events.json`. Run the Worker with
    `npx wrangler dev`; tests use fakes. Deploys are the owner's (§10.2).
@@ -129,7 +133,7 @@ workspace `CLAUDE.md` this spec calls `D:\Personal\SAGE\CLAUDE.md` is the one in
 | D5 | **Best effort, awaited, short.** The nudge is awaited before the response, because Cloud Run throttles CPU once a response is sent, with a **2-second** timeout. A failure or timeout logs one warning and never changes the answer or throws |
 | D6 | **Nudges follow the environment, not the Sync method switch.** The API nudges whenever `LivePublisher.enabled` (URL and secret set), whatever `config.livePushOn` says. With no polling (D8), a nudge is the only way other pages hear of a mark, and the switch is about how snapshots are delivered. After a failed nudge the service sends none for **60 s** (per instance), so a Worker outage costs a mark at most one 2-second wait a minute |
 | D7 | **Pages coalesce.** A nudge for a facility the page shows re-reads that facility only, at most once every 2 s (trailing). **And once more 11 s after the last nudge**, because another Cloud Run instance can hold a list up to 10 s old (`PEOPLE_CACHE_MS`), so the follow-up is never stale. Nudges for a facility the page doesn't show are ignored. While the page is hidden, nudges are ignored; the existing `visibilitychange` load catches up |
-| D8 | **No polling.** The owner's call: no timer re-reads the list. A page reads it when it opens, when it comes back into view (`visibilitychange`: a phone that slept missed nudges), when its socket opens again after a drop (it missed nudges meanwhile), on a nudge (D7), and when someone presses the existing **Refresh** button. When the socket isn't open, the view says so in a line of its own: *Live updates are off. Press Refresh to see marks from other devices.* |
+| D8 | **No polling.** The owner's call: no timer re-reads the list. A page reads it when it opens, when it comes back into view (`visibilitychange`: a phone that slept missed nudges), when its socket opens again after a drop (it missed nudges meanwhile), on a nudge (D7), and when someone presses the existing **Refresh** button. **Each of those reads except a nudge's gets one follow-up read 11 s later** (the owner's call, 2026-10-13): the read may be served from another instance's cache up to 10 s old, and a page that wasn't listening missed the nudges that would have corrected it. A newer such read restarts the 11 s; the follow-up itself schedules nothing, so this is never a poll. When the socket isn't open, the view says so in a line of its own: *Live updates are off. Press Refresh to see marks from other devices.* |
 | D9 | **Where it runs.** The desk page (desks mode, from the template) and Control Center's Attendance tab. Off in fixture mode. A page with no Worker address gets no nudges and shows the D8 line. The finished events' inline desk pages are untouched and keep their own polling |
 | D10 | **Rollout order.** (1) The Worker, deployed by hand, never within 3 days of an event. (2) The API: harmless before any page listens. (3) Site push A: `attendance-signal.js` (new) and `attendance-view.js`. (4) Site push B, at least 10 minutes after A: `attendance-desk.js` and `tools/control-center.html` start using them. (5) Site push C, at least 10 minutes after B: the attendance template passes the Worker address. A cached older `attendance-desk.js` refuses an unknown setting and renders nothing, which is why C waits |
 | D11 | **No read changes.** `GET …/people`, its 10-second cache and its response stay exactly as they are. Google reads per facility don't go up |
@@ -158,8 +162,10 @@ desk A marks someone
 The cost is easy to see:
 
 - **Google reads:** unchanged. Every re-read goes through the existing 10 s cache.
-- **API requests:** none while nothing changes, instead of six a minute per page. At
-  most one re-read per 2 s per page during a burst of marks, plus one follow-up.
+- **API requests:** none while nothing changes, instead of six a minute per page: a
+  page that opens reads twice (now and 11 s later), then nothing until something
+  happens. At most one re-read per 2 s per page during a burst of marks, plus one
+  follow-up.
 - **Worker:** one nudge per write that changed the tab. Each nudge goes to that day's
   attendance sockets only.
 
@@ -395,12 +401,23 @@ in push A.
     view shows (`load(true)`), to catch up on nudges missed while disconnected. The
     first `setLive(true)` loads nothing: the view's own first load covers it.
   - Before the first call the line is hidden.
+- **The follow-up read (D8).** Give the view one timer, `st.followUp`. After each read
+  of everything the view shows that comes from the first load, a `visibilitychange`
+  load, the catch-up load in `setLive(true)`, or `refresh()` (the **Refresh** button,
+  and Control Center's call after **Update roster**), clear it and start it again:
+  `setTimeout(() => { st.followUp = null; if(!document.hidden) load(true); }, FOLLOW_UP_MS)`.
+  The follow-up's own load starts no timer, and neither does a nudge's `changed` load
+  (the signal schedules its own) or the `load(true)` after a mark. `destroy()` clears
+  it. No timer in fixture mode, and none while signed out (a load that found no token).
+  `FOLLOW_UP_MS = 11000` is a constant at the top of the view, commented as
+  sage-tools-api's `PEOPLE_CACHE_MS` + 1 s, the same value as `ATTENDANCE_SETTLE_MS`:
+  the view may not import `data/` (§0.4), so it keeps its own copy.
 - A successful mark keeps calling `load(true)`. The device that marked also gets its
   own nudge; the second read is served from the API's cache and costs nothing.
 - Update the header comment (`returns { refresh(), destroy(), setShowWithdrawn(v) }`
   and the `pollMs` line) to describe `changed`, `setLive`, and `pollMs` as optional.
-- Don't change the behaviour of `refresh`, the **Refresh** button, `destroy`,
-  `visibilitychange` or optimistic marking.
+- Apart from the follow-up timer, don't change the behaviour of `refresh`, the
+  **Refresh** button, `destroy`, `visibilitychange` or optimistic marking.
 
 ### 5.3 `lib/v1/apps/attendance-desk.js` — push B
 
@@ -486,7 +503,9 @@ that page.
   `{ case: /^attendance\//, kind: 'both', row: 'attendance-push D8', reason: 'with the live Worker unreachable the list says live updates are off' }`.
   Accept only the cases that actually differ, and list them in your report. If a case
   relied on a poll to show a change, report it rather than adding a timer back.
-  Fixture mode turns the signal off and shows no line.
+  Fixture mode turns the signal off and shows no line. Under the harness's fake clock the
+  follow-up timer fires only if a step moves the clock past 11 s, and then reads the same
+  fake data, so it changes nothing on screen.
 
 ---
 
@@ -515,11 +534,15 @@ that page.
    pages and Control Center's Attendance tab for one day.
    - Mark someone on one desk. The other desk and the console show it within about
      2 s, and each makes one more read about 11 s later.
-   - With no marks, no page reads the list again, however long you wait.
+   - Open a page: it reads its list twice, at once and about 11 s later. With no marks
+     after that, it never reads again, however long you wait.
+   - Press **Refresh**: one read, and one more about 11 s later. Press it again within
+     those 11 s: the follow-up moves to 11 s after the second press (one, not two).
    - Stop the Worker: each page shows *Live updates are off…*, and **Refresh** still
      works. Restart it: the pages reconnect, the line goes, and each page reads its list
-     once.
-   - Hide a desk page, mark someone on another, show it again: it reads the list once.
+     once, then once more about 11 s later.
+   - Hide a desk page, mark someone on another, show it again: it reads the list once,
+     then once more about 11 s later.
 5. `grep -rn "attendance-signal" sage-match-control.github.io/events`: no matches.
    Finished desk pages don't use it.
 
@@ -571,12 +594,15 @@ that page.
 
 ### 10.1 Report back
 
-1. `git status --short` from `sage-tools-api`, the site and `sage-docs`, and the
-   `CLAUDE.md` lines you changed.
+1. The branch name, and for each repo you changed (`sage-tools-api`, the site,
+   `sage-docs`, `sage-workspace`) its commits on that branch (`git log --oneline main..`),
+   and `git status --short` showing nothing left uncommitted.
 2. `npm run verify`'s summary from `sage-tools-api` and from the site's `_tests/`.
 3. `smoke.mjs`'s output against `wrangler dev`.
 4. §6's checks, each ticked or explained.
-5. Which site files belong to push A, B and C (D10).
+5. Which site commits are push A, B and C (D10). Commit the site's work as at least
+   three commits, one per push, in that order, so the owner can push them 10 minutes
+   apart.
 6. Anything in this spec you found wrong or had to interpret, with what you did.
 
 ### 10.2 The owner's checks (not yours)
@@ -588,5 +614,5 @@ that page.
 | P3 | Push A; 10 minutes later push B; open a desk link and Control Center's Attendance tab | a mark on one shows on the other within about 2 s |
 | P4 | Switch **Sync method** to **GitHub only** | marks still save, and other pages still show them within about 2 s; switch back |
 | P5 | 10 minutes after B, push C; instantiate the template for a scratch event | its desk page connects and updates live |
-| P6 | With two desks open, watch Cloud Run's requests to `…/people` for ten quiet minutes | none after each page's first load |
+| P6 | With two desks open, watch Cloud Run's requests to `…/people` for ten quiet minutes | none after each page's first load and its follow-up 11 s later |
 | P7 | Block the Worker on one desk's network (or stop it) | that desk shows *Live updates are off*; **Refresh** shows other desks' marks |
