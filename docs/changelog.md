@@ -48,7 +48,9 @@ has been replaced.
   comments. Both are full designs with the owner's decisions recorded, written to be built
   without other context. §6 now has the service account as Editor on every facility
   workbook, and signed out, Control Center's Attendance tab is to show a sign-in prompt.
-  Still not started.
+  §3 (a Cloud Run cap) and §4 (sign-in rate limiting) are not done, by the owner's
+  decision, and §5 keeps to what GitHub's free plan includes, with the paid options in
+  §11. Still not started.
 
 ## [2.6.0] — 2026-10-11
 

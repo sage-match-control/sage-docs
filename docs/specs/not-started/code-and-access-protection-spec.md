@@ -2,11 +2,12 @@
 
 > **Status: not started.** Sections 2–8 are a to-do list, not a design: each
 > item says what to change and where, and leaves the details to whoever builds
-> it, ordered by value. §9 (facility workbooks closed to link access) and §10
-> (two fixes to the played and series rules) are full designs, written to be
-> built without other context. Written 2026-10-11; §9 and §10 added
-> 2026-10-12. Everything here is free or close to it. Each section is
-> independent and can be done on its own.
+> it, ordered by value. §3 and §4 are not done, by the owner's decision.
+> §9 (facility workbooks closed to link access) and §10 (two fixes to the
+> played and series rules) are full designs, written to be built without other
+> context. Written 2026-10-11; §9 and §10 added 2026-10-12. Everything to do
+> here is free; §11 records what would cost money. Each section is independent
+> and can be done on its own.
 >
 > This page is public. It states the rules to follow, not which of them are
 > broken today: check each one when you pick it up.
@@ -60,39 +61,36 @@ every facility workbook's is in `event-data/config/events.json`.
 A facility workbook cannot go further than Viewer, to **Restricted**, until
 the readers that rely on link access change: that is §9.
 
-## 3. Cap what Cloud Run can cost
+## 3. Cloud Run cost cap: not done
 
-- Add `--max-instances` (e.g. `3`) to the deploy command in the `Dockerfile`
-  comment and to the Cloud Run build trigger, and update
-  [Deployment](../../technical/deployment.md). With `--concurrency 4`, check the
-  cap still covers an event's peak sync load.
-- Set a Google Cloud **budget alert** (e.g. $5–10/month) on the project. It
-  only warns; it does not stop spending.
-- Check the Cloudflare account for `sage-live` is on the free plan with no
-  card-backed overage.
+No `--max-instances` cap and no budget alert. Owner's decision, 2026-10-12.
 
-## 4. Rate-limit sign-in
+## 4. Sign-in rate limiting: not done
 
-- `POST /v3/sessions` and its frozen twin `POST /auth/login` throttle failed
-  attempts, e.g. 5 per IP per 15 minutes, answering `429` (problem details on
-  `/v3`, `{ error, code }` on the legacy route) with `Retry-After`.
-- In-memory is enough: no new service, no new dependency. Per-instance counts
-  are acceptable with the instance cap above.
-- `sage-tools-api` rules apply: failing test first, a `package.json` bump
-  (minor), a Changelog entry with its **Tests:** line, and the
-  [API](../../technical/api.md) and [Auth](../../technical/auth.md) pages
-  updated.
+`POST /v3/sessions` and `POST /auth/login` stay unthrottled. Owner's decision,
+2026-10-12.
 
 ## 5. GitHub settings
 
-Org `sage-match-control`, all repos:
+Org `sage-match-control`, on the free organization plan. Only what that plan
+includes, so none of this costs anything:
 
-- **Require two-factor authentication** for members.
-- **Secret scanning with push protection** and **Dependabot alerts** on.
-- **A ruleset on `main` of `sage-tools-api`**: no force-push, no deletion. A
-  push there deploys to production, and the pre-push hook is skippable with
-  `--no-verify`. Optionally the same for the site and `event-data`.
-- Review who has write access to each repo.
+- **Require two-factor authentication** for members. Every plan has it.
+- **Dependabot alerts** on every repo, private ones included: free on every
+  plan. On a private repo, turn on the dependency graph first; it is off by
+  default there.
+- **Secret scanning with push protection** on the public repos only: the site,
+  `event-data`, and `sage-docs` while it is public. It is free on public
+  repos. On a private repo it needs GitHub Secret Protection, a paid add-on
+  sold only with GitHub Team, so `sage-tools-api` goes without it (§11).
+- **A ruleset on `main`** (no force-push, no deletion) of the public repos:
+  the site and `event-data`. On the free plan a ruleset or branch protection
+  is enforced only on a public repo, so `sage-tools-api`'s `main`, where a
+  push deploys to production, has none (§11). Its protection is who has write
+  access, below, and the pre-push hook (which `--no-verify` skips).
+- **Review who has write access** to each repo, `sage-tools-api` first.
+
+A repo made private (§7) loses its free secret scanning and ruleset with it.
 
 ## 6. Least-privilege credentials
 
@@ -794,6 +792,12 @@ Changelog entry's **Tests:** line names `facilityCompletion.test.mjs`.
   logic with real originality. It could move behind an endpoint on the
   `sage-live` Worker (free, no cold start), at the cost of offline use and a
   network call on every change. Not worth it unless it is actually copied.
+- **Paid GitHub protection for `sage-tools-api`.** GitHub Team (about $4 per
+  member a month at the time of writing; check GitHub's pricing page) enforces
+  a ruleset on a private repo's `main`. GitHub Secret Protection, which needs
+  Team, adds secret scanning with push protection at $19 per active committer
+  a month. Team would also let every repo go private and still publish to
+  GitHub Pages (§7).
 - **Private site repo.** Moving the site to Cloudflare Pages would let
   `sage-match-control.github.io` go private, but only hides its history,
   templates and tests: the served code stays readable.
