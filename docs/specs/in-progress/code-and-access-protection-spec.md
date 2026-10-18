@@ -12,9 +12,12 @@
 > **Built (2026-10-12):** §10 (`sage-tools-api` 3.1.1 and the site's parity
 > case), §9.6 (3.2.0), §9.7 (3.3.0), §9.8 and §9.9 (the site's attendance view,
 > its harness and runbook, and these docs), and §8's `LICENSE` files. §9.6
-> assumes the spike's answers are both *no* (§9.4). **Not done:** the owner's
-> tasks in §9.4 (S1, O1, O2, O3), deploying the two releases and the site, and
-> the Google, GitHub and Cloud settings of §2, §5, §6 and §7. §9.6–§9.9 are done
+> assumes the spike's answers are both *no* (§9.4). **Deployed:** all of the
+> above is live. 3.1.1–3.3.0 are part of `sage-tools-api` 3.4.0, which Cloud Run
+> runs (its `X-App-Version` read 3.4.0 on 2026-10-18), and the site's attendance
+> view is on `main`. So the running service reads as its service account before S1
+> has answered. **Not done:** the owner's tasks in §9.4 (S1, O1, O2, O3), and the
+> Google, GitHub and Cloud settings of §2, §5, §6 and §7. §9.6–§9.9 are done
 > when the first event built after them runs with Restricted workbooks; the spec
 > then moves to `implemented/`. §9.10 records where the build departs from the
 > design.

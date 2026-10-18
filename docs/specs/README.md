@@ -233,8 +233,8 @@ to the `...` form rather than repointing it.
   plan, least-privilege credentials, where the docs are hosted, licence notices) and two
   designs: facility workbooks closed to link access (the server reads as its service
   account, the desk page and Control Center read the roster through the API), and two small
-  fixes to the played/series rules' server copy. The code, runbook and docs are built; the
-  owner's checks and the deploy are left. Records why the site is not obfuscated and the draw
+  fixes to the played/series rules' server copy. The code, runbook and docs are built and
+  deployed; the owner's checks and the Google, GitHub and Cloud settings are left. Records why the site is not obfuscated and the draw
   stays in the browser.
 
 ---

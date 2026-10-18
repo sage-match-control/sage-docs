@@ -37,6 +37,16 @@ has been replaced.
 
 ---
 
+## [2.13.1] — 2026-10-18
+
+### Fixed
+
+- [Code and access protection](specs/in-progress/code-and-access-protection-spec.md), its row in
+  the in-progress index and the specs index: the releases and the site it built are deployed
+  (`sage-tools-api` 3.4.0 contains 3.1.1–3.3.0), so deploying them is no longer listed as left.
+
+---
+
 ## [2.13.0] — 2026-10-18
 
 ### Changed
