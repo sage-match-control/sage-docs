@@ -43,7 +43,7 @@ has been replaced.
 
 - [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) moves from
   **Not started** to **In progress**: the engine's `teamScoring: "games"`, the event's pages and
-  its `events.json` entry are built, and wait to be pushed.
+  its `events.json` entry are built and pushed.
 - The team pages describe a matchup as won on total points, or, for an event whose
   `teamScoring` is `"games"`, on games won and then total points, with the bracket ranked by games
   won, total points, head-to-head wins and head-to-head points and shown as W, L and Pts:

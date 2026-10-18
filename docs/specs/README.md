@@ -242,9 +242,8 @@ to the `...` form rather than repointing it.
   2026: eight colour teams in one round robin, then a Bronze and a Final. Its
   teams score games won, so it adds an opt-in `teamScoring: "games"` to the
   engine's team rules, then instantiates the team template with the club's
-  colours. The engine change, the pages and the `events.json` entry are built and
-  wait to be pushed; the short link, the workbook fixes, sync setup and the dry
-  run are left.
+  colours. The engine change, the pages and the `events.json` entry are pushed; the
+  short link, the workbook fixes, sync setup and the dry run are left.
 
 ---
 
