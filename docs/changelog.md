@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.13.0] — 2026-10-18
+
+### Changed
+
+- [Push for attendance](specs/implemented/attendance-push-spec.md) moves from **Not started** to
+  **Implemented**: `sage-tools-api` 3.4.0 and the site merged on 2026-10-13, and the Worker
+  deployed on 2026-10-18. Its status line records what was built, two as-built details, and that
+  the owner's checks P1–P7 had not run.
+
+---
+
 ## [2.12.0] — 2026-10-13
 
 ### Changed
@@ -61,7 +72,7 @@ has been replaced.
 
 ### Changed
 
-- [Push for attendance](specs/not-started/attendance-push-spec.md), by the owner's decision:
+- [Push for attendance](specs/implemented/attendance-push-spec.md), by the owner's decision:
   a page's read on opening, on coming back into view, on reconnecting and on **Refresh** gets
   one follow-up read 11 s later, because it may have come from another instance's cache up to
   10 s old (D8, §5.2). The implementer commits to a feature branch instead of leaving the
@@ -69,7 +80,7 @@ has been replaced.
 
 ### Fixed
 
-- [Push for attendance](specs/not-started/attendance-push-spec.md), checked again against the
+- [Push for attendance](specs/implemented/attendance-push-spec.md), checked again against the
   code so it can be built without other context. §0.4 gains the facts the work depends on: how
   `LivePublisher` labels its errors, that `#reconcileFacility` isn't given the event, how the
   attendance tests build the service, where Control Center's Attendance tab mounts and tears
@@ -105,7 +116,7 @@ has been replaced.
 
 ### Added
 
-- Spec: [Push for attendance](specs/not-started/attendance-push-spec.md). A check-in on one
+- Spec: [Push for attendance](specs/implemented/attendance-push-spec.md). A check-in on one
   desk reaches the other desks and Control Center within a second or two: the live Worker
   relays a nudge that carries no data, on its own object per day, and each page re-reads
   the list from the API. Nothing polls; **Refresh** stays. Not started.

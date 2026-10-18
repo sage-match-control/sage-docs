@@ -196,7 +196,7 @@ Other pages learn that a list changed from a **nudge**, a message that says only
 facility's list changed*:
 `{"type":"attendance","facility":"<name>"}`. It carries no person, key, name, state, time
 or count, so it can travel on a public socket; a facility's name is already public in
-`events.json`. Spec: [push for attendance](../specs/not-started/attendance-push-spec.md).
+`events.json`. Spec: [push for attendance](../specs/implemented/attendance-push-spec.md).
 
 - **The Worker** (`live-worker/`) gives attendance its own object, `attendance:<event>/<day>`,
   of the same `DayChannel` class as the snapshot channel, so a public viewer never receives a

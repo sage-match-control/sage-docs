@@ -191,6 +191,12 @@ to the `...` form rather than repointing it.
   check-in per person. `sage-tools-api` writes each workbook's `ATTENDANCE` tab
   as a service account and keeps the roster current after every sync. In use at
   Piggleball and PickleDrive.
+- **[Push for attendance](implemented/attendance-push-spec.md)** — a check-in on one
+  device reaches the other desks and Control Center within a second or two. The live
+  Worker relays a data-free nudge (*this facility's list changed*) on its own object per
+  day, and each page re-reads the list from the API with its own token. Nothing polls.
+  `sage-tools-api` 3.4.0; the Worker deployed 2026-10-18. The owner's checks P1–P7 were not
+  run.
 - **[Team tournament](implemented/pickledrive-club-anniversary-team-tournament-spec.md)** —
   a third event type for team events: named teams, four-match matchups, group
   stage then playoffs. PickleDrive Club One Year Celebration ran on 3 October 2026 on
@@ -260,11 +266,6 @@ to the `...` form rather than repointing it.
   and the Hub's tickets show names without codes. Then four extras: the tabs
   along the bottom, a provisional-standings line, a rules link and following
   more than one pair. Engine Hub and templates only; no new sections.
-- **[Push for attendance](not-started/attendance-push-spec.md)** — other desks and
-  Control Center see a check-in within a second or two. The live Worker relays a
-  data-free nudge (*this facility's list changed*) on its own object per day, and each
-  page re-reads the list from the API with its own token. Nothing polls: a page reads the
-  list when it opens, comes back into view or reconnects, and on **Refresh**.
 
 ---
 

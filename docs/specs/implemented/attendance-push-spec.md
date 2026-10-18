@@ -10,13 +10,21 @@ changed*. It carries no names and no check-in state, so it can travel on a publi
 socket. Each page that gets one re-reads the list from the API with its own token, as
 it does today. The API's reads from Google stay as they are.
 
-> **Status: not started.** Written 2026-10-12 against `sage-tools-api` 3.3.0, the live
-> Worker `sage-live` and `sage-match-control.github.io` at `lib/v1`, as of that date.
-> **Every decision is settled (§1).** There are no open questions: do not stop to ask
-> about anything §1 covers.
+> **Status: implemented.** Built in `sage-tools-api` 3.4.0 (the API and the live Worker),
+> the site's `lib/v1` (`data/attendance-signal.js`, the attendance view, the desk page,
+> Control Center and the attendance template) and docs 2.12.0. Merged into `main` on
+> 2026-10-13, with the site going out in three pushes (§1 D10). The Worker was deployed by
+> hand on 2026-10-18. Written 2026-10-12 against `sage-tools-api` 3.3.0. It is tested
+> against fakes and a local Worker; the owner's checks in §10.2 (P1–P7) and §6 step 4, which
+> needs a Google workbook, had not run when it moved here. **As built:** a read of everything
+> starts its 11 s follow-up when its reply arrives, not when it is sent (§5.2). A nudge that
+> arrives while a page is hidden still gets its settle call 11 s later, which reads the list if
+> the page is visible again by then (§5.1, D7). The people route's OpenAPI description and
+> `_templates/CLAUDE.md` §7 (turn `LIVE_BASE_URL` off in a finished event's desk page too)
+> were brought in line, though §0.2 does not list them.
 >
-> Builds on [Live push delivery](../implemented/durable-object-push-spec.md) and
-> [Attendance for every event](../implemented/multi-event-attendance-spec.md), whose D4
+> Builds on [Live push delivery](durable-object-push-spec.md) and
+> [Attendance for every event](multi-event-attendance-spec.md), whose D4
 > kept attendance off the live channel because the channel is public. This spec keeps
 > that rule: nothing private goes over the socket. Read their §0 if a term here is
 > unfamiliar.
