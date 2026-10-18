@@ -54,7 +54,7 @@ default).
   the moment the code shape ever changes, so it's required and explicit.
 - A `"team"` event takes its team names from `STANDINGSCSV` and needs no
   `display` block, except `display.pairs` when its pair labels aren't the
-  defaults. `sage-tools-api` never reads `type` or `display`, so it needs no
+  defaults and `display.teamColors` when its teams have colours. `sage-tools-api` never reads `type` or `display`, so it needs no
   backend change.
 - `display.pairs` (team events only) labels each pair of a matchup, keyed by
   the pair number in a team code (the `3` of `A_3`):
@@ -63,6 +63,19 @@ default).
   labels are MD, WD, XD 1 and XD 2; a malformed map falls back to those with
   a console warning on the page, and a pair number the map lacks reads
   "Pair <n>". The Hub, the board, the scorer page and Control Center read it.
+- `display.teamColors` (team events only, optional) gives each team a colour,
+  keyed by its group-stage team code: `"Red": "#D55E00"`. Values are hex
+  colours (`#RGB` or `#RRGGBB`); any other value is dropped with a console
+  warning on the page. Each coloured team gets a **mark**, its colour on a shape
+  of its own, before its name wherever the name appears, and a matchup card or
+  board card is tinted from one team's colour to the other's. The shapes follow
+  the map's order: the first team is a circle, then square, triangle, diamond,
+  star, hexagon, plus and an upside-down triangle, and a ninth team starts them
+  again. A playoff side gets its team's mark once the organiser has typed the
+  team into its slot; a team the map lacks gets none. The Millennium
+  Invitational's colours are from the Okabe–Ito palette, which stays apart for
+  most colour-blind readers, and the shape tells teams apart where colour
+  can't. The Hub, the board and Control Center read it.
 - `teamScoring` (team events only, optional) is the event's scoring rule.
   `"points"`, the default, decides a matchup on total points and ranks a
   bracket on points scored. `"games"` decides a matchup on matches won and then

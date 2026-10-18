@@ -112,6 +112,16 @@ Teams tab. The schedule board takes `type` (`'standard'`, `'dual-meet'` or
 `'team'`, inferred from `clubOrder` without it); a team board also reads the
 event's `display.pairs` from `events.json`.
 
+A team event's `display.teamColors` reaches every page as `EventConfig.teamColors`
+(`eventConfigFrom` keeps hex colours only, `{}` without the map). `views/team-mark.js` turns it
+into marks: `teamMarkOf(teamColors, code)` gives `{ color, shape }`, the n-th team in the map
+taking the n-th of `TEAM_MARK_SHAPES`; `teamMarkHTML(mark)` draws it as an inline SVG; and
+`teamTintStyle(left, right)` sets `--team-a`/`--team-b` for the `.team-tint` gradient.
+`views/teams.js` (`sideMarkOf(model, side)`) puts a mark before each team name in the matchup
+cards, bracket tables, Live Matches rows, roster cards and Match Finder, and tints each matchup
+card's headline; the board does the same from `buildScheduleData`'s `base1`/`base2`. The styles
+are in `css/teams.css` and `css/schedule-board.css`.
+
 The team rules in `domain/teams.js` take the event's `teamScoring`:
 `teamMatchupResult(ms, scoring)`, `buildTeamData(matches, standings, { scoring })`
 (which echoes it as `model.team.scoring` for the views) and

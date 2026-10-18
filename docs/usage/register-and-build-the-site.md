@@ -43,7 +43,8 @@ The entry carries:
 - **`days`** — one entry per day. Each has a unique **day key**, a `label`, a `date`,
   and its **`facilities`**: each venue's `name` and the workbook's `sheetId`.
 - **`display`** — labels for divisions, events and clubs (code → label; the order of
-  the keys is the display order). A team event adds `display.pairs`.
+  the keys is the display order). A team event adds `display.pairs`, and
+  `display.teamColors` when its teams have colours.
 - **`attendance`** — `"console"` or `"desks"`, only if the event uses it.
 - **`scoreEntry`** — `"console"` or `"links"`, only if the event uses it.
 
@@ -115,7 +116,8 @@ The Hub shows no scores yet. That is [step 5](connect-the-workbooks.md).
 - **Standard:** `standard-tournament-template/`; `display.divisions` and
   `display.events`.
 - **Dual meet:** `dual-meet-template/`; `display.clubs`; both clubs' logos and codes.
-- **Team:** `team-tournament-template/`; `type` is `"team"`; `display.pairs`. Team
+- **Team:** `team-tournament-template/`; `type` is `"team"`; `display.pairs`, and
+  `display.teamColors` (team code → hex colour) when the teams have colours. Team
   names come from the workbook, so no division or club labels are needed.
 
 **Next:** [5. Connect the workbooks](connect-the-workbooks.md).

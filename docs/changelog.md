@@ -37,6 +37,20 @@ has been replaced.
 
 ---
 
+## [2.17.0] — 2026-10-19
+
+### Added
+
+- A team event's colours: `display.teamColors` in `events.json` puts a mark (the team's colour on a
+  shape of its own) before each team name and shades each matchup card between the two teams'
+  colours, on the Hub, the schedule board and Control Center:
+  [events.json](technical/event-data-config.md), [the site engine](technical/site-engine.md),
+  [the schedule board, technical](technical/schedule-board.md),
+  [Tournament Hub](features/tournament-hub.md), [the schedule board](features/schedule-board.md)
+  and the usage guide's register-and-build page.
+
+---
+
 ## [2.16.0] — 2026-10-19
 
 ### Changed

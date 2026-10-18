@@ -84,7 +84,12 @@ event's settings. A team event has named teams instead of pairs. Two teams meet 
 doubles) between the same two teams — and **team names appear everywhere a
 team does**: Standings, Match Finder, Live Matches and the schedule board.
 The letter codes the workbook uses (`A`, `B`…) are not shown here;
-Control Center still shows them beside each team name.
+Control Center still shows them beside each team name. When the event's teams
+have colours, as at the Millennium Invitational, each team name has a mark in front
+of it, the team's colour on a shape of its own (a circle, a star, a diamond…), and
+each matchup card shades from one team's colour to the other's. The shape tells
+the teams apart for anyone who can't tell the colours apart. The Hub, the schedule
+board and Control Center all show them.
 
 **Reading a matchup card.** The header gives the stage (a bracket,
 Quarterfinal, Semifinal, Bronze or Final), the two time slots and the courts. Under it, both team names

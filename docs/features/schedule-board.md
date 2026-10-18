@@ -63,7 +63,10 @@ matches print at full strength rather than dimmed.
 At a team event each card names both teams above their players and carries the
 pair label (`MD`, `WD`, `XD`). A side whose lineup is not in yet reads **Lineup
 TBD**. Cards are coloured by bracket, not by category, with every playoff match
-in its own colour.
+in its own colour. When the teams have colours, each card instead shades from one
+team's colour to the other's, and each team name has a mark in front of it: the
+team's colour on a shape of its own, so the teams can be told apart without
+telling the colours apart. The card's left edge and chip still give the bracket.
 
 ## What it needs
 
