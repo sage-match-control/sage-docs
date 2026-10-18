@@ -37,11 +37,28 @@ has been replaced.
 
 ---
 
+## [2.15.0] — 2026-10-18
+
+### Changed
+
+- [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) moves from
+  **Not started** to **In progress**: the engine's `teamScoring: "games"`, the event's pages and
+  its `events.json` entry are built, and wait to be pushed.
+- The team pages describe a matchup as won on total points, or, for an event whose
+  `teamScoring` is `"games"`, on games won and then total points, with the bracket ranked by games
+  won, total points, head-to-head wins and head-to-head points and shown as W, L and Pts:
+  [Tournament Hub](features/tournament-hub.md), [Control Center](features/control-center.md),
+  [the team workbook](features/team-workbook.md), [Control Center, technical](technical/control-center.md),
+  [the site engine](technical/site-engine.md), [events.json](technical/event-data-config.md) and the
+  usage guide's glossary, overview and run-the-day pages.
+
+---
+
 ## [2.14.0] — 2026-10-18
 
 ### Added
 
-- [Millennium Invitational](specs/not-started/millennium-invitational-spec.md), in **Not started**:
+- [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md), in **Not started**:
   the site for Millennium Pickleball Club's 2nd Invitational, a charity team tournament on
   24 October 2026. It adds an opt-in `teamScoring: "games"` to the engine's team rules (a matchup
   won on games won; a bracket ranked by games won, total points, then head-to-head wins and points), instantiates

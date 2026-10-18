@@ -63,6 +63,13 @@ default).
   labels are MD, WD, XD 1 and XD 2; a malformed map falls back to those with
   a console warning on the page, and a pair number the map lacks reads
   "Pair <n>". The Hub, the board, the scorer page and Control Center read it.
+- `teamScoring` (team events only, optional) is the event's scoring rule.
+  `"points"`, the default, decides a matchup on total points and ranks a
+  bracket on points scored. `"games"` decides a matchup on matches won and then
+  total points, and ranks a bracket on matches won, total points, head-to-head
+  wins and head-to-head points. Anything else reads as `"points"`, with a
+  console warning on the page. The Hub, the board, Control Center and its Awards
+  podium read it; `sage-tools-api` does not.
 - `display` maps are all `code → label`; **order comes from key order**, so
   there's no separate ordering config to keep in step. No logo field —
   `display.clubs` maps to a plain name string only; the console shows the

@@ -74,7 +74,7 @@ edit. Set up once per workbook with **SAGE → Set up live sync**.
 get their own range (1000, 2000…). See [2. Build the workbooks](build-the-workbooks.md#fill-match-numbers).
 
 **Matchup.** At a team event: four matches between the same two teams, won on
-total points. See [the team workbook](../features/team-workbook.md).
+total points, or on games won where the event says so. See [the team workbook](../features/team-workbook.md).
 
 **Operator.** A SAGE member on site on the day, running Control Center, the
 workbook, the screens and the desks. The operator login is theirs.

@@ -75,6 +75,10 @@ the fourth 0–11, and still lose the matchup 33–38. The pair count (for examp
 is a tie. See [Tournament Hub § Team events](tournament-hub.md#team-events) for
 how a matchup card reads, and the standings tiebreakers.
 
+An event whose `events.json` entry sets `teamScoring: "games"` is the exception:
+the team that wins more of the four matches wins the matchup, and total points
+decide it only when each wins the same number.
+
 ## Team codes
 
 A team code is `<SIDE>_<PAIR>`: `A_3`, `QF-3_4`, `SF-A_2`, `Fi-J_1`. `PAIR` is the

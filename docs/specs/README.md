@@ -237,6 +237,15 @@ to the `...` form rather than repointing it.
   deployed; the owner's checks and the Google, GitHub and Cloud settings are left. Records why the site is not obfuscated and the draw
   stays in the browser.
 
+- **[Millennium Invitational](in-progress/millennium-invitational-spec.md)** —
+  the site for Millennium Pickleball Club's charity team tournament on 24 October
+  2026: eight colour teams in one round robin, then a Bronze and a Final. Its
+  teams score games won, so it adds an opt-in `teamScoring: "games"` to the
+  engine's team rules, then instantiates the team template with the club's
+  colours. The engine change, the pages and the `events.json` entry are built and
+  wait to be pushed; the short link, the workbook fixes, sync setup and the dry
+  run are left.
+
 ---
 
 ## Not started
@@ -266,12 +275,6 @@ to the `...` form rather than repointing it.
   and the Hub's tickets show names without codes. Then four extras: the tabs
   along the bottom, a provisional-standings line, a rules link and following
   more than one pair. Engine Hub and templates only; no new sections.
-- **[Millennium Invitational](not-started/millennium-invitational-spec.md)** —
-  the site for Millennium Pickleball Club's charity team tournament on 24 October
-  2026: eight colour teams in one round robin, then a Bronze and a Final. Its
-  teams score games won, so it adds an opt-in `teamScoring: "games"` to the
-  engine's team rules, then instantiates the team template with the club's
-  colours and lists the workbook fixes still owed.
 
 ---
 

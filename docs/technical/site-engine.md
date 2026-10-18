@@ -69,7 +69,8 @@ and freeze `v1`. A finished event's shell never moves version.
 `event-data/config/events.json` the way Control Center reads it: `type`
 (required, never inferred), `title`, `days` (in date order, each with its
 facility names), `display` (the code-to-label maps for divisions, events and
-clubs; key order is display order), `scoreEntry` and `attendance`. A successful
+clubs; key order is display order), `scoreEntry`, `attendance` and `teamScoring` (a team event's rule: `"points"`, or
+`"games"` when `events.json` says so). A successful
 fetch is kept in `localStorage` (`sage.registry.lastGood`), and a failed one
 falls back to it.
 
@@ -110,6 +111,16 @@ callers) with `teamLetters: false` and its own `searchHint`, and shows a fourth
 Teams tab. The schedule board takes `type` (`'standard'`, `'dual-meet'` or
 `'team'`, inferred from `clubOrder` without it); a team board also reads the
 event's `display.pairs` from `events.json`.
+
+The team rules in `domain/teams.js` take the event's `teamScoring`:
+`teamMatchupResult(ms, scoring)`, `buildTeamData(matches, standings, { scoring })`
+(which echoes it as `model.team.scoring` for the views) and
+`teamRankBracket(rows, matches, scoring)`. With `"games"` a matchup is won on
+matches won and then total points, and a bracket is ranked by matches won,
+total points, head-to-head wins and head-to-head points, all computed from the
+matches; `teamGameRecords(matches)` gives each side's wins, losses and points
+for and against, and the bracket table shows W, L and Pts. Without it every
+rule is the points rule.
 
 On `localhost`, `?fixture=<name>` makes the Hub and the schedule board read
 `/_fixtures/` instead of the published data, as the scorer and desk pages

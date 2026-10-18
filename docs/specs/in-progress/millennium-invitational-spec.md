@@ -1,11 +1,17 @@
 # Spec — Millennium Invitational (team tournament)
 
-> **Status: not started.** Written 2026-10-18 against `sage-match-control.github.io`
+> **Status: in progress.** Written 2026-10-18 against `sage-match-control.github.io`
 > at `7f47c18`, `event-data`'s current `config/events.json`, the event workbook
 > as exported that day, and the organiser's format and scoring sheet (§1.1). The
-> club logo and the pubmat are staged in the site repo (§2), untracked. Nothing
-> else is built. The owner answered every open question on 18 October 2026; the
-> answers are in §17. Nothing is left for the implementer to decide.
+> owner answered every open question on 18 October 2026; the answers are in §17.
+>
+> **Built, 2026-10-18,** on the site repo's `millennium-invitational` branch: §4
+> (the engine's `teamScoring: "games"`, with its tests) and §5–§12 (the event's
+> pages), checked in a browser on Appendix A's fixture (§13, since removed), and
+> §14's `events.json` entry, committed in `event-data`. **Not yet pushed:** neither
+> site push (§4.8) nor the `event-data` push has been made, and each waits for the
+> owner's yes. **Still to do:** `assets/qr.png` and the short link (§2), the workbook
+> fixes (§16.1), sync setup (§16.2) and the dry run (§16.5).
 >
 > **Dry-run on 2026-10-18.** §4's code and §4.6's tests were applied to a copy of
 > the site at `7f47c18`: the new tests fail before the change and pass after it,

@@ -45,7 +45,7 @@ you copy, which site template the developer uses, and which parts of the guide a
 | --- | --- | --- |
 | **Standard tournament** | An open-entry bracket event. Players enter in categories (division × event, e.g. Beginner Men's Doubles). Any number of days and venues. | One per venue per day, from the **Standard Tournament Master**. |
 | **Dual meet** | Two clubs face off. Every category has the same number of pairs from each club. | One workbook, from the **Dual Meet Master**. |
-| **Team** | Named teams of several players meet in matchups of four matches, won on total points. A group stage, then playoffs. | One workbook, copied from PickleDrive's. There is no Team Master yet. |
+| **Team** | Named teams of several players meet in matchups of four matches, won on total points, or on games won where the event says so. A group stage, then playoffs. | One workbook, copied from PickleDrive's. There is no Team Master yet. |
 
 Where the kinds differ, the step says so in a **Where the formats differ**
 section.

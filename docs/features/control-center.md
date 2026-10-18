@@ -185,7 +185,8 @@ many categories the event has.
 
 **Team events** have one podium, **Team Championship**. Gold is the winner of
 the Final matchup, silver its loser, and bronze the winner of the Bronze
-matchup, each decided on total points. A placing reads **Pending** until its
+matchup, each decided on total points (or, for an event scored on games won, on
+matches won and then total points). A placing reads **Pending** until its
 matchup is finished. Each medal shows the team name with every player who
 played for that team listed beneath, A–Z. If the Final or Bronze matchup ends
 level on points, the card shows a warning naming the matchup's lowest match
@@ -313,7 +314,9 @@ event page: a table per bracket ranked by points scored, then quotient, then
 head-to-head points, then pair wins (with the eight quarterfinalists the
 operators entered in the workbook marked **Advances**), the playoff matchups
 — Quarterfinals, Semifinals, Final, Bronze — as full cards, and each bracket's matchups behind a collapsible heading. A
-matchup is won on total points across its four matches — see
+matchup is won on total points across its four matches, or, for an event whose
+`teamScoring` is `"games"`, on matches won and then total points, with the table
+showing W, L and Pts — see
 [Tournament Hub § Team events](tournament-hub.md#team-events). Live Matches
 names both teams on each court and shows the running matchup score, and Match
 Finder searches by team or player.

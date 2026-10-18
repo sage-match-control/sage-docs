@@ -103,6 +103,17 @@ matchup 33–38. That is why the pair count is only secondary information. If
 both teams finish on the same total, the matchup is a **tie** (equal points),
 shown as *Tie* with no winner named.
 
+**Events scored on games won.** An event whose `events.json` entry sets
+`teamScoring: "games"` decides a matchup differently: the team that wins more of
+the four matches wins it, and if each wins the same number, the team with more
+total points does. Level on both, the matchup is a **tie**. The card's large
+score is then the matches won (*3 – 1*) with the points beneath (*points
+35–38*), and Live Matches shows the matches won as the running matchup score.
+The Bracket table shows **W**, **L** and **Pts** (total points won) instead of
+PF, PA and Quotient, ranked by matches won, then total points, then, among the
+teams still level, head-to-head wins and head-to-head points. Teams level on
+all four stay in the workbook's order.
+
 **Standings** show a table per bracket, ranked by the organizer's
 tiebreakers, in order:
 

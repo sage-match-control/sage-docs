@@ -210,7 +210,7 @@ See [9. When something's wrong](troubleshooting.md).
 - **Standard:** the qualifier draw; one workbook per venue to keep open.
 - **Dual meet:** the Awards tab opens with an **Overall Champion** banner naming the club
   with more round-robin wins.
-- **Team:** seed cells and lineups; a matchup is won on total points; one podium,
+- **Team:** seed cells and lineups; a matchup is won on total points, or on games won where the event says so; one podium,
   **Team Championship**.
 
 **Next:** [After the event](after-the-event.md).

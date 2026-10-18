@@ -604,7 +604,8 @@ Data comes only from the two published CSVs. `rowsToMatches` reads a
 `matchUp` column and `rowsToStandings` reads `teamName`, `totalPoints` and
 `totalOpponentPoints` when present; matches are grouped into matchups by
 `matchUp` alone. `teamMatchupResult` decides a matchup on total points (equal
-points is a tie), and `sideLabel` / `teamNameOf` / `baseTeamOf` turn a code
+points is a tie), or, with its `scoring` parameter set to `"games"` (the event's
+`teamScoring`), on matches won and then total points, and `sideLabel` / `teamNameOf` / `baseTeamOf` turn a code
 such as `SF-A_2` into a team name and letter, reading a playoff slot as its
 team once an operator has typed the letter into the workbook. `STAGES`
 maps a playoff side's prefix to its label and order: `QF` Quarterfinal, `SF`
