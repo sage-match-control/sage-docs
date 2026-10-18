@@ -266,6 +266,12 @@ to the `...` form rather than repointing it.
   and the Hub's tickets show names without codes. Then four extras: the tabs
   along the bottom, a provisional-standings line, a rules link and following
   more than one pair. Engine Hub and templates only; no new sections.
+- **[Millennium Invitational](not-started/millennium-invitational-spec.md)** —
+  the site for Millennium Pickleball Club's charity team tournament on 24 October
+  2026: eight colour teams in one round robin, then a Bronze and a Final. Its
+  teams score games won, so it adds an opt-in `teamScoring: "games"` to the
+  engine's team rules, then instantiates the team template with the club's
+  colours and lists the workbook fixes still owed.
 
 ---
 

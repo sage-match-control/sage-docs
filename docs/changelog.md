@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.14.0] — 2026-10-18
+
+### Added
+
+- [Millennium Invitational](specs/not-started/millennium-invitational-spec.md), in **Not started**:
+  the site for Millennium Pickleball Club's 2nd Invitational, a charity team tournament on
+  24 October 2026. It adds an opt-in `teamScoring: "games"` to the engine's team rules (a matchup
+  won on games won; a bracket ranked by games won, total points, then head-to-head wins and points), instantiates
+  the team template with the club's colours, and lists the workbook fixes still owed.
+
+---
+
 ## [2.13.1] — 2026-10-18
 
 ### Fixed
