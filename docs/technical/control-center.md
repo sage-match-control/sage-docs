@@ -349,12 +349,19 @@ a reload. **Issue scorer link** calls `POST /v3/days/{day}/scores/scorer-links` 
 token has a real payload (`scope: "score-desk"`, the day, and `to` and `note` when given) so the
 scorer page can decode it, and the link points at the local `scorer.html`.
 
-**Who the link is for.** Above **Issue scorer link** (`#scorerLinkFields`) and above **Issue desk
-link** (`#deskLinkFields`) sit two optional text inputs, **Issued to** and **Note**, each
-`maxlength="40"`; the block is shown and hidden with its button. `linkIssueFields()` reads
-them, trims them, and sends only the non-empty ones as the JSON body of `POST
-/v3/days/{day}/scores/scorer-links` or `…/attendance/desk-links`. After the link is shown both
-inputs are cleared, so the next link isn't labelled with the last one's name. The result title
+**Who the link is for.** **Issue scorer link** (`issueScorerLink`) and **Issue desk link**
+(`attConsoleIssueDeskLink`) run the checks that need no input (a day, a sign-in, and for a
+scorer link the scorer page), then call `openLinkDialog({ title, notePlaceholder, onIssue })`.
+It opens one shared `<dialog id="linkDialog">`, styled with the score dialog's classes, with two
+optional text inputs, **Issued to** (`#linkDialogTo`) and **Note** (`#linkDialogNote`), each
+`maxlength="40"`. It clears both every time it opens, so the next link isn't labelled with the
+last one's name. On **Issue link**, `linkIssueFields()` reads them, trims them, and hands only
+the non-empty ones to `onIssue` (`sendScorerLink` or `attConsoleSendDeskLink`), which sends
+them as the JSON body of `POST /v3/days/{day}/scores/scorer-links` or `…/attendance/desk-links`
+and resolves `true` once the link is shown. The dialog then closes; on `false` it stays open with
+what was typed. A toast would sit under the modal's backdrop, so while the dialog is issuing
+(`data-busy` on it) `showToast` writes any warning or error into its `#linkDialogError` instead. **Cancel**, **×** and Esc close it, and so
+does switching the day or event (`closeLinkDialog`, beside `scoreDialog.close()`). The result title
 becomes `Scorer link for Oct 3 · Ana (Gate A)` from the echoed `issuedTo` and `note`
 (`issuedLabel`, set with `textContent`). Fixture links, desk links too, have a real payload, built by
 `fixtureLinkToken()` as UTF-8 JSON in base64url, the way the API writes one. A fixture desk link

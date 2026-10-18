@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.16.0] — 2026-10-19
+
+### Changed
+
+- **Issue desk link** and **Issue scorer link** open a dialog that asks for the optional
+  **Issued to** and **Note**, instead of two fields that stay on the panel:
+  [Who a link was issued to](features/control-center.md#who-a-link-was-issued-to),
+  [Control Center, technical](technical/control-center.md) and the usage guide's
+  [run-the-day](usage/run-the-day.md) page.
+
+---
+
 ## [2.15.0] — 2026-10-18
 
 ### Changed

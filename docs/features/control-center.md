@@ -124,13 +124,14 @@ and do nothing else; they never see Control Center.
   press. The toggle and **Issue scorer link** are also off, with a note, when the event
   has no scorer page (`events/<key>/scorer.html` isn't on the site), since a link would
   open nothing; add the page first.
-- **Issue scorer link for Oct 3** makes a link for the selected day. It covers
-  every venue of that day and is valid for 24 hours from when it is issued, not
-  until midnight. It can't be issued once the day is over (from 6:00 AM the
-  morning after), or while the switch reads **Stopped**.
-- Above the button, two optional fields, **Issued to** and **Note** (at most 40
+- **Issue scorer link for Oct 3** opens a dialog that makes a link for the selected
+  day. It covers every venue of that day and is valid for 24 hours from when it is
+  issued, not until midnight. It can't be issued once the day is over (from 6:00 AM
+  the morning after), or while the switch reads **Stopped**.
+- In the dialog, two optional fields, **Issued to** and **Note** (at most 40
   characters each), say who the link is for: a name, and for example the courts
-  they cover. See [Who a link was issued to](#who-a-link-was-issued-to).
+  they cover. **Issue link** issues it; **Cancel** issues nothing. See
+  [Who a link was issued to](#who-a-link-was-issued-to).
 - The link appears with **Copy**, **Share** (on devices that support it),
   **Show QR** and **Valid until Mon, Oct 5, 8:30 AM (24 hours)**, in Manila
   time. When it was issued to someone, the title names them. Send it, or have the
@@ -142,11 +143,13 @@ reloaded says so as soon as it loads.
 
 #### Who a link was issued to
 
-Both **Issue scorer link** and **Issue desk link** have two optional text fields
-above the button: **Issued to** (a name) and **Note** (for example `Gate A` or
-`Courts 3–4`). Each is at most 40 characters. Both are signed into the link, so the
-holder can't change them, and they are cleared once the link is shown so the next
-link isn't labelled with the last one's name.
+Both **Issue scorer link** and **Issue desk link** open a dialog with two optional
+text fields: **Issued to** (a name) and **Note** (for example `Gate A` or
+`Courts 3–4`). Each is at most 40 characters. **Issue link** issues the link with
+whatever is filled in, or with neither. Both are signed into the link, so the holder
+can't change them. The dialog opens empty every time, so the next link isn't labelled
+with the last one's name. If a link can't be issued, the dialog says why and stays open
+with what was typed, to try again.
 
 They show up in three places:
 
@@ -227,8 +230,8 @@ Flip it to mark someone in; it records the time. Above the list:
   instead of waiting for the next sync
 - **Issue desk link**, for an event set to `"desks"`: a link for one day that
   lets desk staff mark people in from their own phones, with **Copy**,
-  **Share** and **Show QR**. Above it, the optional **Issued to** and **Note**
-  fields, as for [scorer links](#who-a-link-was-issued-to)
+  **Share** and **Show QR**. It opens the same dialog of optional **Issued to** and
+  **Note** fields as [scorer links](#who-a-link-was-issued-to)
 - **Needs attention**: names that might be the same person written two ways,
   people listed twice in one category, and **Show withdrawn**
 
