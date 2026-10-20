@@ -37,6 +37,20 @@ has been replaced.
 
 ---
 
+## [2.19.0] — 2026-10-20
+
+### Changed
+
+- A team event scored on games won (`teamScoring: "games"`) shows PF, PA and the quotient beside W and L
+  in its bracket table, and each matchup card gives each side's PF, PA and quotient in the matchup:
+  [Tournament Hub](features/tournament-hub.md), [Control Center](features/control-center.md) and
+  [the site engine](technical/site-engine.md).
+- A team event can name its playoff placeholders (`display.seedLabels`): the Millennium Invitational's
+  Final reads *Rank 1 · TBD* v *Rank 2 · TBD* and its Bronze *Rank 3 · TBD* v *Rank 4 · TBD*:
+  [Tournament Hub](features/tournament-hub.md) and [events.json](technical/event-data-config.md).
+
+---
+
 ## [2.18.0] — 2026-10-20
 
 ### Added

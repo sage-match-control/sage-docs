@@ -132,8 +132,10 @@ The team rules in `domain/teams.js` take the event's `teamScoring`:
 matches won and then total points, and a bracket is ranked by matches won,
 total points, head-to-head wins and head-to-head points, all computed from the
 matches; `teamGameRecords(matches)` gives each side's wins, losses and points
-for and against, and the bracket table shows W, L and Pts. Without it every
-rule is the points rule.
+for and against, and the bracket table shows W, L, PF, PA and Quotient
+(`fmtQ(pf / pa)`, "—" before a point is conceded). Each matchup card adds a `.tm-stats`
+line under each side, its PF, PA and quotient in that matchup. Without it every
+rule is the points rule, and the card has no such line.
 
 On `localhost`, `?fixture=<name>` makes the Hub and the schedule board read
 `/_fixtures/` instead of the published data, as the scorer and desk pages

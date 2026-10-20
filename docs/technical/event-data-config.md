@@ -76,6 +76,10 @@ default).
   Invitational's colours are from the Okabe–Ito palette, which stays apart for
   most colour-blind readers, and the shape tells teams apart where colour
   can't. The Hub, the board and Control Center read it.
+- `display.seedLabels` (team events only, optional) is each playoff side's
+  placeholder until the organiser types its team in: `"Br-1": "Rank 3"` reads
+  "Rank 3 · TBD" (`sideLabel`). Non-empty strings only; a side the map lacks
+  reads "Seed <n> · TBD". The Hub, the board and the scorer page read it.
 - `teamScoring` (team events only, optional) is the event's scoring rule.
   `"points"`, the default, decides a matchup on total points and ranks a
   bracket on points scored. `"games"` decides a matchup on matches won and then

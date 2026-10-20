@@ -319,7 +319,8 @@ operators entered in the workbook marked **Advances**), the playoff matchups
 — Quarterfinals, Semifinals, Final, Bronze — as full cards, and each bracket's matchups behind a collapsible heading. A
 matchup is won on total points across its four matches, or, for an event whose
 `teamScoring` is `"games"`, on matches won and then total points, with the table
-showing W, L and Pts — see
+showing W, L, PF, PA and Quotient and each matchup card each side's PF, PA and
+quotient — see
 [Tournament Hub § Team events](tournament-hub.md#team-events). Live Matches
 names both teams on each court and shows the running matchup score, and Match
 Finder searches by team or player.

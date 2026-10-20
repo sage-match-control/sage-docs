@@ -113,11 +113,18 @@ shown as *Tie* with no winner named.
 the four matches wins it, and if each wins the same number, the team with more
 total points does. Level on both, the matchup is a **tie**. The card's large
 score is then the matches won (*3 – 1*) with the points beneath (*points
-35–38*), and Live Matches shows the matches won as the running matchup score.
-The Bracket table shows **W**, **L** and **Pts** (total points won) instead of
-PF, PA and Quotient, ranked by matches won, then total points, then, among the
-teams still level, head-to-head wins and head-to-head points. Teams level on
-all four stay in the workbook's order.
+35–38*). Under each team's name the card gives that team's **PF**, **PA** and
+**quotient** (PF ÷ PA) in the matchup (*PF 35 · PA 38 · Q 0.9211*), and Live
+Matches shows the matches won as the running matchup score. The Bracket table
+shows **W**, **L**, **PF**, **PA** and **Quotient** across the round robin, and
+is ranked by matches won, then total points, then, among the teams still level,
+head-to-head wins and head-to-head points; the quotient is shown, not ranked on.
+Teams level on all four stay in the workbook's order.
+
+**Playoff placeholders.** Until the organiser types a team into a playoff slot,
+the slot reads *Seed 1 · TBD*. An event can name its slots instead: at the
+Millennium Invitational the Final reads *Rank 1 · TBD* v *Rank 2 · TBD* and the
+Bronze *Rank 3 · TBD* v *Rank 4 · TBD*, the bracket places that will fill them.
 
 **Standings** show a table per bracket, ranked by the organizer's
 tiebreakers, in order:
