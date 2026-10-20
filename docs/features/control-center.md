@@ -359,7 +359,15 @@ warning there.
 Gender and level come from the workbook's `Teams` tab, so a check waits until
 the roster has them, and the box says so. A warning never stops a score or a
 lineup: an injured player's emergency replacement may break a rule on purpose.
-Only operators see it; the event's public pages show no warnings.
+Only operators see it; the event's public pages show no warnings. Each matchup
+card also carries a **⚠ N lineup issues** badge when its matches have any.
+
+For an event that holds lineups back until each round (the Millennium
+Invitational), Control Center always shows every lineup, and a matchup card whose
+lineup is in but not yet shown to the public reads **Lineup hidden**. Ticking the
+matchup's **Show lineup** box in the workbook's `MatchUps` tab, then **Resync this
+day now**, shows it on the Hub and the board, and the
+badge goes once the sync publishes it.
 
 ---
 **Technical:** [Control Center architecture, incl. Awards tab internals](../technical/control-center.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md) · [event attendance](../technical/event-attendance.md) · [scorer page](../technical/scorer-page.md)

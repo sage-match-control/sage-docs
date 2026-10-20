@@ -1523,7 +1523,20 @@ line) checks each lineup against the event's `lineupRules`: pair 1 Men's High
 the first player in the team's roster), pair 3 Women's, pair 4 Genderless, and
 one game per player per round, with `H2A` and `HI` as the advanced levels.
 Gian (Yellow) is a man, `LB`, whom the organiser lets play Women's
-(`"allowed": { "Gian": ["womens"] }`). No page checks the organiser's "no
+(`"allowed": { "Gian": ["womens"] }`).
+
+**Revealing a round's lineups.** The event sets `lineupReveal`, so the Hub and
+the board show a match's players only once its matchup's **Show lineup** box is
+ticked: one tick box per matchup, in column Q of the `MatchUps` tab, on each
+block's first row (`Q4`, `Q24`, … `Q544`, then `Q724` and `Q744` for the
+playoffs). The `CSV` tab's `lineupShown` column reads it by formula, in `N2`:
+`=ARRAYFORMULA(IF(B2:B="",,COUNTIFS(MatchUps!C:C,B2:B,MatchUps!Q:Q,TRUE)>0))`,
+so a tick reveals all four of that matchup's matches. The operator can
+type every lineup in early, check it in Control Center (each card reads
+**Lineup hidden** until revealed), then tick the matchup when the round is
+announced. The tick lives outside `SCHEDULE` and `Court Control`, so after
+ticking, publish with Control Center's **Resync this day now** (or add the tab to
+the watched tabs in **SAGE → Live sync settings**). No page checks the organiser's "no
 repeat doubles" rule; that stays with the organiser and match control.
 
 **Scorer links.** On Mission Control, **Issue scorer link** gives a 24-hour link for

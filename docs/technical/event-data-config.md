@@ -87,6 +87,15 @@ default).
   wins and head-to-head points. Anything else reads as `"points"`, with a
   console warning on the page. The Hub, the board, Control Center and its Awards
   podium read it; `sage-tools-api` does not.
+- `lineupReveal` (team events only, optional): `true` makes the Hub and the
+  schedule board show a match's lineup only once the published `CSV` tab's
+  `lineupShown` column is `TRUE` for it (at the Millennium Invitational a formula
+  reads it from the `MatchUps` tab's **Show lineup** tick box, one per matchup);
+  until then they read it as a lineup not set
+  (`buildDayModel`'s `hideUnshownLineups`, `buildScheduleData`'s option of the
+  same name). Control Center always shows every lineup and marks a matchup whose
+  lineup isn't shown yet. The names are still in the published snapshot, so this
+  controls what the pages show, not who can read the data.
 - `lineupRules` (team events only, optional) is what Control Center checks each
   lineup against, as warnings for operators (the public pages show none, and a
   warning blocks nothing). `pairs` gives each pair number a kind: `"mens-high"`

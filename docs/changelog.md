@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.20.0] — 2026-10-20
+
+### Added
+
+- A team event can hold its lineups back (`lineupReveal`): the Hub and the board show a match's players
+  only once the published `CSV` tab's `lineupShown` column is `TRUE` for it (at the Millennium
+  Invitational, a **Show lineup** tick box per matchup in `MatchUps`), and Control Center marks each such matchup
+  **Lineup hidden**. Each Control Center matchup card also carries a **⚠ N lineup issues** badge:
+  [Tournament Hub](features/tournament-hub.md), [Control Center](features/control-center.md),
+  [Control Center, technical](technical/control-center.md), [events.json](technical/event-data-config.md),
+  [the site engine](technical/site-engine.md) and the
+  [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) spec.
+
+---
+
 ## [2.19.0] — 2026-10-20
 
 ### Changed

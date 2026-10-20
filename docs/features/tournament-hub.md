@@ -121,6 +121,11 @@ is ranked by matches won, then total points, then, among the teams still level,
 head-to-head wins and head-to-head points; the quotient is shown, not ranked on.
 Teams level on all four stay in the workbook's order.
 
+**Lineups shown when the organiser says.** An event can hold its lineups back
+until each round: at the Millennium Invitational a match's players appear on the
+Hub and the schedule board only once match control ticks that matchup's
+**Show lineup** box in the workbook's `MatchUps` tab. Until then the match reads *Lineup not set*.
+
 **Playoff placeholders.** Until the organiser types a team into a playoff slot,
 the slot reads *Seed 1 · TBD*. An event can name its slots instead: at the
 Millennium Invitational the Final reads *Rank 1 · TBD* v *Rank 2 · TBD* and the

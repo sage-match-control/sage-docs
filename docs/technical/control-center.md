@@ -230,7 +230,10 @@ match line in Match Finder as a `.lineup-warn`, the score dialog's `extraWarning
 `renderLineupCheck()` draws the day's list in `#lineupCheck` above the Teams tab's rosters, with the
 pair kinds and a note when the roster or `advancedLevels` is missing. A team's captain is the first row
 of its roster (`model.team.rosterByCode`, in sheet order). Nothing on the public pages reads
-`lineupRules`.
+`lineupRules`. `lineupCardBadges(mu)`, passed to `createTeams` as `cardBadges` (`views/teams.js` puts it in
+every matchup card's `.tm-badges`), adds **⚠ N lineup issues** from `LINEUP_ISSUES` and, for an event with
+`lineupReveal`, **Lineup hidden** while a lineup that is in has `lineupShown` false. Control Center builds its
+day model without `hideUnshownLineups`, so it always sees every lineup.
 
 ## Attendance tab
 
