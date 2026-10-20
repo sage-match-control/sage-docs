@@ -146,17 +146,29 @@ From the organiser's sheet, sent 18 October 2026:
   **1st and 2nd** play for 2nd place and overall champion.
 - **Ranking.** Teams are ranked by **number of wins**: the games they have won
   in the round robin.
-- **Ties**, among two or more teams level on wins:
-  1. **total points** won over all their round-robin games. The higher ranks
-     higher;
-  2. still level: **head-to-head wins**, the games each won against the other
-     tied team(s);
-  3. still level: **head-to-head points**, the points each won in those games.
+- **Ties**, among teams level on wins, as revised on 20 October 2026:
+  - **two teams** (a double tie):
+    1. **head-to-head wins**, the games each won in their matchup;
+    2. still level: the **head-to-head quotient**, points for ÷ points against
+       in those games;
+    3. still level: the teams submit lineups and one pair from each plays one
+       game to 5.
+  - **three or more** (a triple tie or more):
+    1. the **quotient**, points for ÷ points against over all their round-robin
+       games;
+    2. two teams with exactly the same quotient go to the double-tie rules;
+    3. three or more with the same quotient submit lineups, and one pair from
+       each plays a round robin of games to 5.
 
-The organiser's first sheet gave point differential, then head-to-head wins. The
-owner revised it on 18 October 2026 to the order above. Their last key reads
-"then points won"; total points are already the first tiebreaker, so it is read
-as the points won in the head-to-head games; the owner confirmed it (§17 Q2).
+The site ranks by every step it can compute. A tie only a playoff can settle
+keeps the workbook's order, and once the bracket's round robin is over its teams
+share the higher rank and read **Tied · playoff game** or **Tied · playoff round
+robin**. The organiser settles it by typing the qualifiers into the playoff slots,
+as for every playoff (§4.3); nothing records the playoff's result.
+
+The organiser's first sheet gave point differential, then head-to-head wins; the
+owner's revision of 18 October 2026 gave total points, head-to-head wins and
+head-to-head points (§17 Q2). The 20 October rules above replace both.
 
 **The site shows none of these:** the two sponsorship phone numbers, the Plus 63
 club logo, the pubmat's ball and court artwork. The site is a live results hub
@@ -220,10 +232,14 @@ A team event may set `"teamScoring": "games"` in `events.json`. Absent (or
 - a matchup is won by the side that won **more of its games**. Level on games, the
   side with **more total points** wins, the organiser's first tiebreaker. Still
   level, it is a **tie**, shown as today (§17 Q3);
-- a bracket is ranked by **games won**, then **total points**, then, among the
-  teams still level, **head-to-head wins** and then **head-to-head points**, then
-  the sheet's order (§1.1). Only played group-stage games count, all computed
-  from the matches, so every key comes from the same scores;
+- a bracket is ranked by **games won**, then the tiebreakers of §1.1: for two
+  teams level, **head-to-head wins** and the **head-to-head quotient**; for three
+  or more, the overall **quotient**, two still level going to the two-team rules.
+  A tie left after that keeps the sheet's order and, once the round robin is over,
+  reads **Tied** (`teamRankBracket`'s result carries it as `ties`). Only played
+  group-stage games count, all computed from the matches, so every key comes from
+  the same scores. The code listings below show the first version of the ranking
+  (total points, head-to-head wins, head-to-head points), which these rules replace;
 - the bracket table shows **W**, **L** and **Pts** (total points won) instead of
   PF, PA and Quotient, and a matchup's headline score is its **games** (`3 – 1`),
   with the points underneath.
@@ -1607,11 +1623,12 @@ visibly differ from §8's.
   podium all share, so one option corrects all of them. It is opt-in per event
   (`teamScoring`), defaulting to PickleDrive's rule, so no other page changes, and
   it is a compatible `v1` change (§4.8), not a `v2`.
-- **Tiebreakers: total points, head-to-head wins, head-to-head points.** The
-  owner's revision of 18 October 2026 replaces the organiser's first sheet (point
-  differential, then head-to-head wins). Its closing "then points won" is read as
-  head-to-head points, because overall points won already come second (§17 Q2,
-  confirmed).
+- **Tiebreakers: the organiser's double-tie and triple-tie rules** of 20 October
+  2026 (§1.1), which replace the owner's revision of 18 October (total points,
+  head-to-head wins, head-to-head points) and the organiser's first sheet. The
+  triple-tie quotient is each team's overall one; only two teams with exactly
+  the same quotient go to the double-tie rules; a tie that needs a playoff is
+  flagged, not resolved, and the workbook's playoff slots settle it.
 - **Ranking is computed from the matches.** `STANDINGSCSV` publishes points, not
   games, and changing its columns would touch every team page's reader. The
   matches already carry every score the rule needs.

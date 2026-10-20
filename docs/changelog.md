@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.21.0] — 2026-10-20
+
+### Changed
+
+- A bracket of an event scored on games won (`teamScoring: "games"`) is ranked by the Millennium
+  Invitational's revised tiebreakers: two teams level on wins by head-to-head wins, then the
+  head-to-head quotient; three or more by their quotient, two still level going to the two-team rules.
+  A tie only a playoff can settle reads **Tied · playoff game** or **Tied · playoff round robin** once
+  the round robin is over: [Tournament Hub](features/tournament-hub.md),
+  [Control Center](features/control-center.md), [events.json](technical/event-data-config.md),
+  [the site engine](technical/site-engine.md) and the
+  [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) spec.
+
+---
+
 ## [2.20.0] — 2026-10-20
 
 ### Added

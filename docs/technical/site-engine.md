@@ -136,9 +136,14 @@ The team rules in `domain/teams.js` take the event's `teamScoring`:
 `teamMatchupResult(ms, scoring)`, `buildTeamData(matches, standings, { scoring })`
 (which echoes it as `model.team.scoring` for the views) and
 `teamRankBracket(rows, matches, scoring)`. With `"games"` a matchup is won on
-matches won and then total points, and a bracket is ranked by matches won,
-total points, head-to-head wins and head-to-head points, all computed from the
-matches; `teamGameRecords(matches)` gives each side's wins, losses and points
+matches won and then total points, and a bracket is ranked by matches won, then,
+for two teams level, head-to-head wins and the head-to-head quotient, and for
+three or more, the overall quotient (two still level going to the two-team
+rules), all computed from the matches. A tie left after that keeps the sheet's
+order; once every group match between the bracket's teams is played, the ranked
+array carries `ties`, `[{ codes, playoff: 'game' | 'round-robin' }]`, and the
+bracket table gives those teams the higher rank and a `.tie-pill` (*Tied ·
+playoff game* or *Tied · playoff round robin*); `teamGameRecords(matches)` gives each side's wins, losses and points
 for and against, and the bracket table shows W, L, PF, PA and Quotient
 (`fmtQ(pf / pa)`, "—" before a point is conceded). Each matchup card adds a `.tm-stats`
 line under each side, its PF, PA and quotient in that matchup. Without it every

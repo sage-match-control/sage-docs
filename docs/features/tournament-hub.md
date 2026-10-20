@@ -117,9 +117,14 @@ score is then the matches won (*3 – 1*) with the points beneath (*points
 **quotient** (PF ÷ PA) in the matchup (*PF 35 · PA 38 · Q 0.9211*), and Live
 Matches shows the matches won as the running matchup score. The Bracket table
 shows **W**, **L**, **PF**, **PA** and **Quotient** across the round robin, and
-is ranked by matches won, then total points, then, among the teams still level,
-head-to-head wins and head-to-head points; the quotient is shown, not ranked on.
-Teams level on all four stay in the workbook's order.
+is ranked by matches won. Two teams level on wins are separated by head-to-head
+wins, then the head-to-head quotient (points for ÷ points against in their
+matchup); three or more by their quotient, with two still level going to the
+two-team rules. Teams level after that stay in the workbook's order, and once the
+round robin is over they share the higher rank and read **Tied · playoff game**
+(two teams) or **Tied · playoff round robin** (three or more): the organiser's
+playoff settles it, and the qualifiers typed into the workbook's playoff slots
+show who goes on.
 
 **Lineups shown when the organiser says.** An event can hold its lineups back
 until each round: at the Millennium Invitational a match's players appear on the

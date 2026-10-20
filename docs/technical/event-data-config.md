@@ -83,8 +83,10 @@ default).
 - `teamScoring` (team events only, optional) is the event's scoring rule.
   `"points"`, the default, decides a matchup on total points and ranks a
   bracket on points scored. `"games"` decides a matchup on matches won and then
-  total points, and ranks a bracket on matches won, total points, head-to-head
-  wins and head-to-head points. Anything else reads as `"points"`, with a
+  total points, and ranks a bracket on matches won, then, for two teams level,
+  head-to-head wins and the head-to-head quotient, and for three or more, the
+  overall quotient (two still level going to the two-team rules); a tie left
+  after that reads **Tied** once the round robin is over. Anything else reads as `"points"`, with a
   console warning on the page. The Hub, the board, Control Center and its Awards
   podium read it; `sage-tools-api` does not.
 - `lineupReveal` (team events only, optional): `true` makes the Hub and the
