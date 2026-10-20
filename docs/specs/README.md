@@ -274,6 +274,12 @@ to the `...` form rather than repointing it.
   and the Hub's tickets show names without codes. Then four extras: the tabs
   along the bottom, a provisional-standings line, a rules link and following
   more than one pair. Engine Hub and templates only; no new sections.
+- **[Angeles City Employees Sportsfest](not-started/acso-employees-sportsfest-spec.md)** —
+  the site for the Angeles City Sports Office's employees' pickleball tournament on
+  13 November 2026: Men's, Women's and Mixed Doubles on 8 courts at Pickle Place.
+  The standard template in the house theme (no pubmat), team codes with no
+  division (`"divisions": { "": "" }`), its `events.json` entry, and the workbook
+  fixes still owed. Dry-run against a copy of the site.
 
 ---
 

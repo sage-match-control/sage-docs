@@ -37,6 +37,19 @@ has been replaced.
 
 ---
 
+## [2.25.0] — 2026-10-21
+
+### Added
+
+- [Angeles City Employees Sportsfest](specs/not-started/acso-employees-sportsfest-spec.md), in
+  **Not started**: the site for the Angeles City Sports Office's employees' pickleball tournament on
+  13 November 2026, three categories on 8 courts at Pickle Place. It instantiates the standard
+  template in the house theme with the organiser's logo and category colours, registers the event
+  with team codes that have no division (`"divisions": { "": "" }`), and lists the workbook fixes
+  still owed.
+
+---
+
 ## [2.24.0] — 2026-10-21
 
 ### Changed
