@@ -363,8 +363,10 @@ lineup: an injured player's emergency replacement may break a rule on purpose.
 Only operators see it; the event's public pages show no warnings. Each warning
 also sits on its match on every matchup card: Match Finder's and the
 Standings tab's playoff cards and bracket matchups. A matchup card whose
-matches have any stands out with a red edge and header and a **⚠ N lineup
-issues** badge, so it shows even while the card's matches are folded away.
+matches have any stands out with a red edge and header and a badge naming the
+pairs, such as **⚠ 7 lineup issues · MD, WD, XD**, so it shows even while the
+card's matches are folded away. Each of those pairs' match lines is tinted, with
+a red bar and a red pair chip.
 
 For an event that holds lineups back until each round (the Millennium
 Invitational), Control Center always shows every lineup, and a matchup card whose

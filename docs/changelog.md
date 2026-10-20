@@ -37,6 +37,16 @@ has been replaced.
 
 ---
 
+## [2.24.0] — 2026-10-21
+
+### Changed
+
+- Control Center's lineup badge names the pairs with issues (**⚠ 7 lineup issues · MD, WD, XD**), and each
+  of those pairs' match lines is tinted with a red bar and pair chip:
+  [Control Center](features/control-center.md) and [Control Center, technical](technical/control-center.md).
+
+---
+
 ## [2.23.0] — 2026-10-20
 
 ### Changed

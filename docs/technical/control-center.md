@@ -236,7 +236,9 @@ of its roster (`model.team.rosterByCode`, in sheet order). Nothing on the public
 `lineupRules`. `lineupCardBadges(mu)`, passed to `createTeams` as `cardBadges` (`views/teams.js` puts it in
 every matchup card's `.tm-badges`), adds **⚠ N lineup issues** from `LINEUP_ISSUES` and, for an event with
 `lineupReveal`, **Lineup hidden** while a lineup that is in has `lineupShown` false. A card holding the issues
-badge (`.tm-card:has(.tm-pill.lineup-issues)`, this page's CSS) gets a red edge and header. Control Center builds its
+badge (`.tm-card:has(.tm-pill.lineup-issues)`, this page's CSS) gets a red edge and header; the badge names
+the pairs with issues (`pairLabel`), and a match line holding a `.lineup-warn` (`.tm-row:has(.lineup-warn)`)
+is tinted, with a red bar and a red pair chip. Control Center builds its
 day model without `hideUnshownLineups`, so it always sees every lineup.
 
 ## Attendance tab
