@@ -225,14 +225,18 @@ frozen with that finished event.
 ([events.json](event-data-config.md)), `refreshLineupCheck()` runs
 `lineupIssues(matches, rosterByCode, rowByCode, rules)` (`lib/v1/domain/lineup-rules.js`, the rules
 read by `lineupRulesFrom`) every time the day model is rebuilt, and keeps the result in
-`LINEUP_ISSUES` (match number → `{ side, team, text }[]`). `ticketDecorate` adds each issue to its
-match line in Match Finder as a `.lineup-warn`, the score dialog's `extraWarnings` lists them, and
+`LINEUP_ISSUES` (match number → `{ side, team, text }[]`). `lineupWarnHTML(m)`, passed to `createTeams` as
+`rowNotes` (`views/teams.js` adds it to every match line, in every view, the Standings tab's read-only cards
+included), draws each issue as a `.lineup-warn`; `teamRowDecorate`, the team views' `decorateRow`, carries
+only the click-to-score line and hint (Match Finder's cards), and a ticket's `ticketDecorate` adds the same
+warnings. The score dialog's `extraWarnings` lists them, and
 `renderLineupCheck()` draws the day's list in `#lineupCheck` above the Teams tab's rosters, with the
 pair kinds and a note when the roster or `advancedLevels` is missing. A team's captain is the first row
 of its roster (`model.team.rosterByCode`, in sheet order). Nothing on the public pages reads
 `lineupRules`. `lineupCardBadges(mu)`, passed to `createTeams` as `cardBadges` (`views/teams.js` puts it in
 every matchup card's `.tm-badges`), adds **⚠ N lineup issues** from `LINEUP_ISSUES` and, for an event with
-`lineupReveal`, **Lineup hidden** while a lineup that is in has `lineupShown` false. Control Center builds its
+`lineupReveal`, **Lineup hidden** while a lineup that is in has `lineupShown` false. A card holding the issues
+badge (`.tm-card:has(.tm-pill.lineup-issues)`, this page's CSS) gets a red edge and header. Control Center builds its
 day model without `hideUnshownLineups`, so it always sees every lineup.
 
 ## Attendance tab

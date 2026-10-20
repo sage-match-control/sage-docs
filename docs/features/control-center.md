@@ -360,8 +360,11 @@ warning there.
 Gender and level come from the workbook's `Teams` tab, so a check waits until
 the roster has them, and the box says so. A warning never stops a score or a
 lineup: an injured player's emergency replacement may break a rule on purpose.
-Only operators see it; the event's public pages show no warnings. Each matchup
-card also carries a **⚠ N lineup issues** badge when its matches have any.
+Only operators see it; the event's public pages show no warnings. Each warning
+also sits on its match on every matchup card: Match Finder's and the
+Standings tab's playoff cards and bracket matchups. A matchup card whose
+matches have any stands out with a red edge and header and a **⚠ N lineup
+issues** badge, so it shows even while the card's matches are folded away.
 
 For an event that holds lineups back until each round (the Millennium
 Invitational), Control Center always shows every lineup, and a matchup card whose

@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.22.0] — 2026-10-20
+
+### Changed
+
+- Control Center shows each lineup warning on its match in every view, the Standings tab's bracket
+  matchups and playoff cards included, and a matchup card with lineup issues stands out with a red edge
+  and header: [Control Center](features/control-center.md),
+  [Control Center, technical](technical/control-center.md) and [the site engine](technical/site-engine.md).
+
+---
+
 ## [2.21.0] — 2026-10-20
 
 ### Changed
