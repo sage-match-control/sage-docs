@@ -37,6 +37,16 @@ has been replaced.
 
 ---
 
+## [2.23.0] — 2026-10-20
+
+### Changed
+
+- A team event's schedule board shows players larger than team names, and a card whose lineup isn't
+  set keeps the height it will have once it is, so the board doesn't resize as lineups come in:
+  [the schedule board](features/schedule-board.md) and [its technical page](technical/schedule-board.md).
+
+---
+
 ## [2.22.0] — 2026-10-20
 
 ### Changed

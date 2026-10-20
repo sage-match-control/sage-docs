@@ -107,6 +107,11 @@ match, a single Playoffs colour, chosen from the event's own artwork because
 the team workbook's SCHEDULE tab is uncoloured. Each card also names both teams
 above their players and carries the pair label; a side whose lineup isn't set
 (its first player cell is empty or holds the side's own code) reads *Lineup TBD*.
+A team card's players are larger than its team names (14px to 12px on screen, 13px
+to 11.5px on a phone; the PDF keeps its own sizes), and *Lineup TBD* keeps both
+player lines' height, so a card is the same height before and after its lineup is
+in and the board doesn't grow as lineups come in (`.cell.team` in
+`schedule-board.css`).
 The page sets `type: 'team'`, and the board reads the event's `display.pairs`
 from `events.json` for the pair chip (`MD`, `XD 1`), and its `display.teamColors`
 for each team's mark and the card's tint: a board row carries each side's group-stage team
