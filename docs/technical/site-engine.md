@@ -122,6 +122,9 @@ cards, bracket tables, Live Matches rows, roster cards and Match Finder, and tin
 card's headline; the board does the same from `buildScheduleData`'s `base1`/`base2`. The styles
 are in `css/teams.css` and `css/schedule-board.css`.
 
+`domain/lineup-rules.js` checks a team event's lineups against its `lineupRules` in `events.json`
+(`lineupRulesFrom`, `lineupIssues`): pure, and read only by Control Center.
+
 The team rules in `domain/teams.js` take the event's `teamScoring`:
 `teamMatchupResult(ms, scoring)`, `buildTeamData(matches, standings, { scoring })`
 (which echoes it as `model.team.scoring` for the views) and

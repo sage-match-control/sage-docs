@@ -336,5 +336,29 @@ Finder shows a team's roster with its matchups, and finds a player by name from
 the roster before their lineup is in. A player's result shows their level and
 gender beside their name.
 
+### Lineup check
+
+An event whose settings list its lineup rules, as the Millennium Invitational's
+do, gets a **Lineup check** box above the rosters. It lists every lineup that
+breaks a rule, by match number, and each such match carries the same warning
+on its line in Match Finder and in the score dialog:
+
+- a player in two pairs of the same round, or a full round that leaves a
+  rostered player out (everyone plays once a round);
+- a player who isn't on the team's roster;
+- **Men's High** without two men, or without an advanced player;
+- **Mixed** without one man and one woman, or with the team's captain (the
+  first player in the team's roster);
+- **Women's** with a man in it. **Genderless** has no restriction.
+
+The organiser can let a named player into a pair the rule would keep them out
+of (at the Millennium Invitational, Gian may play Women's); that player draws no
+warning there.
+
+Gender and level come from the workbook's `Teams` tab, so a check waits until
+the roster has them, and the box says so. A warning never stops a score or a
+lineup: an injured player's emergency replacement may break a rule on purpose.
+Only operators see it; the event's public pages show no warnings.
+
 ---
 **Technical:** [Control Center architecture, incl. Awards tab internals](../technical/control-center.md) · [sync pipeline](../technical/sync-pipeline.md) · [auth](../technical/auth.md) · [event attendance](../technical/event-attendance.md) · [scorer page](../technical/scorer-page.md)

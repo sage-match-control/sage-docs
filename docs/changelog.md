@@ -37,6 +37,20 @@ has been replaced.
 
 ---
 
+## [2.18.0] — 2026-10-20
+
+### Added
+
+- A team event's **Lineup check** in Control Center: `lineupRules` in `events.json` gives each pair
+  a kind (Men's High, Mixed, Women's, Genderless), the levels that count as advanced and whether a
+  captain may play Mixed, and every lineup that breaks one, or plays someone twice in a round, is
+  flagged for operators: [Control Center](features/control-center.md#lineup-check),
+  [Control Center, technical](technical/control-center.md), [events.json](technical/event-data-config.md),
+  [the site engine](technical/site-engine.md) and the
+  [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) spec's day-of section.
+
+---
+
 ## [2.17.0] — 2026-10-19
 
 ### Added

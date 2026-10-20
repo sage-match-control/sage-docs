@@ -221,6 +221,17 @@ roster card. The rules (`lib/v1/domain/teams.js`) and the cards are a port of th
 Teams tab (`events/pickledrive-anniversary-2026/index.html`), whose copy is
 frozen with that finished event.
 
+**Lineup check.** For an event with `lineupRules` in `events.json`
+([events.json](event-data-config.md)), `refreshLineupCheck()` runs
+`lineupIssues(matches, rosterByCode, rowByCode, rules)` (`lib/v1/domain/lineup-rules.js`, the rules
+read by `lineupRulesFrom`) every time the day model is rebuilt, and keeps the result in
+`LINEUP_ISSUES` (match number → `{ side, team, text }[]`). `ticketDecorate` adds each issue to its
+match line in Match Finder as a `.lineup-warn`, the score dialog's `extraWarnings` lists them, and
+`renderLineupCheck()` draws the day's list in `#lineupCheck` above the Teams tab's rosters, with the
+pair kinds and a note when the roster or `advancedLevels` is missing. A team's captain is the first row
+of its roster (`model.team.rosterByCode`, in sheet order). Nothing on the public pages reads
+`lineupRules`.
+
 ## Attendance tab
 
 The list is `createAttendanceView` in `lib/v1/views/attendance-view.js`, shared

@@ -83,6 +83,20 @@ default).
   wins and head-to-head points. Anything else reads as `"points"`, with a
   console warning on the page. The Hub, the board, Control Center and its Awards
   podium read it; `sage-tools-api` does not.
+- `lineupRules` (team events only, optional) is what Control Center checks each
+  lineup against, as warnings for operators (the public pages show none, and a
+  warning blocks nothing). `pairs` gives each pair number a kind: `"mens-high"`
+  (two men, at least one with a level in `advancedLevels`), `"mixed"` (a man and
+  a woman), `"womens"` (two women) or `"open"` (any two). `advancedLevels` lists
+  the roster levels that count as advanced, ignoring case; empty, the level isn't
+  checked. `captainNotMixed: true` keeps a team's captain, the first player in its
+  roster, out of the mixed pair. `allowed` names players the organiser lets into
+  a kind whatever its gender rule says (`{ "Gian": ["womens"] }`: a man who may
+  play Women's; he still counts as a man in Mixed). Every event with `lineupRules` also gets: a
+  player plays once per round (matchup), and a round whose pairs are all in leaves
+  no rostered player out. A player is matched to the roster by name, ignoring case
+  and spaces; a check that needs a gender or level the roster doesn't give is
+  skipped. Example: `"lineupRules": { "pairs": { "1": "mens-high", "2": "mixed", "3": "womens", "4": "open" }, "advancedLevels": ["HA", "HI"], "captainNotMixed": true }`.
 - `display` maps are all `code → label`; **order comes from key order**, so
   there's no separate ordering config to keep in step. No logo field —
   `display.clubs` maps to a plain name string only; the console shows the
