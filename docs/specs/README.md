@@ -242,8 +242,17 @@ to the `...` form rather than repointing it.
   2026: eight colour teams in one round robin, then a Bronze and a Final. Its
   teams score games won, so it adds an opt-in `teamScoring: "games"` to the
   engine's team rules, then instantiates the team template with the club's
-  colours. The engine change, the pages and the `events.json` entry are pushed; the
-  short link, the workbook fixes, sync setup and the dry run are left.
+  colours. The engine change, the pages and the `events.json` entry are pushed, and
+  the workbook syncs; the short link, the workbook fixes still open and the dry run
+  are left.
+
+- **[Angeles City Employees Sportsfest](in-progress/acso-employees-sportsfest-spec.md)** —
+  the site for the Angeles City Sports Office's employees' pickleball tournament on
+  13 November 2026: Men's, Women's and Mixed Doubles on 8 courts at Pickle Place.
+  The standard template in the house theme (no pubmat), with team codes that have no
+  division (`"divisions": { "": "" }`). The pages and the `events.json` entry are
+  pushed, and the workbook syncs all 96 matches; the QR image, the rest of the
+  workbook checks and the dry run are left.
 
 ---
 
@@ -280,12 +289,6 @@ to the `...` form rather than repointing it.
   tree. The workbook gives the ladder's shape, the event optionally labels the empty
   seats, and the site tags each qualifier with its bracket and finish once the sheet
   names it.
-- **[Angeles City Employees Sportsfest](not-started/acso-employees-sportsfest-spec.md)** —
-  the site for the Angeles City Sports Office's employees' pickleball tournament on
-  13 November 2026: Men's, Women's and Mixed Doubles on 8 courts at Pickle Place.
-  The standard template in the house theme (no pubmat), team codes with no
-  division (`"divisions": { "": "" }`), its `events.json` entry, and the workbook
-  fixes still owed. Dry-run against a copy of the site.
 
 ---
 

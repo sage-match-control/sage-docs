@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.27.0] — 2026-10-21
+
+### Changed
+
+- [Angeles City Employees Sportsfest](specs/in-progress/acso-employees-sportsfest-spec.md) moves from
+  **Not started** to **In progress**: the event's pages and its `events.json` entry are pushed, and the
+  workbook syncs all 96 matches with the players' names.
+- [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md)'s status: the workbook
+  syncs, so sync setup is no longer left.
+
+---
+
 ## [2.26.0] — 2026-10-21
 
 ### Added
@@ -55,7 +67,7 @@ has been replaced.
 
 ### Added
 
-- [Angeles City Employees Sportsfest](specs/not-started/acso-employees-sportsfest-spec.md), in
+- [Angeles City Employees Sportsfest](specs/in-progress/acso-employees-sportsfest-spec.md), in
   **Not started**: the site for the Angeles City Sports Office's employees' pickleball tournament on
   13 November 2026, three categories on 8 courts at Pickle Place. It instantiates the standard
   template in the house theme with the organiser's logo and category colours, registers the event

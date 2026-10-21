@@ -1,9 +1,17 @@
 # Spec — Angeles City Employees Sportsfest Pickleball Tournament
 
-> **Status: not started.** Written 2026-10-21 against `sage-match-control.github.io`
+> **Status: in progress.** Written 2026-10-21 against `sage-match-control.github.io`
 > at `9f6717d`, `event-data`'s current `config/events.json`, and the event workbook
-> as exported that day. The organiser's logo is staged (§2). The owner answered
-> every open question the same day; the answers are in §17.
+> as exported that day. The owner answered every open question the same day; the
+> answers are in §17.
+>
+> **Built and pushed, 2026-10-21:** §4–§10 (the event's pages, with the logo) are on
+> the site's `main` (`75c3e42`), and §14's `events.json` entry is in `event-data`'s
+> `main`. The workbook syncs (§16.2): its snapshot lists `Pickle Place` with all 96
+> matches and the players' names, so §16.1's items 1 and 3 are done. **Still to do:**
+> `assets/qr.png` (§2) and the QR panel (§16.4), the rest of §16.1 (the `Court Control`
+> check, the start time and the players in two categories), the playoff draw on the
+> day, and the dry run (§16.5).
 >
 > **Dry-run on 2026-10-21.** §4–§9 were applied to a detached worktree of the site
 > at `9f6717d`: every anchor matched once and every check passed. §11's fixture

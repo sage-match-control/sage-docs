@@ -9,8 +9,9 @@
 > tests) and §5–§12 (the event's pages) are on the site's `main`, in the two pushes
 > of §4.8, after a passing `npm run verify` and a browser check on Appendix A's
 > fixture (§13, since removed). §14's `events.json` entry is in `event-data`'s
-> `main`. **Still to do:** `assets/qr.png` and the short link (§2), the workbook
-> fixes (§16.1), sync setup (§16.2) and the dry run (§16.5).
+> `main`. The workbook syncs (§16.2): its snapshot lists `Plus 63` with all 120
+> matches and the teams' roster. **Still to do:** `assets/qr.png` and the short link
+> (§2), whichever of §16.1's workbook fixes are still open, and the dry run (§16.5).
 >
 > **Dry-run on 2026-10-18.** §4's code and §4.6's tests were applied to a copy of
 > the site at `7f47c18`: the new tests fail before the change and pass after it,
