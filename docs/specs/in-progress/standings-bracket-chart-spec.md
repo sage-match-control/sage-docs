@@ -1,6 +1,12 @@
 # Spec — Playoff bracket chart in the standings
 
-> **Status: not started.** Written 2026-10-21 against `sage-match-control.github.io` at
+> **Status: in progress.** Built and tested on a branch named `standings-bracket-chart` in
+> `sage-tools-api`, `sage-match-control.github.io`, `event-data`, `sage-docs` and the workspace
+> (21 October 2026); nothing is pushed or merged. What is left is §10: merging the site on or after
+> 25 October, the owner pasting generator 1.3.0 into the masters and running **Add bracket links**
+> on the Sportsfest workbook. §14 records where the build differs from this text.
+>
+> Written 2026-10-21 against `sage-match-control.github.io` at
 > `75c3e42`, `sage-tools-api` at `93e090d`, `event-data` at `c3e0972` and `sage-docs` at
 > `77bf767`. The owner set the three-part model in §3 the same day (D1–D3). Every
 > worked example in §5 was produced by running the generator's own `planCategory` and
@@ -1154,4 +1160,35 @@ text for `MD`/`WD` (2×2) and `XD` (4×2), and it goes into `events.json` (§6).
 
 ## 14. Divergences
 
-None yet. Record here anything the build does differently from this document, and why.
+The build follows the spec; these are the places it differs from the text, or fills in what it leaves
+open.
+
+- **The Full tree layer's CSS selector is `div.bk-full`** (§7.7). §7.4 gives the span that holds a
+  pair's full names the class `bk-full`, and §7.7 gives the layer the same class, so a plain
+  `.bk-full{position:fixed…}` would make every name span a fixed layer. The markup is as written; only the
+  layer's rules are scoped to the `div`.
+- **Pointer handling.** A mouse double-click uses `dblclick`; a touch or pen double-tap uses the two
+  `pointerup`s (each would otherwise fire both). A drag takes the pointer only once it has moved 6px, so a
+  tap still reaches the card under it. Plain wheel scrolling does nothing; `ctrl`+wheel zooms (§7.7).
+- **Names the spec leaves open.** `seatContext(bracket, model)` (domain) reads the labels, the shape and the
+  named round robin rows `seatText` needs; `startRound(bracket)` (views) is §7.4's start-round rule, also
+  written as `data-bk-start` on `.bk-rounds`; the round strip's rounds are numbered 0…n-1 in
+  `data-bk-round`, the last included (§7.4 writes `"last"`); `.bk-track` carries `data-group-key`, so
+  `scroll.js` can tell one category's strip from another's; `stageTablesHTML` takes an optional
+  pre-built `bracket`; `PLAYOFF_VIEW_KEY`, `CARD_PADDING` and `COLUMN_WIDTH` are exported.
+  The strip and chips have no visible scrollbar.
+- **Linked means every retained playoff row has a `match`** (§7.3.4): a BYE row, or a Bronze dropped as
+  bye-decided, does not count against it.
+- **`readPlanBlock_` itself now returns `advance` and `fill`** (§5.4 step 1 describes reading
+  `Variables!I:N` like it); the draw import ignores them.
+- **The fixture event has `"scoreEntry": "console"`** (§8.3), or its cards could not open the score dialog in
+  the §8.5 check. `_tests/helpers/fixtures.mjs`'s `eventConfig` carries `playoffSeats` like `eventConfigFrom`.
+- **Control Center redraws Standings after a fixture-mode score save** (§7.9), so a card shows the new score
+  as §8.5 expects; a live save still waits for the snapshot like every other view.
+- **Piggleball's and Pickle for Sight's own public pages are not engine pages.** Their `index.html` files are
+  hand-built and import nothing from `lib/v1`, so D11's switch reaches them in Control Center (and in the
+  harness, which renders the standard template over their fixtures) but not on their Hubs. The §8.5 Hub check
+  used `events/acso-sportsfest-2026/`'s shell, the engine standard event.
+- **§5.3's check that the master holds nothing in `Variables!AD:AF`** cannot be run from the repo. The master spec's
+  §10.1 lists `A:C`, `H:R` and `AB` only, and the generator clears `AD2:AF` before writing, but the owner
+  should look at the real master before pasting 1.3.0.

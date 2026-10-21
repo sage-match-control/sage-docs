@@ -80,6 +80,16 @@ default).
   placeholder until the organiser types its team in: `"Br-1": "Rank 3"` reads
   "Rank 3 · TBD" (`sideLabel`). Non-empty strings only; a side the map lacks
   reads "Seed <n> · TBD". The Hub, the board and the scorer page read it.
+- `display.playoffSeats` (standard events only, optional) labels a playoff seat the
+  round robin fills, for the bracket chart: `{ "<category code or shape key>":
+  { "<slot>": "<label>" } }`. The outer key is a category code (`"HIMD"`) or a shape
+  key `<brackets>x<advance>` (`"3x2"`), which a category's own entry beats seat by
+  seat; the slot is the seat's code without its category (`"SF_1"`, `"QF_4"`,
+  `"R16_5"`, matching `/^(R32|R16|QF|SF|F|B)_\d+$/`) and the label a non-empty
+  string. The site shows the label on a seat that is empty and not filled by a match,
+  and reads **Qualifier** where there is none. It never works out who qualifies.
+  Anything malformed is dropped with a console warning on the page. `sage-tools-api`
+  never reads it. Control Center and the Hub read it.
 - `teamScoring` (team events only, optional) is the event's scoring rule.
   `"points"`, the default, decides a matchup on total points and ranks a
   bracket on points scored. `"games"` decides a matchup on matches won and then

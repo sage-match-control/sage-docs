@@ -17,7 +17,7 @@ No sign-in is needed to view Awards, Match Finder, Live Matches or
 Standings — they're read-only.
 Only the actions inside Mission Control (resyncing, forcing the public site
 live or hidden), marking people in on the Attendance tab and entering scores in
-Match Finder need an operator to sign in. Signed out, the Attendance tab asks you to
+Match Finder (or from a playoff bracket card on Standings) need an operator to sign in. Signed out, the Attendance tab asks you to
 sign in instead of showing the list, and no match in Match Finder can be scored.
 
 **Installable** — from Chrome's install prompt on Android, or "Add to Home
@@ -311,6 +311,20 @@ column instead (**2 cols** puts them back); the choice lasts until the page is
 reloaded. On a desktop screen every
 category is its own column in one row; scroll sideways for the rest. A long
 player name is never cut off — its table scrolls sideways instead.
+
+At a **standard** event, a category with two or more playoff rounds has a
+**List | Bracket** switch under its title (the same one as on the
+[Tournament Hub](tournament-hub.md); the choice is remembered in the browser).
+**Bracket** draws the playoffs as a chart: rounds side by side, a line from
+each match to the seat its winner fills, and the Bronze under the Final. An
+empty seat reads **Winner of QF-2**, **Loser of SF-1**, the event's own label
+for a seat the round robin fills, or **Qualifier**; once the names are in, a
+seat the round robin filled also shows where the pair finished (**Br 2 · #1**).
+A screen too narrow for the chart shows one round at a time, with **Full tree**
+for the whole chart to pinch and drag. Here a card with a scheduled match opens
+the score dialog when clicked, in the chart and in Full tree, for a signed-in
+operator at an event with score entry on (see [Score entry](score-entry.md)).
+The Hub's cards are not clickable.
 
 At a **team event**, Standings has three parts, the same as on the public
 event page: a table per bracket ranked by points scored, then quotient, then

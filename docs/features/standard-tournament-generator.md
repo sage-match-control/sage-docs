@@ -70,6 +70,16 @@ the readout tabs — `Court Control`, `Timeline`, and the `CSV` and
 `STANDINGSCSV` tabs the live sync publishes — and an empty **ATTENDANCE** tab,
 ready for [event attendance](event-attendance.md) to fill in.
 
+`STANDINGSCSV` carries two columns beside the pairs' records, `match` and
+`from`, which tell the site how the playoff ladder is joined up. On each
+playoff slot, `match` names the match that slot plays in (`QF-2`, `SF-1`,
+`F`, `B`) and `from` says where it comes from: `W:QF-2` when the winner of
+that match fills it, `L:SF-1` when the loser does, and empty when the round
+robin does. With them the Hub and Control Center can draw the
+[bracket chart](tournament-hub.md) with its lines. They hold only the shape of
+the ladder, never which finisher takes which seat. The generator keeps the list
+on `Variables` (`AD:AF`) and the two columns look their slot up in it.
+
 When it finishes, it renames the workbook to the plan's date and title
 followed by the facility label in capitals, e.g.
 `2026-09-27 Pickle For Sight Tournament - PCPH ANNEX`. A run that fails
@@ -139,6 +149,28 @@ The item stays in the menu after a successful import, so it can be run again.
 **Where's the qualifier draw?** Untouched. That is a second draw, made after
 the round robin from the standings, with no file to import — you still fill it
 in on the day. See [Usage step 8](../usage/run-the-day.md#playoff-hand-offs).
+
+## Bracket links for an older workbook
+
+A workbook generated before version 1.3.0 has no `match` and `from` columns,
+and the generator refuses to run twice, so **SAGE → Add bracket links** adds
+them to a workbook that is already built. It reads the plan on `Variables`,
+works out each generated category's ladder the way the generator did, and
+writes the link list and the two columns. It checks first that every playoff
+code on `STANDINGSCSV` is one the plan expects. If a category has a code the
+plan does not (a slot renamed by hand, say), it writes nothing at all and
+names the category and its first few missing or extra codes, so someone can
+decide which is right. Running it again changes nothing. It needs the
+**1.3.0 generator script** pasted into the workbook's script project first;
+**SAGE → Help** lists the version.
+
+A workbook not made by the generator can have the same columns by hand: type
+each playoff slot's `match` and `from` (as above) into a spare range, and look
+them up from two new columns on `STANDINGSCSV`, headed `match` and `from`. The
+site reads the columns by their headings.
+
+Without the columns the site still shows the bracket, with the rounds side by
+side but no lines, and an empty seat reads **TBD**.
 
 ## If it refuses to run
 

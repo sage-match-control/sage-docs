@@ -34,7 +34,9 @@ press Enter, to open the dialog. On the scorer page, tap a match. Signed out,
 nothing is clickable.
 
 For a team event the clickable parts are the match lines inside each matchup
-card. Live Matches, Standings and Awards stay read-only. A BYE can't be scored.
+card. Live Matches and Awards stay read-only; on Standings only the cards of
+the playoff bracket chart open it (a standard event's **Bracket** view, in the
+chart and in Full tree). A BYE can't be scored.
 In a standard or dual-meet event a match whose players aren't decided yet opens
 read-only and says so. In a team event a match with no lineup can still be
 scored, with a warning.

@@ -312,13 +312,22 @@ It returns `{ open, close, refresh, isOpen }`.
 `scoreAttrs(m)` returns the `data-score-*`, `role` and `tabindex` attributes, or
 nothing for a BYE or when entry is not available; `scoreHintHTML(m)` is the
 pencil hint. `ticketDecorate(m)` packs them into the `decorate` option the
-shared ticket and the team matchup rows take (`decorateRow`). Only Match Finder
-asks for it, so the console's other tabs are read-only: the team views' Match
-Finder callers (the team and player results, the all-matchups list and the
-match-number search) pass `interactive: true` and Standings' calls leave it off. Two delegated listeners on the results
+shared ticket and the team matchup rows take (`decorateRow`). Match Finder asks
+for it, and so does the standard Standings bracket chart, so the console's other
+tabs are read-only: the team views' Match Finder callers (the team and player
+results, the all-matchups list and the match-number search) pass `interactive:
+true` and Standings' team calls leave it off. Two delegated listeners on the results
 container (click, and Enter or space on a focused match) open the dialog, because
 Match Finder redraws all its markup on every poll and push, which would drop any
-listener bound to a single match. Signing in or out redraws Match Finder, so the
+listener bound to a single match.
+
+A standard event's Standings bracket cards take the same attributes through
+`createStandings`' `decorateBracketMatch(m)` (`{ className: ' scoreable', attrs }`,
+or nothing without score entry), and two listeners identical to the ones above sit
+on `standingsResultsEl`, which holds the standings board and Full tree, so a card
+opens the dialog in either. Nothing else in that panel carries `data-score-num`.
+In fixture mode a save redraws Standings at once, so the card shows the new score;
+a live save waits for the snapshot like every other view. Signing in or out redraws Match Finder, so the
 hint appears and disappears with it. Changing the event or the day closes the
 dialog.
 

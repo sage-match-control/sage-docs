@@ -1041,6 +1041,7 @@ medalists rather than an obvious error.
 | `Q` | **New — `facility`.** Filled for the rows this workbook generated tabs for, blank otherwise |
 | `R` | **New — court labels**, one per row from `R2`, so `SCHEDULE`'s row 5 can be a formula rather than 12 literals |
 | `AB90…` | The reference-number ladder (§7.3), every second row |
+| `AD:AF` | **The playoff link table**, from generator 1.3.0: header row 1 `playoff code`, `match`, `from`, then one row per playoff seat of every generated category, from row 2. `STANDINGSCSV!H:I` look their row up here (§10.4). The master holds nothing in these columns |
 
 `H:P` is written from the CSV verbatim, which structurally fixes the
 `HI18WD`-labelled-as-Low-Intermediate defect in §2.1 the same way Phase 1
@@ -1300,15 +1301,29 @@ is `3 · courts + 4` rows.
 
 ### 10.4 `STANDINGSCSV`
 
-Phase 3 spec §5.4's seven columns, unchanged, with one column that needs a
-new derivation.
+Nine columns: Phase 3 spec §5.4's seven, unchanged, with one column that needs a
+new derivation, and `H` (`match`) and `I` (`from`), which carry the shape of the
+playoff ladder for the bracket chart.
 
 ```
 A2 = UNIQUE(FILTER('Reference for Players'!$A$3:$A,
                    REGEXMATCH('Reference for Players'!$A$3:$A, "_")))
 B2 = INDEX(GETPLAYERNAMESBYTEAMCODE($A2),1)      C2 = …,2)
 D2 = GETTOTALWINS($A2)   E2 = GETTOTALLOSES($A2)   F2 = ROUND(GETSCOREQUOTIENT($A2),4)
+H2 = IFNA(VLOOKUP($A2, Variables!$AD:$AF, 2, FALSE), "")
+I2 = IFNA(VLOOKUP($A2, Variables!$AD:$AF, 3, FALSE), "")
 ```
+
+**`H` and `I` — the ladder's links.** On a playoff slot's row, `H` is the block
+label of the match the slot plays in (`R16-3`, `QF-2`, `SF-1`, `F`, `B`, `F (1)`)
+and `I` is `W:<label>` when the winner of that match fills the slot, `L:<label>`
+when its loser does, and empty when the slot is filled from the round robin.
+Both are empty on a round robin row. They hold the *shape* of the ladder, never
+which finisher takes which seat. The values come from `Variables!AD:AF`
+(§10.1), written by `playoffLinkRows_`; the seat numbering of §7.6.1 does not
+always pair seats `(2j-1, 2j)`, which is why the site reads the match, not the
+seat number. See
+[the standings bracket chart spec](../in-progress/standings-bracket-chart-spec.md).
 
 **`G` — the bracket.** Phase 3 spec §6.3 computes `ceil(i / n)` from a single
 `n`. Uneven bracket sizes (§5.6) make that wrong. Instead it recomputes
@@ -1879,6 +1894,12 @@ something they leave open.
 
 **Departures**
 
+- **`STANDINGSCSV` has nine columns** (§10.4, §10.1): `H` `match` and `I`
+  `from` look each playoff slot up in the `Variables!AD:AF` link table, so the
+  site can draw a bracket chart
+  ([standings-bracket-chart-spec](../in-progress/standings-bracket-chart-spec.md), from
+  generator 1.3.0). A workbook generated earlier gets them from **SAGE → Add
+  bracket links**.
 - **`MATCHES` block headers name the bracket** (§10.2.2): row 5 reads
   `<KEY> Br <b>` over the blocks that hold bracket `b`'s round-robin
   matches — `HIMD Br 1`, `HIMD Br 1`, `HIMD Br 2`, … for a 5-4-4 split —

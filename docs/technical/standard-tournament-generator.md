@@ -181,6 +181,35 @@ The fingerprints in the file are not re-verified; they are what an outsider
 checks the draw with. `AB2:AB4`'s provenance is the useful half — it ties the
 workbook to that file.
 
+## Bracket links
+
+`playoffLinkRows_(p)` returns `[code, match, from]` for every playoff seat of a
+plan, in `playoffBlocks_` order: `match` is the block label (`R16-3`, `QF-2`,
+`SF-1`, `F`, `B`, `F (1)`), and `from` is `W:<label>` for a seat fed by `seat.from`,
+`L:<label>` for one fed by `seat.loserFrom`, and empty for a seat the round robin
+fills. `STANDINGSCSV` cannot derive it, because the seat numbering of §7.6.1 does
+not always pair seats `(2j-1, 2j)` (three brackets, top one, plays seats 2 and
+3), so the site groups by `match` and never by arithmetic.
+
+`writePlayoffLinkTable_` puts the rows at `Variables!AD:AF` (header `playoff
+code`, `match`, `from`), clearing a previous run's table first, from
+`writeVariablesTab_`. `buildStandingsCsvTab_` adds `H` and `I` to every row as
+`=IFNA(VLOOKUP($A<r>, Variables!$AD:$AF, 2|3, FALSE), "")`. `REBUILT_IN_PLACE_TABS`
+still describes `STANDINGSCSV` as seven columns wide, since that is the master's
+pristine prototype; a built tab is nine, so a second run is still refused. No
+`sage-tools-api` service code reads either column: every reader finds
+`STANDINGSCSV`'s columns by heading.
+
+`addBracketLinks` (`SAGE → Add bracket links`) is the same write for a workbook
+generated before 1.3.0. `readPlanBlock_` now also returns each category's
+`advance` and `fill` (`Variables!M:N`), `planCategory` rebuilds the ladder, and
+the solo format of a one-bracket category, which the plan block does not record,
+is read from `STANDINGSCSV` (`<key>_F_1_(1)` present means twice-to-beat). Before
+writing anything it compares, for every generated category, the playoff codes
+the plan yields with those in `STANDINGSCSV!A`; any difference stops the run with
+nothing written. The site reads the columns in
+[the site engine](site-engine.md#the-bracket-chart).
+
 ## Progress and version
 
 The sidebar's progress bar and timed log work as the

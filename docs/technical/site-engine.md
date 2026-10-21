@@ -14,11 +14,11 @@ desk-link QR code, cdnjs. Pushing to GitHub Pages deploys it.
 lib/v1/
   platform.js      constants: the Pages address, the Cloud Run URL, fetch timeout, poll intervals, fixtureName()
   domain/          the rules, pure functions with no DOM and no clock
-    csv  byes  series  matches  standings  codes  golive  progress  teams  awards  attendance  schedule-grid  model
+    csv  byes  series  matches  standings  codes  bracket  golive  progress  teams  awards  attendance  schedule-grid  model
   data/            the outside world
     registry  snapshot  live-channel  api  tokens
   views/           functions that return HTML strings, plus small components
-    html  scroll  ticket  finder  live-matches  standings  teams  score-dialog  attendance-view
+    html  scroll  ticket  finder  live-matches  standings  bracket  bracket-full  teams  score-dialog  attendance-view
   apps/            one per kind of page, wiring data, model and views to the page's markup
     hub  schedule-board  scorer  attendance-desk
   css/             ticket  finder  live-matches  standings  teams  score-dialog  attendance
@@ -69,8 +69,9 @@ and freeze `v1`. A finished event's shell never moves version.
 `event-data/config/events.json` the way Control Center reads it: `type`
 (required, never inferred), `title`, `days` (in date order, each with its
 facility names), `display` (the code-to-label maps for divisions, events and
-clubs; key order is display order), `scoreEntry`, `attendance` and `teamScoring` (a team event's rule: `"points"`, or
-`"games"` when `events.json` says so). A successful
+clubs; key order is display order), `scoreEntry`, `attendance`, `teamScoring` (a team event's rule: `"points"`, or
+`"games"` when `events.json` says so) and `playoffSeats` (a standard event's labels for empty
+playoff seats, `{}` without the setting; see [the bracket chart](#the-bracket-chart)). A successful
 fetch is kept in `localStorage` (`sage.registry.lastGood`), and a failed one
 falls back to it.
 
@@ -92,7 +93,7 @@ offers it.
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)` | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos |
 | Match Finder | `searchHandlers`, `searchHint`, `delegate` | the match-number search; the team event's own finder |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos |
-| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads |
+| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match |
 | team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub) |
 
 ## Settings, the shells and fixture mode
@@ -153,6 +154,44 @@ rule is the points rule, and the card has no such line.
 On `localhost`, `?fixture=<name>` makes the Hub and the schedule board read
 `/_fixtures/` instead of the published data, as the scorer and desk pages
 do (`platform.js` `fixtureName()`; inert on the live site).
+
+## The bracket chart
+
+A standard category with two or more playoff rounds can draw its playoffs as a
+bracket chart instead of the matchup cards. `domain/bracket.js` is the pure part:
+`buildBracket(rows, model)` groups a category's playoff rows into rounds of
+matches (a `Node`, with a `Game` per scheduled match and a `Seat` per side),
+`seatText` says what each seat reads, `bracketShapeKey` names the category's
+shape (`3x2`: three round robin brackets, two advancing from each), and
+`layoutBracket` returns every card's and line's position in pixels.
+`views/bracket.js` turns that into the chart (`bracketChartHTML`) and the
+one-round-at-a-time strip (`roundStripHTML`), and `views/bracket-full.js` is Full
+tree, a fixed layer with pinch, drag and double-tap whose arithmetic is
+`fitScale`, `clampPan` and `zoomAbout`. `views/standings.js` decides which to
+show: `createStandings` keeps the reader's List / Bracket choice
+(`localStorage` `sage.standings.playoffView`), and `stageTablesHTML` draws the
+whole chart when it is no wider than the card (`availableWidth`; unlimited on the
+desktop layout, where the column widens to fit), else the strip.
+
+The sheet supplies the shape of the ladder in two `STANDINGSCSV` columns,
+`match` and `from` (`rowsToStandings` reads them; see
+[the generator](standard-tournament-generator.md#bracket-links)). With them a
+category is **linked**: rounds, lines and "Winner of QF-2" come from the sheet,
+and the seats are grouped by `match`, never by arithmetic on seat numbers. A
+workbook without them is drawn by pairing the rows in order (the same rule as the
+matchup cards, now `pairPlayoffRows`), with the rounds side by side, no lines and
+`TBD` seats. A seat the round robin fills reads the event's label for it
+(`display.playoffSeats`, by category code or by shape key, in
+[the config](event-data-config.md)) or **Qualifier**; once its names are on the
+sheet, `sourceTag` matches them to the round robin rows by name and tags the
+finish (`Br 2 · #1`). The site displays labels and never computes who qualifies.
+
+Control Center passes `decorateBracketMatch`, so a card with a scheduled match
+opens the score dialog (see [Control Center](control-center.md)). The Hub passes
+nothing. The chart's CSS is in `css/standings.css` and uses only the theme
+properties; the Full tree layer's class `bk-full` is on a `div`, which the rule
+`div.bk-full` keeps apart from the span of the same class that holds a pair's full
+names.
 
 ## The theme contract
 

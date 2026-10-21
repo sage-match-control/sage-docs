@@ -63,6 +63,33 @@ pair won twice-to-beat's game 1, or someone already has two wins) is
 greyed out: in Standings, on the pair's Match Finder tickets, where it is
 never **Next Up**, and on the schedule board.
 
+**The playoffs as a bracket.** At a standard tournament, a category with two or
+more playoff rounds has a **List | Bracket** switch under its title. **List**
+is the matchup cards above; **Bracket** draws the playoffs as a chart, rounds
+side by side with a line from each match to the seat its winner fills, and the
+Bronze under the Final. One choice applies to every category and is
+remembered on that device. Each card shows its match (`QF-2`), its court, and
+**Done**, **Live** or the scheduled time, with the two seats' names and
+scores, the winner shaded.
+
+A seat that has no names yet says where it comes from instead:
+**Winner of QF-2**, **Loser of SF-1**, the event's own label for a seat the
+round robin fills (**Bracket winner**, **Best runner-up**), or **Qualifier**.
+Once the sheet has the names, a seat the round robin filled also shows where
+the pair finished, such as **Br 2 · #1** (first in bracket 2). The site never
+shows a name the sheet does not have, and never works out who qualifies. An
+event whose sheet predates the bracket columns shows the rounds side by side
+with no lines, and an empty seat reads **TBD**.
+
+On a computer the category's column widens to hold the chart. Where the chart
+does not fit (a phone, or a narrow tablet), the card shows **one round at a
+time**: swipe, or tap a round's chip, and the next round peeks in at the edge.
+It opens on the round being played. **Full tree** opens the whole chart on a
+layer of its own, scaled to fit the screen: pinch to zoom, drag to move,
+double-tap to zoom in on a spot or back out, **Fit** to start again, and
+the phone's Back gesture or **✕** to close it. Zoomed far out, a card shows
+surnames in larger type.
+
 Within each round-robin table, pairs are ranked by **wins**, then
 **head-to-head** (among pairs level on wins, whoever won the matches
 between them), then **quotient**. When three or more pairs are level and

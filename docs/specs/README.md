@@ -254,6 +254,15 @@ to the `...` form rather than repointing it.
   pushed, and the workbook syncs all 96 matches; the QR image, the rest of the
   workbook checks and the dry run are left.
 
+- **[Playoff bracket chart](in-progress/standings-bracket-chart-spec.md)** — each
+  standard category's playoffs as a bracket chart on the Hub and in Control Center:
+  rounds side by side with lines, one round at a time on a phone, and a zoomable Full
+  tree. The workbook gives the ladder's shape (two new `STANDINGSCSV` columns), the
+  event optionally labels the empty seats, and the site tags each qualifier with its
+  bracket and finish once the sheet names it. The generator, the site engine, Control
+  Center and the docs are built and tested on a branch of each repo; merging the site
+  waits for 25 October, and the workbooks need generator 1.3.0.
+
 ---
 
 ## Not started
@@ -283,12 +292,7 @@ to the `...` form rather than repointing it.
   and the Hub's tickets show names without codes. Then four extras: the tabs
   along the bottom, a provisional-standings line, a rules link and following
   more than one pair. Engine Hub and templates only; no new sections.
-- **[Playoff bracket chart](not-started/standings-bracket-chart-spec.md)** — each
-  standard category's playoffs as a bracket chart on the Hub and in Control Center:
-  rounds side by side with lines, one round at a time on a phone, and a zoomable Full
-  tree. The workbook gives the ladder's shape, the event optionally labels the empty
-  seats, and the site tags each qualifier with its bracket and finish once the sheet
-  names it.
+
 
 ---
 

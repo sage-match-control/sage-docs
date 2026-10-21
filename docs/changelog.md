@@ -37,6 +37,29 @@ has been replaced.
 
 ---
 
+## [2.28.0] — 2026-10-21
+
+### Added
+
+- The playoff bracket chart in the docs: [Tournament Hub](features/tournament-hub.md) and
+  [Control Center](features/control-center.md) (the List | Bracket switch, empty-seat text, the round strip and
+  Full tree, click-to-score), the [Standard Tournament Generator](features/standard-tournament-generator.md)
+  (the `STANDINGSCSV` `match` and `from` columns and **SAGE → Add bracket links**), and, on the technical side,
+  [the site engine](technical/site-engine.md#the-bracket-chart), [the generator](technical/standard-tournament-generator.md#bracket-links),
+  [Control Center](technical/control-center.md) and the `display.playoffSeats` setting in
+  [the config](technical/event-data-config.md).
+
+### Changed
+
+- [Playoff bracket chart](specs/in-progress/standings-bracket-chart-spec.md) moves from **Not started** to
+  **In progress**: built and tested on a branch of each repo, not yet merged. Its §14 lists where the build
+  differs from the text.
+- The [Standard Tournament master spec](specs/implemented/standard-tournament-master-spec.md) §10.1, §10.4 and
+  §18 record the link table and the two new columns; [Entering a score](features/score-entry.md) says a
+  bracket card on Standings opens the score dialog.
+
+---
+
 ## [2.27.0] — 2026-10-21
 
 ### Changed
