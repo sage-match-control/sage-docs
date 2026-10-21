@@ -37,6 +37,20 @@ has been replaced.
 
 ---
 
+## [2.26.0] — 2026-10-21
+
+### Added
+
+- [Playoff bracket chart](specs/not-started/standings-bracket-chart-spec.md), in **Not started**: a
+  List / Bracket switch on each standard category with two or more playoff rounds, on the Tournament
+  Hub and in Control Center. The rounds sit side by side with lines from each match to the next; a
+  phone shows one round at a time and a zoomable Full tree. The Standard Tournament Generator 1.3.0
+  (or its Add bracket links menu, for older workbooks) writes the ladder's shape into two new
+  `STANDINGSCSV` columns, an event may label empty seats in `display.playoffSeats`, and each
+  qualifier is tagged with its bracket and finish once the sheet names it.
+
+---
+
 ## [2.25.0] — 2026-10-21
 
 ### Added

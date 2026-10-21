@@ -274,6 +274,12 @@ to the `...` form rather than repointing it.
   and the Hub's tickets show names without codes. Then four extras: the tabs
   along the bottom, a provisional-standings line, a rules link and following
   more than one pair. Engine Hub and templates only; no new sections.
+- **[Playoff bracket chart](not-started/standings-bracket-chart-spec.md)** — each
+  standard category's playoffs as a bracket chart on the Hub and in Control Center:
+  rounds side by side with lines, one round at a time on a phone, and a zoomable Full
+  tree. The workbook gives the ladder's shape, the event optionally labels the empty
+  seats, and the site tags each qualifier with its bracket and finish once the sheet
+  names it.
 - **[Angeles City Employees Sportsfest](not-started/acso-employees-sportsfest-spec.md)** —
   the site for the Angeles City Sports Office's employees' pickleball tournament on
   13 November 2026: Men's, Women's and Mixed Doubles on 8 courts at Pickle Place.
