@@ -96,8 +96,9 @@ lines included, sits in a window you **swipe sideways** that always settles on
 whole rounds: a row of round chips jumps to a round and lights every round in
 view, and the window opens on the round being played. Under the chart or the window, **Full tree**
 (on a tablet as well as a phone) opens the whole chart on a layer of its own,
-scaled to fit the screen: pinch to zoom, drag to move, double-tap to zoom in
-on a spot or back out, **Fit** to start again, and the Back gesture or **✕**
+scaled to fill the screen (shrunk on a phone, enlarged on a computer): pinch
+to zoom, drag to move, double-tap to zoom in on a spot or back out, **Fit** to
+start again, and the Back gesture or **✕**
 to close it. Zoomed far out, a card shows surnames in larger type.
 
 Within each round-robin table, pairs are ranked by **wins**, then

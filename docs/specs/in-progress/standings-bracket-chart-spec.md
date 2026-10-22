@@ -1198,6 +1198,11 @@ open.
   and bracket labels under them their subtitles. The switch sits at the end of the Playoffs title
   (`.standings-section-title.playoffs-head`, `viewSwitch`) in both views; a category with one playoff round has the
   title without it. A dual meet's stages keep the plain `stage-caption`.
+- **Full tree's fit can enlarge the chart** (§7.7; owner's request, 22 October). Capped at 1, a desktop
+  showed a small chart in a sea of empty stage and **Fit** did nothing. `fitScale` is
+  `min(stageW / (W + 32), stageH / (H + 32), 2.5)`, so the chart fills the stage up to the zoom limit.
+  A double-tap at fit zooms to `doubleTapScale`: full size at least, twice fit, at most 2.5 (§7.7's
+  "`s < 1`: zoom to 1" would zoom a desktop out); anywhere else, back to fit.
 - **Pointer handling.** A mouse double-click uses `dblclick`; a touch or pen double-tap uses the two
   `pointerup`s (each would otherwise fire both). A drag takes the pointer only once it has moved 6px, so a
   tap still reaches the card under it. Plain wheel scrolling does nothing; `ctrl`+wheel zooms (§7.7).
