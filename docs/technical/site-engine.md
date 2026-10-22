@@ -165,13 +165,13 @@ matches (a `Node`, with a `Game` per scheduled match and a `Seat` per side),
 shape (`3x2`: three round robin brackets, two advancing from each), and
 `layoutBracket` returns every card's and line's position in pixels.
 `views/bracket.js` turns that into the chart (`bracketChartHTML`) and the
-one-round-at-a-time strip (`roundStripHTML`), and `views/bracket-full.js` is Full
+narrow-screen window (`roundStripHTML`: the same chart in a sideways-scrolling track under a chip per round), and `views/bracket-full.js` is Full
 tree, a fixed layer with pinch, drag and double-tap whose arithmetic is
 `fitScale`, `clampPan` and `zoomAbout`. `views/standings.js` decides which to
 show: `createStandings` keeps the reader's List / Bracket choice
 (`localStorage` `sage.standings.playoffView`), and `stageTablesHTML` draws the
 whole chart when it is no wider than the card (`availableWidth`; unlimited on the
-desktop layout, where the column widens to fit), else the strip.
+desktop layout, where the column widens to fit), else the window. Either way a **Full tree** button (`fullTreeButtonHTML`) sits under it.
 
 The sheet supplies the shape of the ladder in two `STANDINGSCSV` columns,
 `match` and `from` (`rowsToStandings` reads them; see

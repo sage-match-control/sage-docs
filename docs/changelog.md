@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.29.0] — 2026-10-22
+
+### Changed
+
+- The [playoff bracket chart](specs/in-progress/standings-bracket-chart-spec.md) keeps its lines on a phone,
+  in portrait too: a chart too wide for its card is the same chart in a window that scrolls sideways, under
+  chips that jump to a round, instead of a strip of rounds without lines. **Full tree** is under the chart on
+  every screen, tablets included. [Tournament Hub](features/tournament-hub.md),
+  [Control Center](features/control-center.md) and [the site engine](technical/site-engine.md) say so.
+
+---
+
 ## [2.28.0] — 2026-10-21
 
 ### Added

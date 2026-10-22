@@ -320,8 +320,9 @@ each match to the seat its winner fills, and the Bronze under the Final. An
 empty seat reads **Winner of QF-2**, **Loser of SF-1**, the event's own label
 for a seat the round robin fills, or **Qualifier**; once the names are in, a
 seat the round robin filled also shows where the pair finished (**Br 2 · #1**).
-A screen too narrow for the chart shows one round at a time, with **Full tree**
-for the whole chart to pinch and drag. Here a card with a scheduled match opens
+A screen too narrow for the chart shows the same chart, lines included, in a window
+you swipe sideways, with round chips to jump to a round; **Full tree**, under the
+chart on a tablet as well as a phone, opens the whole chart to pinch and drag. Here a card with a scheduled match opens
 the score dialog when clicked, in the chart and in Full tree, for a signed-in
 operator at an event with score entry on (see [Score entry](score-entry.md)).
 The Hub's cards are not clickable.

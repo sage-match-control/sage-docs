@@ -6,6 +6,11 @@
 > pasting generator 1.3.0 into the masters and the Sportsfest and Piggleball workbooks and running
 > **Add bracket links** in each. §14 records where the build differs from this text.
 >
+> **Changed after the merge (22 October, owner's request):** a chart that does not fit its card is no longer
+> a strip of one round per column without lines. It is the same chart, lines included, in a window that scrolls
+> sideways, and **Full tree** is shown under the chart on every layout, tablets included. §2.3, D7, §7.4 and
+> §8.5 read as built; §14 lists the difference from the original text.
+>
 > Written 2026-10-21 against `sage-match-control.github.io` at
 > `75c3e42`, `sage-tools-api` at `93e090d`, `event-data` at `c3e0972` and `sage-docs` at
 > `77bf767`. The owner set the three-part model in §3 the same day (D1–D3). Every
@@ -21,7 +26,7 @@
 
 Show each category's playoffs as a **bracket chart** (rounds side by side, with lines from
 each match to the one its winner plays next) on the Tournament Hub and in Control Center,
-beside today's list of matchup cards. On a phone it shows one round at a time, with a
+beside today's list of matchup cards. On a phone it shows the same chart in a window that scrolls sideways, with a
 **Full tree** view that fits the whole ladder on screen and zooms.
 
 This spec is written for an implementer with **no other context**. Read §1 first. Every
@@ -178,10 +183,10 @@ are replaced by the chart. The switch sits under the category title.
                    [ ⤢ Full tree ]
 ```
 
-- One round per column, in a horizontal scroll-snap track, with the next round peeking in
-  at the right edge.
+- The whole chart, lines included, in a window that scrolls sideways and settles on a round, with
+  the next round peeking in at the right edge. A phone in portrait gets this too.
 - The chips jump to a round, and the chip of the round in view is highlighted.
-- There are no lines here; each seat's text says where it comes from.
+- Each seat's text still says where it comes from.
 
 ### 2.4 Full tree (phones)
 
@@ -223,7 +228,7 @@ surnames in a larger type so they stay legible (§7.7).
 | D4 | The view defaults to **List**, today's display. One choice applies to every category on the page and is remembered in that browser (`localStorage` key `sage.standings.playoffView`, value `list` or `bracket`, every access in `try`/`catch`) | This spec |
 | D5 | The switch appears only on a category with **two or more playoff rounds**, counting Bronze as no round. A category whose playoff is a single final or series keeps today's card with no switch | This spec |
 | D6 | **Standard events only** (`event.type === 'standard'`). Dual meets and team events are unchanged | This spec |
-| D7 | The whole tree shows in the card when it fits the card's width. Otherwise the card shows one round at a time, with **Full tree**. On the desktop layout it always fits, because the column widens | This spec |
+| D7 | The whole tree shows in the card when it fits the card's width. Otherwise the card shows the same chart in a window that scrolls sideways, lines included. **Full tree** is under the chart either way. On the desktop layout it always fits, because the column widens | This spec |
 | D8 | Full tree is a fixed-position layer inside the page, **not** the browser's Fullscreen API, which iPhone Safari does not offer for page elements. The phone's Back gesture closes it | This spec |
 | D9 | No pair's name is ever shown before the sheet has it. Labels describe a seat; they never predict who will fill it. This keeps the rule in the Hub player experience spec: a playoff slot is never a projection | This spec |
 | D10 | The Tournament Calculator is not changed | Owner, 2026-10-21 |
@@ -1072,8 +1077,8 @@ commit it.
 | --- | --- |
 | 1280×800 and 1440×900 | List by default; Bracket widens each eligible column to its chart, with lines and labels as in §2.5; `LXD` in the fallback |
 | 1180×820 (tablet sideways) | As desktop |
-| 820×1180 (tablet upright) | Phone layout; `CWD` (2 rounds, 380px) and `FXD` (3 rounds, 588px) show the whole tree; `TMD` (4 rounds, 796px) shows the round strip |
-| 375×812 (phone) | The round strip for every eligible category; Full tree opens, fits, pinches, pans, double-taps, goes compact under 0.6×; Back and Escape close it |
+| 820×1180 (tablet upright) | Phone layout; `CWD` (2 rounds, 380px) and `FXD` (3 rounds, 588px) show the whole tree; `TMD` (4 rounds, 796px) shows the sideways window; every one has a Full tree button |
+| 375×812 (phone) | The sideways window, with its lines, for every eligible category; Full tree opens, fits, pinches, pans, double-taps, goes compact under 0.6×; Back and Escape close it |
 | Control Center, signed in (fixture mode counts as signed in for score entry) | Clicking a card with a scheduled match opens the score dialog, in the chart and in Full tree; saving updates the card |
 
 Take a screenshot of each row for the owner.
@@ -1167,6 +1172,12 @@ open.
   pair's full names the class `bk-full`, and §7.7 gives the layer the same class, so a plain
   `.bk-full{position:fixed…}` would make every name span a fixed layer. The markup is as written; only the
   layer's rules are scoped to the `div`.
+- **The narrow-screen strip is the chart, not a strip of rounds** (§2.3, §7.4; owner's request, 22 October).
+  `roundStripHTML` returns the chips and `bracketChartHTML`'s chart in `.bk-track`, with an `<i class="bk-snap">`
+  at each round's left edge for the swipe to settle on. A chip carries `data-bk-x` (its round's left edge in
+  px) and the strip `data-bk-start-x`; the last chip is lit once the window is scrolled to its end. The
+  `.bk-round` columns and `.bk-round-caption` are gone. **Full tree** is also under the whole chart
+  (`fullTreeButtonHTML`), so a tablet that fits the chart has it too.
 - **Pointer handling.** A mouse double-click uses `dblclick`; a touch or pen double-tap uses the two
   `pointerup`s (each would otherwise fire both). A drag takes the pointer only once it has moved 6px, so a
   tap still reaches the card under it. Plain wheel scrolling does nothing; `ctrl`+wheel zooms (§7.7).
