@@ -1189,6 +1189,10 @@ open.
   hand-built and import nothing from `lib/v1`, so D11's switch reaches them in Control Center (and in the
   harness, which renders the standard template over their fixtures) but not on their Hubs. The §8.5 Hub check
   used `events/acso-sportsfest-2026/`'s shell, the engine standard event.
+- **Piggleball and Pickle for Sight are Control Center only** (owner, 22 October 2026). Piggleball's workbook is
+  sheet-generated, so generator 1.3.0 and **Add bracket links** give it the full linked chart there. Pickle for
+  Sight's workbooks are hand-built and stay without the `match` and `from` columns, so Control Center draws
+  its chart without lines and with `TBD` seats. Neither event's public page changes.
 - **§5.3's check that the master holds nothing in `Variables!AD:AF`** cannot be run from the repo. The master spec's
   §10.1 lists `A:C`, `H:R` and `AB` only, and the generator clears `AD2:AF` before writing, but the owner
   should look at the real master before pasting 1.3.0.
