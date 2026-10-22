@@ -37,6 +37,27 @@ has been replaced.
 
 ---
 
+## [2.30.0] — 2026-10-22
+
+### Changed
+
+- The [Standard Tournament Generator](features/standard-tournament-generator.md) 1.4.0 seats three and four
+  brackets, top 2, by the organisers' rules (the qualifier scaffold's slots come written in), and writes a
+  `STANDINGSCSV` `seat` column, each empty round-robin seat's label (**Bracket 1 · #1**, **Best runner-up**),
+  which the bracket chart shows before `display.playoffSeats`. **Add bracket links** adds it to older
+  workbooks. [The generator](technical/standard-tournament-generator.md),
+  [the site engine](technical/site-engine.md), [the config](technical/event-data-config.md), the
+  [Standard Tournament master spec](specs/implemented/standard-tournament-master-spec.md) (§10.1, §10.4, §18)
+  and the [bracket chart spec](specs/in-progress/standings-bracket-chart-spec.md) §14 say so.
+- The bracket chart on the [Tournament Hub](features/tournament-hub.md): on a computer a category's column
+  keeps its **1 col** / **2 cols** width in List and Bracket, and shows one or two rounds at a time to match;
+  the swipe window always settles on whole rounds, its cards stretched to the card's width; **Round Robin**
+  and **Playoffs** are titled sections, with the List | Bracket switch at the end of the Playoffs title; and
+  **Full tree** fills a computer's screen, enlarging the chart. [The site engine](technical/site-engine.md)
+  and the [bracket chart spec](specs/in-progress/standings-bracket-chart-spec.md) §14 say so.
+
+---
+
 ## [2.29.0] — 2026-10-22
 
 ### Changed

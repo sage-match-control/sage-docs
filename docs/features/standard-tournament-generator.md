@@ -54,10 +54,19 @@ For each ticked category, a tab with:
 - Two fill-in areas: the roster, which **SAGE → Import bracket draws** fills
   from the Bracket Generator's text files (see below), and the **qualifier
   draw**, where group-stage qualifiers are drawn by lot into playoff slots. The draw lists which finisher each row is waiting for, and
-  the slot table beside it lists every slot the draw can land on. A
-  category with **two brackets** has no draw: its semifinals are a
-  crossover (Br 1 #1 v Br 2 #2, Br 2 #1 v Br 1 #2), so the slots come
-  filled in and you only type the names.
+  the slot table beside it lists every slot the draw can land on. These
+  shapes are seated by rule instead, so their slots come filled in and you
+  only type the names:
+    - **Two brackets, top 2:** the semifinals are a crossover (Br 1 #1 v
+      Br 2 #2, Br 2 #1 v Br 1 #2). **Top 1:** the final, Br 1 #1 v Br 2 #1.
+    - **Three brackets, top 2:** the bracket winners take the semifinal
+      seats SF_1, SF_2 and SF_3 in bracket order. The runners-up are ranked
+      against each other by quotient: the best takes the quarterfinal bye,
+      and the other two play the round of 16.
+    - **Four brackets, top 2:** brackets 1 and 3 cross, and 2 and 4, with a
+      bracket's #1 and #2 on opposite halves, so they can only meet again in
+      the final: QF-1 Br 1 #1 v Br 3 #2, QF-2 Br 2 #1 v Br 4 #2, QF-3 Br 3 #1
+      v Br 1 #2, QF-4 Br 4 #1 v Br 2 #2.
 
 Plus a **`MATCHES`** tab, laying out every category's matches side by side,
 one row per round. Each block's header names the bracket whose matches it
@@ -76,9 +85,14 @@ playoff slot, `match` names the match that slot plays in (`QF-2`, `SF-1`,
 `F`, `B`) and `from` says where it comes from: `W:QF-2` when the winner of
 that match fills it, `L:SF-1` when the loser does, and empty when the round
 robin does. With them the Hub and Control Center can draw the
-[bracket chart](tournament-hub.md) with its lines. They hold only the shape of
-the ladder, never which finisher takes which seat. The generator keeps the list
-on `Variables` (`AD:AF`) and the two columns look their slot up in it.
+[bracket chart](tournament-hub.md) with its lines. A third column, `seat`, is
+what a slot the round robin fills shows on the chart before its pair is known:
+**Bracket 1 · #1**, **Best runner-up**. The generator writes it for the shapes
+seated by rule (above) and leaves it empty for a drawn category, whose seat
+reads **Qualifier**. The generator keeps the list on `Variables` (`AD:AG`), and
+the three columns look their slot up in it. An event seated some other way
+can type its own labels into the list's `seat` column (`AG`); the site shows
+them as written, and **Add bracket links** keeps them.
 
 When it finishes, it renames the workbook to the plan's date and title
 followed by the facility label in capitals, e.g.
@@ -153,21 +167,24 @@ in on the day. See [Usage step 8](../usage/run-the-day.md#playoff-hand-offs).
 ## Bracket links for an older workbook
 
 A workbook generated before version 1.3.0 has no `match` and `from` columns,
-and the generator refuses to run twice, so **SAGE → Add bracket links** adds
-them to a workbook that is already built. It reads the plan on `Variables`,
-works out each generated category's ladder the way the generator did, and
-writes the link list and the two columns. It checks first that every playoff
+one generated before 1.4.0 no `seat` column, and the generator refuses to run
+twice, so **SAGE → Add bracket links** adds them to a workbook that is already
+built. It reads the plan on `Variables`, works out each generated category's
+ladder the way the generator did, and writes the link list and the three
+columns, keeping any seat label already typed into the list. It leaves the
+category tabs alone, so an older workbook keeps its qualifier draw: seat a
+three- or four-bracket category by the labels it wrote. It checks first that every playoff
 code on `STANDINGSCSV` is one the plan expects. If a category has a code the
 plan does not (a slot renamed by hand, say), it writes nothing at all and
 names the category and its first few missing or extra codes, so someone can
 decide which is right. Running it again changes nothing. It needs the
-**1.3.0 generator script** pasted into the workbook's script project first;
+**1.4.0 generator script** pasted into the workbook's script project first;
 **SAGE → Help** lists the version.
 
 A workbook not made by the generator can have the same columns by hand: type
-each playoff slot's `match` and `from` (as above) into a spare range, and look
-them up from two new columns on `STANDINGSCSV`, headed `match` and `from`. The
-site reads the columns by their headings.
+each playoff slot's `match`, `from` and `seat` (as above) into a spare range,
+and look them up from new columns on `STANDINGSCSV`, headed `match`, `from` and
+`seat`. The site reads the columns by their headings.
 
 Without the columns the site still shows the bracket, with the rounds side by
 side but no lines, and an empty seat reads **TBD**.

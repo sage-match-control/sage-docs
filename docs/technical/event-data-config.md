@@ -87,7 +87,9 @@ default).
   seat; the slot is the seat's code without its category (`"SF_1"`, `"QF_4"`,
   `"R16_5"`, matching `/^(R32|R16|QF|SF|F|B)_\d+$/`) and the label a non-empty
   string. The site shows the label on a seat that is empty and not filled by a match,
-  and reads **Qualifier** where there is none. It never works out who qualifies.
+  unless the workbook labels that seat itself (`STANDINGSCSV`'s `seat` column,
+  Standard Tournament Generator 1.4.0), which wins; it reads **Qualifier** where
+  there is neither. It never works out who qualifies.
   Anything malformed is dropped with a console warning on the page. `sage-tools-api`
   never reads it. Control Center and the Hub read it.
 - `teamScoring` (team events only, optional) is the event's scoring rule.

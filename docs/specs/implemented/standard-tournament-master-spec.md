@@ -1041,7 +1041,7 @@ medalists rather than an obvious error.
 | `Q` | **New — `facility`.** Filled for the rows this workbook generated tabs for, blank otherwise |
 | `R` | **New — court labels**, one per row from `R2`, so `SCHEDULE`'s row 5 can be a formula rather than 12 literals |
 | `AB90…` | The reference-number ladder (§7.3), every second row |
-| `AD:AF` | **The playoff link table**, from generator 1.3.0: header row 1 `playoff code`, `match`, `from`, then one row per playoff seat of every generated category, from row 2. `STANDINGSCSV!H:I` look their row up here (§10.4). The master holds nothing in these columns |
+| `AD:AG` | **The playoff link table**, from generator 1.3.0 (`AG` from 1.4.0): header row 1 `playoff code`, `match`, `from`, `seat`, then one row per playoff seat of every generated category, from row 2. `STANDINGSCSV!H:J` look their row up here (§10.4). A `seat` typed here by hand is kept by a later **Add bracket links**. The master holds nothing in these columns |
 
 `H:P` is written from the CSV verbatim, which structurally fixes the
 `HI18WD`-labelled-as-Low-Intermediate defect in §2.1 the same way Phase 1
@@ -1301,25 +1301,32 @@ is `3 · courts + 4` rows.
 
 ### 10.4 `STANDINGSCSV`
 
-Nine columns: Phase 3 spec §5.4's seven, unchanged, with one column that needs a
-new derivation, and `H` (`match`) and `I` (`from`), which carry the shape of the
-playoff ladder for the bracket chart.
+Ten columns: Phase 3 spec §5.4's seven, unchanged, with one column that needs a
+new derivation, `H` (`match`) and `I` (`from`), which carry the shape of the
+playoff ladder for the bracket chart, and `J` (`seat`), the label of a seat the
+round robin fills.
 
 ```
 A2 = UNIQUE(FILTER('Reference for Players'!$A$3:$A,
                    REGEXMATCH('Reference for Players'!$A$3:$A, "_")))
 B2 = INDEX(GETPLAYERNAMESBYTEAMCODE($A2),1)      C2 = …,2)
 D2 = GETTOTALWINS($A2)   E2 = GETTOTALLOSES($A2)   F2 = ROUND(GETSCOREQUOTIENT($A2),4)
-H2 = IFNA(VLOOKUP($A2, Variables!$AD:$AF, 2, FALSE), "")
-I2 = IFNA(VLOOKUP($A2, Variables!$AD:$AF, 3, FALSE), "")
+H2 = IFNA(VLOOKUP($A2, Variables!$AD:$AG, 2, FALSE), "")
+I2 = IFNA(VLOOKUP($A2, Variables!$AD:$AG, 3, FALSE), "")
+J2 = IFNA(VLOOKUP($A2, Variables!$AD:$AG, 4, FALSE), "")
 ```
+
+**`J` — the seat label.** On a slot the round robin fills, what the bracket
+chart shows before its pair is known: `Bracket 1 · #1`, `Best runner-up`. Written
+for the shapes §18 seats by rule, from the tier of the qualifier row whose slot is
+the seat's number; empty for a drawn category, a fed slot and a round robin row.
 
 **`H` and `I` — the ladder's links.** On a playoff slot's row, `H` is the block
 label of the match the slot plays in (`R16-3`, `QF-2`, `SF-1`, `F`, `B`, `F (1)`)
 and `I` is `W:<label>` when the winner of that match fills the slot, `L:<label>`
 when its loser does, and empty when the slot is filled from the round robin.
 Both are empty on a round robin row. They hold the *shape* of the ladder, never
-which finisher takes which seat. The values come from `Variables!AD:AF`
+which finisher takes which seat (that is `J`). The values come from `Variables!AD:AG`
 (§10.1), written by `playoffLinkRows_`; the seat numbering of §7.6.1 does not
 always pair seats `(2j-1, 2j)`, which is why the site reads the match, not the
 seat number. See
@@ -1894,12 +1901,13 @@ something they leave open.
 
 **Departures**
 
-- **`STANDINGSCSV` has nine columns** (§10.4, §10.1): `H` `match` and `I`
-  `from` look each playoff slot up in the `Variables!AD:AF` link table, so the
+- **`STANDINGSCSV` has ten columns** (§10.4, §10.1): `H` `match` and `I`
+  `from` look each playoff slot up in the `Variables!AD:AG` link table, so the
   site can draw a bracket chart
   ([standings-bracket-chart-spec](../in-progress/standings-bracket-chart-spec.md), from
-  generator 1.3.0). A workbook generated earlier gets them from **SAGE → Add
-  bracket links**.
+  generator 1.3.0), and `J` `seat` (from 1.4.0) the label a round-robin seat
+  shows before its pair is known. A workbook generated earlier gets them from
+  **SAGE → Add bracket links**.
 - **`MATCHES` block headers name the bracket** (§10.2.2): row 5 reads
   `<KEY> Br <b>` over the blocks that hold bracket `b`'s round-robin
   matches — `HIMD Br 1`, `HIMD Br 1`, `HIMD Br 2`, … for a 5-4-4 split —
@@ -1914,8 +1922,17 @@ something they leave open.
   Rank 1` takes slot 1, `Br 2 - Rank 2` slot 2, `Br 2 - Rank 1` slot 3 and
   `Br 1 - Rank 2` slot 4, so `SF-1` is Br 1 #1 v Br 2 #2 and `SF-2` is
   Br 2 #1 v Br 1 #2. Top 1: Br 1 #1 and Br 2 #1 take the final's slots 1 and
-  2. The operator types only the names. Three or more brackets are still
-  drawn by lot, as are two brackets with top 3 or 4 or with wildcards.
+  2. The operator types only the names. From generator 1.4.0 two more shapes
+  are seated by the organisers' rules the same way. **Three brackets, top 2:**
+  the six tier rows take slots 1-6 in order, so the winners of brackets 1, 2
+  and 3 take `SF_1`, `SF_2` and `SF_3`, and the runners-up, ranked against each
+  other by quotient, take `QF_4` (the bye), `R16_5` and `R16_6`. **Four
+  brackets, top 2:** brackets 1 and 3 cross, and 2 and 4, a bracket's #1 and
+  #2 on opposite legs: `QF-1` Br 1 #1 v Br 3 #2, `QF-2` Br 2 #1 v Br 4 #2,
+  `QF-3` Br 3 #1 v Br 1 #2, `QF-4` Br 4 #1 v Br 2 #2 (tier rows `Br <b> -
+  Rank <r>`, not `Rank 2 - <k>th`). Every other shape is still drawn by lot:
+  three or four brackets with any other top, five or more, two brackets with
+  top 3 or 4, and any category with wildcards.
 - **Round-robin rounds follow SAGE's bracket guide, not the circle
   method** (§10.2.2). The RR tab of the *BRACKET GUIDE* workbook lists, for
   each bracket size, which pairs meet in each round and in what order; the

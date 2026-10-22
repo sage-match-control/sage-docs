@@ -1198,6 +1198,13 @@ open.
   and bracket labels under them their subtitles. The switch sits at the end of the Playoffs title
   (`.standings-section-title.playoffs-head`, `viewSwitch`) in both views; a category with one playoff round has the
   title without it. A dual meet's stages keep the plain `stage-caption`.
+- **The workbook labels its own seats** (§6, D2; owner's request, 22 October). Standard Tournament Generator
+  1.4.0 adds a fourth link-table column, `Variables!AG` `seat`, and `STANDINGSCSV!J` `seat` looks it up; the
+  generator fills it for the shapes the organisers seat by rule (two brackets; three and four brackets, top 2)
+  and **Add bracket links** adds it to older workbooks, keeping a label already typed there. `rowsToStandings`
+  reads `seat`, and `seatText` shows it on an empty seat no match fills before `display.playoffSeats`, which
+  stays as the fallback for a workbook without the column. D1 still holds for the site: it shows the label
+  and never works out who qualifies.
 - **Full tree's fit can enlarge the chart** (§7.7; owner's request, 22 October). Capped at 1, a desktop
   showed a small chart in a sea of empty stage and **Fit** did nothing. `fitScale` is
   `min(stageW / (W + 32), stageH / (H + 32), 2.5)`, so the chart fills the stage up to the zoom limit.

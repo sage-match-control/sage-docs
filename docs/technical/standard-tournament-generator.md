@@ -94,9 +94,13 @@ way. So each block pushes its winner forward: column `K` evaluates to the
 code of the seat the winner moves to, and a fed seat finds its names with
 `FILTER` over the previous stage's `B`/`K` rows. Fresh seats read the
 qualifier scaffold (`AO`/`AP`), which resolves a drawn slot number through
-the slot table (`AT:AV`). A two-bracket category's slot numbers are written
-in rather than drawn (`fixedSeating_`), because its semifinals are a fixed
-crossover.
+the slot table (`AT:AV`). `fixedSeating_` writes the slot numbers in rather
+than leaving them to a draw for the shapes the organisers seat by rule: two
+brackets (a fixed crossover), three brackets top 2 (tier order: winners to
+SF_1..SF_3, runners-up by quotient to QF_4, R16_5, R16_6), and four brackets
+top 2 (brackets 1-3 and 2-4 crossed, a bracket's #1 and #2 on opposite legs).
+It recognises a shape by its bracket count, `adv` and the keywords of its
+fresh seats, and returns null for every other shape, which stays drawn.
 
 ### `MATCHES` and the packer
 
@@ -183,25 +187,31 @@ workbook to that file.
 
 ## Bracket links
 
-`playoffLinkRows_(p)` returns `[code, match, from]` for every playoff seat of a
+`playoffLinkRows_(p)` returns `[code, match, from, seat]` for every playoff seat of a
 plan, in `playoffBlocks_` order: `match` is the block label (`R16-3`, `QF-2`,
 `SF-1`, `F`, `B`, `F (1)`), and `from` is `W:<label>` for a seat fed by `seat.from`,
 `L:<label>` for one fed by `seat.loserFrom`, and empty for a seat the round robin
-fills. `STANDINGSCSV` cannot derive it, because the seat numbering of §7.6.1 does
+fills. `seat` is that round-robin seat's label: the tier of the qualifier row
+whose slot is the seat's number, through `seatLabel_` (`Br 1 - Rank 2` →
+`Bracket 1 · #2`, `Rank 2 - 1st` → `Best runner-up`); empty for a fed seat and
+for every seat of a drawn category. `STANDINGSCSV` cannot derive it, because the seat numbering of §7.6.1 does
 not always pair seats `(2j-1, 2j)` (three brackets, top one, plays seats 2 and
 3), so the site groups by `match` and never by arithmetic.
 
-`writePlayoffLinkTable_` puts the rows at `Variables!AD:AF` (header `playoff
-code`, `match`, `from`), clearing a previous run's table first, from
-`writeVariablesTab_`. `buildStandingsCsvTab_` adds `H` and `I` to every row as
-`=IFNA(VLOOKUP($A<r>, Variables!$AD:$AF, 2|3, FALSE), "")`. `REBUILT_IN_PLACE_TABS`
+`writePlayoffLinkTable_` puts the rows at `Variables!AD:AG` (header `playoff
+code`, `match`, `from`, `seat`), clearing a previous run's table first but keeping
+any non-empty `seat` already there for the same code, from `writeVariablesTab_`.
+`buildStandingsCsvTab_` adds `H`, `I` and `J` to every row as
+`=IFNA(VLOOKUP($A<r>, Variables!$AD:$AG, 2|3|4, FALSE), "")`. `REBUILT_IN_PLACE_TABS`
 still describes `STANDINGSCSV` as seven columns wide, since that is the master's
-pristine prototype; a built tab is nine, so a second run is still refused. No
-`sage-tools-api` service code reads either column: every reader finds
-`STANDINGSCSV`'s columns by heading.
+pristine prototype; a built tab is ten, so a second run is still refused. No
+`sage-tools-api` service code reads these columns: every reader finds
+`STANDINGSCSV`'s columns by heading, and the sync publishes the whole tab.
 
 `addBracketLinks` (`SAGE → Add bracket links`) is the same write for a workbook
-generated before 1.3.0. `readPlanBlock_` now also returns each category's
+generated before 1.4.0 (1.3.0 wrote no `seat` column). It writes `Variables` and
+`STANDINGSCSV` only, never a category tab, so an older workbook's qualifier
+scaffold stays as it was drawn. `readPlanBlock_` now also returns each category's
 `advance` and `fill` (`Variables!M:N`), `planCategory` rebuilds the ladder, and
 the solo format of a one-bracket category, which the plan block does not record,
 is read from `STANDINGSCSV` (`<key>_F_1_(1)` present means twice-to-beat). Before

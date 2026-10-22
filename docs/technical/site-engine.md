@@ -192,9 +192,10 @@ category is **linked**: rounds, lines and "Winner of QF-2" come from the sheet,
 and the seats are grouped by `match`, never by arithmetic on seat numbers. A
 workbook without them is drawn by pairing the rows in order (the same rule as the
 matchup cards, now `pairPlayoffRows`), with the rounds side by side, no lines and
-`TBD` seats. A seat the round robin fills reads the event's label for it
+`TBD` seats. A seat the round robin fills reads the workbook's label for it (the
+row's `seat`, `STANDINGSCSV`'s `seat` column), else the event's
 (`display.playoffSeats`, by category code or by shape key, in
-[the config](event-data-config.md)) or **Qualifier**; once its names are on the
+[the config](event-data-config.md)), else **Qualifier**; once its names are on the
 sheet, `sourceTag` matches them to the round robin rows by name and tags the
 finish (`Br 2 · #1`). The site displays labels and never computes who qualifies.
 
