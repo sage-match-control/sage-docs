@@ -64,7 +64,10 @@ greyed out: in Standings, on the pair's Match Finder tickets, where it is
 never **Next Up**, and on the schedule board.
 
 **The playoffs as a bracket.** At a standard tournament, a category with two or
-more playoff rounds has a **List | Bracket** switch under its title. **List**
+more playoff rounds has a **List | Bracket** switch at the end of its
+**Playoffs** title. (Each standard category's card is in two titled
+sections, **Round Robin** and **Playoffs**, with the brackets and the rounds
+as the headings inside them.) **List**
 is the matchup cards above; **Bracket** draws the playoffs as a chart, rounds
 side by side with a line from each match to the seat its winner fills, and the
 Bronze under the Final. One choice applies to every category and is
@@ -83,11 +86,15 @@ with no lines, and an empty seat reads **TBD**.
 
 On a computer the category's column stays the width its **1 col** / **2 cols**
 toggle gives it, in List and Bracket alike, so switching never resizes the
-board. Where the chart does not fit (a one-column card on a computer, a phone,
-in portrait too, or a narrow tablet), the card shows
-the same chart, lines included, in a window you **swipe sideways**: a row of
-round chips jumps to a round and follows the round in view, and the window
-opens on the round being played. Under the chart or the window, **Full tree**
+board, and the toggle also sets how many rounds the chart shows at a time: two
+side by side in a two-column card (Quarterfinals and Semifinals, then
+Semifinals and the Final with the Bronze), one in a one-column card. A
+two-round playoff in a two-column card is drawn whole. Where the chart does not
+fit (a phone, in portrait too, or a narrow tablet), the card shows one round at
+a time. Either way the cards stretch to fill the card's width, and the chart,
+lines included, sits in a window you **swipe sideways** that always settles on
+whole rounds: a row of round chips jumps to a round and lights every round in
+view, and the window opens on the round being played. Under the chart or the window, **Full tree**
 (on a tablet as well as a phone) opens the whole chart on a layer of its own,
 scaled to fit the screen: pinch to zoom, drag to move, double-tap to zoom in
 on a spot or back out, **Fit** to start again, and the Back gesture or **✕**

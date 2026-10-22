@@ -1181,10 +1181,23 @@ open.
 - **On desktop the column keeps its width; it does not widen to the chart** (§2.1, D7, §7.6; owner's
   request, 22 October). Widening made the board jump on every List / Bracket switch, and shrank a
   side-by-side category's 740px column to its chart. `createStandings` passes `fixedColumn: true` on the
-  desktop layout, and `categoryCardHTML` then gives the chart the column's own room: 740 − 28px for
-  side-by-side brackets, else 360 − 28px. A chart wider than that is the sideways window with **Full tree**,
-  as on a phone. Without `fixedColumn`, `standings-col--bracket` is added only for a chart wider than the
-  column's own width (740px when side by side). `WIDE_COLUMN_WIDTH` (740) is exported.
+  desktop layout, and `categoryCardHTML` then gives the chart the column's own room, less the card's
+  padding and `COLUMN_CHROME` (its border and 5px scrollbar): two rounds at a time for side-by-side
+  brackets, else one (`stageTablesHTML`'s `roundsInView`), whether or not the whole chart would fit; a
+  chart with no more rounds than that is drawn whole, its cards stretched, with no chips. Without
+  `fixedColumn`, `standings-col--bracket` is added only for a chart wider than the column's own width
+  (740px when side by side). `WIDE_COLUMN_WIDTH`, `CARD_BORDER` and `COLUMN_CHROME` are exported.
+- **The window holds whole rounds** (§2.3, §7.4; owner's request, 22 October). `roundStripHTML` takes the
+  window's `width` and `perView`, stretches every card to `fitCardWidth(width, perView)` (never under
+  172px), caps `.bk-track` at exactly those rounds, snaps `mandatory` (`bk-rounds--fit`) and carries
+  `data-bk-card-w` and `data-bk-per-view`; `createStandings` lights the chip of every round wholly in
+  view. A phone's room is the card body less its padding and border, one round at a time.
+- **The List / Bracket switch heads the playoffs, not the title** (§7.6; owner's request, 22 October). A
+  standard category's card titles its sections: **Round Robin** and **Playoffs** are `.standings-section-title`s
+  (Archivo Black with a rule to the card's edge; `stageTablesHTML`'s `sectionTitles`), the stage captions
+  and bracket labels under them their subtitles. The switch sits at the end of the Playoffs title
+  (`.standings-section-title.playoffs-head`, `viewSwitch`) in both views; a category with one playoff round has the
+  title without it. A dual meet's stages keep the plain `stage-caption`.
 - **Pointer handling.** A mouse double-click uses `dblclick`; a touch or pen double-tap uses the two
   `pointerup`s (each would otherwise fire both). A drag takes the pointer only once it has moved 6px, so a
   tap still reaches the card under it. Plain wheel scrolling does nothing; `ctrl`+wheel zooms (§7.7).

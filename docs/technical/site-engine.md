@@ -170,11 +170,20 @@ tree, a fixed layer with pinch, drag and double-tap whose arithmetic is
 `fitScale`, `clampPan` and `zoomAbout`. `views/standings.js` decides which to
 show: `createStandings` keeps the reader's List / Bracket choice
 (`localStorage` `sage.standings.playoffView`), and `stageTablesHTML` draws the
-whole chart when it is no wider than the card, else the window. On a phone the room
-is the card's body (`availableWidth`); on the desktop layout `categoryCardHTML`'s
-`fixedColumn` makes it the card's own column, 360px or, for side-by-side brackets,
-740px (`COLUMN_WIDTH`, `WIDE_COLUMN_WIDTH`), so List and Bracket draw the card at
-the same width. Either way a **Full tree** button (`fullTreeButtonHTML`) sits under it.
+whole chart when it is no wider than the card, else the window. Given the window's
+width, `roundStripHTML` stretches the cards (`fitCardWidth`, `bracketChartHTML`'s
+`cardW`) so the window holds whole rounds (`bk-rounds--fit`, snapping to each), and
+`createStandings` lights the chip of every round in view. On a phone the room is the
+card's body less its padding and border (`availableWidth`), one round at a time; on
+the desktop layout `categoryCardHTML`'s `fixedColumn` makes it the card's own column,
+360px or, for side-by-side brackets, 740px (`COLUMN_WIDTH`, `WIDE_COLUMN_WIDTH`, less
+`CARD_PADDING` and `COLUMN_CHROME`), so List and Bracket draw the card at the same
+width, and `roundsInView` shows one round at a time or two (a chart with no more
+rounds is drawn whole, stretched). A standard category's card titles its two
+sections, Round Robin and Playoffs (`.standings-section-title`, `stageTablesHTML`'s
+`sectionTitles`; a dual meet keeps the plain stage caption), and the List / Bracket
+switch sits at the end of the Playoffs title (`.playoffs-head`, `viewSwitch`), not
+in the category's title. Either way a **Full tree** button (`fullTreeButtonHTML`) sits under it.
 
 The sheet supplies the shape of the ladder in two `STANDINGSCSV` columns,
 `match` and `from` (`rowsToStandings` reads them; see
