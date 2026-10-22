@@ -260,8 +260,8 @@ to the `...` form rather than repointing it.
   tree. The workbook gives the ladder's shape (two new `STANDINGSCSV` columns), the
   event optionally labels the empty seats, and the site tags each qualifier with its
   bracket and finish once the sheet names it. The generator, the site engine, Control
-  Center and the docs are built and tested on a branch of each repo; merging the site
-  waits for 25 October, and the workbooks need generator 1.3.0.
+  Center and the docs are built, tested and merged; the workbooks need generator
+  1.3.0.
 
 ---
 
