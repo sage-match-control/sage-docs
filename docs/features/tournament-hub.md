@@ -81,8 +81,10 @@ shows a name the sheet does not have, and never works out who qualifies. An
 event whose sheet predates the bracket columns shows the rounds side by side
 with no lines, and an empty seat reads **TBD**.
 
-On a computer the category's column widens to hold the chart. Where the chart
-does not fit (a phone, in portrait too, or a narrow tablet), the card shows
+On a computer the category's column stays the width its **1 col** / **2 cols**
+toggle gives it, in List and Bracket alike, so switching never resizes the
+board. Where the chart does not fit (a one-column card on a computer, a phone,
+in portrait too, or a narrow tablet), the card shows
 the same chart, lines included, in a window you **swipe sideways**: a row of
 round chips jumps to a round and follows the round in view, and the window
 opens on the round being played. Under the chart or the window, **Full tree**

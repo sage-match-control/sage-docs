@@ -170,8 +170,11 @@ tree, a fixed layer with pinch, drag and double-tap whose arithmetic is
 `fitScale`, `clampPan` and `zoomAbout`. `views/standings.js` decides which to
 show: `createStandings` keeps the reader's List / Bracket choice
 (`localStorage` `sage.standings.playoffView`), and `stageTablesHTML` draws the
-whole chart when it is no wider than the card (`availableWidth`; unlimited on the
-desktop layout, where the column widens to fit), else the window. Either way a **Full tree** button (`fullTreeButtonHTML`) sits under it.
+whole chart when it is no wider than the card, else the window. On a phone the room
+is the card's body (`availableWidth`); on the desktop layout `categoryCardHTML`'s
+`fixedColumn` makes it the card's own column, 360px or, for side-by-side brackets,
+740px (`COLUMN_WIDTH`, `WIDE_COLUMN_WIDTH`), so List and Bracket draw the card at
+the same width. Either way a **Full tree** button (`fullTreeButtonHTML`) sits under it.
 
 The sheet supplies the shape of the ladder in two `STANDINGSCSV` columns,
 `match` and `from` (`rowsToStandings` reads them; see

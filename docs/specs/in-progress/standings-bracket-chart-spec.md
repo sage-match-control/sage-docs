@@ -1178,6 +1178,13 @@ open.
   px) and the strip `data-bk-start-x`; the last chip is lit once the window is scrolled to its end. The
   `.bk-round` columns and `.bk-round-caption` are gone. **Full tree** is also under the whole chart
   (`fullTreeButtonHTML`), so a tablet that fits the chart has it too.
+- **On desktop the column keeps its width; it does not widen to the chart** (§2.1, D7, §7.6; owner's
+  request, 22 October). Widening made the board jump on every List / Bracket switch, and shrank a
+  side-by-side category's 740px column to its chart. `createStandings` passes `fixedColumn: true` on the
+  desktop layout, and `categoryCardHTML` then gives the chart the column's own room: 740 − 28px for
+  side-by-side brackets, else 360 − 28px. A chart wider than that is the sideways window with **Full tree**,
+  as on a phone. Without `fixedColumn`, `standings-col--bracket` is added only for a chart wider than the
+  column's own width (740px when side by side). `WIDE_COLUMN_WIDTH` (740) is exported.
 - **Pointer handling.** A mouse double-click uses `dblclick`; a touch or pen double-tap uses the two
   `pointerup`s (each would otherwise fire both). A drag takes the pointer only once it has moved 6px, so a
   tap still reaches the card under it. Plain wheel scrolling does nothing; `ctrl`+wheel zooms (§7.7).
