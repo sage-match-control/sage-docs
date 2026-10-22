@@ -1,10 +1,10 @@
 # Spec — Playoff bracket chart in the standings
 
-> **Status: in progress.** Built and tested on a branch named `standings-bracket-chart` in
-> `sage-tools-api`, `sage-match-control.github.io`, `event-data`, `sage-docs` and the workspace
-> (21 October 2026); nothing is pushed or merged. What is left is §10: merging the site on or after
-> 25 October, the owner pasting generator 1.3.0 into the masters and running **Add bracket links**
-> on the Sportsfest workbook. §14 records where the build differs from this text.
+> **Status: in progress.** Built, tested and merged to `main` in `sage-tools-api`,
+> `sage-match-control.github.io`, `event-data`, `sage-docs` and the workspace on 22 October 2026
+> (the owner's go-ahead, two days before the Millennium Invitational). What is left is §10: the owner
+> pasting generator 1.3.0 into the masters and the Sportsfest and Piggleball workbooks and running
+> **Add bracket links** in each. §14 records where the build differs from this text.
 >
 > Written 2026-10-21 against `sage-match-control.github.io` at
 > `75c3e42`, `sage-tools-api` at `93e090d`, `event-data` at `c3e0972` and `sage-docs` at
