@@ -136,7 +136,8 @@ example *pairs 3–1*, the matches each team won) in small type beneath. Below
 that, one row per match shows the pair (MD, WD or XD), the players on each
 side (one per line, first players level with each other and second players
 level, however a name wraps) and the score. A match being played right now carries a live dot and its
-court. A pill marks a matchup that is *In progress*, *Final* or a *Tie*, and
+court. A pill marks a matchup that is *In progress* (from the moment one of its
+matches is on court, before any score is in), *Final* or a *Tie*, and
 the team that won a finished matchup is marked **Winner**.
 
 **Why a matchup is won on total points.** The team with more points across

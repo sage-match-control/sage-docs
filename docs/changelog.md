@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.32.0] — 2026-10-24
+
+### Changed
+
+- Tournament Hub: a team matchup reads *In progress* from the moment one of its matches is on court,
+  not only once a score is in.
+
+---
+
 ## [2.31.0] — 2026-10-24
 
 ### Changed
