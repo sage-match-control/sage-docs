@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.33.0] — 2026-10-24
+
+### Changed
+
+- Match Finder (Hub and Control Center): a team event's matchup cards carry a **Hide matches** button.
+- Control Center: a team event's matchup cards on Standings open the score dialog, as in Match Finder.
+
+---
+
 ## [2.32.0] — 2026-10-24
 
 ### Changed

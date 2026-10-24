@@ -17,7 +17,7 @@ No sign-in is needed to view Awards, Match Finder, Live Matches or
 Standings — they're read-only.
 Only the actions inside Mission Control (resyncing, forcing the public site
 live or hidden), marking people in on the Attendance tab and entering scores in
-Match Finder (or from a playoff bracket card on Standings) need an operator to sign in. Signed out, the Attendance tab asks you to
+Match Finder (or on Standings, from a team event's matchup cards or a playoff bracket card) need an operator to sign in. Signed out, the Attendance tab asks you to
 sign in instead of showing the list, and no match in Match Finder can be scored.
 
 **Installable** — from Chrome's install prompt on Android, or "Add to Home
@@ -244,7 +244,8 @@ their full day of matches with Live/Next Up flags and scores. Useful for an
 operator fielding "where's my match" questions without having to also pull up
 Tournament Hub itself. Before a search it lists every match of the day in
 match-number order (a team event: its team chips, then every matchup,
-ordered by its lowest match number).
+ordered by its lowest match number). A team event's matchup cards show their
+matches with a **Hide matches** button, as on the Hub.
 
 The search box sits just above the list, not in the banner, and on a phone it
 stays pinned to the top of the screen while you scroll.
@@ -256,7 +257,8 @@ match). A number that isn't on the day says so.
 ### Entering a score
 
 For an event with score entry turned on, a signed-in operator can enter, correct
-or clear a match's score from Match Finder without opening the workbook. See
+or clear a match's score from Match Finder (and, for a team event, from the
+matchup cards on Standings) without opening the workbook. See
 [Score entry](score-entry.md).
 
 ## Live Matches

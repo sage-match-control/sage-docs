@@ -129,7 +129,10 @@ builds its day model with `hideUnshownLineups`, which makes every unticked match
 `matches` and `matchesByFacility` alike, and the schedule board passes the same option to
 `buildScheduleData`. A page can add badges to each matchup card's header through `createTeams`'s
 `cardBadges(mu)`, and a note to every match line, in every view, through `rowNotes(m)` (unlike
-`decorateRow`, which only Match Finder's interactive cards apply).
+`decorateRow`, which only the interactive cards apply: Match Finder's and Standings' matchup cards). A
+Match Finder matchup card (a team result, the all-matchups list) takes `createTeams`' `collapsed` set through
+`hooks.collapsed`, and carries a **Hide matches** / **Show matches** toggle (`data-tm-collapse`) that
+`createTeams` keeps across the poll's re-render.
 
 `domain/lineup-rules.js` checks a team event's lineups against its `lineupRules` in `events.json`
 (`lineupRulesFrom`, `lineupIssues`): pure, and read only by Control Center.

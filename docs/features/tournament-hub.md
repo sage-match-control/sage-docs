@@ -203,7 +203,9 @@ played. A player result lists each match they play, each inside its matchup
 card with only their own match showing. With nothing typed, Match Finder
 shows the teams, then every matchup of the day, ordered by match number: a
 matchup whose matches are #3, #8, #9 and #17 sits where #3 would. Tapping a
-team runs its search.
+team runs its search. Each matchup card in a team result or that list shows its
+matches, with a **Hide matches** button that folds them away (and **Show
+matches** to bring them back); the page keeps the choice as scores arrive.
 
 **Teams.** A **Teams** tab lists every team's roster, grouped by bracket: one
 card per team with its name and player count, which opens to show the players

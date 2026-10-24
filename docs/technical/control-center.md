@@ -226,9 +226,9 @@ frozen with that finished event.
 `lineupIssues(matches, rosterByCode, rowByCode, rules)` (`lib/v1/domain/lineup-rules.js`, the rules
 read by `lineupRulesFrom`) every time the day model is rebuilt, and keeps the result in
 `LINEUP_ISSUES` (match number → `{ side, team, text }[]`). `lineupWarnHTML(m)`, passed to `createTeams` as
-`rowNotes` (`views/teams.js` adds it to every match line, in every view, the Standings tab's read-only cards
+`rowNotes` (`views/teams.js` adds it to every match line, in every view, the Standings tab's cards
 included), draws each issue as a `.lineup-warn`; `teamRowDecorate`, the team views' `decorateRow`, carries
-only the click-to-score line and hint (Match Finder's cards), and a ticket's `ticketDecorate` adds the same
+only the click-to-score line and hint (Match Finder's and the Standings tab's matchup cards), and a ticket's `ticketDecorate` adds the same
 warnings. The score dialog's `extraWarnings` lists them, and
 `renderLineupCheck()` draws the day's list in `#lineupCheck` above the Teams tab's rosters, with the
 pair kinds and a note when the roster or `advancedLevels` is missing. A team's captain is the first row
@@ -313,11 +313,11 @@ It returns `{ open, close, refresh, isOpen }`.
 nothing for a BYE or when entry is not available; `scoreHintHTML(m)` is the
 pencil hint. `ticketDecorate(m)` packs them into the `decorate` option the
 shared ticket and the team matchup rows take (`decorateRow`). Match Finder asks
-for it, and so does the standard Standings bracket chart, so the console's other
-tabs are read-only: the team views' Match Finder callers (the team and player
-results, the all-matchups list and the match-number search) pass `interactive:
-true` and Standings' team calls leave it off. Two delegated listeners on the results
-container (click, and Enter or space on a focused match) open the dialog, because
+for it, and so do the standard Standings bracket chart and the team Standings' matchup cards, so the
+console's other tabs are read-only: the team views' Match Finder callers (the team and player
+results, the all-matchups list and the match-number search) and `teamStandingsHTML`'s playoff and
+bracket cards pass `interactive: true`. Two delegated listeners on the results
+container (and two on `#standingsResults`) (click, and Enter or space on a focused match) open the dialog, because
 Match Finder redraws all its markup on every poll and push, which would drop any
 listener bound to a single match.
 
