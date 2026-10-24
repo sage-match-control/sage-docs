@@ -129,7 +129,7 @@ cd ..
 | Beneficiary | Children's Home of Mary the Eucharist. All proceeds go to it |
 | Pubmat slogan | "Good people, great games, brighter tomorrows" |
 | Teams | 8 of 8 players: `Red`, `Orange`, `Yellow`, `Green`, `Blue`, `White`, `Teal`, `Pink` (renamed 20 October from Purple and Sky). The colour is the team code |
-| Pairs in a matchup | 4 games: pair 1 Men's High (two men, one of them advanced), pair 2 Mixed Doubles (not the team captain), pair 3 Women's Doubles, pair 4 Genderless (any two). Every player plays once a round, so 7 games each in the round robin |
+| Pairs in a matchup | 4 games: pair 1 Men's Doubles (any two men, of any level), pair 2 Mixed Doubles (not the team captain), pair 3 Women's Doubles, pair 4 Genderless (any two). Every player plays once a round, so 7 games each in the round robin |
 | Matches | 120, numbered 1–120: 112 in the round robin (28 matchups), 4 in the Bronze matchup, 4 in the Final |
 | Times | 30-minute slots. First serve 1:00 PM, last round-robin slot 7:30 PM, Bronze 8:00 PM, Final 8:30 PM |
 | Site title | **Millennium Pickleball Club** (browser tab, Control Center, footer, schedule board). The hero reads "2nd Invitational Tournament" |
@@ -204,7 +204,7 @@ The scoring rule does not.
 | Brackets | 3 of 5 | 1 of 8 | Standings draws one "Bracket 1" table; the Teams tab one "Bracket 1" heading. **Fits** |
 | Group stage | Round robin per bracket | One full round robin: 7 rounds of 4 matchups | A matchup is the rows sharing a `matchUp` value. **Fits** |
 | Playoffs | QF, SF, Bronze, Final (8 seeds) | Bronze and Final only (4 seeds) | Standings draws a section only for a playoff stage that has matchups, so only **Bronze** and **Final** appear. **Fits** |
-| Pairs | MD, WD, XD, XD | MH, XD, WD, GD | `display.pairs` in `events.json` (§14), checked by `lineupRules` (§16.4). **Fits** |
+| Pairs | MD, WD, XD, XD | MD, XD, WD, GD | `display.pairs` in `events.json` (§14), checked by `lineupRules` (§16.4). **Fits** |
 | Courts | 10 | 8 | The board takes the court count from the highest `CourtAssignment`. **Fits** |
 | **Matchup winner** | More **total points** over the 4 games; pair wins never decide it | More **games won** (§1.1) | `teamMatchupResult` adds points. **Wrong for this event**: a team winning 3 games 11–9 and losing one 2–11 would be shown losing 35–38 |
 | **Ranking** | Points scored, quotient, head-to-head points, pair wins | Games won, total points, head-to-head wins, head-to-head points | `teamRankBracket` sorts by points scored from `STANDINGSCSV` first. **Wrong for this event** |
@@ -1279,7 +1279,7 @@ The Hub, at **375px** and **desktop** width:
 - [ ] The **Final** card shows Green beating Orange **3 – 1** with "points 35–38"
       under it: the winner on games, with fewer points. The winning side is tinted
       gold, not green.
-- [ ] A matchup's rows are labelled "MH", "XD", "WD", "GD".
+- [ ] A matchup's rows are labelled "MD", "XD", "WD", "GD".
 - [ ] The **Teams** tab shows eight roster cards under "Bracket 1".
 - [ ] DevTools: `Anton` and `Permanent Marker` load; the console shows no errors;
       no 404 except `assets/qr.png` when it hasn't been supplied.
@@ -1358,12 +1358,15 @@ comma after the closing brace of that entry:
 ```
 
 - `teamScoring: "games"` is §1.1's rule, read by §4.
-- The pairs are the organiser's categories (20 October): 1 Men's High, 2 Mixed
+- The pairs are the organiser's categories: 1 Men's Doubles, 2 Mixed
   Doubles, 3 Women's Doubles, 4 Genderless, which `lineupRules` checks (§16.4).
-  The workbook's `MatchUps` agrees: each player slot lists its allowed levels and
-  gender, pair 1 `H2A,HI` and any man, pair 2 a man and a woman (`W`), pair 3 two
-  women, pair 4 anyone. Its `Pairings Guide` tab (MD, MD, WD, XD) is out of date.
-  The levels are `H2A`, `HI`, `LI` and `HB`; `advancedLevels` is `H2A` and `HI`.
+  Pair 1 is any two men, of any level (the organiser's rule of 24 October, which
+  replaced Men's High, two men one of them advanced), so `advancedLevels` is empty
+  and pair 1 keeps the `mens-high` kind for its two-men check alone.
+  The workbook's `MatchUps` lists each player slot's allowed levels and
+  gender: pair 1 listed `H2A,HI` and any man under the old rule, pair 2 a man
+  and a woman (`W`), pair 3 two women, pair 4 anyone. Its `Pairings Guide` tab (MD, MD, WD, XD) is out of date.
+  The levels are `H2A`, `HI`, `LI` and `HB`.
   Without this block the labels would be PickleDrive's defaults (MD, WD, XD 1,
   XD 2), which are wrong for this event.
 - The facility name `Plus 63` is the workbook's own (`Variables` location,
@@ -1535,10 +1538,12 @@ that, use Control Center's go-live override.
 control before the round (§1.1). The operator types them into `MatchUps` for that
 round's matchups. Until then the Hub shows the round's matches as **Lineup not
 set**. Control Center's **Lineup check** (Teams tab, and a warning on each match
-line) checks each lineup against the event's `lineupRules`: pair 1 Men's High
-(two men, one advanced), pair 2 Mixed (a man and a woman, not the captain, who is
+line) checks each lineup against the event's `lineupRules`: pair 1 Men's Doubles
+(two men, any level), pair 2 Mixed (a man and a woman, not the captain, who is
 the first player in the team's roster), pair 3 Women's, pair 4 Genderless, and
-one game per player per round, with `H2A` and `HI` as the advanced levels.
+one game per player per round. The engine has no plain men's-doubles kind, so a
+warning on pair 1 still reads "Men's High is two men", and the Lineup check notes
+that no advanced levels are set; both are expected.
 Gian (Yellow) is a man, `LB`, whom the organiser lets play Women's
 (`"allowed": { "Gian": ["womens"] }`).
 
@@ -1586,7 +1591,7 @@ Run the dry run against the real workbook by **Thursday 22 October**, using
 `dry-run-checklist.md`. Also check:
 
 - Control Center renders the event with the **team** layout, one bracket, the
-  pair labels "MH", "XD", "WD", "GD", and no unmapped-team warning.
+  pair labels "MD", "XD", "WD", "GD", and no unmapped-team warning.
 - With temporary scores in one matchup where one side wins three games on fewer
   points (for example 11–9, 11–9, 11–9, 2–11): the Hub and Control Center show
   that side as the winner, `3 – 1`, and Bracket 1 ranks it above its opponent.

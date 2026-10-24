@@ -37,6 +37,16 @@ has been replaced.
 
 ---
 
+## [2.31.0] — 2026-10-24
+
+### Changed
+
+- Millennium Invitational spec: pair 1 is Men's Doubles (any two men, of any level), the organiser's
+  rule of 24 October, labelled "MD"; `advancedLevels` is empty, and the Lineup check's "Men's High"
+  wording on pair 1 is expected.
+
+---
+
 ## [2.30.0] — 2026-10-22
 
 ### Changed
