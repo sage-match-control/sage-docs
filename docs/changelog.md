@@ -37,6 +37,28 @@ has been replaced.
 
 ---
 
+## [2.34.0] — 2026-10-26
+
+### Added
+
+- Spec [Hub player experience](specs/not-started/hub-player-experience-spec.md): proposals P9–P17
+  from a comparison with Dinktator's spectator pages (§1.2): a tab's own address, Standings opening
+  on a category on phones, *Final* once a day is over, a podium on a finished category, the row
+  colours and ties explained, a Standings row opening its pair's matches, and for a dual meet the
+  club score on the first screen, *Pairs* for *Teams*, category jump chips and a cross-club grid.
+  Decisions D8–D14, and what is not taken from Dinktator (§21.2).
+- Spec [Hub player experience](specs/not-started/hub-player-experience-spec.md): a picture for every
+  proposal that changes the page, today beside a mockup, drawn on the engine's template pages and
+  the harness's fixture data (`images/hub-player-experience/`).
+
+### Fixed
+
+- Spec [Hub player experience](specs/not-started/hub-player-experience-spec.md): a standings row is
+  pink at a level record too, not only a losing one. P13's tie note follows the Hub's real order,
+  head-to-head wins among all the pairs level and then quotient.
+
+---
+
 ## [2.33.0] — 2026-10-24
 
 ### Changed
