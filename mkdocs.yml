@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.34.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.35.0</a>'
 
 docs_dir: docs
 
@@ -123,10 +123,12 @@ nav:
           - Schedule generator (Phase 2): specs/implemented/dual-meet-schedule-generator-spec.md
           - Readouts generator (Phase 3): specs/implemented/dual-meet-readouts-generator-spec.md
           - Standard Tournament Master: specs/implemented/standard-tournament-master-spec.md
+          - Playoff bracket chart: specs/implemented/standings-bracket-chart-spec.md
           - Event site templates: specs/implemented/event-templates-spec.md
           - PNF x BUP dual meet: specs/implemented/pnf-x-bup-dual-meet-spec.md
           - CLSO Pickle for Sight: specs/implemented/pickle-for-sight-spec.md
           - Piggleball Chairman's Cup: specs/implemented/piggleball-chairmans-cup-spec.md
+          - Millennium Invitational: specs/implemented/millennium-invitational-spec.md
           - Team tournament: specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md
           - Team workbook recalculation: specs/implemented/team-workbook-stack-cache-spec.md
           - Facility progress: specs/implemented/facility-progress-spec.md
@@ -146,9 +148,7 @@ nav:
       - In progress:
           - Overview: specs/in-progress/README.md
           - Code and access protection: specs/in-progress/code-and-access-protection-spec.md
-          - Millennium Invitational: specs/in-progress/millennium-invitational-spec.md
           - Angeles City Employees Sportsfest: specs/in-progress/acso-employees-sportsfest-spec.md
-          - Playoff bracket chart: specs/in-progress/standings-bracket-chart-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md

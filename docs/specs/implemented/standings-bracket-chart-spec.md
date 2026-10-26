@@ -1,10 +1,13 @@
 # Spec — Playoff bracket chart in the standings
 
-> **Status: in progress.** Built, tested and merged to `main` in `sage-tools-api`,
+> **Status: implemented.** Built, tested and merged to `main` in `sage-tools-api`,
 > `sage-match-control.github.io`, `event-data`, `sage-docs` and the workspace on 22 October 2026
-> (the owner's go-ahead, two days before the Millennium Invitational). What is left is §10: the owner
-> pasting generator 1.3.0 into the masters and the Sportsfest and Piggleball workbooks and running
-> **Add bracket links** in each. §14 records where the build differs from this text.
+> (the owner's go-ahead, two days before the Millennium Invitational). §10's rollout is done: the
+> owner pasted the Standard Tournament Generator into the **SAGE Standard Tournament Master** and the
+> Sportsfest workbook (1.4.0) and the Piggleball workbook (1.3.0), and ran **Add bracket links** in the two event workbooks. The
+> Sportsfest snapshot's `standingsCsv` carries `match`, `from` and `seat` for every playoff row (`MD`
+> and `WD` in the two-bracket shape, seats labelled "Bracket 1 · #1"), and Piggleball's carries
+> `match` and `from`. §14 records where the build differs from this text.
 >
 > **Changed after the merge (22 October, owner's request):** a chart that does not fit its card is no longer
 > a strip of one round per column without lines. It is the same chart, lines included, in a window that scrolls
@@ -16,13 +19,6 @@
 > `77bf767`. The owner set the three-part model in §3 the same day (D1–D3). Every
 > worked example in §5 was produced by running the generator's own `planCategory` and
 > `playoffBlocks_` at `93e090d`, not worked out by hand.
->
-> **Deadlines.** The site repo takes no merge within 3 days of an event. The Millennium
-> Invitational is on **Saturday 24 October 2026**, so nothing in this spec reaches the
-> site's `main` before **Sunday 25 October**. The Angeles City Employees Sportsfest is on
-> **Friday 13 November**, so the site work must reach `main` by **Monday 9 November**, or
-> wait until after the event. After 9 November, push to the site only with the owner's
-> go-ahead.
 
 Show each category's playoffs as a **bracket chart** (rounds side by side, with lines from
 each match to the one its winner plays next) on the Tournament Hub and in Control Center,

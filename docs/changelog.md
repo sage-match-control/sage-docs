@@ -37,6 +37,26 @@ has been replaced.
 
 ---
 
+## [2.35.0] — 2026-10-26
+
+### Changed
+
+- [Millennium Invitational](specs/implemented/millennium-invitational-spec.md) moves from
+  **In progress** to **Implemented**: the event ran on 24 October 2026, all 120 matches were published
+  and the facility was stamped complete. Its status records the day's re-skin from the newer pubmat,
+  pair 1 as Men's Doubles, and the pages' live push off.
+- [Playoff bracket chart](specs/implemented/standings-bracket-chart-spec.md) moves from **In progress**
+  to **Implemented**: the Standard Tournament Master carries generator 1.4.0, and the Sportsfest and
+  Piggleball workbooks publish their bracket links.
+
+### Fixed
+
+- The changelog's links to both specs, and the Standard Tournament Master spec's links to the bracket
+  chart spec, point at `implemented/`. One earlier entry still linked to the bracket chart spec's
+  first folder, `not-started/`.
+
+---
+
 ## [2.34.0] — 2026-10-26
 
 ### Added
@@ -98,13 +118,13 @@ has been replaced.
   workbooks. [The generator](technical/standard-tournament-generator.md),
   [the site engine](technical/site-engine.md), [the config](technical/event-data-config.md), the
   [Standard Tournament master spec](specs/implemented/standard-tournament-master-spec.md) (§10.1, §10.4, §18)
-  and the [bracket chart spec](specs/in-progress/standings-bracket-chart-spec.md) §14 say so.
+  and the [bracket chart spec](specs/implemented/standings-bracket-chart-spec.md) §14 say so.
 - The bracket chart on the [Tournament Hub](features/tournament-hub.md): on a computer a category's column
   keeps its **1 col** / **2 cols** width in List and Bracket, and shows one or two rounds at a time to match;
   the swipe window always settles on whole rounds, its cards stretched to the card's width; **Round Robin**
   and **Playoffs** are titled sections, with the List | Bracket switch at the end of the Playoffs title; and
   **Full tree** fills a computer's screen, enlarging the chart. [The site engine](technical/site-engine.md)
-  and the [bracket chart spec](specs/in-progress/standings-bracket-chart-spec.md) §14 say so.
+  and the [bracket chart spec](specs/implemented/standings-bracket-chart-spec.md) §14 say so.
 
 ---
 
@@ -112,7 +132,7 @@ has been replaced.
 
 ### Changed
 
-- The [playoff bracket chart](specs/in-progress/standings-bracket-chart-spec.md) keeps its lines on a phone,
+- The [playoff bracket chart](specs/implemented/standings-bracket-chart-spec.md) keeps its lines on a phone,
   in portrait too: a chart too wide for its card is the same chart in a window that scrolls sideways, under
   chips that jump to a round, instead of a strip of rounds without lines. **Full tree** is under the chart on
   every screen, tablets included. [Tournament Hub](features/tournament-hub.md),
@@ -134,7 +154,7 @@ has been replaced.
 
 ### Changed
 
-- [Playoff bracket chart](specs/in-progress/standings-bracket-chart-spec.md) moves from **Not started** to
+- [Playoff bracket chart](specs/implemented/standings-bracket-chart-spec.md) moves from **Not started** to
   **In progress**: built and tested on a branch of each repo, not yet merged. Its §14 lists where the build
   differs from the text.
 - The [Standard Tournament master spec](specs/implemented/standard-tournament-master-spec.md) §10.1, §10.4 and
@@ -150,7 +170,7 @@ has been replaced.
 - [Angeles City Employees Sportsfest](specs/in-progress/acso-employees-sportsfest-spec.md) moves from
   **Not started** to **In progress**: the event's pages and its `events.json` entry are pushed, and the
   workbook syncs all 96 matches with the players' names.
-- [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md)'s status: the workbook
+- [Millennium Invitational](specs/implemented/millennium-invitational-spec.md)'s status: the workbook
   syncs, so sync setup is no longer left.
 
 ---
@@ -159,7 +179,7 @@ has been replaced.
 
 ### Added
 
-- [Playoff bracket chart](specs/not-started/standings-bracket-chart-spec.md), in **Not started**: a
+- [Playoff bracket chart](specs/implemented/standings-bracket-chart-spec.md), in **Not started**: a
   List / Bracket switch on each standard category with two or more playoff rounds, on the Tournament
   Hub and in Control Center. The rounds sit side by side with lines from each match to the next; a
   phone shows one round at a time and a zoomable Full tree. The Standard Tournament Generator 1.3.0
@@ -224,7 +244,7 @@ has been replaced.
   the round robin is over: [Tournament Hub](features/tournament-hub.md),
   [Control Center](features/control-center.md), [events.json](technical/event-data-config.md),
   [the site engine](technical/site-engine.md) and the
-  [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) spec.
+  [Millennium Invitational](specs/implemented/millennium-invitational-spec.md) spec.
 
 ---
 
@@ -239,7 +259,7 @@ has been replaced.
   [Tournament Hub](features/tournament-hub.md), [Control Center](features/control-center.md),
   [Control Center, technical](technical/control-center.md), [events.json](technical/event-data-config.md),
   [the site engine](technical/site-engine.md) and the
-  [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) spec.
+  [Millennium Invitational](specs/implemented/millennium-invitational-spec.md) spec.
 
 ---
 
@@ -267,7 +287,7 @@ has been replaced.
   flagged for operators: [Control Center](features/control-center.md#lineup-check),
   [Control Center, technical](technical/control-center.md), [events.json](technical/event-data-config.md),
   [the site engine](technical/site-engine.md) and the
-  [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) spec's day-of section.
+  [Millennium Invitational](specs/implemented/millennium-invitational-spec.md) spec's day-of section.
 
 ---
 
@@ -301,7 +321,7 @@ has been replaced.
 
 ### Changed
 
-- [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md) moves from
+- [Millennium Invitational](specs/implemented/millennium-invitational-spec.md) moves from
   **Not started** to **In progress**: the engine's `teamScoring: "games"`, the event's pages and
   its `events.json` entry are built and pushed.
 - The team pages describe a matchup as won on total points, or, for an event whose
@@ -318,7 +338,7 @@ has been replaced.
 
 ### Added
 
-- [Millennium Invitational](specs/in-progress/millennium-invitational-spec.md), in **Not started**:
+- [Millennium Invitational](specs/implemented/millennium-invitational-spec.md), in **Not started**:
   the site for Millennium Pickleball Club's 2nd Invitational, a charity team tournament on
   24 October 2026. It adds an opt-in `teamScoring: "games"` to the engine's team rules (a matchup
   won on games won; a bracket ranked by games won, total points, then head-to-head wins and points), instantiates

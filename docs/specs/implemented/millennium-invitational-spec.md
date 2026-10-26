@@ -1,29 +1,31 @@
 # Spec — Millennium Invitational (team tournament)
 
-> **Status: in progress.** Written 2026-10-18 against `sage-match-control.github.io`
-> at `7f47c18`, `event-data`'s current `config/events.json`, the event workbook
-> as exported that day, and the organiser's format and scoring sheet (§1.1). The
-> owner answered every open question on 18 October 2026; the answers are in §17.
+> **Status: implemented.** The event ran on Saturday 24 October 2026 at Plus 63
+> Pickleball Club. The engine's `teamScoring: "games"` (§4), the event's pages
+> (`events/millennium-invitational-2026/`: `index.html`, `schedule.html`, `scorer.html`,
+> `attendance.html`, and the QR image for `tinyurl.com/SAGExMPC2026`) and its
+> `events.json` entry (§14) are built. Live sync published all 120 matches and the
+> teams' roster, in about 600 syncs on the day, and the facility was stamped complete
+> at 20:44. `isLive` is on `"auto"`, and the event's pages now have live push off
+> (`LIVE_BASE_URL = ''`), as every finished event's do.
 >
-> **Built and pushed, 2026-10-18:** §4 (the engine's `teamScoring: "games"`, with its
-> tests) and §5–§12 (the event's pages) are on the site's `main`, in the two pushes
-> of §4.8, after a passing `npm run verify` and a browser check on Appendix A's
-> fixture (§13, since removed). §14's `events.json` entry is in `event-data`'s
-> `main`. The workbook syncs (§16.2): its snapshot lists `Plus 63` with all 120
-> matches and the teams' roster. **Still to do:** `assets/qr.png` and the short link
-> (§2), whichever of §16.1's workbook fixes are still open, and the dry run (§16.5).
+> **Changed on the day, at the owner's request:** the pages were re-skinned from the
+> organiser's newer pubmat (a field-green hero, lime, a red charity banner and a
+> multicolour club wordmark), so §7–§10's gold palette and type describe the first
+> skin, not the live pages; the scorer and desk pages keep it. Pair 1 became Men's
+> Doubles, any two men of any level (§1, §14): `display.pairs` names it and
+> `advancedLevels` is empty, while the pair's `lineupRules` kind stays `mens-high`.
+> The engine also gained a matchup card that reads *In progress* once a match is on
+> court, and **Hide matches** and Standings score entry for team events; those are
+> engine features and are documented with the engine, not here. Whether §16.1's last
+> workbook fixes and §16.5's dry run were done beforehand is not recorded.
 >
-> **Dry-run on 2026-10-18.** §4's code and §4.6's tests were applied to a copy of
-> the site at `7f47c18`: the new tests fail before the change and pass after it,
-> and the rest of the unit suite still passes. §5–§12's edits were applied to a
-> copy of the template, every anchor matched once and every check passed, and the
-> pages rendered with Appendix A's fixture. The comparison harness (§4.7) was not
-> run.
->
-> **Deadline.** The event is on **Saturday 24 October 2026**, and the site repo
-> takes no merge within 3 days of an event. Both pushes of §4.8 (the engine change,
-> then the pages) reach `main` by **Tuesday 20 October**. After that, push only with
-> the owner's go-ahead.
+> Written 2026-10-18 against `sage-match-control.github.io` at `7f47c18`,
+> `event-data`'s current `config/events.json`, the event workbook as exported that
+> day, and the organiser's format and scoring sheet (§1.1). The owner answered every
+> open question on 18 October 2026; the answers are in §17. §4's code and tests and
+> §5–§12's edits were dry-run on copies of the site at `7f47c18` before they were
+> applied; the comparison harness (§4.7) was not run then.
 
 Build the event site for the **Millennium Pickleball Club 2nd Invitational
 Tournament**, "Paying It Forward!", a one-day charity team tournament on

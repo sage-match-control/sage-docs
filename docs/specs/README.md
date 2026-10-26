@@ -170,6 +170,14 @@ to the `...` form rather than repointing it.
   — the dual-meet generator's counterpart for open-entry tournaments: one
   workbook per facility per day, uneven round-robin brackets, and a
   forward-propagating single-elimination ladder.
+- **[Playoff bracket chart](implemented/standings-bracket-chart-spec.md)** —
+  each standard category's playoffs as a bracket chart on the Hub and in Control
+  Center: rounds side by side with lines, a sideways-scrolling window on a phone, and
+  a zoomable Full tree. The workbook gives the ladder's shape and labels its empty
+  seats (`STANDINGSCSV`'s `match`, `from` and `seat`, Standard Tournament Generator
+  1.4.0, and **SAGE → Add bracket links** for an older workbook), the event may label
+  them too, and the site tags each qualifier with its bracket and finish once the
+  sheet names it.
 
 ### Events & templates
 
@@ -216,6 +224,12 @@ to the `...` form rather than repointing it.
   Pig Sports Festival: one venue (Centro Atletico, 3 courts), Novice
   Open Doubles plus Intermediate Men's and Mixed Doubles. Standard
   template, re-skinned from the pubmat. Ran 3 October 2026.
+- **[Millennium Invitational](implemented/millennium-invitational-spec.md)** —
+  the site for Millennium Pickleball Club's charity team tournament: eight colour
+  teams in one round robin, then a Bronze and a Final, at Plus 63 Pickleball Club.
+  Its teams score games won, so it adds an opt-in `teamScoring: "games"` to the
+  engine's team rules, then instantiates the team template with the club's colours.
+  Ran 24 October 2026.
 
 ### The docs
 
@@ -237,15 +251,6 @@ to the `...` form rather than repointing it.
   deployed; the owner's checks and the Google, GitHub and Cloud settings are left. Records why the site is not obfuscated and the draw
   stays in the browser.
 
-- **[Millennium Invitational](in-progress/millennium-invitational-spec.md)** —
-  the site for Millennium Pickleball Club's charity team tournament on 24 October
-  2026: eight colour teams in one round robin, then a Bronze and a Final. Its
-  teams score games won, so it adds an opt-in `teamScoring: "games"` to the
-  engine's team rules, then instantiates the team template with the club's
-  colours. The engine change, the pages and the `events.json` entry are pushed, and
-  the workbook syncs; the short link, the workbook fixes still open and the dry run
-  are left.
-
 - **[Angeles City Employees Sportsfest](in-progress/acso-employees-sportsfest-spec.md)** —
   the site for the Angeles City Sports Office's employees' pickleball tournament on
   13 November 2026: Men's, Women's and Mixed Doubles on 8 courts at Pickle Place.
@@ -253,15 +258,6 @@ to the `...` form rather than repointing it.
   division (`"divisions": { "": "" }`). The pages and the `events.json` entry are
   pushed, and the workbook syncs all 96 matches; the QR image, the rest of the
   workbook checks and the dry run are left.
-
-- **[Playoff bracket chart](in-progress/standings-bracket-chart-spec.md)** — each
-  standard category's playoffs as a bracket chart on the Hub and in Control Center:
-  rounds side by side with lines, one round at a time on a phone, and a zoomable Full
-  tree. The workbook gives the ladder's shape (two new `STANDINGSCSV` columns), the
-  event optionally labels the empty seats, and the site tags each qualifier with its
-  bracket and finish once the sheet names it. The generator, the site engine, Control
-  Center and the docs are built, tested and merged; the workbooks need generator
-  1.3.0.
 
 ---
 

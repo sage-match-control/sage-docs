@@ -1330,7 +1330,7 @@ which finisher takes which seat (that is `J`). The values come from `Variables!A
 (§10.1), written by `playoffLinkRows_`; the seat numbering of §7.6.1 does not
 always pair seats `(2j-1, 2j)`, which is why the site reads the match, not the
 seat number. See
-[the standings bracket chart spec](../in-progress/standings-bracket-chart-spec.md).
+[the standings bracket chart spec](standings-bracket-chart-spec.md).
 
 **`G` — the bracket.** Phase 3 spec §6.3 computes `ceil(i / n)` from a single
 `n`. Uneven bracket sizes (§5.6) make that wrong. Instead it recomputes
@@ -1904,7 +1904,7 @@ something they leave open.
 - **`STANDINGSCSV` has ten columns** (§10.4, §10.1): `H` `match` and `I`
   `from` look each playoff slot up in the `Variables!AD:AG` link table, so the
   site can draw a bracket chart
-  ([standings-bracket-chart-spec](../in-progress/standings-bracket-chart-spec.md), from
+  ([standings-bracket-chart-spec](standings-bracket-chart-spec.md), from
   generator 1.3.0), and `J` `seat` (from 1.4.0) the label a round-robin seat
   shows before its pair is known. A workbook generated earlier gets them from
   **SAGE → Add bracket links**.
