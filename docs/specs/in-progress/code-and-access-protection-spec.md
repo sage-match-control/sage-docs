@@ -2,7 +2,7 @@
 
 > **Status: in progress.** Sections 2–8 are a to-do list, not a design: each
 > item says what to change and where, and leaves the details to whoever builds
-> it, ordered by value. §3 and §4 are not done, by the owner's decision.
+> it, ordered by value. §3 is in place; §4 is not done, by the owner's decision.
 > §9 (facility workbooks closed to link access) and §10 (two fixes to the
 > played and series rules) are full designs, written to be built without other
 > context. Written 2026-10-11; §9 and §10 added 2026-10-12. Everything to do
@@ -76,9 +76,13 @@ every facility workbook's is in `event-data/config/events.json`.
 A facility workbook goes further than Viewer, to **Restricted**, once the readers
 that relied on link access read as the service account: that is §9.
 
-## 3. Cloud Run cost cap: not done
+## 3. Cloud Run cost cap
 
-No `--max-instances` cap and no budget alert. Owner's decision, 2026-10-12.
+- The service's **maximum instances** is 10. The deploy command does not set it,
+  and a deploy keeps it.
+- A **budget alert**, `cost-alert`, covers the whole billing account: $1.00 a
+  month, emailing the billing admins at 50%, 90% and 100%. It only alerts; there is
+  no spend cap, so nothing is paused when it is passed.
 
 ## 4. Sign-in rate limiting: not done
 

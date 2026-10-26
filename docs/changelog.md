@@ -37,6 +37,23 @@ has been replaced.
 
 ---
 
+## [2.36.0] — 2026-10-26
+
+### Added
+
+- [Lean deploy image](specs/not-started/lean-deploy-image-spec.md), not started: a hand-built
+  `sage-tools-api-base` image with Node and Chromium that the API's `Dockerfile` builds `FROM`, so a
+  deploy stores about 20 MB in Artifact Registry instead of 361 MB, with optional `puppeteer-core`. It
+  records the repository's cleanup policy, which keeps the last deploy.
+
+### Fixed
+
+- [Code and access protection](specs/in-progress/code-and-access-protection-spec.md) §3 describes
+  the cost controls in place: Cloud Run's maximum of 10 instances and the `cost-alert` budget ($1.00 a
+  month, alerts at 50%, 90% and 100%, no spend cap). It said neither existed.
+
+---
+
 ## [2.35.0] — 2026-10-26
 
 ### Changed

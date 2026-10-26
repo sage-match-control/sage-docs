@@ -292,6 +292,11 @@ to the `...` form rather than repointing it.
   the colours and ties explained, a row opening its pair's matches, and for a
   dual meet the club score first, category jump chips and a cross-club grid.
   Engine Hub and templates only; no new sections.
+- **[Lean deploy image](not-started/lean-deploy-image-spec.md)** — a base image
+  holding Node and Chromium, built by hand, so each `sage-tools-api` deploy adds
+  about 20 MB to Artifact Registry instead of 361 MB and builds faster. Records the
+  repository's cleanup policy, which keeps the last deploy. To build after the
+  Sportsfest.
 
 
 ---
