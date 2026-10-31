@@ -161,9 +161,19 @@ wins, then the head-to-head quotient (points for ÷ points against in their
 matchup); three or more by their quotient, with two still level going to the
 two-team rules. Teams level after that stay in the workbook's order, and once the
 round robin is over they share the higher rank and read **Tied · playoff game**
-(two teams) or **Tied · playoff round robin** (three or more): the organiser's
+(two teams) or **Tied · playoff** (three or more): the organiser's
 playoff settles it, and the qualifiers typed into the workbook's playoff slots
 show who goes on.
+
+An event's brackets may be lettered. The workbook's `bracket` column then reads
+`A`, `B`… and the Hub titles each table **Bracket A**, **Bracket B**… in letter
+order, with Match Finder grouping the teams the same way.
+
+**A playoff matchup's tiebreaker.** At an event whose playoff matchups are two
+games, a matchup that ends 1–1 plays one more game, the **Tiebreaker** (**TB**):
+each team nominates one pair. The card lists it as a third row, *Lineup not set*
+until the operator types the nominated players in. A matchup won 2–0 never plays
+it, so its card doesn't list one, and the matchup reads *Final* without it.
 
 **Lineups shown when the organiser says.** An event can hold its lineups back
 until each round: at the Millennium Invitational a match's players appear on the

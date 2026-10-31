@@ -78,7 +78,8 @@ falls back to it.
 `domain/model.js` `buildDayModel(event, day, snapshot, { now, alwaysLive })`
 turns one day's snapshot into a `DayModel`: every facility's matches (and each
 facility's own, for the Live Matches board), the standings, the match index by
-code, the series games that will never be played, whether the day is live
+code, the games that will never be played (a series Final's games after its decider, and a team playoff
+matchup's tiebreaker that the matchup's other games made unnecessary), whether the day is live
 (`alwaysLive` is Control Center, which always shows scores) and, for a team
 event, its `team` data. It is built once per snapshot and handed to every view.
 
@@ -148,11 +149,29 @@ rules), all computed from the matches. A tie left after that keeps the sheet's
 order; once every group match between the bracket's teams is played, the ranked
 array carries `ties`, `[{ codes, playoff: 'game' | 'round-robin' }]`, and the
 bracket table gives those teams the higher rank and a `.tie-pill` (*Tied ·
-playoff game* or *Tied · playoff round robin*); `teamGameRecords(matches)` gives each side's wins, losses and points
+playoff game* for two teams, *Tied · playoff* for three or more); `teamGameRecords(matches)` gives each side's wins, losses and points
 for and against, and the bracket table shows W, L, PF, PA and Quotient
 (`fmtQ(pf / pa)`, "—" before a point is conceded). Each matchup card adds a `.tm-stats`
 line under each side, its PF, PA and quotient in that matchup. Without it every
 rule is the points rule, and the card has no such line.
+
+`domain/deciders.js` holds a team playoff matchup's **tiebreaker game**: a match whose two team
+codes both end in `_TB` (`QF-1_TB` v `QF-2_TB`), belonging to the matchup whose rows share its
+`matchUp`. It is played only when the matchup's other games leave the two sides level on games won.
+Once they are all played and one side has won more, `unneededDeciders(matches)` returns it, and
+`unneededSeriesGames` includes it in the same set as a series Final's games after the decider, so
+facility progress, the board's *Not needed* card, Match Finder's next match and the score dialog's
+warning all treat it as never played. `teamMatchupResult` leaves it out of a settled matchup (a
+matchup won 2–0 is final without it; at 1–1 it counts, so the matchup stays in progress until it is
+scored), a matchup card does not list it, and `pairLabel` reads it as *Tiebreaker* / *TB*. A
+tiebreaker row with no `matchUp` is always counted. The API's completion stamp applies the same
+rule ([Sync pipeline § Facility completion](sync-pipeline.md#facility-completion)).
+
+`domain/brackets.js` keys a team's bracket from `STANDINGSCSV`'s `bracket`: `bracketKeyOf` gives a
+number (`"1"` → `1`) or one upper-case letter (`"a"` → `"A"`), and anything else (blank, `#N/A`,
+`AB`) is no bracket. `compareBrackets` sorts no bracket first, then numbers by value, then letters
+A–Z. A lettered bracket reads **Bracket A** wherever a numbered one reads **Bracket 1**, and the
+schedule board's category for it is `GA`.
 
 On `localhost`, `?fixture=<name>` makes the Hub and the schedule board read
 `/_fixtures/` instead of the published data, as the scorer and desk pages

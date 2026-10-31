@@ -278,14 +278,20 @@ facility's `syncedAt` but leaves `completedAt` alone. An empty or header-only
 CSV is never "finished", and neither is a CSV whose only rows are BYEs.
 
 The rules copy Control Center's `rowsToMatches`, `sideIsBye`,
-`seriesGameOf`/`unneededSeriesGames` and `computeFacilityProgress` exactly:
+`seriesGameOf`/`unneededSeriesGames`, `isDeciderCode`/`unneededDeciders` and
+`computeFacilityProgress` exactly:
 a match is played only when **both** scores are numbers, a side is a BYE
 when its team code **or** either player name is `bye` (case-insensitive),
 and a series Final's games after the decider don't count. A series Final is
 coded `<prefix>_F_<seat>_(<game>)`: two games is twice-to-beat (seat 1 needs
 one win, seat 2 two), three is best-of-3 (two each), so a twice-to-beat
 Final whose #1 won game 1 leaves game 2 unscored and the facility still
-finishes. Change one copy and you have to change the other (see
+finishes. A team playoff matchup's tiebreaker game (both team codes end in `_TB`,
+for example `QF-1_TB` v `QF-2_TB`) doesn't count once the other games sharing its
+`matchUp` are all played and one side has won more of them, so a matchup won 2–0
+never waits on its tiebreaker; at 1–1 the tiebreaker must be scored. A
+tiebreaker row with no `matchUp` always counts. The site's `deciders.js` holds the
+same rule, and its parity test checks the two agree. Change one copy and you have to change the other (see
 [Control Center](control-center.md) § Actual end).
 
 ```bash

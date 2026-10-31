@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.38.0] — 2026-10-31
+
+### Changed
+
+- [Site engine](technical/site-engine.md), [Sync pipeline](technical/sync-pipeline.md),
+  [Tournament Hub](features/tournament-hub.md), [Schedule board](features/schedule-board.md) and
+  [Team workbook](features/team-workbook.md): a team playoff matchup's tiebreaker game (`_TB`, shown
+  as TB, not counted once the matchup is settled), lettered brackets (`Bracket A`), and the Tied
+  pill's generic wording (*Tied · playoff game* / *Tied · playoff*).
+
+---
+
 ## [2.37.0] — 2026-10-31
 
 ### Added

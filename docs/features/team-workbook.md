@@ -86,6 +86,13 @@ pair number in the matchup. `SIDE` is a team letter in the group stage and
 `<stage>-<slot>` in a playoff, where the stage is `QF`, `SF`, `Br` or `Fi` and
 the slot is a seed number until an operator types a team letter over it.
 
+A playoff matchup that can end level may carry a **tiebreaker row**, coded
+`<SIDE>_TB` on both sides (`QF-1_TB` v `QF-2_TB`) and sharing the matchup's
+`matchUp` value. Its player cells are typed on the day, once the teams have
+nominated their pair. It isn't played when the matchup's other games settle it.
+
+`STANDINGSCSV`'s `bracket` column is a number (`1`) or one letter (`A`).
+
 ---
 **Features:** [The scoring workbook](scoring-workbook.md) · [Tournament Hub § Team events](tournament-hub.md#team-events)
 **Technical:** [Control Center § The team type](../technical/control-center.md#the-team-type) ·
