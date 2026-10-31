@@ -37,6 +37,22 @@ has been replaced.
 
 ---
 
+## [2.37.0] — 2026-10-31
+
+### Added
+
+- [Ladies' Dink 1st Club Tournament](specs/not-started/ladies-dink-club-tournament-spec.md), not
+  started: the site for a 16-team women's team event on 7 November 2026 at the Pampanga Pickleball
+  Center, and the three compatible engine changes it needs first: a playoff matchup's tiebreaker game
+  (`_TB` codes, to 7) that isn't counted once the matchup's other games settle it, in the site and the
+  API's completion stamp; lettered brackets; and a Tied pill whose wording fits any event. Every edit is
+  an exact Find/Replace, dry-run on copies of the site and the API, with a fixture script for the
+  browser checks. The owner's answers are in §15; two questions are still open, neither blocking the
+  build: what settles three teams level on wins and quotient, and whether first serve is 3:00 or
+  3:30 PM. §14 records the event workbook's state and what is left to fix in it.
+
+---
+
 ## [2.36.0] — 2026-10-26
 
 ### Added
