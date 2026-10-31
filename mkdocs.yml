@@ -149,6 +149,7 @@ nav:
           - Overview: specs/in-progress/README.md
           - Code and access protection: specs/in-progress/code-and-access-protection-spec.md
           - Angeles City Employees Sportsfest: specs/in-progress/acso-employees-sportsfest-spec.md
+          - "Ladies' Dink 1st Club Tournament": specs/in-progress/ladies-dink-club-tournament-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
@@ -158,7 +159,6 @@ nav:
           - Court Control from Control Center: specs/not-started/control-center-court-control-spec.md
           - Hub player experience: specs/not-started/hub-player-experience-spec.md
           - Lean deploy image: specs/not-started/lean-deploy-image-spec.md
-          - "Ladies' Dink 1st Club Tournament": specs/not-started/ladies-dink-club-tournament-spec.md
       - Archived:
           - Overview: specs/archived/README.md
           - Fast data delivery: specs/archived/fast-data-delivery-spec.md

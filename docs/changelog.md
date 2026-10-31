@@ -46,6 +46,8 @@ has been replaced.
   [Team workbook](features/team-workbook.md): a team playoff matchup's tiebreaker game (`_TB`, shown
   as TB, not counted once the matchup is settled), lettered brackets (`Bracket A`), and the Tied
   pill's generic wording (*Tied · playoff game* / *Tied · playoff*).
+- The [Ladies' Dink spec](specs/in-progress/ladies-dink-club-tournament-spec.md) moves from
+  `not-started/` to `in-progress/`: its engine changes, pages and `events.json` entry are pushed.
 
 ---
 
@@ -53,7 +55,7 @@ has been replaced.
 
 ### Added
 
-- [Ladies' Dink 1st Club Tournament](specs/not-started/ladies-dink-club-tournament-spec.md), not
+- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md), not
   started: the site for a 16-team women's team event on 7 November 2026 at the Pampanga Pickleball
   Center, and the three compatible engine changes it needs first: a playoff matchup's tiebreaker game
   (`_TB` codes, to 7) that isn't counted once the matchup's other games settle it, in the site and the

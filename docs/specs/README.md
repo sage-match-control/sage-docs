@@ -259,6 +259,14 @@ to the `...` form rather than repointing it.
   pushed, and the workbook syncs all 96 matches; the QR image, the rest of the
   workbook checks and the dry run are left.
 
+- **[Ladies' Dink 1st Club Tournament](in-progress/ladies-dink-club-tournament-spec.md)** —
+  the site for a 16-team women's team event on 7 November 2026 at the Pampanga Pickleball
+  Center: four lettered brackets of 2-game matchups, ranked by games won, then QF to Final.
+  The three compatible engine changes (a playoff matchup's tiebreaker game to 7, played only
+  at 1–1, in the site and the API's completion stamp; brackets lettered A–D; a Tied pill
+  that names no point target), the event's pages and its `events.json` entry are pushed;
+  the workbook's fixes and live sync setup, the logo and QR image, and the dry run are left.
+
 ---
 
 ## Not started
@@ -273,12 +281,6 @@ to the `...` form rather than repointing it.
   quarterfinal-to-final playoffs, slots and finish time worked out from teams, groups and courts.
 - **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
   workbook generator for team events, phased, starting from the optimised workbook.
-- **[Ladies' Dink 1st Club Tournament](not-started/ladies-dink-club-tournament-spec.md)** —
-  the site for a 16-team women's team event on 7 November 2026 at the Pampanga Pickleball
-  Center: four lettered brackets of 2-game matchups, ranked by games won, then QF to Final.
-  Three compatible engine changes come first: a playoff matchup's tiebreaker game to 7, played
-  only at 1–1 (site and API), brackets lettered A–D, and a Tied pill that names no point target.
-  Dry-run on copies of the site and API: every edit applies and every test passes.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger

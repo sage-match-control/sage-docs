@@ -1,6 +1,11 @@
 # Spec — Ladies' Dink 1st Club Tournament (team tournament)
 
-> **Status: not started.** Written 2026-10-31 against `sage-match-control.github.io`
+> **Status: in progress.** The three engine changes (§4–§6; `sage-tools-api` 3.5.0 and the
+> site's `main`), the event's pages (§7) and its `events.json` entry (§8) are built and
+> pushed. Left: the workbook's fixes and live sync setup (§14), the club logo and QR image
+> (§2), the dry run, and the two open questions (§15 Q10, Q11).
+>
+> Written 2026-10-31 against `sage-match-control.github.io`
 > at `d7ed8ed`, `sage-tools-api` 3.4.0 (`b61381a`), `event-data`'s current
 > `config/events.json`, the event workbook as exported that day (§2), and the
 > organiser's notes (§1.1). The owner answered the questions on 31 October 2026
