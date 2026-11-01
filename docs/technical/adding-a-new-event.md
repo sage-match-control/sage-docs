@@ -81,7 +81,7 @@ the day key against it, so the registration comes first.
    tokens.
 6. **Leave the theme alone** unless the event genuinely needs its own — every
    page ships the shared S.A.G.E. palette and re-skinning means changing
-   one `:root` block, nothing else. A team page also keeps its block of the
+   one `:root` block, nothing else. Each page also keeps its block of the
    engine's house-coloured rules restated through the tokens (see
    [the theme contract](site-engine.md#the-theme-contract)).
 7. **Set up the schedule board** (`schedule.html`) — the day key it shows,

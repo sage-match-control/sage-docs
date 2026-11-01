@@ -240,15 +240,14 @@ of its `<style>`.
 Some tints and shadows in the engine's CSS are still literal house colours
 (`rgba(124,185,44,…)` and the like): a winning side, a live row, the live dot's
 pulse, the dividers, a sticky header's paper. A page with its own palette would
-show them unchanged, so the team template's Hub and board restate each of those
-rules in a block headed **lib/v1/css's house colours, through this page's
-tokens**, writing `color-mix(in srgb, var(--token) N%, transparent)` for
+show them unchanged, so every template's Hub, board and scorer page restates each
+of those rules in a block headed **lib/v1/css's house colours, through this
+page's tokens**, writing `color-mix(in srgb, var(--token) N%, transparent)` for
 `rgba(<house token>, N/100)`. That is the same colour on the house palette and
-the event's own on any other. `_tests/unit/team-theme.test.mjs` fails when an
-engine rule in a house colour is missing from a team page's block, or restated
-as anything but its token version. The standard and dual-meet templates have no
-such block, so a re-skinned event made from one shows the house green in those
-places unless its page restates them.
+the event's own on any other. `_tests/unit/house-colours.test.mjs` fails when an
+engine rule in a house colour is missing from the block of a page it lists (the
+templates, and event pages re-skinned from them), or is restated as anything but
+its token version.
 
 ## The comparison harness
 

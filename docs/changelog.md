@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.41.0] — 2026-11-01
+
+### Changed
+
+- [Site engine](technical/site-engine.md) (the theme contract) and
+  [Adding a new event](technical/adding-a-new-event.md): the standard and dual-meet templates' Hub
+  and board, and the scorer template, restate the engine's house-coloured rules through the page's
+  tokens too, so any template re-skins completely from its `:root` block.
+
+---
+
 ## [2.40.0] — 2026-11-01
 
 ### Changed
