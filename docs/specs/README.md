@@ -265,7 +265,7 @@ to the `...` form rather than repointing it.
   The three compatible engine changes (a playoff matchup's tiebreaker game to 7, played only
   at 1–1, in the site and the API's completion stamp; brackets lettered A–D; a Tied pill
   that names no point target), the event's pages and its `events.json` entry are pushed;
-  the workbook's fixes and live sync setup, the logo and QR image, and the dry run are left.
+  the workbook's fixes and live sync setup, the QR image and the dry run are left.
 
 ---
 

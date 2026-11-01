@@ -60,7 +60,9 @@ cross-club Bronze/Final shown as one block spanning both clubs (see
 `CROSS_CLUB_STAGE_KEYS`); `standard` gets flat category cards with a
 desktop toggle bar and a mobile category-search filter; `team` gets
 group tables, playoff matchup cards and collapsible bracket matchups (see
-[the team type](#the-team-type) below).
+[the team type](#the-team-type) below). On a desktop screen a `team` event's board
+keeps to the page's column with margins either side and its brackets two across
+(`#standingsResults:has(.team-standings)`); the other types keep the full-width board.
 
 **Unnamed pairs.** `isEmptyStanding` marks a row whose `player1` is blank or
 still equals its `teamCode` (the sheet fills names by formula, defaulting to

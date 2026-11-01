@@ -37,6 +37,19 @@ has been replaced.
 
 ---
 
+## [2.39.0] — 2026-11-01
+
+### Changed
+
+- [Control Center](technical/control-center.md): a team event's Standings keeps to the page's column
+  on a desktop screen, with its brackets two across.
+- The [Ladies' Dink spec](specs/in-progress/ladies-dink-club-tournament-spec.md) and the in-progress
+  and specs indexes: the logo, the Standings margins and the score dialog's tiebreaker warnings (a
+  tiebreaker is to 7) are built; the two open questions are answered: the organiser decides a
+  three-team tie on the day (Q10), and first serve is 3:30 PM (Q11).
+
+---
+
 ## [2.38.0] — 2026-10-31
 
 ### Changed

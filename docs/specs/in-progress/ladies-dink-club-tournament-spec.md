@@ -2,16 +2,17 @@
 
 > **Status: in progress.** The three engine changes (§4–§6; `sage-tools-api` 3.5.0 and the
 > site's `main`), the event's pages (§7) and its `events.json` entry (§8) are built and
-> pushed. Left: the workbook's fixes and live sync setup (§14), the club logo and QR image
-> (§2), the dry run, and the two open questions (§15 Q10, Q11).
+> pushed, with the club logo, the Standings margins on desktop (the Hub and Control Center)
+> and the score dialog's tiebreaker warnings. Left: the workbook's fixes and live sync setup
+> (§14), the QR image (§2) and the dry run.
 >
 > Written 2026-10-31 against `sage-match-control.github.io`
 > at `d7ed8ed`, `sage-tools-api` 3.4.0 (`b61381a`), `event-data`'s current
 > `config/events.json`, the event workbook as exported that day (§2), and the
 > organiser's notes (§1.1). The owner answered the questions on 31 October 2026
-> (§15). **Two questions are still open:** what settles three or more teams level on
-> wins *and* on quotient (§15 Q10), and whether first serve is 3:00 or 3:30 PM (§15
-> Q11). Neither blocks the build.
+> (§15). The last two were answered on 1 November 2026: the organiser settles three or
+> more teams level on wins *and* on quotient on the day (§15 Q10), and first serve is
+> 3:30 PM (§15 Q11).
 >
 > **The tiebreaker code is `_TB`**, as the workbook writes it (`QF-1_TB`), changed from
 > `_D` on 31 October at the owner's request; the dry run below was repeated with it.
@@ -208,7 +209,7 @@ tab, partly in Filipino), with the owner's answers:
 3. **Three or more level:**
    1. the **quotient**, points for ÷ points against over all their group games;
    2. two still level go to step 2;
-   3. three or more with the same quotient: **undecided** (§15 Q10).
+   3. three or more with the same quotient: **the organiser decides on the day** (§15 Q10).
 
 Steps 1, 2.1, 2.2, 3.1 and 3.2 are already the engine's `"games"` ranking
 (`teamRankBracketByGames` in `lib/v1/domain/teams.js`), so the site computes them
@@ -1948,8 +1949,8 @@ The owner makes the short link and `qr.png` (§2), then the hub board's QR panel
 | Q7 | Check-in and score entry? | Check-in desk links and scorer links | §8 |
 | Q8 | The short link? | `tinyurl.com/SAGExLD2026` | §1, §7.2 |
 | Q9 | The facility name? | "Pampanga Pickleball Center" | §7.2, §8, §14.2 |
-| Q10 | Three or more teams level on wins **and** quotient: what settles it? | **Open.** The site shows them as Tied either way (§6); the organiser needs the answer before the event | §1.1 step 3.3 |
-| Q11 | The workbook now starts at 3:30 PM; the pubmat says 3:00. Which is first serve? | **Open.** The site reads times from the workbook, so the build doesn't wait for it | §1, §14.1 item 9 |
+| Q10 | Three or more teams level on wins **and** quotient: what settles it? | The organiser decides on the day (answered 1 November). The site shows them as Tied (§6) | §1.1 step 3.3 |
+| Q11 | The workbook now starts at 3:30 PM; the pubmat says 3:00. Which is first serve? | 3:30 PM (answered 1 November), as the workbook has it. The site reads times from the workbook | §1, §14.1 item 9 |
 | — | The Tied pill named Millennium's "to 5". What should it say? | Generic wording | §6 |
 
 ---
