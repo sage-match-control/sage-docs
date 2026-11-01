@@ -27,12 +27,15 @@ handles exactly two clubs; it's not a general multi-club template.
 
 > **A team event's workbook, for now.** There is no Team Tournament Master
 > yet (its [spec](../specs/not-started/team-tournament-master-spec.md) is
-> separate work), so a team event of PickleDrive's shape (15 teams in three
-> brackets of five, four pairs per matchup, 152 matches, one facility) is
-> made by copying PickleDrive's workbook and clearing its inputs. The cells
-> to clear are in the runbook, `_templates/CLAUDE.md`, "Team events: the
-> workbook", and in [Usage step 2](../usage/build-the-workbooks.md#team-the-pickledrive-copy).
-> Any other shape waits for the master.
+> separate work), so a team event's workbook is a copy of a past team event's.
+> An event of PickleDrive's shape (15 teams in three brackets of five, four
+> pairs per matchup, 152 matches, one facility) copies PickleDrive's workbook
+> and clears its inputs. Any other shape copies the nearest past event's
+> workbook and is adapted by hand, as the Millennium Invitational and Ladies'
+> Dink were, with the event's spec saying how its format differs and what the
+> copy still holds of the old event. Both routes are in the runbook,
+> `_templates/CLAUDE.md`, "Team events: the workbook", and in
+> [Usage step 2](../usage/build-the-workbooks.md#team-the-pickledrive-copy).
 
 > **Generate the scoring workbook, don't copy last event's.** These steps
 > instantiate the *registration* and the *site*, and connect the event's
@@ -78,7 +81,9 @@ the day key against it, so the registration comes first.
    tokens.
 6. **Leave the theme alone** unless the event genuinely needs its own — every
    page ships the shared S.A.G.E. palette and re-skinning means changing
-   one `:root` block, nothing else.
+   one `:root` block, nothing else. A team page also keeps its block of the
+   engine's house-coloured rules restated through the tokens (see
+   [the theme contract](site-engine.md#the-theme-contract)).
 7. **Set up the schedule board** (`schedule.html`) — the day key it shows,
    and `CAT_META` (each category's wall-display color, read off the source
    spreadsheet's own color-coding — see [schedule board](schedule-board.md)

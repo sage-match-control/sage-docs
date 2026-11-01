@@ -38,6 +38,15 @@ numbers and team codes:
    `MatchUps` (see [the seed cells](../features/team-workbook.md#playoff-seed-cells)).
    That quarterfinal card switches from *Seed n · TBD* to the team's name, and the
    team gets an **Advances** label. Put the seed number back afterwards.
+   - With lineup reveal on, the lineup stays hidden on the Hub and the board while
+     Control Center shows it. Tick that matchup's **Show lineup** box and press
+     **Resync this day now** (the tick doesn't sync by itself): the names appear.
+     Untick it afterwards.
+   - With team colours set, every team shows its own mark before its name on the
+     Hub, the board and Control Center.
+   - Change one player's name on `Teams` and press **Resync this day now** (roster
+     edits don't sync by themselves): the Hub's **Teams** tab shows the change. Put
+     the name back afterwards.
 
 ### Check the console (operator device only)
 
@@ -85,8 +94,8 @@ a phone:
 - [ ] Clear both scores on Match A.
 - [ ] Clear Match B from `Court Control`.
 - [ ] Restore Match C's original team code.
-- [ ] A team event: put every seed cell back to its seed number and clear the test
-  lineup.
+- [ ] A team event: put every seed cell back to its seed number, clear the test
+  lineup, untick any **Show lineup** box you ticked and put back the player's name.
 - [ ] **Resync this day now** once more, to publish the reverted state.
 
 ## The "Ready" checklist

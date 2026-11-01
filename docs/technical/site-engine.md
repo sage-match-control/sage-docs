@@ -232,10 +232,23 @@ names.
 
 A shell's `:root` defines the custom properties the engine's CSS reads
 (`--navy`, `--green`, `--paper`, `--ink`, `--radius`, `--card-shadow` and the
-rest in `_tests/unit/theme-contract.test.mjs`), and nothing else is a
-colour in the engine. A property the CSS reads with a fallback (for example
-`--att-bar-bg`) is listed as optional. Where a page differs from the shared
-rules, its own rules sit in a labelled block at the end of its `<style>`.
+rest in `_tests/unit/theme-contract.test.mjs`). A property the CSS reads with
+a fallback (for example `--att-bar-bg`) is listed as optional. Where a page
+differs from the shared rules, its own rules sit in a labelled block at the end
+of its `<style>`.
+
+Some tints and shadows in the engine's CSS are still literal house colours
+(`rgba(124,185,44,…)` and the like): a winning side, a live row, the live dot's
+pulse, the dividers, a sticky header's paper. A page with its own palette would
+show them unchanged, so the team template's Hub and board restate each of those
+rules in a block headed **lib/v1/css's house colours, through this page's
+tokens**, writing `color-mix(in srgb, var(--token) N%, transparent)` for
+`rgba(<house token>, N/100)`. That is the same colour on the house palette and
+the event's own on any other. `_tests/unit/team-theme.test.mjs` fails when an
+engine rule in a house colour is missing from a team page's block, or restated
+as anything but its token version. The standard and dual-meet templates have no
+such block, so a re-skinned event made from one shows the house green in those
+places unless its page restates them.
 
 ## The comparison harness
 

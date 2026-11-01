@@ -37,6 +37,24 @@ has been replaced.
 
 ---
 
+## [2.40.0] — 2026-11-01
+
+### Changed
+
+- [Site engine](technical/site-engine.md) (the theme contract) and
+  [Adding a new event](technical/adding-a-new-event.md): the team template's pages restate the
+  engine's house-coloured tints and shadows through the page's tokens, so a re-skinned team event
+  shows its own colours on a winning side, a live row and the dividers.
+- [Adding a new event](technical/adding-a-new-event.md) and
+  [Build the workbooks](usage/build-the-workbooks.md#team-the-pickledrive-copy): a team event of
+  another shape copies the nearest past event's workbook and is adapted by hand, with the checks
+  to run before connecting it.
+- [Rehearse](usage/rehearse.md) and [Run the day](usage/run-the-day.md): the team checks for lineup
+  reveal, team colours and roster edits (neither a **Show lineup** tick nor a `Teams` edit syncs by
+  itself), and the playoff tiebreaker row on the day.
+
+---
+
 ## [2.39.0] — 2026-11-01
 
 ### Changed

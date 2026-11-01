@@ -164,6 +164,14 @@ are listed on [the team workbook](../features/team-workbook.md#playoff-seed-cell
 that each card changes from *Seed n · TBD* to the team's name and that the team is marked
 **Advances**.
 
+A playoff matchup still level after its games plays its tiebreaker row (`TB`), where the
+workbook has one: type the two nominated players into that row, then enter its score like
+any other. A matchup already settled needs nothing; its tiebreaker reads *Not needed*.
+
+Two workbook edits don't sync by themselves, so press **Resync this day now** after each:
+ticking a matchup's **Show lineup** box (an event with lineup reveal), and a change on
+`Teams` (a substitute, a spelling fix).
+
 ### Twice-to-beat finals
 
 In a category settled by a twice-to-beat final, the #1 pair wins by winning once and the #2

@@ -64,11 +64,11 @@ The workbook renames itself, for example
 
 ### Team: the PickleDrive copy
 
-There is no Team Tournament Master yet. A team event's workbook is made by copying
-PickleDrive's and clearing its inputs, so **only an event of PickleDrive's shape
-can be made this way**: 15 teams `A`–`O` in three brackets of five, four pairs per
-matchup, 152 matches, one venue and 10 courts. Any other shape waits for the
-master.
+There is no Team Tournament Master yet. A team event's workbook is a copy of a past
+team event's. **An event of PickleDrive's shape** (15 teams `A`–`O` in three
+brackets of five, four pairs per matchup, 152 matches, one venue and 10 courts)
+copies PickleDrive's and clears its inputs, as below. **Any other shape** copies the
+nearest past event's workbook and is adapted by hand (see "Another shape" below).
 
 The cells to clear come from the site repo's runbook, `_templates/CLAUDE.md`,
 "Team events: the workbook", and are repeated below.
@@ -95,6 +95,21 @@ The cells to clear come from the site repo's runbook, `_templates/CLAUDE.md`,
 
 The copy keeps the sync script but not its trigger. [Step 5](connect-the-workbooks.md)
 creates the trigger and replaces the copied day key.
+
+**Another shape.** The Millennium Invitational's workbook (8 teams with colour codes,
+one round robin, Bronze and Final) was adapted from a copy of PickleDrive's, and
+Ladies' Dink's (brackets A–D, playoff tiebreaker rows) from a copy of Millennium's.
+Copy whichever is closest, never editing the source. The event's spec says how the
+format differs from the copied event's and lists what the copy still holds of the old
+event, until each item is fixed. Before connecting it, check:
+
+- every team has a name in `Teams`;
+- `STANDINGSCSV` has one row per team with zero points, a bracket that is a number or
+  one letter, and no row reading `-`;
+- `CSV` has every match with every score empty, every playoff row reading its seed,
+  and any tiebreaker rows coded `<SIDE>_TB` on both sides;
+- the format's rules (pair labels, games or points scoring, lineup rules, lineup
+  reveal) are in the event's registration.
 
 ## Pack `SCHEDULE` (standard only)
 
@@ -164,8 +179,8 @@ a pair booked twice in one slot.
   day's venues.
 - **SAGE → Help** reports the workbook's status and the script versions.
 - A team workbook: `STANDINGSCSV` lists the new teams with zero points, `CSV` has
-  152 rows with every score empty, and every quarterfinal and later row reads its
-  seed (`QF-3_1`…).
+  every match (152 for PickleDrive's shape) with every score empty, and every playoff
+  row reads its seed (`QF-3_1`…).
 
 ## If it doesn't
 
