@@ -37,6 +37,16 @@ has been replaced.
 
 ---
 
+## [2.43.1] — 2026-11-06
+
+### Changed
+
+- [Team names on scoresheets](specs/not-started/scoresheet-team-names-spec.md): rewritten so it can be
+  built with no other context, with the exact code, tests, checks and doc text, all run on a throwaway
+  copy of the repos.
+
+---
+
 ## [2.43.0] — 2026-11-06
 
 ### Added
