@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.44.0] — 2026-11-06
+
+### Changed
+
+- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md): the organiser's
+  revised tiebreaker process. Two teams still level play one side-out game to 5; three or more play a round
+  robin to 5, then first to 3, then a timed match; a playoff tiebreaker is to 11, with the pair submitted in a
+  3-pair lineup.
+
+---
+
 ## [2.43.1] — 2026-11-06
 
 ### Changed

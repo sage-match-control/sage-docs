@@ -10,9 +10,9 @@
 > at `d7ed8ed`, `sage-tools-api` 3.4.0 (`b61381a`), `event-data`'s current
 > `config/events.json`, the event workbook as exported that day (§2), and the
 > organiser's notes (§1.1). The owner answered the questions on 31 October 2026
-> (§15). The last two were answered on 1 November 2026: the organiser settles three or
-> more teams level on wins *and* on quotient on the day (§15 Q10), and first serve is
-> 3:30 PM (§15 Q11).
+> (§15). First serve, 3:30 PM, was answered on 1 November 2026 (§15 Q11). The tiebreaker
+> process in §1.1 is the organiser's revised one of 6 November 2026, which needs no change
+> to the site (§15 Q2, Q10).
 >
 > **The tiebreaker code is `_TB`**, as the workbook writes it (`QF-1_TB`), changed from
 > `_D` on 31 October at the owner's request; the dry run below was repeated with it.
@@ -40,7 +40,7 @@ Millennium's `teamScoring: "games"` (teams are ranked by games won) and needs th
 compatible engine changes first:
 
 - **A. The playoff tiebreaker game** (§4). A playoff matchup is two games, so it
-  can end 1–1. Then one nominated pair from each team plays one more game to 7.
+  can end 1–1. Then one nominated pair from each team plays one more game, to 11.
   The engine has no "game played only if needed" for team events. Without the
   change, a matchup won 2–0 never reads Final, and the facility is never stamped
   complete: on Appendix A's finished fixture, today's engine reports 4 matches
@@ -187,7 +187,7 @@ npm test
 | Brackets | **4 brackets of 4** (A–D). Each bracket plays a round robin of 6 matchups |
 | Matchup | **2 games**: pair 1 against pair 1, pair 2 against pair 2. Each team plays 3 matchups in the group stage, so 6 games ("a maximum of 6 wins") |
 | Playoffs | The **top 2 of each bracket** (8 teams): **quarterfinals**, **semifinals**, **Bronze** and **Final** |
-| Playoff tiebreaker | A playoff matchup at **1–1** plays **one more game**: each team nominates one of its pairs, side-out scoring, **to 7**. The organiser's notes call it a "dreambreaker". The site calls it **Tiebreaker** (**TB**) |
+| Playoff tiebreaker | A playoff matchup at **1–1** plays **one more game**: each team nominates one pair, side-out scoring, **to 11** in every round (§15 Q12). A team submits its playoff lineup as **3 pairs**, the third being its tiebreaker pair. The organiser's first notes call it a "dreambreaker". The site calls it **Tiebreaker** (**TB**) |
 | Matches | **72**: 48 group games, 8 QF, 4 SF, 2 Bronze and 2 Final games, and **8 tiebreaker games** (one per playoff matchup, played only when needed) |
 | Times | 25-minute slots. Group stage 3:00–5:55 PM on courts 1–6. QF game 1 at 6:45, game 2 at 7:10, tiebreaker at 7:35, each QF on its own court (1–4). SF games at 8:00 (courts 1–2 and 3–4), tiebreakers at 8:25 (courts 1 and 3). Bronze and Final at 8:50 (courts 1–2 and 3–4), tiebreakers at 9:15 (courts 1 and 3) |
 | Site title | **Ladies' Dink** (browser tab, Control Center, footer, schedule board). The hero reads "1st Club Tournament" |
@@ -196,8 +196,8 @@ npm test
 
 ### 1.1 Ranking and ties
 
-The organiser's notes (31 October 2026, also in the workbook's `MISC Org Details`
-tab, partly in Filipino), with the owner's answers:
+The organiser's process as revised on 6 November 2026, with the owner's answers. The
+workbook's `MISC Org Details` tab holds the earlier notes of 31 October, partly in Filipino:
 
 1. **Games won** in the bracket's played group games.
 2. **Two teams level:**
@@ -205,19 +205,25 @@ tab, partly in Filipino), with the owner's answers:
       matchups, a 1–1 split will be common);
    2. still level: the **head-to-head quotient**, points for ÷ points against in
       those two games;
-   3. still level: a **tiebreaker game to 7** between them.
+   3. still level: **one game between them**, side-out scoring, **to 5**.
 3. **Three or more level:**
    1. the **quotient**, points for ÷ points against over all their group games;
    2. two still level go to step 2;
-   3. three or more with the same quotient: **the organiser decides on the day** (§15 Q10).
+   3. three or more with the same quotient: **a round robin among them**, one pair per
+      team, side-out scoring, to 5. Still level: **first to 3**. Still level: **a timed
+      match** (§15 Q10).
+
+The revised process says only "quotient" at step 2.2. The owner confirmed on 6 November that
+this is the head-to-head quotient (§15 Q2), which is what the engine computes.
 
 Steps 1, 2.1, 2.2, 3.1 and 3.2 are already the engine's `"games"` ranking
 (`teamRankBracketByGames` in `lib/v1/domain/teams.js`), so the site computes them
 with no change. Steps 2.3 and 3.3 happen off the site. A tie that reaches them keeps
 the workbook's order. Once the bracket's round robin is over, its teams share the
 higher rank and show the **Tied** pill (§6). The organiser settles it by typing the
-qualifiers into the quarterfinal slots, as for every playoff. The group-stage
-tiebreaker game has no row in `SCHEDULE`, so nothing records its result.
+qualifiers into the quarterfinal slots, as for every playoff. These games have no row in
+`SCHEDULE`, so nothing records their results, and the pill stays after the tie is settled.
+The pill also shows on two teams level for 3rd and 4th, where neither qualifies.
 
 A group matchup at 1–1 has no winner in the organiser's rules; only games count. The
 engine's `"games"` scoring then names the side with more total points as the
@@ -268,7 +274,7 @@ have already entered.
 | Ranking | `teamScoring: "games"` | the same (§1.1) | **Fits** |
 | Playoffs | Bronze, Final | QF, SF, Bronze, Final | Standings draws each stage that has matchups. **Fits** |
 | **Playoff at 1–1** | can't happen | a tiebreaker game | No notion of a game played only if needed. **Change A** |
-| Unsettled tie | "Tied · playoff game / round robin", "to 5" | a game to 7; three-way undecided | **Change C** |
+| Unsettled tie | "Tied · playoff game / round robin", "to 5" | wording that fits any event | **Change C** |
 | Pairs | MD, XD, WD, GD | two pairs | `display.pairs` `{1: Pair 1/P1, 2: Pair 2/P2}` (§8). No `lineupRules`, no `lineupReveal` |
 | Courts | 8 | 6 | The board counts courts from the data. **Fits** |
 | Team colours | 8, with shapes | none | 16 teams is more than the marks keep apart (§16 D5) |
@@ -1195,8 +1201,7 @@ defines `model` (PickleDrive's fixture, numbered brackets).
 A bracket tie that every tiebreaker leaves level shows a pill. Today it reads
 *Tied · playoff game* (two teams) with the tooltip "one game to 5 decides it", or
 *Tied · playoff round robin* (three or more) with "a round robin of games to 5
-decides it". Those are Millennium's playoffs. Here the two-team game is to 7 and
-the three-team rule is undecided (§1.1). The two-team pill keeps its text and loses
+decides it". Those are Millennium's playoffs, and an event's own may differ (§1.1). The two-team pill keeps its text and loses
 "to 5" from its tooltip. The three-or-more pill reads *Tied · playoff*.
 
 **Find** in `lib/v1/views/teams.js`:
@@ -1925,8 +1930,12 @@ check `https://sage-match-control.github.io/event-data/ladies-dink-2026/data/lad
 ### 14.3 On the day
 
 After the group stage the organiser types the 8 qualifiers into the QF slots
-(§1.2). If a playoff matchup goes 1–1, the operator types the nominated pair's names
-into its tiebreaker row, and its score goes in like any other.
+(§1.2). Teams submit 3 pairs for each playoff matchup, the third being its tiebreaker pair.
+If the matchup goes 1–1, the operator types that pair's names into its tiebreaker row, and
+its score goes in like any other. The Hub shows whatever is typed in that row at once, so
+it waits until 1–1 unless the organiser wants the pair public sooner. The score dialog warns
+only below 7, so it takes a tiebreaker to 11 without a warning, and doesn't warn on a score
+that stops between 7 and 10.
 
 ### 14.4 QR, hub board and dry run
 
@@ -1941,7 +1950,7 @@ The owner makes the short link and `qr.png` (§2), then the hub board's QR panel
 | # | Question | Answer | Where |
 |---|---|---|---|
 | Q1 | The notes say the top 2 "proceed to the semis", but 8 qualifiers need quarterfinals. The playoff path? | QF, SF, Bronze, Final, as the workbook has it | §1, §1.2 |
-| Q2 | Two teams level on wins whose head-to-head is 1–1: what next? | The head-to-head quotient. Still level: a tiebreaker game to 7 | §1.1 |
+| Q2 | Two teams level on wins whose head-to-head is 1–1: what next? | The head-to-head quotient. Still level: one side-out game to 5 (revised 6 November) | §1.1 |
 | Q3 | How are the 8 qualifiers seeded? | Bracket crossover | §1.2, §8 `seedLabels` |
 | Q4 | Lettered brackets on the site, or publish `1`–`4`? | Letters A–D | §5, §7.5 |
 | Q5 | The tiebreaker's label? | "Tiebreaker" / "TB" | §4.5 |
@@ -1949,8 +1958,9 @@ The owner makes the short link and `qr.png` (§2), then the hub board's QR panel
 | Q7 | Check-in and score entry? | Check-in desk links and scorer links | §8 |
 | Q8 | The short link? | `tinyurl.com/SAGExLD2026` | §1, §7.2 |
 | Q9 | The facility name? | "Pampanga Pickleball Center" | §7.2, §8, §14.2 |
-| Q10 | Three or more teams level on wins **and** quotient: what settles it? | The organiser decides on the day (answered 1 November). The site shows them as Tied (§6) | §1.1 step 3.3 |
+| Q10 | Three or more teams level on wins **and** quotient: what settles it? | A round robin with one pair per team, side-out to 5, then first to 3, then a timed match (revised 6 November). The site shows them as Tied (§6) | §1.1 step 3.3 |
 | Q11 | The workbook now starts at 3:30 PM; the pubmat says 3:00. Which is first serve? | 3:30 PM (answered 1 November), as the workbook has it. The site reads times from the workbook | §1, §14.1 item 9 |
+| Q12 | The revised process says a playoff tiebreaker is "7 points or 11 points". Which? | To 11 in every round (answered 6 November) | §1, §14.3 |
 | — | The Tied pill named Millennium's "to 5". What should it say? | Generic wording | §6 |
 
 ---
