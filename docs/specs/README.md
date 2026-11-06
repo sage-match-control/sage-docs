@@ -305,6 +305,10 @@ to the `...` form rather than repointing it.
   about 20 MB to Artifact Registry instead of 361 MB and builds faster. Records the
   repository's cleanup policy, which keeps the last deploy. To build after the
   Sportsfest.
+- **[Team names on scoresheets](not-started/scoresheet-team-names-spec.md)** — a team
+  event's scoresheets print each team's name beside its pair code, on all four layouts.
+  The generator page joins the names from the snapshot's standings, and every other
+  event's sheets stay byte-for-byte the same. To build after the Sportsfest.
 
 
 ---

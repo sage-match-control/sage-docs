@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.43.0] — 2026-11-06
+
+### Added
+
+- [Team names on scoresheets](specs/not-started/scoresheet-team-names-spec.md): a new spec, not
+  started, for printing each team's name beside its pair code on a team event's scoresheets.
+
+---
+
 ## [2.42.0] — 2026-11-06
 
 ### Changed
