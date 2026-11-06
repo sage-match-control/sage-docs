@@ -93,8 +93,11 @@ The cells to clear come from the site repo's runbook, `_templates/CLAUDE.md`,
    - **Slot times** are `SCHEDULE!B6:B`. Retype them if the event starts at another
      time and they are typed values.
 
-The copy keeps the sync script but not its trigger. [Step 5](connect-the-workbooks.md)
-creates the trigger and replaces the copied day key.
+The copy keeps the source workbook's sync script, however old, but not its trigger. So
+replace the script before connecting it: in **Extensions → Apps Script**, replace the
+sync file's whole contents with the current `sage-tools-api/apps-script/sheets-sync.gs`,
+save and reload. **SAGE → Help** then shows the version you pasted.
+[Step 5](connect-the-workbooks.md) creates the trigger and replaces the copied day key.
 
 **Another shape.** The Millennium Invitational's workbook (8 teams with colour codes,
 one round robin, Bronze and Final) was adapted from a copy of PickleDrive's, and

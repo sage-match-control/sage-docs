@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.42.0] — 2026-11-06
+
+### Changed
+
+- [Build the workbooks](usage/build-the-workbooks.md#team-the-pickledrive-copy): a copied team
+  workbook gets the current sync script pasted in before it is connected, since it keeps the source
+  workbook's otherwise.
+- [Troubleshooting](usage/troubleshooting.md): **Sync now** showing raw JSON, and what to do.
+
+---
+
 ## [2.41.0] — 2026-11-01
 
 ### Changed
