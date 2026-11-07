@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.45.0] — 2026-11-07
+
+### Changed
+
+- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md): two teams level on
+  wins at 1–1 head-to-head go straight to a side-out game to 5, with no quotient.
+- [Event data config](technical/event-data-config.md), [Site engine](technical/site-engine.md) and
+  [Tournament Hub](features/tournament-hub.md): an event's `headToHeadQuotient: false`.
+
+---
+
 ## [2.44.0] — 2026-11-06
 
 ### Changed

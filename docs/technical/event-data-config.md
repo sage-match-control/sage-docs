@@ -92,6 +92,10 @@ default).
   there is neither. It never works out who qualifies.
   Anything malformed is dropped with a console warning on the page. `sage-tools-api`
   never reads it. Control Center and the Hub read it.
+- `headToHeadQuotient` (team events with `teamScoring: "games"`, optional): `false`
+  sends two teams level on wins and at 1–1 head-to-head straight to **Tied**,
+  skipping the head-to-head quotient. Anything else keeps the quotient.
+  `sage-tools-api` never reads it.
 - `teamScoring` (team events only, optional) is the event's scoring rule.
   `"points"`, the default, decides a matchup on total points and ranks a
   bracket on points scored. `"games"` decides a matchup on matches won and then

@@ -11,8 +11,8 @@
 > `config/events.json`, the event workbook as exported that day (§2), and the
 > organiser's notes (§1.1). The owner answered the questions on 31 October 2026
 > (§15). First serve, 3:30 PM, was answered on 1 November 2026 (§15 Q11). The tiebreaker
-> process in §1.1 is the organiser's revised one of 6 November 2026, which needs no change
-> to the site (§15 Q2, Q10).
+> process in §1.1 is the organiser's revised one of 7 November 2026, whose one site change
+> is the event's `headToHeadQuotient: false` (§15 Q2, Q10).
 >
 > **The tiebreaker code is `_TB`**, as the workbook writes it (`QF-1_TB`), changed from
 > `_D` on 31 October at the owner's request; the dry run below was repeated with it.
@@ -196,16 +196,15 @@ npm test
 
 ### 1.1 Ranking and ties
 
-The organiser's process as revised on 6 November 2026, with the owner's answers. The
+The organiser's process as revised on 7 November 2026, with the owner's answers. The
 workbook's `MISC Org Details` tab holds the earlier notes of 31 October, partly in Filipino:
 
 1. **Games won** in the bracket's played group games.
 2. **Two teams level:**
    1. head-to-head wins, the games each won in their matchup (with 2-game
       matchups, a 1–1 split will be common);
-   2. still level: the **head-to-head quotient**, points for ÷ points against in
-      those two games;
-   3. still level: **one game between them**, side-out scoring, **to 5**.
+   2. still level, usually a 1–1 split: **one game between them**, side-out scoring,
+      **to 5**. The quotient plays no part.
 3. **Three or more level:**
    1. the **quotient**, points for ÷ points against over all their group games;
    2. two still level go to step 2;
@@ -213,12 +212,10 @@ workbook's `MISC Org Details` tab holds the earlier notes of 31 October, partly 
       team, side-out scoring, to 5. Still level: **first to 3**. Still level: **a timed
       match** (§15 Q10).
 
-The revised process says only "quotient" at step 2.2. The owner confirmed on 6 November that
-this is the head-to-head quotient (§15 Q2), which is what the engine computes.
-
-Steps 1, 2.1, 2.2, 3.1 and 3.2 are already the engine's `"games"` ranking
-(`teamRankBracketByGames` in `lib/v1/domain/teams.js`), so the site computes them
-with no change. Steps 2.3 and 3.3 happen off the site. A tie that reaches them keeps
+Steps 1, 2.1, 3.1 and 3.2 are the engine's `"games"` ranking (`teamRankBracketByGames`
+in `lib/v1/domain/teams.js`). The engine's default also separates two teams by the
+head-to-head quotient, as the Millennium Invitational did, so this event's `events.json`
+entry sets `headToHeadQuotient: false`. Steps 2.2 and 3.3 happen off the site. A tie that reaches them keeps
 the workbook's order. Once the bracket's round robin is over, its teams share the
 higher rank and show the **Tied** pill (§6). The organiser settles it by typing the
 qualifiers into the quarterfinal slots, as for every playoff. These games have no row in
@@ -1950,7 +1947,7 @@ The owner makes the short link and `qr.png` (§2), then the hub board's QR panel
 | # | Question | Answer | Where |
 |---|---|---|---|
 | Q1 | The notes say the top 2 "proceed to the semis", but 8 qualifiers need quarterfinals. The playoff path? | QF, SF, Bronze, Final, as the workbook has it | §1, §1.2 |
-| Q2 | Two teams level on wins whose head-to-head is 1–1: what next? | The head-to-head quotient. Still level: one side-out game to 5 (revised 6 November) | §1.1 |
+| Q2 | Two teams level on wins whose head-to-head is 1–1: what next? | One side-out game to 5, with no quotient (revised 7 November) | §1.1 |
 | Q3 | How are the 8 qualifiers seeded? | Bracket crossover | §1.2, §8 `seedLabels` |
 | Q4 | Lettered brackets on the site, or publish `1`–`4`? | Letters A–D | §5, §7.5 |
 | Q5 | The tiebreaker's label? | "Tiebreaker" / "TB" | §4.5 |

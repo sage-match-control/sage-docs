@@ -163,7 +163,8 @@ two-team rules. Teams level after that stay in the workbook's order, and once th
 round robin is over they share the higher rank and read **Tied · playoff game**
 (two teams) or **Tied · playoff** (three or more): the organiser's
 playoff settles it, and the qualifiers typed into the workbook's playoff slots
-show who goes on.
+show who goes on. An event can skip the head-to-head quotient, as Ladies' Dink does:
+two teams that split their matchup 1–1 then read **Tied · playoff game** at once.
 
 An event's brackets may be lettered. The workbook's `bracket` column then reads
 `A`, `B`… and the Hub titles each table **Bracket A**, **Bracket B**… in letter
