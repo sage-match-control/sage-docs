@@ -94,7 +94,9 @@ nominated their pair. It isn't played when the matchup's other games settle it.
 A **tiebreaker for teams level in a bracket** is a row an operator adds to `SCHEDULE` once the
 tie is known, coded the same way (`A2_TB` v `A4_TB`), with a new match number. The site ranks
 the level teams by these games and counts them for nothing else: not W, L, PF, PA or the
-quotient. Check that the row reaches the `CSV` tab, which is what the site reads.
+quotient. Check that the row reaches the `CSV` tab, which is what the site reads. A spare row
+in `CSV` whose first team code is `-` isn't a match: the site leaves it off the schedule, the
+match count and the estimated finish, and it doesn't keep the day from finishing.
 
 `STANDINGSCSV`'s `bracket` column is a number (`1`) or one letter (`A`).
 

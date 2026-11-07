@@ -191,6 +191,7 @@ npm test
 | Matches | **72**: 48 group games, 8 QF, 4 SF, 2 Bronze and 2 Final games, and **8 tiebreaker games** (one per playoff matchup, played only when needed) |
 | Times | 25-minute slots. Group stage 3:00–5:55 PM on courts 1–6. QF game 1 at 6:45, game 2 at 7:10, tiebreaker at 7:35, each QF on its own court (1–4). SF games at 8:00 (courts 1–2 and 3–4), tiebreakers at 8:25 (courts 1 and 3). Bronze and Final at 8:50 (courts 1–2 and 3–4), tiebreakers at 9:15 (courts 1 and 3) |
 | Site title | **Ladies' Dink** (browser tab, Control Center, footer, schedule board). The hero reads "1st Club Tournament" |
+| Lineups | Public pages show a match's players only once the workbook's **Show lineup** box is ticked (`lineupReveal`). Control Center warns when a player plays both of a matchup's games (`lineupRules`); a tiebreaker's pair may repeat a player |
 | Check-in and scoring | Check-in desk links (`"attendance": "desks"`) and scorer links for the courts (`"scoreEntry": "links"`) |
 | Short link | `tinyurl.com/SAGExLD2026` → `https://sage-match-control.github.io/events/ladies-dink-2026/`. The owner makes it and its QR image |
 
@@ -1936,8 +1937,7 @@ After the group stage the organiser types the 8 qualifiers into the QF slots
 If the matchup goes 1–1, the operator types that pair's names into its tiebreaker row, and
 its score goes in like any other. The Hub shows whatever is typed in that row at once, so
 it waits until 1–1 unless the organiser wants the pair public sooner. The score dialog warns
-only below 7, so it takes a tiebreaker to 11 without a warning, and doesn't warn on a score
-that stops between 7 and 10.
+on a playoff tiebreaker that stops short of 11, and on a bracket tiebreaker short of 5.
 
 ### 14.4 QR, hub board and dry run
 

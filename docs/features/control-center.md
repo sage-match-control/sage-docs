@@ -363,7 +363,7 @@ breaks a rule, by match number, and each such match carries the same warning
 on its line in Match Finder and in the score dialog:
 
 - a player in two pairs of the same round, or a full round that leaves a
-  rostered player out (everyone plays once a round);
+  rostered player out (everyone plays once a round, and a tiebreaker's pair may repeat a player);
 - a player who isn't on the team's roster;
 - **Men's High** without two men, or without an advanced player;
 - **Mixed** without one man and one woman, or with the team's captain (the

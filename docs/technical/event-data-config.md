@@ -124,7 +124,7 @@ default).
   roster, out of the mixed pair. `allowed` names players the organiser lets into
   a kind whatever its gender rule says (`{ "Gian": ["womens"] }`: a man who may
   play Women's; he still counts as a man in Mixed). Every event with `lineupRules` also gets: a
-  player plays once per round (matchup), and a round whose pairs are all in leaves
+  player plays once per round (matchup), a tiebreaker game not counting, and a round whose pairs are all in leaves
   no rostered player out. A player is matched to the roster by name, ignoring case
   and spaces; a check that needs a gender or level the roster doesn't give is
   skipped. Example: `"lineupRules": { "pairs": { "1": "mens-high", "2": "mixed", "3": "womens", "4": "open" }, "advancedLevels": ["HA", "HI"], "captainNotMixed": true }`.

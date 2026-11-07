@@ -37,6 +37,19 @@ has been replaced.
 
 ---
 
+## [2.47.0] — 2026-11-07
+
+### Changed
+
+- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md): the score dialog
+  warns on a playoff tiebreaker short of 11, public pages hold a lineup until it is ticked, and Control Center
+  warns when a player plays both of a matchup's games.
+- [Control Center](features/control-center.md) and [Event data config](technical/event-data-config.md): a
+  tiebreaker's pair may repeat a player.
+- [Team workbook](features/team-workbook.md): a spare row with `-` as its team code isn't a match.
+
+---
+
 ## [2.46.0] — 2026-11-07
 
 ### Changed
