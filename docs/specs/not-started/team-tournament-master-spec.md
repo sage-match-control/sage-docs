@@ -50,6 +50,21 @@ ones `sage-tools-api` and the site depend on):
 plus the workbook-level **named functions** (`STACKBLOCKS`, the `GET…BYMATCH…`
 and matchup families) that the formulas call.
 
+### 2.1 What the team events after PickleDrive added
+
+The Millennium Invitational and Ladies' Dink changed their workbooks by hand. A generated
+workbook carries these too:
+
+- **Show lineup.** A tick box in `MatchUps` column Q on each matchup block's first row.
+- **`lineupShown`.** A last column in `CSV`, filled from that box:
+  `=ARRAYFORMULA(IF(B2:B="",,COUNTIFS(MatchUps!C:C,B2:B,MatchUps!Q:Q,TRUE)>0))`. An event with
+  `lineupReveal: true` shows a match's players on its public pages only when this is `TRUE`.
+- **Spare rows.** `CSV` may keep rows ready below the matches. A row whose first team code is `-`
+  isn't a match: the site and `sage-tools-api` skip it.
+
+Tiebreaker rows (codes ending `_TB`) are left out for now, by the owner's decision of
+7 November 2026. They may be added later.
+
 ## 3. The hard constraint: named functions
 
 Named functions cannot be created, edited or deleted through the Sheets API or

@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.48.0] — 2026-11-07
+
+### Changed
+
+- [Team Tournament Master](specs/not-started/team-tournament-master-spec.md): the Show lineup column, the
+  `lineupShown` formula and spare rows, from the Millennium Invitational and Ladies' Dink.
+
+---
+
 ## [2.47.0] — 2026-11-07
 
 ### Changed
