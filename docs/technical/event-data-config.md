@@ -24,6 +24,7 @@ default).
     "<event-key>": {
       "type": "dual-meet",              // or "standard" or "team" — required, picks the console's layout
       "archived": false,                // optional, console-only: hides from the event picker
+      "pagesArchived": true,            // optional, console-only: its pages are in the site's events/archives/
       "title": "PNF × BUP Dual Meet",   // optional, console-only: masthead label
       "attendance": "desks",            // optional: "console" | "desks" — staff check-in; absent means none
       "scoreEntry": "links",            // optional: "console" | "links" — entering scores; absent means off

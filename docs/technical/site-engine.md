@@ -14,7 +14,7 @@ desk-link QR code, cdnjs. Pushing to GitHub Pages deploys it.
 lib/v1/
   platform.js      constants: the Pages address, the Cloud Run URL, fetch timeout, poll intervals, fixtureName()
   domain/          the rules, pure functions with no DOM and no clock
-    csv  byes  series  matches  standings  codes  bracket  golive  progress  teams  awards  attendance  schedule-grid  model
+    csv  byes  series  matches  standings  codes  bracket  golive  progress  teams  awards  event-pages  attendance  schedule-grid  model
   data/            the outside world
     registry  snapshot  live-channel  api  tokens
   views/           functions that return HTML strings, plus small components

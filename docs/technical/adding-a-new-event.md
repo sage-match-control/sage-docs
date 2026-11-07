@@ -194,6 +194,13 @@ the pages read their snapshot from GitHub and show the final results as
 before. The folder stays put, at the address the venue's QR code points
 to; archiving it is a separate step.
 
+To archive it, move the folder to `events/archives/<event-key>/` and set
+`"pagesArchived": true` on the event in `config/events.json`, so Control Center's
+**Open schedule**, **Open Tournament Hub** and scorer-page check look there. The
+event stays in the console's picker. Old addresses keep working: the site's
+`404.html` sends a missing page under `events/` to the same page under
+`events/archives/`, keeping its query, so the QR code and short link need no change.
+
 ## Things kept in sync by hand (no automatic check)
 
 - `event-data/config/events.json`'s `days` ↔ the schedule board's `DAY_KEY`

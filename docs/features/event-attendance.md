@@ -139,7 +139,7 @@ and emails out of it.
 ## Pickle for Sight
 
 Pickle for Sight 2026 has its own check-in page and a per-workbook Apps Script,
-and nothing above applies to it. It keeps one row per pair slot, has its own page at `/events/pickle-for-sight-2026/attendance`
+and nothing above applies to it. It keeps one row per pair slot, has its own page at `/events/archives/pickle-for-sight-2026/attendance`
 and does not use desk links or the Attendance tab.
 
 ---

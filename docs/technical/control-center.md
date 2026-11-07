@@ -401,7 +401,7 @@ works like a fixture scorer link: it points at the local `attendance.html` with 
 passed, so it opens when issued.
 
 **The scorer page must exist.** `scorerPageKnown(eventKey)` does a same-origin `HEAD` request for
-`/events/<key>/scorer.html` (a fixture also accepts `scorer-beta.html`), remembers the answer
+`scorer.html` in the event's folder, `/events/<key>/` or, with `pagesArchived`, `/events/archives/<key>/` (a fixture also accepts `scorer-beta.html`), remembers the answer
 per event for a minute and re-checks after that. Until it is `true`, `renderScorerLinks()` disables the
 toggle and **Issue scorer link** and says why, and `setScorerLinksMode` and `issueScorerLink`
 refuse to run even if the button is forced. A failed check counts as "no page". This is only a
