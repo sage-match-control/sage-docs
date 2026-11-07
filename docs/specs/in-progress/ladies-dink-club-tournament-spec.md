@@ -11,8 +11,8 @@
 > `config/events.json`, the event workbook as exported that day (§2), and the
 > organiser's notes (§1.1). The owner answered the questions on 31 October 2026
 > (§15). First serve, 3:30 PM, was answered on 1 November 2026 (§15 Q11). The tiebreaker
-> process in §1.1 is the organiser's revised one of 7 November 2026, whose one site change
-> is the event's `headToHeadQuotient: false` (§15 Q2, Q10).
+> process in §1.1 is the organiser's revised one of 7 November 2026, with two site changes:
+> the event's `headToHeadQuotient: false`, and bracket tiebreaker rows coded `_TB` (§15 Q2, Q10).
 >
 > **The tiebreaker code is `_TB`**, as the workbook writes it (`QF-1_TB`), changed from
 > `_D` on 31 October at the owner's request; the dry run below was repeated with it.
@@ -215,12 +215,17 @@ workbook's `MISC Org Details` tab holds the earlier notes of 31 October, partly 
 Steps 1, 2.1, 3.1 and 3.2 are the engine's `"games"` ranking (`teamRankBracketByGames`
 in `lib/v1/domain/teams.js`). The engine's default also separates two teams by the
 head-to-head quotient, as the Millennium Invitational did, so this event's `events.json`
-entry sets `headToHeadQuotient: false`. Steps 2.2 and 3.3 happen off the site. A tie that reaches them keeps
-the workbook's order. Once the bracket's round robin is over, its teams share the
-higher rank and show the **Tied** pill (§6). The organiser settles it by typing the
-qualifiers into the quarterfinal slots, as for every playoff. These games have no row in
-`SCHEDULE`, so nothing records their results, and the pill stays after the tie is settled.
-The pill also shows on two teams level for 3rd and 4th, where neither qualifies.
+entry sets `headToHeadQuotient: false`. A tie that reaches steps 2.2 or 3.3 keeps the
+workbook's order. Once the bracket's round robin is over, its teams share the higher rank
+and show the **Tied** pill (§6).
+
+The operator adds each game of steps 2.2 and 3.3 to `SCHEDULE` by hand: both codes ending
+`_TB` (`A2_TB` v `A4_TB`), a new match number from 73, in a free slot such as 6:20 PM. The
+site ranks the teams still level by the most of these games they won against each other, and
+the pill clears once that separates them. These games count for nothing else: not W, L, PF,
+PA or either quotient, so no other team moves. The organiser still types the qualifiers into
+the quarterfinal slots, as for every playoff. The pill also shows on two teams level for 3rd
+and 4th, where neither qualifies.
 
 A group matchup at 1–1 has no winner in the organiser's rules; only games count. The
 engine's `"games"` scoring then names the side with more total points as the

@@ -142,7 +142,10 @@ The team rules in `domain/teams.js` take the event's `teamScoring`:
 `teamMatchupResult(ms, scoring)`, `buildTeamData(matches, standings, { scoring })`
 (which echoes it as `model.team.scoring` for the views) and
 `teamRankBracket(rows, matches, scoring, { headToHeadQuotient })`, where the event's
-`headToHeadQuotient: false` skips the head-to-head quotient below. With `"games"` a matchup is won on
+`headToHeadQuotient: false` skips the head-to-head quotient below. A group-stage game whose two
+codes end `_TB` is left out of `teamGameRecords` and of both quotients, and only ranks the teams
+still level after everything below, by the most such games won against each other; an unplayed
+one doesn't count as a group match left. With `"games"` a matchup is won on
 matches won and then total points, and a bracket is ranked by matches won, then,
 for two teams level, head-to-head wins and the head-to-head quotient, and for
 three or more, the overall quotient (two still level going to the two-team

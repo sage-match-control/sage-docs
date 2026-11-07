@@ -165,6 +165,8 @@ round robin is over they share the higher rank and read **Tied · playoff game**
 playoff settles it, and the qualifiers typed into the workbook's playoff slots
 show who goes on. An event can skip the head-to-head quotient, as Ladies' Dink does:
 two teams that split their matchup 1–1 then read **Tied · playoff game** at once.
+When the playoff is entered as a tiebreaker row, its result settles the tie and the pill
+clears; its points and wins don't appear in the table.
 
 An event's brackets may be lettered. The workbook's `bracket` column then reads
 `A`, `B`… and the Hub titles each table **Bracket A**, **Bracket B**… in letter

@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.46.0] — 2026-11-07
+
+### Changed
+
+- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md),
+  [Team workbook](features/team-workbook.md), [Tournament Hub](features/tournament-hub.md) and
+  [Site engine](technical/site-engine.md): a bracket tie's game can be entered as a `_TB` row, which settles
+  the tie and counts for nothing else.
+
+---
+
 ## [2.45.0] — 2026-11-07
 
 ### Changed

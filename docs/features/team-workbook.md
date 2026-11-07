@@ -91,6 +91,11 @@ A playoff matchup that can end level may carry a **tiebreaker row**, coded
 `matchUp` value. Its player cells are typed on the day, once the teams have
 nominated their pair. It isn't played when the matchup's other games settle it.
 
+A **tiebreaker for teams level in a bracket** is a row an operator adds to `SCHEDULE` once the
+tie is known, coded the same way (`A2_TB` v `A4_TB`), with a new match number. The site ranks
+the level teams by these games and counts them for nothing else: not W, L, PF, PA or the
+quotient. Check that the row reaches the `CSV` tab, which is what the site reads.
+
 `STANDINGSCSV`'s `bracket` column is a number (`1`) or one letter (`A`).
 
 ---
