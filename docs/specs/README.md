@@ -208,8 +208,8 @@ to the `...` form rather than repointing it.
 - **[Team tournament](implemented/pickledrive-club-anniversary-team-tournament-spec.md)** —
   a third event type for team events: named teams, four-match matchups, group
   stage then playoffs. PickleDrive Club One Year Celebration ran on 3 October 2026 on
-  the hand-built prototype. The template and the workbook generator are separate specs
-  under Not started.
+  the hand-built prototype. The [template](implemented/team-tournament-template-spec.md) has its
+  own spec, and the [workbook generator](not-started/team-tournament-master-spec.md) is not started.
 - **[Team workbook recalculation](implemented/team-workbook-stack-cache-spec.md)**
   — why PickleDrive's workbook took 10–58 s to read on event day, and the
   by-hand fix applied on 2026-10-05: a hidden, non-volatile `StackCache` tab the
@@ -262,10 +262,15 @@ to the `...` form rather than repointing it.
 - **[Ladies' Dink 1st Club Tournament](in-progress/ladies-dink-club-tournament-spec.md)** —
   the site for a 16-team women's team event on 7 November 2026 at the Pampanga Pickleball
   Center: four lettered brackets of 2-game matchups, ranked by games won, then QF to Final.
-  The three compatible engine changes (a playoff matchup's tiebreaker game to 7, played only
-  at 1–1, in the site and the API's completion stamp; brackets lettered A–D; a Tied pill
-  that names no point target), the event's pages and its `events.json` entry are pushed;
-  the workbook's fixes and live sync setup, the QR image and the dry run are left.
+  Everything it needs from the site is live: a tiebreaker game played only when needed, brackets
+  lettered A–D, a Tied pill that names no point target, two teams at 1–1 going straight to a
+  playoff, the event's pages and its `events.json` entry, and the workbook's live sync. The event
+  itself is left, and the dry run and the workbook's Restricted sharing aren't confirmed.
+
+- **[Team names on scoresheets](in-progress/scoresheet-team-names-spec.md)** — a team
+  event's scoresheets print each team's name beside its pair code, on all four layouts,
+  and every other event's sheets stay byte-for-byte the same. Built and live
+  (`sage-tools-api` 3.6.0 and 3.6.1); the live-page checks and the docs are left.
 
 ---
 
@@ -305,10 +310,6 @@ to the `...` form rather than repointing it.
   about 20 MB to Artifact Registry instead of 361 MB and builds faster. Records the
   repository's cleanup policy, which keeps the last deploy. To build after the
   Sportsfest.
-- **[Team names on scoresheets](not-started/scoresheet-team-names-spec.md)** — a team
-  event's scoresheets print each team's name beside its pair code, on all four layouts.
-  The generator page joins the names from the snapshot's standings, and every other
-  event's sheets stay byte-for-byte the same. To build after the Sportsfest.
 
 
 ---

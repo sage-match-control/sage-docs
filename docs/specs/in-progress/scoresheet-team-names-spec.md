@@ -1,9 +1,10 @@
 # Spec — team names on scoresheets
 
-> **Status: not started.** Written 2026-11-06 against `sage-tools-api` 3.5.0 (`f885c64`) and the
-> site at `9c9b584`. Nothing is built in the repos. All the code in §5 and §6 was run on a throwaway
-> copy of both repos on that date (§10 says what that did and did not cover). Build it **after** the
-> Angeles City Employees Sportsfest (13 November 2026). All owner's decisions are made (§12).
+> **Status: in progress.** §5 and §6 are built and live: `sage-tools-api` 3.6.0 and 3.6.1, and the
+> site's `94fa9c7`, all 6 November 2026. **Still to do:** §7's live-page checks C1–C5, C5 being the
+> owner's call, and §8's docs. Written 2026-11-06 against `sage-tools-api` 3.5.0 (`f885c64`) and the
+> site at `9c9b584`. All the code in §5 and §6 was run on a throwaway copy of both repos on that date
+> (§10 says what that did and did not cover). All owner's decisions are made (§12).
 
 Print each team's name on a team event's scoresheets, next to the pair code that is there today.
 Every other event's sheets stay exactly as they are.

@@ -1,10 +1,12 @@
 # Spec — Ladies' Dink 1st Club Tournament (team tournament)
 
-> **Status: in progress.** The three engine changes (§4–§6; `sage-tools-api` 3.5.0 and the
-> site's `main`), the event's pages (§7) and its `events.json` entry (§8) are built and
-> pushed, with the club logo, the Standings margins on desktop (the Hub and Control Center)
-> and the score dialog's tiebreaker warnings. Left: the workbook's fixes and live sync setup
-> (§14), the QR image (§2) and the dry run.
+> **Status: in progress.** The event is on 7 November 2026, and everything it needs from the
+> site is live: the engine changes (§4–§6), the event's pages (§7), its `events.json` entry (§8),
+> the logo, the QR image and short link, and the workbook's live sync, with `sage-tools-api` at
+> 3.6.2. **Left:** the event itself; this spec moves to `implemented/` once it has run. **Not
+> confirmed:** that the dry run took place, and §14.2's Restricted sharing (the workbook was
+> still readable without sign-in on 7 November). The workbook publishes a 3:00 PM first game,
+> where §15 Q11 says 3:30.
 >
 > Written 2026-10-31 against `sage-match-control.github.io`
 > at `d7ed8ed`, `sage-tools-api` 3.4.0 (`b61381a`), `event-data`'s current

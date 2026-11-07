@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.49.0] — 2026-11-07
+
+### Changed
+
+- [Team names on scoresheets](specs/in-progress/scoresheet-team-names-spec.md) moves from Not started to In
+  progress: it is built and live, with its live-page checks and docs left.
+- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md): the status line
+  says what is live and what is left on the day of the event.
+- [Specs index](specs/README.md): the Team tournament entry links its template, which is built.
+
+---
+
 ## [2.48.0] — 2026-11-07
 
 ### Changed
@@ -96,7 +108,7 @@ has been replaced.
 
 ### Changed
 
-- [Team names on scoresheets](specs/not-started/scoresheet-team-names-spec.md): rewritten so it can be
+- [Team names on scoresheets](specs/in-progress/scoresheet-team-names-spec.md): rewritten so it can be
   built with no other context, with the exact code, tests, checks and doc text, all run on a throwaway
   copy of the repos.
 
@@ -106,7 +118,7 @@ has been replaced.
 
 ### Added
 
-- [Team names on scoresheets](specs/not-started/scoresheet-team-names-spec.md): a new spec, not
+- [Team names on scoresheets](specs/in-progress/scoresheet-team-names-spec.md): a new spec, not
   started, for printing each team's name beside its pair code on a team event's scoresheets.
 
 ---
