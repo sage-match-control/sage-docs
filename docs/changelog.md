@@ -37,13 +37,22 @@ has been replaced.
 
 ---
 
+## [2.50.1] — 2026-11-08
+
+### Fixed
+
+- [Adding a new event](technical/adding-a-new-event.md): archiving an event ends its old address, so its
+  short link has to be pointed at the new one. The site's 404 page doesn't redirect.
+
+---
+
 ## [2.50.0] — 2026-11-08
 
 ### Changed
 
 - [Adding a new event](technical/adding-a-new-event.md) and
   [Event data config](technical/event-data-config.md): archiving an event moves its folder to
-  `events/archives/` and sets `pagesArchived`, and the site's `404.html` keeps its old addresses working.
+  `events/archives/` and sets `pagesArchived`.
 - [Control Center](technical/control-center.md): the scorer-page check follows `pagesArchived`.
 - [Site engine](technical/site-engine.md): lists `domain/event-pages`.
 - [Event attendance](features/event-attendance.md): Pickle for Sight's page address.

@@ -197,9 +197,9 @@ to; archiving it is a separate step.
 To archive it, move the folder to `events/archives/<event-key>/` and set
 `"pagesArchived": true` on the event in `config/events.json`, so Control Center's
 **Open schedule**, **Open Tournament Hub** and scorer-page check look there. The
-event stays in the console's picker. Old addresses keep working: the site's
-`404.html` sends a missing page under `events/` to the same page under
-`events/archives/`, keeping its query, so the QR code and short link need no change.
+event stays in the console's picker. The old address stops working, since nothing
+redirects it and it shows the site's 404 page, so point the event's short link at
+the new address in TinyURL when you move the folder.
 
 ## Things kept in sync by hand (no automatic check)
 
