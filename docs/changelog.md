@@ -37,6 +37,22 @@ has been replaced.
 
 ---
 
+## [2.52.0] — 2026-11-10
+
+### Changed
+
+- [Standard Tournament Generator](features/standard-tournament-generator.md) 1.4.1: four brackets,
+  top 2, cross bracket 1 with 2 and 3 with 4, a bracket's #1 and #2 still on opposite halves
+  (QF-1 Br 1 #1 v Br 2 #2, QF-2 Br 3 #1 v Br 4 #2, QF-3 Br 2 #1 v Br 1 #2, QF-4 Br 4 #1 v Br 3 #2).
+  Also in its [technical page](technical/standard-tournament-generator.md) and the
+  [master spec](specs/implemented/standard-tournament-master-spec.md)'s §18.
+
+### History
+
+- Generator 1.4.0 crossed bracket 1 with 3 and 2 with 4.
+
+---
+
 ## [2.51.0] — 2026-11-10
 
 ### Added

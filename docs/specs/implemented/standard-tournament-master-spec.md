@@ -1927,9 +1927,9 @@ something they leave open.
   the six tier rows take slots 1-6 in order, so the winners of brackets 1, 2
   and 3 take `SF_1`, `SF_2` and `SF_3`, and the runners-up, ranked against each
   other by quotient, take `QF_4` (the bye), `R16_5` and `R16_6`. **Four
-  brackets, top 2:** brackets 1 and 3 cross, and 2 and 4, a bracket's #1 and
-  #2 on opposite legs: `QF-1` Br 1 #1 v Br 3 #2, `QF-2` Br 2 #1 v Br 4 #2,
-  `QF-3` Br 3 #1 v Br 1 #2, `QF-4` Br 4 #1 v Br 2 #2 (tier rows `Br <b> -
+  brackets, top 2:** brackets 1 and 2 cross, and 3 and 4, a bracket's #1 and
+  #2 on opposite legs: `QF-1` Br 1 #1 v Br 2 #2, `QF-2` Br 3 #1 v Br 4 #2,
+  `QF-3` Br 2 #1 v Br 1 #2, `QF-4` Br 4 #1 v Br 3 #2 (tier rows `Br <b> -
   Rank <r>`, not `Rank 2 - <k>th`). Every other shape is still drawn by lot:
   three or four brackets with any other top, five or more, two brackets with
   top 3 or 4, and any category with wildcards.

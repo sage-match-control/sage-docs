@@ -98,7 +98,7 @@ the slot table (`AT:AV`). `fixedSeating_` writes the slot numbers in rather
 than leaving them to a draw for the shapes the organisers seat by rule: two
 brackets (a fixed crossover), three brackets top 2 (tier order: winners to
 SF_1..SF_3, runners-up by quotient to QF_4, R16_5, R16_6), and four brackets
-top 2 (brackets 1-3 and 2-4 crossed, a bracket's #1 and #2 on opposite legs).
+top 2 (brackets 1-2 and 3-4 crossed, a bracket's #1 and #2 on opposite legs).
 It recognises a shape by its bracket count, `adv` and the keywords of its
 fresh seats, and returns null for every other shape, which stays drawn.
 

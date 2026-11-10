@@ -63,10 +63,10 @@ For each ticked category, a tab with:
       seats SF_1, SF_2 and SF_3 in bracket order. The runners-up are ranked
       against each other by quotient: the best takes the quarterfinal bye,
       and the other two play the round of 16.
-    - **Four brackets, top 2:** brackets 1 and 3 cross, and 2 and 4, with a
+    - **Four brackets, top 2:** brackets 1 and 2 cross, and 3 and 4, with a
       bracket's #1 and #2 on opposite halves, so they can only meet again in
-      the final: QF-1 Br 1 #1 v Br 3 #2, QF-2 Br 2 #1 v Br 4 #2, QF-3 Br 3 #1
-      v Br 1 #2, QF-4 Br 4 #1 v Br 2 #2.
+      the final: QF-1 Br 1 #1 v Br 2 #2, QF-2 Br 3 #1 v Br 4 #2, QF-3 Br 2 #1
+      v Br 1 #2, QF-4 Br 4 #1 v Br 3 #2.
 
 Plus a **`MATCHES`** tab, laying out every category's matches side by side,
 one row per round. Each block's header names the bracket whose matches it
