@@ -284,6 +284,10 @@ to the `...` form rather than repointing it.
 - **[Calculator team format](not-started/calculator-team-format-spec.md)** — a third Format option
   in the Tournament Calculator: one team competition planned in matchups, with the group stage,
   quarterfinal-to-final playoffs, slots and finish time worked out from teams, groups and courts.
+- **[Double round robin and one-bracket finals](not-started/double-round-robin-and-finals-spec.md)**
+  — a double round robin for a one-bracket standard category, and two more one-bracket playoffs:
+  a one-game Final with a played 3 v 4 Bronze, and a one-game Final with RR #3 taking bronze.
+  Changes the calculator and the Standard Tournament Generator; the site only gets tests.
 - **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
   workbook generator for team events, phased, starting from the optimised workbook.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea

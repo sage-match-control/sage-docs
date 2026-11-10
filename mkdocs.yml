@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.50.1</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.51.0</a>'
 
 docs_dir: docs
 
@@ -155,6 +155,7 @@ nav:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Calculator team format: specs/not-started/calculator-team-format-spec.md
+          - Double round robin and finals: specs/not-started/double-round-robin-and-finals-spec.md
           - Team Tournament Master: specs/not-started/team-tournament-master-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - Court Control from Control Center: specs/not-started/control-center-court-control-spec.md

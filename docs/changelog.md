@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.51.0] — 2026-11-10
+
+### Added
+
+- [Double round robin and one-bracket finals](specs/not-started/double-round-robin-and-finals-spec.md)
+  (not started): a double round robin for a one-bracket standard category, and two more
+  one-bracket playoffs, a one-game Final with a played 3 v 4 Bronze and a one-game Final with
+  RR #3 taking bronze, in the Tournament Calculator and the Standard Tournament Generator
+  1.5.0. Written to be built without other context.
+
+---
+
 ## [2.50.1] — 2026-11-08
 
 ### Fixed
