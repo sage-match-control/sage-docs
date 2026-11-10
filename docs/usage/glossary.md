@@ -9,6 +9,10 @@ covers every category they play that day at that venue. Set per event as
 **Awards.** Control Center's podium tab. Gold, silver and bronze come from the
 scored Final and Bronze matches. See [Control Center](../features/control-center.md#awards).
 
+**Best-of-3 meeting.** A round-robin pairing played as a best of 3: the first pair
+to win two games takes it, and game 3 is played only at 1–1. W and L in the standings
+count meetings, not games. See [Tournament Calculator](../features/tournament-calculator.md#how-the-round-robin-is-played).
+
 **Bracket.** A group of pairs who play each other in a round robin. A category can
 have several. Also what the Bracket Generator draws. Not to be confused with a
 team event's *bracket stage*, which is its group.
@@ -45,6 +49,9 @@ one day. See the [desk handout](desk-handout.md).
 registration, its website pages and the hub board's QR panel. Their changes are
 marked **Developer task** in this guide.
 
+**Double round robin.** A round robin in which every pairing is played twice, as a
+first and a second meeting. For a category with one bracket.
+
 **Event key.** The identifier of the whole event (e.g. `pnf-x-bup-dual-meet`). It is
 the event's folder name in the site repo and in `event-data`, its key in
 `events.json`, and it appears in the workbook's `Title` tab. Choose it once and
@@ -54,6 +61,10 @@ keep it byte-identical everywhere. See [1. Plan it](plan-the-event.md#choose-the
 a *facility*, the pages call it a *venue*. A day can have several. Its name is
 compared **exactly, including capitals**, between the registration and the
 workbook.
+
+**Final and bronze.** A one-bracket playoff of one game between the round robin's #1
+and #2 for gold, and one between #3 and #4 for bronze. The other one-game format has
+no bronze match: #3 takes bronze.
 
 **Go-live.** When the Tournament Hub starts showing a day's live scores and
 standings. By default (`Auto`) about 4 hours before the day's first match.

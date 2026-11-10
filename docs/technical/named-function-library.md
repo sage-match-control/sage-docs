@@ -123,6 +123,17 @@ row against 4 today.
 | `COUNTPAIRAT(time_value, pair_code)` | a pair's match count at one slot time | `Timeline` body |
 | `MATCHTIME(n)` / `MATCHCOURT(n)` | slot time / `"Court N"` | `CSV!C`, `CSV!D` |
 
+The Standard Tournament Generator also calls the column primitives
+(`GETPLAYERSCOLUMN1/2`, `GETSCORESCOLUMN1/2`, `GETMATCHNUMBERS`) directly from
+cells, inside a `LET`, in a workbook with a double or best-of-3 round robin. A pairing
+there has several matches under one pair of codes, so `GETSCOREAGAINSTPAIR` cannot
+tell them apart: the category tab's score grid and `CSV`'s score columns find a match
+by its number, and a best-of-3 category's W and L count meetings from the stacked
+columns. Apps Script cannot add a Named Function, so the formulas are written inline
+([generator](standard-tournament-generator.md#double-and-best-of-3-round-robins)). A
+`LET` name may not look like a cell reference, which is why they read `t_one` and not
+`t1`.
+
 `GETSCOREQUOTIENT` inlines both totals rather than calling
 `GETTOTALSCORE`/`GETTOTALOPPONENTSCORE`, so the four primitives are read once
 instead of twice — the two total functions still exist because columns `F`

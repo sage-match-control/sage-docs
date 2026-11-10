@@ -291,7 +291,8 @@ image of Phase 1 spec §2.1:
 | `note` | Free text, straight to `Variables!O` |
 | `teams_a`, `teams_b` | **Always ignore.** The calculator still writes them (`c.teamsA`/`c.teamsB` persist across a format switch), and in standard format they are meaningless leftovers |
 | `po_format` | **Always ignore.** Written empty in standard format by `exportCSV`; older exports may carry `semis` |
-| `solo_format` | **Live, one-bracket categories only.** `ttb` (twice-to-beat final) or `rr` (round robin only, no playoff) — §5.2. The calculator writes it only for a standard category that resolves to one bracket and is not a 2-pair best-of-3, and leaves it empty everywhere else. Empty, or a missing 12th column in an older 11-column export, means `ttb` — the same default the calculator's own Import CSV applies |
+| `rr_legs`, `rr_best_of` | **Live, standard categories with a round robin** (generator 1.5.0): `rr_legs` 2 is a double round robin (one bracket only), `rr_best_of` 3 plays every meeting as a best of 3; empty means 1, and the two are never both set. See [the double round robin spec](../in-progress/double-round-robin-and-finals-spec.md). Columns 13 and 14, absent from an older export |
+| `solo_format` | **Live, one-bracket categories only.** `ttb` (twice-to-beat final), `rr` (round robin only, no playoff), `final_bronze` or `final` (a one-game Final; with a played Bronze between RR #3 and #4, or with RR #3 taking bronze — [the double round robin spec](../in-progress/double-round-robin-and-finals-spec.md)) — §5.2. The calculator writes it only for a standard category that resolves to one bracket and is not a 2-pair best-of-3, and leaves it empty everywhere else. Empty, or a missing 12th column in an older 11-column export, means `ttb` — the same default the calculator's own Import CSV applies |
 
 The file's data rows carry fewer cells than the header — `setting` rows stop
 after `value` — so parse positionally and treat a missing trailing cell as
@@ -450,6 +451,8 @@ ladder's depth as well as its entrant count.
 | 2 | — | — | best of 3 | 3 (min 2) | none |
 | any | 1 | — | RR + twice-to-beat (`solo_format: ttb`) | 2 (min 1) | RR #3, no match |
 | any | 1 | — | RR only (`solo_format: rr`) | 0 | RR #3, no match |
+| any | 1 | — | RR + Final and Bronze (`solo_format: final_bronze`, 4+ pairs) | 2 | played, RR #3 v RR #4 |
+| any | 1 | — | RR + one-game Final (`solo_format: final`) | 1 | RR #3, no match |
 | any | 2 | 1 | RR + Final | 1 | **none** |
 | any | ≥2 | 1 | RR + flat single-elim, byes by lot | `reduceToTarget(groups,2)` + 1 | match iff `groups >= 4` |
 | any | ≥2 | ≥2 | RR + tiered single-elim | `tieredRounds` | match iff `groups*adv + wc >= 4` |
@@ -980,6 +983,9 @@ One category key, one underscore-delimited suffix. No club segment.
 | Twice-to-beat final | `<KEY>_F_1_(g)`, `<KEY>_F_2_(g)` for `g = 1, 2` | 4 |
 | Twice-to-beat bronze walkover | `<KEY>_B_1`, and `<KEY>_B_2` named `BYE` (§7.5.1) | 2 |
 | Best-of-3 final | `<KEY>_F_1_(g)`, `<KEY>_F_2_(g)` for `g = 1, 2, 3` | 6 |
+| One-bracket Final and Bronze (`final_bronze`) | `<KEY>_F_1`, `<KEY>_F_2`, `<KEY>_B_1`, `<KEY>_B_2`, the multi-bracket Final and Bronze codes | 4 |
+| One-bracket Final (`final`) | `<KEY>_F_1`, `<KEY>_F_2`, and the bronze walkover of twice-to-beat | 4 |
+| Double round robin, best-of-3 meetings | no new code: both meetings, and all three games, of a pairing carry its two codes | — |
 | Round robin only | group pairs only | `teams` |
 
 **Total codes per category = `teams` + 2 × the matches its playoff blocks
@@ -1011,7 +1017,7 @@ policy, both unchanged.
 | `teams` in `2..100` | The calculator's own bound |
 | `brackets` reduced to `floor(teams/2)` if larger, with a warning | Matches `groupSizes` (§5.6) |
 | `advance` capped at the smallest bracket, with a warning | Matches `calcCategory` (§5.6) |
-| `solo_format` empty, `ttb` or `rr` | §4; anything else is a hand-edited file |
+| `solo_format` empty, `ttb`, `rr`, `final_bronze` or `final`; `rr_legs` empty, 1 or 2; `rr_best_of` empty, 1 or 3 | §4; anything else is a hand-edited file. The combinations the double round robin spec refuses are in its §4.3–4.4 |
 | total playoff entrants ≤ 32 | The `Charts` reference tree tops out at 32 (§10.8), and no real category has come close |
 | playoff ladder at most 5 rounds, bronze excluded — no stage before `R32` | §5.4: 15 `bye` shapes under the 32-entrant cap still reach `Round of 64` or deeper, which §8 has no code for. The message names the category and suggests `fill: wc` or fewer brackets |
 | court labels non-empty, unique, ≤ 24 | §6.1, and the Dreamcourts defect in §2.1 |
@@ -1423,6 +1429,12 @@ them. `GvizCsvFetcher` reads by header name, so neither shape breaks the sync.
 `B` reads `Court Control`'s whole columns, as both Pickle for Sight
 workbooks do, so it covers every court block at any court count. Nothing
 else on that tab has a number in `C` (§10.3).
+
+In a workbook with a double or best-of-3 round robin, `H` and `L` read each match's scores
+by its number instead (`=IF($A2="","",IFERROR(INDEX(FILTER(GETSCORESCOLUMN1(),GETMATCHNUMBERS()=$A2),1),""))`
+and the `2` column), and a best-of-3 category adds a 13th column, `bestOf`, `3` on its
+round-robin games: [the double round robin spec](../in-progress/double-round-robin-and-finals-spec.md)
+§4.8. The sheet's header stays 12 wide otherwise.
 
 The generator writes the header and **one** formula row, with `A2` blank.
 `Fill match numbers` copies row 2 down to one row per placed match and

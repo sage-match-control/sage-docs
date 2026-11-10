@@ -272,6 +272,14 @@ to the `...` form rather than repointing it.
   and every other event's sheets stay byte-for-byte the same. Built and live
   (`sage-tools-api` 3.6.0 and 3.6.1); the live-page checks and the docs are left.
 
+- **[Double round robin, best-of-3 round robin and one-bracket finals](in-progress/double-round-robin-and-finals-spec.md)**
+  — a double round robin for a one-bracket standard category, best-of-3 round-robin meetings
+  in any standard category (W and L count meetings), and two more one-bracket playoffs: a
+  one-game Final with a played 3 v 4 Bronze, and a one-game Final with RR #3 taking bronze.
+  Built on the branch `double-rr-and-finals` of each repo (the calculator, Standard Tournament
+  Generator 1.5.0, `sage-tools-api` 3.7.0, the site's `lib/v1/domain/` in two pushes, and the
+  docs), not yet merged. The owner's real-workbook checks and dry run are left.
+
 ---
 
 ## Not started
@@ -284,12 +292,6 @@ to the `...` form rather than repointing it.
 - **[Calculator team format](not-started/calculator-team-format-spec.md)** — a third Format option
   in the Tournament Calculator: one team competition planned in matchups, with the group stage,
   quarterfinal-to-final playoffs, slots and finish time worked out from teams, groups and courts.
-- **[Double round robin, best-of-3 round robin and one-bracket finals](not-started/double-round-robin-and-finals-spec.md)**
-  — a double round robin for a one-bracket standard category, best-of-3 round-robin meetings
-  in any standard category (W and L count meetings), and two more one-bracket playoffs: a
-  one-game Final with a played 3 v 4 Bronze, and a one-game Final with RR #3 taking bronze.
-  Changes the calculator and the Standard Tournament Generator; for best of 3, also the site's
-  `lib/v1/domain/` and the sync API's completion rule.
 - **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
   workbook generator for team events, phased, starting from the optimised workbook.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea

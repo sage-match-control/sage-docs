@@ -37,11 +37,39 @@ has been replaced.
 
 ---
 
+## [2.54.0] — 2026-11-10
+
+### Added
+
+- [Tournament Calculator](features/tournament-calculator.md#how-the-round-robin-is-played),
+  [Standard Tournament Generator](features/standard-tournament-generator.md#double-and-best-of-3-round-robins)
+  and their technical pages describe the double round robin, best-of-3 round-robin meetings
+  and the one-bracket `final` and `final_bronze` playoffs, with the `rr_legs` and `rr_best_of`
+  plan columns, the `CSV` tab's score lookup by match number and its `bestOf` column, and the
+  series W and L formulas.
+- [Named Functions](technical/named-function-library.md#called-from-generated-formulas) says where
+  the generator calls the column primitives from cells.
+- The glossary gains *best-of-3 meeting*, *double round robin* and *final and bronze*.
+
+### Changed
+
+- [Sync pipeline](technical/sync-pipeline.md#facility-completion) and the
+  [site engine](technical/site-engine.md) describe a best-of-3 round-robin meeting's game 3 after
+  a 2–0 as never played; the [Hub](features/tournament-hub.md) and
+  [schedule board](features/schedule-board.md) pages say it is greyed.
+- [Plan the event](usage/plan-the-event.md) lists the round-robin choice and the four one-bracket
+  playoffs.
+- The [Standard Tournament Master spec](specs/implemented/standard-tournament-master-spec.md) lists
+  the two new shapes (§5.5), their codes (§8), the new plan columns (§4) and validation (§9), and
+  the `CSV` tab's score lookup and `bestOf` column (§10.5).
+- [The double round robin spec](specs/in-progress/double-round-robin-and-finals-spec.md) moved from
+  `not-started/` to `in-progress/`: built on a branch, not yet merged.
+
 ## [2.53.0] — 2026-11-10
 
 ### Changed
 
-- [Double round robin, best-of-3 round robin and one-bracket finals](specs/not-started/double-round-robin-and-finals-spec.md)
+- [Double round robin, best-of-3 round robin and one-bracket finals](specs/in-progress/double-round-robin-and-finals-spec.md)
   (not started) adds best-of-3 round-robin meetings (`rr_best_of`) in any standard category,
   with the usual playoff after them: W and L count meetings won, the quotient counts every
   game's points, and game 3 after a 2–0 is not a match left. The plan covers the calculator,
@@ -71,7 +99,7 @@ has been replaced.
 
 ### Added
 
-- [Double round robin and one-bracket finals](specs/not-started/double-round-robin-and-finals-spec.md)
+- [Double round robin and one-bracket finals](specs/in-progress/double-round-robin-and-finals-spec.md)
   (not started): a double round robin for a one-bracket standard category, and two more
   one-bracket playoffs, a one-game Final with a played 3 v 4 Bronze and a one-game Final with
   RR #3 taking bronze, in the Tournament Calculator and the Standard Tournament Generator

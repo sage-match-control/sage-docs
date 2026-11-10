@@ -64,13 +64,58 @@ Ports the calculator's `groupSizes`, `reduceToTarget`, `solveForTarget`,
   fresh partner's pair, or the lowest free number. Each stage's fed seats
   are wired to the previous stage's winners in block-label order.
 - **Shapes without a ladder**: best-of-3 (2 pairs), twice-to-beat (one
-  bracket, the default) with a bronze walkover against `BYE`, and
-  round-robin only.
+  bracket, the default) with a bronze walkover against `BYE`,
+  round-robin only, and the one-bracket `final` (a Final, then a bronze
+  walkover laid out like twice-to-beat's) and `finalBronze` (a Bronze block
+  before the Final, as the ladder lays them out). Both reuse the existing block
+  kinds, so the seat-code, name-lookup and advance formulas are unchanged, and
+  their qualifier scaffold rows carry literal codes in `AP` (`RR #1 - final`
+  → `<KEY>_F_1`) with no slot table.
+- **Legs and games**: `rr_legs` 2 appends leg 2 to the single bracket's rounds
+  (the same rounds, sides swapped, `leg: 2`), and `rr_best_of` 3 replaces each
+  round-robin row with three copies, one per game (`game: 1..3`, sides not
+  swapped), before `rrCount` is counted. `MATCHES` labels them `RR n · Leg 2` and
+  `RR n · G1`–`G3`. `validatePlan` and `planCategory` refuse `rr_legs` other than 1
+  or 2, `rr_best_of` other than 1 or 3, both together, either on a 2-pair category,
+  a double round robin with 2+ brackets, and `final_bronze` below 4 pairs.
 
 It also reports the `MATCHES` rows and band width, every team code the tab
 holds (which sizes `STANDINGSCSV`), and any validation error: a ladder
 deeper than `R32`, more than 32 entrants, or a code or label that would
 repeat.
+
+### Double and best-of-3 round robins
+
+Codes carry no leg and no game: every pair keeps its one code `<KEY>_<i>`, and only
+the match number tells two meetings, or two games, apart. Anything that matches a
+pair by its two codes would give both meetings of a pairing the same score, so a
+workbook with a double or best-of-3 round robin changes three places. Each is written
+inline, because Apps Script cannot create a Named Function:
+
+- **The score grid** (`legGridFormula_`) filters the stacked score columns for
+  the rows holding both codes and joins them in match-number order with ` · `. A
+  single round robin of one-game meetings keeps `GETSCOREAGAINSTPAIR`.
+- **`CSV!H` and `CSV!L`** read `INDEX(FILTER(GETSCORESCOLUMN1(), GETMATCHNUMBERS()
+  = $A2), 1)` (and the `2` column), so a match publishes its own score. A best-of-3
+  category also adds a `bestOf` column (`M`): `3` where `teamCode1` matches
+  `^(<keys>)_\d+$` for a best-of-3 category's key, blank elsewhere, playoff seats
+  included. `fillCsvMatchNumbers_` in `sheets-sync.gs` copies row 2 across the
+  tab's whole width, so it fills the column with no change. The site and the sync
+  API read it by its header.
+- **W and L** (`seriesCountFormula_`) count the rivals a pair took, or gave up, two
+  games to, in the category tab's `D` and `E` and in `STANDINGSCSV` (for the best-of-3
+  categories' round-robin codes only; every other code keeps `GETTOTALWINS` /
+  `GETTOTALLOSES`). A tied game counts for neither pair, the rule of the site's
+  `walkSeries`. The formula assumes exactly three rows per pairing.
+
+See [Named Functions](named-function-library.md#called-from-generated-formulas) for the
+primitives the formulas call.
+
+`addBracketLinks_` re-plans a generated category from the codes it already has: a
+`_F_1_(1)` code means twice-to-beat; otherwise an `_F_1` code and a `<KEY>_B_2` literal
+on the category tab's `AP5:AP12` means `final_bronze`; an `_F_1` code alone means
+`final`; none means round robin only. `rr_legs` and `rr_best_of` change no link row,
+so neither is inferred.
 
 ### Formats come from the template
 
@@ -214,7 +259,7 @@ generated before 1.4.0 (1.3.0 wrote no `seat` column). It writes `Variables` and
 scaffold stays as it was drawn. `readPlanBlock_` now also returns each category's
 `advance` and `fill` (`Variables!M:N`), `planCategory` rebuilds the ladder, and
 the solo format of a one-bracket category, which the plan block does not record,
-is read from `STANDINGSCSV` (`<key>_F_1_(1)` present means twice-to-beat). Before
+is read from `STANDINGSCSV` and the category tab (above). Before
 writing anything it compares, for every generated category, the playoff codes
 the plan yields with those in `STANDINGSCSV!A`; any difference stops the run with
 nothing written. The site reads the columns in
@@ -246,6 +291,12 @@ schedule through `sheets-sync.gs`'s real `planMatchNumbers_`.
 between the two files fails there. The mock does not evaluate formulas.
 Change a prototype shape in `REBUILT_IN_PLACE_TABS` and the fixture in the
 script has to change with it.
+
+The `finals` and `bo3` scenarios cover the one-bracket Final formats, the double
+round robin and best-of-3 meetings: the plans, the tab rows, the formulas' text, the
+workbook-wide `CSV` and `STANDINGSCSV` formulas, `addBracketLinks_` and each
+rejection. The mock does not evaluate formulas, so whether they compute correctly is
+checked in a real workbook.
 
 The `import` scenario covers the draw import end to end against files built
 byte-shaped like the tool's real `exportAsText()` output: parsing, the five

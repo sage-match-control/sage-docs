@@ -61,7 +61,9 @@ category) has no **Bronze Battle** block at all: there is no matchup to show.
 In a twice-to-beat or best-of-3 final, a game that is no longer needed (the #1
 pair won twice-to-beat's game 1, or someone already has two wins) is
 greyed out: in Standings, on the pair's Match Finder tickets, where it is
-never **Next Up**, and on the schedule board.
+never **Next Up**, and on the schedule board. A category played as best-of-3
+round-robin meetings greys a meeting's game 3 the same way once a pair has won
+the first two, and its standings rank by meetings won.
 
 **The playoffs as a bracket.** At a standard tournament, a category with two or
 more playoff rounds has a **List | Bracket** switch at the end of its

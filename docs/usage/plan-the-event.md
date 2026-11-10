@@ -38,9 +38,12 @@ ways is the most common cause of an event that "looks right and does nothing".
    and a bracket count. For a standard tournament give each a team count, a
    bracket group size and how many advance to playoffs.
 3. Set the **courts** and the **match duration**, with any buffer between matches.
-4. For a category with a single bracket, choose how the medals are decided:
-   **Twice-to-beat final**, or **Round robin only**. The choice is per category,
-   and the finish time updates as you switch.
+4. For each category with a round robin, choose how it is played: a **single
+   round robin**, a **double round robin** (one bracket only: every pairing twice)
+   or **best-of-3 meetings** (every pairing once, as a best of 3). For a category
+   with a single bracket, also choose how the medals are decided: **Twice-to-beat
+   final**, **Final + bronze match**, **Final, #3 bronze** or **Round robin only**.
+   The choices are per category, and the finish time updates as you switch.
 5. If the event runs across several days or venues, make **one plan per day** (and
    per venue, for a standard tournament).
 6. Check the **finish time** against the hours the organizer has the venue. If it is

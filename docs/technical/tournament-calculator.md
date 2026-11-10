@@ -110,18 +110,51 @@ own slots, rendering a literal `undefined` into the draw.
 ## Standard mode: single-bracket format
 
 A one-bracket category carries `soloFormat` — `'ttb'` (twice-to-beat final,
-the default) or `'rr'` (no playoff, standings decide every medal).
+the default), `'rr'` (no playoff, standings decide every medal),
+`'final_bronze'` (a one-game Final and a played Bronze match between RR #3 and
+#4, 4+ pairs) or `'final'` (a one-game Final, RR #3 takes bronze with no match).
 `playoffPlan()` reads it only when `groups === 1`, and the `'rr'` plan is an
 empty `rounds` array with `rrOnly: true` rather than a zero-match round, so
 every consumer that maps over `rounds` produces nothing instead of a phantom
-line item.
+line item. Each one-bracket plan carries `solo`, the format it was built for;
+`calcCategory` falls `final_bronze` back to `final` (with a note) below 4 pairs,
+and the UI, the chart, the playoff slot count and the CSV export all read
+`plan.solo`, not the saved `soloFormat`.
+
+| `plan.solo` | Playoff matches (max / min) | Playoff slots (`seqParts`) |
+| --- | --- | --- |
+| `ttb` | 2 / 1 | 2, the games run one after the other |
+| `rr` | 0 / 0 | 0 |
+| `final_bronze` | 2 / 2 | `ceil(2 / courts)`: Final and Bronze have four different pairs |
+| `final` | 1 / 1 | 1 |
+
+### How the round robin is played
+
+A category carries `rrLegs` (1 or 2) and `rrBestOf` (1 or 3); a missing or invalid
+value reads as 1. `calcCategory` works out three numbers from them and the bracket
+split: `games` (3 when `rrBestOf` is 3 and there is a round robin, else 1), `legs`
+(2 only with one bracket and `games` 1) and `meetings` (`rrMatches × legs`). It
+returns them beside `rr`, which stays the number of round-robin **matches** (the rows
+in `SCHEDULE`, `meetings × games`), because every timing function reads that. The
+least count, `totalMin`, takes 2 games for each best-of-3 meeting. `rrRoundFloor` is
+multiplied by `legs × games`: a double round robin plays every round twice, and a
+best-of-3 meeting's three games run back to back on one court. Best of 3 wins if an
+imported config carries both settings; the UI never sets both, because each button of
+the round-robin row writes both fields.
+
+The CSV carries the choice in two further trailing columns, `rr_legs` (`2` or empty)
+and `rr_best_of` (`3` or empty), written from the plan after its fallbacks, so a
+category that cannot be double exports them empty. `solo_format` is written from
+`plan.solo`. An older 11-, 12- or 13-column file imports with one-game single
+meetings. `standard-tournament-generator.gs` reads both columns
+([generator](standard-tournament-generator.md#double-and-best-of-3-round-robins)).
 
 - **`rrOnly` is a separate flag from `single`, not a replacement.** Both
   single-bracket shapes still set `single: true` — that is what keeps the
   format toggle rendered in both states, so `'rr'` is reversible from the
   UI rather than a one-way door. Anything that means *twice-to-beat
   specifically* (the "counted at full length" footnote, the playoff chart)
-  tests `single && !rrOnly`.
+  tests `plan.solo === 'ttb'`.
 - **`soloFormat` is its own field, not folded into `poFormat`.** The two
   apply to different formats (`poFormat` is dual-only, 2+ brackets;
   `soloFormat` is standard-only, exactly 1 bracket) and the format toggle is

@@ -159,6 +159,17 @@ for and against, and the bracket table shows W, L, PF, PA and Quotient
 line under each side, its PF, PA and quotient in that matchup. Without it every
 rule is the points rule, and the card has no such line.
 
+`domain/series.js` also holds a **best-of-3 round-robin meeting** (a category planned with
+`rr_best_of` 3): its three games are rows with the same two team codes, flagged `3` in the
+`CSV` tab's `bestOf` column, which `rowsToMatches` and the board's `parseFacilityCsv` read as
+`bestOf`. `rrSeriesGroups(matches)` collects them by facility and pair (match numbers repeat
+across facilities), in match-number order and at most three, and `unneededMeetingGames` returns
+the games after the one that gave a side its second win. `unneededSeriesGames` includes them in
+the same set as a series Final's games after the decider. `headToHeadWins` counts such a meeting
+once, for the pair that took it, so `rankStandings` breaks a tie on meetings won; W, L and the
+quotient come from `STANDINGSCSV`. The API's completion stamp applies the same rule
+([Sync pipeline § Facility completion](sync-pipeline.md#facility-completion)).
+
 `domain/deciders.js` holds a team playoff matchup's **tiebreaker game**: a match whose two team
 codes both end in `_TB` (`QF-1_TB` v `QF-2_TB`), belonging to the matchup whose rows share its
 `matchUp`. It is played only when the matchup's other games leave the two sides level on games won.

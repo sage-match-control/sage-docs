@@ -68,6 +68,36 @@ For each ticked category, a tab with:
       the final: QF-1 Br 1 #1 v Br 2 #2, QF-2 Br 3 #1 v Br 4 #2, QF-3 Br 2 #1
       v Br 1 #2, QF-4 Br 4 #1 v Br 3 #2.
 
+A category with one bracket can also be planned in four playoff formats: a
+twice-to-beat final, round robin only, a one-game **Final with RR #3 taking
+bronze** (`final`), or a one-game **Final and a Bronze match** between RR #3 and
+#4 (`final_bronze`, 4 or more pairs). The last two come with the qualifier
+draw's rows already named (`RR #1 - final`, `RR #3 - bronze`, …): you type the
+pairs' names in from the Hub's or Control Center's standings once the round robin
+ends. The category tab ranks nothing itself, and the site breaks a tie on wins by
+head-to-head first.
+
+### Double and best-of-3 round robins
+
+- **A double round robin** (one bracket only) plays every pairing twice. `MATCHES`
+  lists all of leg 1 (`RR 1` … `RR n`) and then the same rounds with the sides
+  swapped (`RR 1 · Leg 2` …). The score grid shows the row pair's score in each
+  meeting, for example `11 · 7`.
+- **Best-of-3 meetings** (any bracket count) turn each round-robin row into three,
+  `RR 1 · G1`, `RR 1 · G2`, `RR 1 · G3`, which are the three games of each meeting
+  in it. Pack them back to back on one court. The score grid shows each game of the
+  meeting, for example `11 · 6 · 11`. **W and L count meetings** won and lost (a 2–0
+  and a 2–1 are each one W for the winner and one L for the loser; a meeting still at
+  1–1 counts for neither), on the category tab and in `STANDINGSCSV`. The points and the
+  quotient count every game.
+
+In a workbook with either kind of round robin, the `CSV` tab reads each match's
+scores by its match number, so the two meetings of a pairing publish their own
+scores. A best-of-3 category also adds a `bestOf` column to `CSV`, `3` on each
+of its round-robin games, which tells the site and the sync that a game 3 after a
+2–0 is not a match left. After a 2–0, leave game 3's scores blank: a typed `0`–`0`
+is a played game.
+
 Plus a **`MATCHES`** tab, laying out every category's matches side by side,
 one row per round. Each block's header names the bracket whose matches it
 holds (`HIMD Br 1`, `HIMD Br 2`, …), and the round robins run in the order
@@ -114,6 +144,9 @@ the courts when. The steps, in order, are in
   round only after the round before it has finished, with a free slot after the
   round robin for the qualifier draw; a final and its bronze in the same slot;
   mixed doubles after the same-gender categories.
+- Pack all of a double round robin's leg 1 before any of leg 2, and each best-of-3
+  meeting's three games back to back on one court, with exactly three rows per
+  pairing.
 - Leave unused courts blank or `-`.
 - After [**SAGE → Fill match numbers**](scoring-workbook.md#the-sage-menu), each
   venue takes its own thousand: the first venue `1000` (matches `1001` onward),

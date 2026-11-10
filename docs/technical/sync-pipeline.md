@@ -290,8 +290,13 @@ finishes. A team playoff matchup's tiebreaker game (both team codes end in `_TB`
 for example `QF-1_TB` v `QF-2_TB`) doesn't count once the other games sharing its
 `matchUp` are all played and one side has won more of them, so a matchup won 2–0
 never waits on its tiebreaker; at 1–1 the tiebreaker must be scored. A
-tiebreaker row with no `matchUp` always counts. The site's `deciders.js` holds the
-same rule, and its parity test checks the two agree. Change one copy and you have to change the other (see
+tiebreaker row with no `matchUp` always counts. A best-of-3 round-robin meeting's games
+(the rows whose `bestOf` column on the `CSV` tab is `3` and that share two team codes,
+taken in match-number order, the first three) stop counting once a side has won two: a
+meeting won 2–0 never waits on its game 3, at 1–1 game 3 must be scored, a tied game counts
+for neither side and a fourth row is an ordinary match (`unneededMeetingGames`). A `CSV` tab
+with no `bestOf` column, or a blank one, reads every row as an ordinary match. The site's
+`deciders.js` and `series.js` hold the same rules, and its parity test checks the two agree. Change one copy and you have to change the other (see
 [Control Center](control-center.md) § Actual end).
 
 ```bash

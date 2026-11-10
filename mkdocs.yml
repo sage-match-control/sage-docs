@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.53.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.54.0</a>'
 
 docs_dir: docs
 
@@ -151,11 +151,11 @@ nav:
           - Angeles City Employees Sportsfest: specs/in-progress/acso-employees-sportsfest-spec.md
           - "Ladies' Dink 1st Club Tournament": specs/in-progress/ladies-dink-club-tournament-spec.md
           - Team names on scoresheets: specs/in-progress/scoresheet-team-names-spec.md
+          - Double and best-of-3 round robin, finals: specs/in-progress/double-round-robin-and-finals-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Calculator team format: specs/not-started/calculator-team-format-spec.md
-          - Double and best-of-3 round robin, finals: specs/not-started/double-round-robin-and-finals-spec.md
           - Team Tournament Master: specs/not-started/team-tournament-master-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - Court Control from Control Center: specs/not-started/control-center-court-control-spec.md

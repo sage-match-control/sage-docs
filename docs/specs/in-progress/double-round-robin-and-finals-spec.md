@@ -1,6 +1,13 @@
 # Spec — Double round robin, best-of-3 round robin and one-bracket finals
 
-> **Status: not started.** Nothing here is built. Written 2026-11-10 against
+> **Status: in progress.** Built on the branch `double-rr-and-finals` of the site,
+> `sage-tools-api`, `sage-docs` and the workspace repo on 2026-11-10: the calculator,
+> Standard Tournament Generator 1.5.0, `sage-tools-api` 3.7.0 and the site engine's best-of-3
+> rule (two pushes), with their tests and the docs. **Not merged, pushed or deployed**, and
+> nothing merges before 14 November 2026. Left: the owner's checks of §9 steps 2 and 5 (the
+> generated Format B and `GBMD` workbooks, and the dry run), then the merge, the paste of the
+> generator into the Standard Tournament Master (§7), and moving this spec to `implemented/`.
+> Written 2026-11-10 against
 > `sage-match-control.github.io/tools/tournament-calculator.html`,
 > `sage-tools-api/apps-script/standard-tournament-generator.gs` 1.4.1, `sage-tools-api` 3.6.2
 > (`src/sync/domain/facilityCompletion.mjs`) and the site engine `lib/v1/` as of that date.

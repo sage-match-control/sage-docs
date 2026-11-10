@@ -69,7 +69,8 @@ team's colour to the other's, and each team name has a mark in front of it: the
 team's colour on a shape of its own, so the teams can be told apart without
 telling the colours apart. The card's left edge and chip still give the bracket.
 A playoff matchup's tiebreaker game reads **TB**; once the matchup's other games
-settle it, its card is greyed *Not needed*.
+settle it, its card is greyed *Not needed*. So is the game 3 of a best-of-3
+round-robin meeting once a pair has won the first two games.
 
 ## What it needs
 

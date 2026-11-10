@@ -23,6 +23,31 @@ you — total matches, court-hours needed, and a finish time.
   and a bracket count, and the calculator accounts for the cross-club
   Bronze/Final matches that format produces.
 
+## How the round robin is played
+
+Every standard category with a round robin has a row of three choices:
+
+- **Single round robin** — every pair plays every other pair once, as one game.
+  This is the default.
+- **Double round robin** — every pairing is played twice, as a first and a second
+  meeting. It is for a category with **one bracket** only, so the button is
+  disabled with two or more.
+- **Best-of-3 meetings** — every pairing meets once, and the meeting is a
+  best-of-3: the first pair to win two games takes it, and game 3 is played only
+  at 1–1. It works with any number of brackets. In the standings, W and L count
+  meetings won and lost, and the quotient counts the points of every game. The
+  playoff is the one the category would have anyway, each match one game.
+
+The choices exclude each other: pressing one releases the others. A 2-pair
+category has no round robin (it plays a best-of-3 final), and a dual meet has
+neither choice.
+
+A best-of-3 round robin is planned at its full length, every meeting three games,
+with the least (every meeting won 2–0) shown beside it as a range, for example
+`28–40 matches`. When meetings end early the day finishes earlier than planned.
+A double round robin of more than 6 pairs, and best of 3 in a bracket of more
+than 5, carry a note suggesting more brackets.
+
 ## Single-bracket categories
 
 A category with only one bracket has no semifinal to play, so it offers a
@@ -31,12 +56,19 @@ choice of how the medals get decided:
 - **Twice-to-beat final** — the round robin's #1 and #2 meet in a final that #1
   only has to win once and #2 has to win twice. #3 takes bronze with no
   match. Adds up to two matches on top of the round robin.
+- **Final + bronze match** — one game between the round robin's #1 and #2 for
+  gold, and one between #3 and #4 for bronze. Needs 4 pairs; the button is
+  disabled below that, and a category saved on it that drops to 3 pairs plays
+  *Final, #3 bronze* instead, with a note.
+- **Final, #3 bronze** — one game between #1 and #2 for gold. #3 takes bronze
+  with no match.
 - **Round robin only** — no playoff at all. The final standings decide gold,
   silver and bronze outright.
 
 The choice is per category, so one division can run a final while another
-settles on standings. Round robin only is the shorter option, and the
-projected finish time updates as soon as you switch.
+settles on standings. Round robin only is the shortest option, and the
+projected finish time updates as soon as you switch. All four formats go with
+either a single or a double round robin, and with best-of-3 meetings.
 
 ## Exporting
 
