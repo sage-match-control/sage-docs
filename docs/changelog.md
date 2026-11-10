@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.54.1] — 2026-11-10
+
+### Fixed
+
+- The [double round robin, best-of-3 and one-bracket finals spec](specs/in-progress/double-round-robin-and-finals-spec.md),
+  the [Specs index](specs/README.md) and the in-progress folder's table say the work is built
+  and live on `main`, not waiting on its branch, and list what is left: pasting the generator
+  into the Standard Tournament Master, the real-workbook checks and the dry run.
+
 ## [2.54.0] — 2026-11-10
 
 ### Added

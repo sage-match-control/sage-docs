@@ -276,9 +276,9 @@ to the `...` form rather than repointing it.
   — a double round robin for a one-bracket standard category, best-of-3 round-robin meetings
   in any standard category (W and L count meetings), and two more one-bracket playoffs: a
   one-game Final with a played 3 v 4 Bronze, and a one-game Final with RR #3 taking bronze.
-  Built on the branch `double-rr-and-finals` of each repo (the calculator, Standard Tournament
-  Generator 1.5.0, `sage-tools-api` 3.7.0, the site's `lib/v1/domain/` in two pushes, and the
-  docs), not yet merged. The owner's real-workbook checks and dry run are left.
+  Built and live (the calculator, Standard Tournament Generator 1.5.0, `sage-tools-api` 3.7.0,
+  the site's `lib/v1/domain/` in two pushes, and the docs). Pasting the generator into the
+  Standard Tournament Master, the owner's real-workbook checks and the dry run are left.
 
 ---
 
