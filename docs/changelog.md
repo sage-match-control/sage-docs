@@ -37,6 +37,20 @@ has been replaced.
 
 ---
 
+## [2.53.0] — 2026-11-10
+
+### Changed
+
+- [Double round robin, best-of-3 round robin and one-bracket finals](specs/not-started/double-round-robin-and-finals-spec.md)
+  (not started) adds best-of-3 round-robin meetings (`rr_best_of`) in any standard category,
+  with the usual playoff after them: W and L count meetings won, the quotient counts every
+  game's points, and game 3 after a 2–0 is not a match left. The plan covers the calculator,
+  the Standard Tournament Generator 1.5.0 (series W and L formulas and a `bestOf` column on
+  `CSV`), a compatible change in the site's `lib/v1/domain/`, and `sage-tools-api` 3.7.0's
+  completion rule.
+
+---
+
 ## [2.52.0] — 2026-11-10
 
 ### Changed
