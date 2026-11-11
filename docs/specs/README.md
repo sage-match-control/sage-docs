@@ -52,6 +52,16 @@ Nothing outside `sage-docs` should need touching. If a grep of the other three
 repos turns up a folder-qualified path, that reference is the bug — rewrite it
 to the `...` form rather than repointing it.
 
+### Writing an event spec
+
+Every new event's spec starts from the **[event spec template](event-spec-template.md)**, one
+for all three event types. Its Part 1 says how to write one: what to gather first (the workbook
+through the Sheets API, the pubmat, the owner's answers), how to split the build into phases,
+how to write edits that can't be misapplied, which browser widths to check, and how to dry-run
+the spec in a detached worktree before handing it over. Its Part 2 is the skeleton to copy, with
+**Standard**, **Team** and **Dual meet** blocks where the types differ. The template sits at
+the root of this folder because it has no build status.
+
 ---
 
 ## Implemented

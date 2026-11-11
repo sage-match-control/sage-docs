@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.57.0] — 2026-11-12
+
+### Added
+
+- The [event spec template](specs/event-spec-template.md), at the root of Specs: one template
+  for every event type. Part 1 says how to write an event spec: gather the workbook, the pubmat
+  and the owner's answers first; build in phases (the board with `events.json`, the Hub, the rest,
+  and an engine phase first when one is needed); anchor every edit on one unique line, state each
+  file's line endings and never use `sed -i`; check the Hub at 1024px as well as 375 and 1280; and
+  dry-run the spec in a detached worktree. Part 2 is the skeleton, in the UPAP spec's shape, with
+  Standard, Team and Dual meet blocks. The [specs index](specs/README.md#writing-an-event-spec)
+  points to it.
+
+---
+
 ## [2.56.0] — 2026-11-12
 
 ### Changed
