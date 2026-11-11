@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.55.1] — 2026-11-12
+
+### Fixed
+
+- The [UPAP 3rd Annual Tournament spec](specs/not-started/upap-3rd-annual-tournament-spec.md)'s
+  §5.4(a) gives the theme comment it replaces as 19 lines, not 17. Its anchors and §5.5's line
+  count were already right. §0.2 notes that the standard template's `index.html` is LF on disk,
+  unlike the rest of the checkout.
+
 ## [2.55.0] — 2026-11-11
 
 ### Added

@@ -70,7 +70,9 @@ Words this spec uses:
   search across several lines can miss text that looks identical. Where an edit replaces
   several lines, it names the **first** and the **last** line of the range: replace from the
   start of the first line through the end of the last line. Keep each file's line endings as
-  they are (don't convert CRLF to LF or the reverse).
+  they are (don't convert CRLF to LF or the reverse). One exception to "CRLF": the template's
+  `index.html` is LF on disk, so §5.2's copy starts as LF. Converting that copy to CRLF to
+  match `schedule.html` is fine. Git stores LF either way, so the commit is the same.
 - **Replacement text is given in full** in each fenced block. Copy it exactly, including
   leading spaces. Never retype a value from memory.
 - **Use Git Bash** for every command. Python is not installed on this machine; Node is
@@ -816,7 +818,7 @@ through the **first** line after it that is exactly
      ================================================================ */
 ```
 
-(17 lines in all) with:
+(19 lines in all) with:
 
 ```css
   /* ============================ THEME ============================
