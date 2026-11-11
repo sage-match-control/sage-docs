@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.59.0] — 2026-11-12
+
+### Added
+
+- [Ranking rules](specs/not-started/ranking-rules-spec.md), a not-started spec: an event's
+  standings ordered by a list of named rules in `events.json`, with blocks by group size and an
+  optional restart, applied to each tied group in turn. The standard, `"points"` and `"games"`
+  rankers become presets with parity tests. Display only. Its decisions are taken; it has no
+  build date.
+
+---
+
 ## [2.58.0] — 2026-11-12
 
 ### Added

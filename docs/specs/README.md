@@ -338,6 +338,10 @@ build status.
   about 20 MB to Artifact Registry instead of 361 MB and builds faster. Records the
   repository's cleanup policy, which keeps the last deploy. To build after the
   Sportsfest.
+- **[Ranking rules](not-started/ranking-rules-spec.md)** — an event's standings ordered by a list
+  of named rules in `events.json`, so a new organiser's tiebreakers are config rather than an
+  engine change. Today's three rankers become presets that every existing event keeps. No build
+  date: it waits for an organiser who needs it.
 
 
 ---
