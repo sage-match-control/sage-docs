@@ -17,15 +17,28 @@ finished event's entry blanks its Hub, schedule board, scorer page and desk page
 ## Turn off live push for the event's pages
 
 !!! note "Developer task — needs GitHub access to the site repo"
-    Set `LIVE_BASE_URL = ''` in the settings script of the event's `index.html`,
-    `schedule.html` and `scorer.html` (if it has one), and change nothing else. Nothing is
-    published for the event any more, so an open connection would only cost requests
-    against a daily cap. With the constant empty, the pages read their snapshot from GitHub
-    and show the final results. The mechanics are in
+    Set `LIVE_BASE_URL = ''` in the settings script of the event's `index.html` and
+    `schedule.html`, and of its `scorer.html` and `attendance.html` if it has them, and
+    change nothing else. Nothing is published for the event any more, so an open
+    connection would only cost requests against a daily cap. With the constant empty, the
+    pages read their snapshot from GitHub and show the final results. The mechanics are in
     [Adding a new event § After the event](../technical/adding-a-new-event.md#after-the-event).
 
 Check afterwards that the Hub and schedule board still load and still show the final
-results. Later, the developer can archive the event's folder, which is a separate step.
+results.
+
+## Archive the event's pages, later
+
+!!! note "Developer task — needs GitHub access to the site repo and `event-data`"
+    Some time after the event, the developer moves its folder to
+    `events/archives/<event-key>/` and sets `"pagesArchived": true` on the event in
+    `events.json`, so Control Center's links follow it.
+
+**The old address stops working when the folder moves.** Nothing redirects it: it shows
+the site's "page not found". So whoever owns the event's **short link** (the TinyURL the
+QR code opens) points it at the new address, `/events/archives/<event-key>/`, the same
+day. The QR code then still works; a bookmark or a workbook's `Title` link to the old
+address does not.
 
 ## What to keep
 
@@ -41,5 +54,6 @@ results. Later, the developer can archive the event's folder, which is a separat
 - [ ] The Hub, schedule board and Awards still show the final results.
 - [ ] The workbooks, draw files and schedule PDF are filed in the event's folder.
 - [ ] The developer has turned off live push for the event's pages.
+- [ ] Once the pages are archived, the short link opens the new address.
 
 **Back to** [the Usage guide](README.md).

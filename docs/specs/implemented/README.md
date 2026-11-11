@@ -21,7 +21,7 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Immediate sync](immediate-sync-spec.md) | `sheets-sync.gs`'s lock-based sync from the edit, `SyncService`'s commit-conflict retry, `X-Edit-At` / `lastEditAt` timing, and Control Center's `edit→sync` figure |
 | [Match Control console](match-control-console-spec.md) | `tools/control-center.html` |
 | [Awards tab](awards-podium-tab-spec.md) | The console's podium tab and PNG export |
-| [Schedule screen](schedule-screen-spec.md) | `events/<key>/schedule.html`, since backported into both templates |
+| [Schedule screen](schedule-screen-spec.md) | `events/<key>/schedule.html`, since backported into the templates |
 | [Scoresheet event picker](scoresheet-event-picker-spec.md) | `tools/scoresheet-generator.html`'s snapshot picker |
 | [Calculator dual-meet fixes](calculator-dual-meet-spec.md) | "Pairs per club" and the dual bracket default |
 | [Bracket Generator keep-apart groups](bracket-generator-keep-apart-spec.md) | `tools/bracket-generator.html`'s keep-apart groups: chosen pairs dealt into different brackets, still verifiable from the seed |
@@ -37,13 +37,14 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Event site templates](event-templates-spec.md) | `_templates/dual-meet-template/` and `_templates/standard-tournament-template/` |
 | [PNF × BUP dual meet](pnf-x-bup-dual-meet-spec.md) | The first real run of the dual-meet template |
 | [Facility progress](facility-progress-spec.md) | Live Matches' per-facility progress cards and Mission Control's progress line |
-| [Event attendance](event-attendance-spec.md) | `attendance.gs` and `events/pickle-for-sight-2026/attendance.html` |
+| [Event attendance](event-attendance-spec.md) | `attendance.gs` and `events/archives/pickle-for-sight-2026/attendance.html` |
 | [Attendance for every event](multi-event-attendance-spec.md) | `sage-tools-api/src/attendance/`, Control Center's Attendance tab, `_templates/attendance/` and each event's `attendance.html` |
-| [CLSO Pickle for Sight](pickle-for-sight-spec.md) | `events/pickle-for-sight-2026/`, the first real run of the standard template, held 27 September 2026 |
-| [Team tournament](pickledrive-club-anniversary-team-tournament-spec.md) | `events/pickledrive-anniversary-2026/` (the hand-built prototype), Control Center's `team` type and the team rules. Ran 3 October 2026. The template and the workbook generator are separate specs |
+| [CLSO Pickle for Sight](pickle-for-sight-spec.md) | `events/archives/pickle-for-sight-2026/`, the first real run of the standard template, held 27 September 2026 |
+| [Team tournament](pickledrive-club-anniversary-team-tournament-spec.md) | `events/archives/pickledrive-anniversary-2026/` (the hand-built prototype), Control Center's `team` type and the team rules. Ran 3 October 2026. The template and the workbook generator are separate specs |
 | [Team workbook recalculation](team-workbook-stack-cache-spec.md) | The PickleDrive workbook's hidden `StackCache` tab, the five primitive named functions reading it, `MatchLookup!K:L`, the rewritten matchup family and the 15 unused functions removed. Done by hand in the Sheets UI on 2026-10-05; no repo code |
-| [Piggleball Chairman's Cup](piggleball-chairmans-cup-spec.md) | `events/piggleball-2026/`, a standard-template event re-skinned from its pubmat, held 3 October 2026 |
-| [Millennium Invitational](millennium-invitational-spec.md) | `events/millennium-invitational-2026/`, the team template re-skinned from its pubmat, and the engine's opt-in `teamScoring: "games"` (a matchup won on games won, a bracket ranked by games won, then the head-to-head rules). Held 24 October 2026 |
+| [Piggleball Chairman's Cup](piggleball-chairmans-cup-spec.md) | `events/archives/piggleball-2026/`, a standard-template event re-skinned from its pubmat, held 3 October 2026 |
+| [Millennium Invitational](millennium-invitational-spec.md) | `events/archives/millennium-invitational-2026/`, the team template re-skinned from its pubmat, and the engine's opt-in `teamScoring: "games"` (a matchup won on games won, a bracket ranked by games won, then the head-to-head rules). Held 24 October 2026 |
+| [Ladies' Dink 1st Club Tournament](ladies-dink-club-tournament-spec.md) | `events/archives/ladies-dink-2026/`, the team template re-skinned from its pubmat, and the engine's team playoff tiebreaker game (`_TB`), lettered brackets, the Tied pill's wording and `headToHeadQuotient: false`. Held 7 November 2026 |
 | [`sage-tools-api` test suite](sage-tools-api-test-suite-spec.md) | `sage-tools-api/test/`: unit and integration tests for every module and route, the sync pipeline against an in-memory GitHub/Sheets/Worker, an opt-in PDF end-to-end, guard tests and the pre-push hook |
 | [Live push delivery](durable-object-push-spec.md) | `sage-tools-api/live-worker/` (the `sage-live` Worker and its `DayChannel` Durable Object), `LivePublisher` and the publish-then-archive flow, and the `LIVE CHANNEL` block in Control Center, the templates and every current event's pages. In use since 3 October 2026 |
 | [Live push delivery — explainer](durable-object-push-explainer.md) | The same, in plain language |

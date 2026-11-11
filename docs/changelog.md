@@ -37,6 +37,49 @@ has been replaced.
 
 ---
 
+## [2.60.0] — 2026-11-12
+
+### Changed
+
+- [Ladies' Dink 1st Club Tournament](specs/implemented/ladies-dink-club-tournament-spec.md) moves
+  from **In progress** to **Implemented**: the event ran on 7 November 2026 and the facility was
+  stamped complete; its pages are archived with live push off. The dry run and the workbook's
+  Restricted sharing stay unconfirmed in its status.
+- [After the event](usage/after-the-event.md) gains **Archive the event's pages, later**: moving the
+  folder breaks the old address, so the short link the QR code opens is pointed at the new one the
+  same day. Live push off now names the desk page too.
+
+### Fixed
+
+- [Control Center](technical/control-center.md) describes the console as built on the site engine.
+  Its Standings, Match Finder, Teams tab, facility progress, Awards and team sections named functions
+  the console no longer has; they now name the engine's (`createStandings`, `createFinder`,
+  `createTeams`, `stageTablesHTML`, `buildPodiums(model)` and the rest) and say what stays in the
+  page. The tab row has up to seven tabs, Awards is the second, and the page loads `qrcode-generator`
+  from cdnjs for **Show QR**.
+- [Event registry schema](technical/event-data-config.md): `type` is read by every engine page and,
+  for rosters, by `sage-tools-api`; `archived` also turns score entry off in the API; `date` drives
+  go-live, progress and both link kinds; facility workbooks are Restricted, so a published sheet ID
+  opens nothing.
+- [API](technical/api.md): thirteen of the seventeen `/v3` routes have a frozen twin, not sixteen; the
+  people list takes a desk token too, as [Auth](technical/auth.md) now says.
+- [Sync pipeline](technical/sync-pipeline.md): the site's copy of the completion rules is the engine's
+  `lib/v1/domain/` with its parity test; a day's trigger runtime matches the measurements (50–60
+  minutes, 105 at PickleDrive); the SAGE menu lists **Open Bracket Generator**; score entry's own
+  `SheetsClient` and the lazy scoresheet import ([Scoresheet pipeline](technical/scoresheet-pipeline.md))
+  are in `src/app.mjs`; `live` diagnostics carry `switch` and `active` (also
+  [Deployment](technical/deployment.md)).
+- [Architecture](technical/architecture.md) names `sage-docs` and the `AttendanceSignals` port.
+- [Site engine](technical/site-engine.md)'s layout lists every module.
+- [Schedule board](technical/schedule-board.md): a card's fourth state, **not needed**, and where its
+  stage regexes live.
+- Finished events' paths point at `events/archives/` in [Adding a new
+  event](technical/adding-a-new-event.md), [Event attendance](technical/event-attendance.md) and the
+  [implemented specs' index](specs/implemented/README.md).
+- The changelog's links to the Ladies' Dink spec point at `implemented/`.
+
+---
+
 ## [2.59.0] — 2026-11-12
 
 ### Added
@@ -230,7 +273,7 @@ has been replaced.
 
 - [Team names on scoresheets](specs/in-progress/scoresheet-team-names-spec.md) moves from Not started to In
   progress: it is built and live, with its live-page checks and docs left.
-- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md): the status line
+- [Ladies' Dink 1st Club Tournament](specs/implemented/ladies-dink-club-tournament-spec.md): the status line
   says what is live and what is left on the day of the event.
 - [Specs index](specs/README.md): the Team tournament entry links its template, which is built.
 
@@ -249,7 +292,7 @@ has been replaced.
 
 ### Changed
 
-- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md): the score dialog
+- [Ladies' Dink 1st Club Tournament](specs/implemented/ladies-dink-club-tournament-spec.md): the score dialog
   warns on a playoff tiebreaker short of 11, public pages hold a lineup until it is ticked, and Control Center
   warns when a player plays both of a matchup's games.
 - [Control Center](features/control-center.md) and [Event data config](technical/event-data-config.md): a
@@ -262,7 +305,7 @@ has been replaced.
 
 ### Changed
 
-- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md),
+- [Ladies' Dink 1st Club Tournament](specs/implemented/ladies-dink-club-tournament-spec.md),
   [Team workbook](features/team-workbook.md), [Tournament Hub](features/tournament-hub.md) and
   [Site engine](technical/site-engine.md): a bracket tie's game can be entered as a `_TB` row, which settles
   the tie and counts for nothing else.
@@ -273,7 +316,7 @@ has been replaced.
 
 ### Changed
 
-- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md): two teams level on
+- [Ladies' Dink 1st Club Tournament](specs/implemented/ladies-dink-club-tournament-spec.md): two teams level on
   wins at 1–1 head-to-head go straight to a side-out game to 5, with no quotient.
 - [Event data config](technical/event-data-config.md), [Site engine](technical/site-engine.md) and
   [Tournament Hub](features/tournament-hub.md): an event's `headToHeadQuotient: false`.
@@ -284,7 +327,7 @@ has been replaced.
 
 ### Changed
 
-- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md): the organiser's
+- [Ladies' Dink 1st Club Tournament](specs/implemented/ladies-dink-club-tournament-spec.md): the organiser's
   revised tiebreaker process. Two teams still level play one side-out game to 5; three or more play a round
   robin to 5, then first to 3, then a timed match; a playoff tiebreaker is to 11, with the pair submitted in a
   3-pair lineup.
@@ -356,7 +399,7 @@ has been replaced.
 
 - [Control Center](technical/control-center.md): a team event's Standings keeps to the page's column
   on a desktop screen, with its brackets two across.
-- The [Ladies' Dink spec](specs/in-progress/ladies-dink-club-tournament-spec.md) and the in-progress
+- The [Ladies' Dink spec](specs/implemented/ladies-dink-club-tournament-spec.md) and the in-progress
   and specs indexes: the logo, the Standings margins and the score dialog's tiebreaker warnings (a
   tiebreaker is to 7) are built; the two open questions are answered: the organiser decides a
   three-team tie on the day (Q10), and first serve is 3:30 PM (Q11).
@@ -372,7 +415,7 @@ has been replaced.
   [Team workbook](features/team-workbook.md): a team playoff matchup's tiebreaker game (`_TB`, shown
   as TB, not counted once the matchup is settled), lettered brackets (`Bracket A`), and the Tied
   pill's generic wording (*Tied · playoff game* / *Tied · playoff*).
-- The [Ladies' Dink spec](specs/in-progress/ladies-dink-club-tournament-spec.md) moves from
+- The [Ladies' Dink spec](specs/implemented/ladies-dink-club-tournament-spec.md) moves from
   `not-started/` to `in-progress/`: its engine changes, pages and `events.json` entry are pushed.
 
 ---
@@ -381,7 +424,7 @@ has been replaced.
 
 ### Added
 
-- [Ladies' Dink 1st Club Tournament](specs/in-progress/ladies-dink-club-tournament-spec.md), not
+- [Ladies' Dink 1st Club Tournament](specs/implemented/ladies-dink-club-tournament-spec.md), not
   started: the site for a 16-team women's team event on 7 November 2026 at the Pampanga Pickleball
   Center, and the three compatible engine changes it needs first: a playoff matchup's tiebreaker game
   (`_TB` codes, to 7) that isn't counted once the matchup's other games settle it, in the site and the

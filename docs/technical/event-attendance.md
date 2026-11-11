@@ -139,9 +139,10 @@ Mounted at `/v3` (`src/attendance/routes.mjs`), which every page calls:
 
 The three writes each have a frozen `/v1` twin (`PUT /v1/days/:day/facilities/:facility/attendance/:key`,
 `…/desk-links`, `…/reconciliations?facility=`) that copies of the pages from
-before 3.0.0 call; the list has none, because nothing before it read through the API; it answers the same, with the plain `{ error, code }` body
+before 3.0.0 call. A twin answers the same, with the plain `{ error, code }` body
 instead of problem details and `400` instead of `404` for an unknown day or
-facility ([API](api.md)).
+facility ([API](api.md)). The list has no twin, because nothing before it read
+through the API.
 
 CORS allows `PUT`. Errors carry `error` in words (inside a problem details body
 on `/v3`), never raw Google JSON.
@@ -288,7 +289,7 @@ fixtures and manual checks (spec section 7.3).
 ## Pickle for Sight's attendance
 
 The notes below describe Pickle for Sight's `attendance.gs` and
-`events/pickle-for-sight-2026/attendance.html`. The script runs in that event's
+`events/archives/pickle-for-sight-2026/attendance.html`. The script runs in that event's
 workbooks and is not kept in `sage-tools-api`'s current tree: its source, with its
 harness `verify-attendance.mjs`, is in `apps-script/` at commit `198f02c`.
 
@@ -301,7 +302,7 @@ each workbook. Two parts:
   part of the Cloud Run service: changing it is not a deploy and does not
   bump `package.json`. Also holds `attendanceResync`, run by hand from the
   Apps Script editor once at setup and again after any player swap.
-- `events/pickle-for-sight-2026/attendance.html` — a self-contained static
+- `events/archives/pickle-for-sight-2026/attendance.html` — a self-contained static
   page, like the event's `schedule.html`.
 
 Spec: [event attendance](../specs/implemented/event-attendance-spec.md).

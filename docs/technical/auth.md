@@ -72,8 +72,8 @@ there's no unauthenticated fallback.
 Attendance adds a second, narrower kind of token for desk staff
 (`issueDeskToken` / `verifyDeskToken` in `AuthService`). A desk token
 carries a day, expires at the end of that day in Manila time, and is accepted
-only by the attendance mark route, and only while the event's `attendance`
-setting is `"desks"`.
+only by the people list (`GET …/facilities/{facility}/people`) and the attendance
+mark route, and only while the event's `attendance` setting is `"desks"`.
 
 - It is signed with a key derived from `AUTH_TOKEN_SECRET`, so its signature
   never verifies as an operator token. Its payload also carries a `scope`,

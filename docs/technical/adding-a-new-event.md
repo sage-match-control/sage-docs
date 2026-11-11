@@ -14,7 +14,7 @@ is `_templates/CLAUDE.md` in that repo.
 - **Named teams meeting in matchups** (a team tournament) → `team-tournament-template/`.
   Its `type` is `"team"` in `events.json`, and its pair labels (MD, WD, XD…) are
   the event's `display.pairs` there. The rules, and PickleDrive Club One Year
-  Celebration's hand-built pages (`events/pickledrive-anniversary-2026/`), are in the
+  Celebration's hand-built pages (`events/archives/pickledrive-anniversary-2026/`), are in the
   [team tournament spec](../specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md);
   the template is the
   [team tournament template spec](../specs/implemented/team-tournament-template-spec.md).
@@ -176,7 +176,7 @@ resolved.
 
 ## Root-absolute asset paths — don't "fix" them to relative
 
-Both templates load icons and images with root-absolute paths
+All three templates load icons and images with root-absolute paths
 (`/assets/logo.png`, one shared `assets/` folder at the repo root), not
 relative ones — a relative path resolves differently depending on how deep
 a page is nested, so root-absolute paths work regardless of nesting. Leave
@@ -186,8 +186,8 @@ to re-prefix.
 ## After the event
 
 Once the event's last day is over, set `LIVE_BASE_URL = ''` in the settings
-script of its `index.html`, `schedule.html` and `scorer.html`, and change
-nothing else. Nothing is published for the event any more, so
+script of its `index.html` and `schedule.html`, and of its `scorer.html` and
+`attendance.html` where it has them, and change nothing else. Nothing is published for the event any more, so
 an open socket would only cost Worker requests (a connect per visit and a
 ping every 50 s) against the free plan's daily cap. With the constant empty
 the pages read their snapshot from GitHub and show the final results as

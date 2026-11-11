@@ -70,9 +70,10 @@ day-scoped tokens (see [Auth](auth.md)).
 | `PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score` | enter, correct or clear a score | operator or scorer | `200` | `PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score` |
 | `POST /v3/days/{day}/scores/scorer-links` | issue a scorer link; optional body `{ issuedTo?, note? }` | operator | `201 { token, expiresAt, day, issuedTo, note }` | `POST /v1/days/:day/scores/scorer-links` |
 
-That is seventeen routes on fourteen paths. Sixteen are the twin of a frozen route;
-the people list is the one that has none, because nothing before it read through the
-API. Details a twin does not show:
+That is seventeen routes on fourteen paths. Thirteen are the twin of a frozen route
+(`POST /v3/scoresheets` of two). Four have none: the `GET`s of visibility, live-push
+and score-entry, which give each `PUT` its `GET`, and the people list, because nothing
+before it read through the API. Details a twin does not show:
 
 - **Sync input moves into a body.** `?facility=` becomes a path segment, and
   `?method=` and the `X-Edit-At` header become `{ "method"?: "sheets" | "csv",
@@ -242,7 +243,7 @@ page.
 | nothing | `GET /ping`, `GET /openapi.json`, `POST /v3/sessions` (and `/auth/login`), `POST /v3/scoresheets` (and `/scoresheets/...`) |
 | secret **or** operator | the two sync `POST`s, `GET /v3/diagnostics/sync` |
 | operator only | visibility, live-push and score-entry (`GET` and `PUT`), desk links, reconciliations, scorer links |
-| operator or desk | the attendance `PUT` |
+| operator or desk | the people list (`GET`) and the attendance `PUT` |
 | operator or scorer | the score `PUT` |
 
 The shared secret is never accepted where it says operator only. See

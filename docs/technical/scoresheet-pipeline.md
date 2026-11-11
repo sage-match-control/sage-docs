@@ -11,14 +11,14 @@ sync pipeline — no shared state, no shared endpoints.
   Standard (with a referee column), No Referee, No Referee Wide, and Best
   of 3. Adding a new type is a new template pair **and** a `ScoresheetConfig.mjs`
   entry — nothing else needs touching.
-- `index.mjs` composes the pipeline: parse the uploaded CSV, render each
+- `src/scoresheets/index.mjs` composes the pipeline: parse the uploaded CSV, render each
   match through the selected type's Handlebars template, render the
   populated HTML through headless Chromium (Puppeteer) into per-chunk PDFs,
   merge into one final PDF.
 
-**The pipeline is wired lazily**, not eagerly, in `index.mjs`'s
-composition root. Puppeteer is only imported on the *first* scoresheet
-request — the sync pipeline is wired eagerly, so a sync-only cold start
+**The pipeline is wired lazily**, not eagerly, in the composition root,
+`src/app.mjs`, which imports `src/scoresheets/index.mjs` on the *first* scoresheet
+request, and Puppeteer with it — the sync pipeline is wired eagerly, so a sync-only cold start
 (the common case for this service) never pays Puppeteer's import cost at
 all. Don't move that import to the top level.
 

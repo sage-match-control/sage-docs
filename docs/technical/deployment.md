@@ -208,6 +208,6 @@ running Cloud Run instance within `SYNC_CONFIG_TTL_MS` (~60s default). See
   straight into Postman via **Import → Link**.
 - `GET /v3/diagnostics/sync` (secret- or token-gated; legacy `GET /sync/config`,
   which workbooks made before 3.0.0 call during setup) — full diagnostic view of the
-  currently-loaded event registry, plus `live: { enabled, baseUrl }` for live
-  push.
+  currently-loaded event registry, plus `live: { enabled, baseUrl, switch, active }`
+  for live push.
 - `GET <worker>/health` — the live Worker's health check.

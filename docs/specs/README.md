@@ -242,6 +242,11 @@ build status.
   Its teams score games won, so it adds an opt-in `teamScoring: "games"` to the
   engine's team rules, then instantiates the team template with the club's colours.
   Ran 24 October 2026.
+- **[Ladies' Dink 1st Club Tournament](implemented/ladies-dink-club-tournament-spec.md)** —
+  the site for a 16-team women's team event at the Pampanga Pickleball Center: four lettered
+  brackets of 2-game matchups, ranked by games won, then QF to Final. It adds a tiebreaker game
+  played only when needed, brackets lettered A–D, a Tied pill that names no point target, and two
+  teams at 1–1 going straight to a playoff (`headToHeadQuotient: false`). Ran 7 November 2026.
 
 ### The docs
 
@@ -270,14 +275,6 @@ build status.
   division (`"divisions": { "": "" }`). The pages and the `events.json` entry are
   pushed, and the workbook syncs all 96 matches; the QR image, the rest of the
   workbook checks and the dry run are left.
-
-- **[Ladies' Dink 1st Club Tournament](in-progress/ladies-dink-club-tournament-spec.md)** —
-  the site for a 16-team women's team event on 7 November 2026 at the Pampanga Pickleball
-  Center: four lettered brackets of 2-game matchups, ranked by games won, then QF to Final.
-  Everything it needs from the site is live: a tiebreaker game played only when needed, brackets
-  lettered A–D, a Tied pill that names no point target, two teams at 1–1 going straight to a
-  playoff, the event's pages and its `events.json` entry, and the workbook's live sync. The event
-  itself is left, and the dry run and the workbook's Restricted sharing aren't confirmed.
 
 - **[Team names on scoresheets](in-progress/scoresheet-team-names-spec.md)** — a team
   event's scoresheets print each team's name beside its pair code, on all four layouts,

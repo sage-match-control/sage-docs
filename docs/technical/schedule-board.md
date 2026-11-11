@@ -43,18 +43,22 @@ can legitimately be the same club on both sides; hardcoding "club A always
 left" would be wrong.
 
 A **stage pill** beside the category chip reads the ladder position off the
-same `roundKeyword()` classification the rest of the site uses — lifted
-verbatim, not reimplemented, so this page classifies a code exactly as
-Standings and Live Matches do. Pool play renders as a quiet outline `RR`
+same regexes as the `roundKeyword()` classification the rest of the site uses
+(`lib/v1/domain/codes.js`; the board's stage table is in
+`lib/v1/apps/schedule-board.js`), so this page classifies a code exactly as
+Standings and Live Matches do. Change one and change the other. Pool play renders as a quiet outline `RR`
 (it's the large majority of cells); playoff rounds (`R16`/`QF`/`SF`/
 `BRONZE`/`FINAL`) invert to solid navy so they're findable at a glance
 across a wall of cells.
 
-Three states: **upcoming** (no scores, full opacity, `VS` centered),
+Four states: **upcoming** (no scores, full opacity, `VS` centered),
 **live** (green ring + glow, `● COURT n` pill, driven by the `court` column
 being non-empty), **completed** (dimmed to 84% opacity, shows the score —
 84% specifically, since a lower value pushed the darkest category's text
-under the 4.5:1 AA contrast floor).
+under the 4.5:1 AA contrast floor), and **not needed** (`.not-needed`, greyed
+with a "Not needed" tooltip): a series Final's game after the decider, a team
+playoff tiebreaker the matchup no longer needs, or a best-of-3 meeting's game
+after a side has won two (`unneededSeriesGames`).
 
 ## Court filter — state lives in the URL
 

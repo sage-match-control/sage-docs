@@ -277,9 +277,9 @@ That is what lets `syncedAt` stay a "last heard from" time while
 facility's `syncedAt` but leaves `completedAt` alone. An empty or header-only
 CSV is never "finished", and neither is a CSV whose only rows are BYEs.
 
-The rules copy Control Center's `rowsToMatches`, `sideIsBye`,
-`seriesGameOf`/`unneededSeriesGames`, `isDeciderCode`/`unneededDeciders` and
-`computeFacilityProgress` exactly:
+The rules copy the site engine's (`lib/v1/domain/`: `rowsToMatches`, `matchByeSide`,
+`seriesGameOf`/`unneededSeriesGames`, `isDecider`/`unneededDeciders`,
+`unneededMeetingGames` and `computeFacilityProgress`) exactly:
 a match is played only when **both** scores are numbers, a side is a BYE
 when its team code **or** either player name is `bye` (case-insensitive),
 and a series Final's games after the decider don't count. A series Final is
@@ -296,17 +296,18 @@ taken in match-number order, the first three) stop counting once a side has won 
 meeting won 2–0 never waits on its game 3, at 1–1 game 3 must be scored, a tied game counts
 for neither side and a fourth row is an ordinary match (`unneededMeetingGames`). A `CSV` tab
 with no `bestOf` column, or a blank one, reads every row as an ordinary match. The site's
-`deciders.js` and `series.js` hold the same rules, and its parity test checks the two agree. Change one copy and you have to change the other (see
-[Control Center](control-center.md) § Actual end).
+`byes.js`, `matches.js`, `series.js`, `deciders.js` and `progress.js` hold the same rules,
+and its parity test (`_tests/unit/parity-server.test.mjs`) checks the two agree. Change
+one copy and you have to change the other (see [Control Center](control-center.md) §
+Actual end).
 
 ```bash
 npm test
 ```
 
-checks the completion rule (BYEs, zero scores, quoted names, missing
-columns) and the resync story (first finish, repeated resyncs, a cleared and
-re-entered score). Unlike the other `verify-*` scripts, it covers code in
-`src/`, not Apps Script.
+checks the completion rule (`facilityCompletion.test.mjs`: BYEs, zero scores, quoted
+names, missing columns) and the resync story (`SyncService.test.mjs`: first finish,
+repeated resyncs, a cleared and re-entered score).
 
 **Apps Script side:** `apps-script/sheets-sync.gs`, installed once per facility
 spreadsheet, watches that workbook's configured tabs (SCHEDULE and Court
@@ -394,8 +395,10 @@ same loop.
 Installable triggers count against the installing account's daily trigger
 runtime (90 minutes on a consumer Google account, 6 hours on Workspace,
 shared by every workbook that account installed triggers in). A burst spends
-about the settle plus the Cloud Run round trip, so a day of a few hundred
-syncs lands around 20–30 minutes.
+about the settle plus the Cloud Run round trip, and every edit that does not
+hold the lock still spends about a second. Measured, a busy three-facility day
+lands around 50–60 minutes, and a day like PickleDrive's 3 October, with slow
+Sheets reads, about 105 minutes for its syncs alone (see the measurements above).
 
 ### How the secret reaches a workbook
 
@@ -439,8 +442,10 @@ Scoresheets** (deep-links into the Scoresheet Generator with this workbook's
 day and venue preselected — a link only, no HTTP request and no new OAuth
 scope), **Sync now**, **Pause live sync** / **Resume live sync**, **Live
 sync settings** once configured (or **Set up live sync** otherwise),
-**Set shared secret** where it applies (see above), **Fill match numbers**,
-and **Help**. The last two are always present regardless of configuration
+**Set shared secret** where it applies (see above), **Open Bracket
+Generator** (a link to `tools/bracket-generator.html` with the event's name from
+`Title!B6` and the active tab's category filled in), **Fill match numbers**, and **Help**. The last three are always
+present regardless of configuration
 state, since this is the one file guaranteed to be in every workbook. Help
 shows a workflow refresher plus this workbook's live status (configured/not,
 paused/not) in one dialog, written for the coordinator and operators rather than developers.
@@ -574,7 +579,7 @@ and the first real sync stamps it in.
 Score entry is the one path where `sage-tools-api` writes scores into a facility
 workbook instead of reading them. `PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score`
 (`src/scores/`, `ScoreService.submit`) writes one match's two score cells in the
-workbook's `SCHEDULE` tab as the attendance service account, then publishes the
+workbook's `SCHEDULE` tab as the API's service account, then publishes the
 day itself, in the same request. Usage and the dialog:
 [Entering a score](../features/score-entry.md).
 
@@ -623,7 +628,7 @@ its write in which a person typing the same match in the sheet would be overwrit
 Closing it needs the workbook's document lock, which only Apps Script can take; the
 publish that follows reads whatever the sheet then holds, so pages always show the sheet.
 
-**The 60-second timeout.** `index.mjs` gives score entry its own `SheetsClient`, with a
+**The 60-second timeout.** `src/app.mjs` gives score entry its own `SheetsClient`, with a
 60-second timeout instead of attendance's 5. A team workbook recalculates when it is
 written and can take up to a minute to answer the read that follows. The client's
 two-minute request timeout covers the read, the write and the publish.
@@ -762,7 +767,7 @@ cannot turn on live push the environment does not configure.
 `PUBLISH_SECRET`) and `LIVE_PUSH_TIMEOUT_MS` (default 4000) configure it.
 Clearing `LIVE_PUSH_URL` on the Cloud Run service is the rollback switch: a
 new revision, no code change. `GET /v3/diagnostics/sync` reports
-`live: { enabled, baseUrl }`, never the secret.
+`live: { enabled, baseUrl, switch, active }`, never the secret.
 
 ### Pages
 

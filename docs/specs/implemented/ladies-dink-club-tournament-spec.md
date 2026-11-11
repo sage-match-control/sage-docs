@@ -1,11 +1,13 @@
 # Spec — Ladies' Dink 1st Club Tournament (team tournament)
 
-> **Status: in progress.** The event is on 7 November 2026, and everything it needs from the
-> site is live: the engine changes (§4–§6), the event's pages (§7), its `events.json` entry (§8),
-> the logo, the QR image and short link, and the workbook's live sync, with `sage-tools-api` at
-> 3.6.2. **Left:** the event itself; this spec moves to `implemented/` once it has run. **Not
+> **Status: implemented.** The event ran on Saturday 7 November 2026 at the Pampanga
+> Pickleball Center. The engine changes (§4–§6), the event's pages (§7), its `events.json`
+> entry (§8), the logo, the QR image and short link, and the workbook's live sync are built,
+> with `sage-tools-api` at 3.6.2. The facility was stamped complete at 21:48 Manila time. The
+> event's pages are now in `events/archives/ladies-dink-2026/` (`"pagesArchived": true`),
+> with live push off (`LIVE_BASE_URL = ''`), as every finished event's are. **Not
 > confirmed:** that the dry run took place, and §14.2's Restricted sharing (the workbook was
-> still readable without sign-in on 7 November). The workbook publishes a 3:00 PM first game,
+> still readable without sign-in on 7 November). The workbook published a 3:00 PM first game,
 > where §15 Q11 says 3:30.
 >
 > Written 2026-10-31 against `sage-match-control.github.io`

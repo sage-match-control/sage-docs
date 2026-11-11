@@ -22,8 +22,8 @@ default).
   },
   "events": {
     "<event-key>": {
-      "type": "dual-meet",              // or "standard" or "team" — required, picks the console's layout
-      "archived": false,                // optional, console-only: hides from the event picker
+      "type": "dual-meet",              // or "standard" or "team" — required by every page, picks the layout
+      "archived": false,                // optional: hides from the console's picker and turns score entry off
       "pagesArchived": true,            // optional, console-only: its pages are in the site's events/archives/
       "title": "PNF × BUP Dual Meet",   // optional, console-only: masthead label
       "attendance": "desks",            // optional: "console" | "desks" — staff check-in; absent means none
@@ -31,7 +31,7 @@ default).
       "days": {
         "<day-key>": {
           "label": "Day 1 · Aug 15",
-          "date": "2026-08-15",         // optional, console-only: chronological ordering + "today" default
+          "date": "2026-08-15",         // optional: day order, go-live, progress, desk and scorer links (below)
           "isLive": "auto",             // "auto" | true | false — the go-live override target
           "facilities": [
             { "name": "Main", "sheetId": "1hbjqbH3H1..." }
@@ -50,13 +50,26 @@ default).
 
 - `<event-key>` must match this event's folder name under `events/` in
   `sage-match-control.github.io` **and** its folder name in `event-data`.
-- `type` is read **only** by Control Center — `sage-tools-api`
-  never looks at it. Not inferred: an unmatched code would fail *silently*
-  the moment the code shape ever changes, so it's required and explicit.
+- `type` picks the layout and how team codes split, on every page that reads the
+  registry: Control Center, the Hub, the schedule board, the scorer page and the
+  desk page. Not inferred: an unmatched code would fail *silently* the moment the
+  code shape ever changes, so it's required and explicit, and Control Center and
+  the Hub show a configuration error without it. `sage-tools-api` does not require
+  it, but reads it in two places: a `"team"` day publishes its roster tab
+  (`rosterSheetName`, below), and attendance picks where a roster comes from by it
+  (`Teams` for a team event, `STANDINGSCSV` otherwise).
 - A `"team"` event takes its team names from `STANDINGSCSV` and needs no
   `display` block, except `display.pairs` when its pair labels aren't the
-  defaults and `display.teamColors` when its teams have colours. `sage-tools-api` never reads `type` or `display`, so it needs no
-  backend change.
+  defaults and `display.teamColors` when its teams have colours. `sage-tools-api`
+  never reads `display`.
+- `archived: true` hides the event from Control Center's picker, and
+  `sage-tools-api` treats score entry as off for it: a score save, a scorer link
+  and the Accepting / Stopped switch are all refused. Leave it off an event whose
+  pages are still in use (`pagesArchived` is the one that says where its pages are).
+- `date` (`YYYY-MM-DD`) orders a day among the event's days and lets the console
+  default to today. The Hub's go-live (`"auto"`) and the facility progress card's
+  estimate need it, a desk link lasts to the end of it, and a scorer link can't be
+  issued after 06:00 Manila the morning after it.
 - `display.pairs` (team events only) labels each pair of a matchup, keyed by
   the pair number in a team code (the `3` of `A_3`):
   `"3": { "full": "Mixed Doubles", "short": "XD" }`. Both labels are non-empty
@@ -187,20 +200,23 @@ bundled fallback seed) rather than partially applying a broken commit:
 - At least one event, each with at least one day.
 
 If unsure whether an edit is valid before committing, check `GET
-/v3/diagnostics/sync` (`X-Sync-Secret` header) after committing — it reports which
+/v3/diagnostics/sync` (`X-Sync-Secret` header or an operator token; Control Center's
+**Check connection** shows the same) after committing — it reports which
 config revision is actually live, and whether the service fell back to its
 bundled seed because the commit failed validation.
 
 ## Sheet IDs are effectively public
 
 `event-data` is public (GitHub Pages requires it on the free plan), so this
-file publishes every registered facility spreadsheet's ID. That's
-expected — sheet IDs aren't secrets, the sheets are already
-link-shareable by design, and the published snapshots already contain
-everything on their synced tabs. But it does make the *set* of
-spreadsheets enumerable: only register spreadsheets that are already
-meant to be public, and never keep private notes in an extra tab
-of a spreadsheet that's registered here.
+file publishes every registered facility spreadsheet's ID. An ID alone opens
+nothing: a facility workbook's **General access** is **Restricted**, shared by
+name with its staff and with the API's service account, which is how
+`sage-tools-api` reads it (see
+[Event attendance § Reading the workbook](event-attendance.md#reading-the-workbook)).
+The published snapshots already contain everything on the synced tabs. A
+workbook left as *Anyone with the link* (an older event's) is open to anyone
+who reads its ID here, every tab of it, so set it to Restricted, and never keep
+private notes in an extra tab of a workbook that is still link-shared.
 
 ---
 **Full reference:** `event-data/config/README.md` (this page is a condensed version).

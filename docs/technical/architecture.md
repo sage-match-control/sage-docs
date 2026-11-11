@@ -1,7 +1,8 @@
 # Architecture
 
-S.A.G.E. is three independent git repos, not one monorepo, plus a Cloudflare
-Worker that lives inside one of them.
+S.A.G.E. is three independent code and data repos, not one monorepo, plus a
+Cloudflare Worker that lives inside one of them. A fourth repo,
+[`sage-docs`](https://github.com/sage-match-control/sage-docs), holds these docs.
 
 | Repo | What it is |
 | --- | --- |
@@ -177,6 +178,7 @@ port documents and type-checks the dependency without wrapping it.
 | `SyncedHook` | `AttendanceService.reconcileAfterSync` | `SyncService` |
 | `TokenVerifier`, `Authenticator`, `DeskTokenIssuer`, `ScorerTokenIssuer` | `AuthService` | `auth/middleware`, `auth/routes`, `AttendanceService`, `ScoreService` |
 | `AttendanceSheets`, `ScoreSheets` | `SheetsClient` | `AttendanceService`, `ScoreService` |
+| `AttendanceSignals` | `LivePublisher` | `AttendanceService` (the [attendance nudge](event-attendance.md#push)) |
 | `SnapshotPublishing` | `SnapshotPublisher` | `SyncService`, `DayVisibilityService`, `SyncSettingsService` |
 | `SnapshotStore` | `GitHubSnapshotStore`, `LiveSnapshotStore` | `mergeIntoStore`, both deliveries |
 | `SnapshotDelivery` | `GitHubOnlyDelivery`, `LiveFirstDelivery` | `SnapshotPublisher`; `LiveFirstDelivery` (its fallback) |
@@ -252,8 +254,8 @@ not code:
   identical in every workbook). Facility names are compared exactly and are
   case-sensitive — setup validates both against the registry before saving.
   The shared secret is the exception to "stored in Script Properties": it
-  lives in developer metadata on the spreadsheet so that copies of the Dual
-  Meet Master inherit it. See
+  lives in developer metadata on the spreadsheet so that copies of the two
+  masters inherit it. See
   [sync pipeline](sync-pipeline.md#how-the-secret-reaches-a-workbook).
 - Each event shell's `LIVE_BASE_URL` constant points at the deployed Worker
   (the live channel itself is `lib/v1/data/live-channel.js`). A finished

@@ -35,14 +35,15 @@ Selecting an event resolves three things fresh, every time:
   is fine; the console just shows raw codes (`LIWD`, `PNF`) instead of
   friendly labels.
 
-Everything else the console needs maps onto that: the category set is the
-second code segment (`DIVISIONS` × `EVENTS`), stage (RR/QF/SF/Bronze/Final)
+Everything else the console needs maps onto that: the category is read from
+the team code (`parseCode` in `lib/v1/domain/codes.js`) and labelled from
+`display.divisions` × `display.events`, the stage (RR/QF/SF/Bronze/Final)
 comes from generic regexes in `STAGE_META` — not per-event — and the day
 label comes straight from the published snapshot's own `label` field.
 
 **Mission Control is event-agnostic.** Its dependency surface is just
-`EVENT_KEY` — it touches none of `DIVISIONS`, `EVENTS`, `CLUBS`,
-`STAGE_META`, `parseCode`, or `divisionLabel`. That's what makes it safe to
+the event key — it touches none of the display labels, `STAGE_META`,
+`parseCode` or `divisionLabel`. That's what makes it safe to
 share unmodified across every event type.
 
 ## The tabs
@@ -54,52 +55,55 @@ share unmodified across every event type.
 and labels degrade to raw codes when `display` config is absent rather
 than erroring.
 
-**Standings layout is chosen by `type`.** `dual-meet` gets per-club columns
+**Standings layout is chosen by `type`.** A `standard` or `dual-meet` event's
+board is `createStandings` (`lib/v1/views/standings.js`), the same component the
+Hub uses; a `team` event's is `createTeams`' `renderStandings`
+(`lib/v1/views/teams.js`, see [the team type](#the-team-type) below), and
+`renderStandings()` in the page picks between them. `dual-meet` gets per-club columns
 inside each category with a shared club win-total summary bar and the
 cross-club Bronze/Final shown as one block spanning both clubs (see
-`CROSS_CLUB_STAGE_KEYS`); `standard` gets flat category cards with a
-desktop toggle bar and a mobile category-search filter; `team` gets
-group tables, playoff matchup cards and collapsible bracket matchups (see
-[the team type](#the-team-type) below). On a desktop screen a `team` event's board
+`CROSS_CLUB_STAGE_KEYS` in `lib/v1/domain/codes.js`); Control Center passes
+`dualMeetDesktopLayout: 'row'` for one row of columns. `standard` gets flat
+category cards with a desktop toggle bar and a mobile category-search filter;
+`team` gets group tables, playoff matchup cards and collapsible bracket matchups.
+On a desktop screen a `team` event's board
 keeps to the page's column with margins either side and its brackets two across
 (`#standingsResults:has(.team-standings)`); the other types keep the full-width board.
 
-**Unnamed pairs.** `isEmptyStanding` marks a row whose `player1` is blank or
-still equals its `teamCode` (the sheet fills names by formula, defaulting to
-the code). A twice-to-beat game's code carries its game number
+**Unnamed pairs.** `isEmptyStanding` (`lib/v1/domain/standings.js`) marks a row
+whose `player1` is blank or still equals its `teamCode` (the sheet fills names by
+formula, defaulting to the code). A twice-to-beat game's code carries its game number
 (`IXD_F_1_(2)`) but its placeholder name doesn't (`IXD_F_1`), so the name is
-also compared with the code minus that suffix. `renderStageTables` keeps such an RR row when
-`isUnnamedScheduledPair` holds: it is an RR code and appears in
-`MATCH_BY_CODE`, so it's a real pair on the schedule, and `pairCell` prints
-its code. A code with no match, an unused slot in a hand-built workbook with
+also compared with the code minus that suffix. `stageTablesHTML` keeps such an RR row when
+`isUnnamedScheduledPair` (`lib/v1/domain/matches.js`) holds: it is an RR code and
+appears in the model's `matchByCode`, so it's a real pair on the schedule, and the
+row prints its code. A code with no match, an unused slot in a hand-built workbook with
 fixed-size rosters, is skipped. Playoff cards and the Awards podium keep using `isEmptyStanding`
-alone, so they show TBD and never award a code. The same pair of functions
-is in every standard and dual-meet event page and both templates.
+alone, so they show TBD and never award a code. The Hub uses the same functions
+through the engine.
 
-**Round Robin brackets.** `renderStageTables` groups a category's Round
+**Round Robin brackets.** `stageTablesHTML` groups a category's Round
 Robin rows by bracket label. With no labels it draws one table; with labels
 it draws one mini table per bracket, each under a colored `Bracket <n>`
 label, in `.rr-bracket-grid` — at most two per row, a third wraps. It
-returns `{ html, hasMultiBracket }`; a `standard` category card with two or
-more brackets gets `.standings-col--wide` on desktop, exactly two columns'
-width (740px = 360 × 2 + the 20px gap). Its header carries a desktop-only
+returns `{ html, hasMultiBracket, bracketWidth }`; `categoryCardHTML` gives a `standard`
+category card with two or more brackets `.standings-col--wide` on desktop, exactly
+two columns' width (740px = 360 × 2 + the 20px gap). Its header carries a desktop-only
 `.bracket-cols-toggle` button; clicking it adds the category to
-`stackedCategories`, which swaps `--wide` for `.standings-col--stacked` (a
+`createStandings`' `stacked` set, which swaps `--wide` for `.standings-col--stacked` (a
 normal 360px column with the brackets in one grid column). The set lives in
 memory, so the choice survives each poll's re-render but not a page reload.
-A `dual-meet` club subsection uses
-the same grid but never widens its column. The standard template's
-`index.html` renders standings the same way; the dual-meet template does not
-split by bracket.
+A `dual-meet` club subsection uses the same grid but never widens its column.
 
 **Desktop standings** need a window at least 900px wide **and** 600px tall
-(`DESKTOP_STANDINGS_QUERY`, `(min-width:900px) and (min-height:600px)`).
+(`DESKTOP_STANDINGS_QUERY` in `lib/v1/views/standings.js`,
+`(min-width:900px) and (min-height:600px)`).
 The height half keeps big phones turned sideways, up to about 956px wide but
 under about 450px tall, on the mobile layout. `isDesktopStandings()` reads
-the query through `matchMedia`, and the stylesheet's `@media` rules use the
+the query through `matchMedia`, and the engine's stylesheets use the
 same query, with `(max-width:899px), (max-height:599px)` for the mobile
-side; change them together. The public event pages and both templates use
-the same query. Desktop standings break out of the page's `.wrap` to the
+side; change them together. The Hub uses the same component, so the same
+query. Desktop standings break out of the page's `.wrap` to the
 full viewport width. Every category is one fixed 360px column
 (`flex:0 0 360px`) in a single row that scrolls horizontally, always
 `justify-content:flex-start` — a centred flex row that overflows cuts off
@@ -110,9 +114,11 @@ that scrolls horizontally if a name is wider than the card. A row whose names
 aren't in yet (`TBD` or its code) keeps the two lines a pair's names take, so
 it doesn't grow when they arrive. Playoff matchup cards hold the same height
 the same way, but there each name keeps to one line, cut with … when too long
-(full names on hover). The public event pages do the same in both places,
-cutting long names in the round-robin tables too. The desktop
-row and every `.br-table-wrap` are in `SCROLLABLE_SELECTOR`, so their
+(full names on hover). The Hub does the same in both places, cutting long
+names in the round-robin tables too: that is the engine's rule in
+`lib/v1/css/standings.css`, which this page's own CSS turns off for
+`.br-table td.pair`. The desktop
+row and every `.br-table-wrap` are in `SCROLLABLE_SELECTOR` (`lib/v1/views/scroll.js`), so their
 scroll positions survive the re-render that every update triggers (a pushed snapshot, or the 10-second poll).
 
 **Awards** is the second tab — full derivation and export architecture in its
@@ -155,36 +161,36 @@ same "not set up" condition the sync pipeline itself skips.
 
 **Tab order and landing.** The tabs run Mission Control, Awards, Attendance,
 Match Finder, Live Matches, Standings, Teams. Teams shows only for a `"team"`
-event whose snapshot carries `rosterCsv` (`syncTeamsTab()`). Attendance is hidden unless the event's
+event whose snapshot carries a roster (`model.team.roster`; `createTeams` shows or
+hides the tab and calls back `onTabsChanged`). Attendance is hidden unless the event's
 `attendance` is `"console"` or `"desks"` (`syncAttendanceTab()`, called on
 every event change, day change and tab reveal). `showView(view)` is the one place that switches
 views (the tab buttons call it), and `revealLiveTabsAfterLoad()` calls
 `showView('organizer')` once a day loads, so the console opens on Mission
 Control.
 
-**Match Finder's empty state and number search.** With nothing searched,
-`renderIntro()` adds `allMatchesHTML()`: every non-bye match as a ticket in
-match-number order, built with `ticketHTML(m, null, false)`, where a `null`
-team code means a neutral ticket (team 1 on the left, no **You** badge). A
-team event's `teamRenderIntro()` lists every matchup card after its team
-chips through `allMatchupsHTML()`, sorted by `matchupFirstNum()` (the
-matchup's lowest match number, so #3/#8/#9/#17 sorts as 3) rather than
-trusting `TEAM_MATCHUPS`' insertion order, which follows the CSV's row order.
-PickleDrive's event page carries the same two functions.
+**Match Finder's empty state and number search.** Match Finder is
+`createFinder` (`lib/v1/views/finder.js`), the Hub's component. With nothing
+searched, its intro adds `allMatchesHTML()`: every non-bye match as a neutral ticket in
+match-number order (team 1 on the left, no **You** badge). A
+team event's finder is `createTeams`' (passed as `delegate`), whose intro lists every
+matchup card after its team chips through `allMatchupsHTML()`, sorted by
+`matchupFirstNum()` (the matchup's lowest match number, so #3/#8/#9/#17 sorts as 3)
+rather than the CSV's row order.
 
 **A refresh redraws the search that was run, not the box's text.**
-`runSearch()` records what it shows (`shownQuery`, and the picked
-`shownTeam`/`shownEntry`). Every data refresh calls `refreshFinder()`, which
-re-runs that search, or redraws the all-matches list when nothing was
-searched, then puts back whatever is half-typed in the box. Running the box's
-text instead would swap the list for a short "Several pairs match" message while
-someone pauses mid-word, shrinking the page so the pinned search box has nothing
-left to scroll against. A new day clears
-`shownQuery`. The event pages work the same way. `runSearch()` first checks `MATCH_NUMBER_SEARCH_RE` (`42` or `#42`);
-a match number goes to `renderMatchByNumber()` (the ticket, or the matchup
-card with `onlyMatch`) and is not saved as the remembered search. The event
-pages carry the same `allMatchesHTML()` and neutral ticket, but not the
-number search.
+The finder records what it shows (`shownQuery`, and the picked selection). Every
+data refresh calls its `refresh()`, which re-runs that search, or redraws the
+all-matches list when nothing was searched, then puts back whatever is half-typed
+in the box. Running the box's text instead would swap the list for a short
+"Several pairs match" message while someone pauses mid-word, shrinking the page so
+the pinned search box has nothing left to scroll against. A new day clears
+`shownQuery`. The Hub works the same way.
+
+The number search is Control Center's own, passed through the finder's
+`searchHandlers`: a query matching `MATCH_NUMBER_SEARCH_RE` (`42` or `#42`) goes to
+`matchByNumberHTML()` (the ticket, or the matchup card with `onlyMatch`) and is not
+saved as the remembered search. The Hub has no number search.
 
 **How outcomes are shown.** Short outcomes go to `showToast(kind, text, key)`,
 a stack pinned to the top of the screen (newest first) (`#toastStack`, `aria-live`), so
@@ -219,9 +225,10 @@ Team events only. The day model parses each facility's `rosterCsv`
 `renderRosters()` (`createTeams` in `lib/v1/views/teams.js`) draws one collapsible card per team, grouped by
 bracket from the standings, players sorted by level. The finder's index adds
 roster players to Match Finder, and the team and player results carry a
-roster card. The rules (`lib/v1/domain/teams.js`) and the cards are a port of the event page's
-Teams tab (`events/pickledrive-anniversary-2026/index.html`), whose copy is
-frozen with that finished event.
+roster card. The rules (`lib/v1/domain/teams.js`) and the cards are the engine's, the
+same as the team Hub's Teams tab. PickleDrive's hand-built pages
+(`events/archives/pickledrive-anniversary-2026/index.html`), which they were first
+ported from, keep their own frozen copy.
 
 **Lineup check.** For an event with `lineupRules` in `events.json`
 ([events.json](event-data-config.md)), `refreshLineupCheck()` runs
@@ -415,12 +422,12 @@ Full design of the page the link opens: [Scorer page](scorer-page.md).
 
 ## Facility progress
 
-`computeFacilityProgress(matches, isEventDay, nowMin)` turns one facility's
-matches into done/left counts, a schedule grid (slot length, rows, courts,
-blank cells) and an estimated finish. `renderFacilityProgress` draws a card
-per facility on Live Matches (called from `renderLiveMatches`), and
-`facilityStatusProgressHTML` adds a line to each Mission Control sync row
-(called from `renderOrganizerStatus`). Both go through `facilityProgressFor`
+`computeFacilityProgress(matches, isEventDay, nowMin)` (`lib/v1/domain/progress.js`)
+turns one facility's matches into done/left counts, a schedule grid (slot length, rows,
+courts, blank cells) and an estimated finish. `facilityProgressCardHTML` draws a card
+per facility on Live Matches (passed to the engine's `renderLiveMatches` as
+`facilityExtras`), and `facilityStatusProgressHTML` adds a line to each Mission Control
+sync row (called from `renderOrganizerStatus`). Both go through `facilityProgressFor`
 and `facilityFinishParts`, so the two can't disagree.
 
 Times are *event-day minutes*: minutes since midnight at the start of the
@@ -459,11 +466,12 @@ per-device, so a device that first opens the page after a resync reads that
 resync's time instead. That is why the server stamp takes precedence.
 
 The "played", "BYE" and series-final rules here (`rowsToMatches`,
-`sideIsBye`, `seriesGameOf`/`unneededSeriesGames`,
-`computeFacilityProgress`'s `left`) are duplicated in
+`matchByeSide`, `seriesGameOf`/`unneededSeriesGames`, `unneededDeciders`,
+`computeFacilityProgress`'s `left`, in `lib/v1/domain/`) exist a second time in
 `sage-tools-api/src/sync/domain/facilityCompletion.mjs`. If one copy changes and the
 other doesn't, the recorded end time disagrees with the card that announces
-it.
+it; the site's `_tests/unit/parity-server.test.mjs` runs both against the fixtures
+and fails when they disagree.
 
 ## Installability
 
@@ -489,8 +497,8 @@ needs a live connection to do anything, identical to a regular tab.
 The console gets opened on a phone at a venue, so it holds up at 375px, and
 at 320px on the smallest common handsets. Three pieces carry that:
 
-- **The view-tab row** is a horizontal scroller below the breakpoint. Five
-  pills need ~400px in a row, more than a phone has, so they scroll rather
+- **The view-tab row** is a horizontal scroller below the breakpoint. Its
+  pills (up to seven) need more room in a row than a phone has, so they scroll rather
   than wrap — wrapping costs ~30px of vertical space in a hero that is
   already tall. An edge fade appears only on the side that still has content
   past it, and activating a tab scrolls it fully into view, so nothing is
@@ -539,16 +547,16 @@ per-event pages. Two consequences:
 
 ## Awards tab
 
-A fifth tab showing each category's podium and exporting it as
+The second tab, showing each category's podium and exporting it as
 SAGE-branded PNGs. Entirely **read-only and derived** — it writes nothing,
 needs no auth, and adds no new sync surface or `sage-tools-api` dependency.
-Everything it shows comes from `MATCHES` (the day's parsed match rows) and
-`STANDINGS`, already loaded by the console for the other tabs.
+Everything it shows comes from the day model (its parsed matches and
+standings), already built for the other tabs.
 
 ### Podium derivation
 
-`buildPodiums()` is the single pure function everything else consumes:
-`(MATCHES, STANDINGS) -> [{ category, source, gold, silver, bronze,
+`buildPodiums(model)` (`lib/v1/domain/awards.js`) is the single pure function
+everything else consumes: it returns `[{ category, source, gold, silver, bronze,
 bronzeWalkover, warning }]`, ordered to match Standings' own category order.
 
 For each category:
@@ -631,14 +639,14 @@ presents match data as something to watch or play, not just the podium:
 ### The team type
 
 `"team"` is for events of named teams meeting in four-match matchups (spec:
-`sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md`). It is additive: every
-change to a shared function is either inside a `CURRENT_TYPE === 'team'`
-branch or an extra parsed field nothing else reads, so `dual-meet` and
-`standard` are unaffected by it. The team logic lives in one bannered
-block (`// ---- team type (...) ----`, just below `pairCell`), ported from the
-event page's `index.html` so the two agree on every rule.
+`sage-docs/docs/specs/.../pickledrive-club-anniversary-team-tournament-spec.md`). Its rules are
+the engine's `lib/v1/domain/teams.js` and its views `lib/v1/views/teams.js`
+(`createTeams`), the same modules the team Hub and the schedule board use, so the
+console and the public pages agree on every rule. Code shared with the other types
+either branches on the event's `type` or reads an extra parsed field nothing else
+reads, so `dual-meet` and `standard` are unaffected by it.
 
-Data comes only from the two published CSVs. `rowsToMatches` reads a
+Data comes only from the two published CSVs and the roster. `rowsToMatches` reads a
 `matchUp` column and `rowsToStandings` reads `teamName`, `totalPoints` and
 `totalOpponentPoints` when present; matches are grouped into matchups by
 `matchUp` alone. `teamMatchupResult` decides a matchup on total points (equal
@@ -651,17 +659,16 @@ Semifinal, `Br` Bronze, `Fi` Final. A team is marked **Advances** when its
 letter fills any playoff slot, which with quarterfinals means the eight
 `QF-*` qualifiers.
 
-Functions that branch on `team`:
+What differs for a team event:
 
-| Function | Team behaviour |
+| Where | Team behaviour |
 | --- | --- |
-| `selectEvent` | Accepts `type: "team"`; resets the team state |
-| `parseCode` | Returns `{ club: null, category: null, rest }` so no shared caller breaks |
-| `renderStandings` | Calls `renderTeamStandings()` before any category code runs; the category toggle bar and filter stay hidden. Each bracket table is ordered by `teamRankBracket`: points scored, quotient, head-to-head points, pair wins |
-| `liveTableRowsHTML` | `teamLiveTableRowsHTML`: both team names, stage and pair label, running matchup score |
-| `rebuildTeamIndex`, `resolveTeam`, `runSearch`, `renderAutocomplete`, `selectAcItem`, `renderIntro` | The team-and-player index, its search and the intro's team list; a saved search is `team:<letter>` or `player:<name>`, never a playoff code |
-| `renderAwards` | `buildTeamPodium()` instead of `buildPodiums()` |
-| `categoryLabel` | `'__team__'` reads *Team Championship* |
+| `parseCode` (`domain/codes.js`) | Returns `{ club: null, category: null, rest }` so no shared caller breaks |
+| `renderStandings()` | Calls `createTeams`' `renderStandings` instead of `createStandings`; the category toggle bar and filter stay hidden. Each bracket table is ordered by `teamRankBracket` with the event's `teamScoring` (for `"points"`: points scored, quotient, head-to-head points, pair wins) |
+| Live Matches | `createTeams`' `liveRow` (passed to `renderLiveMatches`): both team names, stage and pair label, running matchup score |
+| Match Finder | `createTeams` is the finder's `delegate`: the team-and-player index (`buildTeamIndex`), its search and the intro's team list; a saved search is `team:<letter>` or `player:<name>`, never a playoff code |
+| `renderAwards` | `buildTeamPodium()` instead of `buildPodiums()` (`domain/awards.js`) |
+| `categoryLabel` (`domain/codes.js`) | `'__team__'` reads *Team Championship* |
 | `medalRowHTML`, `awardsCardHTML` | Show the team name, with the roster under it |
 | `drawPodiumCard`, `renderWholeTournamentCard` | Draw the team name with the roster beneath (`wrapCanvasList`, breaking only between names); the podium card's fixed-height row uses `fitRosterLines` (24 → 20 → 17px, then "+N more") |
 
@@ -687,10 +694,10 @@ invented tiebreak.
 
 ### Image export — Canvas 2D, no library
 
-`tools/control-center.html` has zero JS dependencies (Google Fonts is the
-only external resource), so the export draws directly with the Canvas 2D
-API rather than pulling in `html2canvas` or a similar library. Cost: the
-card design lives in drawing code, not CSS.
+`tools/control-center.html` loads no library for rendering: its only outside
+resources are Google Fonts and, on the first **Show QR**, `qrcode-generator` from
+cdnjs. So the export draws directly with the Canvas 2D API rather than pulling in
+`html2canvas` or a similar library. Cost: the card design lives in drawing code, not CSS.
 
 **Per-category card:** fixed 1080×1350 logical canvas, rendered at 2× (with
 a fallback to 1× if that would exceed a safe canvas-area budget — iOS

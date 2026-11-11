@@ -14,11 +14,13 @@ desk-link QR code, cdnjs. Pushing to GitHub Pages deploys it.
 lib/v1/
   platform.js      constants: the Pages address, the Cloud Run URL, fetch timeout, poll intervals, fixtureName()
   domain/          the rules, pure functions with no DOM and no clock
-    csv  byes  series  matches  standings  codes  bracket  golive  progress  teams  awards  event-pages  attendance  schedule-grid  model
+    csv  byes  series  deciders  matches  standings  codes  bracket  brackets  golive  progress
+    teams  lineup-rules  awards  event-pages  attendance  schedule-grid  scoresheet-names  model
   data/            the outside world
-    registry  snapshot  live-channel  api  tokens
+    registry  snapshot  live-channel  attendance-signal  api  tokens
   views/           functions that return HTML strings, plus small components
-    html  scroll  ticket  finder  live-matches  standings  bracket  bracket-full  teams  score-dialog  attendance-view
+    html  scroll  ticket  finder  live-matches  standings  bracket  bracket-full  teams  team-mark
+    score-dialog  attendance-view
   apps/            one per kind of page, wiring data, model and views to the page's markup
     hub  schedule-board  scorer  attendance-desk
   css/             ticket  finder  live-matches  standings  teams  score-dialog  attendance

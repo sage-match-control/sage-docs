@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.59.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.60.0</a>'
 
 docs_dir: docs
 
@@ -130,6 +130,7 @@ nav:
           - CLSO Pickle for Sight: specs/implemented/pickle-for-sight-spec.md
           - Piggleball Chairman's Cup: specs/implemented/piggleball-chairmans-cup-spec.md
           - Millennium Invitational: specs/implemented/millennium-invitational-spec.md
+          - "Ladies' Dink 1st Club Tournament": specs/implemented/ladies-dink-club-tournament-spec.md
           - Team tournament: specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md
           - Team workbook recalculation: specs/implemented/team-workbook-stack-cache-spec.md
           - Facility progress: specs/implemented/facility-progress-spec.md
@@ -150,7 +151,6 @@ nav:
           - Overview: specs/in-progress/README.md
           - Code and access protection: specs/in-progress/code-and-access-protection-spec.md
           - Angeles City Employees Sportsfest: specs/in-progress/acso-employees-sportsfest-spec.md
-          - "Ladies' Dink 1st Club Tournament": specs/in-progress/ladies-dink-club-tournament-spec.md
           - Team names on scoresheets: specs/in-progress/scoresheet-team-names-spec.md
           - Double and best-of-3 round robin, finals: specs/in-progress/double-round-robin-and-finals-spec.md
           - UPAP 3rd Annual Tournament: specs/in-progress/upap-3rd-annual-tournament-spec.md
