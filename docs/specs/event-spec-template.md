@@ -36,7 +36,7 @@ and the spec says which.
   - The facility name exactly as the workbook spells it. Live-sync setup compares it, with case.
 - **The pubmat** (the organiser's poster), if there is one: sample the palette from it, and the
   display font closest to its lettering. Measure the contrast of every pair the template uses
-  (§1.4). With no pubmat the event keeps the house colours, as the Angeles City Employees
+  (§1.5). With no pubmat the event keeps the house colours, as the Angeles City Employees
   Sportsfest did, and the spec has no re-skin.
 - **The logo and the QR image.** The logo is staged untracked in `events/<event-key>/assets/`
   before the spec is written. The QR image usually follows later; the spec says what happens
@@ -56,6 +56,7 @@ and the spec says which.
   | Whether the staff pages (desk, scorer) take the event's colours or keep the house colours | Phase 3's edits. House colours unless the owner says otherwise |
   | The build order, if not the default (§1.2) | The phases |
   | The first serve, if the workbook and pubmat disagree | The go-live time and every timing check |
+  | With more than one day: how the board changes day (§1.3) | An engine phase, or a push every evening of the event |
 
   **[Team]** also: how teams are ranked (`teamScoring`, `headToHeadQuotient`), the pair labels
   (`display.pairs`), the playoff seats' labels before they're filled (`display.seedLabels`), team
@@ -90,26 +91,68 @@ something `lib/v1/` doesn't do (Ladies' Dink's tiebreaker game, lettered bracket
 - Lists the docs pages it changes (`technical/site-engine.md`, the features pages) and the
   workspace `CLAUDE.md` lines.
 
+Its skeleton is Part 3, inserted before the board's phase.
+
 One pass instead of phases only when the owner asks for it.
 
-### 1.3 Write every edit so it can't be misapplied
+### 1.3 Several facilities, or several days
+
+The skeleton is written for one day at one facility, as every event since the engine has been.
+The engine handles more (the board's **Venue** row, the Hub's day picker), but no event has used
+it yet: Pickle for Sight (one day, two facilities) and BKL Cup 2026 (five days × three facilities)
+both came before the engine. An event with more of either changes these parts of the spec (the
+section numbers are the skeleton's, in Part 2), and its spec checks every one of them in the dry
+run.
+
+**Several facilities on a day.** One workbook per facility per day.
+
+- Read **every** workbook (Part 1 §1.1), and list each facility in §1 with its courts and exact
+  name.
+- Each workbook is its own entry in that day's `facilities` in §4.6: `{ name, sheetId }`.
+- Match numbers must not repeat within a day, because a day's facilities merge into one snapshot.
+  Each workbook numbers its own range with **SAGE → Fill match numbers** (1000s, 2000s). §8.1
+  checks that no two workbooks' `CSV` tabs share a number.
+- Court numbers run on across a day's facilities (Main 1–4, Annex 5–9), as each workbook's
+  `SCHEDULE` sets them. The board then shows a **Venue** row, and `?venue=<facility>` narrows it
+  to one facility. There's nothing to configure, but §4.8 checks each `?venue=`.
+- §8.2's sync setup runs once per workbook, each with its own facility name. Its confirm step
+  lists every facility.
+- Desk and scorer links are issued per day, not per facility.
+- Appendix A's fixture writes every facility, with its own match-number range. Mission Control's
+  checks in §4.8 name each facility.
+
+**Several days.** One `days` entry per day in §4.6, each day key unique across the whole file
+(`<event-key>-day1`, `-day2`, …), each with its own `isLive` and its own workbooks. The Hub's day
+picker comes from `events.json`, so the Hub needs nothing more. The board does: **it shows exactly
+one day.** Its `DAY_KEY` is fixed in `schedule.html`, it has no day picker, and Control Center's
+**Open schedule** opens that one file. Ask the owner which of these two to do, and record the
+answer in §9 and §10:
+
+1. **Push the board every evening**, with `DAY_KEY` set to the next day. No engine change, but
+   every one of those pushes lands inside the 3-day freeze and needs its own go-ahead. §0.3 lists
+   them with their dates.
+2. **An engine phase first** (Part 3) that lets the board choose its day, for example from a
+   `?day=` in its address or from today's date in `events.json`. Nothing is then pushed during the
+   event. That phase changes `lib/v1/apps/schedule-board.js` and the templates' `schedule.html`
+   compatibly, and Control Center's **Open schedule** link if the choice goes in the address.
+
+Each day's go-live, dry run (§8.5) and fixture state are then per day.
+
+### 1.4 Write every edit so it can't be misapplied
 
 - **Anchor by text, never by line number.** Each anchor is **one line** and occurs **exactly
   once** in its file; check that in the dry run. A range is given by its first and last line and
   the number of lines between them, so a wrong match is caught.
 - **Give every replacement in full**, in a fenced block, leading spaces included.
 - **State each file's line endings.** The checkout mixes them, and a search across lines can miss
-  text that looks identical. As of 12 November 2026:
+  text that looks identical. Read them when writing, never from an older spec:
 
-  | Template file | Line endings |
-  | --- | --- |
-  | `standard-tournament-template/index.html`, `dual-meet-template/index.html` | LF |
-  | `standard-tournament-template/schedule.html`, `dual-meet-template/schedule.html` | CRLF |
-  | `team-tournament-template/index.html` and `schedule.html` | LF |
-  | `scorer/scorer.html` | LF |
-  | `attendance/attendance.html`, `dry-run-checklist-template.md` | CRLF |
+  ```bash
+  git -C /d/Personal/SAGE/sage-match-control.github.io ls-files --eol _templates/
+  ```
 
-  Check again when writing; the spec repeats what it found. Git stores LF either way.
+  The `w/` column is the file on disk, which `cp` copies: `w/crlf` or `w/lf`. (`i/` is what Git
+  stores, LF either way.) The spec repeats what it found for each file it copies.
 - **Never `sed -i` the site checkout**: Git Bash's `sed` strips CR on this machine. A scripted
   edit is a Node script that detects the file's line ending, splits on it and joins on it.
 - **Every check has its exact expected output**: `Prints nothing.`, `Prints 8.`, the full line.
@@ -128,11 +171,23 @@ One pass instead of phases only when the owner asks for it.
   `_tests/unit/house-colours.test.mjs` (**[Team]** a re-skinned Hub to `TEAM_HUBS` too). The token
   names stay `--navy` and `--green` whatever the colours are.
 
-### 1.4 Write the checks
+### 1.5 Write the checks
 
-- **Contrast**, measured (WCAG), for: white on `--navy`; `--navy` on `--green`; `--ink` and
-  `--ink-soft` on `--paper`; `--green-dark` on white; `--green` on white (a fill colour if under
-  4.5:1). The spec's design notes list them.
+- **Contrast**, measured (WCAG AA: **4.5:1** for body text, **3:1** for large text, 24px or 19px
+  bold), for each pair the pages use:
+
+  | Pair | Carries | Needs |
+  | --- | --- | --- |
+  | white on `--navy` | the header, buttons, the board's top bar | 4.5:1 |
+  | `--navy` on `--green` | text on a green fill | 4.5:1 |
+  | `--ink` and `--ink-soft` on `--paper` | body text | 4.5:1 |
+  | `--green-dark` on white | accents | Measured. Under 4.5:1 it is large text only |
+  | `--green` on white | fills | Measured. Under 3:1 it is a fill only, never text |
+
+  The house palette already sits below two of those lines (`--green-dark` about 4.0:1, `--green`
+  about 2.3:1), which is why the pages use them as they do. A re-skin's numbers go in the spec's
+  design notes; a pair that falls short of its line is changed before the spec is handed over,
+  not noted.
 - **A fixture** (Appendix A): a Node script that writes `_fixtures/<event-key>/<state>.json` and
   adds the event to `_fixtures/config.json`, shaped like the real workbook, with fixed scores so it
   prints the same line every run. It is **never committed**: the harness reads
@@ -144,7 +199,7 @@ One pass instead of phases only when the owner asks for it.
 - **Write each check as what is seen**, with the fixture's real numbers and names, and list what is
   expected and not a bug (a 404 for `qr.png` before it's supplied).
 
-### 1.5 Dry-run the spec before handing it over
+### 1.6 Dry-run the spec before handing it over
 
 Apply every edit exactly as written to a **detached worktree** of the site at the commit the spec
 names, never to the checkout:
@@ -160,7 +215,7 @@ the worktree (`git worktree remove`). The status line records the date, what was
 
 If `main` has moved by the time a phase runs, re-dry-run that phase and update its counts.
 
-### 1.6 Deadline, pushes and filing
+### 1.7 Deadline, pushes and filing
 
 - **The deadline is the site freeze**: no merge to the site's `main` within 3 days of the event.
   The status line names the last day a phase may land, and says that after it a push needs the
@@ -176,7 +231,7 @@ If `main` has moved by the time a phase runs, re-dry-run that phase and update i
 - **After the event**, the spec's §8 turns live push off (`LIVE_BASE_URL = ''` in every page);
   archiving into `events/archives/` is a later, separate step (`_templates/CLAUDE.md` §7).
 
-### 1.7 What an event spec does not do
+### 1.8 What an event spec does not do
 
 - Edit the workbook. That is the operators' list, §8 of the skeleton, written down so its
   constraints on the data are known.
@@ -191,8 +246,8 @@ If `main` has moved by the time a phase runs, re-dry-run that phase and update i
 
 Copy everything inside the fence into `not-started/<name>-spec.md`. Replace every `<…>`; keep the
 type block that fits and delete the others; delete a section's guidance lines in *italics* once
-it's written. The section numbers assume no engine phase: with one, it becomes §4 and the rest move
-down by one.
+it's written. The section numbers assume no engine phase: with one, paste Part 3 in as §4, and the
+sections and phases after it move down by one.
 
 ~~~~markdown
 # Spec — <Event name>
@@ -294,9 +349,16 @@ Words this spec uses:
 | **2** (§5) | `events/<event-key>/index.html` and its logo | `<short>-hub` | Push of the site |
 | **3** (§6) | <`attendance.html`, `scorer.html,`> the dry-run checklist, and the QR image if not already in | `<short>-rest` | Push of the site |
 
+*With an engine phase, add a first row: Phase **1** (§4) builds the engine change (and
+`sage-tools-api`'s, if it touches the played or BYE rules) on `<short>-engine`, and ends with a
+push of the API, then the site. The rows below become Phases 2–4.*
+
 What is live in between: <after Phase 1 the event is registered and the operators can set up live
 sync (§8.2); **Open Tournament Hub** leads to "Page not found" until Phase 2; **Issue desk link**
 waits for Phase 3; don't hand out the short link before Phase 2>.
+
+*Several days with the board pushed each evening (§1.3 of the template): list those pushes here,
+each with its date and its own go-ahead.*
 
 ### 0.4 Commands you will use in every phase
 
@@ -579,13 +641,37 @@ If `--ff-only` refuses or the rebase conflicts, stop and report. **Check, a minu
 
 ### 5.1 Start
 
-Phase 1 must be on `main`. `git checkout main`, `git pull`, `git status --short` (<exact
-output>), `git checkout -b <short>-hub`.
+Phase 1 must be on `main`.
+
+```bash
+cd /d/Personal/SAGE/sage-match-control.github.io
+git checkout main
+git pull
+git status --short
+```
+
+This must print exactly:
+
+```
+<?? events/<event-key>/assets/   and any unrelated untracked file the dry run saw, named>
+```
+
+Anything else: stop and report.
+
+```bash
+git checkout -b <short>-hub
+cd _tests && npm test; cd ..
+```
+
+`npm test` must pass, <n> tests, before you change anything.
 
 ### 5.2 Copy the Hub and fill in its tokens
 
-`cp _templates/<type>-template/index.html events/<event-key>/index.html`, then every token of
-`_templates/CLAUDE.md` §3 for this template:
+```bash
+cp _templates/<type>-template/index.html events/<event-key>/index.html
+```
+
+The copy is <LF>. Replace every token of `_templates/CLAUDE.md` §3 for this template:
 
 | Token | Replace with |
 | --- | --- |
@@ -640,7 +726,14 @@ git commit -m "<Event name>: Tournament Hub<, re-skinned from the pubmat>"
 
 ### 5.8 Check the Hub in a browser
 
-Build the fixture again (Appendix A), serve the site, and open
+Build the fixture again and serve the site, from the repo root:
+
+```bash
+node <path>/make-<short>-fixture.mjs
+npx --yes http-server -p 8000 -c-1
+```
+
+The script prints §4.8's line again. Open
 `http://localhost:8000/events/<event-key>/?fixture=<state>`.
 
 At **375px**, **1024px** and **1280px**:
@@ -659,12 +752,30 @@ At **375px**, **1024px** and **1280px**:
 
 Stop the server and remove the fixture as at the end of §4.8.
 
-### 5.9 Full check, then stop and ask: push Phase 2
+### 5.9 Full check
 
-`npm run verify` must pass. Tell the owner Phase 2 is ready, with §5.8's results and whether
-`qr.png` was included, and that pushing publishes the Hub at the short link. On a yes:
-`git checkout main`, `git pull`, `git merge --ff-only <short>-hub`, `git push`. **Check** the live
-Hub a minute or two later.
+```bash
+cd _tests && npm run verify; cd ..
+```
+
+It must pass. A failure means something outside this phase's files changed: run `git status` and
+stop and report.
+
+### 5.10 Stop and ask: push Phase 2
+
+Tell the owner Phase 2 is ready, with the results of §5.8 and §5.9, whether `qr.png` was included,
+and that pushing publishes the Hub at the short link. On a yes:
+
+```bash
+git checkout main
+git pull
+git merge --ff-only <short>-hub
+git push
+```
+
+If `--ff-only` refuses, stop and report. **Check, a minute or two later:**
+`https://sage-match-control.github.io/events/<event-key>/` shows <the header as §5.8 has it>, and
+Control Center's **Open Tournament Hub** opens it.
 
 ---
 
@@ -672,7 +783,23 @@ Hub a minute or two later.
 
 ### 6.1 Start
 
-Phase 2 must be on `main`. <Exact `git status --short`.> `git checkout -b <short>-rest`.
+Phase 2 must be on `main`.
+
+```bash
+cd /d/Personal/SAGE/sage-match-control.github.io
+git checkout main
+git pull
+git status --short
+```
+
+This must print exactly <the lines, or nothing>. Anything else: stop and report.
+
+```bash
+git checkout -b <short>-rest
+cd _tests && npm test; cd ..
+```
+
+`npm test` must pass, <n> tests.
 
 ### 6.2 Copy the files and fill in their tokens
 
@@ -682,7 +809,8 @@ cp _templates/scorer/scorer.html events/<event-key>/scorer.html
 cp _templates/dry-run-checklist-template.md events/<event-key>/dry-run-checklist.md
 ```
 
-*Keep only the pages the event's `attendance` and `scoreEntry` call for.* Tokens:
+*Keep only the pages the event's `attendance` and `scoreEntry` call for.* The copies are
+<`attendance.html` CRLF, `scorer.html` LF, `dry-run-checklist.md` CRLF>. Tokens:
 `{{EVENT_KEY}}` and `{{EVENT_TITLE}}`. <The staff pages keep the house colours (§9) / take the
 palette: the same `:root` edit as §5.4(b).> <Any event-specific line for the checklist.>
 **Check:** `grep -rnI '{{' events/<event-key>/` prints nothing.
@@ -692,11 +820,40 @@ palette: the same `:root` edit as §5.4(b).> <Any event-specific line for the ch
 - [ ] <The desk page: its tab title, "Ask the operator for a desk link.", its colours.>
 - [ ] <The scorer page, likewise.>
 
-### 6.4 Commit, full check, then stop and ask: push Phase 3
+### 6.4 Commit
 
-*Commit* (`"<Event name>: <desk page, scorer page> and dry-run checklist"`), including `qr.png`
-if it is in; `npm run verify`; ask; on a yes, fast-forward `main` and push. If `qr.png` still
-hasn't come, say so: it is committed and pushed on its own when it does.
+```bash
+git add <events/<event-key>/attendance.html events/<event-key>/scorer.html> events/<event-key>/dry-run-checklist.md
+git add events/<event-key>/assets/qr.png 2>/dev/null; true
+git status --short
+git commit -m "<Event name>: <desk page, scorer page> and dry-run checklist"
+```
+
+Name only the pages §6.2 kept: `git add` refuses a path that isn't there. `git status` before the
+commit: <the exact lines>. **Never stage the pubmat.**
+
+### 6.5 Full check
+
+```bash
+cd _tests && npm run verify; cd ..
+```
+
+It must pass. A failure: run `git status` and stop and report.
+
+### 6.6 Stop and ask: push Phase 3
+
+Tell the owner Phase 3 is ready, with §6.3's results and whether `qr.png` was included. On a yes:
+
+```bash
+git checkout main
+git pull
+git merge --ff-only <short>-rest
+git push
+```
+
+If `--ff-only` refuses, stop and report. **Check, a minute or two later:** <the live desk page's
+address and its "Ask the operator for a desk link." line>. If `qr.png` still hasn't come, say so:
+it is committed and pushed on its own when it does, with the owner's yes.
 
 ---
 
@@ -803,4 +960,181 @@ repo root. It writes `_fixtures/<event-key>/<state>.json` and adds the event to
 
 It must print one line, quoted in §4.8, that names the counts and every podium, so a changed
 fixture shows at once.
+~~~~
+
+---
+
+## Part 3 — The engine phase, to insert
+
+Only when the event needs something `lib/v1/` doesn't do (§1.2), or a multi-day board that picks
+its own day (§1.3). Paste everything inside the fence in before Part 2's §4; Part 2's sections
+then move down by one (its §4 becomes §5, Phase 1 becomes Phase 2, and so on), and every
+cross-reference with them. The precedent is the Ladies' Dink spec's §4–§6, §11 and §12: three
+changes, one of them in `sage-tools-api` too.
+
+~~~~markdown
+## 4. Phase 1 — <the engine change, in a few words>
+
+**Why:** <what the event needs that the engine doesn't do, with the workbook's own example>.
+Every change here is **compatible** (`_templates/CLAUDE.md` §8): it adds, and never removes or
+renames, an export, a CSS class a page uses or a theme property, so every other event's page
+keeps working when this is pushed. <If one module uses another's new export: that export is in a
+module new in this phase, or the use waits for Phase 2.>
+
+### 4.1 Start
+
+```bash
+cd /d/Personal/SAGE/sage-match-control.github.io
+git checkout main
+git pull
+git status --short
+```
+
+This must print exactly <the lines>. Anything else: stop and report.
+
+```bash
+git checkout -b <short>-engine
+cd _tests && npm install && npm test; cd ..
+```
+
+`npm test` must pass, <n> tests, before you change anything.
+
+*Only if the change touches the played or BYE rules:*
+
+```bash
+cd /d/Personal/SAGE/sage-tools-api
+git checkout main
+git pull
+git status --short
+git checkout -b <short>-<change>
+npm test
+cd /d/Personal/SAGE/sage-match-control.github.io
+```
+
+`git status` prints nothing; `npm test` passes.
+
+### 4.2 Change A: <name>
+
+#### 4.2.1 The rule
+
+<In words, with the workbook's example codes and what each page shows before and after. Which
+line of the workspace `CLAUDE.md` it extends, if any.>
+
+#### 4.2.2 Tests first
+
+<Per test file: its line endings, the anchor and its replacement, or "append to the end of".>
+Then:
+
+```bash
+cd _tests && npm test; cd ..
+```
+
+It must fail, and only in these tests: <the names, as the dry run printed them>. Any other
+failure: stop and report.
+
+#### 4.2.3 The code
+
+<Per file in `lib/v1/`: its line endings, then each edit's anchor and full replacement. A new
+module is given whole.>
+
+```bash
+cd _tests && npm test; cd ..
+```
+
+It must pass, <n> tests.
+
+*Commit:* `git commit -am "<Engine>: <change A>"` (with `git add` first for a new file).
+
+### 4.3 Change B: <name>
+
+*The same four parts. Delete this section if there is one change.*
+
+### 4.4 The API's half
+
+*Only if the change touches the played or BYE rules. They exist twice (the workspace
+`CLAUDE.md`, "Things that must be kept in sync by hand"), and the two must agree or the recorded
+end-of-day time disagrees with the card.*
+
+1. **Tests first**, in `sage-tools-api`'s `test/unit/sync/domain/facilityCompletion.test.mjs`:
+   <the anchor and replacement, or the appended block>. `npm test` must fail in exactly <these
+   tests>.
+2. **The code**, in `src/sync/domain/facilityCompletion.mjs`: <each edit>. `npm test` passes,
+   then `npm run verify`.
+3. **The parity test**, in the site's `_tests/unit/parity-server.test.mjs` or its fixtures: <the
+   case it gains>. The site's `npm test` passes.
+4. **Version:** `package.json`'s `"version": "<x.y.z>"` becomes `"<x.y+1.0>"`, a feature.
+5. **Changelog:** in `README.md`, under the `## Changelog` section's opening paragraph and above
+   `### <x.y.z>`:
+
+   ```markdown
+   ### <x.y+1.0>
+
+   - **<The rule, as a reader of the snapshot sees it.>** <What `facilityIsComplete` and
+     `completedAt` now do.> It mirrors the site's `<lib/v1/domain/….js>`; the site's
+     `_tests/unit/parity-server.test.mjs` checks the two agree. No route, setting or response
+     changes.
+   - **Tests:** `test/unit/sync/domain/facilityCompletion.test.mjs`.
+   ```
+
+*Commit in `sage-tools-api`* on `<short>-<change>`: `"<x.y+1.0>: <the rule>"`.
+
+### 4.5 Documentation
+
+In `D:\Personal\SAGE\sage-docs`, each page in the present tense:
+
+- `docs/technical/site-engine.md`: <the new module or export, and the rule>.
+- `docs/technical/sync-pipeline.md`: <only with §4.4: the rule `completedAt` now mirrors>.
+- `docs/features/<page>.md`: <what an organiser, operator or player now sees>.
+- A MINOR docs version: a `docs/changelog.md` entry and `mkdocs.yml`'s `copyright`.
+
+In the site repo, `_templates/CLAUDE.md` <§ that describes it>, if it changes how an event is
+set up. In the workspace `D:\Personal\SAGE\CLAUDE.md`: <the line it adds or changes>.
+
+*Commit in each repo.*
+
+### 4.6 Full check
+
+```bash
+cd _tests && npm run verify; cd ..
+```
+
+It must pass. With §4.4, `npm run verify` in `sage-tools-api` must pass too.
+
+### 4.7 Stop and ask: push Phase 1
+
+Tell the owner Phase 1 is ready, with each change's test counts and §4.6's results, and that
+pushing changes every event page that uses <the module>. Each push is its own yes.
+
+1. **The API first** (only with §4.4), so the snapshot knows the rule before any page does:
+
+   ```bash
+   cd /d/Personal/SAGE/sage-tools-api
+   git checkout main
+   git pull
+   git merge --ff-only <short>-<change>
+   git push
+   ```
+
+   The Cloud Run trigger deploys it. **Check**, a few minutes later, with the base URL from
+   `CLOUD_RUN_BASE_URL` in the site's `lib/v1/platform.js`:
+
+   ```bash
+   curl -sI <base URL>/ping | grep -i x-app-version
+   ```
+
+   It must read `<x.y+1.0>`. Until it does, don't push the site.
+2. **The site:**
+
+   ```bash
+   cd /d/Personal/SAGE/sage-match-control.github.io
+   git checkout main
+   git pull
+   git merge --ff-only <short>-engine
+   git push
+   ```
+
+3. **The docs and the workspace `CLAUDE.md`**, each on its own yes.
+
+If `--ff-only` refuses: stop and report. **Check, a minute or two later:** <an existing event's
+page that uses the module still reads as before; the case the change adds, on its fixture>.
 ~~~~

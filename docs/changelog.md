@@ -37,6 +37,26 @@ has been replaced.
 
 ---
 
+## [2.58.0] — 2026-11-12
+
+### Added
+
+- The [event spec template](specs/event-spec-template.md) gains §1.3, **several facilities, or
+  several days**: each facility's workbook, match-number range and sync setup, and the board's one
+  day, with the owner choosing between pushing it each evening and an engine phase that lets it
+  pick its day. It also gains **Part 3**, the engine phase's skeleton to insert before the board:
+  tests first, the API's half when the played or BYE rules change, the documentation, and the
+  pushes, API first.
+
+### Changed
+
+- The event spec template's Phases 2 and 3 carry every command written out, as Phase 1 does. The
+  line-endings table is replaced by `git ls-files --eol`, read when the spec is written. The
+  contrast checks give each pair its WCAG line (4.5:1 body, 3:1 large text) and what a shortfall
+  means. Part 1's §1.3–§1.7 become §1.4–§1.8.
+
+---
+
 ## [2.57.0] — 2026-11-12
 
 ### Added
