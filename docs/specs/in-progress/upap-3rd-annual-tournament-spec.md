@@ -1,6 +1,14 @@
 # Spec — UPAP 3rd Annual Tournament
 
-> **Status: not started.** Written 2026-11-11 against `sage-match-control.github.io` at
+> **Status: in progress.** All three phases are built and on the site's `main`: Phase 1 at
+> `b5ce561` with `event-data`'s `c1a02d4e`, Phase 2 at `03bb1e3`, Phase 3 at `c32ace0`. The
+> workbook's live sync publishes `upap-day1`. **Left:** the QR image (`assets/qr.png`, §2) and
+> the QR panel (§8.4); the rest of the workbook checks (§8.1) and the dry run (§8.5); the event
+> itself. **Open finding:** from 900px wide, where the Hub shows its QR panel, to about 1120px,
+> the panel covers the right end of the title (40px of it at 1024px). §5.8 checks 375px and
+> 1280px only, so it did not catch this. The fix waits for the owner's decision.
+>
+> Written 2026-11-11 against `sage-match-control.github.io` at
 > `628412c`, `event-data`'s `config/events.json` at `3de92502`, and the event workbook as read
 > that day through the Sheets API. The owner answered every open question the same day; the
 > answers are in §9.

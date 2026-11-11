@@ -37,11 +37,23 @@ has been replaced.
 
 ---
 
+## [2.56.0] — 2026-11-12
+
+### Changed
+
+- The [UPAP 3rd Annual Tournament spec](specs/in-progress/upap-3rd-annual-tournament-spec.md)
+  moves from `not-started/` to `in-progress/`: all three phases are on the site's `main` and the
+  workbook syncs. Its status line lists what is left (the QR image, the workbook checks, the dry
+  run) and an open finding: the Hub's QR panel covers the right end of the title between 900 and
+  about 1120px wide.
+
+---
+
 ## [2.55.1] — 2026-11-12
 
 ### Fixed
 
-- The [UPAP 3rd Annual Tournament spec](specs/not-started/upap-3rd-annual-tournament-spec.md)'s
+- The [UPAP 3rd Annual Tournament spec](specs/in-progress/upap-3rd-annual-tournament-spec.md)'s
   §5.4(a) gives the theme comment it replaces as 19 lines, not 17. Its anchors and §5.5's line
   count were already right. §0.2 notes that the standard template's `index.html` is LF on disk,
   unlike the rest of the checkout.
@@ -50,7 +62,7 @@ has been replaced.
 
 ### Added
 
-- [UPAP 3rd Annual Tournament](specs/not-started/upap-3rd-annual-tournament-spec.md), in
+- [UPAP 3rd Annual Tournament](specs/in-progress/upap-3rd-annual-tournament-spec.md), in
   **Not started**: the site for the UP Alumni Pickleball Community's tournament on 22 November
   2026 at The Foundry, Cainta, eight one-bracket categories by age group and DUPR level on 4
   courts, built in three phases: the schedule board with the `events.json` entry, then the

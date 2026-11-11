@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.55.1</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.56.0</a>'
 
 docs_dir: docs
 
@@ -152,6 +152,7 @@ nav:
           - "Ladies' Dink 1st Club Tournament": specs/in-progress/ladies-dink-club-tournament-spec.md
           - Team names on scoresheets: specs/in-progress/scoresheet-team-names-spec.md
           - Double and best-of-3 round robin, finals: specs/in-progress/double-round-robin-and-finals-spec.md
+          - UPAP 3rd Annual Tournament: specs/in-progress/upap-3rd-annual-tournament-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
@@ -161,7 +162,6 @@ nav:
           - Court Control from Control Center: specs/not-started/control-center-court-control-spec.md
           - Hub player experience: specs/not-started/hub-player-experience-spec.md
           - Lean deploy image: specs/not-started/lean-deploy-image-spec.md
-          - UPAP 3rd Annual Tournament: specs/not-started/upap-3rd-annual-tournament-spec.md
       - Archived:
           - Overview: specs/archived/README.md
           - Fast data delivery: specs/archived/fast-data-delivery-spec.md
