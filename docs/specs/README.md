@@ -313,6 +313,12 @@ to the `...` form rather than repointing it.
   the colours and ties explained, a row opening its pair's matches, and for a
   dual meet the club score first, category jump chips and a cross-club grid.
   Engine Hub and templates only; no new sections.
+- **[UPAP 3rd Annual Tournament](not-started/upap-3rd-annual-tournament-spec.md)** — the
+  site for the UP Alumni Pickleball Community's tournament on 22 November 2026 at The Foundry,
+  Cainta: eight one-bracket categories by age group and DUPR level on 4 courts. The standard
+  template re-skinned from the pubmat, built in three phases (the board with the event's
+  registration, the Hub, the rest), with the first double round robins and one-game Finals
+  on the site.
 - **[Lean deploy image](not-started/lean-deploy-image-spec.md)** — a base image
   holding Node and Chromium, built by hand, so each `sage-tools-api` deploy adds
   about 20 MB to Artifact Registry instead of 361 MB and builds faster. Records the

@@ -37,6 +37,24 @@ has been replaced.
 
 ---
 
+## [2.55.0] — 2026-11-11
+
+### Added
+
+- [UPAP 3rd Annual Tournament](specs/not-started/upap-3rd-annual-tournament-spec.md), in
+  **Not started**: the site for the UP Alumni Pickleball Community's tournament on 22 November
+  2026 at The Foundry, Cainta, eight one-bracket categories by age group and DUPR level on 4
+  courts, built in three phases: the schedule board with the `events.json` entry, then the
+  Tournament Hub, then the desk page and checklist. It instantiates the standard template,
+  re-skins it from the pubmat (plum structure, the ball's green accent, the UPAP mark's colours
+  and Comfortaa in the hero), sets the board's category colours, registers the event with five
+  divisions, and lists the workbook checks.
+
+### Changed
+
+- The [double round robin spec](specs/in-progress/double-round-robin-and-finals-spec.md)'s D6
+  names its first event, the UPAP 3rd Annual Tournament, and the in-progress table says so.
+
 ## [2.54.1] — 2026-11-10
 
 ### Fixed

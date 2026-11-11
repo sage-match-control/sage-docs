@@ -10,7 +10,8 @@
 > `sage-match-control.github.io/tools/tournament-calculator.html`,
 > `sage-tools-api/apps-script/standard-tournament-generator.gs` 1.4.1, `sage-tools-api` 3.6.2
 > (`src/sync/domain/facilityCompletion.mjs`) and the site engine `lib/v1/` as of that date.
-> Every decision is taken (§11) except the first event's name and date.
+> Every decision is taken (§11). The first event to use these formats is the UPAP 3rd Annual
+> Tournament on 22 November 2026 (D6).
 
 This spec is written to be built by someone with no other context. §0 is the briefing:
 read it first, then build in the order of §9.
@@ -1396,7 +1397,7 @@ Taken by the owner on 2026-11-10.
 | D3 | Double round robin with 2+ brackets? | **No, one bracket only.** The calculator disables it; the generator rejects it |
 | D4 | `CSV` scores by match number in every new workbook? | **Only in a workbook with a double or best-of-3 round robin, for now.** Revisit once one has run at an event |
 | D5 | "Leg 2" where players see it? | **Not now** |
-| D6 | First event to use these formats | **Within a month** of 2026-11-10. Its name and date are **still open**. The build is scheduled back from that date: nothing merges before 14 November, and all of §9 is done at least 3 days before the event |
+| D6 | First event to use these formats | The **UPAP 3rd Annual Tournament**, Sunday 22 November 2026 ([its spec](../not-started/upap-3rd-annual-tournament-spec.md)): three 3-pair categories on a double round robin and `final`, five of 4 or 5 pairs on `final_bronze`, from a workbook generated on 1.5.0. No best-of-3. All of §9 is done at least 3 days before the event |
 | D7 | Say outright that the templates and Control Center need no change? | **Yes** (§6). Best of 3 changes `lib/v1/domain/` only, and compatibly |
 | D8 | Best-of-3 round robin: which categories, and which playoff? | **Any standard category with a round robin, at any bracket count.** The playoff is the one the category would have anyway, each match its usual length |
 | D9 | Best of 3: what do W and L count? | **Meetings won and lost.** The quotient counts every game's points, and head-to-head on the site counts meetings |
