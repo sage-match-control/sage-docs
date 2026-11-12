@@ -37,6 +37,34 @@ has been replaced.
 
 ---
 
+## [2.61.0] — 2026-11-12
+
+### Changed
+
+- [Calculator team format](specs/not-started/calculator-team-format-spec.md) is revised against the
+  calculator as it is now, the two team events since it was written (the Millennium Invitational and
+  Ladies' Dink), and a draft plan for a two-day team event on 5–6 December. The playoff starts at a
+  chosen round, from a Round of 16 down to Bronze + Final straight from the standings, and always
+  ends in a Bronze and a Final. A tiebreaker game, in the playoffs only or in every matchup, adds a
+  slot to each matchup or round that has one. The break before the playoffs is a checkbox, ticked at
+  25 minutes. **Matches on court at once** gains a hint that matches sharing a player can't share a
+  slot, and a plan whose matchups leave courts idle (3 matches 2 at a time, or a group-stage
+  tiebreaker) gets an alert that the group stage could run shorter than the model's estimate. Its
+  worked examples reproduce all three team events' finishes (4:05, 9:00 and 9:40 PM) and the
+  December draft's Choice and Select divisions (7:50 and 2:50 PM); its Prime division rests teams
+  between matchups, which the model leaves to the break. The owner answered all ten of its
+  questions. It is written to be built with no other context: the calculator's 29 edits by anchor,
+  a nine-case unit test of `calcTeam` against those examples, the docs changes and the browser
+  checks, all dry-run on a copy of the calculator.
+
+### Fixed
+
+- The same spec said a team plan imported by an older copy of the calculator reports "no categories
+  found". It imports as a standard plan and keeps the categories on screen.
+- The same spec reused the after-10 PM alert unchanged, whose *one more court* figure is the
+  standard format's arithmetic. For a team plan it now suggests the courts of one more lane, worked
+  out with the team model.
+
 ## [2.60.0] — 2026-11-12
 
 ### Changed

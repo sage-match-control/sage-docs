@@ -308,7 +308,8 @@ build status.
   runner, fixtures and unit tests.
 - **[Calculator team format](not-started/calculator-team-format-spec.md)** — a third Format option
   in the Tournament Calculator: one team competition planned in matchups, with the group stage,
-  quarterfinal-to-final playoffs, slots and finish time worked out from teams, groups and courts.
+  playoffs from a Round of 16 to the Bronze and Final, an optional tiebreaker game, and slots and finish time worked out from
+  teams, groups and courts.
 - **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
   workbook generator for team events, phased, starting from the optimised workbook.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea
