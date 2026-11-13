@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.62.0] — 2026-11-13
+
+### Changed
+
+- [Tournament Hub](features/tournament-hub.md): Full tree's cards are wider than the chart's, with each
+  player of a pair on a line of their own, so full names show. [Site engine](technical/site-engine.md)
+  names the `fullTree` option and `FULL_TREE_DIMS`.
+- [Control Center](features/control-center.md): on an exported podium image a long pair of names goes onto
+  two lines, in smaller type if it has to, instead of running off the picture;
+  [its technical page](technical/control-center.md) describes `fitMedalNameLines`.
+
 ## [2.61.0] — 2026-11-12
 
 ### Changed

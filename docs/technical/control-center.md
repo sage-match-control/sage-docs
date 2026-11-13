@@ -705,7 +705,10 @@ Safari caps total canvas area near 16.7M pixels). Each medal row fills its
 whole box in the medal tint once decided (dark navy text — checked for
 contrast: ~7.3:1 on gold, ~8.9:1 on silver, ~4.7:1 on bronze); an undecided
 placing stays on the plain navy panel, so the row's own color signals
-decided-vs-not.
+decided-vs-not. A medalist's name fits its row through `fitMedalNameLines`: one
+line at the largest of 38 → 34 → 30 → 26 → 22px that fits, else, for a pair, one
+player per line at the largest size where both fit, else wrapped at 22px; a club
+label under it wraps.
 
 **Whole-tournament sheet:** every category in a grid (column count picked
 by category count, to keep the image from becoming an ever-taller single

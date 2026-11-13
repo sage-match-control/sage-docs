@@ -181,7 +181,9 @@ picking one.
 
 **Exporting for the ceremony** — every category card has an **Export image**
 button that downloads a SAGE-branded PNG of that category's podium, ready to
-hand to an emcee or post on social media. An **Export whole tournament**
+hand to an emcee or post on social media. A long pair of names goes onto two
+lines, one player each, in smaller type if it has to, so no name runs off the
+picture. An **Export whole tournament**
 button at the top produces a single combined image covering every category
 at once, arranged as a grid so it stays a reasonable shape regardless of how
 many categories the event has.

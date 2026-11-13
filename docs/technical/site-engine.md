@@ -206,7 +206,10 @@ shape (`3x2`: three round robin brackets, two advancing from each), and
 `views/bracket.js` turns that into the chart (`bracketChartHTML`) and the
 narrow-screen window (`roundStripHTML`: the same chart in a sideways-scrolling track under a chip per round), and `views/bracket-full.js` is Full
 tree, a fixed layer with pinch, drag and double-tap whose arithmetic is
-`fitScale`, `clampPan` and `zoomAbout`. `views/standings.js` decides which to
+`fitScale`, `clampPan` and `zoomAbout`. Full tree draws its chart with
+`bracketChartHTML`'s `fullTree` option: `FULL_TREE_DIMS`'s wider cards and taller
+seats, each player of a pair on a `bk-line` of their own (`.bk--two` in
+`css/standings.css`). `views/standings.js` decides which to
 show: `createStandings` keeps the reader's List / Bracket choice
 (`localStorage` `sage.standings.playoffView`), and `stageTablesHTML` draws the
 whole chart when it is no wider than the card, else the window. Given the window's

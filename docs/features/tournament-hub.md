@@ -101,7 +101,9 @@ view, and the window opens on the round being played. Under the chart or the win
 scaled to fill the screen (shrunk on a phone, enlarged on a computer): pinch
 to zoom, drag to move, double-tap to zoom in on a spot or back out, **Fit** to
 start again, and the Back gesture or **✕**
-to close it. Zoomed far out, a card shows surnames in larger type.
+to close it. Its cards are wider than the chart's, with each player of a pair on
+a line of their own, so full names show. Zoomed far out, a card shows surnames
+in larger type.
 
 Within each round-robin table, pairs are ranked by **wins**, then
 **head-to-head** (among pairs level on wins, whoever won the matches
