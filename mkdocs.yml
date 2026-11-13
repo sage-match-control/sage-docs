@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.63.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.64.0</a>'
 
 docs_dir: docs
 
@@ -115,6 +115,7 @@ nav:
           - Awards tab: specs/implemented/awards-podium-tab-spec.md
           - Schedule screen: specs/implemented/schedule-screen-spec.md
           - Scoresheet event picker: specs/implemented/scoresheet-event-picker-spec.md
+          - Team names on scoresheets: specs/implemented/scoresheet-team-names-spec.md
           - Calculator dual-meet fixes: specs/implemented/calculator-dual-meet-spec.md
           - Calculator PWA: specs/implemented/calculator-pwa-spec.md
           - Bracket Generator: specs/implemented/bracket-generator-spec.md
@@ -131,6 +132,7 @@ nav:
           - Piggleball Chairman's Cup: specs/implemented/piggleball-chairmans-cup-spec.md
           - Millennium Invitational: specs/implemented/millennium-invitational-spec.md
           - "Ladies' Dink 1st Club Tournament": specs/implemented/ladies-dink-club-tournament-spec.md
+          - Angeles City Employees Sportsfest: specs/implemented/acso-employees-sportsfest-spec.md
           - Team tournament: specs/implemented/pickledrive-club-anniversary-team-tournament-spec.md
           - Team workbook recalculation: specs/implemented/team-workbook-stack-cache-spec.md
           - Facility progress: specs/implemented/facility-progress-spec.md
@@ -146,12 +148,10 @@ nav:
           - Link attribution: specs/implemented/link-attribution-spec.md
           - Push for attendance: specs/implemented/attendance-push-spec.md
           - sage-tools-api architecture hardening: specs/implemented/sage-tools-api-architecture-spec.md
+          - Code and access protection: specs/implemented/code-and-access-protection-spec.md
           - Usage guide and docs restructure: specs/implemented/docs-usage-guide-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
-          - Code and access protection: specs/in-progress/code-and-access-protection-spec.md
-          - Angeles City Employees Sportsfest: specs/in-progress/acso-employees-sportsfest-spec.md
-          - Team names on scoresheets: specs/in-progress/scoresheet-team-names-spec.md
           - Double and best-of-3 round robin, finals: specs/in-progress/double-round-robin-and-finals-spec.md
           - UPAP 3rd Annual Tournament: specs/in-progress/upap-3rd-annual-tournament-spec.md
       - Not started:

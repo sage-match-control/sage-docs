@@ -37,6 +37,28 @@ has been replaced.
 
 ---
 
+## [2.64.0] — 2026-11-14
+
+### Changed
+
+- [Team names on scoresheets](specs/implemented/scoresheet-team-names-spec.md) moves from `in-progress/` to
+  `implemented/`: the named sheets were used at Ladies' Dink on 7 November 2026. Its §8 docs are in:
+  [Scoresheet Generator](features/scoresheet-generator.md) (a team event's sheets print team names),
+  [Scoresheet pipeline](technical/scoresheet-pipeline.md) (`withTeamNames`, `hasTeamNames`, quoted
+  fields only for named CSVs), [Printables](usage/printables.md) (print playoff sheets after seating) and
+  [Site engine](technical/site-engine.md) (`domain/scoresheet-names.js`).
+- [Angeles City Employees Sportsfest](specs/implemented/acso-employees-sportsfest-spec.md) moves from
+  `in-progress/` to `implemented/`: the event ran on 13 November 2026, every match played and the
+  facility stamped complete. Its status line records what was built and what is not confirmed (the
+  venue's Hub board print).
+- [Code and access protection](specs/implemented/code-and-access-protection-spec.md) moves from
+  `in-progress/` to `implemented/`, as its own status line said it would once an event built after
+  §9.6–§9.9 ran with a Restricted workbook: the Angeles City Employees Sportsfest did. The owner's tasks
+  of §9.4 and the settings of §2, §5, §6 and §7 stay open and are listed in its status line.
+- [Double round robin, best-of-3 round robin and one-bracket finals](specs/in-progress/double-round-robin-and-finals-spec.md):
+  the Standard Tournament Master runs Standard Tournament Generator 1.5.0, and the UPAP 3rd Annual
+  Tournament's workbook was generated from it. The owner's scored-workbook checks and the dry run are left.
+
 ## [2.63.0] — 2026-11-14
 
 ### Changed
@@ -318,7 +340,7 @@ has been replaced.
 
 ### Changed
 
-- [Team names on scoresheets](specs/in-progress/scoresheet-team-names-spec.md) moves from Not started to In
+- [Team names on scoresheets](specs/implemented/scoresheet-team-names-spec.md) moves from Not started to In
   progress: it is built and live, with its live-page checks and docs left.
 - [Ladies' Dink 1st Club Tournament](specs/implemented/ladies-dink-club-tournament-spec.md): the status line
   says what is live and what is left on the day of the event.
@@ -385,7 +407,7 @@ has been replaced.
 
 ### Changed
 
-- [Team names on scoresheets](specs/in-progress/scoresheet-team-names-spec.md): rewritten so it can be
+- [Team names on scoresheets](specs/implemented/scoresheet-team-names-spec.md): rewritten so it can be
   built with no other context, with the exact code, tests, checks and doc text, all run on a throwaway
   copy of the repos.
 
@@ -395,7 +417,7 @@ has been replaced.
 
 ### Added
 
-- [Team names on scoresheets](specs/in-progress/scoresheet-team-names-spec.md): a new spec, not
+- [Team names on scoresheets](specs/implemented/scoresheet-team-names-spec.md): a new spec, not
   started, for printing each team's name beside its pair code on a team event's scoresheets.
 
 ---
@@ -494,7 +516,7 @@ has been replaced.
 
 ### Fixed
 
-- [Code and access protection](specs/in-progress/code-and-access-protection-spec.md) §3 describes
+- [Code and access protection](specs/implemented/code-and-access-protection-spec.md) §3 describes
   the cost controls in place: Cloud Run's maximum of 10 instances and the `cost-alert` budget ($1.00 a
   month, alerts at 50%, 90% and 100%, no spend cap). It said neither existed.
 
@@ -630,7 +652,7 @@ has been replaced.
 
 ### Changed
 
-- [Angeles City Employees Sportsfest](specs/in-progress/acso-employees-sportsfest-spec.md) moves from
+- [Angeles City Employees Sportsfest](specs/implemented/acso-employees-sportsfest-spec.md) moves from
   **Not started** to **In progress**: the event's pages and its `events.json` entry are pushed, and the
   workbook syncs all 96 matches with the players' names.
 - [Millennium Invitational](specs/implemented/millennium-invitational-spec.md)'s status: the workbook
@@ -656,7 +678,7 @@ has been replaced.
 
 ### Added
 
-- [Angeles City Employees Sportsfest](specs/in-progress/acso-employees-sportsfest-spec.md), in
+- [Angeles City Employees Sportsfest](specs/implemented/acso-employees-sportsfest-spec.md), in
   **Not started**: the site for the Angeles City Sports Office's employees' pickleball tournament on
   13 November 2026, three categories on 8 courts at Pickle Place. It instantiates the standard
   template in the house theme with the organiser's logo and category colours, registers the event
@@ -813,7 +835,7 @@ has been replaced.
 
 ### Fixed
 
-- [Code and access protection](specs/in-progress/code-and-access-protection-spec.md), its row in
+- [Code and access protection](specs/implemented/code-and-access-protection-spec.md), its row in
   the in-progress index and the specs index: the releases and the site it built are deployed
   (`sage-tools-api` 3.4.0 contains 3.1.1–3.3.0), so deploying them is no longer listed as left.
 
@@ -936,7 +958,7 @@ attendance list comes through the API.
   sign in instead of listing people.
 - [Site engine spec](specs/implemented/site-engine-spec.md) §12: row 28, the signed-out
   Attendance tab.
-- Spec: [Code and access protection](specs/in-progress/code-and-access-protection-spec.md)
+- Spec: [Code and access protection](specs/implemented/code-and-access-protection-spec.md)
   moves from `not-started/` to `in-progress/`. The code, the runbook and these docs are
   built; the owner's checks, the deploy and the account settings are left. It gains §9.10,
   where the build departs from the design.
@@ -945,7 +967,7 @@ attendance list comes through the API.
 
 ### Changed
 
-- Spec: [Code and access protection](specs/in-progress/code-and-access-protection-spec.md)
+- Spec: [Code and access protection](specs/implemented/code-and-access-protection-spec.md)
   gains §9, facility workbooks closed to link access (the server reads as its service
   account, the desk page and Control Center read the roster through a new API route), and
   §10, two fixes to `facilityCompletion.mjs`: how it reads a score's value, and its stale
@@ -960,7 +982,7 @@ attendance list comes through the API.
 
 ### Added
 
-- Spec: [Code and access protection](specs/in-progress/code-and-access-protection-spec.md).
+- Spec: [Code and access protection](specs/implemented/code-and-access-protection-spec.md).
   A to-do list for protecting the code and the workbooks at little or no cost. Not started.
 
 ## [2.5.0] — 2026-10-10

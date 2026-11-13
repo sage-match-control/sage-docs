@@ -88,8 +88,9 @@ each category's image for the noticeboard, and keep the text files.
 
 ## Where the formats differ
 
-- **Team:** scoresheets carry the matchup's four matches. Print once lineups are
-  known, or print blanks.
+- **Team:** scoresheets carry the matchup's four matches, and each prints the team's name beside
+  its pair code. Print once lineups are known, or print blanks. A playoff team's name prints once
+  it is seated, so print those sheets after seating, or write the team in by hand.
 - **Dual meet:** one workbook, so one set of scoresheets.
 - **Standard:** one set per venue per day.
 - **Team:** one workbook, so one set.

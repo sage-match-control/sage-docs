@@ -115,6 +115,14 @@ build status.
   events of 3 October 2026.
   - **[Plain-language explainer](implemented/durable-object-push-explainer.md)**
     — the same, without the implementation detail.
+- **[Code and access protection](implemented/code-and-access-protection-spec.md)** —
+  facility workbooks closed to link access (the server reads and writes as its service
+  account, the desk page and Control Center read the roster through the API), two small
+  fixes to the played/series rules' server copy, and `LICENSE` files. First run with a
+  Restricted workbook at the Angeles City Employees Sportsfest, 13 November 2026. Also a
+  free to-do list (Viewer-only sharing of the masters, GitHub org settings within the free
+  plan, least-privilege credentials, where the docs are hosted) whose owner's settings are
+  still open. Records why the site is not obfuscated and the draw stays in the browser.
 
 ### Control Center
 
@@ -142,6 +150,10 @@ build status.
 - **[Event picker](implemented/scoresheet-event-picker-spec.md)** — sourcing
   the matches CSV from a published `event-data` snapshot instead of a file
   upload.
+- **[Team names on scoresheets](implemented/scoresheet-team-names-spec.md)** — a team
+  event's scoresheets print each team's name beside its pair code, on all four layouts,
+  and every other event's sheets stay byte-for-byte the same. `sage-tools-api` 3.6.0 and
+  3.6.1; first used at Ladies' Dink, 7 November 2026.
 
 ### Tournament Calculator
 
@@ -247,6 +259,11 @@ build status.
   brackets of 2-game matchups, ranked by games won, then QF to Final. It adds a tiebreaker game
   played only when needed, brackets lettered A–D, a Tied pill that names no point target, and two
   teams at 1–1 going straight to a playoff (`headToHeadQuotient: false`). Ran 7 November 2026.
+- **[Angeles City Employees Sportsfest](implemented/acso-employees-sportsfest-spec.md)** —
+  the site for the Angeles City Sports Office's employees' pickleball tournament: Men's,
+  Women's and Mixed Doubles on 8 courts at Pickle Place. The standard template in the house
+  theme (no pubmat), with team codes that have no division (`"divisions": { "": "" }`).
+  Ran 13 November 2026.
 
 ### The docs
 
@@ -259,35 +276,13 @@ build status.
 
 ## In progress
 
-- **[Code and access protection](in-progress/code-and-access-protection-spec.md)** —
-  a free to-do list (Viewer-only sharing of the masters, GitHub org settings within the free
-  plan, least-privilege credentials, where the docs are hosted, licence notices) and two
-  designs: facility workbooks closed to link access (the server reads as its service
-  account, the desk page and Control Center read the roster through the API), and two small
-  fixes to the played/series rules' server copy. The code, runbook and docs are built and
-  deployed; the owner's checks and the Google, GitHub and Cloud settings are left. Records why the site is not obfuscated and the draw
-  stays in the browser.
-
-- **[Angeles City Employees Sportsfest](in-progress/acso-employees-sportsfest-spec.md)** —
-  the site for the Angeles City Sports Office's employees' pickleball tournament on
-  13 November 2026: Men's, Women's and Mixed Doubles on 8 courts at Pickle Place.
-  The standard template in the house theme (no pubmat), with team codes that have no
-  division (`"divisions": { "": "" }`). The pages and the `events.json` entry are
-  pushed, and the workbook syncs all 96 matches; the QR image, the rest of the
-  workbook checks and the dry run are left.
-
-- **[Team names on scoresheets](in-progress/scoresheet-team-names-spec.md)** — a team
-  event's scoresheets print each team's name beside its pair code, on all four layouts,
-  and every other event's sheets stay byte-for-byte the same. Built and live
-  (`sage-tools-api` 3.6.0 and 3.6.1); the live-page checks and the docs are left.
-
 - **[Double round robin, best-of-3 round robin and one-bracket finals](in-progress/double-round-robin-and-finals-spec.md)**
   — a double round robin for a one-bracket standard category, best-of-3 round-robin meetings
   in any standard category (W and L count meetings), and two more one-bracket playoffs: a
   one-game Final with a played 3 v 4 Bronze, and a one-game Final with RR #3 taking bronze.
   Built and live (the calculator, Standard Tournament Generator 1.5.0, `sage-tools-api` 3.7.0,
-  the site's `lib/v1/domain/` in two pushes, and the docs). Pasting the generator into the
-  Standard Tournament Master, the owner's real-workbook checks and the dry run are left.
+  the site's `lib/v1/domain/` in two pushes, and the docs), and the Standard Tournament Master
+  runs 1.5.0. The owner's real-workbook checks and the dry run are left.
 
 - **[UPAP 3rd Annual Tournament](in-progress/upap-3rd-annual-tournament-spec.md)** — the
   site for the UP Alumni Pickleball Community's tournament on 22 November 2026 at The Foundry,

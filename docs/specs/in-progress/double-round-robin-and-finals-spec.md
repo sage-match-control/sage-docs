@@ -3,9 +3,11 @@
 > **Status: in progress.** Built and live: the calculator, Standard Tournament Generator 1.5.0
 > (in `sage-tools-api`'s `apps-script/`), `sage-tools-api` 3.7.0 (deployed) and the site
 > engine's best-of-3 rule (both pushes), with their tests and the docs, all on `main` in each
-> repo. Left: the paste of the generator into the Standard Tournament Master (§7), which still
-> runs 1.4.1, the owner's checks of §9 steps 2 and 5 (the generated Format B and `GBMD`
-> workbooks, and the dry run), and moving this spec to `implemented/`.
+> repo. The Standard Tournament Master runs 1.5.0 (§7), and the UPAP 3rd Annual Tournament's
+> workbook was generated from it: its snapshot has pairings that meet twice and Final and Bronze
+> matches, which 1.4.1 refused. Left: the owner's checks of §9 steps 2 and 5 (scores entered in
+> the generated Format B and `GBMD` workbooks, and the dry run), and moving this spec to
+> `implemented/`.
 > Written 2026-11-10 against
 > `sage-match-control.github.io/tools/tournament-calculator.html`,
 > `sage-tools-api/apps-script/standard-tournament-generator.gs` 1.4.1, `sage-tools-api` 3.6.2

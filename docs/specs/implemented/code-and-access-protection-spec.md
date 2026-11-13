@@ -1,6 +1,12 @@
 # Spec — code and access protection
 
-> **Status: in progress.** Sections 2–8 are a to-do list, not a design: each
+> **Status: implemented.** Everything built here is live, and §9.6–§9.9 are done: the
+> Angeles City Employees Sportsfest (13 November 2026), the first event built after them,
+> ran with its facility workbook Restricted, read and written as the service account. The
+> owner's tasks and settings listed under **Not done** below are still open; each is
+> independent and can be picked up from here.
+>
+> Sections 2–8 are a to-do list, not a design: each
 > item says what to change and where, and leaves the details to whoever builds
 > it, ordered by value. §3 is in place; §4 is not done, by the owner's decision.
 > §9 (facility workbooks closed to link access) and §10 (two fixes to the
@@ -17,10 +23,8 @@
 > runs (its `X-App-Version` read 3.4.0 on 2026-10-18), and the site's attendance
 > view is on `main`. So the running service reads as its service account before S1
 > has answered. **Not done:** the owner's tasks in §9.4 (S1, O1, O2, O3), and the
-> Google, GitHub and Cloud settings of §2, §5, §6 and §7. §9.6–§9.9 are done
-> when the first event built after them runs with Restricted workbooks; the spec
-> then moves to `implemented/`. §9.10 records where the build departs from the
-> design.
+> Google, GitHub and Cloud settings of §2, §5, §6 and §7. §9.10 records where the
+> build departs from the design.
 >
 > This page is public. It states the rules to follow, not which of them are
 > broken today: check each one when you pick it up.

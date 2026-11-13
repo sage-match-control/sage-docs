@@ -126,6 +126,9 @@ cards, bracket tables, Live Matches rows, roster cards and Match Finder, and tin
 card's headline; the board does the same from `buildScheduleData`'s `base1`/`base2`. The styles
 are in `css/teams.css` and `css/schedule-board.css`.
 
+`domain/scoresheet-names.js` `withTeamNames(matchesCsv, standingsCsv)` adds `teamName1` and
+`teamName2` columns to a team event's matches CSV, for the Scoresheet Generator to post.
+
 `domain/matches.js` reads an optional `lineupShown` column (`isShown`: a ticked box, `TRUE`, yes, 1, x or ✓)
 into each match's `lineupShown` (`null` without the column). For an event with `lineupReveal`, `mountHub`
 builds its day model with `hideUnshownLineups`, which makes every unticked match's players `TBD` in

@@ -189,7 +189,7 @@ page reads it on opening and once more 11 s later, then once per nudge, at most 
 2 s per facility, and when a phone wakes), one per mark, and two per score save. All of
 them are the service account's, so the Sheets API's *Read requests per minute per
 user* quota is the limit that counts
-([code and access protection](../specs/in-progress/code-and-access-protection-spec.md)).
+([code and access protection](../specs/implemented/code-and-access-protection-spec.md)).
 
 ### Push
 

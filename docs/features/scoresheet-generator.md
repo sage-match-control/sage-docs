@@ -37,6 +37,10 @@ Click **Generate PDF** and a progress bar tracks the render as it happens —
 useful for a large event where generating hundreds of sheets takes a moment.
 The finished PDF downloads when it's done.
 
+At a team event, each sheet prints the team's name beside its pair code, from the day's last
+published sync. A playoff team that isn't seated yet has no name to print, so print after seating
+for fully named sheets. An uploaded CSV prints names if it has `teamName1` and `teamName2` columns.
+
 Every registered facility spreadsheet's **SAGE** menu also has a
 **Generate Scoresheets** item that opens this page with that workbook's day
 and venue already selected.

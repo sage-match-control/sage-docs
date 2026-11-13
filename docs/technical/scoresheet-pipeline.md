@@ -28,12 +28,20 @@ all. Don't move that import to the top level.
 from either an uploaded file, or — for a registered event — the `matchesCsv`
 string in that day's published `event-data` snapshot
 (`<event-key>/data/<day-key>.json`), fetched client-side and handed to the
-same `FormData` path as a `Blob`. That snapshot's CSV already has the exact
-header this pipeline's `CsvService` expects (matched by header name, not
-position), so no transformation happens on either side — this pipeline has
-no awareness of where its input came from. See
+same `FormData` path as a `Blob`. That snapshot's CSV already has the header
+this pipeline's `CsvService` expects (matched by header name, not position).
+For an event of type `team`, the page first adds `teamName1` and `teamName2`
+columns with `withTeamNames` from `lib/v1/domain/scoresheet-names.js`, which
+reads the same snapshot's `standingsCsv`. Otherwise the CSV is sent as it is.
+This pipeline has no awareness of where its input came from. See
 `sage-docs/docs/specs/implemented/scoresheet-event-picker-spec.md` for the picker's own
 design.
+
+`Match` passes the names to the templates only when the columns exist, along with `hasTeamNames`, so
+a CSV without them renders the same HTML as before. `CsvService` turns quoted fields on only for a
+CSV with these columns, since quoted parsing throws on a stray `"` that the plain parser accepts.
+Every layout has no spare height: `test/e2e/pdf.e2e.test.mjs` checks each one stays at one PDF page
+per chunk with a 48-character name.
 
 ## Endpoints
 

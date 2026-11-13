@@ -1,8 +1,9 @@
 # Spec — team names on scoresheets
 
-> **Status: in progress.** §5 and §6 are built and live: `sage-tools-api` 3.6.0 and 3.6.1, and the
-> site's `94fa9c7`, all 6 November 2026. **Still to do:** §7's live-page checks C1–C5, C5 being the
-> owner's call, and §8's docs. Written 2026-11-06 against `sage-tools-api` 3.5.0 (`f885c64`) and the
+> **Status: implemented.** §5 and §6 are built and live: `sage-tools-api` 3.6.0 and 3.6.1, and the
+> site's `94fa9c7`, all 6 November 2026. The owner used the named sheets at Ladies' Dink on
+> 7 November 2026, which stands for §7's checks, C5 included; they were not run one by one as §7 lists
+> them. §8's docs are written (docs 2.64.0). Written 2026-11-06 against `sage-tools-api` 3.5.0 (`f885c64`) and the
 > site at `9c9b584`. All the code in §5 and §6 was run on a throwaway copy of both repos on that date
 > (§10 says what that did and did not cover). All owner's decisions are made (§12).
 
