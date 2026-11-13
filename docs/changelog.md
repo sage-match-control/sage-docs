@@ -37,6 +37,19 @@ has been replaced.
 
 ---
 
+## [2.65.0] — 2026-11-14
+
+### Changed
+
+- [Court Control from Control Center](specs/not-started/control-center-court-control-spec.md) goes from an
+  outline to a build spec with every decision settled, written for a no-context build. Operators only; on
+  when the event's `scoreEntry` is; the court's own cell in Live Matches is the button (**✎ Set match** /
+  **✎ Change**). `PUT /v3/…/courts/{court}/match`, in a new `src/courts/` folder, finds a court's row by
+  the number in column B: the team and dual-meet workbooks start their courts at row 6, not 5. The
+  console's side is a `courtCell` option of `views/live-matches.js`, a new `domain/courts.js` and
+  `views/court-dialog.js`, so the Hub and scorer page are unchanged. The score dialog's "put the next
+  match on this court" prompt is a later phase, outlined only.
+
 ## [2.64.0] — 2026-11-14
 
 ### Changed

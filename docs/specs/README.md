@@ -312,9 +312,9 @@ build status.
   including Puppeteer editing the real facility sheet so the onEdit trigger
   is tested too. Its rendering checks come from the site test suite.
 - **[Court Control from Control Center](not-started/control-center-court-control-spec.md)**
-  — outline only: an operator puts a match on a court, or clears it, from Live
-  Matches, through the same write-then-publish path as score entry. Waits for
-  score entry's real-workbook checks.
+  — an operator puts a match on a court, or clears it, from Live Matches, through
+  the same write-then-publish path as score entry. A build spec with every decision
+  settled; not built.
 - **[Hub player experience](not-started/hub-player-experience-spec.md)** —
   seventeen independent proposals for the owner to keep or drop, to make *where and
   when do I play next?* and *where do we stand?* quicker on a phone. A search scrolls to its results, the
