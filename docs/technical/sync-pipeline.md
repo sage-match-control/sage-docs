@@ -598,10 +598,11 @@ sheet but not published.
 **Where it writes.** `scheduleGrid.mjs` finds the match: every workbook type lays
 `SCHEDULE` out in 8-column court blocks from column D, with data from row 6 and two
 rows per slot. The match number is in column 6 + 8k, the two codes either side of it
-and the two scores 3 and 4 columns to its right. The API reads the whole tab, finds
-the cell holding the number (none is a 404, more than one a 422 that names the cells),
-then reads that row's two score cells with formulas visible: a formula or text in a
-score cell is a 422, so the API never overwrites one. `SheetsClient.writeScores` and
+and the two scores 3 and 4 columns to its right. The API reads the whole tab twice at
+once, as values and with formulas visible, finds the cell holding the number (none is a
+404, more than one a 422 that names the cells), then looks at that row's two score cells
+in the formula read: a formula or text in a score cell is a 422, so the API never
+overwrites one. `SheetsClient.writeScores` and
 `clearScores` accept only a range of the form `SCHEDULE!<team 1 score><row>:<team 2
 score><row>` at row 6 or below, checked before any request is made. A clear uses
 `values:batchClear`, so the cells are truly empty, which the team workbooks'
@@ -614,8 +615,9 @@ the two score cells (`SheetsClient.readScoreNotes`), puts a new line first
 [label](auth.md#who-a-scoped-token-was-issued-to), the Manila time and the score it replaced,
 with the last five such lines kept and every line a person wrote kept below them), and writes
 the same note on both cells (`writeScoreNote`, a `repeatCell` request with `fields: note`, under
-the same range check as the scores). This runs after the publish and is best effort: a failure
-logs a warning and the save still answers 200. A save that is `unchanged` reads and writes no
+the same range check as the scores). It starts once the scores are written and runs
+alongside the publish, since a note changes no value the publish reads, and the response
+waits for both. It is best effort: a failure logs a warning and the save still answers 200. A save that is `unchanged` reads and writes no
 note. What the note looks like: [Score entry § Who entered a score](../features/score-entry.md#who-entered-a-score).
 
 **The optimistic check.** The client sends the match as it showed it (`expected`: the

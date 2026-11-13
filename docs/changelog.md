@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.63.0] — 2026-11-14
+
+### Changed
+
+- [Sync pipeline § Score entry](technical/sync-pipeline.md): a score save reads `SCHEDULE` as values and
+  as formulas at once, and writes the "who entered it" note alongside the publish instead of after it
+  (API 3.7.1).
+
 ## [2.62.0] — 2026-11-13
 
 ### Changed
