@@ -292,6 +292,11 @@ build status.
   on the site. All three phases are live and the workbook syncs; the QR image, the workbook
   checks, the dry run and a fix for the QR panel covering the title at 900–1120px are left.
 
+- **[Court Control from Control Center](in-progress/control-center-court-control-spec.md)**
+  — an operator puts a match on a court, replaces it, or clears it, from Live Matches, through
+  the same write-then-publish path as score entry. Built and live (`sage-tools-api` 3.8.0, the
+  site and the docs); the owner's checks on workbook copies are left.
+
 ---
 
 ## Not started
@@ -311,10 +316,6 @@ build status.
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger
   is tested too. Its rendering checks come from the site test suite.
-- **[Court Control from Control Center](not-started/control-center-court-control-spec.md)**
-  — an operator puts a match on a court, or clears it, from Live Matches, through
-  the same write-then-publish path as score entry. A build spec with every decision
-  settled; not built.
 - **[Hub player experience](not-started/hub-player-experience-spec.md)** —
   seventeen independent proposals for the owner to keep or drop, to make *where and
   when do I play next?* and *where do we stand?* quicker on a phone. A search scrolls to its results, the

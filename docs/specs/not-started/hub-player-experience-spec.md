@@ -675,7 +675,7 @@ Standings case.
 | Players signing in, so their own matches are marked and the phone buzzes when they're called | A sign-in step for every player. P3 and the saved search give the same *your match* without one, and iOS Safari has no vibration |
 | Pair codes before names (`PU-HMD-04`) | P4 goes the other way |
 | Overlapping initials circles for each pair | No photos to show, and the second circle clips the first one's initials |
-| An umpire's name on each court, PAUSED / NEXT states and a call-to-court forfeit clock | The workbook carries none of it. Calling a match to a court belongs to Control Center ([Court Control](control-center-court-control-spec.md)) |
+| An umpire's name on each court, PAUSED / NEXT states and a call-to-court forfeit clock | The workbook carries none of it. Calling a match to a court belongs to Control Center ([Court Control](../in-progress/control-center-court-control-spec.md)) |
 | A sponsor's logo on every court card | Organiser artwork per court that no event has asked for. The event's own banner carries its partners |
 | Five separate pages behind a menu | P9 gives each tab an address without splitting the Hub |
 

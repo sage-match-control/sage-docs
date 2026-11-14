@@ -37,6 +37,13 @@ has been replaced.
 
 ---
 
+## [2.67.0] — 2026-11-14
+
+### Changed
+
+- [Court Control from Control Center](specs/in-progress/control-center-court-control-spec.md) moves from `not-started/`
+  to `in-progress/`: it is built and live, and the owner's real-workbook checks are left.
+
 ## [2.66.0] — 2026-11-14
 
 ### Changed
@@ -56,7 +63,7 @@ has been replaced.
 
 ### Changed
 
-- [Court Control from Control Center](specs/not-started/control-center-court-control-spec.md) goes from an
+- [Court Control from Control Center](specs/in-progress/control-center-court-control-spec.md) goes from an
   outline to a build spec with every decision settled, written for a no-context build. Operators only; on
   when the event's `scoreEntry` is; the court's own cell in Live Matches is the button (**✎ Set match** /
   **✎ Change**). `PUT /v3/…/courts/{court}/match`, in a new `src/courts/` folder, finds a court's row by

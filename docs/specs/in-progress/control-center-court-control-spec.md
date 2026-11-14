@@ -1,6 +1,8 @@
 # Spec — Court Control from Control Center
 
-> **Status: not started.** Written 2026-10-05 as an outline. Rewritten on 2026-11-14 as a
+> **Status: in progress.** Built and live on 2026-11-14 (`sage-tools-api` 3.8.0, the site's `lib/v1/` and
+> Control Center, and the docs); the owner's checks K1–K6 (§10.2) on workbook copies are left, and it moves
+> to `implemented/` once they pass. Written 2026-10-05 as an outline. Rewritten on 2026-11-14 as a
 > build spec, against `sage-tools-api` 3.7.1, the site engine (`lib/v1/`), both workbook
 > generators, and the `Court Control` tabs of five real workbooks (ACSO and UPAP, standard;
 > PNF x BUP, dual meet; Ladies' Dink and Millennium, team). **Every decision is settled (§1).** There are no open questions: do
