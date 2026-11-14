@@ -69,11 +69,12 @@ day-scoped tokens (see [Auth](auth.md)).
 | `POST /v3/days/{day}/attendance/reconciliations` | update the `ATTENDANCE` roster | operator | `200` | `POST /v1/days/:day/attendance/reconciliations` |
 | `PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score` | enter, correct or clear a score | operator or scorer | `200` | `PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score` |
 | `POST /v3/days/{day}/scores/scorer-links` | issue a scorer link; optional body `{ issuedTo?, note? }` | operator | `201 { token, expiresAt, day, issuedTo, note }` | `POST /v1/days/:day/scores/scorer-links` |
+| `PUT /v3/days/{day}/facilities/{facility}/courts/{court}/match` | put a match on a court, replace it, or clear the court | operator | `200 { day, facility, court, cell, matchNumber, previous, unchanged, sync }` | — |
 
-That is seventeen routes on fourteen paths. Thirteen are the twin of a frozen route
-(`POST /v3/scoresheets` of two). Four have none: the `GET`s of visibility, live-push
-and score-entry, which give each `PUT` its `GET`, and the people list, because nothing
-before it read through the API. Details a twin does not show:
+That is eighteen routes on fifteen paths. Thirteen are the twin of a frozen route
+(`POST /v3/scoresheets` of two). Five have none: the `GET`s of visibility, live-push
+and score-entry, which give each `PUT` its `GET`, the people list, because nothing
+before it read through the API, and the court match, which no frozen surface ever offered. Details a twin does not show:
 
 - **Sync input moves into a body.** `?facility=` becomes a path segment, and
   `?method=` and the `X-Edit-At` header become `{ "method"?: "sheets" | "csv",
@@ -157,9 +158,9 @@ with a body must say `Content-Type: application/json`, or it is a `415`.
 | `404` | an unknown path, or an unknown day, event, facility or match named **in the path** |
 | `405` | a known path with an unsupported method, with `Allow` |
 | `406` | an `Accept` the route cannot satisfy |
-| `409` | the target's state conflicts: conflicting writes (`conflict`), a score that changed (`score_conflict`), an `ATTENDANCE` tab in the wrong shape (`attendance_layout`) |
+| `409` | the target's state conflicts: conflicting writes (`conflict`), a score that changed (`score_conflict`), a court's cell that changed (`court_conflict`), a match already on another court (`match_on_court`), an `ATTENDANCE` tab in the wrong shape (`attendance_layout`) |
 | `415` | a body that is not `application/json` (`multipart/form-data` for scoresheets) |
-| `422` | a well-formed request the workbook's state cannot take (`schedule_layout`) |
+| `422` | a well-formed request the workbook's state cannot take (`schedule_layout`, `court_layout`, `unplayable_match`) |
 | `500` / `502` / `503` | our failure / Google's or GitHub's / temporarily unavailable |
 
 ### Exceptions
@@ -169,6 +170,8 @@ with a body must say `Content-Type: application/json`, or it is a `415`.
 | `PUT …/people/{personKey}/attendance` | a `GET` for every `PUT` | each person's state is read with `GET …/facilities/{facility}/people`, the list a desk reads; a per-person `GET` would have no reader |
 | `PUT …/matches/{matchNumber}/score` | a `GET` for every `PUT` | scores are read from the published day snapshot, which pages already poll; a Sheets read per `GET` would spend Google quota for no reader |
 | `PUT …/matches/{matchNumber}/score` | concurrency through `If-Match` / `412` | the precondition is the values a person saw in two cells, not a version the API issues, so there is no `ETag`; `expected` travels in the body, and the `409` carries `current` |
+| `PUT …/courts/{court}/match` | a `GET` for every `PUT` | the live court is read from the published day snapshot, which pages already hold; a Sheets read per `GET` would spend Google quota for no reader |
+| `PUT …/courts/{court}/match` | concurrency through `If-Match` / `412` | the precondition is the match a person saw in one cell, so there is no `ETag`; `expected` travels in the body, and the `409` carries `current` |
 | `201` without `Location` (sessions, desk links, scorer links) | `Location` on a created resource | the result is a signed credential, not a stored resource, so there is no URL to point at |
 | `expiresAt` in the three token responses | timestamps are ISO 8601 | it is epoch milliseconds on every surface, and the pages compare it with `Date.now()` |
 | `isLive: true \| false \| "auto"` | an enumeration is not a mixed type | the same field, with the same values, as `events.json` and the published snapshot every page reads |
@@ -219,15 +222,20 @@ Both shapes carry a stable `code`:
 | `unauthorized` | 401 | no, invalid or expired credentials |
 | `forbidden` | 403 | valid credentials that may not do this |
 | `score_entry_off` | 403 | score entry is off for the event |
+| `court_control_off` | 403 | court control is off for the event: it follows the event's score entry setting |
 | `not_found` | 404 | an unknown path, or a named resource that is not there |
 | `unknown_event` | 404 | an event key that is not in the registry |
 | `method_not_allowed` | 405 | an unsupported method on a known `/v3` path |
 | `not_acceptable` | 406 | an `Accept` the route cannot satisfy |
 | `conflict` | 409 | three conflicting writes in a row |
 | `score_conflict` | 409 | the sheet changed since the client showed the match |
+| `court_conflict` | 409 | the court's match cell changed since the client showed it (carries `current: { matchNumber }`) |
+| `match_on_court` | 409 | the match is already on another court (carries `onCourt`, that court's label) |
 | `attendance_layout` | 409 | the `ATTENDANCE` tab's header row is not the expected one |
 | `unsupported_media_type` | 415 | a body of the wrong `Content-Type` |
 | `schedule_layout` | 422 | no `SCHEDULE` tab, a duplicate match number, or a score cell holding a formula |
+| `court_layout` | 422 | no `Court Control` tab, a court number on two rows, or a match cell holding a formula or text |
+| `unplayable_match` | 422 | the match is not in `SCHEDULE`, or is a BYE |
 | `upstream_failure` | 502 | Google Sheets failed, or every facility's fetch did |
 | `config_unavailable` | 503 | the event registry could not be loaded |
 | `service_busy` | 503 | Google Sheets answered 429 twice |

@@ -18,7 +18,8 @@ every venue's workbook open all day, and Control Center open beside it.
 5. Click **Resync this day now**. It pulls a fresh copy of the schedule and confirms
    each venue's workbook can be read. It does not prove the workbook sends its own
    updates: that only shows once the first real edit in **Court Control** appears on
-   the site without a resync.
+   the site without a resync. A court set from Control Center does not prove it either, because
+   the API publishes that itself; the first hand edit in the sheet does.
 6. Confirm **Facility sync status** shows a fresh **Synced** for every venue, and that
    **Live updates** reads **push connected**.
 7. Open each venue's **Google Sheet** from its row in Facility sync status, and keep it
@@ -87,6 +88,11 @@ The operator calling matches, at each court as matches happen, in the workbook's
    immediately. **Never leave a court blank.** A blank court shows as idle instead of
    telling anyone what's coming up.
 3. Call the next match to its court.
+
+A court can also be set from Control Center: on **Live Matches**, click the court's number (it
+reads **✎ Set match** or **✎ Change**), pick the match and save. The two ways write the same
+cell, so mix them freely. Moving a match between courts is two actions, clear the old court and
+set the new one. See [Control Center § Set match](../features/control-center.md#set-match).
 
 The operator on scores enters each finished match's **score**.
 

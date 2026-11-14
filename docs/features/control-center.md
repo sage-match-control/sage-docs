@@ -271,6 +271,37 @@ there, both teams' names, and the live score — or "No match playing" for an
 idle court. This is the same view a wall-mounted screen at the venue would
 show.
 
+### Set match
+
+For a signed-in operator at an event whose `scoreEntry` is set (the same setting as
+[Score entry](score-entry.md)), each court's own cell, the number at the left of its row, is a
+button. A small **✎ Set match** (an idle court) or **✎ Change** (a court with a match on it)
+sits under the number. It puts a match on that court, replaces it, or clears the court, without
+opening the venue's workbook. It writes the same `Court Control` cell an operator types into, so
+the two can be mixed freely.
+
+The dialog has three steps:
+
+1. **Pick.** The court's title (with the venue when the event has several), and what is on it
+   now. Under **Next up** are the next three matches at that venue that are not played, not on a
+   court and not a BYE, in schedule order and with this court's own scheduled matches first within a
+   time. Choose one, or type a match number. A number that is not at this venue, is a BYE, is already
+   on this court, or is on another court (**Clear that court first**) shows why and cannot be
+   reviewed. **Clear court** is offered when a match is on the court.
+2. **Review.** What will happen, with warnings the operator may go ahead past: the match already has
+   a score, it is scheduled for another court, one of its players is on a court now (at this venue
+   or another), its players or lineup are not decided yet, or the match it replaces is not scored yet
+   and will show as not started.
+3. **Save.** The match goes on the court and the Hub, the board and Control Center show it live
+   within a few seconds. If someone changed the court in the workbook while the dialog was open, it
+   shows what the sheet now holds and offers **Keep the sheet's** or **Replace with yours**.
+
+Moving a match from one court to another is two actions: clear the old court, then set the new
+one. The sheet refuses what a warning cannot cover: a court cell holding a formula or text, a match
+that is not in `SCHEDULE`, a BYE, and a match already on another court. Only a signed-in operator can
+set a court; a scorer link cannot. Technical detail:
+[Control Center § Court control](../technical/control-center.md#court-control).
+
 Above the courts, a card per venue shows how many matches are done, how many
 are left, how many are in play (on a court right now, so not counted as left;
 done, left and in play add up to the venue's total), and — on the day itself — an estimated finish time and how far

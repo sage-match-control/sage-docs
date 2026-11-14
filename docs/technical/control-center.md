@@ -420,6 +420,44 @@ headline.
 
 Full design of the page the link opens: [Scorer page](scorer-page.md).
 
+## Court control
+
+An operator puts a match on a court, replaces it, or clears the court from Live Matches
+(`PUT /v3/days/{day}/facilities/{facility}/courts/{court}/match`, see [sync pipeline § Court control
+writes](sync-pipeline.md#court-control-writes)). It is on for exactly the events and the sign-in that
+turn on [score entry](#score-entry): `scoreEntryAvailable()`. Only an operator token is accepted; a
+scorer or desk token gets a 401. Usage: [Set match](../features/control-center.md#set-match).
+
+**The court cell is the button.** `drawLiveMatches()` passes
+`courtCell: scoreEntryAvailable() ? courtCellDeco : undefined` to `Live.renderLiveMatches`.
+`courtCellDeco(facility, court, match)` returns `null` for a court whose label has no digit (the API
+finds a court by the number in its label), or `{ className: 'court-settable', attrs, html }`, where
+`attrs` carries `data-court-facility`, `data-court-number`, `role="button"`, `tabindex="0"` and an
+`aria-label`, and `html` is the `✎ Set match` / `✎ Change` hint. The view's `withCourtCell` adds them
+to the court's `<td class="live-court-cell">`, whichever builder drew it (the standard row, the idle
+row or a team event's `liveRow`). One delegated `click` listener, and one `keydown` for Enter and
+space, on the board's container open the dialog, because the board is rebuilt on every snapshot.
+`renderAuthStatus()` redraws the board when it is the tab on screen, so the hints appear and
+disappear with sign-in.
+
+**The dialog** is `createCourtDialog` in `lib/v1/views/court-dialog.js`, the score dialog's sibling:
+the same `.score-*` frame, the same save, slow-timer (five seconds), two-minute timeout, conflict
+and key-guard code, and the `<dialog id="courtDialog">` markup Control Center carries. Its options are
+the score dialog's, plus `matchesFor(facility)`, `dayMatches()`, `eventType()` and
+`multiFacility()`, and it shares `describeMatchForDialog(m)` with the score dialog. It returns
+`{ open, close, refresh, isOpen }`. The rules it shows (`matchOnCourt`, `courtSuggestions`,
+`courtPickError`, `courtWarnings`, `clearWarnings`) are pure functions in `lib/v1/domain/courts.js`.
+Its steps are `pick`, `review`, `saving` and `conflict`. It holds the court's current match and the
+`expected` match number the operator was shown, and `refresh()`, called after every snapshot beside
+the score dialog's, only changes the note ("The published data now shows #N on this court.");
+saving after the sheet changed gets a 409 `court_conflict` carrying `current`.
+
+**Fixtures.** `?fixture=<name>` simulates a save: after 700 ms `fixtureSetCourt(state, n)` clears every
+match on the court and puts match `n` on it, in both `MATCHES` and `MODEL.matchesByFacility`, redraws
+Live Matches and Match Finder, and says nothing was sent; the next poll restores the fixture's courts.
+Adding `&courtConflict=1` makes the first save of each dialog answer with a conflict instead (the
+sheet "now reads" #99), so the conflict step can be exercised.
+
 ## Facility progress
 
 `computeFacilityProgress(matches, isEventDay, nowMin)` (`lib/v1/domain/progress.js`)

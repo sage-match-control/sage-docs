@@ -15,15 +15,15 @@ lib/v1/
   platform.js      constants: the Pages address, the Cloud Run URL, fetch timeout, poll intervals, fixtureName()
   domain/          the rules, pure functions with no DOM and no clock
     csv  byes  series  deciders  matches  standings  codes  bracket  brackets  golive  progress
-    teams  lineup-rules  awards  event-pages  attendance  schedule-grid  scoresheet-names  model
+    teams  lineup-rules  awards  event-pages  attendance  schedule-grid  scoresheet-names  courts  model
   data/            the outside world
     registry  snapshot  live-channel  attendance-signal  api  tokens
   views/           functions that return HTML strings, plus small components
     html  scroll  ticket  finder  live-matches  standings  bracket  bracket-full  teams  team-mark
-    score-dialog  attendance-view
+    score-dialog  court-dialog  attendance-view
   apps/            one per kind of page, wiring data, model and views to the page's markup
     hub  schedule-board  scorer  attendance-desk
-  css/             ticket  finder  live-matches  standings  teams  score-dialog  attendance
+  css/             ticket  finder  live-matches  standings  teams  score-dialog  court-dialog  attendance
                    hub  schedule-board  scorer  attendance-desk
 _tests/            never published (Jekyll skips folders that start with "_")
 ```
@@ -46,7 +46,7 @@ Imports point one way, enforced by `_tests/unit/guards.test.mjs`:
 
 `domain/` uses no browser global: a function that needs the time takes `now`.
 Nothing under `views/` or `domain/` names an operator feature, apart from
-`score-dialog.js` and `attendance-view.js`, which are Control Center and the
+`score-dialog.js`, `court-dialog.js` and `attendance-view.js`, which are Control Center and the
 scorer and desk pages' components. No file in them takes a flag that names a
 page (`isConsole`, `mode: 'hub'`).
 
@@ -95,7 +95,7 @@ offers it.
 | --- | --- | --- |
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)` | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos |
 | Match Finder | `searchHandlers`, `searchHint`, `delegate` | the match-number search; the team event's own finder |
-| Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos |
+| Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it) |
 | Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match |
 | team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub) |
 

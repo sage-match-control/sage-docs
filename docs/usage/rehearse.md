@@ -65,6 +65,10 @@ Sign in under Mission Control, click **Resync this day now**, then check:
   console's own tabs stay visible throughout.
 - [ ] **Score entry** (if the event has it): open a match in Match Finder, enter a score,
   **Save**, and see it appear in the sheet. Then clear it with **Clear score**.
+- [ ] **Court control** (if the event has score entry): on **Live Matches**, click an idle
+  court, pick a match and save, and see it live on the Hub. Click the court again and
+  **Change** it to another match, then **Clear court**. The court's cell in `Court Control`
+  follows each step, and the Hub shows the court idle again after the clear.
 
 Don't move on until every check passes.
 

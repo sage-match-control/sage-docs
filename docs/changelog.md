@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.66.0] — 2026-11-14
+
+### Changed
+
+- Court control from Control Center is built, on the `court-control` branches, awaiting the owner's
+  checks (K1–K6 of its spec), so the spec stays in `not-started/`. **Features:** [Control
+  Center](features/control-center.md#set-match) describes Live Matches' **Set match** / **Change**
+  court cell and its dialog. **Technical:** [Control Center](technical/control-center.md#court-control)
+  (the `courtCell` option, the court dialog, `fixtureSetCourt`, the `courtConflict=1` fixture flag),
+  [Site engine](technical/site-engine.md) (`domain/courts.js`, `views/court-dialog.js`,
+  `css/court-dialog.css`, `withCourtCell`), [API](technical/api.md) (the eighteenth `/v3` route, the
+  exceptions row, five new error codes) and [Sync pipeline](technical/sync-pipeline.md#court-control-writes).
+  **Usage:** [Run the day](usage/run-the-day.md#the-court-rhythm) and [Rehearse](usage/rehearse.md).
+  API 3.8.0.
+
 ## [2.65.0] — 2026-11-14
 
 ### Changed

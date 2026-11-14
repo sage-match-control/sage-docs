@@ -641,6 +641,37 @@ name or note) and whether the publish worked.
 
 Who may call it, and the switch that stops scorer links: [Auth § Scorer tokens](auth.md#scorer-tokens).
 
+## Court control writes
+
+Court control writes a court's match the same way score entry writes a score: one cell of the
+facility workbook as the API's service account, then a publish in the same request.
+`PUT /v3/days/{day}/facilities/{facility}/courts/{court}/match` (`src/courts/`,
+`CourtService.setMatch`) puts a match number into the `Court Control` tab's column C, or empties
+the cell, and calls `syncService.syncDay` for that facility before answering. An API write fires
+no `onEdit` trigger, so nothing else would publish it. The publish runs even when the cell
+already held the number, because an earlier save may have written without publishing, and a
+publish failure does not undo the write: the answer is 200 with `sync: { ok: false, error }`.
+
+`Court Control` is laid out differently in each workbook type, so the API never assumes a row.
+It reads `B4:C200` twice at once, as values (column B is a formula in a standard workbook, and
+only its value is the label) and with formulas visible, and beside them `SCHEDULE` when a match is
+being put on a court. A row whose B holds a digit is a court, and its court number is the first run
+of digits. The court's row is the one whose number equals the requested court (none is a 404, more
+than one a 422 that names the rows). Column C is read from the formula rendering: empty, or a
+whole number, is a match; a formula or text is a 422, so the API never overwrites one. `Next Stand
+By` and the other labels below the courts hold no digit and are never courts.
+
+The write goes through its own allowlist, `SheetsClient.writeCourtMatch` and `clearCourtMatch`,
+which accept only a single column-C cell at row 4 or below, checked before any request is made. A
+clear uses `values:batchClear`, so the cell is truly empty and `ISBLANK` reads the court as free.
+The API refuses a match that is not in `SCHEDULE`, a BYE, a match already on another court, and a
+cell that no longer holds what the client showed (`expected`: a 409 carrying `current`).
+Moving a match between courts is two requests, clear then set, so a half-done write never leaves
+a match on both courts or neither. It leaves no cell note, because the cell is overwritten many
+times a day; the log carries one `court` line per request. It shares score entry's 60-second
+workbook timeout, and a court write is a little quicker than a score save, with no note to write.
+Who may call it, and when it is on: [Control Center § Court control](control-center.md#court-control).
+
 ## Sheet tabs are addressed by name, not GID
 
 Both fetch paths address a facility's matches/standings tabs by name
