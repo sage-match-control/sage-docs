@@ -1,0 +1,5735 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/not-started/ranking-rules-spec/">
+      
+      
+        <link rel="prev" href="../lean-deploy-image-spec/">
+      
+      
+        <link rel="next" href="../../archived/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Ranking rules - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-ranking-rules-as-a-list" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ranking rules
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../usage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/before-you-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles, access and kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing the event
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparing the event
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/plan-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Plan it
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/build-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Build the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/draw-and-rosters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Draw and fill rosters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/register-and-build-the-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Register and build the site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/connect-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Connect the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/printables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Print
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/rehearse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Rehearse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    On the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/run-the-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Run the day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. When something's wrong
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handouts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Handouts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/scorer-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/desk-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance desks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/after-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    After the event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public pages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Public pages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Running the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/score-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoring workbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scoring workbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoring-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The scoring workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/team-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and print tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and print tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/site-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../event-spec-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event spec template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/team-tournament-template-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament event-site template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-team-names-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team names on scoresheets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/standings-bracket-chart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Playoff bracket chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/millennium-invitational-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Millennium Invitational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/ladies-dink-club-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ladies' Dink 1st Club Tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/acso-employees-sportsfest-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angeles City Employees Sportsfest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/team-workbook-stack-cache-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook recalculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/control-center-score-entry-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry and scorer links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/site-engine-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/link-attribution-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/attendance-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Push for attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/code-and-access-protection-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code and access protection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/docs-usage-guide-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage guide and docs restructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/double-round-robin-and-finals-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Double and best-of-3 round robin, finals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/upap-3rd-annual-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UPAP 3rd Annual Tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/control-center-court-control-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Court Control from Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-team-format-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator team format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../team-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hub-player-experience-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hub player experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lean-deploy-image-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean deploy image
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ranking rules
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ranking rules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-where-things-stand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Where things stand
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Where things stand">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-where-ranking-is-called" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Where ranking is called
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-numbers-each-ranker-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 The numbers each ranker reads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-what-decides-who-advances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 What decides who advances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-how-the-rankers-break-ties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 How the rankers break ties
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-ranking-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The ranking setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-where-the-numbers-come-from" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Where the numbers come from
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-how-a-list-is-applied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 How a list is applied
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-what-the-ranking-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 What the ranking returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-presets-and-reading-the-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Presets, and reading the setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-the-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 The module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-the-callers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 The callers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-what-does-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. What does not change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-worked-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Worked examples
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-parity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Parity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Build order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archived/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archived
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archived
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-where-things-stand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Where things stand
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Where things stand">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-where-ranking-is-called" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Where ranking is called
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-numbers-each-ranker-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 The numbers each ranker reads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-what-decides-who-advances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 What decides who advances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-how-the-rankers-break-ties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 How the rankers break ties
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-ranking-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The ranking setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-where-the-numbers-come-from" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Where the numbers come from
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-how-a-list-is-applied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 How a list is applied
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-what-the-ranking-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 What the ranking returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-presets-and-reading-the-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Presets, and reading the setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-the-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 The module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-the-callers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 The callers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-what-does-not-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. What does not change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-worked-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Worked examples
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-parity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Parity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-build-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Build order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Out of scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/not-started/ranking-rules-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-ranking-rules-as-a-list">Spec — ranking rules as a list<a class="headerlink" href="#spec-ranking-rules-as-a-list" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: not started.</strong> Written 2026-11-12 against the site engine <code>lib/v1/</code> at
+<code>sage-match-control.github.io</code> commit <code>c4f8ae9</code> (<code>domain/standings.js</code>, <code>domain/teams.js</code>,
+<code>domain/awards.js</code>, <code>views/standings.js</code>, <code>views/teams.js</code>, <code>data/registry.js</code>) and
+<code>event-data/config/events.json</code> as of that date. Nothing here is built. It has <strong>no build
+date</strong>: it waits for an event whose organiser needs rules the presets don't cover (D5). It
+changes the engine, so it is never merged within 3 days of an event. The owner's decisions are
+recorded in §10.</p>
+</blockquote>
+<p>An event's standings are ordered by a list of named rules in <code>events.json</code>, such as
+<code>["wins", "h2hWins", "quotient"]</code>, instead of by one of three rankers written into the engine.
+A new organiser's tiebreakers become a line of config, not an engine change. Every event that
+exists today ranks exactly as it does now, because each of today's rankers becomes a named
+preset that its events get without a <code>ranking</code> key.</p>
+<hr />
+<h2 id="1-why">1. Why<a class="headerlink" href="#1-why" title="Permanent link">&para;</a></h2>
+<p>The engine has three rankers, each written for the event that needed it, and two settings that
+pick between them or trim one:</p>
+<table>
+<thead>
+<tr>
+<th>Ranker</th>
+<th>Order</th>
+<th>Events</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rankStandings</code> (<code>domain/standings.js</code>)</td>
+<td>wins → head-to-head wins among the pairs level on wins → quotient</td>
+<td>every standard and dual-meet event</td>
+</tr>
+<tr>
+<td><code>teamRankBracket</code> (<code>domain/teams.js</code>), <code>"points"</code></td>
+<td>points scored → quotient → head-to-head points → pair wins</td>
+<td>PickleDrive</td>
+</tr>
+<tr>
+<td><code>teamRankBracketByGames</code> (<code>domain/teams.js</code>), <code>"games"</code></td>
+<td>matches won → for two teams: head-to-head wins, head-to-head quotient, tiebreaker games; for three or more: quotient, tiebreaker games, two still level going back to the two-team rules</td>
+<td>Millennium Invitational; Ladies' Dink with <code>headToHeadQuotient: false</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each is a list of tiebreakers with the list written as code. <code>headToHeadQuotient: false</code> already
+removes one item from a list by flag. The next organiser who orders the same tiebreakers
+differently ("quotient before head-to-head", "points scored before wins") would need a fourth
+ranker or a second flag, an engine change in <code>lib/v1/</code> and a test change, in an event's build
+week. With a list, it is a line in <code>events.json</code>.</p>
+<h2 id="2-where-things-stand">2. Where things stand<a class="headerlink" href="#2-where-things-stand" title="Permanent link">&para;</a></h2>
+<h3 id="21-where-ranking-is-called">2.1 Where ranking is called<a class="headerlink" href="#21-where-ranking-is-called" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Caller</th>
+<th>Ranker</th>
+<th>Shown as</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>views/standings.js</code> (round-robin brackets of a standard or dual-meet event)</td>
+<td><code>rankStandings(group, model.matches)</code></td>
+<td>the Hub's and Control Center's Standings tables</td>
+</tr>
+<tr>
+<td><code>domain/awards.js</code> <code>standingsTop3ForCategory</code></td>
+<td><code>rankStandings</code></td>
+<td>the podium of a category with no playoff bracket</td>
+</tr>
+<tr>
+<td><code>views/teams.js</code> <code>groupTableHTML</code></td>
+<td><code>teamRankBracket(rows, matches)</code> (points)</td>
+<td>a team event's bracket tables</td>
+</tr>
+<tr>
+<td><code>views/teams.js</code> <code>groupTableByGamesHTML</code></td>
+<td><code>teamRankBracket(rows, matches, 'games', { headToHeadQuotient })</code></td>
+<td>the same, with <strong>Tied · playoff</strong> pills from the result's <code>ties</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>domain/bracket.js</code>'s <code>rankByWinsThenQuotient</code> is <strong>not</strong> a ranker in this sense. It reproduces
+the workbook's <code>SORTBYWINS</code> (wins, then quotient), so that a playoff seat's source tag
+("Br 2 · #1") says the place the sheet seated the pair from. It follows the sheet, not the
+organiser's tiebreakers, and this spec leaves it alone.</p>
+<h3 id="22-the-numbers-each-ranker-reads">2.2 The numbers each ranker reads<a class="headerlink" href="#22-the-numbers-each-ranker-reads" title="Permanent link">&para;</a></h3>
+<p>The rankers differ in their tiebreakers and also in where their numbers come from:</p>
+<ul>
+<li><strong>Standard and dual meet:</strong> <code>wins</code> and <code>quotient</code> from the <code>STANDINGSCSV</code> row (the sheet's
+  numbers); head-to-head from the day's matches, a best-of-3 round-robin meeting counting once,
+  for the pair that took it (<code>headToHeadWins</code>).</li>
+<li><strong>Team, <code>"points"</code>:</strong> <code>pf</code> and <code>quotient</code> from the <code>STANDINGSCSV</code> row; head-to-head points and
+  pair wins from the played group-stage matches, a <code>_TB</code> game included.</li>
+<li><strong>Team, <code>"games"</code>:</strong> every number from the played group-stage matches (<code>teamGameRecords</code>), a
+  <code>_TB</code> game left out; the <code>_TB</code> games count only as the last tiebreaker.</li>
+</ul>
+<p><code>teamScoring</code> decides which numbers a team event uses, and also who wins a matchup
+(<code>teamMatchupResult</code>) and which columns the table shows. It stays a setting of its own (§3.3).</p>
+<h3 id="23-what-decides-who-advances">2.3 What decides who advances<a class="headerlink" href="#23-what-decides-who-advances" title="Permanent link">&para;</a></h3>
+<p>The site's ranking is <strong>display only</strong>. The workbook decides who reaches the playoffs: the
+standard generator's <code>SORTBYWINS</code> and <code>fixedSeating_</code>, and a team workbook's playoff slots the
+organiser fills by hand. The two can already disagree on a head-to-head tie; <code>rankStandings</code>'s
+comment says so. A <code>ranking</code> list changes what the Hub and Control Center show, not the sheet. An
+event whose organiser changes the rules that pick playoff feeders needs the sheet's formulas
+changed to match, by hand or by the generator (§11).</p>
+<h3 id="24-how-the-rankers-break-ties">2.4 How the rankers break ties<a class="headerlink" href="#24-how-the-rankers-break-ties" title="Permanent link">&para;</a></h3>
+<p>The three rankers share a shape that a single sort can't express, and the list has to keep it:</p>
+<ol>
+<li><strong>Head-to-head is computed among the teams still level at that step,</strong> not among everyone. A
+   comparator chained over the whole table (<code>a.wins - b.wins || h2h(a) - h2h(b) || …</code>) would
+   count matches against teams that are not tied, and rank three-way ties wrongly.</li>
+<li><strong>The games ranker's rules depend on how many are level:</strong> two teams go to head-to-head,
+   three or more to the overall quotient.</li>
+<li><strong>The games ranker goes back to the start when a tie shrinks:</strong> three teams level, one split
+   off by quotient, leaves two that go back to the two-team rules, which recompute head-to-head
+   between just those two.</li>
+<li><strong><code>rankStandings</code> and the points ranker do not go back:</strong> pairs level on head-to-head wins go
+   straight to quotient, without recomputing head-to-head between just themselves.</li>
+</ol>
+<p><code>teamRankBracketByGames</code> already implements 1–3 with its <code>runs</code> and <code>byKey</code> helpers. This spec
+generalises those helpers into a module of their own.</p>
+<h2 id="3-the-design">3. The design<a class="headerlink" href="#3-the-design" title="Permanent link">&para;</a></h2>
+<h3 id="31-the-ranking-setting">3.1 The <code>ranking</code> setting<a class="headerlink" href="#31-the-ranking-setting" title="Permanent link">&para;</a></h3>
+<p><code>events.&lt;event-key&gt;.ranking</code> is optional. It is either a list of rules (the short form) or an
+object:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"ranking"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"wins"</span><span class="p">,</span><span class="w"> </span><span class="s2">"h2hWins"</span><span class="p">,</span><span class="w"> </span><span class="s2">"quotient"</span><span class="p">]</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">"ranking"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"restart"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="s2">"wins"</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3+"</span><span class="p">,</span><span class="w"> </span><span class="nt">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"quotient"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tiebreakerWins"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"when"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">    </span><span class="nt">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"h2hWins"</span><span class="p">,</span><span class="w"> </span><span class="s2">"h2hQuotient"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tiebreakerWins"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>A <strong>rule</strong> is a name from the registry (§3.2), always ranking higher values first.</li>
+<li>A <strong>block</strong> <code>{ "when": 2 | "3+", "rules": [...] }</code> applies its rules only to a group of that
+  size. Blocks do not nest.</li>
+<li><strong><code>restart</code></strong> (default <code>false</code>): when a rule splits a group, each smaller group still level
+  starts again from the first rule (§3.4). The short form is <code>restart: false</code>.</li>
+</ul>
+<p>The setting holds names, never code. <code>events.json</code> is data that <code>sage-tools-api</code> fetches,
+caches and serves, and that a person edits by hand in a commit; the functions live in the engine,
+where they are tested.</p>
+<h3 id="32-the-rules">3.2 The rules<a class="headerlink" href="#32-the-rules" title="Permanent link">&para;</a></h3>
+<p><code>lib/v1/domain/ranking.js</code> holds the registry: each name, the number it ranks by, and whether that
+number depends on which teams are in the group.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Ranks by</th>
+<th>Depends on the group</th>
+<th>Available to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wins</code></td>
+<td>matches won</td>
+<td>no</td>
+<td>every event</td>
+</tr>
+<tr>
+<td><code>pf</code></td>
+<td>points scored</td>
+<td>no</td>
+<td>team events</td>
+</tr>
+<tr>
+<td><code>quotient</code></td>
+<td>points scored ÷ points conceded; a missing quotient lowest, two missing level</td>
+<td>no</td>
+<td>every event</td>
+</tr>
+<tr>
+<td><code>h2hWins</code></td>
+<td>matches won in played matches between two members of the group (a best-of-3 meeting counting once)</td>
+<td><strong>yes</strong></td>
+<td>every event</td>
+</tr>
+<tr>
+<td><code>h2hPoints</code></td>
+<td>points scored in played matches between two members of the group</td>
+<td><strong>yes</strong></td>
+<td>team events</td>
+</tr>
+<tr>
+<td><code>h2hQuotient</code></td>
+<td>points scored ÷ conceded in played matches between two members of the group</td>
+<td><strong>yes</strong></td>
+<td>team events</td>
+</tr>
+<tr>
+<td><code>tiebreakerWins</code></td>
+<td><code>_TB</code> games won against other members of the group</td>
+<td><strong>yes</strong></td>
+<td>team events</td>
+</tr>
+</tbody>
+</table>
+<p><code>pf</code> and <code>h2hPoints</code> could serve standard events too, but <code>STANDINGSCSV</code> carries no points for a
+pair, so they are team-only until a standard event needs them. A rule that is not available to an
+event's type is a configuration error (§3.6).</p>
+<h3 id="33-where-the-numbers-come-from">3.3 Where the numbers come from<a class="headerlink" href="#33-where-the-numbers-come-from" title="Permanent link">&para;</a></h3>
+<p>Each rule reads its numbers through the event's <strong>numbers source</strong>, chosen by the event's type
+and <code>teamScoring</code>, exactly as today (§2.2):</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Event</th>
+<th><code>wins</code>, <code>pf</code>, <code>quotient</code></th>
+<th>Head-to-head rules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pairs</code></td>
+<td>standard, dual meet</td>
+<td>the <code>STANDINGSCSV</code> row</td>
+<td>the day's played matches between the rows' codes; best-of-3 meetings once (<code>headToHeadWins</code>'s rule)</td>
+</tr>
+<tr>
+<td><code>team-points</code></td>
+<td>team, <code>teamScoring: "points"</code></td>
+<td>the <code>STANDINGSCSV</code> row; <code>wins</code> is the pair-wins count of every played group-stage match, <code>_TB</code> included</td>
+<td>played group-stage matches, <code>_TB</code> included</td>
+</tr>
+<tr>
+<td><code>team-games</code></td>
+<td>team, <code>teamScoring: "games"</code></td>
+<td><code>teamGameRecords</code>: played group-stage matches, <code>_TB</code> left out</td>
+<td>the same matches; <code>tiebreakerWins</code> reads only the <code>_TB</code> games</td>
+</tr>
+</tbody>
+</table>
+<p>So a rule name means the same thing at every event ("head-to-head wins") while the engine keeps
+reading the numbers each event's tables already show. A source is never named in <code>events.json</code>.</p>
+<h3 id="34-how-a-list-is-applied">3.4 How a list is applied<a class="headerlink" href="#34-how-a-list-is-applied" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>rank(group, list):
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  if group has one row: done
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  for each rule in list (a block's rules in place, if its "when" fits the group's size):
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    compute the rule's number for each row in the group
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>      (a rule that depends on the group computes it among exactly these rows)
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    sort the group by that number, highest first, keeping the existing order among equals
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    split the group into runs of equal numbers
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    if there is more than one run:
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>      for each run:
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        if restart: rank(run, the whole list)
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        else:       rank(run, the rest of the list after this rule)
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>      return the runs in order
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  no rule split the group: it is unresolved; it keeps its STANDINGSCSV order
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>                           and is recorded as a tie (§3.5)
+</code></pre></div>
+<p>The size check happens each time a rule is reached, so a group that shrinks from three to two
+partway through the list passes over <code>"3+"</code> rules from then on, without needing a restart.
+Restarting is what makes a smaller group recompute the rules that depend on the group from the
+top, and it is the only way to express "two still level go back to the two-team rules".</p>
+<p>Under <code>restart</code>, rules that don't depend on the group never split a group the second time round,
+since it is already level on them. Only rules that depend on the group can split it again.</p>
+<p>Numbers are compared with <code>===</code> after the same coercions as today (a missing quotient is
+<code>-Infinity</code>). Equal ratios divide to the same double, so <code>22/11</code> and <code>44/22</code> are level.</p>
+<h3 id="35-what-the-ranking-returns">3.5 What the ranking returns<a class="headerlink" href="#35-what-the-ranking-returns" title="Permanent link">&para;</a></h3>
+<p><code>rankRows(rows, matches, event)</code> returns a new array in ranked order (the input is not changed),
+carrying <code>ties</code>: <code>[{ codes, playoff }]</code>, one entry per unresolved group, <code>playoff</code> <code>'game'</code> for
+two rows and <code>'round-robin'</code> for three or more. As today:</p>
+<ul>
+<li><code>ties</code> is <code>[]</code> until every group-stage match between the rows is played (a <code>_TB</code> game not
+  counting as one), so a level pair mid-bracket is never shown as <strong>Tied</strong>.</li>
+<li>The <code>pairs</code> source always returns <code>ties: []</code>. Standard and dual-meet tables show no tie pills
+  today, and this spec doesn't add them (D3).</li>
+<li>The <code>team-points</code> source computes <code>ties</code>, and its view keeps ignoring them, as it does now
+  (D3).</li>
+</ul>
+<h3 id="36-presets-and-reading-the-setting">3.6 Presets, and reading the setting<a class="headerlink" href="#36-presets-and-reading-the-setting" title="Permanent link">&para;</a></h3>
+<p>Each of today's rankers is a named preset in <code>ranking.js</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Equals</th>
+<th>List</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pairs</code></td>
+<td><code>rankStandings</code></td>
+<td><code>["wins", "h2hWins", "quotient"]</code></td>
+</tr>
+<tr>
+<td><code>team-points</code></td>
+<td><code>teamRankBracket(…, 'points')</code></td>
+<td><code>["pf", "quotient", "h2hPoints", "wins"]</code></td>
+</tr>
+<tr>
+<td><code>team-games</code></td>
+<td><code>teamRankBracket(…, 'games')</code></td>
+<td>restart; <code>"wins"</code>, then <code>"3+"</code>: <code>quotient</code>, <code>tiebreakerWins</code>; then <code>2</code>: <code>h2hWins</code>, <code>h2hQuotient</code>, <code>tiebreakerWins</code></td>
+</tr>
+<tr>
+<td><code>team-games-no-h2h-quotient</code></td>
+<td><code>teamRankBracket(…, 'games', { headToHeadQuotient: false })</code></td>
+<td><code>team-games</code> without <code>h2hQuotient</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>data/registry.js</code>'s <code>eventConfigFrom</code> gains a <code>ranking</code> field, read by a new <code>rankingFrom(raw,
+eventKey)</code>:</p>
+<ol>
+<li>With a <code>ranking</code> key, it is parsed and checked: every name in the registry and available to
+   the event's type (§3.2), every <code>when</code> either <code>2</code> or <code>"3+"</code>, no nested blocks, no empty list.
+   <code>ranking</code> may also be the name of a preset (<code>"ranking": "team-games"</code>).</li>
+<li>Any error makes the whole setting fall back to the preset below, with a <code>console.warn</code> naming
+   the event and the first problem, the way <code>teamScoringFrom</code> warns now. Control Center also shows
+   it on screen, in the day prompt where it reports a missing <code>type</code>, as a warning that doesn't
+   block the event: an operator never opens the browser console. A half-applied list would rank
+   silently wrong, while the preset is at least the rule the type had before.</li>
+<li>Without a <code>ranking</code> key, the event gets its preset: <code>pairs</code> for standard and dual meet;
+   <code>team-points</code>, <code>team-games</code> or <code>team-games-no-h2h-quotient</code> from <code>teamScoring</code> and
+   <code>headToHeadQuotient</code> for a team event. <strong>The two existing settings keep working forever.</strong>
+   Millennium and Ladies' Dink are finished and never get a <code>ranking</code> key.</li>
+<li>With both <code>ranking</code> and <code>headToHeadQuotient</code>, <code>ranking</code> wins and the registry warns that
+   <code>headToHeadQuotient</code> is ignored.</li>
+</ol>
+<h3 id="37-the-module">3.7 The module<a class="headerlink" href="#37-the-module" title="Permanent link">&para;</a></h3>
+<p><code>lib/v1/domain/ranking.js</code> is a new file of pure functions with no DOM access. It imports only
+<code>domain/</code> modules (<code>standings.js</code>'s <code>headToHeadWins</code>, <code>series.js</code>, <code>teams.js</code>'s <code>sideOf</code>,
+<code>stageOf</code> and <code>teamGameRecords</code>, <code>deciders.js</code>'s <code>isDecider</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RANKING_RULES</code></td>
+<td>the registry: name → <code>{ label, appliesTo, groupDependent }</code>, labels for any text that describes a list</td>
+</tr>
+<tr>
+<td><code>RANKING_PRESETS</code></td>
+<td>the four presets of §3.6</td>
+</tr>
+<tr>
+<td><code>rankingFrom(raw, event)</code></td>
+<td>§3.6's parse, check and fallback; returns <code>{ ranking, problem }</code></td>
+</tr>
+<tr>
+<td><code>presetFor(event)</code></td>
+<td>the preset an event gets without a <code>ranking</code> key</td>
+</tr>
+<tr>
+<td><code>rankRows(rows, matches, event)</code></td>
+<td>§3.4 and §3.5 with <code>event.ranking</code> (or <code>presetFor(event)</code> when it is absent)</td>
+</tr>
+</tbody>
+</table>
+<p>It takes the <code>EventConfig</code> that <code>eventConfigFrom</code> builds, not a raw registry entry.</p>
+<h3 id="38-the-callers">3.8 The callers<a class="headerlink" href="#38-the-callers" title="Permanent link">&para;</a></h3>
+<p><code>lib/v1/</code> only allows compatible changes, and a browser may hold a module for 10 minutes, so:</p>
+<ul>
+<li><code>rankStandings(rows, matches)</code> and <code>teamRankBracket(rows, matches, scoring, options)</code> keep
+  their exports and signatures. Their bodies become <code>rankRows</code> with the matching preset, so a
+  shell or archived page that still imports them ranks as before.</li>
+<li><code>views/standings.js</code>, <code>views/teams.js</code> and <code>domain/awards.js</code> call <code>rankRows(rows,
+  model.matches, model.event)</code> from the new <code>ranking.js</code>. A new file can't be held stale by a
+  browser, so this can ship in the same push as the module. <code>rankRows</code> falls back to
+  <code>presetFor(event)</code> when <code>event.ranking</code> is missing, in case a cached <code>registry.js</code> built the
+  config.</li>
+<li><code>_tests/helpers/fixtures.mjs</code>, which mirrors <code>eventConfigFrom</code> for the harness, gains the same
+  <code>ranking</code> field.</li>
+</ul>
+<p><code>events/archives/pickledrive-anniversary-2026/</code> has its own inline copy of the points ranker. It
+is frozen with that event and is not touched.</p>
+<h2 id="4-what-does-not-change">4. What does not change<a class="headerlink" href="#4-what-does-not-change" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The workbook, its <code>SORTBYWINS</code>, the generator's seating, and who advances (§2.3).</li>
+<li><code>rankByWinsThenQuotient</code> and the playoff seats' source tags (§2.1).</li>
+<li><code>teamScoring</code>: who wins a matchup, the table's columns, the numbers source.</li>
+<li>Any visible text or layout, apart from the one corner case in D1 and a new Control Center
+  warning when a <code>ranking</code> setting is invalid. No new tie pills and no line describing the rules
+  (D3, D4).</li>
+<li><code>sage-tools-api</code>. It never reads ranking settings, and <code>facilityCompletion</code> doesn't rank.</li>
+</ul>
+<h2 id="5-worked-examples">5. Worked examples<a class="headerlink" href="#5-worked-examples" title="Permanent link">&para;</a></h2>
+<p><strong>A three-way cycle at a standard event</strong> (preset <code>pairs</code>, no restart). A, B and C are 2–1. A beat
+B, B beat C, C beat A. <code>wins</code> leaves all three level; <code>h2hWins</code> among them is 1, 1, 1, so they
+stay level; <code>quotient</code> orders them. As today.</p>
+<p><strong>Four level at a standard event</strong> (preset <code>pairs</code>). A, B, C and D are 2–2. Among the four,
+<code>h2hWins</code> is A 2, B 1, C 1, D 0 (B beat C). Without restart, B and C go to <code>quotient</code> and C may
+finish above B despite losing to B. That is today's <code>rankStandings</code>. An organiser who wants their
+direct result to count writes <code>{ "restart": true, "rules": ["wins", "h2hWins", "quotient"] }</code>.
+B and C then restart, <code>h2hWins</code> between just the two of them is B 1, C 0, and B goes above C.</p>
+<p><strong>Three level at Millennium</strong> (preset <code>team-games</code>). X, Y and Z have 2 wins each. <code>wins</code> doesn't
+split them; the <code>"3+"</code> block's <code>quotient</code> splits off X; Y and Z restart: <code>wins</code> and the <code>"3+"</code>
+block pass over them, and the <code>2</code> block ranks them by <code>h2hWins</code> between just the two. As today.</p>
+<p><strong>A new event</strong> whose organiser ranks by wins, then quotient, then head-to-head:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">"ranking"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"wins"</span><span class="p">,</span><span class="w"> </span><span class="s2">"quotient"</span><span class="p">,</span><span class="w"> </span><span class="s2">"h2hWins"</span><span class="p">]</span>
+</code></pre></div>
+<p>A commit to <code>event-data</code>, no engine change. The Hub and Control Center pick it up when they next
+read <code>events.json</code>.</p>
+<h2 id="6-parity">6. Parity<a class="headerlink" href="#6-parity" title="Permanent link">&para;</a></h2>
+<p>The presets must rank exactly as the old functions do. To prove it:</p>
+<ol>
+<li>Before changing the old functions, copy their bodies as they are into
+   <code>_tests/helpers/legacy-ranking.mjs</code>, test-only, so the comparison outlives the delegation.</li>
+<li><code>_tests/unit/domain/ranking-parity.test.mjs</code> runs both on:</li>
+<li>every fixture's standings, bracket by bracket, under every preset its type allows;</li>
+<li>generated brackets: a seeded generator of 2–6 teams with random results, level wins, missing
+     quotients, best-of-3 meetings, <code>_TB</code> games, unplayed matches. A few thousand cases per preset,
+     the seed printed on failure.
+   It asserts the same order and, for the team sources, the same <code>ties</code>.</li>
+<li>The comparison harness, baseline against branch, shows no difference on any page.</li>
+</ol>
+<p>The one known difference is D1, decided in favour of the recount. Its case is pinned by its own
+test, and the generator leaves it out of the parity comparison.</p>
+<h2 id="7-tests">7. Tests<a class="headerlink" href="#7-tests" title="Permanent link">&para;</a></h2>
+<p>In <code>_tests/unit/domain/ranking.test.mjs</code>:</p>
+<ul>
+<li>each rule's number on a small hand-built bracket, for each source it is available to;</li>
+<li>§3.4's walk: a split continues with the rest of the list; a restart goes back to the top; a
+  <code>when</code> block is skipped for the wrong size and applies once a group shrinks to the right size; an
+  unresolved group keeps its input order and is recorded in <code>ties</code> only once the round robin is
+  over;</li>
+<li>§5's four examples, as written.</li>
+</ul>
+<p>In <code>_tests/unit/data/data-modules.test.mjs</code>, beside the <code>teamScoring</code> tests: <code>rankingFrom</code> reads
+the short form, the object form and a preset name; rejects an unknown name, a rule not available
+to the type, a bad <code>when</code>, a nested block and an empty list, each falling back to the preset with
+one warning naming the event; and <code>ranking</code> overrides <code>headToHeadQuotient</code> with a warning.</p>
+<p>The existing <code>rankStandings</code> and <code>teamRankBracket</code> tests stay as they are and keep passing. They
+now exercise the presets.</p>
+<h2 id="8-build-order">8. Build order<a class="headerlink" href="#8-build-order" title="Permanent link">&para;</a></h2>
+<p><strong>Phase 1: the engine, with no visible change.</strong> <code>legacy-ranking.mjs</code> and the parity test first,
+passing against the old functions. Then <code>ranking.js</code> with the registry, the walk and the presets;
+the old functions delegate; the callers move to <code>rankRows</code>. <code>npm run verify</code> in <code>_tests/</code>, with
+the harness showing no difference. No <code>events.json</code> change. One push.</p>
+<p><strong>Phase 2: the setting.</strong> <code>rankingFrom</code> in <code>registry.js</code> and <code>fixtures.mjs</code>, the Control Center
+warning, their tests, and the documentation (§9). A later push than Phase 1, so that
+Phase 1 can be reverted on its own if the harness or an event day turns something up.</p>
+<p>An event's first use of <code>ranking</code> is part of that event's own spec and its own <code>event-data</code> commit,
+never this one.</p>
+<h2 id="9-documentation">9. Documentation<a class="headerlink" href="#9-documentation" title="Permanent link">&para;</a></h2>
+<p>When built, in the present tense:</p>
+<ul>
+<li><code>sage-docs/docs/technical/event-data-config.md</code> and <code>event-data/config/README.md</code>: the <code>ranking</code>
+  key, its forms, the rule table, the presets, and that <code>teamScoring</code> and <code>headToHeadQuotient</code>
+  pick the preset without it.</li>
+<li><code>sage-docs/docs/technical/site-engine.md</code>: <code>domain/ranking.js</code> in the module list, the walk,
+  and that <code>rankStandings</code> and <code>teamRankBracket</code> are presets.</li>
+<li><code>sage-docs/docs/features/tournament-hub.md</code> and <code>features/control-center.md</code>: each says the
+  standings follow "the event's ranking rules", giving the default order per type, rather than
+  each spelling out a fixed list.</li>
+<li><code>sage-docs/docs/specs/event-spec-template.md</code>: the <strong>[Team]</strong> line that asks for
+  <code>teamScoring</code> and <code>headToHeadQuotient</code>, and the gather-first list for every type, ask for the
+  organiser's tiebreakers as a <code>ranking</code> list. Every event type can now differ.</li>
+<li>The workspace <code>CLAUDE.md</code>'s team-event paragraph: ranking follows <code>ranking</code>, or the preset from
+  <code>teamScoring</code>.</li>
+</ul>
+<h2 id="10-decisions">10. Decisions<a class="headerlink" href="#10-decisions" title="Permanent link">&para;</a></h2>
+<p>Decided by the owner on 2026-11-12.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>Decided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td><strong>The <code>team-games</code> corner case.</strong> Four or more teams level on wins and quotient, split by <code>tiebreakerWins</code> into a group of three or more still level. The old ranker flags that group <strong>Tied · playoff</strong> at once. Under restart, <code>tiebreakerWins</code> is recomputed among just those three, which can split them.</td>
+<td><strong>Recount.</strong> The restart behaviour stands, with no <code>"stop"</code> rule. It is what "still level go back to the rules" means, and it needs a round of <code>_TB</code> games among four teams first. A test pins it (§6).</td>
+</tr>
+<tr>
+<td>D2</td>
+<td><strong>The setting's name.</strong></td>
+<td><strong><code>ranking</code>.</strong> The first rule (<code>wins</code>, <code>pf</code>) isn't a tiebreaker.</td>
+</tr>
+<tr>
+<td>D3</td>
+<td><strong>Tie pills for standard events and <code>"points"</code> team events.</strong> The engine can report unresolved ties for every source.</td>
+<td><strong>Not in this spec.</strong> It is a visible change and belongs with <a href="../hub-player-experience-spec/">Hub player experience</a>'s P13 (the colours and the ties explained).</td>
+</tr>
+<tr>
+<td>D4</td>
+<td><strong>Describe the rules on the page.</strong> <code>RANKING_RULES</code>'s labels could print "Ranked by wins, then head-to-head, then quotient" under each Standings table, from the event's own list.</td>
+<td><strong>Not in this spec</strong>, for the same reason as D3. The labels are built in Phase 1, so it is cheap later.</td>
+</tr>
+<tr>
+<td>D5</td>
+<td><strong>When to build.</strong></td>
+<td><strong>No date.</strong> The spec waits until an organiser needs rules the presets don't cover, and is built in good time before that event, never within 3 days of one. Phase 1 changes the ranking every standard event uses, so it goes in at least one event before the one that needs it, or is dry-run on that event's fixtures.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-out-of-scope">11. Out of scope<a class="headerlink" href="#11-out-of-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>The sheet's side.</strong> The generators could write the playoff feeders' sort from the same list,
+  so the sheet and the site always agree. That would mean the list reaching Apps Script and the
+  sheet formula for each rule; it is its own spec if an organiser's rules ever change who
+  advances.</li>
+<li><strong>Per-category rules.</strong> One list per event. An event whose categories rank differently would
+  need <code>ranking</code> keyed by category; nothing has needed it.</li>
+<li><strong>New rules</strong> beyond §3.2, such as points conceded, fewest losses or a coin toss. Each one is a
+  registry entry and a test, added by the event that needs it.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../lean-deploy-image-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lean deploy image">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Lean deploy image
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../archived/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.68.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
