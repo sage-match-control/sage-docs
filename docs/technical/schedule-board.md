@@ -98,6 +98,16 @@ numbers rise with time. Across venues numbered in separate ranges (1001…,
 first-numbered venue and adds any time only a later venue uses at the
 bottom.
 
+The header opens with the S.A.G.E. landscape logo in white,
+`/assets/logo-landscape-white.png` (an `<img class="bezel-logo">` in the
+shell, 34px tall, 26px collapsed or on a narrow screen), and a thin rule
+before the event title. It stays white on any event's bar colour.
+`/assets/logo-landscape.png` is the same artwork in its own navy and green;
+both are cut from `logo-landscape.jpeg` with a transparent ground and
+cropped to the artwork. The `.bezel-logo` rules are in `schedule-board.css`.
+A shell that still carries the square `logo.png` and the `.eyebrow` line
+keeps working as it did.
+
 A collapsible header (chevron, state also carried in the URL as
 `?compact=1`, composable with `?courts=` and `?venue=`) hides operator
 chrome — the venue and court filters and the PDF button — while keeping the
@@ -157,6 +167,17 @@ loop, so one court group's whole day lands on consecutive sheets, chunked
 exact` is required or the category tints — the whole point of the board —
 print blank; the "completed" dimming is forced back to full opacity on
 paper, since ink is cheap and a dimmed printed row just reads muddy.
+
+Each sheet's header starts with the logo in its own colours,
+`/assets/logo-landscape.png` (`.print-logo`, 30px), then the event title
+behind a thin rule; the right side names the venue, courts and time window,
+and the page count. The header is 46px tall, which `PRINT_SLOTS_PER_PAGE`
+allows for, so 15 slots still clear a sheet. A print snapshot does
+not wait for images, so the board loads the logo once at mount, and the
+**PDF** button waits for it (3 s at most) before opening the dialog. A
+Ctrl+P print cannot wait and uses the copy loaded at mount. The `<img>` also
+carries `height="30"`, so a sheet printed against an older cached stylesheet
+still gets a header-sized logo.
 
 ## Data & live polling
 

@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.68.0] — 2026-11-14
+
+### Changed
+
+- The schedule board carries the S.A.G.E. landscape logo, in white on its header bar and in its own colours
+  at the top of every printed sheet. **Features:** [Schedule board](features/schedule-board.md#pdf-and-paper).
+  **Technical:** [Schedule board](technical/schedule-board.md#print-pdf-export) (the two logo files, the
+  `.bezel-logo` and `.print-logo` rules, the PDF button waiting for the logo).
+
 ## [2.67.0] — 2026-11-14
 
 ### Changed

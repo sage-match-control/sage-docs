@@ -6,7 +6,8 @@
 A wall display meant for a screen at the venue, not a phone: courts as columns,
 time slots as rows, one card per match, colour-coded by category. Live matches
 get a highlighted ring; finished ones dim and show their score. It updates on
-its own, with no refreshing.
+its own, with no refreshing. The bar across the top carries the S.A.G.E. logo
+and the event's name.
 
 The board is unlisted. Nothing on [Tournament Hub](tournament-hub.md) links to
 it. An operator launches it with **Open schedule** in
@@ -55,8 +56,10 @@ choice is carried in the address too (`?compact=1`).
 
 The **PDF** button lays the board out one sheet per group of courts and opens the
 browser's print dialog. **Save as PDF** gives a file; **Print** gives paper for
-the desk, the noticeboard and each court. The category colours print. Finished
-matches print at full strength rather than dimmed.
+the desk, the noticeboard and each court. Each sheet is headed by the S.A.G.E.
+logo and the event's name, with the venue, courts and page number on the right.
+The category colours print. Finished matches print at full strength rather than
+dimmed.
 
 ## Team events
 
