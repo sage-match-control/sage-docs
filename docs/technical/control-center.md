@@ -308,6 +308,7 @@ page: everything that differs is passed in through `opts`.
 | `describe(m)` | the title, the sub-title and the two sides (`name`, `code`, `players` or `null`, and `missing`, the text for a side with no players) |
 | `readOnlyReason(m)` | a reason to open read-only, or `null` |
 | `extraWarnings(m)` | the page-specific warnings (an unneeded series game, a missing lineup) |
+| `scoringRule(m)` | optional: the event's own rule for that match, `{ to, winBy }` or `null` (`domain/scoring.js`'s `scoringRuleFor` over `EventConfig.scoring`; see [Site engine § The scoring rule](site-engine.md#the-scoring-rule)) |
 | `findMatch(facility, num)` | the page's current copy of a match, for `refresh()` |
 | `notify`, `friendlyError`, `unreachable` | outcomes as toasts, and error text in plain words |
 | `expiredText`, `resyncHint` | the sentences that differ between an operator and a scorer |

@@ -1248,6 +1248,7 @@ and `attendance.html`. Leave the event in `events.json`.
 | The category labels | "Below 45 (DUPR ≤3.25)", "Below 45 (DUPR 3.26+)", "Open", "45+ (DUPR ≤3.25)", "45+ (DUPR 3.26+)" |
 | The Hub's logo | The four-block UPAP mark (`assets/logo.jpg`), not the pubmat's fist-and-players crest |
 | Build order (asked for the same day) | The schedule board with `events.json` first, then the Tournament Hub, then everything else |
+| The game's rules (given on 15 November) | Side-out scoring to 11, no time limit. The eliminations are to 11, win by 1 (no win-by-two); the podium matches (the final and the bronze match) are to 11, win by 2, no cap. Ends switch when a team reaches 6. `events.json` carries it as `"scoring": { "to": 11, "winBy": 1, "podiumWinBy": 2 }`, which Control Center's score dialog checks scores against ([Site engine § The scoring rule](../../technical/site-engine.md#the-scoring-rule)) |
 
 First serve is the workbook's 9:00 AM; the pubmat gives no time.
 

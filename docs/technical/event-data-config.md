@@ -106,6 +106,14 @@ default).
   there is neither. It never works out who qualifies.
   Anything malformed is dropped with a console warning on the page. `sage-tools-api`
   never reads it. Control Center and the Hub read it.
+- `scoring` (optional) is the game's own rule, for the score dialog's warnings:
+  `{ "to": 11, "winBy": 1, "podiumWinBy": 2 }`. `to` is the points a game is
+  played to (default 11). `winBy` is `1` (the game ends when a side reaches
+  `to`) or `2` (from `to - 1` all, play goes on until a side leads by 2, with no
+  cap). `podiumWinBy` is the same for the final and the bronze match (default:
+  `winBy`). Without it the dialog warns as for a game to 11, win by 2. Anything
+  malformed is ignored with a console warning on the page. Control Center and
+  the scorer page read it; `sage-tools-api` never does.
 - `headToHeadQuotient` (team events with `teamScoring: "games"`, optional): `false`
   sends two teams level on wins and at 1–1 head-to-head straight to **Tied**,
   skipping the head-to-head quotient. Anything else keeps the quotient.

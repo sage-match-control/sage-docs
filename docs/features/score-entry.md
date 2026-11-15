@@ -57,6 +57,10 @@ team, the team name leads and the players sit underneath.
    is listed as a warning and never refuses the save: a tie, neither side
    reaching 11, a win by one point, a score over 21, a series game that isn't
    needed because the series is already decided, or a team match with no lineup.
+   An event whose games have their own rule (its `scoring` setting) is checked
+   against that rule instead. At UPAP, for example, games are to 11 with no
+   win-by-two, so 11–10 passes quietly and 12–10 is flagged. Its final and bronze
+   match are win by 2 with no cap, so 11–10 there is flagged and 15–13 passes.
    Pressing Enter twice in a row on the last box does not save: the second press
    is ignored for a moment after Review appears.
 

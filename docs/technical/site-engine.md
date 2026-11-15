@@ -72,7 +72,8 @@ and freeze `v1`. A finished event's shell never moves version.
 (required, never inferred), `title`, `days` (in date order, each with its
 facility names), `display` (the code-to-label maps for divisions, events and
 clubs; key order is display order), `scoreEntry`, `attendance`, `teamScoring` (a team event's rule: `"points"`, or
-`"games"` when `events.json` says so) and `playoffSeats` (a standard event's labels for empty
+`"games"` when `events.json` says so), `scoring` (the game's own rule, `{ to, winBy, podiumWinBy }`, or `null`
+without the setting; see [the scoring rule](#the-scoring-rule)) and `playoffSeats` (a standard event's labels for empty
 playoff seats, `{}` without the setting; see [the bracket chart](#the-bracket-chart)). A successful
 fetch is kept in `localStorage` (`sage.registry.lastGood`), and a failed one
 falls back to it.
@@ -196,6 +197,22 @@ schedule board's category for it is `GA`.
 On `localhost`, `?fixture=<name>` makes the Hub and the schedule board read
 `/_fixtures/` instead of the published data, as the scorer and desk pages
 do (`platform.js` `fixtureName()`; inert on the live site).
+
+## The scoring rule
+
+`domain/scoring.js` holds an event's own rule for a game, from `events.json`'s `scoring`, and the
+warnings a score gets under it. `scoringFrom(raw, eventKey)` checks the setting (`to` 1–99, default
+11; `winBy` 1 or 2; `podiumWinBy` 1 or 2, default `winBy`) and returns `null` without it, or with a
+console warning when it is malformed. `isPodiumMatch(m, type)` is true for a final or a bronze match:
+either side's code, after its category, names round `F` or `B` (`codes.js`'s `roundKeyword`, so
+`B45HMD_1`, whose category starts with B, is not one). `scoringRuleFor(m, scoring, type)` gives
+the `{ to, winBy }` one match plays to, and `scoreRuleWarnings(a, b, rule)` what is wrong with a score
+under it: under win by 1 the winner has exactly `to`; under win by 2, with no cap, the winner has `to`
+and the loser at most `to - 2`, or past that the lead is exactly 2. `views/score-dialog.js`'s
+`scoreBasicWarnings(a, b, m, rule)` uses the rule when there is one (the dialog's optional
+`scoringRule(m)`), keeping *Unusually high: over 21* and a group-stage tiebreaker's game to 5;
+without one its warnings are those of a game to 11, win by 2. Control Center and the scorer page
+pass `scoringRule`; the warnings never stop a save.
 
 ## The bracket chart
 

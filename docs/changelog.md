@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.69.0] — 2026-11-15
+
+### Added
+
+- An event's own game rule, `events.json`'s optional `scoring` (`to`, `winBy`, `podiumWinBy`), which the
+  score dialog checks a score against in Control Center and on the scorer page. Without it the warnings are
+  as before. **Features:** [Score entry](features/score-entry.md). **Technical:** [Site engine § The scoring
+  rule](technical/site-engine.md#the-scoring-rule) (`domain/scoring.js`), [Control
+  Center](technical/control-center.md) (the dialog's `scoringRule` option), [events.json](technical/event-data-config.md).
+
+### Changed
+
+- [UPAP 3rd Annual](specs/in-progress/upap-3rd-annual-tournament-spec.md) §9 records the event's rules: to 11
+  side-out, win by 1 in the eliminations, win by 2 with no cap in the final and bronze match, ends at 6.
+
 ## [2.68.0] — 2026-11-14
 
 ### Changed
