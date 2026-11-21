@@ -30,15 +30,26 @@ regular tab.
 ## Mission Control
 
 The operator-only control panel — the one part of Control Center that needs
-signing in, and the tab it opens on. From top to bottom:
+signing in, and the tab it opens on. It is a set of cards. On a phone they stack in one column, in
+the order below. On a desktop screen, **Facility sync status** sits on the left, with **Public site
+status** and **Scorer links** stacked beside it on the right, and the sign-in card, **Pages and tools**
+and **Troubleshooting** span the full width.
 
-- **Sign in** with the shared operator username/password. This exchanges your
-  password for a session token that lasts 12 hours — the password itself is
+- **Sign in** with the shared operator username/password, in the card at the top beside the day.
+  This exchanges your password for a session token that lasts 12 hours — the password itself is
   never stored anywhere. In a browser tab, closing the tab signs you out.
   Installed on a phone's home screen, Control Center stays signed in until the
   12 hours run out or you press **Sign out**, even if the phone closes the app
   in the background. The status line reads **Signed in until 3:30 PM**, with
-  the date added (**3:30 AM, Tue, Oct 6**) when the sign-in ends on a later day.
+  the date added (**3:30 AM, Tue, Oct 6**) when the sign-in ends on a later day. The note about
+  how the password is handled shows only while you are signed out.
+
+  **Other tabs in the same browser share the sign-in.** A Control Center tab opened while another
+  one is signed in picks the sign-in up from it within a second, with nothing to type; signing in
+  in one tab signs in the others that are open; and **Sign out** in one tab signs every open tab
+  in that browser out, with the message **Signed out in another tab.** in the others. Only this
+  browser profile is affected: another device, another browser or a private window stays signed
+  out until you sign in there. Closing every tab still ends a browser-tab sign-in.
 - **Facility sync status** — whether each venue's spreadsheet is syncing
   cleanly, and when it last succeeded. Each row has a **Google Sheet**
   link that opens that facility's actual Google Sheet for this event, in
@@ -58,42 +69,52 @@ signing in, and the tab it opens on. From top to bottom:
   this page is receiving scores the moment they are published, or **polling
   GitHub (push not connected)** when it is not. In the second case updates
   still arrive, just 30–60 seconds slower.
-- **Resync this day now**, right under the venues — pulls a fresh copy from
+
+  **Resync this day now**, right under the venues, pulls a fresh copy from
   the spreadsheet(s) immediately, instead of waiting for the next automatic
   sync. On a day with more than one venue, **Or resync just one facility**
-  does the same for one venue. The **Use CSV export fallback** toggle switches either
-  one to Google's CSV export, if the normal way of reading the sheet fails.
+  shows one button per venue and does the same for that venue; the buttons wrap onto more
+  than one row when they do not fit. If the normal way of reading the sheet fails, the **Use CSV
+  export fallback** switch under **Troubleshooting** switches either one to Google's CSV export.
   The result appears right below, one line per venue: **Synced**, **This
   attempt failed. Still showing its previous data**, or **Failed. Nothing
   published for it yet**, then whether it was pushed to open pages or went
   through GitHub, and how long it took.
-- **Check connection** — confirms Cloud Run is reachable and shows its
-  version. When you're signed in it adds a **Live push** line saying whether
-  Cloud Run is publishing scores to the live push service (**on**, **off**,
-  **switched off in Control Center**, or **not available** on an older
-  version). Signed out, the line asks you to sign
-  in. This is about Cloud Run's side; the **Live updates** line under Facility
-  sync status is about this page's own connection. The result appears
-  right under the button, one line each for the response time, the version,
-  which copy of the event registry Cloud Run is using, and live push.
 - **Public site status** — the kill switch for Tournament Hub's Live
   Matches/Standings (this console's own tabs are unaffected and always show
   live data, for preview). Three states: `Auto` (goes live automatically
   ~4 hours before the day's first scheduled match), `Force live`, or
   `Force hidden` — for quietly correcting a bad score before anyone sees it.
-- **Sync method** — an emergency switch between **Live push + GitHub** (the
-  normal way: scores reach open pages in a few seconds) and **GitHub only**
-  (every score goes through GitHub, so pages catch up within 30–60 seconds). Use it if live updates misbehave: pages stop updating, or
-  show stale scores. Switching to GitHub only asks you to confirm, and either
-  way it takes effect within about a minute. It shows the current method, and it
-  is hidden until you sign in. If Cloud Run has no live push configured at all,
-  it says so and there is nothing to switch.
 - **Scorer links** — for an event with score entry turned on: the switch that
   accepts or stops scorer links, and **Issue scorer link**. See [Scorer
   links](#scorer-links) below.
-- **Public pages** — launchers for the venue's schedule board and the
-  event's Tournament Hub, both opening in a new tab so the console stays
-  where it is.
+- **Pages and tools** — a row of tiles, each opening in a new tab so the console stays
+  where it is: **Open schedule** (the venue's schedule board), **Open Tournament Hub** (the
+  event's public page, as players and spectators see it right now) and **Open scoresheet
+  generator**, which opens the [Scoresheet Generator](scoresheet-generator.md) on the selected
+  day and follows the day when you change it.
+- **Troubleshooting** — closed until you open it, and this browser remembers whether you left it
+  open. It holds what you reach for when something is wrong:
+    - **Check connection** — confirms Cloud Run is reachable and shows its
+      version. When you're signed in it adds a **Live push** line saying whether
+      Cloud Run is publishing scores to the live push service (**on**, **off**,
+      **switched off in Control Center**, or **not available** on an older
+      version). Signed out, the line asks you to sign
+      in. This is about Cloud Run's side; the **Live updates** line under Facility
+      sync status is about this page's own connection. The result appears
+      right under the button, one line each for the response time, the version,
+      which copy of the event registry Cloud Run is using, and live push.
+    - **Sync method** — an emergency switch between **Live push + GitHub** (the
+      normal way: scores reach open pages in a few seconds) and **GitHub only**
+      (every score goes through GitHub, so pages catch up within 30–60 seconds). Use it if live
+      updates misbehave: pages stop updating, or
+      show stale scores. Switching to GitHub only asks you to confirm, and either
+      way it takes effect within about a minute. It shows the current method, and it
+      is hidden until you sign in. If Cloud Run has no live push configured at all,
+      it says so and there is nothing to switch.
+    - **Use CSV export fallback instead of Sheets API** — changes how the resync buttons read the
+      sheets. Turn it on only when a resync fails through the Sheets API. It is hidden until you
+      sign in.
 
 Quick outcomes, like signing in or out, switching the public site or the
 sync method, or "pick a day first", appear as a short message at the top

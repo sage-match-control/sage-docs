@@ -12,8 +12,8 @@ every venue's workbook open all day, and Control Center open beside it.
 
 1. Get the operator device on the venue's wifi. Keep the hotspot ready.
 2. Open Control Center, select the event and today's day.
-3. **Sign in** under Mission Control.
-4. Click **Check connection**. It confirms everything is reachable before a single match
+3. **Sign in** under Mission Control. A second Control Center tab in the same browser picks the sign-in up from the first.
+4. Open **Troubleshooting** in Mission Control and click **Check connection**. It confirms everything is reachable before a single match
    depends on it. Its second line should read **Live push: on**.
 5. Click **Resync this day now**. It pulls a fresh copy of the schedule and confirms
    each venue's workbook can be read. It does not prove the workbook sends its own
@@ -34,7 +34,7 @@ show it sooner, for example so players can check their schedule when they arrive
 
 ### The venue screens
 
-- Click **Open schedule** and put that on the wall display. If the day is split across
+- Click **Open schedule** (under **Pages and tools** in Mission Control) and put that on the wall display. If the day is split across
   venues, pick that venue's button in the **Venue** row first, then **bookmark** the
   page. The bookmark reopens straight to that venue. A venue with two screens can split
   the courts, one bookmark each.

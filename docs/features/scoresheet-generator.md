@@ -4,7 +4,8 @@
 
 Turns a matches CSV into a ready-to-print PDF of paper scoresheets — one per
 match. A standalone tool, no sign-in, nothing saved: your CSV goes straight
-to the generator and nothing is stored afterward.
+to the generator and nothing is stored afterward. In Control Center, Mission Control's **Open scoresheet generator** opens it on
+the console's current day.
 
 ## How it works
 

@@ -10,7 +10,7 @@ its own, with no refreshing. The bar across the top carries the S.A.G.E. logo
 and the event's name.
 
 The board is unlisted. Nothing on [Tournament Hub](tournament-hub.md) links to
-it. An operator launches it with **Open schedule** in
+it. An operator launches it with **Open schedule** under **Pages and tools** in
 [Control Center's Mission Control](control-center.md#mission-control) and puts it on
 the venue's screen.
 

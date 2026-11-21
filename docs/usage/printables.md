@@ -10,7 +10,7 @@ and the bracket images.
 ## The schedule PDF
 
 The event's **schedule page** (`/events/<event-key>/schedule`, or **Open schedule**
-in Mission Control) carries a **PDF** button. It lays the board out one sheet per
+under **Pages and tools** in Mission Control) carries a **PDF** button. It lays the board out one sheet per
 group of courts and opens the browser's print dialog.
 
 1. Open the schedule page. On a day with several venues, pick the venue first.

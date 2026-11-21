@@ -37,6 +37,23 @@ has been replaced.
 
 ---
 
+## [2.71.0] — 2026-11-21
+
+### Changed
+
+- Mission Control is a set of cards: on a desktop the sync card sits beside the public-site and scorer-link
+  cards, on a phone they stack. **Pages and tools** (was **Public pages**) gains an **Open scoresheet
+  generator** tile that opens the generator on the selected day, and **Troubleshooting**, closed until
+  opened, holds **Check connection**, **Sync method** and **Use CSV export fallback**. The sign-in hint shows
+  only while signed out. **Features:** [Control Center](features/control-center.md#mission-control),
+  [Scoresheet Generator](features/scoresheet-generator.md). **Technical:** [Control
+  Center](technical/control-center.md#narrow-screens). **Usage:** [Run the day](usage/run-the-day.md),
+  [Troubleshooting](usage/troubleshooting.md), [Register and build the
+  site](usage/register-and-build-the-site.md).
+- Control Center tabs in one browser share the operator's sign-in over a same-origin `BroadcastChannel`: a new
+  tab picks it up from an open one, and signing out in one signs the others out. **Technical:** [Control
+  Center § Shared sign-in](technical/control-center.md#shared-sign-in), [Auth](technical/auth.md).
+
 ## [2.70.0] — 2026-11-21
 
 ### Added

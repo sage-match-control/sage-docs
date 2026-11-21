@@ -96,7 +96,7 @@ Once the developer says it is done, **give it a minute**, then check:
 - [ ] The schedule board page (`/events/<event-key>/schedule`) loads.
 - [ ] For `"desks"`, `/events/<event-key>/attendance` loads. For `"links"`,
   `/events/<event-key>/scorer` loads.
-- [ ] Mission Control's **Check connection** shows the registry copy it is using.
+- [ ] Mission Control's **Troubleshooting** → **Check connection** shows the registry copy it is using.
 
 The Hub shows no scores yet. That is [step 5](connect-the-workbooks.md).
 

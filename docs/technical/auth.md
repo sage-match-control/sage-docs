@@ -14,6 +14,16 @@ HMAC-signed token (no JWT library) instead of handing back the sync secret
 directly. It expires `AUTH_TOKEN_TTL_MS` after it is issued — 12 hours, one
 tournament day, when that variable is unset.
 
+**Where the token lives.** Control Center keeps it in the browser tab's `sessionStorage` under
+`sage.authToken` (as `{ token, expiresAt }`), or in `localStorage` when the console is installed as an
+app. It is never put in a URL. Control Center tabs in the same browser share it over a same-origin
+`BroadcastChannel`, `sage.operator-session`: a tab with no sign-in asks, an open signed-in tab answers
+with `{ token, expiresAt }`, and the asking tab stores it in its own storage; signing in announces it
+to the other tabs, and signing out tells them to drop it. The channel reaches only pages of this origin
+in this browser profile, so another device, another browser or a private window is untouched, and it
+carries the token only, never the username or password. See [Control Center §
+Shared sign-in](control-center.md#shared-sign-in).
+
 The hash itself is generated **locally**, offline, via
 `node scripts/hash-password.mjs '<username>' '<password>'` — the plaintext
 credentials never touch an env var or the deployed service; only the hash

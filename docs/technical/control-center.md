@@ -531,6 +531,32 @@ spec ruled out for pages like this. The manifest alone is enough for
 no caching and changes no runtime behavior. An installed shortcut still
 needs a live connection to do anything, identical to a regular tab.
 
+## Shared sign-in
+
+Control Center tabs in one browser share the operator's sign-in
+(`lib/v1/data/operator-session.js`, `createOperatorSession`). The token itself is still held per tab
+(`authTokenStore()`: `sessionStorage`, or `localStorage` when installed as an app); the channel only
+copies it between tabs.
+
+A same-origin `BroadcastChannel`, `sage.operator-session`, carries three messages and nothing else:
+`{ type: 'ask' }`, `{ type: 'session', token, expiresAt }` and `{ type: 'signed-out' }`.
+
+- **On load**, a tab with no sign-in sends `ask`. A page that answers (Control Center: `answer: true`)
+  replies with `session` when it has an unexpired sign-in, and stays silent otherwise. The asking tab
+  stores it with `saveAuthToken` and redraws with `renderAuthStatus()`.
+- **Signing in** announces `session` to the other tabs. A tab keeps its own sign-in when it is as new or
+  newer than the announced one.
+- **Sign out** sends `signed-out`; every other tab clears its token, redraws, and shows **Signed out in
+  another tab.** An expiry is not announced: each tab finds its own.
+- A `session` message that is malformed or already expired is ignored.
+
+A `BroadcastChannel` reaches only same-origin pages in the same browser profile, so it leaks nothing a
+page of this origin could not already read from the storage it shares: another device, another browser
+and a private window never hear it. Nothing goes in a URL,
+and the username and password never cross the channel. Where `BroadcastChannel` does not exist, every
+method does nothing and each tab behaves as before. A page created with `answer: false` never answers an
+`ask`.
+
 ## Narrow screens
 
 The console gets opened on a phone at a venue, so it holds up at 375px, and
@@ -559,6 +585,18 @@ at 320px on the smallest common handsets. Three pieces carry that:
 
 - **Mission Control's status rows** wrap their detail onto its own line on
   small screens, rather than truncating the facility name.
+
+- **Mission Control is a grid of cards** (`.organizer-panel.mc-grid`, `.mc-card`). Up to 899px it is one
+  column, 480px at most and centred, in this order: the header card (day and sign-in), **Facility sync
+  status**, **Public site status**, **Scorer links**, **Pages and tools**, **Troubleshooting**. From
+  900px it is two columns (about 59% and 41%): the sync card on the left, the public-site and
+  scorer-link cards stacked in `.mc-side` on the right, and the header, **Pages and tools** and
+  **Troubleshooting** spanning both. **Troubleshooting** is a `<details>` (`#orgTroubleshooting`), closed
+  by default and remembered per browser in `localStorage` under `sage.troubleshootingOpen`; open, it is
+  three columns from 900px and stacked below. The tiles in **Pages and tools** (`#orgScheduleRow`) are
+  written by `renderScheduleLauncher()`, which runs when the event or the day changes, so the
+  **Open scoresheet generator** tile's `?day=<day key>` always names the selected day. The script
+  toggles every control by `id`, so a card can move without the script changing.
 
 Tap targets key off `@media (pointer:coarse)` rather than a width
 breakpoint, so a tablet gets them too — it is wide but still driven by a
