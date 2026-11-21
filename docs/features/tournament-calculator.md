@@ -38,15 +38,16 @@ Doubles. A preset's code is its level and its kind of doubles:
 | Intermediate | `IWD` | `IMD` | `IXD` |
 | High Intermediate | `HIWD` | `HIMD` | `HIXD` |
 | Advanced | `AWD` | `AMD` | `AXD` |
-| Open | `OWD` | `OPEN` | `OXD` |
+| Open | `OWD` | `OMD` | `OXD` |
 
-Open Men's Doubles keeps the code `OPEN`. Anything else is **Custom…**, which has
-its own code and name.
+Anything else is **Custom…**, which has its own code and name.
 
 A new category takes the first preset not yet in the plan, counting from Novice
 Women's Doubles through Open Mixed Doubles and then Beginner, so a fresh plan
 starts with `NWD`. Importing a CSV recognises a preset's code and fills in its
-name. The [Standard Tournament Generator](standard-tournament-generator.md) takes
+name. `OPEN` is not a preset code: a CSV that carries it imports as a custom
+category, and a plan the browser saved with it shows no breakdown until that
+category's preset is picked again (or **Reset** is pressed). The [Standard Tournament Generator](standard-tournament-generator.md) takes
 any code; the [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) colours a
 category's tab by its level and leaves a Beginner, Open or custom category
 without a colour.

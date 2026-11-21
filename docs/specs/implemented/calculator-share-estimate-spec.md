@@ -4,7 +4,10 @@
 > Every edit in §5 went in at its anchor, `_tests/unit/tools/tournament-calculator-share.test.mjs`
 > passes (6 tests), the site's `npm run verify` passes (673 unit tests and the comparison
 > harness), and §7's checks were made in Chromium at 1280 px and 375 px. Not yet checked: the
-> share sheet on a real phone (§7, *Phone*). No divergences from the text below.
+> share sheet on a real phone (§7, *Phone*). Built as written below, with one later change:
+> Open Men's Doubles' code is `OMD`, not `OPEN` (site `937d92b`, the owner's decision on
+> 22 November 2026, with no alias for `OPEN`). §2, §5's E5, §6 and decision D7 show the code
+> as first built.
 >
 > Written 2026-11-21 against
 > `sage-match-control.github.io/tools/tournament-calculator.html` at `c68e309`, from the

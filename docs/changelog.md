@@ -37,6 +37,22 @@ has been replaced.
 
 ---
 
+## [2.78.0] — 2026-11-22
+
+### Changed
+
+- Open Men's Doubles' code in the Tournament Calculator's presets is `OMD`, beside `OWD` and
+  `OXD`, and `OPEN` is not a preset code. **Features:**
+  [Tournament Calculator](features/tournament-calculator.md#categories) shows the code and what a
+  CSV or saved plan carrying `OPEN` does. **Technical:**
+  [Tournament Calculator](technical/tournament-calculator.md#category-presets). The
+  [share-estimate spec](specs/implemented/calculator-share-estimate-spec.md)'s status line records
+  the change.
+
+### History
+
+- Open Men's Doubles' preset code was `OPEN` until 22 November 2026 (site `937d92b`).
+
 ## [2.77.0] — 2026-11-22
 
 ### Added

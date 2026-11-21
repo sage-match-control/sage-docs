@@ -225,8 +225,11 @@ shapes with a buffer and one court, the three alert levels and the presets.
 
 `PRESETS` lists the menu in order, by level from lowest to highest with Women's,
 Men's then Mixed in each: Beginner (`BWD`, `BMD`, `BXD`) first, Open
-(`OWD`, `OPEN`, `OXD`) last, then `CUSTOM`. Open Men's Doubles keeps the code
-`OPEN` because saved plans, exported CSVs and generated workbooks already carry it.
+(`OWD`, `OMD`, `OXD`) last, then `CUSTOM`. There is no alias for `OPEN`: no
+published event used it, so `importCSVText` reads it as a custom code, and a saved
+plan that carries it makes `catName` throw (`PRESETS.find` finds nothing) in
+`recalc()`, leaving the breakdown empty until that category's preset is picked again
+or **Reset** clears the plan.
 `defaultCat` picks the first preset not in use, counting from `NWD` and wrapping
 round to `BWD`, so a fresh plan still starts from Novice while Beginner heads the
 menu. `importCSVText` turns any known non-custom code into the preset and its name,
