@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.77.0] — 2026-11-22
+
+### Added
+
+- The [Prize draw (Lucky Dink)](specs/not-started/prize-draw-spec.md) spec, not started: a raffle
+  and door-prize draw at `/tools/prize-draw`, headed **S.A.G.E. Lucky Dink**, with a **Reel** and a
+  **Pickle Jar** (up to 300 names), on the operator's screen or in a separate display window for the
+  TV. Names come from a pasted list, the day's players, who has checked in, or ticket numbers. Prizes
+  have quantities, can be drawn all at once and can be reordered at any time; **Draw again** replaces a
+  winner who isn't there; **Unlock** works before the first spin and **Edit list** after it. Each winner
+  is fixed by SHA-256 of a random draw code, the spin and the entry, so any draw can be checked. A
+  Mission Control tile opens it. Phase 2 records each winner to a `DRAWS` tab in the event's workbook
+  through two new `/v3` routes. Written for a build with no other context; its rules and Phase 2's API
+  code were dry-run against the site at `937d92b` and the API at `60f43a8`.
+
 ## [2.76.0] — 2026-11-22
 
 ### Changed

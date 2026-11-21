@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.76.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.77.0</a>'
 
 docs_dir: docs
 
@@ -166,6 +166,7 @@ nav:
           - Hub player experience: specs/not-started/hub-player-experience-spec.md
           - Lean deploy image: specs/not-started/lean-deploy-image-spec.md
           - Ranking rules: specs/not-started/ranking-rules-spec.md
+          - Prize draw (Lucky Dink): specs/not-started/prize-draw-spec.md
       - Archived:
           - Overview: specs/archived/README.md
           - Fast data delivery: specs/archived/fast-data-delivery-spec.md
