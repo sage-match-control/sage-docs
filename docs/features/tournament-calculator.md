@@ -23,6 +23,34 @@ you — total matches, court-hours needed, and a finish time.
   and a bracket count, and the calculator accounts for the cross-club
   Bronze/Final matches that format produces.
 
+## Categories
+
+Each category is picked from a menu of presets, one for every level and kind of
+doubles: **Beginner**, **Novice**, **Low Intermediate**, **Intermediate**,
+**High Intermediate**, **Advanced** and **Open**, each as Women's, Men's and Mixed
+Doubles. A preset's code is its level and its kind of doubles:
+
+| Level | Women's | Men's | Mixed |
+| --- | --- | --- | --- |
+| Beginner | `BWD` | `BMD` | `BXD` |
+| Novice | `NWD` | `NMD` | `NXD` |
+| Low Intermediate | `LIWD` | `LIMD` | `LIXD` |
+| Intermediate | `IWD` | `IMD` | `IXD` |
+| High Intermediate | `HIWD` | `HIMD` | `HIXD` |
+| Advanced | `AWD` | `AMD` | `AXD` |
+| Open | `OWD` | `OPEN` | `OXD` |
+
+Open Men's Doubles keeps the code `OPEN`. Anything else is **Custom…**, which has
+its own code and name.
+
+A new category takes the first preset not yet in the plan, counting from Novice
+Women's Doubles through Open Mixed Doubles and then Beginner, so a fresh plan
+starts with `NWD`. Importing a CSV recognises a preset's code and fills in its
+name. The [Standard Tournament Generator](standard-tournament-generator.md) takes
+any code; the [Dual Meet Sheet Generator](dual-meet-sheet-generator.md) colours a
+category's tab by its level and leaves a Beginner, Open or custom category
+without a colour.
+
 ## How the round robin is played
 
 Every standard category with a round robin has a row of three choices:
@@ -75,6 +103,37 @@ either a single or a double round robin, and with best-of-3 meetings.
 A **Breakdown** sheet exports to `.xlsx` — a full match-by-match schedule you
 can hand to whoever's running registration, or use as a starting point for
 the actual matches CSV.
+
+## Sharing the estimate
+
+Under the breakdown, the **Share the estimate** box sends the plan's finish time
+and category breakdown to someone who isn't using the calculator, such as an
+organizer, in a chat app or an email. It has two buttons, and both are disabled
+while the plan has no matches:
+
+- **Save image** — a picture (PNG) of the estimate. On a phone or tablet it opens
+  the share sheet with the picture attached, so it goes straight to Messenger,
+  Viber or Photos; if the share sheet can't take a file, the picture downloads
+  instead. On a computer it downloads, named after the tournament and its date,
+  for example `paddle-aces-the-ultimate-generation-cup-day-1-2026-11-28-estimate.png`.
+- **Copy text** — the same figures as a plain message to paste into any chat. If
+  the browser refuses the clipboard, the page says so and points to **Save image**.
+
+Both hold the tournament's title, date, start time, courts and match length (and
+the two clubs, for a dual meet); the projected finish with a verdict — *Comfortable
+one-day plan*, *Finishes after 10 PM* or *Runs past midnight*; the number of pairs,
+matches, time slots and the play time; and, for each category, its code and name,
+its format, its playoff, its matches (with the round robin and playoff split) and
+its time. A footnote states the assumptions: every court in use from the start, the
+match length, the buffer.
+
+They leave out the warnings, the category notes, the playoff charts and the round
+robin and playoff time split. Printing the page leaves the box out.
+
+A category with a twice-to-beat final or best-of-3 meetings shows a range of
+matches, such as *7–8*. The total counts those at full length, so the text says *up
+to* and the image's label reads **MATCHES, MAX**: the day ends earlier if they are
+decided sooner.
 
 ## Handing the plan to a sheet generator
 

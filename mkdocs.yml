@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.75.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.76.0</a>'
 
 docs_dir: docs
 
@@ -118,6 +118,7 @@ nav:
           - Team names on scoresheets: specs/implemented/scoresheet-team-names-spec.md
           - Calculator dual-meet fixes: specs/implemented/calculator-dual-meet-spec.md
           - Calculator PWA: specs/implemented/calculator-pwa-spec.md
+          - Calculator share and presets: specs/implemented/calculator-share-estimate-spec.md
           - Bracket Generator: specs/implemented/bracket-generator-spec.md
           - Verifiable draw: specs/implemented/bracket-generator-verifiable-draw-spec.md
           - Bracket draw name import: specs/implemented/bracket-draw-name-import-spec.md
@@ -160,7 +161,6 @@ nav:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
           - Calculator team format: specs/not-started/calculator-team-format-spec.md
-          - Calculator share and presets: specs/not-started/calculator-share-estimate-spec.md
           - Team Tournament Master: specs/not-started/team-tournament-master-spec.md
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - Hub player experience: specs/not-started/hub-player-experience-spec.md

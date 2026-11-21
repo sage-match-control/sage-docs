@@ -1,6 +1,12 @@
 # Spec — Tournament Calculator: share the estimate, and more category presets
 
-> **Status: not started.** Nothing here is built. Written 2026-11-21 against
+> **Status: implemented.** Built and live: the site's `main` at `194a95b` (22 November 2026).
+> Every edit in §5 went in at its anchor, `_tests/unit/tools/tournament-calculator-share.test.mjs`
+> passes (6 tests), the site's `npm run verify` passes (673 unit tests and the comparison
+> harness), and §7's checks were made in Chromium at 1280 px and 375 px. Not yet checked: the
+> share sheet on a real phone (§7, *Phone*). No divergences from the text below.
+>
+> Written 2026-11-21 against
 > `sage-match-control.github.io/tools/tournament-calculator.html` at `c68e309`, from the
 > owner's request to send a plan's estimate to an organiser as an image or as text, and the
 > two Paddle Aces The Ultimate Generation Cup day plans (28 and 29 November 2026) as the
@@ -50,7 +56,7 @@ site's `_tests/` folder is the only Node package (dev-only, never published). No
 - **First, check the team format isn't built.** Run
   `grep -c "isTeamFormat" tools/tournament-calculator.html` in the site repo. It must print
   `0`. If it prints anything else, the
-  [calculator team format](calculator-team-format-spec.md) has landed since this spec was
+  [calculator team format](../not-started/calculator-team-format-spec.md) has landed since this spec was
   written: **stop and ask the owner**, because the share box then needs a rule for the team
   format that this spec doesn't have.
 - **Find edits by their anchor text, not line numbers.** Every edit in §5 quotes an exact piece
@@ -1036,7 +1042,7 @@ Taken by the owner on 2026-11-21, after a mockup and samples of both outputs:
 ## 10. Out of scope
 
 - A *Copy image* button, a PDF, or sending the estimate anywhere from the page itself.
-- The team tournament format (the [calculator team format](calculator-team-format-spec.md),
+- The team tournament format (the [calculator team format](../not-started/calculator-team-format-spec.md),
   not built): whichever of the two is built second gives the share box a rule for it (§0.2).
 - Category notes, warnings or playoff charts in the image or the text.
 - Any change to the maths, the CSV or `.xlsx` formats, the generator handoff, `tools/sw.js`,
@@ -1046,5 +1052,5 @@ Taken by the owner on 2026-11-21, after a mockup and samples of both outputs:
 ---
 **Related:** [Tournament Calculator usage](../../features/tournament-calculator.md) ·
 [technical](../../technical/tournament-calculator.md) ·
-[Calculator team format](calculator-team-format-spec.md) ·
+[Calculator team format](../not-started/calculator-team-format-spec.md) ·
 [Double round robin and finals](../in-progress/double-round-robin-and-finals-spec.md)

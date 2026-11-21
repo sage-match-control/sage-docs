@@ -49,7 +49,9 @@ ways is the most common cause of an event that "looks right and does nothing".
 6. Check the **finish time** against the hours the organizer has the venue. If it is
    too late, agree a change with the organizer (courts, match length or bracket
    sizes) and make it here, not later.
-7. When the plan is right, click **Copy plan & open generator**. It puts the plan on
+7. To send the estimate to the organizer, use **Save image** or **Copy text** under the
+   breakdown. On a phone, **Save image** opens the share sheet.
+8. When the plan is right, click **Copy plan & open generator**. It puts the plan on
    your clipboard and opens the copy dialog of the master for the plan's format.
    Keep that tab open for [step 2](build-the-workbooks.md).
 

@@ -165,6 +165,12 @@ build status.
 - **[Dual-meet fixes](implemented/calculator-dual-meet-spec.md)** — the
   calculator's dual-meet-specific timing math.
 - **[PWA](implemented/calculator-pwa-spec.md)** — installable, offline setup.
+- **[Share the estimate, more presets](implemented/calculator-share-estimate-spec.md)** —
+  a **Share the estimate** box in the calculator: **Save image** draws the finish, its verdict
+  and the category breakdown as a PNG (the share sheet on a phone, a download on a computer),
+  and **Copy text** puts the same figures on the clipboard as a plain message for any chat app.
+  Also Beginner and Open Women's and Mixed Doubles presets. Built and live on the site's
+  `main`, with the two Paddle Aces day plans as its worked examples.
 
 ### Bracket Generator
 
@@ -315,12 +321,6 @@ build status.
   in the Tournament Calculator: one team competition planned in matchups, with the group stage,
   playoffs from a Round of 16 to the Bronze and Final, an optional tiebreaker game, and slots and finish time worked out from
   teams, groups and courts.
-- **[Calculator: share the estimate, more presets](not-started/calculator-share-estimate-spec.md)** —
-  a **Share the estimate** box in the Tournament Calculator: **Save image** draws the finish,
-  its verdict and the category breakdown as a PNG (the share sheet on a phone, a download on a
-  computer), and **Copy text** puts the same figures on the clipboard as a plain message for
-  any chat app. Also Beginner and Open Women's and Mixed Doubles presets. Dry-run, with the two
-  Paddle Aces day plans as its worked examples.
 - **[Team Tournament Master](not-started/team-tournament-master-spec.md)** — the
   workbook generator for team events, phased, starting from the optimised workbook.
 - **[Automated dry run](not-started/automated-dry-run-spec.md)** — idea

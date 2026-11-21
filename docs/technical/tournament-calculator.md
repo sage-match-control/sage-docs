@@ -172,6 +172,71 @@ the column is inert there. An older 11-column export imports with
 `soloFormat` defaulting to `'ttb'` (the twice-to-beat final), and the
 standard generator reads a missing column the same way.
 
+## Sharing the estimate
+
+One summary, two renderings. `buildEstimateSummary(cfg, r)` takes the page's
+`readForm()` and `calcAll()` results and returns one plain object: the title, clubs,
+date and settings line, the finish with its level and verdict, the four figures, a
+footnote and one entry per category that has matches (code, name, format, playoff,
+count, split, time). `buildEstimateText(s)` and `layoutEstimate(ctx, s, logo, draw)`
+read only that object, so the image and the message cannot disagree. The summary
+reads neither the DOM nor the page's `cats` variable (it reads `cfg.cats`), which
+is what lets the unit tests run it outside a browser. Each category's time is the
+one the table's **Total time** column computes (`catTime`), and the total counts
+every twice-to-beat final and best-of-3 meeting at full length, so a `ranged`
+summary says *up to* in the text and **MATCHES, MAX** in the image.
+
+`finishLevel(cfg, r)` returns `null` (no matches), `'bad'` (more than 15 hours
+from the start, or past midnight), `'warn'` (at or after 10 PM) or `'good'`.
+`recalc()`'s finish alert and the summary both read it, so the image's verdict and
+the page's alert are one decision.
+
+**The image is drawn on a `<canvas>`, with no library.** It is 1080 px wide,
+drawn at 2×, and as tall as its categories need. `layoutEstimate` runs twice over
+the same code: once with `draw` false to measure the height, once to paint. The
+header band, the categories' card and the page background are filled last with
+`destination-over`, behind what is already drawn, once their heights are known.
+
+**The click draws and encodes synchronously.** Safari refuses
+`navigator.share` unless it starts inside the click, so nothing between the click
+and the call may `await`. `preloadShareAssets()` therefore loads the logo and the
+fonts (`document.fonts.load`) when the page boots, and `saveEstimateImage` draws
+the canvas and encodes it with `toDataURL` (not the asynchronous `toBlob`). A font
+that has not loaded (offline on a first visit) falls back to the faces later in
+each font stack, and a logo that has not loaded leaves its tile empty. The logo is
+`/assets/logo.png`, which the service worker precaches.
+
+**A coarse pointer gets the share sheet.** When `matchMedia('(pointer:coarse)')`
+matches and `navigator.canShare({ files })` accepts the PNG, `navigator.share`
+takes it; an `AbortError` (the operator cancelled) does nothing, and any other
+failure downloads the file. Everything else downloads through `downloadFile`, an
+anchor with a `download` name built from `fileBase`, the same base the `.xlsx`
+uses. **Copy text** writes through `navigator.clipboard`, with `copyFallback`
+(`execCommand('copy')`) behind it and a message pointing at **Save image** if both
+fail. The share box has the `sharebox` class, which the print stylesheet hides.
+
+`_tests/unit/tools/tournament-calculator-share.test.mjs` pulls the summary, the
+text, `finishLevel`, `defaultCat` and the calculator's maths out of the page with
+the site harness's `extractFunction` and `extractConst`, and runs them on the two
+Paddle Aces day plans (the whole message is pinned), a dual meet, the other playoff
+shapes with a buffer and one court, the three alert levels and the presets.
+
+## Category presets
+
+`PRESETS` lists the menu in order, by level from lowest to highest with Women's,
+Men's then Mixed in each: Beginner (`BWD`, `BMD`, `BXD`) first, Open
+(`OWD`, `OPEN`, `OXD`) last, then `CUSTOM`. Open Men's Doubles keeps the code
+`OPEN` because saved plans, exported CSVs and generated workbooks already carry it.
+`defaultCat` picks the first preset not in use, counting from `NWD` and wrapping
+round to `BWD`, so a fresh plan still starts from Novice while Beginner heads the
+menu. `importCSVText` turns any known non-custom code into the preset and its name,
+so an export that carried `OWD` as a custom category imports as the preset; a plan
+saved in the browser keeps its custom category until the operator picks the preset.
+Nothing outside the calculator reads the menu: the Standard Tournament Generator takes
+any code from the plan CSV, and the Dual Meet Sheet Generator's `categoryColor_`
+gives a tab a colour only for the levels `N`, `LI`, `I`, `HI` and `A`, so a `B…` or
+`O…` category (and a custom one) has none.
+
 ## PWA (installable, offline)
 
 **The only page with offline support.** [Control
@@ -244,4 +309,4 @@ its link.
 
 ---
 **Features:** [Tournament Calculator usage](../features/tournament-calculator.md)
-**Specs:** [`calculator-dual-meet-spec.md`](../specs/implemented/calculator-dual-meet-spec.md) and [`calculator-pwa-spec.md`](../specs/implemented/calculator-pwa-spec.md).
+**Specs:** [`calculator-dual-meet-spec.md`](../specs/implemented/calculator-dual-meet-spec.md), [`calculator-pwa-spec.md`](../specs/implemented/calculator-pwa-spec.md) and [`calculator-share-estimate-spec.md`](../specs/implemented/calculator-share-estimate-spec.md).

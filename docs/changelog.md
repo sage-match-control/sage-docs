@@ -37,11 +37,24 @@ has been replaced.
 
 ---
 
+## [2.76.0] — 2026-11-22
+
+### Changed
+
+- The Tournament Calculator's **Share the estimate** box and its Beginner and Open presets are
+  built and live. **Features:** [Tournament Calculator](features/tournament-calculator.md) gains
+  **Categories** and **Sharing the estimate**. **Technical:**
+  [Tournament Calculator](technical/tournament-calculator.md) gains **Sharing the estimate** and
+  **Category presets**. **Usage:** [1. Plan it](usage/plan-the-event.md) has a step for sending the
+  estimate to the organizer.
+- The [Calculator: share the estimate, more presets](specs/implemented/calculator-share-estimate-spec.md)
+  spec moves from not started to implemented (site `194a95b`).
+
 ## [2.75.0] — 2026-11-21
 
 ### Added
 
-- The [Calculator: share the estimate, more presets](specs/not-started/calculator-share-estimate-spec.md)
+- The [Calculator: share the estimate, more presets](specs/implemented/calculator-share-estimate-spec.md)
   spec, not started: a **Share the estimate** box in the Tournament Calculator, with **Save image**
   and **Copy text** built from one summary of the plan, and Beginner and Open Women's and Mixed
   Doubles presets. Written for a build with no other context and dry-run against the site at

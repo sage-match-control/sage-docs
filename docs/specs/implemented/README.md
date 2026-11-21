@@ -28,6 +28,7 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Calculator dual-meet fixes](calculator-dual-meet-spec.md) | "Pairs per club" and the dual bracket default |
 | [Bracket Generator keep-apart groups](bracket-generator-keep-apart-spec.md) | `tools/bracket-generator.html`'s keep-apart groups: chosen pairs dealt into different brackets, still verifiable from the seed |
 | [Calculator PWA](calculator-pwa-spec.md) | `tools/sw.js` + `tournament-calculator.webmanifest` |
+| [Calculator: share the estimate, more presets](calculator-share-estimate-spec.md) | The calculator's **Share the estimate** box (`buildEstimateSummary`, the canvas image, the text) and its Beginner and Open presets |
 | [Bracket Generator](bracket-generator-spec.md) | `tools/bracket-generator.html` |
 | [Verifiable draw](bracket-generator-verifiable-draw-spec.md) | Its seed, SHA-256 fingerprint draw, and *How it works* dialog |
 | [Bracket draw name import](bracket-draw-name-import-spec.md) | `SAGE → Import bracket draws`, the `Open Bracket Generator` menu route, and a dual meet's `Shuffle roster codes` |
