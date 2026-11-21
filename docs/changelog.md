@@ -39,6 +39,20 @@ has been replaced.
 
 ## [2.71.0] — 2026-11-21
 
+### Added
+
+- Attendance marks in Control Center: for an event with attendance, signed in, a player not checked in yet is
+  greyed with an amber ring in Match Finder, Live Matches and Standings, an unplayed match says **N not in**, and
+  each venue's card in Live Matches says **Still to check in N**. **Features:** [Control
+  Center](features/control-center.md#who-is-not-in-yet), [Event attendance](features/event-attendance.md).
+  **Technical:** [Control Center § Attendance marks](technical/control-center.md#attendance-marks), [Site
+  engine](technical/site-engine.md#extension-points) (`markPlayer`, `matchNote`). **Usage:** [Run the
+  day](usage/run-the-day.md).
+- The schedule board's staff view, `?staff=1`: the same marks and a **Staff view · attendance** badge, only in a
+  browser with a signed-in Control Center tab open, and never printed. Control Center's **Pages and tools** gains
+  **Open schedule (staff view)**. **Features:** [Schedule board](features/schedule-board.md#staff-view).
+  **Technical:** [Schedule board](technical/schedule-board.md#staff-view).
+
 ### Changed
 
 - Mission Control is a set of cards: on a desktop the sync card sits beside the public-site and scorer-link
@@ -53,22 +67,14 @@ has been replaced.
 - Control Center tabs in one browser share the operator's sign-in over a same-origin `BroadcastChannel`: a new
   tab picks it up from an open one, and signing out in one signs the others out. **Technical:** [Control
   Center § Shared sign-in](technical/control-center.md#shared-sign-in), [Auth](technical/auth.md).
-
-### Added
-
-- Attendance marks in Control Center: for an event with attendance, signed in, a player not checked in yet is
-  greyed with an amber ring in Match Finder, Live Matches and Standings, an unplayed match says **N not in**, and
-  each venue's card in Live Matches says **Still to check in N**. **Features:** [Control
-  Center](features/control-center.md#who-is-not-in-yet), [Event attendance](features/event-attendance.md).
-  **Technical:** [Control Center § Attendance marks](technical/control-center.md#attendance-marks), [Site
-  engine](technical/site-engine.md#extension-points) (`markPlayer`, `matchNote`). **Usage:** [Run the
-  day](usage/run-the-day.md).
+- The [Mission Control layout spec](specs/in-progress/mission-control-layout-spec.md) moves from not started to
+  in progress, with a Divergences section.
 
 ## [2.70.0] — 2026-11-21
 
 ### Added
 
-- [Mission Control layout, shared sign-in and attendance marks](specs/not-started/mission-control-layout-spec.md),
+- [Mission Control layout, shared sign-in and attendance marks](specs/in-progress/mission-control-layout-spec.md),
   a build spec in three phases: Mission Control as cards that use a desktop's width, with the Scoresheet
   Generator a click away and the sign-in shared between a browser's open tabs; marks on players not checked
   in yet in Match Finder, Live Matches and Standings; and the same marks in a staff view of the schedule

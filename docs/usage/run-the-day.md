@@ -122,7 +122,8 @@ overwriting it.
   **2 minutes** gets the same.
 - **Who is not in yet** (an event with attendance). Players not yet checked in are greyed with an amber dot in
   Match Finder, Live Matches and Standings, an unplayed match says **N not in**, and each venue's card in Live
-  Matches says **Still to check in N**. Use it to chase the people a match is waiting on.
+  Matches says **Still to check in N**. Use it to chase the people a match is waiting on. The operator laptop can also open **Open schedule (staff
+  view)** under **Pages and tools**, the board with the same marks. Never put that one on a venue screen.
 - **A bad score that needs a quiet fix.** Set **Public site status** to **Force hidden**,
   correct the sheet, resync, then set it back to **Auto**. This hides the Hub only.
   Control Center keeps showing everything, so you can verify the fix first.

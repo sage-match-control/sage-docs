@@ -52,6 +52,29 @@ needs every pixel. It hides the venue and court filters and the **PDF** button
 and keeps the colour legend, since a viewer needs that to read the board. The
 choice is carried in the address too (`?compact=1`).
 
+## Staff view
+
+For an event with [attendance](event-attendance.md), the board has a **staff view** that shows who has not
+checked in yet. It is for the operator's own laptop, never a venue screen.
+
+- **How to open it.** Sign in to [Control Center](control-center.md#mission-control), and under **Pages and
+  tools** press **Open schedule (staff view)** (it shows only when you are signed in and the event has
+  attendance). It opens the board with `?staff=1`.
+- **What it shows.** A bold **Staff view · attendance** badge at the start of the header bar the whole time, a
+  greyed name with a small hollow amber dot for each player who is on the attendance list, has not withdrawn and
+  is not in at any venue, and an **N not in** tag in the top line of each match still to be played. A finished
+  match, and a series game that will never be played, show nothing. A team event's board has no marks.
+- **What it needs.** The board gets the sign-in from a Control Center tab that is open and signed in, in the
+  same browser. It keeps it in memory only and never in the address, and it drops it when you sign out there,
+  or when the sign-in expires. Closing the Control Center tab does not end the staff view until the sign-in
+  does, but a board opened after every Control Center tab is closed has nothing to ask.
+- **No sign-in, no change.** `?staff=1` on any other device or browser, or with no Control Center tab open, or when
+  the attendance list cannot be read, shows the ordinary public board with nothing added: no notice, no badge.
+  The badge appears when the first list has loaded.
+- **Never printed.** The **PDF** button and printed sheets are exactly as they are without the staff view.
+- **Not remembered.** The board without `?staff=1` is always the public board. Changing the court or venue filter
+  keeps `?staff=1` in the address, so a refresh stays in the staff view.
+
 ## PDF and paper
 
 The **PDF** button lays the board out one sheet per group of courts and opens the

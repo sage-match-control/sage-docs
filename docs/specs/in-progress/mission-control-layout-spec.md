@@ -1,10 +1,13 @@
 # Spec — Mission Control layout, shared sign-in, and attendance marks
 
-> **Status: not started.** Written 2026-11-21 against the site's `main` that day
+> **Status: in progress.** Written 2026-11-21 against the site's `main` that day
 > (`tools/control-center.html`, `lib/v1/`, `_tests/`) and `sage-tools-api` 3.8.0, and agreed with the
 > owner from two mockups. Three phases, **all three to merge before the UPAP 3rd Annual (22 November
-> 2026)** by the owner's decision (§1 D11). **Every decision is settled (§1).** There are no open
-> questions: do not stop to ask about anything §1 covers.
+> 2026)** by the owner's decision (§1 D11). **Built on 2026-11-21, all three phases, on the
+> `mission-control-layout` branch of the site repo (one commit per phase, each passing `npm run verify`),
+> of `sage-docs` and of the workspace repo; not pushed or merged.** The owner's checks (§15.2) and the merge are
+> left. See the [Divergences](#divergences) at the end for where the build departs from the text below.
+> Every decision is settled (§1).
 
 - **Phase 1:** Mission Control rearranged into cards that use a desktop screen's width, with a link
   to the Scoresheet Generator; and the operator's sign-in shared between the browser's open Control
@@ -1353,3 +1356,41 @@ the values in §4 or §11.3 or could not do.
 | Marks in the bracket chart and full tree | The owner chose the list view only (D16) |
 | Marks in team events' views | `views/teams.js` is a separate path; not needed for UPAP (D18) |
 | Reusing the Attendance tab's list as the source | It exists only while that tab is open; the marks are needed on the other tabs |
+
+---
+
+## Divergences
+
+Where the built code departs from the text above, and what the build could not check. The intent of each
+section stands.
+
+1. **§10 item 3, `attMarksChanged()` redraws Match Finder whichever tab is showing.** The text redraws it only
+   while Match Finder is the tab on screen. A day loads while Mission Control is showing, and Match Finder's list is
+   drawn once then and lives on while its tab is hidden, so a list drawn before the first people read arrived
+   stayed unmarked until something else redrew it (the harness's `finder` view showed no marks). Live Matches and
+   Standings are drawn each time their tab opens, so they are redrawn only when on screen, as written.
+2. **§9.3 item 4, `stageTablesHTML` has two `pairCell` calls, not three.** The Round Robin table has one in each of
+   its two layouts (§0.4 says "both table layouts"); both pass `{ markPlayer }`.
+3. **§11.2 item 4, a team event's staff view marks nothing.** The text leaves `teamSideNamesHTML` unchanged (D18) but
+   would still count and tag a team card. The `N not in` tag is left off team cards too, so a team card is never
+   half marked.
+4. **§11.2 items 6 to 8, one `staffSession` function.** The expiry timer is set in a `staffSession(s)` that both the
+   channel's `onSession` and the fixture call, clears a previous timer and is cleared by `staffStop`; in fixture mode
+   the board takes the fixture sign-in and does not also ask the channel.
+5. **§12.2 item 4, the board's `staff` and `staff-print` cases** pass the `operatorSession` and `cloudRun` through a
+   fourth element of the view tuple. `staff-print` and `staff-no-session` match the baseline exactly, as required.
+6. **§14 checks not done as written.**
+   - **§14.2 item 4 (sign out removes every mark)** was not shown in the browser: with `?fixture=` Control Center counts as
+     signed in whatever the token (`attConsoleSignedIn()` is `!!FIXTURE || …`), so the fixture keeps its marks.
+     `attStatusRestart()` runs from `renderAuthStatus()` whenever the signed-in state changes, which is what removes them.
+   - **§14.2 item 2 (marks on Live Matches rows)**: the fixture's `pre` state has no match on a court. The rows and
+     chips were checked in the harness's `live` views (`mid`), and the venue line in the fixture.
+   - **§14.1 item 6**: the Scoresheet Generator reads the real `events.json`, which has no fixture event's day, so the
+     `?day=` link was checked with a real day key (`piggleball-day1`) and the tile's `href` against the fixture's.
+   - **§14.3 item 2 (a board in a new tab against the real API)** was not run: it would call the production API, which this
+     build was told not to. A board with no sign-in staying the public board is the harness's `staff-no-session` case.
+     The sign-out and sign-in messages, the expiry timer path and the filters keeping `?staff=1` were checked on a throw-away
+     board page for the fixture event (untracked, `*beta*`).
+7. **§4 and §11.3 values are as written.** On a phone the board's `N not in` tag wraps to a line of its own in the
+   card's top line (that line already wraps on a narrow screen), which adds a line of height to an unplayed card there.
+   The harness's screenshots show it; nothing was changed.

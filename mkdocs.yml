@@ -155,6 +155,7 @@ nav:
           - Double and best-of-3 round robin, finals: specs/in-progress/double-round-robin-and-finals-spec.md
           - UPAP 3rd Annual Tournament: specs/in-progress/upap-3rd-annual-tournament-spec.md
           - Court Control from Control Center: specs/in-progress/control-center-court-control-spec.md
+          - Mission Control and attendance marks: specs/in-progress/mission-control-layout-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
@@ -164,7 +165,6 @@ nav:
           - Hub player experience: specs/not-started/hub-player-experience-spec.md
           - Lean deploy image: specs/not-started/lean-deploy-image-spec.md
           - Ranking rules: specs/not-started/ranking-rules-spec.md
-          - Mission Control and attendance marks: specs/not-started/mission-control-layout-spec.md
       - Archived:
           - Overview: specs/archived/README.md
           - Fast data delivery: specs/archived/fast-data-delivery-spec.md

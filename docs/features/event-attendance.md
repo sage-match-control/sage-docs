@@ -95,7 +95,8 @@ A new workbook's tab has no `markedBy` header until the first mark claims a colu
 The Attendance tab is not the only place the list shows. In [Control
 Center](control-center.md#who-is-not-in-yet), a signed-in operator sees a mark on every player who is not
 checked in yet, in Match Finder, Live Matches and Standings, a count on each match, and a **Still to
-check in** count on each venue's card in Live Matches.
+check in** count on each venue's card in Live Matches. The [schedule board](schedule-board.md#staff-view)
+has a staff view that shows the same marks, for the operator's own browser only.
 
 ## Control Center extras
 

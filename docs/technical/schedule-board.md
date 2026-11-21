@@ -109,9 +109,34 @@ A shell that still carries the square `logo.png` and the `.eyebrow` line
 keeps working as it did.
 
 A collapsible header (chevron, state also carried in the URL as
-`?compact=1`, composable with `?courts=` and `?venue=`) hides operator
+`?compact=1`, composable with `?courts=`, `?venue=` and `?staff=1`) hides operator
 chrome — the venue and court filters and the PDF button — while keeping the
 color legend, since a viewer still needs that to read the board at all.
+
+## Staff view
+
+The staff view is the URL parameter `?staff=1`. `mountScheduleBoard` reads it itself (it takes no new setting, since it rejects unknown ones), beside
+`?courts=`, `?venue=` and `?compact=`; `syncUrl()` keeps it in the address when the filters rewrite it.
+Without a sign-in the board is the public board, byte for byte.
+
+- **Sign-in.** The board creates an operator-session channel with `answer: false`
+  (`data/operator-session.js`, [Control Center § Shared sign-in](control-center.md#shared-sign-in)) and asks
+  once. A Control Center tab that is open and signed in answers with `{ token, expiresAt }`. The board keeps the token in
+  memory only (never in storage or the address), never answers another page's ask, drops it on a
+  `signed-out` message, and stops at `expiresAt`. Another device or browser has no tab to ask, so it stays public.
+- **Data.** `data/attendance-status.js` (`createAttendanceStatus`, the reader Control Center uses too) reads every
+  facility's attendance list of the snapshot's day with the token and re-reads on a nudge, on coming back into view
+  and on a reconnect. The facilities come from `SNAPSHOT.facilities`, so the reader starts when the first snapshot
+  has loaded. A refused or failed read leaves `index()` empty, and nothing is added to the board.
+- **Marks.** `gridHTML(shown, rows, staff)` passes the index to `cellHTML(m, staff)`. A match still to be played
+  (not done and not `notNeeded`) of a standard or dual-meet event gets `att-not-in` on the names the roster
+  says are not in (`isNotIn`, with `domain/attendance-marks.js`'s key) and, in its top line, a `.cell-notin` tag
+  counting the different players. A team event's cards get nothing. The badge (`#staffBadge`) is added to the
+  header bar with the first list that loads, and the bar gets `staff-view`.
+- **Never printed.** `buildPrintPages()` calls `gridHTML` without the index, and the staff rules in `schedule-board.css`
+  are switched off under `@media print`, so the sheets are as before.
+- **Fixtures.** On localhost, `?fixture=<name>` with `?staff=1` needs no Control Center tab: the board takes a
+  fixture sign-in and the reader reads the fixture's attendance CSVs.
 
 ## Category colors come from the workbook, not invented
 

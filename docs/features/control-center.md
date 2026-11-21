@@ -92,7 +92,9 @@ and **Troubleshooting** span the full width.
   where it is: **Open schedule** (the venue's schedule board), **Open Tournament Hub** (the
   event's public page, as players and spectators see it right now) and **Open scoresheet
   generator**, which opens the [Scoresheet Generator](scoresheet-generator.md) on the selected
-  day and follows the day when you change it.
+  day and follows the day when you change it. For an event with attendance, when you are signed in, a fourth
+  tile, **Open schedule (staff view)**, opens the board with who is not in yet marked: see the schedule board's
+  [staff view](schedule-board.md#staff-view).
 - **Troubleshooting** — closed until you open it, and this browser remembers whether you left it
   open. It holds what you reach for when something is wrong:
     - **Check connection** — confirms Cloud Run is reachable and shows its
@@ -286,7 +288,8 @@ one, and a name that is not on the list (**TBD**, **BYE**, a misspelling) show n
 still to be played is marked, and a series game that will never be played is not. An unplayed match with
 anyone not in ends its line with a chip, **2 not in**, counting the different players. Ticking someone in
 on the Attendance tab, or on a desk page, clears their marks within a few seconds, and signing out removes
-every mark. The Tournament Hub never shows them. A team event's Match Finder has no marks.
+every mark. The Tournament Hub never shows them, and the [schedule board](schedule-board.md#staff-view) has the same
+marks only in its staff view. A team event's Match Finder has no marks.
 
 ### Entering a score
 

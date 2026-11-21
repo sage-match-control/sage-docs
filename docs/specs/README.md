@@ -297,6 +297,15 @@ build status.
   the same write-then-publish path as score entry. Built and live (`sage-tools-api` 3.8.0, the
   site and the docs); the owner's checks on workbook copies are left.
 
+- **[Mission Control layout, shared sign-in and attendance marks](in-progress/mission-control-layout-spec.md)**
+  — three phases. Mission Control as cards (two columns on a desktop, the emergency controls
+  folded into Troubleshooting, a Pages and tools row that adds the Scoresheet Generator), and the
+  sign-in shared between a browser's open Control Center tabs. Then a mark on every player not
+  checked in yet, in Match Finder, Live Matches and Standings, with counts per match and per
+  venue. Then the same marks on the schedule board, in a staff view only a browser with a
+  signed-in Control Center tab can see.
+  Built on the `mission-control-layout` branches, all three phases, each passing `npm run verify`; the owner's checks and the merge are left.
+
 ---
 
 ## Not started
@@ -336,14 +345,6 @@ build status.
   of named rules in `events.json`, so a new organiser's tiebreakers are config rather than an
   engine change. Today's three rankers become presets that every existing event keeps. No build
   date: it waits for an organiser who needs it.
-- **[Mission Control layout, shared sign-in and attendance marks](not-started/mission-control-layout-spec.md)**
-  — three phases. Mission Control as cards (two columns on a desktop, the emergency controls
-  folded into Troubleshooting, a Pages and tools row that adds the Scoresheet Generator), and the
-  sign-in shared between a browser's open Control Center tabs. Then a mark on every player not
-  checked in yet, in Match Finder, Live Matches and Standings, with counts per match and per
-  venue. Then the same marks on the schedule board, in a staff view only a browser with a
-  signed-in Control Center tab can see.
-
 
 ---
 

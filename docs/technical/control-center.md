@@ -549,6 +549,8 @@ A same-origin `BroadcastChannel`, `sage.operator-session`, carries three message
 - **Sign out** sends `signed-out`; every other tab clears its token, redraws, and shows **Signed out in
   another tab.** An expiry is not announced: each tab finds its own.
 - A `session` message that is malformed or already expired is ignored.
+- The [schedule board's staff view](schedule-board.md#staff-view) uses the same channel with `answer: false`:
+  it asks, keeps what it is given in memory, and never answers. Control Center is the only page that answers.
 
 A `BroadcastChannel` reaches only same-origin pages in the same browser profile, so it leaks nothing a
 page of this origin could not already read from the storage it shares: another device, another browser

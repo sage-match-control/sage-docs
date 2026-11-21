@@ -21,7 +21,8 @@ app. It is never put in a URL. Control Center tabs in the same browser share it 
 with `{ token, expiresAt }`, and the asking tab stores it in its own storage; signing in announces it
 to the other tabs, and signing out tells them to drop it. The channel reaches only pages of this origin
 in this browser profile, so another device, another browser or a private window is untouched, and it
-carries the token only, never the username or password. See [Control Center §
+carries the token only, never the username or password. The schedule board's staff view asks over the same channel
+and holds the answer in memory only, never in storage or a URL, and never answers another page. See [Control Center §
 Shared sign-in](control-center.md#shared-sign-in).
 
 The hash itself is generated **locally**, offline, via
