@@ -37,6 +37,16 @@ has been replaced.
 
 ---
 
+## [2.70.0] — 2026-11-21
+
+### Added
+
+- [Mission Control layout, shared sign-in and attendance marks](specs/not-started/mission-control-layout-spec.md),
+  a build spec in three phases: Mission Control as cards that use a desktop's width, with the Scoresheet
+  Generator a click away and the sign-in shared between a browser's open tabs; marks on players not checked
+  in yet in Match Finder, Live Matches and Standings; and the same marks in a staff view of the schedule
+  board.
+
 ## [2.69.0] — 2026-11-15
 
 ### Added
