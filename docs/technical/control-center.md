@@ -632,6 +632,11 @@ at 320px on the smallest common handsets. Three pieces carry that:
   written by `renderScheduleLauncher()`, which runs when the event or the day changes, so the
   **Open scoresheet generator** tile's `?day=<day key>` always names the selected day. The script
   toggles every control by `id`, so a card can move without the script changing.
+  A card's explanation is a `.mc-tip` (`role="tooltip"`) beside an `.mc-info` button in its title row
+  (`.mc-label-row`, or the CSV switch's row), named by the button's `aria-describedby`. It shows on hover only where
+  the device can hover (`@media (hover:hover)`), on keyboard focus, and while its `.mc-info-wrap` has `open`, which a
+  tap toggles (one open at a time; a tap elsewhere or Escape closes it). It opens under the title row, as wide as
+  the row, so it never runs off a phone's screen. The sign-in note stays as text: it is read before typing a password.
 
 Tap targets key off `@media (pointer:coarse)` rather than a width
 breakpoint, so a tablet gets them too — it is wide but still driven by a

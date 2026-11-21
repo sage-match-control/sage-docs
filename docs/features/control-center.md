@@ -33,7 +33,9 @@ The operator-only control panel — the one part of Control Center that needs
 signing in, and the tab it opens on. It is a set of cards. On a phone they stack in one column, in
 the order below. On a desktop screen, **Facility sync status** sits on the left, with **Public site
 status** and **Scorer links** stacked beside it on the right, and the sign-in card, **Pages and tools**
-and **Troubleshooting** span the full width.
+and **Troubleshooting** span the full width. A card's explanation sits behind the **i** beside its title
+(**Public site status**, **Scorer links**, and in Troubleshooting **Sync method** and the CSV fallback): hover over
+it, or reach it with the keyboard, on a computer; tap it on a phone, and tap anywhere else to close it.
 
 - **Sign in** with the shared operator username/password, in the card at the top beside the day.
   This exchanges your password for a session token that lasts 12 hours — the password itself is

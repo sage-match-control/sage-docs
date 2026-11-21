@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.72.0] — 2026-11-21
+
+### Changed
+
+- Mission Control's explanations under **Public site status**, **Scorer links**, **Sync method** and the CSV
+  fallback sit behind an **i** beside each title, shown on hover, keyboard focus or a tap. **Features:**
+  [Control Center](features/control-center.md#mission-control). **Technical:** [Control
+  Center](technical/control-center.md#narrow-screens).
+
 ## [2.71.0] — 2026-11-21
 
 ### Added
