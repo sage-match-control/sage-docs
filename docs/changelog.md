@@ -37,6 +37,16 @@ has been replaced.
 
 ---
 
+## [2.75.0] — 2026-11-21
+
+### Added
+
+- The [Calculator: share the estimate, more presets](specs/not-started/calculator-share-estimate-spec.md)
+  spec, not started: a **Share the estimate** box in the Tournament Calculator, with **Save image**
+  and **Copy text** built from one summary of the plan, and Beginner and Open Women's and Mixed
+  Doubles presets. Written for a build with no other context and dry-run against the site at
+  `c68e309`.
+
 ## [2.74.0] — 2026-11-21
 
 ### Changed
