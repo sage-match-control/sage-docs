@@ -91,12 +91,12 @@ it, or reach it with the keyboard, on a computer; tap it on a phone, and tap any
   accepts or stops scorer links, and **Issue scorer link**. See [Scorer
   links](#scorer-links) below.
 - **Pages and tools** — a row of tiles, each opening in a new tab so the console stays
-  where it is: **Open schedule** (the venue's schedule board), **Open Tournament Hub** (the
-  event's public page, as players and spectators see it right now) and **Open scoresheet
-  generator**, which opens the [Scoresheet Generator](scoresheet-generator.md) on the selected
-  day and follows the day when you change it. For an event with attendance, when you are signed in, a fourth
-  tile, **Open schedule (staff view)**, opens the board with who is not in yet marked: see the schedule board's
-  [staff view](schedule-board.md#staff-view).
+  where it is: **Open schedule** (the venue's schedule board); for an event with attendance, when you are
+  signed in, **Open schedule (staff view)**, the same board with who is not in yet marked (see the schedule
+  board's [staff view](schedule-board.md#staff-view)); **Open Tournament Hub** (the event's public page, as
+  players and spectators see it right now); and **Open scoresheet generator**, which opens the [Scoresheet
+  Generator](scoresheet-generator.md) on the selected day and follows the day when you change it. On a
+  desktop they share one row, three or four of them; on a phone they stack.
 - **Troubleshooting** — closed until you open it, and this browser remembers whether you left it
   open. It holds what you reach for when something is wrong:
     - **Check connection** — confirms Cloud Run is reachable and shows its

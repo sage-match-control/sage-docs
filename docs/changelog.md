@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.73.0] — 2026-11-21
+
+### Changed
+
+- Mission Control's **Pages and tools** tiles share one row on a desktop, three or four of them, and **Open
+  schedule (staff view)** sits next to **Open schedule**. **Features:** [Control
+  Center](features/control-center.md#mission-control). **Technical:** [Control
+  Center](technical/control-center.md#narrow-screens).
+
 ## [2.72.0] — 2026-11-21
 
 ### Changed
