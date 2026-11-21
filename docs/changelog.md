@@ -54,6 +54,16 @@ has been replaced.
   tab picks it up from an open one, and signing out in one signs the others out. **Technical:** [Control
   Center § Shared sign-in](technical/control-center.md#shared-sign-in), [Auth](technical/auth.md).
 
+### Added
+
+- Attendance marks in Control Center: for an event with attendance, signed in, a player not checked in yet is
+  greyed with an amber ring in Match Finder, Live Matches and Standings, an unplayed match says **N not in**, and
+  each venue's card in Live Matches says **Still to check in N**. **Features:** [Control
+  Center](features/control-center.md#who-is-not-in-yet), [Event attendance](features/event-attendance.md).
+  **Technical:** [Control Center § Attendance marks](technical/control-center.md#attendance-marks), [Site
+  engine](technical/site-engine.md#extension-points) (`markPlayer`, `matchNote`). **Usage:** [Run the
+  day](usage/run-the-day.md).
+
 ## [2.70.0] — 2026-11-21
 
 ### Added

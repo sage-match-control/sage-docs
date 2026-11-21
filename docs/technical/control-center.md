@@ -557,6 +557,39 @@ and the username and password never cross the channel. Where `BroadcastChannel` 
 method does nothing and each tab behaves as before. A page created with `answer: false` never answers an
 `ask`.
 
+## Attendance marks
+
+In an event with `attendance` and a sign-in (or a local fixture), Match Finder, Live Matches and Standings mark
+the players who are not checked in yet. Nothing in `views/` or `domain/` names the feature: the views
+take two neutral hooks, and the attendance words live here, in `data/` and in `domain/attendance-marks.js`.
+
+- **The key.** A person on the roster is identified by the server's `personKey` (the `key` of each `Person`
+  from `GET /v3/days/{day}/facilities/{facility}/people`): the name with accents removed, spacing collapsed
+  and case ignored. The site keeps its own copy, `attendanceKey`, in `lib/v1/domain/attendance-marks.js`,
+  because it matches the names a match shows against the roster and never reads a key from the schedule.
+  `_tests/unit/parity-person-key.test.mjs` runs both on the same names, every player in the harness
+  snapshots among them, and fails if they ever differ. Matching is by name, not team code: a playoff row
+  carries a seat code (`HIMD_QF_1`) the roster never has.
+- **The reader.** `lib/v1/data/attendance-status.js` (`createAttendanceStatus`) reads every facility's list
+  of the selected day when the day is picked (signed in), one facility again on each attendance nudge
+  (`attendance-signal.js`), and everything again when the page comes back into view or the socket
+  reconnects. Nothing polls. A failed read keeps that facility's last list and says nothing (the Attendance
+  tab is where errors show). It keeps its own copy of `fetchPeople` (`views/` may not be imported by `data/`),
+  and reads `_fixtures/<event>/attendance-<facility>-<fixture>.csv` for `?fixture=`. The page keeps one reader
+  (`ATT_STATUS`) and restarts it on a day or event change and when the sign-in changes.
+- **The rules.** `domain/attendance-marks.js` builds one lookup for the day (`attendanceIndex`: present at any
+  venue is present; withdrawn only when withdrawn at every venue it is on), and `isNotIn`,
+  `matchNotInCount` and `facilityNotInCount` answer from it. A name not on the roster is never marked.
+- **The view hooks.** `markPlayer(name, match)` adds a class to a name; `matchNote(match)` adds html after a
+  Live Matches row's category and round. They are options of `ticketHTML`, `renderLiveMatches` and
+  `createStandings`, and without them every view returns what it did before. The Hub never passes them.
+  Control Center's `attMarkPlayer` returns `att-not-in` only for an unplayed match that is not a series game
+  never played; `css/ticket.css` draws the grey name and the amber ring, and `.att-not-in-chip` is the count.
+- **What redraws.** `attMarksChanged()` redraws Match Finder, Live Matches or Standings, whichever is on
+  screen, after any list changes what the lookup answers; signing out restarts the reader, which removes every mark
+  at once. A team event's Match Finder, rows and Standings (`views/teams.js`) get no name marks; its venue
+  cards still read **Still to check in**.
+
 ## Narrow screens
 
 The console gets opened on a phone at a venue, so it holds up at 375px, and

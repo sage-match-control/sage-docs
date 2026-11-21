@@ -277,6 +277,17 @@ Control Center's search also takes a **match number**: type `42` or `#42`
 to see just that match (for a team event, its matchup card narrowed to that
 match). A number that isn't on the day says so.
 
+### Who is not in yet
+
+For an event with [attendance](event-attendance.md) turned on, a signed-in operator sees who has not
+checked in. A player who is on the day's attendance list, has not withdrawn and is not yet in at any
+venue shows greyed, with a small hollow amber dot before their name. A checked-in player, a withdrawn
+one, and a name that is not on the list (**TBD**, **BYE**, a misspelling) show nothing. Only a match
+still to be played is marked, and a series game that will never be played is not. An unplayed match with
+anyone not in ends its line with a chip, **2 not in**, counting the different players. Ticking someone in
+on the Attendance tab, or on a desk page, clears their marks within a few seconds, and signing out removes
+every mark. The Tournament Hub never shows them. A team event's Match Finder has no marks.
+
 ### Entering a score
 
 For an event with score entry turned on, a signed-in operator can enter, correct
@@ -291,6 +302,13 @@ more than one. Each court shows the category and round of whatever's playing
 there, both teams' names, and the live score — or "No match playing" for an
 idle court. This is the same view a wall-mounted screen at the venue would
 show.
+
+For an event with attendance, a signed-in operator also sees [who is not in
+yet](#who-is-not-in-yet) here: the names greyed with the amber dot, and the **N not in** chip after the
+category and round. Each venue's progress card gains a line, **Still to check in N**, counting the people
+on that venue's list who have not withdrawn and are not in yet; it is left out when everyone is in, and
+until that venue's list has loaded. A team event's court rows have no name marks, but its venue cards
+still carry the **Still to check in** line.
 
 ### Set match
 
@@ -353,6 +371,11 @@ on wins, then quotient — the same order as the public event page. The
 Awards tab's standings fallback uses it too. The workbook's playoff feeders
 don't: they rank by wins then quotient, so on a head-to-head tie the pair
 the sheet advances can differ from the one listed first here.
+
+For an event with attendance, a signed-in operator sees the same greyed names with the amber dot in the
+list view: in the round-robin tables, and in the playoff matchup cards. A round-robin row is not a match,
+so its names are marked whenever the person is not in. The bracket chart and the full tree are unchanged,
+and a team event's standings carry no marks.
 
 A pair whose names aren't in the sheet yet is listed under its team code
 (`ND_1`…) in the round-robin tables, so the standings are complete before the

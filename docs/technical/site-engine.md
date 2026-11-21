@@ -15,9 +15,9 @@ lib/v1/
   platform.js      constants: the Pages address, the Cloud Run URL, fetch timeout, poll intervals, fixtureName()
   domain/          the rules, pure functions with no DOM and no clock
     csv  byes  series  deciders  matches  standings  codes  bracket  brackets  golive  progress
-    teams  lineup-rules  awards  event-pages  attendance  schedule-grid  scoresheet-names  courts  model
+    teams  lineup-rules  awards  event-pages  attendance  attendance-marks  schedule-grid  scoresheet-names  courts  model
   data/            the outside world
-    registry  snapshot  live-channel  attendance-signal  api  tokens
+    registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
   views/           functions that return HTML strings, plus small components
     html  scroll  ticket  finder  live-matches  standings  bracket  bracket-full  teams  team-mark
     score-dialog  court-dialog  attendance-view
@@ -94,10 +94,10 @@ offers it.
 
 | View | Option | What Control Center passes |
 | --- | --- | --- |
-| ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)` | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos |
+| ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)`, `markPlayer(name, match)` → class | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark) |
 | Match Finder | `searchHandlers`, `searchHint`, `delegate` | the match-number search; the team event's own finder |
-| Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it) |
-| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match |
+| Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round |
+| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match) |
 | team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub) |
 
 ## Settings, the shells and fixture mode

@@ -90,6 +90,13 @@ Where the column goes is decided for you, and never over a column of your own:
 
 A new workbook's tab has no `markedBy` header until the first mark claims a column.
 
+## Not in yet, elsewhere in Control Center
+
+The Attendance tab is not the only place the list shows. In [Control
+Center](control-center.md#who-is-not-in-yet), a signed-in operator sees a mark on every player who is not
+checked in yet, in Match Finder, Live Matches and Standings, a count on each match, and a **Still to
+check in** count on each venue's card in Live Matches.
+
 ## Control Center extras
 
 The Attendance tab, for operators, also has:
