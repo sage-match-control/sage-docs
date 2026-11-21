@@ -1,13 +1,13 @@
 # Spec — Mission Control layout, shared sign-in, and attendance marks
 
-> **Status: in progress.** Written 2026-11-21 against the site's `main` that day
+> **Status: implemented.** Written 2026-11-21 against the site's `main` that day
 > (`tools/control-center.html`, `lib/v1/`, `_tests/`) and `sage-tools-api` 3.8.0, and agreed with the
-> owner from two mockups. Three phases, **all three to merge before the UPAP 3rd Annual (22 November
-> 2026)** by the owner's decision (§1 D11). **Built on 2026-11-21, all three phases, on the
-> `mission-control-layout` branch of the site repo (one commit per phase, each passing `npm run verify`),
-> of `sage-docs` and of the workspace repo; not pushed or merged.** The owner's checks (§15.2) and the merge are
-> left. See the [Divergences](#divergences) at the end for where the build departs from the text below.
-> Every decision is settled (§1).
+> owner from two mockups. Built the same day, all three phases, one commit per phase on the site repo
+> (`113bc25`, `1ca1740`, `a3a837a`), each passing `npm run verify`, and merged to `main` before the UPAP 3rd
+> Annual (22 November 2026) by the owner's decision (§1 D11); moved here by the owner the same day. Two later
+> changes on `main` refine Phase 1: each card's explanation sits behind an **i** beside its title (`36bb7ab`),
+> and the **Pages and tools** tiles share one row with the staff view next to **Open schedule** (`c68e309`).
+> Read the [Divergences](#divergences) at the end before trusting the text below.
 
 - **Phase 1:** Mission Control rearranged into cards that use a desktop screen's width, with a link
   to the Scoresheet Generator; and the operator's sign-in shared between the browser's open Control

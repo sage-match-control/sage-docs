@@ -144,6 +144,11 @@ build status.
   links say who they were issued to, with a note, and the workbook records it: a
   `markedBy` column in `ATTENDANCE`, and a note on each edited score cell listing
   its last five edits.
+- **[Mission Control layout, shared sign-in and attendance marks](implemented/mission-control-layout-spec.md)**
+  — Mission Control as cards that use a desktop's width, with Pages and tools (the Scoresheet Generator a
+  click away) and Troubleshooting; the sign-in shared between a browser's open Control Center tabs; a mark on
+  every player not checked in yet in Match Finder, Live Matches and Standings, with counts per match and per
+  venue; and the schedule board's staff view, only for a browser with a signed-in Control Center tab.
 
 ### Scoresheet Generator
 
@@ -296,15 +301,6 @@ build status.
   — an operator puts a match on a court, replaces it, or clears it, from Live Matches, through
   the same write-then-publish path as score entry. Built and live (`sage-tools-api` 3.8.0, the
   site and the docs); the owner's checks on workbook copies are left.
-
-- **[Mission Control layout, shared sign-in and attendance marks](in-progress/mission-control-layout-spec.md)**
-  — three phases. Mission Control as cards (two columns on a desktop, the emergency controls
-  folded into Troubleshooting, a Pages and tools row that adds the Scoresheet Generator), and the
-  sign-in shared between a browser's open Control Center tabs. Then a mark on every player not
-  checked in yet, in Match Finder, Live Matches and Standings, with counts per match and per
-  venue. Then the same marks on the schedule board, in a staff view only a browser with a
-  signed-in Control Center tab can see.
-  Built on the `mission-control-layout` branches, all three phases, each passing `npm run verify`; the owner's checks and the merge are left.
 
 ---
 

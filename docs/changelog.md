@@ -37,6 +37,13 @@ has been replaced.
 
 ---
 
+## [2.74.0] — 2026-11-21
+
+### Changed
+
+- The [Mission Control layout, shared sign-in and attendance marks](specs/implemented/mission-control-layout-spec.md)
+  spec moves from in progress to implemented: all three phases are on the site's `main`.
+
 ## [2.73.0] — 2026-11-21
 
 ### Changed
@@ -85,14 +92,14 @@ has been replaced.
 - Control Center tabs in one browser share the operator's sign-in over a same-origin `BroadcastChannel`: a new
   tab picks it up from an open one, and signing out in one signs the others out. **Technical:** [Control
   Center § Shared sign-in](technical/control-center.md#shared-sign-in), [Auth](technical/auth.md).
-- The [Mission Control layout spec](specs/in-progress/mission-control-layout-spec.md) moves from not started to
+- The [Mission Control layout spec](specs/implemented/mission-control-layout-spec.md) moves from not started to
   in progress, with a Divergences section.
 
 ## [2.70.0] — 2026-11-21
 
 ### Added
 
-- [Mission Control layout, shared sign-in and attendance marks](specs/in-progress/mission-control-layout-spec.md),
+- [Mission Control layout, shared sign-in and attendance marks](specs/implemented/mission-control-layout-spec.md),
   a build spec in three phases: Mission Control as cards that use a desktop's width, with the Scoresheet
   Generator a click away and the sign-in shared between a browser's open tabs; marks on players not checked
   in yet in Match Finder, Live Matches and Standings; and the same marks in a staff view of the schedule

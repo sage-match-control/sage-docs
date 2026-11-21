@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.73.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.74.0</a>'
 
 docs_dir: docs
 
@@ -150,12 +150,12 @@ nav:
           - sage-tools-api architecture hardening: specs/implemented/sage-tools-api-architecture-spec.md
           - Code and access protection: specs/implemented/code-and-access-protection-spec.md
           - Usage guide and docs restructure: specs/implemented/docs-usage-guide-spec.md
+          - Mission Control and attendance marks: specs/implemented/mission-control-layout-spec.md
       - In progress:
           - Overview: specs/in-progress/README.md
           - Double and best-of-3 round robin, finals: specs/in-progress/double-round-robin-and-finals-spec.md
           - UPAP 3rd Annual Tournament: specs/in-progress/upap-3rd-annual-tournament-spec.md
           - Court Control from Control Center: specs/in-progress/control-center-court-control-spec.md
-          - Mission Control and attendance marks: specs/in-progress/mission-control-layout-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md

@@ -20,6 +20,7 @@ Index and status-change procedure: [`../README.md`](../README.md).
 | [Sync script configuration](sync-script-configuration-spec.md) | `sheets-sync.gs`'s **SAGE → Set up live sync** and Script Properties |
 | [Immediate sync](immediate-sync-spec.md) | `sheets-sync.gs`'s lock-based sync from the edit, `SyncService`'s commit-conflict retry, `X-Edit-At` / `lastEditAt` timing, and Control Center's `edit→sync` figure |
 | [Match Control console](match-control-console-spec.md) | `tools/control-center.html` |
+| [Mission Control layout, shared sign-in and attendance marks](mission-control-layout-spec.md) | Mission Control as cards (Pages and tools, Troubleshooting), the sign-in shared between a browser's Control Center tabs (`lib/v1/data/operator-session.js`), the not-in marks in Match Finder, Live Matches and Standings (`domain/attendance-marks.js`, `data/attendance-status.js`, the `markPlayer` and `matchNote` view hooks), and the schedule board's `?staff=1` view |
 | [Awards tab](awards-podium-tab-spec.md) | The console's podium tab and PNG export |
 | [Schedule screen](schedule-screen-spec.md) | `events/<key>/schedule.html`, since backported into the templates |
 | [Scoresheet event picker](scoresheet-event-picker-spec.md) | `tools/scoresheet-generator.html`'s snapshot picker |
