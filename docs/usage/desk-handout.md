@@ -30,7 +30,8 @@ everyone on a team is in, the team shows **Ready**.
 
 ## If you flip the wrong person
 
-Flip the switch back. That clears the time.
+Flip the switch back. The page asks **Mark … not present?** first; tap **Mark not present**
+to clear the mark and its time, or **Keep present** if you flipped it by mistake.
 
 ## Seeing other desks' marks
 

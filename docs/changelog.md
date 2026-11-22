@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.84.0] — 2026-11-22
+
+### Changed
+
+- [Event attendance](features/event-attendance.md), [Control Center](features/control-center.md) and
+  the [desk handout](usage/desk-handout.md): turning a present person's switch off asks **Mark … not
+  present?** first (**Keep present** / **Mark not present**), so a stray tap can't clear a check-in and its
+  time. Marking someone in never asks. **Technical:** [Event attendance § The client](technical/event-attendance.md#the-client).
+
 ## [2.83.0] — 2026-11-22
 
 ### Added

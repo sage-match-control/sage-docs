@@ -266,7 +266,10 @@ imported by `tools/control-center.html` and by the desk page
 (`lib/v1/apps/attendance-desk.js`, which the attendance template's shell
 calls). Its stylesheet is `lib/v1/css/attendance.css`, which a page links after
 its own styles. `createAttendanceView` renders the list, the category bar and
-search, and marks optimistically; it reads on the events listed under [Push](#push)
+search, and marks optimistically. Turning a present person's switch off first opens its own
+`<dialog class="att-confirm">` (**Keep present** has focus; Esc and the backdrop keep the mark), and
+marks only on **Mark not present**, and only if that person is still in by then; marking someone in
+never asks. It reads on the events listed under [Push](#push)
 (`changed(facility)`, `setLive(open)`, and its own opening, visibility and **Refresh**) and
 sets an interval only when handed a positive `pollMs`, which the apps no longer pass. The
 finished events' `attendance.html` files (Pickle for Sight, Piggleball,

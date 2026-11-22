@@ -59,7 +59,9 @@ comes from its **Teams** tab.
 
 Desk staff open a desk link on a phone, pick the venue, find the person with the
 search box or a category (or team) chip, and flip their switch. It shows
-*Saving…* for a moment, then *In 8:14 AM*. Flipping it back clears the time. A
+*Saving…* for a moment, then *In 8:14 AM*. Flipping it back asks first —
+**Mark … not present?**, with the time they checked in — and **Mark not present**
+clears the mark and its time; **Keep present** (or tapping outside) leaves it. A
 person who plays in two categories is one switch, shown in both places. When
 everyone on a team is in, it shows **Ready**. Marks made on other devices appear
 within a second or two. If the page says *Live updates are off*, press **Refresh** to

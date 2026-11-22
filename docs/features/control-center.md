@@ -253,7 +253,8 @@ A few things the Awards tab is careful about:
 Staff check-in, for an event whose entry in `events.json` has an
 `attendance` setting. The tab lists everyone playing at each venue that day,
 grouped by category (or by team, for a team event), with a switch per person.
-Flip it to mark someone in; it records the time. Above the list:
+Flip it to mark someone in; it records the time. Flipping it off asks **Mark … not
+present?** first, so a stray click can't clear a check-in. Above the list:
 
 - the number of people in at each venue
 - **Update roster**, to bring the list up to date with the workbook now
