@@ -33,9 +33,9 @@ height per 100px. The stage is the viewport (`100dvh`) less a 16px padding or th
 
 - **Stacked** when the stage is more than 1.15 times as tall as it is wide: the stage gets `.stack`, the
   digits a column (`88` / `88` / `88`, then AM/PM), and the colons are hidden.
-- The font size is the smaller of 94% (96% stacked) of the stage's width over the template's width, and the
-  stage's height (92% of it, and never more than its height less 128px, clear of the dock) over the
-  template's height plus room for the label (0.22 of the size) and the date (0.28).
+- The font size is the smaller of 94% (96% stacked) of the stage's width over the template's width, and 96%
+  of the stage's height over the template's height plus room for the label (0.22 of the size) and the date
+  (0.28). The dock floats over the clock and fades when idle, so it takes no room from the digits.
 - The date is 0.2 and the label 0.16 of the size; either is then shrunk to fit the stage's width if it is
   wider (a long date on an upright phone).
 

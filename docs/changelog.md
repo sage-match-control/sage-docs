@@ -37,6 +37,13 @@ has been replaced.
 
 ---
 
+## [2.80.1] — 2026-11-22
+
+### Fixed
+
+- [Clock (technical)](technical/clock.md): the digits use the whole height of the stage; the dock floats over
+  them rather than taking room.
+
 ## [2.80.0] — 2026-11-22
 
 ### Added
