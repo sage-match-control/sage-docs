@@ -190,6 +190,15 @@ build status.
   keeping chosen pairs out of the same bracket while the draw stays checkable
   from the seed.
 
+### Prize draw
+
+- **[Prize draw (Lucky Dink)](implemented/prize-draw-spec.md)** — a raffle and door-prize draw for
+  the big screen at an event, from a pasted list, the day's players, who has checked in, or ticket
+  numbers, shown as a Reel or a Pickle Jar, on the operator's screen or in a display window for the TV.
+  Prizes have quantities and can be reordered at any time, and a winner who isn't there is drawn again.
+  Every winner is fixed by a random draw code, so anyone can check a draw. Phase 2 records each winner
+  to a `DRAWS` tab in the event's workbook. Opens from Mission Control.
+
 ### Dual Meet Sheet Generator
 
 - **[Sheet generator](implemented/dual-meet-sheet-generator-spec.md)** —
@@ -347,12 +356,6 @@ build status.
   of named rules in `events.json`, so a new organiser's tiebreakers are config rather than an
   engine change. Today's three rankers become presets that every existing event keeps. No build
   date: it waits for an organiser who needs it.
-- **[Prize draw (Lucky Dink)](not-started/prize-draw-spec.md)** — a raffle and door-prize draw for
-  the big screen at an event, from a pasted list, the day's players, who has checked in, or ticket
-  numbers, shown as a Reel or a Pickle Jar, on the operator's screen or in a display window for the TV.
-  Prizes have quantities and can be reordered at any time, and a winner who isn't there is drawn again.
-  Every winner is fixed by a random draw code, so anyone can check a draw. Phase 2 records each winner
-  to a `DRAWS` tab in the event's workbook. Opens from Mission Control.
 
 ---
 

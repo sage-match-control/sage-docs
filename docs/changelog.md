@@ -37,6 +37,24 @@ has been replaced.
 
 ---
 
+## [2.79.0] — 2026-11-22
+
+### Added
+
+- **Features:** [Prize draw](features/prize-draw.md), Lucky Dink: how a raffle or door-prize draw is set
+  up, drawn, checked and recorded. **Technical:** [Prize draw](technical/prize-draw.md): the draw rule,
+  the page's state, the reel and jar, the display window and the `DRAWS` tab.
+- The prize draw spec is **implemented** (both phases): it moved from `not-started/` to
+  [`implemented/`](specs/implemented/prize-draw-spec.md).
+
+### Changed
+
+- [API](technical/api.md): the two prize-draw routes (`GET …/prize-draws`, `PUT …/prize-draws/{drawId}/spins/{spin}`),
+  their exception row, `draws_layout` and `draw_conflict`, and the auth table (API 3.9.0).
+- [Control Center](features/control-center.md) lists the **Open prize draw** tile
+  ([technical](technical/control-center.md)); [Site engine](technical/site-engine.md) lists
+  `domain/prize-draw.js`.
+
 ## [2.78.0] — 2026-11-22
 
 ### Changed
@@ -57,7 +75,7 @@ has been replaced.
 
 ### Added
 
-- The [Prize draw (Lucky Dink)](specs/not-started/prize-draw-spec.md) spec, not started: a raffle
+- The [Prize draw (Lucky Dink)](specs/implemented/prize-draw-spec.md) spec, not started: a raffle
   and door-prize draw at `/tools/prize-draw`, headed **S.A.G.E. Lucky Dink**, with a **Reel** and a
   **Pickle Jar** (up to 300 names), on the operator's screen or in a separate display window for the
   TV. Names come from a pasted list, the day's players, who has checked in, or ticket numbers. Prizes

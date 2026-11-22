@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.78.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.79.0</a>'
 
 docs_dir: docs
 
@@ -82,6 +82,7 @@ nav:
       - Planning and print tools:
           - Tournament Calculator: features/tournament-calculator.md
           - Bracket Generator: features/bracket-generator.md
+          - Prize draw: features/prize-draw.md
           - Scoresheet Generator: features/scoresheet-generator.md
   - Technical:
       - Overview: technical/README.md
@@ -101,6 +102,7 @@ nav:
       - Schedule board: technical/schedule-board.md
       - Tournament Calculator: technical/tournament-calculator.md
       - Bracket Generator: technical/bracket-generator.md
+      - Prize draw: technical/prize-draw.md
       - Event registry schema: technical/event-data-config.md
       - Adding a new event: technical/adding-a-new-event.md
   - Specs:
@@ -122,6 +124,7 @@ nav:
           - Bracket Generator: specs/implemented/bracket-generator-spec.md
           - Verifiable draw: specs/implemented/bracket-generator-verifiable-draw-spec.md
           - Bracket draw name import: specs/implemented/bracket-draw-name-import-spec.md
+          - Prize draw (Lucky Dink): specs/implemented/prize-draw-spec.md
           - Sheet generator (Phase 1): specs/implemented/dual-meet-sheet-generator-spec.md
           - Schedule generator (Phase 2): specs/implemented/dual-meet-schedule-generator-spec.md
           - Readouts generator (Phase 3): specs/implemented/dual-meet-readouts-generator-spec.md
@@ -166,7 +169,6 @@ nav:
           - Hub player experience: specs/not-started/hub-player-experience-spec.md
           - Lean deploy image: specs/not-started/lean-deploy-image-spec.md
           - Ranking rules: specs/not-started/ranking-rules-spec.md
-          - Prize draw (Lucky Dink): specs/not-started/prize-draw-spec.md
       - Archived:
           - Overview: specs/archived/README.md
           - Fast data delivery: specs/archived/fast-data-delivery-spec.md

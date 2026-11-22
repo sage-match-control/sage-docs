@@ -66,6 +66,8 @@ changing any of them is not a deploy.
   fixes and its PWA (installable, offline) setup.
 - **[Bracket Generator](bracket-generator.md)** — the one-palette-source
   arrangement that keeps the canvas export in step with the page.
+- **[Prize draw](prize-draw.md)** — Lucky Dink: the draw rule, the page's state, the reel and jar,
+  the display window and the `DRAWS` tab.
 
 ## Data (`event-data`)
 

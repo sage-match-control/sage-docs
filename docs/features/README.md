@@ -26,6 +26,8 @@ For operators, scorers and desk staff.
 - **[Control Center](control-center.md)** — the operator console. Mission
   Control (sign-in, resync, the public-site switch, scorer links), Awards,
   Attendance, Match Finder, Live Matches, Standings and Teams.
+- **[Prize draw](prize-draw.md)** — Lucky Dink: raffle and door-prize winners drawn on a big
+  screen, with a code anyone can check.
 - **[Score entry](score-entry.md)** — the dialog that enters, corrects or clears
   a match's score without opening the workbook.
 - **[Scorer page](scorer-page.md)** — for scorer staff: enter match scores on a

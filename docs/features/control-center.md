@@ -94,9 +94,10 @@ it, or reach it with the keyboard, on a computer; tap it on a phone, and tap any
   where it is: **Open schedule** (the venue's schedule board); for an event with attendance, when you are
   signed in, **Open schedule (staff view)**, the same board with who is not in yet marked (see the schedule
   board's [staff view](schedule-board.md#staff-view)); **Open Tournament Hub** (the event's public page, as
-  players and spectators see it right now); and **Open scoresheet generator**, which opens the [Scoresheet
-  Generator](scoresheet-generator.md) on the selected day and follows the day when you change it. On a
-  desktop they share one row, three or four of them; on a phone they stack.
+  players and spectators see it right now); **Open scoresheet generator**, which opens the [Scoresheet
+  Generator](scoresheet-generator.md) on the selected day and follows the day when you change it; and
+  **Open prize draw**, which opens the [Prize draw](prize-draw.md) on the selected event and day. On a
+  desktop they share one row, four or five of them; on a phone they stack.
 - **Troubleshooting** — closed until you open it, and this browser remembers whether you left it
   open. It holds what you reach for when something is wrong:
     - **Check connection** — confirms Cloud Run is reachable and shows its

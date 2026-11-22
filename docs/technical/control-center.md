@@ -630,9 +630,10 @@ at 320px on the smallest common handsets. Three pieces carry that:
   by default and remembered per browser in `localStorage` under `sage.troubleshootingOpen`; open, it is
   three columns from 900px and stacked below. The tiles in **Pages and tools** (`#orgScheduleRow`) are
   written by `renderScheduleLauncher()`, which runs when the event, the day or the sign-in changes, so the
-  **Open scoresheet generator** tile's `?day=<day key>` always names the selected day and the staff-view tile
-  follows the sign-in. From 900px they share one row (`repeat(auto-fit, minmax(190px, 1fr))`), three tiles or
-  four; below, one column. The script
+  **Open scoresheet generator** tile's `?day=<day key>` and the **Open prize draw** tile's `?event=<key>&day=<day key>`
+  always name the selected event and day, and the staff-view tile
+  follows the sign-in. From 900px they share one row (`repeat(auto-fit, minmax(190px, 1fr))`), four tiles or
+  five; below, one column. The script
   toggles every control by `id`, so a card can move without the script changing.
   A card's explanation is a `.mc-tip` (`role="tooltip"`) beside an `.mc-info` button in its title row
   (`.mc-label-row`, or the CSV switch's row), named by the button's `aria-describedby`. It shows on hover only where

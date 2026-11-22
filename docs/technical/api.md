@@ -69,12 +69,14 @@ day-scoped tokens (see [Auth](auth.md)).
 | `POST /v3/days/{day}/attendance/reconciliations` | update the `ATTENDANCE` roster | operator | `200` | `POST /v1/days/:day/attendance/reconciliations` |
 | `PUT /v3/days/{day}/facilities/{facility}/matches/{matchNumber}/score` | enter, correct or clear a score | operator or scorer | `200` | `PUT /v1/days/:day/facilities/:facility/matches/:matchNumber/score` |
 | `POST /v3/days/{day}/scores/scorer-links` | issue a scorer link; optional body `{ issuedTo?, note? }` | operator | `201 { token, expiresAt, day, issuedTo, note }` | `POST /v1/days/:day/scores/scorer-links` |
+| `GET /v3/days/{day}/facilities/{facility}/prize-draws` | list the prize draws recorded in that workbook's `DRAWS` tab | operator | `200 { day, facility, draws }` | — |
+| `PUT /v3/days/{day}/facilities/{facility}/prize-draws/{drawId}/spins/{spin}` | record one spin's winners to `DRAWS` | operator | `200 { day, facility, drawId, spin, rows, created, drawnAt }` | — |
 | `PUT /v3/days/{day}/facilities/{facility}/courts/{court}/match` | put a match on a court, replace it, or clear the court | operator | `200 { day, facility, court, cell, matchNumber, previous, unchanged, sync }` | — |
 
-That is eighteen routes on fifteen paths. Thirteen are the twin of a frozen route
-(`POST /v3/scoresheets` of two). Five have none: the `GET`s of visibility, live-push
+That is twenty routes on seventeen paths. Thirteen are the twin of a frozen route
+(`POST /v3/scoresheets` of two). Seven have none: the `GET`s of visibility, live-push
 and score-entry, which give each `PUT` its `GET`, the people list, because nothing
-before it read through the API, and the court match, which no frozen surface ever offered. Details a twin does not show:
+before it read through the API, the court match, which no frozen surface ever offered, and the two prize-draw routes (new in 3.9.0). Details a twin does not show:
 
 - **Sync input moves into a body.** `?facility=` becomes a path segment, and
   `?method=` and the `X-Edit-At` header become `{ "method"?: "sheets" | "csv",
@@ -170,6 +172,7 @@ with a body must say `Content-Type: application/json`, or it is a `415`.
 | `PUT …/people/{personKey}/attendance` | a `GET` for every `PUT` | each person's state is read with `GET …/facilities/{facility}/people`, the list a desk reads; a per-person `GET` would have no reader |
 | `PUT …/matches/{matchNumber}/score` | a `GET` for every `PUT` | scores are read from the published day snapshot, which pages already poll; a Sheets read per `GET` would spend Google quota for no reader |
 | `PUT …/matches/{matchNumber}/score` | concurrency through `If-Match` / `412` | the precondition is the values a person saw in two cells, not a version the API issues, so there is no `ETag`; `expected` travels in the body, and the `409` carries `current` |
+| `PUT …/prize-draws/{drawId}/spins/{spin}` | a `GET` for every `PUT` | a draw's spins are read with `GET …/prize-draws`, the list the page reads; a per-spin `GET` would have no reader |
 | `PUT …/courts/{court}/match` | a `GET` for every `PUT` | the live court is read from the published day snapshot, which pages already hold; a Sheets read per `GET` would spend Google quota for no reader |
 | `PUT …/courts/{court}/match` | concurrency through `If-Match` / `412` | the precondition is the match a person saw in one cell, so there is no `ETag`; `expected` travels in the body, and the `409` carries `current` |
 | `201` without `Location` (sessions, desk links, scorer links) | `Location` on a created resource | the result is a signed credential, not a stored resource, so there is no URL to point at |
@@ -232,6 +235,8 @@ Both shapes carry a stable `code`:
 | `court_conflict` | 409 | the court's match cell changed since the client showed it (carries `current: { matchNumber }`) |
 | `match_on_court` | 409 | the match is already on another court (carries `onCourt`, that court's label) |
 | `attendance_layout` | 409 | the `ATTENDANCE` tab's header row is not the expected one |
+| `draws_layout` | 409 | the `DRAWS` tab's header row is not the expected one |
+| `draw_conflict` | 409 | a prize-draw spin that doesn't fit the draw already recorded (out of order, other settings, other winners) |
 | `unsupported_media_type` | 415 | a body of the wrong `Content-Type` |
 | `schedule_layout` | 422 | no `SCHEDULE` tab, a duplicate match number, or a score cell holding a formula |
 | `court_layout` | 422 | no `Court Control` tab, a court number on two rows, or a match cell holding a formula or text |
@@ -250,7 +255,7 @@ page.
 | --- | --- |
 | nothing | `GET /ping`, `GET /openapi.json`, `POST /v3/sessions` (and `/auth/login`), `POST /v3/scoresheets` (and `/scoresheets/...`) |
 | secret **or** operator | the two sync `POST`s, `GET /v3/diagnostics/sync` |
-| operator only | visibility, live-push and score-entry (`GET` and `PUT`), desk links, reconciliations, scorer links |
+| operator only | visibility, live-push and score-entry (`GET` and `PUT`), desk links, reconciliations, scorer links, the prize-draw list and spin `PUT` |
 | operator or desk | the people list (`GET`) and the attendance `PUT` |
 | operator or scorer | the score `PUT` |
 

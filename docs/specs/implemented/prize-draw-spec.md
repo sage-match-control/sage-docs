@@ -1,6 +1,6 @@
 # Spec — Prize draw (Lucky Dink)
 
-> **Status: not started.** Nothing here is built. Written 2026-11-22 from the owner's request for a
+> **Status: implemented.** Both phases are built: the site (`304ddaa`, `afda4f8`) and API 3.9.0. Written 2026-11-22 from the owner's request for a
 > raffle and door-prize draw that SAGE runs on a big screen at its events, with the winners kept in
 > the event's workbook so a draw can be looked up and checked afterwards. Revised the same day with
 > the owner's answers: prize quantities, prizes reordered at any time, no seed box, **Draw again**
