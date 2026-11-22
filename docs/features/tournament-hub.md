@@ -28,19 +28,25 @@ scroll, so a new search is always in reach.
 
 Each match card ("ticket") shows:
 
+- The match number, as a dark tab in the card's top-left corner (`#42`), so it
+  can be read off at a glance or called out to a court official
 - The scheduled time and court
 - A **Live** pill and pulsing dot while the match is actually in progress on
   a court
 - A **Next Up** pill on whichever of your matches is next and not yet live
 - The score, once it's in
-- Which round it is (pool play, or a named playoff round like Quarterfinal,
-  Semifinal, Bronze, Final)
+- The category (for example *45+ Men's Doubles*) and which round it is (pool
+  play, or a named playoff round like Quarterfinal, Semifinal, Bronze, Final)
 
 ## For spectators: watch it happen
 
 **Live scores and court assignments** update on their own while play is
 underway, usually within a few seconds of the score being entered — no
 refreshing, no flagging down a volunteer to ask what's happening on Court 6.
+**Live Matches** has a row per court, its match number in a tab at the top-left
+of the match. A court whose match has both scores in, but which no one has given
+its next match yet, reads **Done**: a check mark on an amber court in place of the
+pulsing dot, the names greyed and the final score kept dark.
 
 **Live standings** — win/loss records and rankings — update the same way,
 sorted by division and category, so the board on your phone is never a stale
@@ -137,7 +143,7 @@ board and Control Center all show them.
 Quarterfinal, Semifinal, Bronze or Final), the two time slots and the courts. Under it, both team names
 face each other around the **matchup score**, with the **pair count** (for
 example *pairs 3–1*, the matches each team won) in small type beneath. Below
-that, one row per match shows the pair (MD, WD or XD), the players on each
+that, one row per match shows its number in a small dark tab, the pair (MD, WD or XD), the players on each
 side (one per line, first players level with each other and second players
 level, however a name wraps) and the score. A match being played right now carries a live dot and its
 court. A pill marks a matchup that is *In progress* (from the moment one of its

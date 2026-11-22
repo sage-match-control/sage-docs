@@ -96,7 +96,7 @@ offers it.
 | --- | --- | --- |
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)`, `markPlayer(name, match)` → class | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark) |
 | Match Finder | `searchHandlers`, `searchHint`, `delegate` | the match-number search; the team event's own finder |
-| Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round |
+| Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html, `countDone` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round; `true`, so a done court counts apart from the courts in play |
 | Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match) |
 | team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub) |
 
@@ -199,6 +199,27 @@ schedule board's category for it is `GA`.
 On `localhost`, `?fixture=<name>` makes the Hub and the schedule board read
 `/_fixtures/` instead of the published data, as the scorer and desk pages
 do (`platform.js` `fixtureName()`; inert on the live site).
+
+## Match numbers, categories and done courts
+
+The match number is a tab in a top-left corner, the same on every page: `.ticket-num` as the
+ticket's first child (`views/ticket.js`), `.live-num` at the start of a Live Matches row's strip
+(`td.live-cat-cell`, in `views/live-matches.js` and a team event's `liveRowHTML` in `views/teams.js`),
+and `.tm-num` in a team match line. Both corner tabs sit absolutely, so the room beside them is
+padding: the ticket's `.time-row`, and the strip's left and right padding, the same on both sides so
+the centred text stays centred. The strip's padding is set by `table.live-table tr td.live-cat-cell`,
+whose selector outranks the shells' own phone rules for the strip, which finished events keep; the
+strip's height is fixed (24px, 22px on a phone) so an idle row keeps the height of a live one.
+
+A ticket's category is `divisionEventLabel` of whichever side's code has one (`.tag.cat`, before the
+round's tag): the category alone, as Live Matches shows it, since a dual meet's club is already on
+each side's code.
+
+A Live Matches row is **done** when its match is `played` or in `model.unneededGames`: the court cell
+gets `done` and a `.live-done-mark` (✓) in place of `.live-dot`, both rows get `live-done`, and the
+strip ends in `.live-done-note`. The test lives in `live-matches.js` and again in `teams.js` (a module
+may only start using another's new export in a later push), and `live-matches.test.mjs` checks both.
+The done colours are literals, not `--amber`, which most shells set to a green.
 
 ## The scoring rule
 

@@ -37,6 +37,19 @@ has been replaced.
 
 ---
 
+## [2.81.0] — 2026-11-22
+
+### Changed
+
+- [Tournament Hub](features/tournament-hub.md) and [Control Center](features/control-center.md): a match
+  number is a dark tab in the top-left corner of each Match Finder ticket and Live Matches row (a small dark
+  tab in a team match line), and each ticket carries its category beside the round. A Live Matches court
+  whose match has both scores in reads **Done** (a check mark on an amber cell, names greyed); Control
+  Center counts those courts apart (**2 courts in play · 1 done**) and their court cell's hint reads
+  **✎ Next match**. **Technical:** [Site engine § Match numbers, categories and done
+  courts](technical/site-engine.md#match-numbers-categories-and-done-courts),
+  [Control Center § Court control](technical/control-center.md#court-control).
+
 ## [2.80.1] — 2026-11-22
 
 ### Fixed

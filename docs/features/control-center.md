@@ -270,7 +270,9 @@ Full reference: [event attendance](event-attendance.md).
 ## Match Finder
 
 Identical to Tournament Hub's Match Finder — search a pair's name, see
-their full day of matches with Live/Next Up flags and scores. Useful for an
+their full day of matches with Live/Next Up flags and scores. Each ticket carries
+its match number as a dark tab in its top-left corner, and its category beside the
+round. Useful for an
 operator fielding "where's my match" questions without having to also pull up
 Tournament Hub itself. Before a search it lists every match of the day in
 match-number order (a team event: its team chips, then every matchup,
@@ -306,10 +308,18 @@ matchup cards on Standings) without opening the workbook. See
 ## Live Matches
 
 A board of every court currently in use, grouped by venue if the event has
-more than one. Each court shows the category and round of whatever's playing
-there, both teams' names, and the live score — or "No match playing" for an
-idle court. This is the same view a wall-mounted screen at the venue would
-show.
+more than one. Each court shows the match number (a dark tab at the top-left of
+the match), the category and round of whatever's playing there, both teams'
+names, and the live score — or "No match playing" for an idle court. This is
+the same view a wall-mounted screen at the venue would show.
+
+A match stays on its court until someone sets the next one, so a court whose match
+has both scores in reads **Done**: a check mark on an amber court cell in place of
+the pulsing dot, **Done** after the round, the names greyed and the final score kept
+dark. The count above the board, and each venue's, keeps these courts apart:
+**2 courts in play · 1 done**. (The Tournament Hub shows the same **Done** rows, but
+counts a done court as in play.) A series game that is no longer needed reads
+**Done** the same way.
 
 For an event with attendance, a signed-in operator also sees [who is not in
 yet](#who-is-not-in-yet) here: the names greyed with the amber dot, and the **N not in** chip after the
@@ -322,8 +332,8 @@ still carry the **Still to check in** line.
 
 For a signed-in operator at an event whose `scoreEntry` is set (the same setting as
 [Score entry](score-entry.md)), each court's own cell, the number at the left of its row, is a
-button. A small **✎ Set match** (an idle court) or **✎ Change** (a court with a match on it)
-sits under the number. It puts a match on that court, replaces it, or clears the court, without
+button. A small **✎ Set match** (an idle court), **✎ Change** (a court with a match on it) or
+**✎ Next match** (a court whose match is **Done**) sits under the number. It puts a match on that court, replaces it, or clears the court, without
 opening the venue's workbook. It writes the same `Court Control` cell an operator types into, so
 the two can be mixed freely.
 

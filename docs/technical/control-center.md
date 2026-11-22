@@ -434,9 +434,12 @@ scorer or desk token gets a 401. Usage: [Set match](../features/control-center.m
 `courtCellDeco(facility, court, match)` returns `null` for a court whose label has no digit (the API
 finds a court by the number in its label), or `{ className: 'court-settable', attrs, html }`, where
 `attrs` carries `data-court-facility`, `data-court-number`, `role="button"`, `tabindex="0"` and an
-`aria-label`, and `html` is the `✎ Set match` / `✎ Change` hint. The view's `withCourtCell` adds them
-to the court's `<td class="live-court-cell">`, whichever builder drew it (the standard row, the idle
-row or a team event's `liveRow`). One delegated `click` listener, and one `keydown` for Enter and
+`aria-label`, and `html` is the `✎ Set match` / `✎ Change` / `✎ Next match` hint (the last for a court
+whose match is done: `played`, or in `MODEL.unneededGames`). The view's `withCourtCell` adds them
+to the court's `<td class="live-court-cell">`, keeping its `idle` or `done` class, whichever builder drew it
+(the standard row, the idle row or a team event's `liveRow`). `drawLiveMatches()` also passes
+`countDone: true`, so the count line and each venue's title count a done court apart
+(**2 courts in play · 1 done**); the Hub passes nothing and counts it as in play. One delegated `click` listener, and one `keydown` for Enter and
 space, on the board's container open the dialog, because the board is rebuilt on every snapshot.
 `renderAuthStatus()` redraws the board when it is the tab on screen, so the hints appear and
 disappear with sign-in.
