@@ -58,7 +58,11 @@ Sign in under Mission Control, click **Resync this day now**, then check:
 - [ ] **Standings:** a visible warning banner names Match C's unmapped code. It is not
   a silent "Other" bucket.
 - [ ] **Match Finder:** search a real player's name. It returns their matches in
-  schedule order, with the right opponent and score state.
+  schedule order, with the right opponent and score state. A standard or dual meet event
+  shows the pair's summary card above them: its rank with W, L, PF, PA and Q, and a
+  status pill.
+- [ ] **Standings:** the round-robin tables show W, L, PF, PA and Q, and Match A's score
+  is counted in its two pairs' PF and PA.
 - [ ] **Awards:** it loads without errors and lists every category. Before any Final or
   Bronze is played, every placing reads **Pending**.
 - [ ] **Public site status:** set it to **Force hidden**, then back to **Auto**. The
@@ -90,8 +94,17 @@ a phone:
   clear it. Set **Scorer links** to **Stopped**, check that a save is refused (it takes
   about a minute), and set it back to **Accepting**.
 - [ ] **Attendance:** **Update roster** reports every venue's people. Mark a test person
-  in, see it appear in the workbook's `ATTENDANCE` tab, and undo it. For `"desks"`,
-  **Issue desk link** and open the link on a phone.
+  in, see it appear in the workbook's `ATTENDANCE` tab, and undo it: turning the switch
+  off asks **Mark … not present?**, and only **Mark not present** clears the mark. For
+  `"desks"`, **Issue desk link** and open the link on a phone.
+
+### Check the prize draw, if the event has one
+
+- [ ] Signed in, press **Open prize draw** under **Pages and tools** with the event and
+  day selected. Load **Players on a day** (or **Checked in**), add one test prize, **Lock
+  the list and start**, put **Open display** on the screen the draw will use, and spin
+  once. The venue's workbook gets a `DRAWS` tab with the winner's row, and **Load past
+  draws** lists the draw. See [Prize draw](../features/prize-draw.md).
 
 ### Clean up
 
@@ -100,6 +113,8 @@ a phone:
 - [ ] Restore Match C's original team code.
 - [ ] A team event: put every seed cell back to its seed number, clear the test
   lineup, untick any **Show lineup** box you ticked and put back the player's name.
+- [ ] If you rehearsed a prize draw, delete the workbook's `DRAWS` tab, so **Past draws**
+  starts empty on the day. The first recorded spin makes the tab again.
 - [ ] **Resync this day now** once more, to publish the reverted state.
 
 ## The "Ready" checklist
@@ -120,6 +135,8 @@ Check the event against this before the day.
   appeared in `ATTENDANCE` and has been undone, and for `"desks"` a desk link opens on a
   phone.
 - [ ] With scorer links: a test link saved a score, and the stop switch refused one.
+- [ ] With a prize draw: a test spin reached the `DRAWS` tab, and the tab has been
+  deleted again.
 - [ ] The schedule PDF matches the site, and the scoresheets are printed.
 - [ ] The hub board carries this event's QR panel, and scanning it opens this event's
   page.

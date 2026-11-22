@@ -41,6 +41,9 @@ show it sooner, for example so players can check their schedule when they arrive
 - Click **Open Tournament Hub** for the public page. It suits a second screen showing
   Standings or Live Matches, or just to confirm it looks like what a player sees.
 - Check the **hub board** is up with this event's QR panel.
+- A spare screen, tablet or phone can show the time: **Open clock** (under **Pages and
+  tools**) shows the event's name above it, then press **Full screen**. It shows the
+  device's own time, so check the device's clock. See [Clock](../features/clock.md).
 - On a phone (not the console, which always shows live data), open the public page and
   confirm it looks like what a player would see.
 
@@ -201,6 +204,23 @@ operator on scores makes the change in the workbook. The options and their effec
 - **A schedule change after the scoresheets are printed.** For a minor change, correct the
   slips by hand. For a major one, generate the scoresheets again and reprint
   ([step 6](printables.md#scoresheets)).
+
+## The prize draw
+
+For an event with a raffle or door prizes, whenever the organizer calls it:
+
+1. On the operator laptop, signed in, press **Open prize draw** under **Pages and tools**
+   with the event and day selected.
+2. Load the names (**Players on a day**, **Checked in**, a pasted list or ticket
+   **Numbers**), add the prizes, and press **Lock the list and start**.
+3. Press **Open display** and put that window on the draw's screen. The controls stay on
+   the laptop.
+4. **Spin** for each prize. Each spin is recorded to the venue workbook's `DRAWS` tab. If
+   a winner isn't there to claim it, **Draw again** beside their name.
+5. Afterwards, **Copy results** or **Save image** for the emcee.
+
+A draw left halfway can be picked up later under **Past draws**. See
+[Prize draw](../features/prize-draw.md).
 
 ## End of day
 

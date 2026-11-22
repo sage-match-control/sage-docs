@@ -125,6 +125,8 @@ For every event:
 - [ ] A **printer**, or the printed set made beforehand: scoresheets, the schedule
   PDF, bracket images.
 - [ ] The **hub board**, with this event's QR panel stuck on.
+- [ ] With a prize draw: a **screen for the draw**, near where prizes are given out,
+  that the operator laptop can show a second window on.
 
 Also useful: a phone charger for each scorer, tape for the schedule on the
 noticeboard, and spare scoresheets (the Scoresheet Generator can add blank

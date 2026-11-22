@@ -57,6 +57,7 @@ and the spec says which.
   | The build order, if not the default (§1.2) | The phases |
   | The first serve, if the workbook and pubmat disagree | The go-live time and every timing check |
   | With more than one day: how the board changes day (§1.3) | An engine phase, or a push every evening of the event |
+  | A raffle or door-prize draw: whether there is one, on which day, from which names | An operator task and a dry-run check (§8.5); nothing on the site, since the prize draw is a tool that opens on any event |
 
   **[Team]** also: how teams are ranked (`teamScoring`, `headToHeadQuotient`), the pair labels
   (`display.pairs`), the playoff seats' labels before they're filled (`display.seedLabels`), team
@@ -901,7 +902,8 @@ After `qr.png` is pushed: `node _templates/hub-pubmat/render.mjs <event-key>`, p
 ### 8.5 Dry run, by <date>
 
 `events/<event-key>/dry-run-checklist.md` against the real workbook, plus <this event's own
-checks: anything new it is the first to use>.
+checks: anything new it is the first to use>. <With a prize draw: the checklist's prize-draw
+rehearsal, and deleting the `DRAWS` tab afterwards.>
 
 ### 8.6 After the event
 

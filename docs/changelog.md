@@ -37,6 +37,18 @@ has been replaced.
 
 ---
 
+## [2.85.0] — 2026-11-22
+
+### Changed
+
+- [7. Rehearse](usage/rehearse.md): Match Finder's summary card and the PF and PA columns are checked; the
+  attendance check meets the **Mark … not present?** dialog; a new prize-draw check (one test spin to the
+  `DRAWS` tab, which cleanup deletes), and a line for it in the "Ready" checklist.
+- [8. Run the day](usage/run-the-day.md): the clock on a spare screen, and a **prize draw** section.
+- [Roles, access and kit](usage/before-you-start.md): a screen for the prize draw.
+- [Event spec template](specs/event-spec-template.md): the owner is asked about a raffle or door-prize
+  draw, and the dry run rehearses it.
+
 ## [2.84.0] — 2026-11-22
 
 ### Changed
