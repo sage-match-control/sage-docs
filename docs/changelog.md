@@ -37,6 +37,33 @@ has been replaced.
 
 ---
 
+## [2.86.0] — 2026-11-23
+
+### Changed
+
+- [Lean deploy image](specs/not-started/lean-deploy-image-spec.md) is rewritten as a runbook that can be
+  followed without other context. The build trigger's inline build runs `docker build --no-cache`, which
+  is why every deploy stores a new 269 MB Chromium layer. The design now:
+  - turns Docker's layer cache on instead of using a hand-built base image (now the fallback): a
+    `Pull cache` step, `--cache-from` the last deploy's `latest` tag, and `push --all-tags`;
+  - moves the build config into the repository as `sage-tools-api/cloudbuild.yaml`;
+  - clears npm's download cache in the `Dockerfile`;
+  - keeps 2 deploys for a one-step rollback from the console.
+
+  Each deploy then stores about 16 MB, two take about 383 MB, and a deploy is about 80 s faster. Two
+  throwaway builds on Cloud Build show that the cache hits (§11). The spec also records:
+  - the owner's decisions (§3): the owner edits the trigger in the Console, and it is built when the
+    owner says so;
+  - the finding that the inline config's own secrets are stale and unused;
+  - the steps and their checks (§7, §8), what to do if it fails (§10), and the old config for undoing it
+    (Appendix A).
+
+### Fixed
+
+- [Lean deploy image](specs/not-started/lean-deploy-image-spec.md): a deploy stores one image plus two
+  provenance attachments that `keepCount` doesn't count, so the cleanup policy keeps the last deploy with
+  `keepCount` 1 (§2.2, §2.3).
+
 ## [2.85.0] — 2026-11-22
 
 ### Changed

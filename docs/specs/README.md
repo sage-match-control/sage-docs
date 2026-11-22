@@ -347,11 +347,13 @@ build status.
   the colours and ties explained, a row opening its pair's matches, and for a
   dual meet the club score first, category jump chips and a cross-club grid.
   Engine Hub and templates only; no new sections.
-- **[Lean deploy image](not-started/lean-deploy-image-spec.md)** — a base image
-  holding Node and Chromium, built by hand, so each `sage-tools-api` deploy adds
-  about 20 MB to Artifact Registry instead of 361 MB and builds faster. Records the
-  repository's cleanup policy, which keeps the last deploy. To build after the
-  Sportsfest.
+- **[Lean deploy image](not-started/lean-deploy-image-spec.md)** — the build trigger
+  runs a `cloudbuild.yaml` kept in `sage-tools-api` with Docker's layer cache on (it
+  runs `--no-cache` today), and the `Dockerfile` clears npm's cache. Each deploy then
+  reuses the last one's Node and Chromium layers and stores about 16 MB instead of
+  382 MB. Two deploys are kept for console rollback, inside the free 0.5 GB, and
+  deploys run about 80 s faster. Tested with two throwaway builds; written as a
+  step-by-step runbook. Built when the owner says so.
 - **[Ranking rules](not-started/ranking-rules-spec.md)** — an event's standings ordered by a list
   of named rules in `events.json`, so a new organiser's tiebreakers are config rather than an
   engine change. Today's three rankers become presets that every existing event keeps. No build
