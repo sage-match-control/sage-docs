@@ -384,6 +384,11 @@ top), and the Bronze/Final rounds — since those pit one club against the
 other — are shown as a single head-to-head block rather than nested under
 either club.
 
+Each round-robin table shows W, L, **PF** (points for), **PA** (points
+against) and Q (quotient, PF ÷ PA), the same columns as the public event
+page. PF and PA add up the pair's played matches; a match against a BYE
+counts for neither.
+
 Round-robin pairs are ranked by wins, then head-to-head among pairs level
 on wins, then quotient — the same order as the public event page. The
 Awards tab's standings fallback uses it too. The workbook's playoff feeders

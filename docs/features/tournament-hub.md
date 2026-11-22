@@ -111,6 +111,11 @@ to close it. Its cards are wider than the chart's, with each player of a pair on
 a line of their own, so full names show. Zoomed far out, a card shows surnames
 in larger type.
 
+Each round-robin table shows a pair's **W** (wins), **L** (losses), **PF**
+(points for: every point it has scored in its played matches), **PA** (points
+against: every point scored against it) and **Q** (quotient, PF ÷ PA). A match
+against a BYE counts for neither.
+
 Within each round-robin table, pairs are ranked by **wins**, then
 **head-to-head** (among pairs level on wins, whoever won the matches
 between them), then **quotient**. When three or more pairs are level and

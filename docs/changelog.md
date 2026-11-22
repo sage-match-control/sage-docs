@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.82.0] — 2026-11-22
+
+### Changed
+
+- [Tournament Hub](features/tournament-hub.md) and [Control Center](features/control-center.md): every
+  round-robin standings table shows **PF** (points for) and **PA** (points against) between L and Q, added
+  up from the pair's played matches. **Technical:** [Control Center § Round Robin
+  brackets](technical/control-center.md), [Site engine](technical/site-engine.md).
+
 ## [2.81.0] — 2026-11-22
 
 ### Changed

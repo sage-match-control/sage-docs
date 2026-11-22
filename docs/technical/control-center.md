@@ -85,7 +85,12 @@ through the engine.
 **Round Robin brackets.** `stageTablesHTML` groups a category's Round
 Robin rows by bracket label. With no labels it draws one table; with labels
 it draws one mini table per bracket, each under a colored `Bracket <n>`
-label, in `.rr-bracket-grid` — at most two per row, a third wraps. It
+label, in `.rr-bracket-grid` — at most two per row, a third wraps. Either layout's
+columns are W, L, PF, PA and Q: W, L and Q come from `STANDINGSCSV`, while PF and PA
+(`.pts`) are `pointsFromMatches(rows, model.matches)` in the same file, which sums each
+row's `teamCode` over the day's played matches and skips any match with a BYE side
+(`matchByeSide`), since a standard or dual meet `STANDINGSCSV` carries no points
+columns. Its sums reproduce the sheet's quotient, which is the same PF ÷ PA. It
 returns `{ html, hasMultiBracket, bracketWidth }`; `categoryCardHTML` gives a `standard`
 category card with two or more brackets `.standings-col--wide` on desktop, exactly
 two columns' width (740px = 360 × 2 + the 20px gap). Its header carries a desktop-only

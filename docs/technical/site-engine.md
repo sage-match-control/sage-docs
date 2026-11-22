@@ -175,7 +175,8 @@ across facilities), in match-number order and at most three, and `unneededMeetin
 the games after the one that gave a side its second win. `unneededSeriesGames` includes them in
 the same set as a series Final's games after the decider. `headToHeadWins` counts such a meeting
 once, for the pair that took it, so `rankStandings` breaks a tie on meetings won; W, L and the
-quotient come from `STANDINGSCSV`. The API's completion stamp applies the same rule
+quotient come from `STANDINGSCSV`, and the round-robin table's PF and PA (`pointsFromMatches` in
+`views/standings.js`) count every game's points. The API's completion stamp applies the same rule
 ([Sync pipeline § Facility completion](sync-pipeline.md#facility-completion)).
 
 `domain/deciders.js` holds a team playoff matchup's **tiebreaker game**: a match whose two team
