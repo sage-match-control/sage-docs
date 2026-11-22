@@ -222,6 +222,35 @@ strip ends in `.live-done-note`. The test lives in `live-matches.js` and again i
 may only start using another's new export in a later push), and `live-matches.test.mjs` checks both.
 The done colours are literals, not `--amber`, which most shells set to a green.
 
+## The pair summary
+
+`views/pair-summary.js` draws the card Match Finder shows above a searched pair's tickets;
+`pairResultsHTML` (`views/finder.js`) puts it under the results head and leaves out the head's
+category tag when it does. It returns `''` for a team event (whose finder is `views/teams.js`), while
+the day is not live, and for a pair with no round-robin row.
+
+- `roundRobinStanding(team, model)`: the pair's round-robin code (the first of `team.codes` whose
+  stage is `RR`), its group (same category, club for a dual meet, and bracket label, filtered as
+  `stageTablesHTML` filters), ranked with `rankStandings`, and PF and PA from `pointsFromMatches`
+  (`views/standings.js`). W, L and Q are the `STANDINGSCSV` row's. `played` is whether the pair has a
+  played round-robin match (the rank shows `—` until then), `done` is `categoryRoundRobinDone`.
+- `playoffRounds(team, model, standing)`: one row per playoff code in `team.codes` (a pair joins a
+  playoff slot's code once the sheet writes its names there), over its matches without a BYE side. A
+  series final (`seriesGameOf`) is one row over every game of the series: `walkSeries` decides it,
+  the result counts games from the pair's side, and an undecided series lists the games so far. A
+  slot whose opponent side is blank, `TBD` or its own code is open: its label is the opponent slot's
+  `from` (`matchIdText`: "W:SF-2" → "Winner of Semifinal 2") or its `seat`. A bronze taken without a
+  match (`standingsBronzeWalkover`, matched by names) adds a `walkover` row.
+- `pairStatus(rounds, standing, model)`: the pill, by the first case that fits: a live round, the
+  Final won or lost, the Bronze won (or the walkover) or lost, the last round still to play, lost, or
+  won; with no playoff round, *Did not advance* once the category's round robin is done and every
+  seat of its first playoff stage is named.
+
+The module is new, so `finder.js` importing it is safe against a browser's cached copy of an existing
+module; it uses `pointsFromMatches`, an export a push earlier than the one that added it. Its styles
+are `.pair-summary` and the `.ps-*` classes at the end of `css/finder.css`. `pair-summary.test.mjs`
+covers each stage on hand-made days.
+
 ## The scoring rule
 
 `domain/scoring.js` holds an event's own rule for a game, from `events.json`'s `scoring`, and the

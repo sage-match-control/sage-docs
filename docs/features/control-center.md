@@ -270,7 +270,9 @@ Full reference: [event attendance](event-attendance.md).
 ## Match Finder
 
 Identical to Tournament Hub's Match Finder — search a pair's name, see
-their full day of matches with Live/Next Up flags and scores. Each ticket carries
+their full day of matches with Live/Next Up flags and scores, under the same
+summary card: category, round-robin rank with W, L, PF, PA and Q, and where the
+pair is in the playoffs. Each ticket carries
 its match number as a dark tab in its top-left corner, and its category beside the
 round. Useful for an
 operator fielding "where's my match" questions without having to also pull up

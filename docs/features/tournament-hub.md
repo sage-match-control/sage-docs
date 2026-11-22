@@ -26,6 +26,27 @@ order, so you can also just scroll to yours. The search box sits just above
 the list, and on a phone it stays pinned to the top of the screen as you
 scroll, so a new search is always in reach.
 
+Above a pair's matches, a **summary card** says where the pair stands:
+
+- Its category, and its bracket when the category has more than one
+- Its rank in its round-robin bracket (**#2 of 5**), in the same order as
+  Standings, with **W**, **L**, **PF** (points for), **PA** (points against)
+  and **Q** (quotient). The rank reads **—** until the pair has played. Once
+  every round-robin match of the category is in, it adds *round robin final*.
+- Once the pair is in the playoffs, a row per round it has reached: the
+  opponent (or *to be decided* with where that opponent comes from, such as
+  *Winner of Semifinal 2*), then the match number and time, **Live · Court 2**
+  while it is on court, or the result (**Won 11–8**). A twice-to-beat or
+  best-of-3 final is one row over its games (**Won 2–1 (11–8, 6–11, 11–9)**).
+- A pill summing it up: *In the Semifinals*, *Playing now*, *Champions*,
+  *Runners-up*, *Bronze medal*, *4th place*, *Out in the Quarterfinals*, or
+  *Did not advance* once the playoff seats are filled without them. A pair
+  that takes bronze without playing (the round robin's #3 when there is no
+  Bronze match) shows *Bronze medal* with *3rd in the round robin · no match*.
+
+The card appears for standard and dual meet events once the day is live. A
+team event's Match Finder shows the team's own results instead.
+
 Each match card ("ticket") shows:
 
 - The match number, as a dark tab in the card's top-left corner (`#42`), so it

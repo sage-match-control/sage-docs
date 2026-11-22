@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.83.0] — 2026-11-22
+
+### Added
+
+- [Tournament Hub](features/tournament-hub.md) and [Control Center](features/control-center.md): Match
+  Finder's summary card above a searched pair's matches: category, round-robin rank with W, L, PF, PA and
+  Q, a row per playoff round reached (opponent, time, live court or result), and a status pill.
+  **Technical:** [Site engine § The pair summary](technical/site-engine.md#the-pair-summary).
+
 ## [2.82.0] — 2026-11-22
 
 ### Changed
