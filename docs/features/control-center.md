@@ -96,8 +96,10 @@ it, or reach it with the keyboard, on a computer; tap it on a phone, and tap any
   board's [staff view](schedule-board.md#staff-view)); **Open Tournament Hub** (the event's public page, as
   players and spectators see it right now); **Open scoresheet generator**, which opens the [Scoresheet
   Generator](scoresheet-generator.md) on the selected day and follows the day when you change it; and
-  **Open prize draw**, which opens the [Prize draw](prize-draw.md) on the selected event and day. On a
-  desktop they share one row, four or five of them; on a phone they stack.
+  **Open prize draw**, which opens the [Prize draw](prize-draw.md) on the selected event and day; and
+  **Open clock**, which opens the full-screen [Clock](clock.md) with the event's name above the time.
+  Every tile is a raised button with an ↗ (it opens a new tab); **Open schedule** is the dark one. On a
+  desktop they share one row, however many there are; on a phone they stack.
 - **Troubleshooting** — closed until you open it, and this browser remembers whether you left it
   open. It holds what you reach for when something is wrong:
     - **Check connection** — confirms Cloud Run is reachable and shows its

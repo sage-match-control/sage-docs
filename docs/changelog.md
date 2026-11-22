@@ -37,6 +37,20 @@ has been replaced.
 
 ---
 
+## [2.80.0] — 2026-11-22
+
+### Added
+
+- **Features:** [Clock](features/clock.md): the full-screen wall clock, its controls, settings and the links
+  that set it. **Technical:** [Clock](technical/clock.md): settings, ticking, sizing, full screen and the
+  wake lock.
+
+### Changed
+
+- [Control Center](features/control-center.md): **Pages and tools** gains **Open clock**; every tile is drawn
+  as a button, and the tiles share one row on a desktop however many there are
+  ([technical](technical/control-center.md)).
+
 ## [2.79.0] — 2026-11-22
 
 ### Added

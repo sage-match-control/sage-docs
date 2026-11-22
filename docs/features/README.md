@@ -28,6 +28,8 @@ For operators, scorers and desk staff.
   Attendance, Match Finder, Live Matches, Standings and Teams.
 - **[Prize draw](prize-draw.md)** — Lucky Dink: raffle and door-prize winners drawn on a big
   screen, with a code anyone can check.
+- **[Clock](clock.md)** — a full-screen wall clock for a spare screen at the venue, with the
+  event's name above the time.
 - **[Score entry](score-entry.md)** — the dialog that enters, corrects or clears
   a match's score without opening the workbook.
 - **[Scorer page](scorer-page.md)** — for scorer staff: enter match scores on a

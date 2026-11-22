@@ -631,9 +631,12 @@ at 320px on the smallest common handsets. Three pieces carry that:
   three columns from 900px and stacked below. The tiles in **Pages and tools** (`#orgScheduleRow`) are
   written by `renderScheduleLauncher()`, which runs when the event, the day or the sign-in changes, so the
   **Open scoresheet generator** tile's `?day=<day key>` and the **Open prize draw** tile's `?event=<key>&day=<day key>`
-  always name the selected event and day, and the staff-view tile
-  follows the sign-in. From 900px they share one row (`repeat(auto-fit, minmax(190px, 1fr))`), four tiles or
-  five; below, one column. The script
+  always name the selected event and day, the **Open clock** tile's `?title=` carries the event's `title`
+  from `events.json`, and the staff-view tile
+  follows the sign-in. From 900px they share one row however many there are (`grid-auto-flow: column`,
+  `grid-auto-columns: minmax(0, 1fr)`); below, one column. A `.mc-tile` is drawn as a button: a
+  `--paper-dim` face, a 1.5px navy border and a 2px bottom shadow, lifting on hover and pressing in on
+  `:active`; `.primary` (**Open schedule**) is navy. The script
   toggles every control by `id`, so a card can move without the script changing.
   A card's explanation is a `.mc-tip` (`role="tooltip"`) beside an `.mc-info` button in its title row
   (`.mc-label-row`, or the CSV switch's row), named by the button's `aria-describedby`. It shows on hover only where

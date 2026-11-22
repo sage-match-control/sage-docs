@@ -68,6 +68,8 @@ changing any of them is not a deploy.
   arrangement that keeps the canvas export in step with the page.
 - **[Prize draw](prize-draw.md)** — Lucky Dink: the draw rule, the page's state, the reel and jar,
   the display window and the `DRAWS` tab.
+- **[Clock](clock.md)** — the wall clock: its settings, ticking, sizing to the screen, full screen
+  and the wake lock.
 
 ## Data (`event-data`)
 

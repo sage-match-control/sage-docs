@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.79.0</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.80.0</a>'
 
 docs_dir: docs
 
@@ -74,6 +74,7 @@ nav:
           - Score entry: features/score-entry.md
           - Scorer page: features/scorer-page.md
           - Event attendance: features/event-attendance.md
+          - Clock: features/clock.md
       - Scoring workbooks:
           - The scoring workbook: features/scoring-workbook.md
           - Dual Meet Sheet Generator: features/dual-meet-sheet-generator.md
@@ -103,6 +104,7 @@ nav:
       - Tournament Calculator: technical/tournament-calculator.md
       - Bracket Generator: technical/bracket-generator.md
       - Prize draw: technical/prize-draw.md
+      - Clock: technical/clock.md
       - Event registry schema: technical/event-data-config.md
       - Adding a new event: technical/adding-a-new-event.md
   - Specs:
