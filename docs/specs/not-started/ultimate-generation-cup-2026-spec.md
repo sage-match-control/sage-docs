@@ -7,7 +7,9 @@
 >
 > **Built in four phases** (§0.3): a **Day** picker on the schedule board (an engine change),
 > then the event's board with its `events.json` entry, then the Tournament Hub, then everything
-> else. Each phase is its own branch, its own checks and its own push.
+> else. **One branch, `gencup`, with one commit per phase** (the owner's choice): each phase runs
+> its own unit tests and browser checks, `npm run verify` runs once after Phase 4, and the site,
+> `event-data` and the docs are pushed together at the end, on the owner's yes (§7.6).
 >
 > **Dry-run on 2026-11-23.** Every site edit of §4–§7 was applied to a detached worktree of the
 > site at `d92ed28`: every anchor matched exactly once, and §4's engine edits, applied again to
@@ -21,8 +23,8 @@
 > checked), and any commit or push.
 >
 > **Deadline.** The event is on **Saturday 28 and Sunday 29 November 2026**. The site repo takes
-> no merge within 3 days of an event, so **all four phases reach the site's `main` by Tuesday
-> 24 November**. After that, push only with the owner's explicit go-ahead.
+> no merge within 3 days of an event, so **the branch, all four phases, reaches the site's `main`
+> by Tuesday 24 November**. After that, push only with the owner's explicit go-ahead.
 
 Build the event pages for **The Ultimate Generation Cup 2026**, a two-day doubles tournament run
 by the **Pampanga Paddle Aces** on **28–29 November 2026** at **Kingcourts Pickleball, San
@@ -90,33 +92,33 @@ Words this spec uses:
   `config/events.json` in `event-data`. Don't edit `tools/`, `_fixtures/` (except by running
   Appendix A, which you then undo) or any other event's folder. If something there seems to need
   a change, stop and report.
-- **One phase at a time.** A phase starts only when the one before it is merged into `main` and
-  pushed.
+- **One branch, one commit per phase, in order.** Every site change is on the branch `gencup`,
+  cut in §4.1; each phase is one commit on it, and a phase starts only once the one before it is
+  committed and its checks have passed. In `event-data` and `sage-docs`, whose `main` is worked
+  directly, each phase's commit goes on `main` and stays unpushed until §7.6.
 - **Commit** where a phase says *Commit*, with the message it gives, followed by a blank line and
   the attribution line your session's instructions give.
-- **Never push, and never merge into `main`, without the owner's yes in chat.** Each phase ends at
-  a **Stop and ask** step.
+- **Never push, and never merge into `main`, without the owner's yes in chat.** Nothing is merged
+  or pushed until §7.6, the one **Stop and ask** step.
 - **Never commit `assets/pubmat.jpg`.** It is reference only.
 - Don't rename, "fix" or tidy anything this spec doesn't mention.
 
 ### 0.3 The phases
 
-| Phase | Builds | Branch | Ends with |
-| --- | --- | --- | --- |
-| **1** (§4) | The schedule board's **Day** picker: `lib/v1/domain/board-day.js` (new), `lib/v1/apps/schedule-board.js`, `lib/v1/css/schedule-board.css`, one line in each template's `schedule.html`, two test files, the docs | `gencup-engine` | Push of the site, then the docs |
-| **2** (§5) | `events/generation-cup-2026/schedule.html` and the event's entry in `event-data/config/events.json` | `gencup-board` | Push of the site **and** `event-data` |
-| **3** (§6) | `events/generation-cup-2026/index.html` and its logo | `gencup-hub` | Push of the site |
-| **4** (§7) | `attendance.html`, the dry-run checklist, and the QR image if it has come | `gencup-rest` | Push of the site |
+All on the branch `gencup` in the site repo:
 
-What is live in between:
+| Phase | Builds | Ends with |
+| --- | --- | --- |
+| **1** (§4) | The schedule board's **Day** picker: `lib/v1/domain/board-day.js` (new), `lib/v1/apps/schedule-board.js`, `lib/v1/css/schedule-board.css`, one line in each template's `schedule.html`, two test files; the docs (a commit on `sage-docs` `main`) | Site commit 1, docs commit |
+| **2** (§5) | `events/generation-cup-2026/schedule.html`; the event's entry in `event-data/config/events.json` (a commit on `event-data` `main`) | Site commit 2, `event-data` commit |
+| **3** (§6) | `events/generation-cup-2026/index.html` and its logo | Site commit 3 |
+| **4** (§7) | `attendance.html`, the dry-run checklist, and the QR image if it has come; then `npm run verify` and the one push of all three repos | Site commit 4, the push |
 
-- **After Phase 1** nothing any visitor sees changes: every existing board has no picker
-  container and works as before (§4.6 checks UPAP's).
-- **After Phase 2** the event is registered: Control Center lists it, the operators can set up
-  both workbooks' live sync (§9.2), and **Open schedule** opens the board. **Open Tournament Hub**
-  leads to "Page not found" until Phase 3. Don't hand out the short link before Phase 3.
-- **After Phase 3** the public Hub is live. **Issue desk link** waits for Phase 4.
-- Nothing is pushed during the event: the board opens on each event day by itself (§3.5).
+What goes live, and when: nothing until §7.6. Then the push publishes everything at once: the
+engine's Day picker (every existing board has no picker container and works as before; §4.6
+checks UPAP's), the event's registration (Control Center lists it, and the operators can set up
+both workbooks' live sync, §9.2), the board, the Hub at the short link, and the desk page.
+Nothing is pushed during the event: the board opens on each event day by itself (§3.5).
 
 ### 0.4 Commands you will use in every phase
 
@@ -294,7 +296,7 @@ This must print exactly:
 report.
 
 ```bash
-git checkout -b gencup-engine
+git checkout -b gencup
 cd _tests && npm install && npm test; cd ..
 ```
 
@@ -866,44 +868,24 @@ nothing; work on `main`, as that repo is worked), each page in the present tense
      ```
 
 5. **This spec moves to `in-progress/`** by the procedure in `docs/specs/README.md` (its status
-   line, the specs README, the two folder READMEs, `mkdocs.yml`); its status line names Phase 1's
-   commit.
+   line, the specs README, the two folder READMEs, `mkdocs.yml`); its status line names the
+   branch `gencup` and Phase 1's site commit, and says nothing is pushed yet.
 6. A MINOR docs version: a `docs/changelog.md` entry (**Changed**: the schedule board's Day
    picker, naming the four pages; this spec to in progress) and `mkdocs.yml`'s `copyright`.
 
-The workspace `CLAUDE.md` needs no change. *Commit* in `sage-docs`:
+The workspace `CLAUDE.md` needs no change. *Commit* in `sage-docs`, on `main`, **don't push**:
 `docs <version>: the schedule board's Day picker; Generation Cup spec in progress`.
 
-### 4.8 Full check
+### 4.8 Phase 1 done
 
 ```bash
 cd /d/Personal/SAGE/sage-match-control.github.io
-cd _tests && npm run verify; cd ..
+git status --short
 ```
 
-It must pass. A failure means something outside this phase's files changed: run `git status` and
-stop and report.
-
-### 4.9 Stop and ask: push Phase 1
-
-Tell the owner Phase 1 is ready, with §4.3's test count, §4.6's results and §4.8's, and that
-pushing changes the engine every board loads (existing boards have no container and are
-unchanged). Each push is its own yes:
-
-1. **The site:**
-
-   ```bash
-   git checkout main
-   git pull
-   git merge --ff-only gencup-engine
-   git push
-   ```
-
-2. **The docs:** `cd /d/Personal/SAGE/sage-docs && git pull --rebase && git push`.
-
-If `--ff-only` refuses or the rebase conflicts: stop and report. **Check, a minute or two
-later:** `https://sage-match-control.github.io/events/upap-2026/schedule` still reads as before,
-with no Day picker.
+The site is on `gencup`, one commit ahead of `main`, and `git status` prints the three `??` lines
+of §4.1 and nothing else. `npm run verify` waits for §7.5. Report Phase 1 (§8) and go on to
+Phase 2.
 
 ---
 
@@ -911,19 +893,18 @@ with no Day picker.
 
 ### 5.1 Start
 
-Phase 1 must be on `main`.
+Phase 1 must be committed on `gencup` (§4.8).
 
 ```bash
 cd /d/Personal/SAGE/sage-match-control.github.io
-git checkout main
-git pull
+git branch --show-current
 git status --short
 ```
 
-This must print exactly the three `??` lines of §4.1. Anything else: stop and report.
+The first prints `gencup`; the second exactly the three `??` lines of §4.1. Anything else: stop
+and report.
 
 ```bash
-git checkout -b gencup-board
 cd _tests && npm test; cd ..
 ```
 
@@ -1297,31 +1278,11 @@ git status --short
 
 `git status` shows nothing under `_fixtures/`.
 
-### 5.9 Full check
+### 5.9 Phase 2 done
 
-`npm run verify` (§0.4) must pass. A failure means something outside this phase's files changed:
-run `git status` and stop and report.
-
-### 5.10 Stop and ask: push Phase 2
-
-Tell the owner Phase 2 is ready, with the results of §5.8 and §5.9, and that pushing publishes
-the board and registers the event (Control Center lists it within about a minute). On a yes:
-
-```bash
-git checkout main
-git pull
-git merge --ff-only gencup-board
-git push
-cd /d/Personal/SAGE/event-data
-git pull --rebase
-git push
-cd /d/Personal/SAGE/sage-match-control.github.io
-```
-
-If `--ff-only` refuses or the rebase conflicts, stop and report. **Check, a minute or two
-later:** `https://sage-match-control.github.io/events/generation-cup-2026/schedule` shows the
-violet bar with "Schedule isn't published yet — check back soon." until a workbook syncs, and its
-Day select offers both days; Control Center lists "The Ultimate Generation Cup 2026".
+The site is on `gencup`, two commits ahead of `main`; `event-data`'s `main` holds §5.6's commit,
+unpushed (its `origin/main` may gain sync commits meanwhile; §7.6 rebases onto them). Report
+Phase 2 (§8) and go on to Phase 3.
 
 ---
 
@@ -1329,16 +1290,15 @@ Day select offers both days; Control Center lists "The Ultimate Generation Cup 2
 
 ### 6.1 Start
 
-Phase 2 must be on `main`.
+Phase 2 must be committed on `gencup` (§5.9).
 
 ```bash
 cd /d/Personal/SAGE/sage-match-control.github.io
-git checkout main
-git pull
+git branch --show-current
 git status --short
 ```
 
-This must print exactly:
+The first prints `gencup`; the second exactly:
 
 ```
 ?? events/archives/ladies-dink-2026/assets/pubmat.webp
@@ -1349,7 +1309,6 @@ This must print exactly:
 Anything else: stop and report.
 
 ```bash
-git checkout -b gencup-hub
 cd _tests && npm test; cd ..
 ```
 
@@ -1672,30 +1631,10 @@ At **375px**:
 
 Stop the server and remove the fixture as at the end of §5.8.
 
-### 6.9 Full check
+### 6.9 Phase 3 done
 
-```bash
-cd _tests && npm run verify; cd ..
-```
-
-It must pass. A failure means something outside this phase's files changed: run `git status` and
-stop and report.
-
-### 6.10 Stop and ask: push Phase 3
-
-Tell the owner Phase 3 is ready, with the results of §6.8 and §6.9, whether `qr.png` was
-included, and that pushing publishes the Hub at the short link. On a yes:
-
-```bash
-git checkout main
-git pull
-git merge --ff-only gencup-hub
-git push
-```
-
-If `--ff-only` refuses, stop and report. **Check, a minute or two later:**
-`https://sage-match-control.github.io/events/generation-cup-2026/` shows the header as §6.8 has
-it, and Control Center's **Open Tournament Hub** opens it.
+The site is on `gencup`, three commits ahead of `main`. Report Phase 3 (§8), with whether
+`qr.png` was included, and go on to Phase 4.
 
 ---
 
@@ -1703,21 +1642,20 @@ it, and Control Center's **Open Tournament Hub** opens it.
 
 ### 7.1 Start
 
-Phase 3 must be on `main`.
+Phase 3 must be committed on `gencup` (§6.9).
 
 ```bash
 cd /d/Personal/SAGE/sage-match-control.github.io
-git checkout main
-git pull
+git branch --show-current
 git status --short
 ```
 
-This must print exactly the three `??` lines of §6.1, except that the event's line now reads
-`?? events/generation-cup-2026/assets/pubmat.jpg` (and `?? events/generation-cup-2026/assets/qr.png`
-if the QR image came after Phase 3). Anything else: stop and report.
+The first prints `gencup`; the second exactly the three `??` lines of §6.1, except that the
+event's line now reads `?? events/generation-cup-2026/assets/pubmat.jpg` (and
+`?? events/generation-cup-2026/assets/qr.png` if the QR image came after Phase 3). Anything else:
+stop and report.
 
 ```bash
-git checkout -b gencup-rest
 cd _tests && npm test; cd ..
 ```
 
@@ -1755,29 +1693,56 @@ git commit -m "The Ultimate Generation Cup 2026: desk page and dry-run checklist
 `?? events/generation-cup-2026/assets/pubmat.jpg`, the two unrelated `??` lines, and nothing
 else. **Never stage the pubmat.**
 
-### 7.5 Full check
+### 7.5 Full check, once for the whole branch
 
 ```bash
 cd _tests && npm run verify; cd ..
 ```
 
-It must pass. A failure: run `git status` and stop and report.
+It must pass. It compares `main` with the branch's four commits together. Existing pages must not
+differ; the board templates' new container is hidden, so they shouldn't either. Any difference:
+run `git status`, and stop and report which cases differ. Don't accept a difference without the
+owner's say.
 
-### 7.6 Stop and ask: push Phase 4
+### 7.6 Stop and ask: push everything
 
-Tell the owner Phase 4 is ready, with §7.3's result and whether `qr.png` was included. On a yes:
+Tell the owner the branch is ready: the four site commits, the `event-data` commit and the docs
+commit; the unit-test counts (904, 907, 910, 910); the browser checks of §4.6, §5.8, §6.8 and
+§7.3; §7.5's result; and whether `qr.png` was included. Pushing publishes the engine's Day picker,
+registers the event (Control Center lists it within about a minute), and puts the board, the Hub
+at the short link and the desk page live. On a yes, in this order (the site first, so the pages
+exist before Control Center lists the event):
 
 ```bash
+cd /d/Personal/SAGE/sage-match-control.github.io
 git checkout main
 git pull
-git merge --ff-only gencup-rest
+git merge --ff-only gencup
 git push
+cd /d/Personal/SAGE/event-data
+git pull --rebase
+git push
+cd /d/Personal/SAGE/sage-docs
+git pull --rebase
+git push
+cd /d/Personal/SAGE/sage-match-control.github.io
 ```
 
-If `--ff-only` refuses, stop and report. **Check, a minute or two later:**
-`https://sage-match-control.github.io/events/generation-cup-2026/attendance` reads "Ask the
-operator for a desk link." If `qr.png` still hasn't come, say so: it is committed and pushed on
-its own when it does, with the owner's yes.
+If `--ff-only` refuses or a rebase conflicts, stop and report. **Check, a minute or two later:**
+
+- `https://sage-match-control.github.io/events/upap-2026/schedule` reads as before, with no Day
+  picker.
+- `https://sage-match-control.github.io/events/generation-cup-2026/schedule` shows the violet bar
+  with "Schedule isn't published yet — check back soon." until a workbook syncs, and its Day
+  select offers both days.
+- `https://sage-match-control.github.io/events/generation-cup-2026/` shows the header as §6.8 has
+  it, and Control Center lists "The Ultimate Generation Cup 2026"; its **Open Tournament Hub**
+  opens the Hub.
+- `https://sage-match-control.github.io/events/generation-cup-2026/attendance` reads "Ask the
+  operator for a desk link."
+
+If `qr.png` still hasn't come, say so: it is committed and pushed on its own when it does, with
+the owner's yes. Then the operators set up live sync (§9.2).
 
 ---
 
@@ -1786,7 +1751,8 @@ its own when it does, with the owner's yes.
 - Which checks passed, and any that didn't, with what you saw.
 - That the fixture (and in Phase 1 the scratch `schedule-beta.html`) was removed.
 - Whether `qr.png` was present.
-- What was pushed, and to which repo, only after the owner's yes.
+- The commit made in each repo (its short hash), and that nothing was pushed before §7.6.
+- At §7.6, what was pushed and to which repo, only after the owner's yes.
 - `git status --short` in every repo you touched.
 
 ---
@@ -1820,7 +1786,7 @@ Both workbooks were read on 2026-11-23. These happen in Google Sheets and on the
 - Players entered in two categories on the same day, and back-to-back matches, are the
   organiser's call.
 
-### 9.2 Share each workbook, then set up live sync — once each, after Phase 2 is pushed
+### 9.2 Share each workbook, then set up live sync — once each, after the push (§7.6)
 
 For **each** workbook:
 
@@ -1898,8 +1864,11 @@ Set `LIVE_BASE_URL = ''` in every page of `events/generation-cup-2026/`. Leave t
 - **Choosing a day reloads the page** rather than swapping data in place: the live channel and
   the staff view follow the new day with no extra code, and `?courts=` can't point past Day 2's
   six courts.
-- **`events.json` ships with the board**: registering early lets the operators set up live sync
-  and rehearse on the real board while the Hub is built.
+- **One branch, one commit per phase, one push** (the owner's choice, 23 November): each phase
+  is still checked on its own, but `npm run verify` runs once on the whole branch and everything
+  goes live together, before the 24 November freeze. The `events.json` entry is written in
+  Phase 2 beside the board it serves, and pushed after the site so Control Center never lists
+  the event before its pages exist.
 - **The generation is in the day label**, not the division: the workbooks' categories are the
   same levels on both days, and the label is what every picker shows.
 - **The board takes the workbooks' colours** for the eight categories that have them, so the wall

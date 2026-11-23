@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.100.1] — 2026-11-23
+
+### Changed
+
+- [The Ultimate Generation Cup 2026](specs/not-started/ultimate-generation-cup-2026-spec.md) is built on one
+  branch, `gencup`, with one commit per phase: each phase keeps its own unit tests and browser checks,
+  `npm run verify` runs once after Phase 4, and the site, `event-data` and the docs are pushed together at the end,
+  on the owner's yes.
+
 ## [2.100.0] — 2026-11-23
 
 ### Added
