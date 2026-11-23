@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.88.1] — 2026-11-23
+
+### Fixed
+
+- [Hub player experience](specs/not-started/hub-player-experience-spec.md): on a computer, a team chip keeps scrolling
+  to the top as today (step 1), and a Standings row tap brings the search box into view (step 5); each has a
+  behaviour test. Its overview table says what each step changes in Control Center and on a computer.
+
 ## [2.88.0] — 2026-11-23
 
 ### Changed
