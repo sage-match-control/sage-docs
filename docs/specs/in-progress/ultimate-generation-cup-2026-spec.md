@@ -4,9 +4,10 @@
 > by fast-forward on 2026-11-23: the **Day** picker `98e2bfe` (§4), the board `24c8511` (§5), the
 > Hub `1acfcaa` (§6), and the desk page and checklist `d5eb2e4` (§7), with the event registered in
 > `event-data` (`bacea528`) and Phase 1's docs (2.101.0). Unit tests 904, 907, 910, 910; §7.5's
-> `npm run verify` passes (910 unit, 783 comparison). Left: the QR image (§2, §9.5); in the
-> workbooks (§9.1), Day 1's `HIMD_F_2` bracket link and both days' player names (Day 2's match
-> numbers, 1–49, are in); live-sync setup (§9.2), the dry run (§9.6) and the event.
+> `npm run verify` passes (910 unit, 783 comparison). Of §9.1's workbook fixes, Day 2's match
+> numbers (1–49) and Day 1's `HIMD_F_2` bracket link (`Variables!AD89:AF89`) are in. Left: the QR
+> image (§2, §9.5), both days' player names (§9.1), live-sync setup (§9.2), the dry run (§9.6)
+> and the event.
 > Written 2026-11-23 against `sage-match-control.github.io` at
 > `d92ed28`, `event-data`'s `config/events.json` at `e0eb51f5`, and both event workbooks as read
 > that day through the Sheets API. The owner answered every open question the same day; the
@@ -1770,12 +1771,12 @@ Both workbooks were read on 2026-11-23. These happen in Google Sheets and on the
 
 ### 9.1 Workbook checks before sync setup
 
-- **Day 2 has no match numbers yet.** Its `SCHEDULE` is fully packed (49 matches, 10:00 AM to
+- **Done 2026-11-23.** **Day 2 has no match numbers yet.** Its `SCHEDULE` is fully packed (49 matches, 10:00 AM to
   3:25 PM), but its `CSV` tab reads "Not found" for the first match and leaves the rest
   unnumbered. Run **SAGE → Fill match numbers** in the Day 2 workbook before setting up its live
   sync; `CSV` should then number 1–49 in schedule order, as Appendix A assumes. (Numbers may
   repeat across the two days: each day is its own snapshot.)
-- **Day 1's `HIMD` Final is missing one bracket link.** `Variables!AD:AG` goes from `HIMD_F_1`
+- **Done 2026-11-23, in row 89.** **Day 1's `HIMD` Final is missing one bracket link.** `Variables!AD:AG` goes from `HIMD_F_1`
   straight to `HIXD_F_1`, so `STANDINGSCSV` gives `HIMD_F_2` no `match` or `from`, and the
   bracket chart can't draw that Final's second seat. Type `HIMD_F_2`, `F`, `W:SF-2` into an empty
   row of `Variables!AD:AF` (the lookup reads the whole of `AD:AG`, so any empty row works, e.g.

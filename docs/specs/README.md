@@ -332,7 +332,7 @@ build status.
   re-skinned from its pubmat, in four phases on one site branch, `gencup`. Phase 1, a **Day**
   picker on every template-made schedule board (an engine change, so nothing is pushed during
   the event), then the board with both days in `events.json`, the Hub and the desk page. All
-  four are built and on the site's `main`; the QR image, two workbook fixes, live-sync setup and
+  four are built and on the site's `main`; the QR image, the player names, live-sync setup and
   the dry run are left.
 
 ---

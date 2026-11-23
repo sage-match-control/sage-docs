@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.101.2] — 2026-11-23
+
+### Changed
+
+- [The Ultimate Generation Cup 2026](specs/in-progress/ultimate-generation-cup-2026-spec.md): Day 1's `HIMD_F_2`
+  bracket link and Day 2's match numbers are in the workbooks; the QR image, the player names, live-sync setup and
+  the dry run are left.
+
 ## [2.101.1] — 2026-11-23
 
 ### Changed
