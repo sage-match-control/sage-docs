@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.91.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 2 (the next match on the pair
+  summary card), is built. A navy block opens the card with where and when the pair plays next: **Next match**
+  with the time, court and opponent of its next unplayed match, or **Playing now** with the court while one of its
+  matches is on court. Before the day goes live the card is that block alone. Control Center's card has it too.
+  The spec's Divergences section records which harness cases differ. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): the block, and the card before the day is live;
+  - [Control Center](features/control-center.md): Match Finder's card opens with it;
+  - [Site engine](technical/site-engine.md): the `pair-schedule` module, `nextMatchHTML`, the card's three
+    shapes and the `.ps-next` styles;
+  - [Rehearse](usage/rehearse.md): what the dry run checks in the card.
+
 ## [2.90.0] — 2026-11-23
 
 ### Changed

@@ -35,8 +35,17 @@ on. Typing, clearing the box and the page refreshing with new scores never scrol
 On a computer the results are already on screen, so nothing scrolls, though
 **Find matches** still closes the suggestions.
 
-Above a pair's matches, a **summary card** says where the pair stands:
+Above a pair's matches, a **summary card** says where the pair plays next and where it stands:
 
+- A navy block that opens the card and answers *where and when do I play next?*
+  It reads **Playing now** with the court (**Court 3**) while one of the pair's
+  matches is on court, and otherwise **Next match** with the time and court
+  (**2:50 PM · Court 4**) of the pair's next match that is not played. Under
+  the time are the opponent (or *To be decided*, with the *Winner of Semifinal 2*
+  or seat label when the opponent is known by where it comes from), the
+  round (**Round robin**, **Semifinal**, **Final · Game 2**…), the match number,
+  and, at a venue with more than one facility, the facility. A pair with
+  nothing left to play has no block.
 - Its category, and its bracket when the category has more than one
 - Its rank in its round-robin bracket (**#2 of 5**), in the same order as
   Standings, with **W**, **L**, **PF** (points for), **PA** (points against)
@@ -53,8 +62,10 @@ Above a pair's matches, a **summary card** says where the pair stands:
   that takes bronze without playing (the round robin's #3 when there is no
   Bronze match) shows *Bronze medal* with *3rd in the round robin · no match*.
 
-The card appears for standard and dual meet events once the day is live. A
-team event's Match Finder shows the team's own results instead.
+The card appears for standard and dual meet events. Before the day goes live it
+is the next-match block alone, since no scores are shown yet; once it is live
+the block sits above the pair's standing. A team event's Match Finder shows the
+team's own results instead.
 
 Each match card ("ticket") shows:
 

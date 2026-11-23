@@ -14,7 +14,7 @@ desk-link QR code, cdnjs. Pushing to GitHub Pages deploys it.
 lib/v1/
   platform.js      constants: the Pages address, the Cloud Run URL, fetch timeout, poll intervals, fixtureName()
   domain/          the rules, pure functions with no DOM and no clock
-    csv  byes  series  deciders  matches  standings  codes  bracket  brackets  golive  progress
+    csv  byes  series  deciders  matches  pair-schedule  standings  codes  bracket  brackets  golive  progress
     teams  lineup-rules  awards  event-pages  attendance  attendance-marks  schedule-grid  scoresheet-names  courts  model
   data/            the outside world
     registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
@@ -226,8 +226,24 @@ The done colours are literals, not `--amber`, which most shells set to a green.
 
 `views/pair-summary.js` draws the card Match Finder shows above a searched pair's tickets;
 `pairResultsHTML` (`views/finder.js`) puts it under the results head and leaves out the head's
-category tag when it does. It returns `''` for a team event (whose finder is `views/teams.js`), while
-the day is not live, and for a pair with no round-robin row.
+category tag when it does. It returns `''` for a team event (whose finder is `views/teams.js`). While
+the day is not live, and for a pair with no round-robin row, it is the next-match block alone in a
+`.pair-summary` (and `''` when the pair has no next match); otherwise the block is the card's first
+child, before `.ps-top`.
+
+- `domain/pair-schedule.js`: `pairMatches(model, codes)` is the pair's matches (any of its codes, either
+  side, a BYE side left out) in schedule order: the Schedule time in event-day minutes, a time that does
+  not parse last, equal times by match number. `nextUpIndex(model, list)` is the index of the first one
+  not played, not on a live court and not in `model.unneededGames`, or `-1`. `pairResultsHTML` uses both
+  for its tickets and their **Next Up** pill, and `nextMatchHTML` uses them for the block.
+- `nextMatchHTML(team, model)`: the navy `.ps-next` block. On a live day, a pair match with a live court
+  that is not played is *Playing now* (`.ps-next--live`, the live dot, `Court ${m.liveCourt}`); otherwise
+  the Next Up match (`.ps-next--next`) shows its Schedule time and, when not blank, its
+  `CourtAssignment`. The opponent is the other side's two names, or, for an open side, its
+  `openSeatLabel` or *To be decided*. The round is the pair's own code's `roundKeyword` through the
+  same names as the playoff rows (*Round robin* with none), with ` · Game n` for a series game. The
+  facility (`m.facility`) shows only when `model.day.facilities` has more than one. A day that is not
+  live ignores live courts. Every value is escaped.
 
 - `roundRobinStanding(team, model)`: the pair's round-robin code (the first of `team.codes` whose
   stage is `RR`), its group (same category, club for a dual meet, and bracket label, filtered as
@@ -248,8 +264,10 @@ the day is not live, and for a pair with no round-robin row.
 
 The module is new, so `finder.js` importing it is safe against a browser's cached copy of an existing
 module; it uses `pointsFromMatches`, an export a push earlier than the one that added it. Its styles
-are `.pair-summary` and the `.ps-*` classes at the end of `css/finder.css`. `pair-summary.test.mjs`
-covers each stage on hand-made days.
+are `.pair-summary` and the `.ps-*` classes at the end of `css/finder.css`; the block's are
+`.ps-next` and its `small`, `b`, `span`, `i` and `em`, in the page's `--navy`, `--white` and `--green`.
+`pair-summary.test.mjs` covers each stage and the block on hand-made days, and `pair-schedule.test.mjs`
+the order and the Next Up rule.
 
 ## Showing a search's results
 

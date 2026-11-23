@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — step 1 of 8 built (a search shows its results); steps 2–8 not started.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — steps 1 and 2 of 8 built (a search shows its results; the next match on the pair summary card); steps 3–8 not started.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -961,6 +961,28 @@ the questions is in §15 with the dropped proposals.
 | D18 | 4 | The pill's count | *In progress · 6/10* |
 | D11 | 6 | A team event's podium now or later | Now |
 | D13 | 8 | The chips jump or filter | Jump |
+
+## Divergences
+
+Where the build departs from what Part 1 says.
+
+**Step 2 (the next match on the pair summary card)**
+
+- **Fewer harness cases differ than §4 says.** §4 says every `finder-search` case of `std-index`, `dm-index`
+  and `cc` differs. The block appears only where the searched pair has a match left to play, so of the 90 pair-search
+  cases (the `finder-search` and `finder-find-button` views, the harness's first search result in each) 24
+  differ in text and pixels (accept `both`), and the rest do not:
+  - `std-index` (`piggleball-2026`, `pickle-for-sight-2026`), both views, state `pre`, phone and desktop: 8;
+  - `dm-index` (`pnf-x-bup-dual-meet`), both views, states `pre` and `mid`, phone and desktop: 8;
+  - `cc` `finder-search`: state `pre` for `piggleball-2026`, `pickle-for-sight-2026` and `pnf-x-bup-dual-meet`, and
+    `mid` for `pnf-x-bup-dual-meet`, phone and desktop: 8.
+
+  The `finder-find-button` views, which step 1 added, draw the same card and so differ in the same states.
+  Unchanged: `std-index` in `mid` and `final`; `dm-index` in `final`; `cc` in `final`, and in `mid` except for
+  `pnf-x-bup-dual-meet`; and every team event, which gets no card (D2).
+- **The live dot has no margin on the block.** §4 gives the dot `background:var(--white)` only. `.live-dot` carries
+  `margin-right:8px` and the block's `small` is a flex row with `gap:6px`, so the dot would sit 14 px from the
+  text; `.ps-next .live-dot` also sets `margin-right:0`.
 
 ---
 

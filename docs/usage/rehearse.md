@@ -59,8 +59,10 @@ Sign in under Mission Control, click **Resync this day now**, then check:
   a silent "Other" bucket.
 - [ ] **Match Finder:** search a real player's name. It returns their matches in
   schedule order, with the right opponent and score state. A standard or dual meet event
-  shows the pair's summary card above them: its rank with W, L, PF, PA and Q, and a
-  status pill.
+  shows the pair's summary card above them: a navy **Next match** block with the time,
+  court and opponent of the pair's next unplayed match (**Playing now** with the court
+  while one of its matches is on court), then its rank with W, L, PF, PA and Q, and a
+  status pill. With the day set to **Force hidden** the card is the block alone.
 - [ ] **Standings:** the round-robin tables show W, L, PF, PA and Q, and Match A's score
   is counted in its two pairs' PF and PA.
 - [ ] **Awards:** it loads without errors and lists every category. Before any Final or
