@@ -223,6 +223,17 @@ with no names yet (an unseeded slot, **TBD**, or a pair listed under its team co
 **›** and does nothing, and neither does a playoff matchup. A team event's Standings
 and Control Center's are unchanged.
 
+**A podium on a finished category.** Once a category's result is known, its Standings card opens with a
+**Podium** card before the round-robin tables: gold, silver and bronze with the pairs' names, and under gold
+the final, for example *Beat Makeen Fernandez / Noelle Mercado 11–7 in the final*. A final played as a series
+(twice-to-beat or best-of-3) has no single score, so its line reads *Beat … in the final*. A dual meet's names are
+followed by the club (*Keren Kenizzite / Shaira Tarlit · Pickle & Friends Community*). The podium appears only when it
+is certain: the final and the bronze match are both played with a clear winner, or the category has no bronze match
+(then two places show), or the category was decided by its round robin alone and every match is in (then there is
+no final line). A category still playing, a final or bronze that is tied on points, or a bronze not yet played shows
+no podium. It is the same podium as Control Center's Awards tab. Standard and dual-meet events;
+Control Center's Standings do not draw it.
+
 **Club Showdown** *(dual-meet events only)* — a running head-to-head win
 count between the two clubs sits front and center on Standings, updated
 after every match, with whichever club is ahead visually highlighted.
@@ -327,6 +338,13 @@ Once the day is live each bracket's title carries the same status pill, **In pro
 or **Final**, counting the bracket's matchups (a matchup is played once it reads *Final* or a
 tie). A team table has no tie pills: its ranking and its own **Tied · playoff** pill are as
 above.
+
+Once the Final is played, **Standings** open with the event's **Podium**: the Final's winner, its loser and the
+Bronze matchup's winner, by team name, and under the winner the Final's score, from the winner's side: points
+(*Beat Can i buy you a DINK? 32–26 in the final*), or pairs won at an event that ranks on games (*Beat Pink 2–1 in the final*;
+when the Final is level on games and decided on points, *Beat Pink 37–35 on points in the final*). With no Bronze
+matchup the podium has two places. It stays out until the Final is played, and while the Final or the Bronze is tied on
+points, so the organizer has to settle it first.
 
 **Searching by team or player.** Match Finder takes a team name or a player's
 name. A team result lists every matchup that team plays, in schedule order,

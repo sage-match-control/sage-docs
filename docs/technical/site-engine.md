@@ -19,7 +19,7 @@ lib/v1/
   data/            the outside world
     registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
   views/           functions that return HTML strings, plus small components
-    html  scroll  reveal  hub-bar  ticket  finder  live-matches  standings  bracket  bracket-full  teams  team-mark
+    html  scroll  reveal  hub-bar  ticket  finder  live-matches  standings  podium  bracket  bracket-full  teams  team-mark
     score-dialog  court-dialog  attendance-view
   apps/            one per kind of page, wiring data, model and views to the page's markup
     hub  schedule-board  scorer  attendance-desk
@@ -97,8 +97,8 @@ offers it.
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)`, `markPlayer(name, match)` → class | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark) |
 | Match Finder | `searchHandlers`, `searchHint`, `delegate`, `onSearched()` | the match-number search; the team event's own finder; nothing for `onSearched` (the Hub passes `revealResults`) |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html, `countDone` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round; `true`, so a done court counts apart from the courts in play |
-| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class, `onPairSelect(teamCode)` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match); nothing for `onPairSelect` (the Hub opens the pair in Match Finder) |
-| team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint`, `onSearched()` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub); nothing for `onSearched` (the Hub passes `revealResults`) |
+| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class, `onPairSelect(teamCode)`, `podium` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match); nothing for `onPairSelect` (the Hub opens the pair in Match Finder) or `podium` (the Hub draws a finished category's podium; Control Center has its Awards tab) |
+| team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint`, `onSearched()`, `podium` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub); nothing for `onSearched` (the Hub passes `revealResults`); nothing for `podium` (the Hub opens the Standings with the event's podium) |
 
 ## Settings, the shells and fixture mode
 
@@ -420,6 +420,45 @@ the results are in view. It uses the finder's existing members and adds no impor
 `.rr-open-mark` (`--muted`, bold, 4 px from the figure). The mark is about 3 px wide and fits the Q column's
 54 px, so a row's height does not change. `_tests/unit/views/standings-open-rows.test.mjs` covers the markup and
 `hub-behaviour.test.mjs` taps a row at a phone and a computer size, with Enter and with the bar showing.
+
+## The podium
+
+On the Hub a finished category's Standings card opens with its podium, and a team event's Standings with the event's
+(hub-player-experience-spec §8). The rule is Control Center's Awards tab's, so the two never disagree: `views/podium.js`
+reads `domain/awards.js` (`buildPodiums`, `buildTeamPodium`, `resolveDecisiveMatch`, `standingsBronzeWalkover`) and
+`domain/series.js`'s `seriesGameOf`, and has no rule of its own beyond when to show it.
+
+- `podiumFor(model, category)` and `teamPodiumFor(model)` → `{ gold, silver, bronze, finalLine }` or `null`. Each place is a
+  display string: a pair's two names joined by ` / ` (followed by ` · <club label>` at a dual meet), or a team's name;
+  `bronze` is `null` when there is none. `buildPodiums(model)` is kept per model in a `WeakMap` (a model is built once per
+  snapshot), so the cards of one render share one derivation.
+- **When it shows** (standard and dual meet): the entry has no `warning` (a Final or Bronze tied on points), `gold` and `silver`
+  are set, and `bronze` is set or the category has no bronze at all (`resolveDecisiveMatch(model, category, 'B').any` and
+  `standingsBronzeWalkover(...).walkover` are both false). A category decided by its round robin alone (`source: 'standings'`)
+  shows too, once `buildPodiums` fills its places (the round robin is done), with no final line. A team event shows when
+  `buildTeamPodium` has no warning, gold and silver, and a bronze unless the event has no `Br` matchup.
+- **The final line** (gold's `<small>`): for `source: 'bracket'`, the decisive Final's winner's score first, *Beat <silver>
+  11–7 in the final*, and with no score for a series final (`seriesGameOf(m.t1)`, whose games are not one score). A team's
+  uses the `Fi` matchup's result from the winner's side: `pts1`–`pts2`, or `pairs1`–`pairs2` when `result.scoring` is
+  `'games'`, and *37–35 on points* for a Final level on games, which `"2–2"` would misreport.
+- `podiumHTML(p)` returns `<div class="podium">` with a `.podium-title`, and an `<ol class="podium-list">` of `<li class="podium-place
+  podium-place--gold|silver|bronze">` rows, each a `.podium-rank` (1, 2, 3) and `.podium-names`; every string is escaped. No
+  podium is `''`. `categoryPodiumHTML(model, rows)` reads the category from the card's rows
+  (`parseCode(rows[0].teamCode, type).category`) for the two Standings builders.
+
+`createStandings` takes `podium` (default `false`) and carries it in the card options: `categoryCardHTML` and
+`categoryColumnHTML` (a dual meet's column, through `dualMeetStandingsHTML`) put the podium first in `.standings-col-body`.
+`createTeams` takes it through `hooks.podium`, and `teamStandingsHTML` starts the `.team-standings` container with it. Both
+import the new module; a module that did not exist before cannot be a stale cached copy, so the import is safe. `apps/hub.js` passes `podium: true` to both;
+Control Center passes neither, so its Standings never draw one.
+
+`css/standings.css` has `.podium` (a white card, 14px radius, `--card-shadow`, 12px 14px padding), `.podium-title` (Barlow
+Condensed, uppercase, `--muted`), `.podium-place` (a flex row, a dashed `--line` divider between places), `.podium-rank` (a 26px
+circle; gold `#F3D46B` on `#4A3500`, silver `#DADDE3` on `#2E333D`, bronze `#E3B48A` on `#4A2A0C`, the pair summary card's
+medal colours) and `.podium-names` (14px 600, wrapping long names, its `small` 12px `--ink-soft`). On a computer the card sits
+in its column and changes no column's width, so the 1 col / 2 cols toggle and the bracket chart are as before.
+`_tests/unit/views/podium.test.mjs` covers the rule on the fixtures and on hand-made days, and
+`podium-wiring.test.mjs` the options (off by default, first in the body, none on `mid`).
 
 ## The scoring rule
 

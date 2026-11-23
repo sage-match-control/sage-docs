@@ -89,7 +89,9 @@ a phone:
 - [ ] **Live Matches** on the Hub matches what the console showed. If **Force hidden**
   was on at any point, confirm the Hub goes hidden rather than showing scores.
 - [ ] **Standings** on the Hub: the same unmapped-code warning and the same standings as
-  the console, with each table's pill reading as it did there.
+  the console, with each table's pill reading as it did there. A category with no final
+  played yet shows no **Podium** card; one with its final (and bronze) entered shows gold,
+  silver and bronze with the final's score, matching Control Center's Awards tab.
 - [ ] **The bar:** scroll the Hub down on a phone. A slim bar with the event's logo, date and
   venue, and title stays at the top, and its button (**Match Finder ☰**) opens a menu of the tabs,
   the day picker if the event has more than one day, and the sync line. Pick **Standings**: the

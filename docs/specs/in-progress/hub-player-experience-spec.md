@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — steps 1 to 5 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder); steps 6–8 not started.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — steps 1 to 6 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category); steps 7–8 not started.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -1106,6 +1106,52 @@ Where the build departs from what Part 1 says.
 - **A row with no names was not checked on a live page.** No category on ACSO's or UPAP's published data has an
   unnamed or TBD round-robin row, so "a TBD row does nothing" is covered by the unit test (such a row carries no
   `rr-open`, `data-team` or `tabindex`) and not by a tap on a live page.
+
+**Step 6 (a podium on a finished category)**
+
+- **More than the final-state cases differ, but not all of them.** §8 says the final-state Standings cases of `std-index`,
+  `dm-index` and `team-index` differ. A probe that opened each of the 96 harness cases whose id mentions `standings`,
+  ran its steps and counted the drawn `.podium` blocks (no comparison run) found one in 17; the other 79 draw none. The harness
+  compares each case's `innerText` (`runCase` reads the case root's, and the podium's words are in it, checked on all 17), so
+  all 17 differ in text and pixels (accept `both`, not `pixels`):
+  - `std-index`, 9: `standings` on a computer for `piggleball-2026` `final` (3 podiums) and `pickle-for-sight-2026` `final` (9) and
+    `mid` (2); `standings-category-2` on a phone (1 each) and a computer for the same three. A standard event's Standings on a
+    phone show no table until a category is picked, so the plain `standings` case there (6) draws nothing;
+  - `dm-index`, 4: `pnf-x-bup-dual-meet` `final`, `standings` and `standings-category-2`, phone and computer (7 podiums);
+  - `team-index`, 4: `pickledrive-anniversary-2026` `final`, `standings` and `standings-bracket-open`, phone and computer (1 podium).
+    `team-demo-2026` has no Final played in any state, so its cases draw none;
+  - `cc` (30) and `cc-signed-in` (6): none. `pre` has none anywhere.
+
+  By state, 14 are `final` and 3 are `mid`: the fixture's `mid` keeps scores on the lower-numbered half of the matches, and two of
+  `pickle-for-sight-2026`'s nine categories are already finished in that state, by the same rule as in `final`.
+  By size, 7 are phone and 10 computer. All 17 are already among the cases that differ for steps 4 and 5, so the `both` entries
+  written for those steps cover them, with `row` naming P12 too; narrower ones for the podium alone would be:
+  `/^std-index\/(piggleball-2026\/standings\/final|pickle-for-sight-2026\/standings\/(final|mid))\/desktop$/`,
+  `/^std-index\/(piggleball-2026\/standings-category-2\/final|pickle-for-sight-2026\/standings-category-2\/(final|mid))\/(phone|desktop)$/`,
+  `/^dm-index\/pnf-x-bup-dual-meet\/standings(-category-2)?\/final\/(phone|desktop)$/` and
+  `/^team-index\/pickledrive-anniversary-2026\/standings(-bracket-open)?\/final\/(phone|desktop)$/`. Nothing is added to
+  `accepted.mjs` yet.
+- **A team Final level on games reads "on points".** §8 gives the team's final line as `pairs1`–`pairs2` when `result.scoring`
+  is `'games'`. The Millennium Invitational's Final was 2–2 on games and decided on points (37–35), so the line read *Beat Pink
+  2–2 in the final*, which reads as a tie. When the two sides have won the same number of pairs the line gives the points and
+  says so: *Beat Pink 37–35 on points in the final*. Every other case is as §8 says (Ladies' Dink's *Beat GRL POWER 2–1*,
+  PickleDrive's *Beat Can i buy you a DINK? 32–26*).
+- **A place is a string.** §8 says `podiumFor` returns `{ gold, silver, bronze, finalLine }` and leaves a place's type open;
+  each is the display string the markup prints (names joined by ` / `, with ` · <club>` at a dual meet, or a team's name),
+  `null` for no bronze. At a dual meet the silver in the final line carries its club label too, as in the list.
+- **One extra export.** `views/podium.js` also exports `categoryPodiumHTML(model, rows)`, which reads the category from the card's
+  rows (`parseCode(rows[0].teamCode, type).category`) so `views/standings.js` makes one call in each of its two builders.
+- **A podium is taller on a computer than a card's first screen.** A column of the desktop board scrolls on its own, and the
+  podium is the first thing in it, so the round-robin tables start a podium's height lower. No column's width changes (measured on the live ACSO page: 740 px, and 360 px after the 1 col toggle, with and without
+  the podium), and the toggle and the bracket chart work as before.
+- **The dual meet's round-robin tables are cramped at 1280 px, with or without a podium.** In the dual meet template's
+  final-state Standings at 1280 px each category column is about 290 px wide and holds both clubs' tables side by side
+  (166 px each), so their headers overlap. The tables measure the same with the podium removed from the page; the
+  podium itself wraps its long club labels and does not overflow (7 of 7).
+- **The live pages' own categories.** ACSO's three categories and UPAP's eight are all finished, so the "an unfinished category
+  shows none" case was not seen on a live page: it is the unit tests' `mid` and hand-made cases. UPAP's categories of three pairs
+  (such as *45+ (DUPR ≤3.25) Mixed Doubles*) have a Final and no Bronze match and still show three places, the bronze being the third-placed round-robin pair, as the
+  Awards tab has it. The no-bronze, two-place case is a unit test on a hand-made day; none of the four live events has one.
 
 ---
 

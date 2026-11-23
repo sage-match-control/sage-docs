@@ -37,6 +37,25 @@ has been replaced.
 
 ---
 
+## [2.95.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 6 (a podium on a finished
+  category), is built. On the Tournament Hub a category's Standings card opens with a **Podium**: gold, silver
+  and bronze with the pairs' names, and under gold the final, such as *Beat Makeen Fernandez / Noelle Mercado
+  11–7 in the final* (no score for a series final). It shows once the podium is certain, by the rule Control
+  Center's Awards tab uses, so the two agree: a category with no bronze match shows two places, one decided by
+  its round robin alone shows three with no final line, and a tied or unfinished one shows none. A dual meet's
+  names are followed by the club. A team event's Standings open with the event's podium, its final line in
+  points or, at an event that ranks on games, pairs won (*Beat GRL POWER 2–1*, or *37–35 on points* when the
+  Final was level on games). Control Center is unchanged. The spec's Divergences section records the 17 of 96
+  Standings harness cases that differ (in text as well as pixels, three of them `mid`), and the points wording
+  for a Final level on games. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): the podium, and the team event's;
+  - [Site engine](technical/site-engine.md): the `podium` options, the podium module and its styles;
+  - [Rehearse an event](usage/rehearse.md): what the dry run checks on the Hub's Standings.
+
 ## [2.94.0] — 2026-11-23
 
 ### Changed
