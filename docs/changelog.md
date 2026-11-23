@@ -37,6 +37,22 @@ has been replaced.
 
 ---
 
+## [2.97.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 8 (jump to a category in a dual
+  meet's Standings), is built; it is the last step. On a phone the Tournament Hub's dual-meet Standings pin a row of
+  category chips (*LI WD*, *LI MD*, *LI XD*…) under the club bar, and a tap scrolls to that category's card, just
+  under the pinned row, whichever way the Hub's bar stands; the chip of the category at the top of the screen is
+  highlighted as the page scrolls. The page stays whole (nothing is filtered), the category headings stop pinning
+  under the row, and the row scrolls sideways when the chips do not fit. Computers, Control Center, and standard and
+  team events are unchanged. The spec's Divergences section records the 6 of 96 Standings harness cases that differ
+  (the `dm-index` phone ones), how the jump allows for the bar before it shows, and the rule for the highlighted chip.
+  The spec stays in `in-progress/` until the verify run, the owner's review and the merge are done. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): the chips, on phones;
+  - [Site engine](technical/site-engine.md): the `jumpChips` option, the chips and the scroll listener.
+
 ## [2.96.0] — 2026-11-23
 
 ### Changed

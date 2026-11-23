@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — steps 1 to 7 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category; a dual meet's club score first, and *Pairs*); step 8 not started.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — steps 1 to 8 of 8 built, all eight, with nothing left to build (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category; a dual meet's club score first, and *Pairs*; a dual meet's Standings jump to a category). The verify run, the owner's review, the merge and the accepted harness entries are still to do.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -1198,6 +1198,59 @@ Where the build departs from what Part 1 says.
 - **The test count.** `npm test` reads 876 (865 before): the eight cases of `club-bar.test.mjs`, one of `finder.test.mjs`
   and the two `guards.test.mjs` writes for every module of `views/` (`club-bar.js` imports only what views may import, and names no operator
   feature). The `hub-behaviour.test.mjs` count is unchanged (28).
+
+**Step 8 (jump to a category in a dual meet's Standings)**
+
+- **Six harness cases differ, as §10 says.** §10 says the
+  `dm-index` phone Standings cases differ. A probe that opened each of the 96 harness cases whose id mentions `standings`,
+  ran its steps and counted the drawn `.dm-pin` and `.dm-jump-chip`s (no comparison run) found them in 6; the other 90 draw
+  none. The harness compares each case's `innerText` exactly (`runCase` reads the case root's, which is `body`), and the
+  chips' words are in it (checked on all 6: each of the seven labels, *LI WD* … *A MD*, is in the text), so all 6 differ in
+  text and pixels (accept `both`):
+  - `dm-index`, 6: `pnf-x-bup-dual-meet`, `standings` and `standings-category-2`, on a phone, in `pre`, `mid` and
+    `final` (2 in each state; a dual meet has no category to pick, so the second view is the same page);
+  - nothing at `dm-index` on a computer (6 cases), `std-index` (24), `team-index` (24), `cc` (30) or `cc-signed-in` (6).
+
+  Geometry was also compared element by element, the committed `HEAD` against the working tree, for Control Center's dual-meet
+  Standings (`cc`, `final` and `mid`, phone and computer) and the dual-meet Hub on a computer (`pre`, `mid`, `final`):
+  identical, with no `.dm-pin` and the same text. The same comparison on the four live event pages (ACSO, UPAP, Ladies' Dink,
+  the Millennium Invitational) at 375 and 1280 px found their Standings identical, with none of the new classes. All 6 are
+  already among the 12 `dm-index` Standings cases that differ for step 4, so the `both` entry written for step 4
+  (`/^dm-index\/[^/]+\/standings(-category-2)?\/[^/]+\/(phone|desktop)$/`) covers them, with `row` naming P16; the
+  narrower entry for the chips alone would be `/^dm-index\/[^/]+\/standings(-category-2)?\/[^/]+\/phone$/`. None of the 6
+  is new compared with steps 4 to 6. Nothing is added to `accepted.mjs` yet.
+- **The jump allows for a bar that is not showing yet.** §10 adds 54 px to the scroll target when `body` has `hub-bar-on`. A
+  tap from the top of the page happens with the banner in view, so the bar is off at the tap; the jump scrolls the banner away
+  and the bar comes on, so the pinned row ends at 54 px and the category, 8 px under where the row would have been, is 46 px
+  behind it (measured: *the category starts -46.19px under the pinned row*, on `dm-index/pnf-x-bup-dual-meet/standings/final/phone`).
+  The jump therefore looks at where it lands: `hubBarShowsAt(top)` is true when the bar is on already, or when the page has a
+  `.hub-bar` and the target is at or below the bottom of `header.hero`. The 54 px then applies as the spec writes it. A tap with the
+  bar already on, and Control Center (no `.hub-bar`, no `header.hero`), work as §10 gives. A jump whose target falls in the 54 px
+  band just above the banner's bottom, where the bar would not show at the landing after all, lands the category up to 54 px
+  lower than 8 px; the first chip's jump lands it 4 px under the row for the same reason (its row has not reached its
+  pinned place yet).
+- **The highlighted chip allows for the gap the jump leaves.** §10 marks the chip of "the last column whose top is above the
+  pinned row's bottom". A jump leaves the column's top 8 px *under* the row's bottom, so by that rule a tap on the third chip
+  highlights the second. The rule is the last column whose top is no more than 12 px under the row's bottom (the 8 px gap and 4 px of
+  rounding). The first column's top is at the row's bottom before any scrolling, so the first chip is highlighted when the page opens
+  on Standings, in all three states; no chip is highlighted while the row has not reached the first column.
+- **The marking is not run without the option.** §10 does not say; `createStandings` adds its scroll listener and calls the
+  marking after a redraw only when `jumpChips` is set, so Control Center and a standard event add no listener and the fake
+  panel in `podium-wiring.test.mjs`, which has no `querySelector`, is not asked for one. No existing test was changed.
+- **A day with one club still has chips.** §10 wraps the club bar and the chips. `clubSummaryHTML` is `''` with fewer than
+  two clubs, so `.dm-pin` holds the chips alone then. It is not a case any fixture has.
+- **The pinned row is tall.** With the club bar's 22 px bottom margin kept inside the row (the CSS in §10 only makes the bar static) the
+  row is 167 px at 375 px wide (the bar 105, the margin 22, the chips 34 and 6 under), about a fifth of a 812 px screen,
+  and 221 px from the top with the Hub bar. It is as §10's CSS gives; nothing was trimmed.
+- **The highlighted chip can be out of the row's view.** The seven chips are 457 px wide in a 335 px row, so the last two start out of
+  view and are scrolled to by hand or by the browser when one is tapped; the highlight moving to a chip under the edge does not
+  scroll the row, as §10 does not ask for it.
+- **The test count.** `npm test` reads 882 (876 before): six cases in `standings.test.mjs` (the pinned row and the chips in
+  category order with their labels and targets, a category the display settings cannot split, escaping, the markup without the option,
+  a computer, and one club). `hub-behaviour.test.mjs` reads 38 (28 before): ten cases (the row and its chips, a tap from the top, a tap with the
+  bar showing, the last chip, scrolling by hand, the chip row's sideways scroll, the category heads, the page staying whole, a
+  computer and Control Center). The step 3 case *a dual meet's club score bar pins under the bar* needed no change: the club bar inside
+  `.dm-pin` still sits 54 px from the top.
 
 ---
 

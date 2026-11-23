@@ -97,7 +97,7 @@ offers it.
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)`, `markPlayer(name, match)` → class | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark) |
 | Match Finder | `searchHandlers`, `searchHint`, `delegate`, `onSearched()`, `introTop(model)` | the match-number search; the team event's own finder; nothing for `onSearched` (the Hub passes `revealResults`) or `introTop` (the dual-meet Hub passes the club bar; Control Center and every other event draw none) |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html, `countDone` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round; `true`, so a done court counts apart from the courts in play |
-| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class, `onPairSelect(teamCode)`, `podium` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match); nothing for `onPairSelect` (the Hub opens the pair in Match Finder) or `podium` (the Hub draws a finished category's podium; Control Center has its Awards tab) |
+| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class, `onPairSelect(teamCode)`, `podium`, `jumpChips` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match); nothing for `onPairSelect` (the Hub opens the pair in Match Finder) or `podium` (the Hub draws a finished category's podium; Control Center has its Awards tab) or `jumpChips` (the dual-meet Hub draws the chips on a phone) |
 | team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint`, `onSearched()`, `podium` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub); nothing for `onSearched` (the Hub passes `revealResults`); nothing for `podium` (the Hub opens the Standings with the event's podium) |
 
 ## Settings, the shells and fixture mode
@@ -483,6 +483,37 @@ because the bar sticks in Standings and must scroll here. `_tests/unit/views/clu
 Standings', the logos, and the cases that draw none (a standard or team event, a day not live), and
 `finder.test.mjs` the label and the option. A page now has two `.club-summary` elements at a dual meet (Match Finder's and
 Standings'), so a selector for Standings' names its panel (`#standingsBody .club-summary`).
+
+## Category chips
+
+On the Hub a dual meet's Standings on a phone have a row of chips that jump to a category
+(hub-player-experience-spec §10). `createStandings` takes `jumpChips` (default `false`) and `dualMeetStandingsHTML`
+reads it: in the phone branch only (not `isDesktopStandings()`), the club bar and the chips are wrapped in
+`<div class="dm-pin">`, before `.standings-board`, with a `<nav class="dm-jump" aria-label="Jump to a category">` of
+`<button type="button" class="dm-jump-chip" data-jump-cat="<label>">`, one for each category in `sortedCats` order. A
+chip's `data-jump-cat` is its column's `data-cat-key`, and its text is `${divCode} ${evCode}` from
+`splitCategory(parseCode(rows[0].teamCode, type).category, display)`, or the category code when the display settings cannot
+split it; both are escaped. Without the option, or on a computer, the markup is what it was, so Control Center, which does
+not pass it, is unchanged. `apps/hub.js` passes `jumpChips: true` at a dual meet.
+
+`createStandings` finds a chip's column by comparing each `.standings-col`'s `data-cat-key` with the chip's
+`data-jump-cat` (a label is never built into a selector) and scrolls the page so the column starts 8 px under the pinned
+row: `column top + scrollY - pinned row height - 8`, and 54 px (the Hub bar's height) less when the bar is showing there
+(`hub-bar-on`), instant under *reduce motion*. A tap from the top of the page lands with the banner gone and the bar on,
+though the bar is not on yet, so `hubBarShowsAt(top)` also answers yes when the target is below the banner (`header.hero`)
+and the page has a `.hub-bar`; Control Center has neither. One passive `scroll` listener, added once when the option is
+set and throttled with `requestAnimationFrame`, marks `active` the chip of the last column whose top is no further than the
+8 px gap and 4 px of rounding under the pinned row's bottom, reading the DOM each time, and `render()` runs the same
+marking after it redraws so a live update keeps the highlight.
+
+`css/standings.css`, under the phone media query, has `.dm-pin` (sticky at the top, `z-index` 6, `--paper`, 6 px under),
+`.dm-pin .club-summary{ position:static }` (the bar pins as part of the row), `.dm-jump` (a flex row that scrolls
+sideways with no scrollbar) and `.dm-jump-chip` (Barlow Condensed 700 12px, uppercase, a white pill; `.active` is navy),
+and the category heads stop pinning under the row (`.dm-pin ~ .standings-board .standings-col-head{ position:static }`).
+`css/hub.css` has `body.hub-bar-on .dm-pin{ top:54px }` beside the club bar's own rule. `_tests/unit/views/standings.test.mjs`
+covers the markup (the order, the labels and targets, the escaping, the markup without the option and on a computer) and
+`hub-behaviour.test.mjs` taps the chips at a phone size, with the bar off and on, by hand-scrolling, and checks that a
+computer and Control Center draw none.
 
 ## The scoring rule
 

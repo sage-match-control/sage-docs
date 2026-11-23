@@ -242,6 +242,15 @@ no final line). A category still playing, a final or bronze that is tied on poin
 no podium. It is the same podium as Control Center's Awards tab. Standard and dual-meet events;
 Control Center's Standings do not draw it.
 
+**Jumping to a category** *(dual-meet events, on a phone)*. A dual meet's Standings on a phone are every category in one
+column, so a row of chips sits under the club bar and stays pinned with it as the page scrolls: **LI WD**, **LI MD**,
+**LI XD** and so on, the division and the event, one for each category in the order the cards follow. Tapping a chip scrolls
+to that category's card and stops just under the pinned row; the page stays whole, with the other categories above and
+below as before. The chip of the category at the top of the screen is highlighted, so scrolling by hand moves the
+highlight. The row scrolls sideways when the chips do not all fit, and the page does not. When the Hub's bar is showing,
+the pinned row sits under it, and a category's heading no longer pins under the row. A computer's Standings, a standard or
+team event's, and Control Center's have no chips.
+
 **Club Showdown** *(dual-meet events only)* — a running head-to-head win
 count between the two clubs sits front and center on Standings, updated
 after every match, with whichever club is ahead visually highlighted.
