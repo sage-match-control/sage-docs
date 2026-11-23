@@ -277,9 +277,11 @@ round-robin rank with W, L, PF, PA and Q, and where the pair is in the playoffs.
 its match number as a dark tab in its top-left corner, and its category beside the
 round. Useful for an
 operator fielding "where's my match" questions without having to also pull up
-Tournament Hub itself. Before a search it lists every match of the day in
-match-number order (a team event: its team chips, then every matchup,
-ordered by its lowest match number). A team event's matchup cards show their
+Tournament Hub itself. Before a search it counts the day (**Matches**, **Pairs** and
+**Categories**; a team event's **Matches**, **Matchups** and **Teams**), then lists every match of
+the day in match-number order (a team event: its team chips, then every matchup,
+ordered by its lowest match number). A dual meet's first screen has no club score here: that
+bar is the Hub's. A team event's matchup cards show their
 matches with a **Hide matches** button, as on the Hub.
 
 The search box sits just above the list, not in the banner, and on a phone it

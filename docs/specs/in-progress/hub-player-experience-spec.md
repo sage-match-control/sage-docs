@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — steps 1 to 6 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category); steps 7–8 not started.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — steps 1 to 7 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category; a dual meet's club score first, and *Pairs*); step 8 not started.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -1152,6 +1152,52 @@ Where the build departs from what Part 1 says.
   shows none" case was not seen on a live page: it is the unit tests' `mid` and hand-made cases. UPAP's categories of three pairs
   (such as *45+ (DUPR ≤3.25) Mixed Doubles*) have a Final and no Bronze match and still show three places, the bronze being the third-placed round-robin pair, as the
   Awards tab has it. The no-bronze, two-place case is a unit test on a hand-made day; none of the four live events has one.
+
+**Step 7 (a dual meet's club score first, and *Pairs*)**
+
+- **Fewer harness cases differ than §9 says, and the bar shows in `pre` too.** §9 says every `finder` case of `std-index`,
+  `dm-index` and `cc` differs, and the bar shows at `dm-index` `mid` and `final`. A probe that opened each of the 186 harness cases
+  whose id mentions `finder`, ran its steps and looked for the first screen's counts row, its middle tile and a drawn
+  `.finder-club-bar` (no comparison run) found the counts row in 66 of them, and *Pairs* in 42; the other 144 draw none or
+  are a team event's. The plain `finder` case is the only view that shows the first screen: a case that has searched
+  (`finder-search`, `finder-find-button`, `finder-by-number`, `finder-team`, `finder-player`) shows results instead, with
+  no counts and no bar, so none of those differs. The harness compares each case's `innerText` exactly (`textSame` is
+  `base.text === branch.text`), and the label is in it (*Pairs* in the branch's text, on all 42), so all 42 differ in text and
+  pixels (accept `both`); the label alone changes the counts row's pixels (checked by screenshotting the row with its label
+  set back to *Teams*: it differs on all 42), and the six `dm-index` cases differ by the bar as well:
+  - `std-index`, 12: `finder`, `piggleball-2026` and `pickle-for-sight-2026`, three states, phone and computer;
+  - `dm-index`, 6: `finder`, `pnf-x-bup-dual-meet`, three states, phone and computer, each with the bar (both logos, 64 and 48,
+    `position: static`, above the counts). The harness's clock is the day's 13:00, so the day is live in `pre` as well as in
+    `mid` and `final`, and the bar shows in all three;
+  - `cc`, 18: `finder`, `piggleball-2026`, `pickle-for-sight-2026` and `pnf-x-bup-dual-meet`, three states, phone and computer,
+    the label only (no bar: Control Center passes no `introTop`);
+  - `cc-signed-in`, 6: `finder`, `piggleball-2026`, three states, phone and computer, the label only.
+
+  By state each of `pre`, `mid` and `final` has 14, and by size 21 are phone and 21 computer. Not differing: `team-index` (a team
+  event's finder draws its own first screen, *Matches*, *Matchups*, *Teams*, which is `views/teams.js`'s), and `cc`'s
+  `pickledrive-anniversary-2026` and `team-demo-2026` for the same reason (24 cases with a counts row, all team events). None of the 42 is among the cases already
+  accepted for steps 1 to 3, which are the searched ones, so all are new. Their entries are `both`, to be written when
+  `npm run verify` runs after the last step: `/^(std-index|dm-index)\/[^/]+\/finder\/[^/]+\/(phone|desktop)$/`, `/^cc\/(piggleball-2026|pickle-for-sight-2026|pnf-x-bup-dual-meet)\/finder\/[^/]+\/(phone|desktop)$/` and `/^cc-signed-in\/[^/]+\/finder\/[^/]+\/(phone|desktop)$/`. Nothing is added to `accepted.mjs` yet.
+- **A bar needs two clubs.** §9 returns the wrapper whenever the event is a dual meet and the day is live.
+  `clubSummaryHTML` returns `''` when fewer than two clubs have standings, which would leave an empty
+  `<div class="finder-club-bar">` and its 14 px margin, so `clubBarHTML` returns `''` then too.
+- **The grouping is copied, not shared.** §9 says to group and order the clubs "exactly as `dualMeetStandingsHTML` does". That code is
+  inline there, so `views/club-bar.js` has its own copy of the few lines (rule 2 of §2.2: a new export of `views/standings.js` imported by another
+  module in the same push could meet a cached copy without it). `club-bar.test.mjs` pins the two together: the bar equals the
+  Standings summary on all three fixture states.
+- **A step 3 behaviour test's selector was scoped.** A dual meet's page now has two `.club-summary` elements, Match Finder's and Standings'.
+  `hub-behaviour.test.mjs`'s step 3 case *a dual meet's club score bar pins under the bar, not at the top of the screen* measured the first
+  one, which is now the hidden Match Finder copy (`top` 0), so it failed. Its selector is `#standingsBody .club-summary` and nothing else about it
+  changed; the owner chose this over leaving the failure or renaming the finder's class. Standings' bar still pins at 54 px.
+- **The bar sits below the fold on a phone.** At 375 × 812 the Hub's banner, tabs and pinned search box come first, so the bar is at
+  y = 898 (on a computer at 1280 × 800, y = 844): it is the first thing in the results, above the counts, not the first thing on the screen. It
+  is not covered by the pinned search box (the box ends at 832), scrolls away with the page, and fits at 375 px (its two logos are 38 px
+  and inside the bar's 335 px; nothing overflows).
+- **The bar's margins are Standings'.** `.club-summary` keeps its 22 px bottom margin inside the 14 px of `.finder-club-bar`, and `.stats-row`
+  its 34 px top margin, so the gap from the bar to the counts is about 70 px on a phone, as the spec's CSS gives. Nothing was trimmed.
+- **The test count.** `npm test` reads 876 (865 before): the eight cases of `club-bar.test.mjs`, one of `finder.test.mjs`
+  and the two `guards.test.mjs` writes for every module of `views/` (`club-bar.js` imports only what views may import, and names no operator
+  feature). The `hub-behaviour.test.mjs` count is unchanged (28).
 
 ---
 

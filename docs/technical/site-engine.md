@@ -19,7 +19,7 @@ lib/v1/
   data/            the outside world
     registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
   views/           functions that return HTML strings, plus small components
-    html  scroll  reveal  hub-bar  ticket  finder  live-matches  standings  podium  bracket  bracket-full  teams  team-mark
+    html  scroll  reveal  hub-bar  ticket  finder  club-bar  live-matches  standings  podium  bracket  bracket-full  teams  team-mark
     score-dialog  court-dialog  attendance-view
   apps/            one per kind of page, wiring data, model and views to the page's markup
     hub  schedule-board  scorer  attendance-desk
@@ -95,7 +95,7 @@ offers it.
 | View | Option | What Control Center passes |
 | --- | --- | --- |
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)`, `markPlayer(name, match)` → class | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark) |
-| Match Finder | `searchHandlers`, `searchHint`, `delegate`, `onSearched()` | the match-number search; the team event's own finder; nothing for `onSearched` (the Hub passes `revealResults`) |
+| Match Finder | `searchHandlers`, `searchHint`, `delegate`, `onSearched()`, `introTop(model)` | the match-number search; the team event's own finder; nothing for `onSearched` (the Hub passes `revealResults`) or `introTop` (the dual-meet Hub passes the club bar; Control Center and every other event draw none) |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html, `countDone` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round; `true`, so a done court counts apart from the courts in play |
 | Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class, `onPairSelect(teamCode)`, `podium` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match); nothing for `onPairSelect` (the Hub opens the pair in Match Finder) or `podium` (the Hub draws a finished category's podium; Control Center has its Awards tab) |
 | team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint`, `onSearched()`, `podium` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub); nothing for `onSearched` (the Hub passes `revealResults`); nothing for `podium` (the Hub opens the Standings with the event's podium) |
@@ -459,6 +459,30 @@ medal colours) and `.podium-names` (14px 600, wrapping long names, its `small` 1
 in its column and changes no column's width, so the 1 col / 2 cols toggle and the bracket chart are as before.
 `_tests/unit/views/podium.test.mjs` covers the rule on the fixtures and on hand-made days, and
 `podium-wiring.test.mjs` the options (off by default, first in the body, none on `mid`).
+
+## The club bar
+
+At a dual meet the Hub's Match Finder opens with the club score (hub-player-experience-spec §9).
+`views/club-bar.js` exports `clubBarHTML(model, { clubLogoHTML })`: `''` unless `model.event.type` is
+`'dual-meet'` and `model.isLive` (and `''` with fewer than two clubs), otherwise
+`<div class="finder-club-bar">` around `clubSummaryHTML`, the win-totals bar of Standings. It groups
+`model.standings` by club and orders the clubs as `dualMeetStandingsHTML` does (the event's `display.clubs` in key
+order, then any other), the few lines copied rather than exported so that no existing module starts importing a new export
+of another in the same push. The wins are therefore Standings' wins, and the same logos come through `clubLogoHTML`,
+which `apps/hub.js` now holds in one named const for both.
+
+`introHTML(model, { introTop })` prints `introTop(model)`'s HTML before `.stats-row`; `createFinder` takes `introTop`
+(default none) and passes it to the first screen's `introHTML`. Only the first screen draws it: a search's results
+replace it, and a team event's finder, which draws its own first screen through its `delegate`, never does. The Hub passes
+`introTop: m => clubBarHTML(m, { clubLogoHTML })` at a dual meet and nothing elsewhere; Control Center passes none. The
+middle count's label reads *Pairs* (it was *Teams*, which a pair of players is not); a team event's own counts (Matches,
+Matchups, Teams) are `teams.js`'s and unchanged.
+
+`css/finder.css` has `.finder-club-bar` (a 14px bottom margin) and `.finder-club-bar .club-summary{ position:static }`,
+because the bar sticks in Standings and must scroll here. `_tests/unit/views/club-bar.test.mjs` covers the bar against
+Standings', the logos, and the cases that draw none (a standard or team event, a day not live), and
+`finder.test.mjs` the label and the option. A page now has two `.club-summary` elements at a dual meet (Match Finder's and
+Standings'), so a selector for Standings' names its panel (`#standingsBody .club-summary`).
 
 ## The scoring rule
 

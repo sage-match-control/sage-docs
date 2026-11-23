@@ -26,6 +26,14 @@ order, so you can also just scroll to yours. The search box sits just above
 the list, and on a phone it stays pinned to the top of the screen as you
 scroll, so a new search is always in reach.
 
+At the top of that list three tiles count the day: **Matches**, **Pairs** and **Categories**.
+At a dual meet, once the day is live, the list opens with the club score above them, the bar
+Standings opens with: each club's logo and name and its round-robin wins, the club ahead
+highlighted (*Pickle & Friends Community 64 vs 48 1Bataan United Picklers*). It is the same bar,
+so the two always agree, but here it scrolls away with the page instead of pinning. A search
+shows its results as before, without it; clearing the search brings it back. A standard or team
+event's Match Finder has no club bar (a team event's opens with its own counts: Matches, Matchups and Teams).
+
 On a phone, running a search shows its results. Picking a suggestion, pressing
 Enter or tapping **Find matches** closes the suggestions and the keyboard and
 scrolls the page so your pair's matches start just under the pinned search box,

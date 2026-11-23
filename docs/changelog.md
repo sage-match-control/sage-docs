@@ -37,6 +37,22 @@ has been replaced.
 
 ---
 
+## [2.96.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 7 (a dual meet's club score
+  first, and *Pairs*), is built. At a dual meet whose day is live the Tournament Hub's Match Finder opens with the
+  club bar Standings opens with, both clubs, their logos and their round-robin wins (*Pickle & Friends Community
+  64 vs 48 1Bataan United Picklers*), above the day's counts; here it scrolls with the page instead of pinning, and a
+  search shows its results without it. The middle count reads *Pairs* at every standard and dual-meet event, Control
+  Center's Match Finder included, which draws no club bar; a team event's counts (*Matches*, *Matchups*, *Teams*)
+  are as before. The spec's Divergences section records the 42 of 186 `finder` harness cases that differ (the plain
+  `finder` view, in text and pixels), not every one, and the bar showing in `pre` as well. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): the counts, and a dual meet's club bar;
+  - [Control Center](features/control-center.md): the *Pairs* label, and no club bar;
+  - [Site engine](technical/site-engine.md): the `introTop` option, the club bar module and its styles.
+
 ## [2.95.0] — 2026-11-23
 
 ### Changed
