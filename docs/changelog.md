@@ -37,6 +37,22 @@ has been replaced.
 
 ---
 
+## [2.94.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 5 (a Standings row opens that
+  pair's matches), is built. On the Tournament Hub each named round-robin row ends with a **›**, and a tap or
+  click on the row, or Enter on it, opens that pair in Match Finder: the tab switches, the search box holds
+  the pair and its summary card and tickets show. On a phone the page lands on the results under the pinned
+  search box (leaving room for the bar when it is showing); on a computer it goes to the search box. A slot
+  with no names does nothing. Standard and dual-meet events; a team event's Standings and Control Center are
+  unchanged. The spec's Divergences section records the 30 of 96 Standings harness cases that differ (in text
+  as well as pixels) and what was measured on the live pages. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): a Standings row opens the pair;
+  - [Site engine](technical/site-engine.md): the `onPairSelect` option, the `openRows` threading and the
+    row's markup and styles.
+
 ## [2.93.0] — 2026-11-23
 
 ### Changed

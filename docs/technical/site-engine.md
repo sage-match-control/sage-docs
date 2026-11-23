@@ -97,7 +97,7 @@ offers it.
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)`, `markPlayer(name, match)` → class | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark) |
 | Match Finder | `searchHandlers`, `searchHint`, `delegate`, `onSearched()` | the match-number search; the team event's own finder; nothing for `onSearched` (the Hub passes `revealResults`) |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html, `countDone` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round; `true`, so a done court counts apart from the courts in play |
-| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match) |
+| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class, `onPairSelect(teamCode)` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match); nothing for `onPairSelect` (the Hub opens the pair in Match Finder) |
 | team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint`, `onSearched()` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub); nothing for `onSearched` (the Hub passes `revealResults`) |
 
 ## Settings, the shells and fixture mode
@@ -389,6 +389,37 @@ stylesheet is loaded by all three templates and Control Center, so Control Cente
 through the shared views with no change of its own. `_tests/unit/domain/standings-status.test.mjs`
 covers the rules, including that the pills' order is `rankStandings`' on each tie case, and
 `_tests/unit/views/standings-status-markup.test.mjs` the markup.
+
+## A Standings row opens its pair
+
+On the Hub a named round-robin row opens that pair in Match Finder (hub-player-experience-spec §7).
+`createStandings` takes an option `onPairSelect(teamCode)`, off by default. When it is set, the options the
+builders already pass carry a boolean, `openRows`: `cardOptions()` adds it for a standard event's cards
+(`categoryCardHTML` hands it to `stageTablesHTML`), and a dual meet's body is drawn with `{ ...options, openRows }`,
+which `dualMeetStandingsHTML` passes down through `categoryColumnHTML` and `clubSubsectionHTML` to
+`stageTablesHTML` (the shared Bronze and Final block never draws a round-robin row). Without `openRows` every
+row is drawn exactly as before, so Control Center, which does not pass `onPairSelect`, and the page's old cached
+copies are unchanged; a team event's Standings are `views/teams.js`, which never reads it.
+
+`stageTablesHTML` gives each round-robin row for a named pair (not `isEmptyStanding`, so not an unseeded slot, a
+TBD or a pair still listed under its team code) `class="… rr-open"`, `data-team="<teamCode>"` and `tabindex="0"`,
+in the grid and the `'column'` layouts alike, and ends its Q cell with
+`<span class="rr-open-mark" aria-hidden="true">›</span>`, after the figure and clear of the tie pill, which is in
+the pair cell. A click on a `tr.rr-open` inside the panel, or Enter with focus in one, calls
+`options.onPairSelect(tr.dataset.team)`; the panel's own click handler checks for a row first, since nothing in a
+row is another control.
+
+`apps/hub.js` passes `onPairSelect` for a standard or dual-meet event. It finds the pair in `finder.pairs` whose
+`codes` include the team code (a code the finder has no matches for does nothing), clicks the Match Finder tab,
+puts the pair's label in the search box, sets `finder.selection`, runs the search and calls `reveal`. On a phone
+`reveal` lands on the results under the pinned search box; on a computer, where it does nothing, the page scrolls
+to the search panel (16 px above it, and 54 px more when the bar is on the page, which the scroll brings in), so
+the results are in view. It uses the finder's existing members and adds no import.
+
+`css/standings.css` has `tr.rr-open` (a pointer), its `:focus-visible` outline (`--green-dark`) and
+`.rr-open-mark` (`--muted`, bold, 4 px from the figure). The mark is about 3 px wide and fits the Q column's
+54 px, so a row's height does not change. `_tests/unit/views/standings-open-rows.test.mjs` covers the markup and
+`hub-behaviour.test.mjs` taps a row at a phone and a computer size, with Enter and with the bar showing.
 
 ## The scoring rule
 

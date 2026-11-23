@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — steps 1 to 4 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills); steps 5–8 not started.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — steps 1 to 5 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder); steps 6–8 not started.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -1075,6 +1075,37 @@ Where the build departs from what Part 1 says.
 - **Control Center needed no change.** Its Standings draw the pills through `views/standings.js` and
   `views/teams.js` and `css/standings.css`, which `tools/control-center.html` already loads; its model is always
   live, so they show before the public day is live too.
+
+**Step 5 (a Standings row opens that pair's matches)**
+
+- **Fewer harness cases differ than §7 says, and they differ in text too.** §7 says every Standings case of
+  `std-index` and `dm-index` differs and to accept `pixels`. A probe that opened each of the 96 harness cases
+  whose id mentions `standings`, ran its steps and counted the drawn `tr.rr-open` rows and `.rr-open-mark`s
+  (no comparison run) found rows in 30; the other 66 draw none. The harness compares each case's `innerText` exactly
+  (`textSame` is `base.text === branch.text`), and the › is text, so all 30 differ in text and pixels (accept
+  `both`, not `pixels`):
+  - `std-index`, 18: `standings` on a computer (2 events × 3 states = 6) and `standings-category-2` on a phone and a
+    computer (12). A standard event's Standings on a phone show no table until a category is picked, so the plain
+    `standings` case there (6) draws nothing and does not differ;
+  - `dm-index`, 12: `standings` and `standings-category-2`, phone and computer, 3 states.
+
+  By state each of `pre`, `mid` and `final` has 10. The rest do not differ: `team-index` (24, a team event's Standings
+  are another module), `cc` (30) and `cc-signed-in` (6), where no `rr-open` or mark is drawn. These are the same 30 cases
+  that already differ for step 4, so the `both` entries written for step 4 cover them, with `row` naming P6 and P14:
+  `/^std-index\/[^/]+\/standings\/[^/]+\/desktop$/`, `/^std-index\/[^/]+\/standings-category-2\/[^/]+\/(phone|desktop)$/`
+  and `/^dm-index\/[^/]+\/standings(-category-2)?\/[^/]+\/(phone|desktop)$/`. Nothing is added to `accepted.mjs` yet.
+- **More behaviour cases than §7 lists.** §7 lists two. `hub-behaviour.test.mjs` has five: the phone tap, that the
+  search box holds the tapped row's pair, Enter on a focused row, a tap with the bar already showing (the results
+  start under the search box, which is under the bar), and the computer case. "`#results` is near the top" is
+  checked as: the results start 0 to 16 px under the pinned search box, in the top third of the screen, with the
+  summary card on screen (on a phone the search box takes the top 240 px, so the results cannot start much nearer).
+- **The Q figure sits about 3.5 px left of centre.** The › is inside the Q cell, which centres its content, so the
+  figure and the mark are centred together. The mark is about 3 px wide with its 4 px margin and fits the cell's 54 px
+  on every row checked, so no row's height changes (0 of 195 rows measured on the live ACSO and UPAP pages and the dual
+  meet template).
+- **A row with no names was not checked on a live page.** No category on ACSO's or UPAP's published data has an
+  unnamed or TBD round-robin row, so "a TBD row does nothing" is covered by the unit test (such a row carries no
+  `rr-open`, `data-team` or `tabindex`) and not by a tap on a live page.
 
 ---
 

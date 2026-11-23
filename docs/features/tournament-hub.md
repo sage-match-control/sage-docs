@@ -213,6 +213,16 @@ table placed it (pairs that have not played get none):
 The pills describe the website's order. The workbook still picks who advances by wins and
 then quotient, so on a head-to-head tie it can disagree with the table.
 
+**A row opens that pair's matches.** On a standard or dual-meet Hub each named
+round-robin row in Standings ends with a **›** after the quotient. Tapping the row, or
+pressing Enter on it with the keyboard, switches to Match Finder with that pair searched:
+the summary card, with the pair's next match first, and its matches under it. On a phone
+the page lands on the results just under the search box; on a computer it goes to the
+search box, so the results are in view wherever Standings had been scrolled to. A slot
+with no names yet (an unseeded slot, **TBD**, or a pair listed under its team code) has no
+**›** and does nothing, and neither does a playoff matchup. A team event's Standings
+and Control Center's are unchanged.
+
 **Club Showdown** *(dual-meet events only)* — a running head-to-head win
 count between the two clubs sits front and center on Standings, updated
 after every match, with whichever club is ahead visually highlighted.
