@@ -1,871 +1,1002 @@
 # Spec — Tournament Hub player experience
 
-> **Status: not started — the owner has picked what to build.** Written
-> 2026-10-10 against `lib/v1` and the three event-site templates in
-> `sage-match-control.github.io` as of commit `d68acf8`; P9–P17 added
-> 2026-10-25 against commit `d7ed8ed`; revisited 2026-11-23 against commit
-> `b89fda5`, where Match Finder's pair summary card and other changes cover parts
-> of P3, P6, P12, P14 and P15 (§1.3). On 2026-11-23 the owner kept nine
-> proposals and dropped eight (§3), had P2, P5 and P6 redone and approved the new
-> designs, and answered every open decision (§23). P6's tie pills, added at the
-> owner's request after that and redone to say how each tie was broken, are
-> approved too. The spec is ready to build. Each proposal in §4–§20 stands
-> alone, except where its **Depends on** line says so. Nothing here is built.
+> **Status: not started — ready to build.** Written 2026-10-10 and 2026-10-25 as
+> seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
+> commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
+> answered every decision (§12). Part 1 (§1–§12) is the build, written to be
+> followed without any other context. Part 2 (§13–§16) is the background: why,
+> the measurements, and what was considered and dropped.
 
 Make the two things a player opens the [Tournament Hub](../../features/tournament-hub.md)
 for, *where and when do I play next?* and *where do we stand?*, quicker on a phone.
-Nothing moves off the page and no new sections are added. The Hub keeps its three
-tabs (four at a team event).
+The Hub keeps its three tabs (four at a team event); nothing moves off the page.
 
 ---
 
-## 1. Why
+# Part 1. The build
 
-On 2026-10-10 the Hub was compared with another organiser's player portal for
-a one-day event (Purple Pickle XP, "Powered by Qourts"). It is one 1.8 MB HTML file
-reading a Supabase table every 15 seconds. That portal does three things better on
-a phone:
+## 1. What gets built
 
-- It opens on the player's **next match** (court and time in large type) once the
-  player has picked their name, on every later visit too.
-- Its section tabs are a **bar along the bottom** of the screen, always one tap
-  away.
-- The first screen is **the task**, not the event's banner.
+Eight steps, each one push to the site's `main`, in this order. Step 3 is two
+proposals that share one bar.
 
-Behind those it has more sections than it needs: eight on a computer, five plus a
-menu on a phone, several overlapping. It also has a sign-in-style welcome
-screen in front of everything, and it shows organiser jargon (`P001`, `A-A1`,
-`PE · PC · PQ`). The Hub is already simpler, and these proposals keep it so.
-They take the three things above and leave the rest (§21).
+| Step | Proposal | What a player sees | Section |
+| --- | --- | --- | --- |
+| 1 | P1 | A search scrolls to its results and closes the keyboard and the suggestions | §3 |
+| 2 | P3 | The pair summary card opens with the pair's next match | §4 |
+| 3 | P2 + P5 | Once the banner scrolls away, a slim bar stays at the top, with a menu holding the tabs, the day and the sync line | §5 |
+| 4 | P6 | Each round-robin table's header says *In progress · 6/10* or *Final*, and tied rows say how the tie was broken | §6 |
+| 5 | P14 | Tapping a Standings row opens that pair in Match Finder | §7 |
+| 6 | P12 | A finished category's Standings card opens with its podium | §8 |
+| 7 | P15 | A dual meet's Match Finder opens with the club score, and counts *Pairs*, not *Teams* | §9 |
+| 8 | P16 | A dual meet's Standings on a phone have chips that jump to a category | §10 |
 
-### 1.1 What the Hub does today, measured
+Proposal numbers (P1…P17) are the ones the owner marked; the dropped ones are in
+§15. Build nothing from §15.
 
-The standard template on the Piggleball fixture, mid-day, on a 375 × 812 phone
-screen (the harness's `phone` size):
+## 2. Before you start
 
-| | Top of it, from the top of the page |
-| --- | --- |
-| The tabs (Match Finder, Live Matches, Standings) | 346 px |
-| The search box | 541 px |
-| A pair's results, after a search | 763 px: the pair's name, 49 px of it on the first screen |
-| The pair summary card (§1.3) | 845 px, 326 px tall |
-| The pair's first ticket | 1,223 px |
+### 2.1 Where things are
 
-Measured again on 2026-11-23 at `b89fda5`.
+The workspace is `D:\Personal\SAGE`. Two repositories matter:
 
-- **A search shows nothing new on the first screen.** Picking a suggestion, tapping
-  **Find matches** or pressing Enter runs the search, and the page stays where it
-  is. Only the top of the pair's name shows above the bottom edge, so a player sees
-  the box change and has to scroll to find out whether anything happened.
-- **Find matches leaves the suggestions open** over the results: the page closes
-  them on a click outside `.autocomplete`, and the button is inside it. On a
-  phone, Enter leaves the keyboard up as well.
-- **The last search comes back on reload** (`<event>.search` in the browser's
-  storage), with the same layout: the results are below the first screen again.
-- **A pair's results list every match** in Schedule time order under the pair
-  summary card, with a **Next Up** pill on one ticket. The card says where the pair
-  stands, not when it plays next in the round robin. The player scans the list for
-  the pill.
-- **Each side of a ticket starts with its team code** (`ND_5`, `ND_QF_4`), in
-  Control Center's small muted style, above the names. The ticket also has its
-  match number as a tab in its corner and its category and round as pills.
+- **`sage-match-control.github.io/`**, the site. Static HTML and native ES
+  modules, no build step, no framework, served by GitHub Pages from `main`. The
+  Hub's code is the **engine**, `lib/v1/`:
+  - `lib/v1/apps/hub.js`: `mountHub`, the Hub page's wiring.
+  - `lib/v1/views/`: markup builders and small components (`finder.js`,
+    `pair-summary.js`, `standings.js`, `teams.js`, `ticket.js`…).
+  - `lib/v1/domain/`: the rules, pure functions with no DOM (`standings.js`,
+    `awards.js`, `series.js`, `codes.js`, `matches.js`…).
+  - `lib/v1/css/`: one stylesheet per view (`hub.css`, `finder.css`,
+    `standings.css`, `teams.css`, `ticket.css`).
+  - `_templates/<type>-template/index.html`: the three Hub templates (standard,
+    dual meet, team). Each is a shell: markup, a `THEME` block of colours, and a
+    call to `mountHub`.
+  - `tools/control-center.html`: Control Center, the operators' console. It
+    shares `finder.js`, `pair-summary.js`, `standings.js`, `teams.js` and
+    `ticket.js` with the Hub, but not `apps/hub.js` or `hub.css`.
+  - `_tests/`: the unit tests and the comparison harness (§2.4).
+- **`sage-docs/`**, the documentation, a mkdocs site. This spec is
+  `sage-docs/docs/specs/not-started/hub-player-experience-spec.md`.
 
-### 1.2 A second comparison: Dinktator, 2026-10-25
+Read `sage-match-control.github.io/_templates/CLAUDE.md` §8 and
+`sage-docs/docs/technical/site-engine.md` (*Dependency rules*, *The versioning
+rule*, *Extension points*, *The comparison harness*) before step 1.
 
-On 2026-10-25 the Hub was compared with Dinktator's spectator pages for Paddle Up! vs
-Bangers 4.0 (`pvo.dinktator.club/t/pvo`), a two-club, two-day event with the same
-shape as a dual meet. Pages are drawn on the server and updated over a WebSocket.
-Umpires score every match from their own devices. It has five pages, each with its
-own address: Courts, Standings, Bracket, Schedule, and a page per court. Their
-standings work better on a phone:
+### 2.2 The rules every step follows
 
-- **They open on a division.** A dropdown picks one, and the first is chosen already.
-- **They explain themselves.** The rule for who advances is printed at the cut line.
-  A pair placed by a tiebreak says so ("Tied on win–loss — placed by quotient"). A
-  pair's row opens its games and its quotient worked out (`51 ÷ 31 = 1.645`). A line
-  counts the division's games ("50 of 50 games final").
-- **A pool has a cross-club grid.** One club's pairs down the side, the other's across,
-  every score in its cell.
-- **A finished division shows its podium**: champions, runners-up and bronze, and the
-  final's score.
+1. **Only `lib/v1/` is edited, and only compatibly.** Add modules, exports,
+   options and CSS classes. Never remove or rename an export, a CSS class a page
+   uses, or a theme property, and never change an existing export's parameters
+   or return shape. `lib/v1/` already serves live event pages (§2.5).
+2. **New code goes in new modules.** A browser may keep any file of the site for
+   up to ten minutes, so a module that starts using a new export of an *existing*
+   module can meet a cached copy without it and fail. A brand-new module can't be
+   cached, so importing it is always safe. Every step below puts its new
+   functions in a new module for that reason, and is one push. Where a step adds
+   an *option* to an existing function or component, an old cached copy just
+   ignores it; that is safe too.
+3. **Imports point one way** (`_tests/unit/guards.test.mjs` enforces it):
+   `domain/` imports only `domain/`; `views/` imports `domain/` and `views/`;
+   `apps/` imports anything but another app. No browser globals in `domain/`.
+4. **Control Center changes only where a step says so.** Hub-only behaviour is an
+   option the Hub passes, off by default.
+5. **Colours come from the theme tokens** every shell defines (`--navy`,
+   `--navy-deep`, `--green`, `--green-dark`, `--paper`, `--paper-dim`, `--line`,
+   `--ink`, `--ink-soft`, `--white`, `--muted`; the full list is
+   `_tests/unit/theme-contract.test.mjs`). A literal colour is used only where this
+   spec gives one (the medal and *Tied* colours, which match existing pills).
+6. **"A phone" means below 900 px wide**: the width at which `css/finder.css`
+   already pins the search box (`@media (max-width:899px)`). Use
+   `matchMedia('(max-width: 899px)')` in JavaScript and the same media query in
+   CSS.
+7. **Escape everything** put into markup with `escapeHtml` from `views/html.js`.
 
-Their pages show no club-against-club total anywhere, and they lead with pair codes
-(`PU-HMD-04`) before names. The Hub does both of these better already.
+### 2.3 The branch, and who pushes
 
-Measured on the Hub, on a 375 × 812 phone screen: Piggleball (standard, engine) and
-PNF × BUP (dual meet, built before the engine, whose Standings the engine's dual-meet
-Standings follow), both on 2026-10-25:
+```bash
+cd D:/Personal/SAGE/sage-match-control.github.io
+git switch main && git pull
+git switch -c hub-step-1        # hub-step-2, … one branch per step
+```
 
-- **Standings open empty on a phone.** The phone's category search starts blank:
-  "Search and select a category above to view its standings."
-- **A dual meet's Standings are one long column.** Every category is stacked under the
-  club bar (`dualMeetStandingsHTML`'s phone branch). At PNF × BUP that is 7 categories
-  and about 6,300 px, with no way to jump to one.
-- **The sync line says *Live* for good.** `apps/hub.js` writes "*day* · Live · last
-  synced *time*" whenever a snapshot loads. Piggleball reads "Oct 3 · Live · last
-  synced 8:25:50 AM" three weeks later.
-- **A tab has no address.** Switching tab changes the page but not its URL (the
-  view is kept in the browser's storage only), so a QR code or a shared link can't
-  open on Standings.
-- **The row colours aren't explained.** A table row is green when the pair has more
-  wins than losses and pink otherwise, a level record such as 2–2 included
-  (`standingRowClass`, `views/ticket.js`). A reader takes green for *advancing*,
-  which it isn't.
-- **The counts call pairs teams.** Match Finder's first screen reads "126 Matches ·
-  56 Teams · 7 Divisions" at PNF × BUP, where the teams are the two clubs and the
-  56 are pairs.
-- **A dual meet's club score is only in Standings.** The club bar (`clubSummaryHTML`)
-  is drawn at the top of Standings and nowhere else.
+Commit on the branch. **Merging into `main` and pushing is the owner's call: ask
+before doing either.** Never merge within three days of an event: check the day
+dates in `D:/Personal/SAGE/event-data/config/events.json` first. End every commit
+message with the attribution line the session asks for.
 
-P9–P17 take these. §21 lists what is not taken from Dinktator.
+### 2.4 The tests
 
-### 1.3 What the engine has gained since
+```bash
+cd D:/Personal/SAGE/sage-match-control.github.io/_tests
+npm install                 # once
+npm test                    # unit tests (_tests/unit/**), plain Node, no browser
+npm run compare             # the comparison harness (Playwright)
+npm run verify              # both; run it before asking to merge
+CASE='^std-index/pickle-for-sight-2026/finder' npm run compare   # only some cases
+```
 
-Between 2026-11-10 and 2026-11-22 these changes reached the engine Hub, built for
-their own reasons rather than from this spec. Each covers part of a proposal here,
-and the proposals below are written against them.
+- **Unit tests** cover pure functions and markup builders, on hand-made or fixture
+  models. They run in Node with no DOM. `_tests/unit/views/standings.test.mjs`
+  stubs `globalThis.window = { matchMedia: () => ({ matches: true }) }` where a
+  builder asks for the screen size; do the same. Fixture models come from
+  `_tests/helpers/fixtures.mjs`: `buildDayModel(eventConfig(ev),
+  eventConfig(ev).days[0], loadSnapshot(ev), { now: caseTime(ev) })`, and
+  `deriveState(snapshot, 'mid' | 'pre')` for the mid-day and pre-day states. The
+  fixture events are `piggleball-2026` and `pickle-for-sight-2026` (standard),
+  `pnf-x-bup-dual-meet` (dual meet), `pickledrive-anniversary-2026` and
+  `team-demo-2026` (team).
+- **The comparison harness** opens every page of `_tests/engine/cases.mjs` (case
+  ids like `std-index/pickle-for-sight-2026/finder-search/mid/phone`; page labels
+  `std-index`, `dm-index`, `team-index`, `cc`, `cc-signed-in`) in two trees, the
+  merge-base with `main` and your branch, and compares the page's text and a
+  full-page screenshot. It only finds differences when you work on a branch. A
+  difference you intend is listed in `_tests/engine/accepted.mjs` as
+  `{ case: /<regex over case ids>/, kind: 'text' | 'pixels' | 'both', row: 'owner 2026-11-23 hub P<n>', reason: '<what changed>' }`.
+  Add an entry only for cases that actually differ, scoped as narrowly as the
+  failures, and only for the change the step describes.
+- **Behaviour tests.** The harness's screenshots are full-page: the viewport
+  grows to the page's height, so nothing is ever scrolled and the banner is
+  always in view. Scrolling, the bar and the menu (steps 1, 3, 5, 8) are checked
+  instead by a new test file, `_tests/engine/hub-behaviour.test.mjs`, which
+  `npm run compare` runs with the rest of `engine/`. It opens a harness case at a
+  real 375 × 812 viewport and asserts on the live page:
 
-| Change | Commit | What it covers here |
+  ```js
+  import { describe, it, before, after } from 'node:test';
+  import assert from 'node:assert/strict';
+  import { SITE_ROOT } from '../helpers/paths.mjs';
+  import { launchBrowser, openPage, settle } from '../helpers/browser.mjs';
+  import { startSite } from '../helpers/server.mjs';
+  import { buildCases } from './cases.mjs';
+
+  const cases = buildCases();
+  /** Open a harness case; with runSteps, also run its steps (open a tab, pick a category…). */
+  async function openCase(browser, site, id, { runSteps = false } = {}) {
+    const c = cases.find(x => x.id === id);
+    site.register(c.id, c.instantiate);
+    const h = await openPage(browser, site.baseUrl + c.path, {
+      viewport: c.viewport, time: c.time, registry: c.registry, snapshots: c.snapshots,
+      fixtureFiles: c.fixtureFiles, external: c.external, cloudRun: c.cloudRun,
+      allowErrors: c.allowErrors, storage: c.storage, caseId: c.id,
+    });
+    await settle(h.page);
+    if (runSteps) for (const s of c.steps) { await s.run(h.page, h); await settle(h.page); }
+    return h;
+  }
+
+  describe('the Hub on a phone', () => {
+    let browser, site;
+    before(async () => { browser = await launchBrowser(); site = await startSite({ root: SITE_ROOT }); });
+    after(async () => { await browser.close(); await site.close(); });
+    // it(...) per behaviour, each opening its own page with openCase and closing it in finally.
+  });
+  ```
+
+  The harness's pages run with *reduce motion* on, so every scroll is instant.
+
+### 2.5 The live pages the engine already serves
+
+Four event pages import `lib/v1/` and change the moment a step reaches `main`:
+`events/acso-sportsfest-2026/`, `events/upap-2026/`,
+`events/archives/ladies-dink-2026/` and `events/archives/millennium-invitational-2026/`.
+The harness covers only the templates, and these shells have their own hero
+markup (UPAP's date line has a `<br>`; its title has spans). Before asking to
+merge, open each at 375 × 812 (the browser's device toolbar) and check the
+step's change looks right and nothing else moved. They read the real published
+results over the internet. To serve the repo:
+
+```bash
+cd D:/Personal/SAGE/sage-match-control.github.io
+node -e "import('./_tests/helpers/server.mjs').then(async ({ startSite }) => { const s = await startSite({ root: '.' }); console.log(s.baseUrl + '/events/upap-2026/'); })"
+```
+
+### 2.6 The docs, with every step
+
+In `sage-docs`, in the same change as the step's merge (§11 lists the pages):
+describe what the Hub does now, in the present tense; bump the version (a new
+`## [x.y.z] — YYYY-MM-DD` entry at the top of `docs/changelog.md`, the same
+version in `mkdocs.yml`'s `copyright` line; a feature change is a MINOR bump). On
+the first step merged, move this spec to `docs/specs/in-progress/` and after the
+last to `docs/specs/implemented/`, following the procedure in
+`docs/specs/README.md`. Where the build departs from this spec, add a
+*Divergences* section at the end of Part 1 saying what and why.
+
+### 2.7 The pictures
+
+Each step's picture is a mockup: the real template page on fixture data at 1 PM,
+375 × 812, with the new elements drawn in by hand. It shows what goes where and
+roughly how it looks; the sizes and colours written in the step win where the two
+differ. In the mid-day pictures the card's playoff rows are left out and the
+Standings tables show the finished day's W and L: the fixtures' mid-day state
+blanks scores but keeps the finished day's names and standings, which a real
+mid-day workbook would not have.
+
+## 3. Step 1 — P1: show the results after a search
+
+**Today.** On a phone a search changes nothing on the first screen: the results
+start at 763 px on an 812 px screen, under the banner and the search box
+(§13.1). **Find matches** leaves the suggestion list open over the results
+(`createFinder` closes it only on a click *outside* `.autocomplete`, and the
+button is inside), and the keyboard stays up. A team event's team chip scrolls to
+the top of the page.
+
+**After.** When a person runs a search, on a phone, the suggestions close, the
+keyboard closes, and the page scrolls so the results start just under the pinned
+search box. On a computer nothing scrolls. A data refresh (every push or poll)
+and clearing the box never scroll.
+
+![Match Finder on a phone after searching for Josh Manarang / Angelo Manarang at Pickle for Sight, 1 PM. Today, first screen: the banner and the search box fill it and the results start below. Today, scrolled down: the pair summary card (Novice Men's Doubles, Bracket 2, #2 of 5, W 3, L 1, PF 20, PA 12, Q 3.0000), then the tickets. Mockup: the page has scrolled to the results, and the card opens with a navy Next match block reading 2:50 PM · Court 4, vs Tony Hecker / Angelo Culala · PCPH Main, Round robin · Match 1060.](../../images/hub-player-experience/p1-p3-search.png)
+
+The right-hand panel is steps 1 and 2 together.
+
+**Build.**
+
+1. **New module `lib/v1/views/reveal.js`**, exporting:
+   - `PHONE_QUERY = '(max-width: 899px)'`.
+   - `revealResults({ resultsEl, searchPanelEl, input })`. Does nothing unless
+     `matchMedia(PHONE_QUERY).matches`. Otherwise: `input.blur()`; then
+     `stuck = (parseFloat(getComputedStyle(searchPanelEl).top) || 0) + searchPanelEl.getBoundingClientRect().height + 8`;
+     `top = resultsEl.getBoundingClientRect().top + window.scrollY - stuck`;
+     `window.scrollTo({ top: Math.max(0, top), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })`.
+     (`searchPanelEl` is `position: sticky; top: 8px` on a phone, so `stuck` is
+     the space it takes once pinned.)
+2. **`views/finder.js`, `createFinder`**: a new option `onSearched` (default
+   `() => {}`), called right after `finder.run()` in exactly three handlers: a
+   click on a suggestion (`acList` click), Enter in the box, and the **Find
+   matches** button. In the **Find matches** handler, also
+   `acList.classList.remove('show')` before `finder.run()`; that one is a fix and
+   reaches Control Center too. `refresh`, `rebuildIndex`, `setQuery`, `reset` and
+   the clear button never call `onSearched`. Document the option in the comment
+   above `createFinder`.
+3. **`views/teams.js`, `createTeams`**: a new option `onSearched`. In the team
+   chip handler (`.team-chip-btn`), after `finder.run()`: if `options.onSearched`
+   is set, call it instead of `window.scrollTo({ top: 0, … })`; otherwise keep the
+   scroll to the top (Control Center). Document it with the other options.
+4. **`apps/hub.js`**: `const reveal = () => revealResults({ resultsEl, searchPanelEl, input });`
+   and pass `onSearched: reveal` to both `createFinder` and `createTeams`.
+5. **A returning visit (decision D3).** In `selectDay`'s `isInitialLoad` branch,
+   after `finder.setQuery(savedSearch)`, call `reveal()` when the Match Finder tab
+   is the active one (`document.querySelector('.view-tab[data-view="finder"].active')`).
+
+**Tests.**
+
+- `hub-behaviour.test.mjs` (§2.4), on `std-index/pickle-for-sight-2026/finder/mid/phone`:
+  type `Josh` into `#teamInput`, click the first `#acList .ac-item`, then assert
+  `#results`'s `getBoundingClientRect().top` is between 0 and 300,
+  `document.activeElement` is not `#teamInput`, and `#acList` lacks `show`. Again
+  with **Find matches** (`#searchBtn`) after typing `Josh Manarang`. The same on
+  `…/desktop` asserts `window.scrollY` is unchanged. On
+  `team-index/pickledrive-anniversary-2026/finder/mid/phone`, click the first
+  `.team-chip-btn` and assert `#results` is near the top as above.
+- The harness: add a view `finder-find-button` to the default views in
+  `hubCases` (`_tests/engine/cases.mjs`):
+  `[type('#teamInput', word), click('#searchBtn')]`. On the baseline its
+  suggestions stay open; accept that difference.
+- Manual: §2.5's four pages, a search on each.
+
+**Done when** the behaviour tests pass, `npm run verify` passes with only the
+accepted differences above, and the four live pages behave.
+
+## 4. Step 2 — P3: the next match on the pair summary card
+
+**Today.** Match Finder's pair summary card (`views/pair-summary.js`, drawn by
+`pairResultsHTML` in `views/finder.js` above a searched pair's tickets) shows the
+pair's category, bracket, round-robin rank, W, L, PF, PA, Q, a row per playoff
+round reached, and a status pill. For a pair in the playoffs its round rows
+already give the next match. During the round robin, most of the day, nothing on
+the card says when the pair plays next: only a small **Next Up** pill on one
+ticket further down. A round-robin match on court shows no *Playing now*. Before
+the day goes live the card is not drawn at all.
+
+**After.** The card opens with a navy block that answers *where and when do I play
+next?* (the right-hand panel of the picture in §3).
+
+| State | When | The block |
 | --- | --- | --- |
-| **The pair summary card** (`views/pair-summary.js`) above a searched pair's tickets: its category and bracket, its round-robin rank with W, L, PF, PA and Q (the Standings tab's numbers and order), a row per playoff round reached (the opponent or the seat's label, then the match number and time, *Live · Court n* or the result) and a status pill (*In the Semifinals*, *Playing now*, *Champions*, *Runners-up*, *Bronze medal*, *Did not advance*). Standard and dual-meet events, once the day is live; the Hub and Control Center both | `476dbd7` | **P3** for a pair in the playoffs: its next playoff match is already on the card. Not its next round-robin match, and nothing before the day is live. **P12** for the searched pair's own medal. **P14**'s quotient line, which the card's W, L, PF, PA and Q replace. **P6**, for one pair: the rank line adds *round robin final* once its category's round robin is over |
-| **PF and PA columns** in every Round Robin table, the numbers in bold | `16aa049`, `2c01b15` | **P14**: the points behind each quotient are on the table |
-| A pair's matches in **Schedule time order**, so **Next Up** is the earliest unplayed match | `ccc6c60` | **P3**'s *Next match* rule, which is the **Next Up** ticket's |
-| The first screen's third count reads **Categories**, not *Divisions* | `2435ef6` | **P15**, half of it: the middle count still reads *Teams* |
-| **Match numbers as corner tabs**, and a ticket's **category as a pill** before the round | `85907e1` | Nothing: **P4** still applies, as the code is still above the names |
-
-None of P1, P2, P4, P5, P7, P9, P10, P11, P13, P16 or P17 is covered.
-
-## 2. Scope
-
-- **The engine Hub only:** `lib/v1` (`apps/hub.js`, `views/finder.js`,
-  `views/ticket.js`, `views/standings.js` and their CSS) and the three templates'
-  `index.html`, so every event made from a template from then on. Every event
-  page built so far, under `events/` and `events/archives/`, is self-contained
-  and frozen and imports nothing from `lib/v1`. They do not change.
-- **Control Center does not change** unless a proposal says so. It shares the
-  finder, the ticket, the pair summary card and Standings, so every change it should
-  not get is an option the Hub passes, off by default
-  ([site engine](../../technical/site-engine.md#changing-the-engine): "add an
-  option rather than a flag").
-- **The schedule board, scorer page and desk page do not change.**
-- No new data. Every kept proposal reads what the snapshot and `events.json`
-  already carry. (P7, dropped, would have added one optional setting.)
-
-## 3. The proposals, and the owner's picks
-
-The owner marked each proposal on 2026-11-23. *Redone* means the owner kept the
-aim and asked for another design, which the section now describes.
-
-| # | Proposal | Size | Covered so far (§1.3) | Owner's pick |
-| --- | --- | --- | --- | --- |
-| [P1](#4-p1-show-the-results-after-a-search) | Show the results after a search | Small | — | **Keep** |
-| [P2](#5-p2-a-banner-that-folds-into-a-bar-on-phones) | A banner that folds into a bar on phones | Small–medium | — | **Keep**, redone |
-| [P3](#6-p3-the-next-match-on-the-pair-summary-card) | The next match on the pair summary card | Small | A playoff's next match | **Keep** |
-| [P4](#7-p4-names-not-team-codes-on-the-hubs-tickets) | Names, not team codes, on the Hub's tickets | Small | — | Drop |
-| [P5](#8-p5-the-tabs-in-a-menu-on-the-folded-bar) | The tabs in a menu on the folded bar | Small | — | **Keep**, redone |
-| [P6](#9-p6-a-status-pill-on-each-round-robin-bracket) | A status pill on each round-robin bracket | Small | One pair's, on its card | **Keep**, redone |
-| [P7](#10-p7-a-rules-link) | A rules link | Small | — | Drop |
-| [P8](#11-p8-follow-more-than-one-pair) | Follow more than one pair | Medium | — | Drop |
-| [P9](#12-p9-a-tabs-own-address) | A tab's own address | Small | — | Drop |
-| [P10](#13-p10-standings-open-on-a-category-on-phones) | Standings open on a category on phones | Small | — | Drop |
-| [P11](#14-p11-say-final-once-the-day-is-over) | Say *Final* once the day is over | Small | — | Drop |
-| [P12](#15-p12-a-podium-on-a-finished-category) | A podium on a finished category | Small–medium | One pair's medal, on its card | **Keep** |
-| [P13](#16-p13-explain-the-colours-and-the-ties) | Explain the colours and the ties | Small | — | Drop |
-| [P14](#17-p14-a-standings-row-opens-that-pairs-matches) | A Standings row opens that pair's matches | Small | The quotient line (the card, PF and PA) | **Keep** |
-| [P15](#18-p15-a-dual-meets-club-score-first-and-pairs-not-teams) | A dual meet's club score first, and *Pairs*, not *Teams* | Small | *Categories*, not *Divisions* | **Keep** |
-| [P16](#19-p16-jump-to-a-category-in-a-dual-meets-standings) | Jump to a category in a dual meet's Standings | Small | — | **Keep** |
-| [P17](#20-p17-a-cross-club-grid-per-category) | A cross-club grid per category | Medium | — | Drop |
-
-The nine kept: P1 and P3 land a search on the pair's next match, which is Purple
-Pickle XP's best feature without its welcome screen. P2 and P5 keep the banner as it
-is at the top of the page and fold it into a slim bar with a menu once it scrolls
-away. P6, P12 and P14 make Standings answer *where do we stand?*, and P15 and P16
-do the same for a dual meet. A dropped proposal's section stays below, marked
-**Dropped**, as the record of what was considered.
-
-**The pictures.** Each proposal that changes what the page shows has a picture:
-the page today beside a mockup of the proposal, or two mockups for a change that
-happens in two steps. They are the engine's own template pages, served by the
-site's comparison harness on its fixture data with the clock held at 1 PM on a
-375 × 812 phone screen, and photographed after the proposal's new elements were
-drawn into the page. So everything outside the change is the real page.
-The new elements are a sketch of the proposal, not its final styling, and every
-mockup is labelled **Mockup**. P7, P8 and P9 have none: P7 is one link, P8 is
-dropped and P9 changes only the address.
-
-The pictures for P1, P2, P3, P5, P6, P13, P14 and P15 were taken on 2026-11-23 at
-`b89fda5`, with the pair summary card, the PF and PA columns and the corner match
-numbers. In them the card's playoff rows and status pill are left out: the
-fixtures' mid-day state keeps the finished day's playoff names, so mid-round-robin
-the card would show playoff seats the workbook hasn't filled yet. For the same
-reason the mid-day Standings tables show the finished day's W and L, with PF and PA
-(counted from the scores) still at 0. The rest (P10, P11, P12, P16, P17) date from
-2026-10-25 and show the page from before those changes. Their proposals are
-unchanged by them.
-
----
-
-## 4. P1. Show the results after a search
-
-**Problem.** §1.1: a search changes nothing on a phone's first screen, the
-suggestions can stay open over the results, and the keyboard stays up.
-
-**Proposal.** When a person runs a search (a suggestion picked, **Find matches**,
-Enter, or a team chip at a team event):
-
-1. Close the suggestions.
-2. On a phone (below 900 px, where the search box is already pinned to the top
-   of the screen), take the focus out of the box so the keyboard closes.
-3. Scroll the page so the results' first line sits just below the pinned search
-   box. The scroll is instant under *reduce motion*, smooth otherwise.
-
-Nothing scrolls when the Hub redraws the same results for new data (every push
-and every poll), when the box is cleared, or on a computer screen. A
-**restored** search on page load is P3's open decision D3.
-
-![Match Finder on a phone after searching for Josh Manarang / Angelo Manarang at Pickle for Sight, 1 PM. Today, first screen: the banner and the search box fill it and the results start below. Today, scrolled down: the pair summary card (Novice Men's Doubles, Bracket 2, #2 of 5, W 3, L 1, PF 20, PA 12, Q 3.0000), then the tickets, each with the pair codes above the names. Mockup: the page has scrolled to the results, and the card opens with a navy Next match block reading 2:50 PM · Court 4, vs Tony Hecker / Angelo Culala · PCPH Main, Round robin · Match 1060.](../../images/hub-player-experience/p1-p3-search.png)
-
-P1 and P3 together, as a player sees them after one search. The middle panel
-is today's page scrolled by hand to the results. With P2, the scroll also folds the
-banner into its bar, and the results sit under the bar and the pinned search box
-(the picture under P2).
-
-**Where.** `views/finder.js`: a new `createFinder` option, `revealResults`
-(default `false`), applied in the event handlers rather than in `run()`, because
-`refresh()` calls `run()` on every data update. `apps/hub.js` passes `true`.
-The team event's finder (`views/teams.js`, the finder's `delegate`) goes through
-the same handlers and gets it too. Closing the suggestions on **Find matches**
-is a fix and applies everywhere, Control Center included.
-
-**Tests.** A `finder.test.mjs` case per trigger (what scrolls, and that a refresh
-does not). The harness's phone `finder-search` cases change (accepted
-differences, each with its reconciliations row).
-
-**Open decisions.** None.
-
-## 5. P2. A banner that folds into a bar on phones
-
-**Problem.** The banner (event logo, tagline, date and venue, title, headline,
-"Find your pair's full match schedule…", tabs, divider, sync line) fills the
-first 541 px of a phone screen. Once a reader scrolls down, it is gone: the
-event's name, the tabs, the day and the sync line are all back at the top.
-
-**Proposal.** The banner stays as it is at the top of the page: it is the event's
-identity, and the first thing a player sees on opening the Hub. On a phone, once
-it has scrolled out of view, a slim bar pinned to the top of the screen takes its
-place. The bar carries the event's logo, its date and venue in small type and its
-title (D1's answer: the logos, the date and venue line and the title, smaller), and
-on the right a button naming the open tab that opens P5's menu. It goes when the
-banner scrolls back into view.
-
-Match Finder's search box, already pinned on a phone, pins under the bar instead of
-at the top of the screen. P1's scroll lands the results under both, so a search
-folds the banner as it lands.
-
-The bar shows only once a day has loaded and the tabs show. Computer-sized screens,
-and the banner before a day loads (the day picker, a "Loading…" or error message),
-stay as they are.
-
-![Three mockups on a phone at Pickle for Sight, 1 PM. First, the top of the page: the banner as it is today, with its logos, title, tabs and sync line. Second, after a search: a slim navy bar pinned at the top with the S.A.G.E. logo, "Sep 27 · PCPH Main" above "Pickle for Sight", and a "Match Finder ☰" button; the search box pinned under it, then the pair's name and summary card with its next match. Third, the menu open: Match Finder (marked as open), Live Matches and Standings, a Day row reading Sep 27, and the sync line, over a dimmed page.](../../images/hub-player-experience/p2-p5-menu-bar.png)
-
-P2 and P5 together.
-
-**Where.** `apps/hub.js` draws the bar (new markup inside the shell's header, from
-what the banner already shows) and an `IntersectionObserver` on `.hero` shows it,
-so nothing runs on scroll. Styles in `css/hub.css` under a phone media query, new
-class names only. `css/finder.css`'s pinned `.search-panel` gains an offset of the
-bar's height when the bar shows. The bar's colours are the shell's `THEME` tokens,
-so an event's look carries over. The bar adds `env(safe-area-inset-top)` to its
-padding.
-
-**Tests.** A `hub` case that the bar is hidden at the top and shown once the banner
-has scrolled away; the harness's phone cases that scroll (every `finder-search`)
-change, one accepted difference per template.
-
-**Open decisions.** None: D1 is answered.
-
-## 6. P3. The next match on the pair summary card
-
-**Problem.** The pair summary card (§1.3) answers *where do we stand?* For a pair in
-the playoffs it also answers *when do we play next?*, in its round rows. During the
-round robin, which is most of a day, it doesn't: the next match is marked only by a
-small **Next Up** pill on one ticket further down the list. And a round-robin match
-on court today has no *Playing now* pill, since the card's pill reads only the
-playoff rows.
-
-**Proposal.** One block at the top of the card, above its pills, that answers the
-question. Its state follows the rules the tickets already use (domain `matches.js`,
-`series.js`, `byes.js`):
-
-| State | When | The block shows |
-| --- | --- | --- |
-| **Playing now** | One of the pair's matches is on a court (`liveCourt` is set) | *Playing now · Court 3*, the opponent, the score if one is in |
-| **Next match** | Otherwise, the first match not played, not live, not a game that won't be needed and not a BYE (the **Next Up** ticket's rule) | *Next match · 2:50 PM · Court 4*, the opponent's names, the facility when the day has more than one, the round and the match number |
-| **Waiting on a result** | The next match is a playoff slot whose opponent isn't decided | As *Next match*, with the opponent reading the seat's label (*Winner of Semifinal 2*), as the card's playoff rows already do, or *To be decided* |
-| **All done** | Every match played | No block: the card's rank, record and status pill already say it |
-
-The court in *Next match* is the scheduled `CourtAssignment`. When the match is
-called to a court it becomes *Playing now* with that court.
-
-The rest of the card and the list underneath stay as they are, **Next Up** pill
-included. For a pair in the playoffs the block repeats the round row it points at.
-That is deliberate: the block is the one place to look, whatever the stage.
-
-With P1, a search lands on this block. With the saved search (§1.1), so does a
-returning visit, which is what Purple Pickle XP's "My Games" gives its players,
-with no welcome screen and no extra step.
-
-The picture under P1 shows the block in the *Next match* state.
-
-**Where.** `views/pair-summary.js`: a new export, `nextMatchHTML(team, model)`,
-called from `pairSummaryHTML`, and its styles beside the card's `.ps-*` rules in
-`css/finder.css`. It is a pure function, unit-tested in `pair-summary.test.mjs` on
-the fixtures' `pre`, `mid` and `final` states. It reuses `pairResultsHTML`'s
-schedule-time order and its **Next Up** rule, moved into a shared function so the
-block and the pill can't disagree.
-
-**Depends on.** Nothing; it is most useful with P1 and P2.
-
-**Open decisions.**
-
-- **D2.** A team event, which has no summary card: the same block for the team's
-  next **matchup** (both time slots and courts) and for a player's next match
-  within it, or standard and dual-meet events first and the team card later
-  (proposed).
-- **D3.** On a page load with a saved search, scroll to the card (as the other
-  portal opens on its *My Games* screen) or leave the page at the top (today).
-  Scrolling is proposed, but only when the saved tab is Match Finder.
-- **D15.** Before the day goes live the card shows nothing (no scores yet). Show the
-  block alone then, as the time and court are already known (proposed), or keep the
-  card's rule.
-- **D16.** Control Center: the card is shared, so the block shows there too
-  (proposed: an operator asked where a pair plays next answers from it), or the Hub
-  turns it on with an option.
-
-## 7. P4. Names, not team codes, on the Hub's tickets
-
-**Dropped** by the owner on 2026-11-23.
-
-**Problem.** Every ticket side begins with the pair's workbook code (`ND_5`,
-`ND_QF_4`). It means nothing to a player, and the category and round are already
-on the ticket as pills, its match number as the tab in its corner. The team
-event's Hub already hides its codes (its `teamLetters: false`).
-
-**Proposal.** A ticket option, `showCodes` (default `true`), that the Hub sets to
-`false`. A side with a player's name shows the names alone, with the **You**
-badge beside the first name. A side with no names yet (an undecided playoff
-slot) keeps the code, since nothing else on the ticket says which slot it
-is. Control Center keeps its codes. Standings keep the code for a round-robin
-pair whose names aren't in the sheet yet, as the Hub's page describes.
-
-**Where.** `views/ticket.js`, `css/ticket.css`, the option passed through
-`createFinder`'s `ticket` and `apps/hub.js`.
-
-**Tests.** `ticket.test.mjs` cases for both values and the no-names side. Harness
-accepted differences on the Hub's finder cases.
-
-**Open decisions.** None.
-
-## 8. P5. The tabs in a menu on the folded bar
-
-**Problem.** After scrolling down a long list (the day's matches, a category's
-standings), switching tab means scrolling back up to the banner. So does changing
-day at a multi-day event, or checking when the page last synced.
-
-**Proposal.** P2's bar ends with a button naming the open tab (*Match Finder ☰*). A
-tap opens a menu that drops from the bar, over a dimmed page:
-
-- the tabs, the open one marked;
-- the day picker, at a multi-day event (the banner's own `select`, moved, so there
-  is one);
-- the sync line.
-
-A tab tap switches the tab, closes the menu and scrolls to the top of that tab's
-content, under the bar. A tap on the dimmed page or the button closes it, as does
-Escape. The banner keeps its own tabs, so at the top of the page nothing changes.
-This replaces the bottom bar first proposed here, which the owner turned down for a
-menu at the top: it takes no space at the bottom of the screen, where iOS Safari's
-own toolbar moves.
-
-The picture under P2 shows the button and the menu open.
-
-**Where.** `apps/hub.js` (the menu's markup and its open, close and tab-switch
-handlers, which call the tabs' existing switch) and `css/hub.css`. The button is a
-real `button` with `aria-expanded` and `aria-controls`; the menu's tabs are
-buttons.
-
-**Depends on.** P2, whose bar carries the button.
-
-**Tests.** `hub` cases: the menu opens and closes, a tab tap switches and closes
-it, and the open tab is marked. A harness phone case with the menu open.
-
-**Decisions.**
-
-- **D17.** What the menu holds. **Answered:** the tabs, the day picker and the sync
-  line.
-
-## 9. P6. A status pill on each round-robin bracket
-
-**Problem.** A round-robin table mid-day reads as final: nothing says whether its
-bracket has finished. Only a searched pair's summary card says anything: its rank
-line adds *round robin final* once its category's round robin is over (§1.3).
-
-**Proposal.** One pill in each round-robin bracket's coloured header, beside
-*Bracket 2*, in the style of a team event's matchup pills (`.tm-pill`):
-
-| State | When | The pill |
-| --- | --- | --- |
-| **In progress** | Some of the bracket's round-robin matches are unplayed | *In progress · 6/10*, the bracket's played matches out of its total, on the green fill |
-| **Final** | Every one is played | *Final*, on navy |
-
-No pill before the day is live. A match counts as played by the rule of
-`matches.js`, BYEs left out, and a bracket is the `bracket` column's group, as the
-table already draws it. A table without brackets (one group per category) carries
-the pill in its *Round robin* heading instead. The Hub never works out who would
-advance, and a playoff slot still reads **TBD** until the workbook fills it, so
-nothing here is a projection. This replaces the status line and the "organisers
-confirm who advances" line first proposed here, which the owner found too long.
+| Playing now | The day is live and one of the pair's matches has a live court (`m.liveCourt`) and is not played | **Playing now** (with the live dot) · **Court 3** · *vs* opponent · round · match number |
+| Next match | Otherwise, the pair's **Next Up** match (the rule below) | **Next match** · **2:50 PM · Court 4** · *vs* opponent · round · match number |
+| Nothing left | No match is live or next | No block |
+
+**Build.**
+
+1. **New module `lib/v1/domain/pair-schedule.js`**, the order and the Next Up rule
+   moved out of `pairResultsHTML` unchanged:
+   - `pairMatches(model, codes)`: `model.matches` where `codes` includes `m.t1` or
+     `m.t2` and `matchByeSide(m) === null` (`domain/byes.js`), sorted by
+     `eventScheduleMinutes(m.time)` (`domain/progress.js`; `null` sorts last as
+     `Infinity`), then by `m.num`.
+   - `nextUpIndex(model, list)`: the index of the first `m` in `list` with
+     `!m.played && !m.liveCourt && !model.unneededGames.has(m)`, or `-1`.
+2. **`views/finder.js`, `pairResultsHTML`**: use the two functions instead of its
+   own sort and `findIndex`. Nothing it draws changes; the existing tests in
+   `_tests/unit/views/finder.test.mjs` must pass unchanged.
+3. **`views/pair-summary.js`**: a new export `nextMatchHTML(team, model)` (`team`
+   is a pair of `buildPairIndex`: `{ codes, p1, p2, label }`):
+   - `list = pairMatches(model, team.codes).filter(m => !model.unneededGames.has(m))`.
+   - `live = model.isLive ? list.find(m => m.liveCourt && !m.played) : null`;
+     otherwise `next = list[nextUpIndex(model, list)]`. Neither: return `''`.
+   - The pair's side is side 1 when `team.codes.includes(m.t1)`. The opponent is
+     the other side: `"<p1> / <p2>"`, or, when that side is open (the file's own
+     `sideIsOpen(code, p1)`), `openSeatLabel(code, model) || 'To be decided'`.
+   - The round: `roundKeyword(parseCode(<the pair's code in m>, type).rest)` mapped
+     through the file's `ROUND_NAME` (`Semifinal`, `Final`, `Bronze`…), or
+     `Round robin` when it is `null`; a series game (`seriesGameOf(code)` not
+     `null`) adds ` · Game <n>`.
+   - The facility, only when `model.day.facilities.length > 1`: `m.facility`.
+   - Markup (every value escaped):
+
+     ```html
+     <div class="ps-next ps-next--live">               <!-- or ps-next--next -->
+       <small><span class="live-dot"></span>Playing now</small>   <!-- or: Next match (no dot) -->
+       <b>Court 3</b>                                   <!-- next: "2:50 PM · Court 4"; leave out " · Court…" when m.court is blank -->
+       <span>vs Tony Hecker / Angelo Culala<i> · PCPH Main</i></span>   <!-- the <i> only with a facility -->
+       <em>Round robin · Match 1060</em>
+     </div>
+     ```
+
+     Live court text is `Court ${m.liveCourt}`; the next match's is `m.time`, then
+     ` · ${m.court}` (the scheduled `CourtAssignment`, already "Court 4").
+4. **`pairSummaryHTML`**: a team event still returns `''` (decision D2: team
+   events later). When the day is not live, or the pair has no round-robin row,
+   return `<div class="pair-summary">${nextMatchHTML(team, model)}</div>`, or `''`
+   when the block is empty (decision D15). Otherwise insert `nextMatchHTML(team, model)`
+   as the card's first child, before `.ps-top`. Control Center draws the same card
+   and gets the block too (decision D16).
+5. **`css/finder.css`**, after the `.ps-*` rules:
+   `.ps-next{background:var(--navy); color:var(--white); border-radius:12px; padding:12px 14px; margin:0 0 12px;}`;
+   `.ps-next small` Barlow Condensed 700, 12px, letter-spacing .12em, uppercase,
+   `color:var(--green)`, `display:flex; align-items:center; gap:6px`;
+   `.ps-next b` block, Archivo Black 400, 24px, line-height 1.15, margin 3px 0 4px;
+   `.ps-next span` block, 14px, line-height 1.35; `.ps-next span i` normal style,
+   opacity .7; `.ps-next em` inline-block, normal style, margin-top 7px, Barlow
+   Condensed 700 12px, letter-spacing .08em, uppercase,
+   `background:rgba(255,255,255,.14)`, radius 999px, padding 3px 9px. The live dot
+   is the existing `.live-dot`; on navy give it `background:var(--white)` as
+   `.ps-status--live .live-dot` does.
+
+**Tests.** `_tests/unit/domain/pair-schedule.test.mjs` (new): schedule order over
+the match number, a BYE left out, Next Up skipping a live and an unneeded series
+game. `_tests/unit/views/pair-summary.test.mjs`, on its hand-made days: the next
+round-robin match; *Playing now* with a live court; an open playoff seat reading
+its label; nothing left gives no block; a day not live gives the block alone; a
+team event gives `''`. The harness: every `finder-search` case of `std-index`,
+`dm-index` and `cc` differs (accept `both`).
+
+**Done when** those pass, `npm run verify` passes with the accepted differences,
+and §2.5's pages show the block after a search.
+
+## 5. Step 3 — P2 + P5: a banner that folds into a bar with a menu
+
+**Today.** The banner (logos, tagline, date and venue, title, headline, tabs, sync
+line) fills the first 541 px of a phone. Scrolled away, it takes the event's name,
+the tabs, the day picker and the sync line with it: switching tab means scrolling
+back to the top.
+
+**After.** At the top of the page the banner is unchanged. On a phone, once it has
+scrolled out of view, a slim navy bar is pinned to the top of the screen: the
+event's logo, its date and venue line in small green capitals, its title, and on
+the right a button naming the open tab (*Match Finder ☰*). The button opens a menu
+over a dimmed page: the tabs (the open one marked), the day picker at a multi-day
+event, and the sync line. The bar goes away when the banner scrolls back into view.
+Computers never see it. The bottom tab bar first proposed for P5 is not built.
+
+![Three mockups on a phone at Pickle for Sight, 1 PM. First, the top of the page: the banner as it is today. Second, after a search: a slim navy bar pinned at the top with the S.A.G.E. logo, "Sep 27 · PCPH Main" above "Pickle for Sight", and a "Match Finder ☰" button; the search box pinned under it, then the pair's name and summary card. Third, the menu open: Match Finder (marked as open), Live Matches and Standings, a Day row reading Sep 27, and the sync line, over a dimmed page.](../../images/hub-player-experience/p2-p5-menu-bar.png)
+
+**Build.**
+
+1. **New module `lib/v1/views/hub-bar.js`**, exporting `HUB_BAR_HEIGHT = 54` and
+   `createHubBar(options)`:
+   - Options: `heroEl` (`header.hero`), `tabsWrapEl` (`#viewTabsWrap`),
+     `dayPickerEl` (`#dayPicker`), `dayPickerWrapEl` (`#dayPickerWrap`),
+     `syncStatusEl` (`#syncStatus`), `panelFor(view)` (the element to scroll to
+     after a tab switch).
+   - It appends to `document.body`, once:
+
+     ```html
+     <div class="hub-bar" hidden>
+       <img class="hub-bar-logo" src="…" alt="">        <!-- the first .hero-logos img's src; left out when there is none -->
+       <div class="hub-bar-text">
+         <small class="hub-bar-meta">Sep 27 · PCPH Main</small>
+         <span class="hub-bar-title">Pickle for Sight</span>
+       </div>
+       <button type="button" class="hub-bar-btn" aria-expanded="false" aria-controls="hubMenu">
+         <span class="hub-bar-btn-label">Match Finder</span><span class="hub-bar-burger" aria-hidden="true"></span>
+       </button>
+     </div>
+     <div class="hub-menu-scrim" hidden></div>
+     <nav class="hub-menu" id="hubMenu" aria-label="Tournament Hub" hidden></nav>
+     ```
+
+     The meta line is `heroEl.querySelector('.eyebrow')`'s `innerText`, the title
+     `.title`'s `innerText`, each with `.replace(/\s+/g, ' ').trim()` (`innerText`,
+     so a `<br>` becomes a space). A missing element leaves its line empty.
+   - **When the bar shows.** All four: `matchMedia(PHONE_QUERY).matches` (import
+     `PHONE_QUERY` from `./reveal.js`); the tabs are showing
+     (`tabsWrapEl.style.display !== 'none'`); the hero is out of view (an
+     `IntersectionObserver` on `heroEl`, threshold 0, keeps the last
+     `isIntersecting`); and the stylesheet has loaded
+     (`getComputedStyle(bar).position === 'fixed'`, so a cached old `hub.css` never
+     shows an unstyled bar). Re-check on the observer's callback, on the media
+     query's `change` event, and on every `update()`. Showing sets `bar.hidden =
+     false` and adds `hub-bar-on` to `document.body`; hiding reverses both and
+     closes the menu.
+   - **The menu.** The button toggles it. Opening builds its content fresh: one
+     `<button type="button" class="hub-menu-tab" data-view="…">` per `.view-tab`
+     that is showing (`style.display !== 'none'` and not `hidden`), with `active` on
+     the open one; then, when `dayPickerWrapEl.style.display !== 'none'`,
+     `<label class="hub-menu-day">Day <select>…</select></label>` with
+     `dayPickerEl`'s options (leave out its disabled placeholder) and its value;
+     then `<div class="hub-menu-sync">` with `syncStatusEl.textContent`. It unhides
+     the scrim and the menu, sets `aria-expanded="true"` and focuses the first tab.
+     A tab tap closes the menu, clicks the matching `.view-tab` (whose handler
+     switches the view and remembers it), then scrolls `panelFor(view)` to just
+     under the bar (`top - HUB_BAR_HEIGHT - 8`, instant under *reduce motion*).
+     Changing the day closes the menu, sets `dayPickerEl.value`, dispatches a
+     `change` event on `dayPickerEl` and scrolls to the top. The scrim, the button
+     and Escape close the menu, which returns focus to the button.
+   - Returns `{ update() }`: re-reads the open tab's label into
+     `.hub-bar-btn-label` and re-checks when the bar shows.
+2. **`apps/hub.js`**: create the bar after the elements are looked up, with
+   `panelFor: v => ({ finder: searchPanelEl, live: liveResultsEl, standings: standingsResultsEl, teams: teamsResultsEl })[v]`.
+   Call `bar.update()` at the end of `showView`, at the end of
+   `revealLiveTabsAfterLoad`, and in `selectDay` after it hides the tabs.
+3. **`views/reveal.js`** (step 1): when `document.body.classList.contains('hub-bar-on')`
+   is false but a `.hub-bar` exists, the bar is about to appear as the page
+   scrolls, so add `HUB_BAR_HEIGHT` to `stuck`. Define the constant locally (54)
+   rather than importing it, so the two modules stay independent.
+4. **`css/hub.css`**, appended:
+   - Outside any media query: `.hub-bar, .hub-menu, .hub-menu-scrim{ display:none; }`
+     (computers).
+   - Under `@media (max-width:899px)`:
+     - `.hub-bar{ position:fixed; top:0; left:0; right:0; z-index:50; height:54px; display:flex; align-items:center; gap:10px; padding:0 12px; background:var(--navy); color:var(--white); box-shadow:0 4px 14px rgba(0,0,0,.18); }`
+       and `.hub-bar[hidden]{ display:none; }` (a `display:flex` rule overrides the
+       `hidden` attribute otherwise).
+     - `.hub-bar-logo{ width:32px; height:32px; border-radius:8px; background:var(--white); object-fit:contain; flex:none; }`
+     - `.hub-bar-text{ flex:1; min-width:0; }`; `.hub-bar-meta` and
+       `.hub-bar-title`: `display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;`.
+       Meta: Barlow Condensed 700, 11px, letter-spacing .12em, uppercase,
+       `color:var(--green)`. Title: Archivo Black 400, 15px, line-height 1.1,
+       uppercase.
+     - `.hub-bar-btn`: `display:flex; align-items:center; gap:8px;` Barlow Condensed
+       700, 13px, letter-spacing .06em, uppercase, `color:var(--white)`,
+       `background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:6px 12px 6px 14px;`
+       a visible focus ring. `.hub-bar-burger`: 16 × 12 px, three 2px white bars
+       (three `linear-gradient` backgrounds at 0, 5px and 10px); with
+       `[aria-expanded="true"]` it is a × (two crossed bars).
+     - `.hub-menu-scrim{ display:block; position:fixed; inset:54px 0 0 0; z-index:48; background:rgba(10,18,30,.45); }`
+       and `.hub-menu{ display:block; position:fixed; top:54px; left:0; right:0; z-index:49; background:var(--navy); padding:6px 14px 16px; border-top:1px solid rgba(255,255,255,.12); }`,
+       each with a `[hidden]{ display:none; }` rule.
+     - `.hub-menu-tab`: full-width block button, no background, left-aligned,
+       Barlow Condensed 700, 18px, letter-spacing .06em, uppercase,
+       `color:var(--white)`, padding 13px 6px, `border-bottom:1px solid rgba(255,255,255,.1)`;
+       `.hub-menu-tab.active{ color:var(--green); }` with a small ● at its right.
+     - `.hub-menu-day`: a row on `rgba(255,255,255,.08)`, radius 10px, padding
+       10px 12px, margin-top 10px; its label in Barlow Condensed uppercase
+       `rgba(255,255,255,.6)`; the select white on transparent.
+       `.hub-menu-sync`: margin-top 12px, Barlow Condensed 12.5px,
+       `rgba(255,255,255,.7)`.
+     - Everything already pinned to the top on a phone moves under the bar:
+       `body.hub-bar-on .search-panel{ top:62px; }` (it is `top:8px` in
+       `finder.css`), `body.hub-bar-on .standings-col-head, body.hub-bar-on .club-summary{ top:54px; }`
+       (both `top:0` in `standings.css`).
+   - The templates' viewport tag has no `viewport-fit=cover`, so the page never
+     runs under the phone's status bar: the bar needs no safe-area padding, and no
+     shell changes.
+5. Control Center does not use `createHubBar`; it does not change.
+
+**Tests.** `hub-behaviour.test.mjs`, on
+`std-index/pickle-for-sight-2026/finder/mid/phone`: at the top `.hub-bar` is
+hidden; after `window.scrollTo(0, 1500)` it is visible and `body` has `hub-bar-on`;
+its label reads `Match Finder`; clicking `.hub-bar-btn` shows `#hubMenu` with
+three `.hub-menu-tab`s, one `active`; clicking the Standings one hides the menu,
+makes `.view-tab[data-view="standings"]` active and leaves the label `Standings`;
+Escape closes an open menu; back at the top the bar hides. On `…/desktop` the bar
+never shows. On `team-index/pickledrive-anniversary-2026/finder/mid/phone` the menu
+has four tabs. The harness: nothing should differ (the full-page screenshots never
+scroll); if a case does, find out why before accepting it. Manual: §2.5's four
+pages, scrolled, with the menu open, and the dual meet template's Standings
+(`dm-index`) scrolled, to see its club bar pin under the bar.
+
+**Done when** those pass and the four live pages look right.
+
+## 6. Step 4 — P6: a status pill on each round-robin table, and tie pills
+
+**Today.** A round-robin table mid-day reads as final: nothing says whether its
+matches are all played. Where pairs are level on wins, nothing says what placed one
+above another.
+
+**After.** Each round-robin table's header carries a pill, and each row tied with
+another on wins carries a pill saying how the tie was broken. No pill before the
+day is live (`model.isLive`). Control Center's Standings draw them too.
 
 ![Pickle for Sight's Novice Men's Doubles on a phone. Today, mid-day: three round-robin tables, Brackets 1 to 3, with nothing saying whether each has finished. Mockup, mid-day: Bracket 1's and Bracket 2's headers each carry a green "In progress · 6/10" pill, and Bracket 3's a navy "Final" pill. Mockup, finished: every bracket reads "Final".](../../images/hub-player-experience/p6-status-pill.png)
 
-**Ties.** Pairs level on wins each carry a small pill under their names, in the
-same style, saying how the tie was broken. The Hub's order (`rankStandings`,
-`domain/standings.js`) separates pairs level on wins by their wins against each
-other, then by quotient:
+![Three mockups on a phone, every bracket header reading Final. First, Pickle for Sight's Novice Mixed Doubles, Bracket 2: three pairs on 2 wins, each having beaten one of the others, each with a grey "3-way tie · on quotient" pill. Second, the same bracket with one result flipped: Chun Sa / Ralph "Tie · won head-to-head 11–5" above Mark Luz / Amcee Sumaya "Tie · lost head-to-head 5–11", then Jairus Villanueva / Abigail Sanchez, quotient 0.5313, "Tie · won head-to-head 11–10" above Charles Casas / Joy Galdo, quotient 0.8125, "Tie · lost head-to-head 10–11". Third, Novice Men's Doubles, Bracket 3: two pairs on 0 wins who drew 11–11, with the same quotient 0.3333, each with a yellow "Tied" pill.](../../images/hub-player-experience/p6-tie-pills.png)
 
-| The tie | How it is broken | The pill on each row |
-| --- | --- | --- |
-| Two pairs level on wins | The match between them | *Tie · won head-to-head 11–5* on one, *Tie · lost head-to-head 5–11* on the other |
-| Three or more, and one or more of them beat the rest | Head-to-head | *3-way tie · head-to-head* on each pair it placed |
-| Three or more who beat each other in a circle | Quotient | *3-way tie · on quotient* |
-| Two pairs who never met: a dual meet's, from one club | Quotient | *Tie · on quotient* |
-| Level on wins, head-to-head and quotient, as after a drawn match | Nothing | *Tied*, on yellow, as a team event's tied teams read |
+The second tie picture's middle panel is the fixture with one result flipped
+(match 1085: Jairus Villanueva / Abigail Sanchez beat Charles Casas / Joy Galdo
+11–10, the two pairs' standings rows recounted): no event yet has had a two-way tie
+settled by head-to-head. The engine placed Jairus Villanueva's pair above Charles
+Casas's on head-to-head despite the lower quotient, as the pills say.
 
-Every pill but *Tied* is on a grey fill. A pair not level with any other has no
-pill. The pills say only what the Hub's order did. The workbook picks who advances
-by wins, then quotient, so on a head-to-head tie the two can differ (the
-[Hub's page](../../features/tournament-hub.md) says so). This is P13's tie note,
-dropped as a sentence, back as a pill.
+**The table pill.**
 
-![Three mockups on a phone, every bracket header reading Final. First, Pickle for Sight's Novice Mixed Doubles, Bracket 2: Chun Sa / Ralph, Mark Luz / Amcee Sumaya and Charles Casas / Joy Galdo on 2 wins, each having beaten one of the others, each with a grey "3-way tie · on quotient" pill. Second, the same bracket with one result flipped: Chun Sa / Ralph "Tie · won head-to-head 11–5" above Mark Luz / Amcee Sumaya "Tie · lost head-to-head 5–11", then Jairus Villanueva / Abigail Sanchez, quotient 0.5313, "Tie · won head-to-head 11–10" above Charles Casas / Joy Galdo, quotient 0.8125, "Tie · lost head-to-head 10–11". Third, Novice Men's Doubles, Bracket 3: Jet De Guzman / Jay Dayrit and Ian Velasquez / Dave Mabañes on 0 wins, who drew 11–11, with the same quotient 0.3333, each with a yellow "Tied" pill.](../../images/hub-player-experience/p6-tie-pills.png)
+| State | When | Text | Fill |
+| --- | --- | --- | --- |
+| In progress | Some of the table's round-robin meetings are unplayed | `In progress · 6/10` (played/total) | `var(--green-dark)`, white text |
+| Final | All are played, and there is at least one | `Final` | `var(--navy)`, white text |
 
-No event so far, fixture or real, has a two-way tie that head-to-head settled. So
-the middle picture is the fixture with one result flipped: Jairus Villanueva /
-Abigail Sanchez beat Charles Casas / Joy Galdo 11–10 (match 1085), and the two
-pairs' standings rows are recounted from the scores. The engine drew it as it
-draws every table, and placed Jairus Villanueva's pair above Charles Casas's on
-head-to-head despite the lower quotient.
+*A table's meetings* are the round-robin matches (`roundKeyword` of the code's
+`rest` is `null`) with a side whose code is a row of the table, no BYE side
+(`matchByeSide(m) === null`), counted once each, except a best-of-3 meeting (rows
+with `m.bestOf === 3`, grouped by `rrSeriesGroups` in `domain/series.js`), which is
+one meeting, played when `walkSeries(list, 3).decidedBy` is set. Any other match is
+played when `m.played`. In a standard bracket both sides are in the table; in a
+dual meet's per-club table one side is, so both clubs' tables count the same
+cross-club matches.
 
-**Where.** `domain/standings.js`: two new exports, `bracketProgress(rows, matches)`
-(played and total per bracket) and `tieBreaks(rows, matches)` (for each pair in a
-group level on wins, the group's size, the rule that placed it, `h2h`, `quotient`
-or `none`, and for a two-way tie settled by head-to-head the pair's score in that
-match), worked out the way `rankStandings` and `headToHeadWins` already order them,
-so the pill never disagrees with the order. A best-of-3 meeting's score is its games
-(*won head-to-head 2–1*). Both unit-tested on
-`pre`, `mid` and `final`. `views/standings.js` draws the bracket pill in
-`.rr-bracket-label` and the tie pill in the pair cell, and `css/standings.css` styles
-them. The card's *round robin final* comes from `categoryRoundRobinDone`, so a test
-checks a category whose brackets all read *Final* is one the card calls final.
-Control Center's Standings use the same builder and get both too: operators answer
-these questions at the desk.
+*Where it goes:* in a bracket's `.rr-bracket-label` (after its text) when the
+table has one (the standard Hub and Control Center draw each bracket as its own
+table); otherwise in the table's Round Robin heading (`.stage-caption`, or the
+`.standings-section-text` title of a standard card). The dual-meet Hub draws one
+table per club with `rrBracketLayout: 'column'`: one pill in its heading for the
+whole table.
 
-**Tests.** `standings.test.mjs` for the counts and both states on `pre`, `mid` and
-`final`, and for each tie case: a circular three-way split (Pickle for Sight's
-Novice Mixed Doubles, Bracket 2), the same bracket with match 1085 flipped (two
-two-way ties settled by head-to-head), an unbroken tie (its Novice Men's Doubles,
-Bracket 3), and a dual meet's tie (PNF × BUP). Harness accepted differences on every
-Standings case.
+**The tie pills.** The Hub orders a table's pairs by wins, then head-to-head among
+the pairs level on wins, then quotient (`rankStandings` and `headToHeadWins` in
+`domain/standings.js`; a drawn match and an undecided best-of-3 meeting count for
+neither pair). The pills say what that order did, among the table's rows that have
+played (`wins + loss > 0`):
 
-**Decisions.**
+| The rows level on wins | Each row's pill |
+| --- | --- |
+| Two, separated by head-to-head | `Tie · won head-to-head 11–5` / `Tie · lost head-to-head 5–11` |
+| Three or more; this row's head-to-head wins differ from every other's in the group | `3-way tie · head-to-head` |
+| This row shares its head-to-head wins with another, and its quotient differs from theirs | `Tie · on quotient` (two in the group) or `3-way tie · on quotient` (three or more) |
+| This row shares its head-to-head wins and its quotient with another | `Tied` |
 
-- **D6.** Team events' bracket tables, which already carry *Advances* and *Tied*
-  pills. **Answered:** they get the bracket pill too. Their own *Tied* pill stays;
-  they get no new tie pills, as their ranking is the organiser's (`teams.js`).
-- **D18.** The pill's count. **Answered:** *In progress · 6/10*.
+`n-way` is the size of the whole group level on wins. The score in a two-way
+head-to-head pill is the pair's own side first: of the one match they played; of a
+best-of-3 meeting, its games (`won head-to-head 2–1`); of two or more meetings (a
+double round robin), the meetings won and lost (`won head-to-head 2–0`). Pairs at a
+dual meet's club table never meet, so their ties read *on quotient*. A pair level
+with no other has no pill. The *Tied* pill is `background:#FFD873; color:#5A4100`,
+the team events' *Tied* colours; the others are `var(--paper-dim)` with
+`var(--ink)` text and a `var(--line)` border.
 
-## 10. P7. A rules link
+The workbook picks who advances by wins, then quotient, so on a head-to-head tie it
+can disagree with the Hub's order; the pills describe the Hub's order only.
+`sage-docs/docs/specs/.../ranking-rules-spec.md` (not started) would let an event
+choose other ranking rules: when it is built, the tie pills follow whatever
+`rankStandings` does.
 
-**Dropped** by the owner on 2026-11-23.
+**Team events** (decision D6): each bracket table's `h3.group-title` in
+`views/teams.js` (`groupTableHTML` and `groupTableByGamesHTML`) gets the table pill
+too, counting the bracket's matchups (`model.team.matchups` with `stage === null`
+and `group` equal to the bracket): played when `result.state` is `final` or `tie`.
+Team tables get no tie pills: their ranking and their own *Tied · playoff* pill stay
+as they are.
 
-**Problem.** An organiser's rules (scoring, time limits, tiebreakers) are handed
-out on paper or in a group chat, and the Hub has nowhere to point at them.
+**Build.**
 
-**Proposal.** An optional `mountHub` setting, `rulesUrl` (default `''`, meaning no
-link). When set, a **Rules** link shows under the tabs and in the footer and opens
-the file in a new tab. The rules file goes in the event's own folder
-(`events/<event-key>/assets/rules.pdf`), like its QR image. The Hub does not
-render the rules or give them a tab.
+1. **New module `lib/v1/domain/standings-status.js`** (imports `domain/` only):
+   - `tableProgress(rows, matches, type)` → `{ played, total }` by the rule above.
+   - `tieBreaks(rows, matches)` → `Map<teamCode, { size, rule: 'h2h' | 'quotient' | 'none', won?, score? }>`
+     by the table above: group the played rows by `wins`; for each group of two or
+     more, `h2h = headToHeadWins(group, matches)`; a row whose `h2h` value is unique
+     in the group is `h2h`, else among the rows sharing its value it is `quotient`
+     when its `quotient` is unique, else `none`. For a two-row `h2h` group add `won`
+     and `score` (`"11–5"`, en dash). It imports `headToHeadWins` from
+     `domain/standings.js` (an existing export) and groups exactly as
+     `rankStandings` does; a test checks, on each tie case below, that ordering by
+     the pills' rules gives `rankStandings`' order.
+   - `teamTableProgress(matchups, group)` → `{ played, total }` for a team bracket.
+2. **`views/ticket.js`, `pairCell`**: a new option `after` (an HTML string, default
+   `''`) placed inside the `<td>`, after the two names. Old cached copies ignore it.
+3. **`views/standings.js`, `stageTablesHTML`**: when `model.isLive`, compute
+   `tableProgress` per drawn table and `tieBreaks` per bracket group (where it
+   already calls `rankStandings`), draw the table pill
+   (`<span class="rr-status rr-status--progress">In progress · 6/10</span>` or
+   `rr-status--final`), and pass each row's pill as `pairCell`'s `after`
+   (`<br><span class="rr-tie">…</span>`, `rr-tie rr-tie--tied` for *Tied*).
+4. **`views/teams.js`**: the table pill in each `h3.group-title` when `model.isLive`.
+5. **`css/standings.css`** (loaded by all three templates and Control Center):
+   `.rr-status{ display:inline-block; margin-left:8px; font-family:'Inter',sans-serif; font-size:9.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; border-radius:100px; padding:2px 9px; vertical-align:1px; border:1px solid rgba(255,255,255,.55); }`,
+   `.rr-status--progress{ background:var(--green-dark); color:var(--white); }`,
+   `.rr-status--final{ background:var(--navy); color:var(--white); }`. In a light
+   heading (`.stage-caption`) drop the border. The tie pill must beat
+   `.br-table td.pair span{ display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }`:
+   `.br-table td.pair span.rr-tie{ display:inline-block; overflow:visible; text-overflow:clip; margin-top:4px; font-family:'Inter',sans-serif; font-size:9px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; border-radius:100px; padding:1px 8px; background:var(--paper-dim); color:var(--ink); border:1px solid var(--line); }`
+   and `.br-table td.pair span.rr-tie--tied{ background:#FFD873; color:#5A4100; border-color:#FFD873; }`.
 
-**Where.** `apps/hub.js` (a new known setting: an unknown setting is already an
-error, so this is the compatible way to add one), the templates' markup and the
-instantiation runbook (`_templates/CLAUDE.md` §2), as an optional step.
+**Tests.** `_tests/unit/domain/standings-status.test.mjs` (new): counts on the
+`pre`, `mid` and `final` fixture states; a best-of-3 meeting counted once; a BYE
+left out; each tie case: Pickle for Sight's Novice Mixed Doubles Bracket 2 (a
+circle: `quotient` ×3), the same with match 1085's scores swapped in the fixture
+(two `h2h` pairs, scores `11–5` and `11–10`), its Novice Men's Doubles Bracket 3
+(`none` ×2), and PNF × BUP (dual meet: `quotient`); rows with nothing played get
+nothing. `_tests/unit/views/standings.test.mjs`: the pill markup in a bracket label
+and in a heading; nothing when not live. `teams.test.mjs`: the team table pill. The
+harness: every Standings case of every page differs (accept `both`).
 
-**Open decisions.**
+**Done when** those pass and §2.5's pages show the pills (Ladies' Dink and
+Millennium are team events: their bracket tables).
 
-- **D7.** A shell setting (proposed: the file is in the site repo, beside the page)
-  or a `display.rulesUrl` in `events.json` (changeable without touching the site
-  repo, but a site file named from the data repo).
+## 7. Step 5 — P14: a Standings row opens that pair's matches
 
-## 11. P8. Follow more than one pair
+**Today.** To see the matches behind a row, a pair switches to Match Finder and
+types its names.
 
-**Dropped** by the owner on 2026-11-23.
+**After.** On the Hub, each round-robin row with names ends with a **›** and opens
+that pair in Match Finder: the tab switches and, with steps 1 and 2, the page lands
+on its next match. A row with no names (an unseeded slot, *TBD*) does nothing.
+Standard and dual-meet events; team Standings are unchanged. Control Center is
+unchanged.
 
-**Problem.** A player entered in two categories, or a parent with two children
-playing, searches each time. The Hub remembers one search.
+![Two mockups on a phone. First, Pickle for Sight's Novice Men's Doubles brackets, each row ending in a › and Josh Manarang / Angelo Manarang's row in Bracket 2 outlined as tapped. Second, where the tap lands: Match Finder on that pair, the summary card opening with its next match, then its tickets.](../../images/hub-player-experience/p14-row-opens-matches.png)
 
-**Proposal.** Match Finder keeps up to four followed pairs on the device, as
-chips above the results, each opening its results and P3 card.
+**Build.**
 
-**Recommendation: drop for now.** It is Purple Pickle XP's most complex screen.
-It adds a list to manage (add, remove, a limit) and the saved-search
-format changes. Most players are in one category on a day. Revisit if
-organisers report multi-category players asking for it.
+1. **`views/standings.js`**: a `createStandings` option `onPairSelect(teamCode)`
+   (default none). When set, the round-robin rows drawn by `stageTablesHTML` for a
+   named pair (not `isEmptyStanding`, not `isUnnamedScheduledPair`) get
+   `class="… rr-open"`, `data-team="<teamCode>"`, `tabindex="0"`, and
+   `<span class="rr-open-mark" aria-hidden="true">›</span>` at the end of the Q
+   cell. Thread a boolean (`openRows`) through the options the builders already
+   pass: `cardOptions()` for a standard event, the options given to
+   `dualMeetStandingsHTML` for a dual meet. `bodyEl`'s existing click listener calls
+   `options.onPairSelect(tr.dataset.team)` for a click inside `tr.rr-open`; add a
+   `keydown` listener doing the same on Enter.
+2. **`css/standings.css`**: `tr.rr-open{ cursor:pointer; }`,
+   `tr.rr-open:focus-visible{ outline:2px solid var(--green-dark); outline-offset:-2px; }`,
+   `.rr-open-mark{ color:var(--muted); font-weight:700; margin-left:4px; }`.
+3. **`apps/hub.js`**, for a standard or dual-meet event, `onPairSelect: code => { … }`:
+   `const team = finder.pairs.find(t => t.codes.includes(code)); if(!team) return;`
+   click `.view-tab[data-view="finder"]`; then `input.value = team.label;
+   finder.selection = team; finder.updateClear(); finder.run(); reveal();`. These
+   are `createFinder`'s existing members, so no cached-module risk.
 
-## 12. P9. A tab's own address
+**Tests.** `standings.test.mjs`: with `openRows` the named rows carry `data-team`
+and the mark, *TBD* rows don't; without it nothing changes.
+`hub-behaviour.test.mjs`, on `std-index/pickle-for-sight-2026/standings-category-2/mid/phone`
+with `runSteps: true` (it opens Standings and picks the second category): click the first
+`tr.rr-open`, then assert Match Finder is the active tab, `#results` holds
+`.pair-summary`, and `#results` is near the top. The harness: every Standings case
+of `std-index` and `dm-index` differs (the marks; accept `pixels`).
 
-**Dropped** by the owner on 2026-11-23.
+**Done when** those pass and a row tap works on ACSO's and UPAP's pages.
 
-**Problem.** §1.2: a tab has no URL of its own. A QR code at the venue, the Hub board
-or a link sent to a group chat always opens on Match Finder (or on whatever tab that
-phone last had open), never on Standings.
+## 8. Step 6 — P12: a podium on a finished category
 
-**Proposal.** Each tab gets an address fragment: `#finder`, `#live`, `#standings`,
-and `#teams` at a team event. A tab tap replaces the fragment (`history.replaceState`,
-so Back still leaves the page rather than stepping through tabs). On load, a known
-fragment wins over the saved view. An unknown fragment, or a tab the event doesn't
-have (`#teams` at a standard event), is ignored and the saved view applies as today.
+**Today.** A category's result is the Final's row in its bracket. A searched pair's
+card names its own medal, but nothing says who won a category.
 
-**Where.** `apps/hub.js`, beside `saveView` and `loadSavedView`. Nothing in the
-shells changes.
-
-**Tests.** A `hub` case per fragment, and one that an unknown fragment falls back to
-the saved view.
-
-**Open decisions.**
-
-- **D8.** A tab tap replaces the fragment (proposed) or adds a history entry, so Back
-  returns to the previous tab.
-
-## 13. P10. Standings open on a category on phones
-
-**Dropped** by the owner on 2026-11-23.
-
-**Problem.** §1.2: on a phone a standard event's Standings start empty until a
-category is searched for, even at an event with three.
-
-**Proposal.** On a phone, Standings open on a category:
-
-1. the category of the pair in the saved search, when there is one;
-2. otherwise the first category in the event's category order.
-
-The search box shows the chosen category and works as today. A category the reader
-picks is kept as today (`selectCategory`).
-
-![The Standings tab on a phone. Today, under the banner, a "Search a category" box and an empty card reading "Search and select a category above to view its standings." In the mockup the box reads Intermediate Men's Doubles and the category's round-robin brackets are drawn under it.](../../images/hub-player-experience/p10-standings-open.png)
-
-**Where.** `views/standings.js`: a `createStandings` option, `openOnCategory` (default
-`false`), with `apps/hub.js` passing `true` and a way to read the saved search's
-category. Control Center keeps its own behaviour.
-
-**Tests.** `standings.test.mjs` for both rules and for an event with no categories yet.
-Harness accepted differences on the phone Standings cases.
-
-**Open decisions.**
-
-- **D9.** At an event with few categories (four or fewer), chips on phones as on a
-  computer, instead of the search. Proposed **no**: one control per screen size is
-  simpler, and P10 removes the empty first screen either way.
-
-## 14. P11. Say *Final* once the day is over
-
-**Dropped** by the owner on 2026-11-23.
-
-**Problem.** §1.2: the sync line reads *Live* whenever a snapshot loads, weeks after
-the event too.
-
-**Proposal.** Once every facility in the day's snapshot has a `completedAt` (the stamp
-`facilityCompletion` puts on a facility when its last match is played), the line reads
-"*day* · Final · results as of *time*", the time being the snapshot's `generatedAt`,
-since a score corrected after the last match still counts. Until then it reads as
-today. The *Live (partial)* line for a facility that couldn't be reached is unchanged.
-
-![The banner's sync line on a finished day. Today: "Oct 3 · Live · last synced 2:54:44 AM". Mockup: "Oct 3 · Final · results as of 2:54:44 AM".](../../images/hub-player-experience/p11-final.png)
-
-The time is the fixture snapshot's own `generatedAt`, a resync after the day.
-
-**Where.** `apps/hub.js`, where `statusEl` is written.
-
-**Tests.** A `hub` case on the `final` fixture state, one on `mid`.
-
-**Open decisions.**
-
-- **D10.** A day that ends with a facility short of `completedAt` (a match cancelled
-  and never scored) keeps reading *Live*. Proposed: accept that, rather than also
-  using the day's date, which `events.json` carries only as the label.
-
-## 15. P12. A podium on a finished category
-
-**Problem.** A category's result is the Final's row in its bracket. A searched pair's
-summary card names its own medal (*Champions*, *Runners-up*, *Bronze medal*, §1.3),
-but nothing on the Hub says who won a category without searching for each pair.
-
-**Proposal.** Once a category's Final and Bronze are both scored, its Standings card
-opens with a podium: gold, silver and bronze, with the names, and under gold
-"Beat *names* *score* in the final". The rules are Control Center's Awards tab's,
-`buildPodiums(model)` in `domain/awards.js`, so a podium on the Hub never disagrees
-with the one the organisers export. The bracket stays underneath unchanged. The card's
-status pill works out the same medals from the pair's own rounds; a test checks the two
-agree on the `final` fixture.
+**After.** On the Hub, once a category's podium is known, its Standings card opens
+with it: gold, silver and bronze with the names, and under gold the final, e.g.
+*Beat Makeen Fernandez / Noelle Mercado 11–7 in the final*. A team event's Standings
+open with the event's podium the same way (decision D11). Control Center has its
+Awards tab and is unchanged.
 
 ![Piggleball's Novice Open Doubles card on a phone, finished. Today it opens on the round-robin brackets. In the mockup a Podium card comes first: 1, Joshua Dizon / Jericho Dizon, "Beat Makeen Fernandez / Noelle Mercado 11–7 in the final"; 2, Makeen Fernandez / Noelle Mercado; 3, Arlene Gacho / Earl Andreu Acabal.](../../images/hub-player-experience/p12-podium.png)
 
-A team event gets its podium too (D11): once its Final and Bronze matchups are
-settled, its Standings view opens with the three teams, from `buildTeamPodium(model)`,
-the rules of Control Center's Awards tab for a team event, and the Final's matchup
-score under gold.
+The picture predates the PF and PA columns and the match-number tabs; the podium
+card is what it shows.
 
-**Where.** `views/standings.js`: a new export, `podiumHTML(podium)`, and a
-`createStandings` option, `podium` (default `false`), that `apps/hub.js` sets.
-`views/teams.js` draws the team podium at the top of its Standings view, behind an
-option of its own, also off by default and set by the Hub. Control Center has its
-Awards tab and keeps both options off. Styles in `css/standings.css`, shared by both.
+**The rule.** The podium is Control Center's Awards tab's (`domain/awards.js`), so
+the two never disagree:
 
-**Tests.** `standings.test.mjs` on the `final` state (a podium) and on `mid` (none);
-`teams.test.mjs` the same on the team fixtures. Harness accepted differences on the
-final-state Standings cases of all three templates.
+- Standard and dual meet: `buildPodiums(model)` gives one entry per category code
+  (`{ category, source, gold, silver, bronze, warning }`; each medalist
+  `{ p1, p2, club, clubLabel }` or `null`). Show it when `warning` is `null`, `gold`
+  and `silver` are set, and either `bronze` is set or the category has no bronze at
+  all (`resolveDecisiveMatch(model, category, 'B').any` is false and
+  `standingsBronzeWalkover(model, category).walkover` is false). A category decided
+  by its round robin alone (`source: 'standings'`) shows its podium too, once its
+  round robin is done.
+- The final line, only for `source: 'bracket'`: `m = resolveDecisiveMatch(model, category, 'F').match`.
+  When `m` is a series game (`seriesGameOf(m.t1)` not `null`): *Beat <silver> in
+  the final*. Otherwise *Beat <silver> <winner's score>–<loser's score> in the
+  final*.
+- Team: `buildTeamPodium(model)`, the same show rule (the event has no bronze when no
+  matchup has `stage === 'Br'`); medalists are `{ teamName }`. The final line uses
+  the `Fi` matchup's `result`: `pts1`–`pts2` from the winner's side, or
+  `pairs1`–`pairs2` when `result.scoring === 'games'`.
 
-**Decisions.**
+**Build.**
 
-- **D11.** Team events, through `buildTeamPodium`, now or later. **Answered:** now.
-  (P3's team block, D2, stays later.)
+1. **New module `lib/v1/views/podium.js`** (imports `domain/` and `views/html.js`):
+   `podiumFor(model, category)` and `teamPodiumFor(model)` return
+   `{ gold, silver, bronze, finalLine }` or `null` by the rule above (cache
+   `buildPodiums(model)` per model in a `WeakMap`); `podiumHTML(p)` returns:
 
-## 16. P13. Explain the colours and the ties
+   ```html
+   <div class="podium">
+     <div class="podium-title">Podium</div>
+     <ol class="podium-list">
+       <li class="podium-place podium-place--gold"><span class="podium-rank">1</span>
+         <span class="podium-names">Joshua Dizon / Jericho Dizon<small>Beat Makeen Fernandez / Noelle Mercado 11–7 in the final</small></span></li>
+       <li class="podium-place podium-place--silver">…2…</li>
+       <li class="podium-place podium-place--bronze">…3…</li>   <!-- left out without a bronze -->
+     </ol>
+   </div>
+   ```
 
-**Dropped** by the owner on 2026-11-23.
+   A dual meet's names add ` · <clubLabel>`; a team's are its `teamName`.
+2. **`views/standings.js`**: a `createStandings` option `podium` (default `false`),
+   carried in the card options. `categoryCardHTML` and `categoryColumnHTML` put
+   `podiumHTML(podiumFor(model, category))` first in `.standings-col-body` when it
+   is set, where `category` is `parseCode(rows[0].teamCode, type).category`.
+3. **`views/teams.js`**: a `createTeams` option `podium` (default `false`), put in
+   `hooks`; `teamStandingsHTML` starts with `podiumHTML(teamPodiumFor(model))` when
+   `hooks.podium` and the podium is known.
+4. **`apps/hub.js`**: `podium: true` to `createStandings` and `createTeams`.
+5. **`css/standings.css`**: `.podium` a card (`background:var(--white)`, radius
+   14px, `box-shadow:var(--card-shadow)`, padding 12px 14px, margin 0 0 14px);
+   `.podium-title` Barlow Condensed 700 12px uppercase, letter-spacing .1em,
+   `var(--muted)`; `.podium-list` no bullets, no padding; `.podium-place` a flex row,
+   gap 10px, padding 6px 0, a dashed `var(--line)` divider between places;
+   `.podium-rank` a 26px circle, Archivo Black 13px: gold `#F3D46B`/`#4A3500`,
+   silver `#DADDE3`/`#2E333D`, bronze `#E3B48A`/`#4A2A0C` (the pair summary card's
+   medal colours); `.podium-names` 14px 600, `small` block 12px 400 `var(--ink-soft)`.
 
-**Problem.** §1.2: green and pink rows read as *advancing* and *out*. They mean a
-winning record and anything else. And where pairs are level on wins, nothing says what
-put one above the other.
+**Tests.** `_tests/unit/views/podium.test.mjs` (new): Piggleball `final` gives the
+picture's podium for Novice Open Doubles, with its final line; `mid` gives none; a
+category without a bronze match; a warning gives none; PNF × BUP's club labels; the
+team fixtures' podium on `final` and none on `mid`. The harness: the final-state
+Standings cases of `std-index`, `dm-index` and `team-index` differ (accept `both`).
 
-**Proposal.** Text only.
+**Done when** those pass and ACSO's, UPAP's, Ladies' Dink's and Millennium's
+finished pages show their podiums.
 
-- Under each round-robin table, with P6's line: *Green: more wins than losses.
-  Pink: as many losses as wins, or more.*
-- A pair placed above another level on wins gets a short note under its names, from
-  the rule of the Hub's order that separated them. Among the pairs level on wins the
-  Hub counts each one's wins against the others in that group, then compares quotients
-  (`rankStandings`, `domain/standings.js`). So the note is *Level on wins, ahead on
-  head-to-head* or *Level on wins and head-to-head, ahead on quotient*.
+## 9. Step 7 — P15: a dual meet's club score first, and *Pairs*, not *Teams*
 
-Two pairs level in a standard bracket have played each other, so head-to-head settles
-it. Three or more can beat each other in a circle, as in the picture, and then the
-quotient does. In a dual meet one club's pairs never meet, so a tie there is always
-settled by quotient.
+**Today.** At a dual meet *which club is winning?* is answered only at the top of
+Standings. Match Finder's first screen counts pairs as *Teams*, at every standard
+and dual-meet event.
 
-![Pickle for Sight's Novice Mixed Doubles, Bracket 2, on a phone. Today it is a W, L, PF, PA, Q table with green and pink rows. In the mockup the bracket's header is followed by "Round robin complete" (P6's first design). The pairs placed by a tiebreak carry a note. Under the table are a two-line colour legend and "Ranked by wins, head-to-head, then quotient. The organisers confirm who advances."](../../images/hub-player-experience/p6-p13-standings-explained.png)
-
-The picture shows both parts: three pairs on two wins, each having beaten one of the
-others, placed by quotient. It is drawn beside P6's first design, a status line,
-which P6's pill has replaced. The tie note is back, as a pill, in P6.
-
-**Where.** `domain/standings.js`: `rankStandings` also reports, for each pair, which
-rule put it above the next one (a new export beside it, so its callers don't change).
-`views/standings.js`'s row template shows the note. Control Center gets it too, as
-with P6.
-
-**Depends on.** P6 for the line the legend joins. Without P6 the legend is a line of
-its own.
-
-**Tests.** `standings.test.mjs` with a head-to-head split and a circular three-way
-split (Pickle for Sight's Novice Mixed Doubles, Bracket 2) on the fixtures. Harness
-accepted differences on every Standings case.
-
-**Open decisions.**
-
-- **D12.** Keep the colours with a legend (proposed), or drop them, since a legend is
-  needed only because they look like something else.
-
-## 17. P14. A Standings row opens that pair's matches
-
-**Problem.** A table shows W, L, PF, PA and Q but not the games behind them. A pair
-checking its place has to switch to Match Finder and type its names.
-
-**Proposal.** Tapping a pair's row runs Match Finder's search for that pair: the tab
-switches and, with P1 and P3, the page lands on its summary card, the next match at
-its top, and its matches. Each row ends with a **›** so it reads as something to tap.
-A row with no names yet (an unseeded playoff slot) has none and does nothing.
-
-The card already shows the pair's round-robin record as Standings counts it (the
-same `rankStandings` order and `pointsFromMatches` points, §1.3), so the line this
-proposal first added to the results (*Round robin: 4 won · 0 lost · quotient 44 ÷ 7
-= 6.2857*) is no longer part of it.
-
-![Two mockups on a phone. First, Pickle for Sight's Novice Men's Doubles brackets, each row ending in a › and Josh Manarang / Angelo Manarang's row in Bracket 2 outlined as tapped. Second, where the tap lands: Match Finder on that pair, the summary card opening with its next match (2:50 PM · Court 4 against Tony Hecker / Angelo Culala), then #2 of 5 in Bracket 2 with W 3, L 1, PF 20, PA 12, Q 3.0000, then its tickets.](../../images/hub-player-experience/p14-row-opens-matches.png)
-
-**Where.** `views/standings.js` (a row's `data-team` and a click handler calling a
-`createStandings` option, `onPairSelect`, default none) and `apps/hub.js`, which runs
-the search as a suggestion pick would.
-
-**Depends on.** P1, for the search to land on the results.
-
-**Tests.** A `standings.test.mjs` case for the handler. Harness: a phone case tapping
-a row.
-
-**Open decisions.** None.
-
-## 18. P15. A dual meet's club score first, and *Pairs*, not *Teams*
-
-**Problem.** §1.2: at a dual meet the question everyone asks, *which club is
-winning?*, is answered only at the top of Standings. And Match Finder's first screen
-counts pairs as *Teams*, at every standard and dual-meet event. (Its third count
-already reads *Categories*, §1.3.)
-
-**Proposal.**
-
-- At a dual meet, the club bar (`clubSummaryHTML`: each club's round-robin wins, with
-  the leader picked out) is also drawn at the top of Match Finder's first screen, above
-  the counts. It is the same bar, so it reads the same in both places.
-- The middle count reads *Pairs*. The rule that counts them (a code ending in a bare
-  number) is unchanged.
+**After.** At a dual meet, once the day is live, Match Finder's first screen opens
+with the same club bar Standings shows. The middle count reads *Pairs* everywhere,
+Control Center included.
 
 ![PNF × BUP's Match Finder first screen on a phone. Today, under the search box, tiles for 126 Matches, 56 Teams and 7 Categories. In the mockup the club bar comes first, Pickle & Friends Community 64 vs 48 1Bataan United Picklers with both logos, and the middle tile reads 56 Pairs.](../../images/hub-player-experience/p15-dual-meet-first-screen.png)
 
-**Where.** `views/finder.js` (`introHTML`), importing `clubSummaryHTML` from
-`views/standings.js`, which needs its club grouping, now inside
-`dualMeetStandingsHTML`, as an export of its own. Per the engine rules the finder
-starts using the new export one push after the export lands. The label change reaches
-Control Center's Match Finder too, which is proposed: *Pairs* is right there as well.
+**Build.**
 
-**Tests.** `finder.test.mjs` for the bar at a dual meet and its absence at a standard
-event, and the label. Harness accepted differences on every Match Finder first screen.
+1. **New module `lib/v1/views/club-bar.js`**: `clubBarHTML(model, { clubLogoHTML } = {})`.
+   `''` unless `model.event.type === 'dual-meet'` and `model.isLive`. Otherwise it
+   groups `model.standings` by club and orders the clubs exactly as
+   `dualMeetStandingsHTML` does (`display.clubs` key order, then the rest), and
+   returns `<div class="finder-club-bar">${clubSummaryHTML(byClub, clubOrder, model, { clubLogoHTML })}</div>`
+   (`clubSummaryHTML` is an existing export of `views/standings.js`).
+2. **`views/finder.js`**: `introHTML(model, options)` takes an option `introTop`
+   (a function of the model, default none) and prints its HTML before
+   `.stats-row`; `createFinder` takes `introTop` and passes it on in `renderIntro`.
+   The middle tile's label `Teams` becomes `Pairs`.
+3. **`apps/hub.js`**: move the standings' `clubLogoHTML` arrow into a named const,
+   pass it to `createStandings` as today, and for a dual meet pass
+   `introTop: m => clubBarHTML(m, { clubLogoHTML })` to `createFinder`.
+4. **`css/finder.css`**: `.finder-club-bar{ margin:0 0 14px; }` and
+   `.finder-club-bar .club-summary{ position:static; }` (it is sticky in Standings).
 
-**Open decisions.** None.
+**Tests.** `finder.test.mjs`: the label reads `Pairs` (edit the existing first-screen
+test, which pins `Teams`); `introTop`'s HTML comes before the counts.
+`_tests/unit/views/club-bar.test.mjs` (new): PNF × BUP live gives both clubs with
+their wins; a standard event and a day not live give `''`. The harness: every
+`finder` case of `std-index`, `dm-index` and `cc` differs (the label; and the bar at
+`dm-index` mid and final; accept `both`).
 
-## 19. P16. Jump to a category in a dual meet's Standings
+**Done when** those pass.
 
-**Problem.** §1.2: a dual meet's Standings on a phone are every category in one
-column, about 6,300 px at PNF × BUP's seven.
+## 10. Step 8 — P16: jump to a category in a dual meet's Standings
 
-**Proposal.** A row of category chips under the club bar, one per category in the
-category order (*LI WD*, *LI MD*…, the short labels the schedule board already uses).
-A tap scrolls to that category's card. It is a jump, not a filter: the page stays whole
-and can still be scrolled through. The club bar and chips stay pinned at the top while
-Standings scroll, as the club bar already is at PNF × BUP.
+**Today.** A dual meet's Standings on a phone are every category in one column under
+a pinned club bar: about 6,300 px at PNF × BUP's seven, with no way to jump.
+
+**After.** On the Hub, on a phone, a row of category chips (*LI WD*, *LI MD*…) sits
+under the club bar, pinned with it. A tap scrolls to that category's card; the page
+stays whole (decision D13: a jump, not a filter). The chip of the category at the
+top of the screen is highlighted. Computers and Control Center are unchanged.
 
 ![PNF × BUP's Standings on a phone, scrolled to the third category. Today the pinned club bar sits over the middle of a category card. In the mockup a row of chips (LI WD, LI MD, LI XD, HI WD, HI MD and on) is pinned under the club bar, LI XD highlighted, and the page sits at the top of Low Intermediate Mixed Doubles.](../../images/hub-player-experience/p16-dual-meet-jump.png)
 
-**Where.** `views/standings.js` (`dualMeetStandingsHTML`'s phone branch, and an id on
-each category column) and `css/standings.css`. The computer layout, a grid of columns,
-is unchanged.
+The picture predates the PF and PA columns; the chips are what it shows.
 
-**Tests.** `standings.test.mjs` for the chips' order and targets. Harness accepted
-differences on the dual-meet phone Standings case.
+**Build.**
 
-**Open decisions.**
+1. **`views/standings.js`, `dualMeetStandingsHTML`**: an option `jumpChips` (default
+   `false`). In the phone branch (not `isDesktopStandings()`), when it is set, the
+   club bar and the chips are wrapped together:
 
-- **D13.** Jump (proposed), or a filter to one category as a standard event's phone
-  search does (shorter, but the whole picture of both clubs goes).
+   ```html
+   <div class="dm-pin">
+     <!-- clubSummaryHTML(…) as today -->
+     <nav class="dm-jump" aria-label="Jump to a category">
+       <button type="button" class="dm-jump-chip" data-jump-cat="Low Intermediate Women's Doubles">LI WD</button>
+       …
+     </nav>
+   </div>
+   ```
 
-## 20. P17. A cross-club grid per category
+   One chip per category in `sortedCats` order; `data-jump-cat` is the category's
+   label (the columns' existing `data-cat-key`); the chip's text is
+   `${divCode} ${evCode}` from `splitCategory(parseCode(rows[0].teamCode, type).category, display)`,
+   or the category code when that is `null`.
+2. **`createStandings`**: pass `jumpChips` through to `dualMeetStandingsHTML`. In
+   `bodyEl`'s click listener, a `.dm-jump-chip` scrolls its column
+   (`.standings-col[data-cat-key="…"]`, compared by value, not by building a CSS
+   selector from the label) to just under the pinned row:
+   `top = col.getBoundingClientRect().top + scrollY - pin.getBoundingClientRect().height - (document.body.classList.contains('hub-bar-on') ? 54 : 0) - 8`,
+   instant under *reduce motion*. One passive `scroll` listener, added once, marks
+   `active` the chip of the last column whose top is above the pinned row's bottom
+   (throttle with `requestAnimationFrame`; read the current DOM each time).
+3. **`apps/hub.js`**: `jumpChips: true` for a dual meet.
+4. **`css/standings.css`**, under the phone media query:
+   `.dm-pin{ position:sticky; top:0; z-index:6; background:var(--paper); padding-bottom:6px; }`,
+   `.dm-pin .club-summary{ position:static; }`,
+   `.dm-jump{ display:flex; gap:6px; overflow-x:auto; padding:6px 0 2px; scrollbar-width:none; }`,
+   `.dm-jump-chip`: Barlow Condensed 700 12px, letter-spacing .06em, uppercase,
+   `white-space:nowrap`, padding 5px 11px, radius 999px, `background:var(--white)`,
+   `border:1px solid var(--line)`, `color:var(--navy)`; `.dm-jump-chip.active`:
+   `background:var(--navy); color:var(--white); border-color:var(--navy)`.
+   The category heads stop pinning under it:
+   `.dm-pin ~ .standings-board .standings-col-head{ position:static; }`. With step 3:
+   `body.hub-bar-on .dm-pin{ top:54px; }` in `hub.css`.
 
-**Dropped** by the owner on 2026-11-23.
+**Tests.** `standings.test.mjs` (phone stub, `matches: false`): with `jumpChips` the
+chips come in category order with labels and targets; without it the markup is
+today's. `hub-behaviour.test.mjs`, on `dm-index/pnf-x-bup-dual-meet/standings/final/phone`:
+click the third chip and assert that category's `.standings-col` top sits just under
+`.dm-pin` and that chip is `active`. The harness: the `dm-index` phone Standings cases
+differ (accept `both`).
 
-**Problem.** A dual meet's category card has a table per club (W, L, Q) and the
-cross-club Bronze and Final. The round-robin games between the two clubs, which decide
-both tables, aren't shown.
+**Done when** those pass.
 
-**Proposal.** Under each category's two club tables, a grid: one club's pairs down the
-side, the other's across, each cell that match's score read row pair first, marked won
-or lost, and an empty cell where the two didn't meet. Each row ends with its pair's W–L
-and points. It is drawn from the day's matches (`model.matches`, round-robin stage
-only), so it needs no new data. On a phone it scrolls sideways inside its card, with
-the row names pinned, rather than shrinking the cells.
+## 11. The docs to update
 
-![PNF × BUP's Low Intermediate Women's Doubles card on a phone, finished. Today: a W, L, Q table per club, then Bronze Battle and Finals. In the mockup a Head-to-head grid sits between the tables and the Bronze Battle. It has the four PNF pairs down the side and the four BUP pairs across, every cell a score read row first and shaded won or lost, and a W–L column: Keren / Shaira 4–0, Dynes / Daisy 2–2, Nichole / Joy 2–2, Anne / Ellica 1–3.](../../images/hub-player-experience/p17-cross-club-grid.png)
+With each step, in `sage-docs` (§2.6):
 
-The grid is shown open; on a phone D14 proposes it folded.
+| Page | Steps |
+| --- | --- |
+| `docs/features/tournament-hub.md` (what players see) | every step |
+| `docs/features/control-center.md` | 1 (Find matches closes its suggestions), 2 (the next-match block), 4 (the pills), 7 (*Pairs*) |
+| `docs/technical/site-engine.md` (modules, options, the *Pair summary* section) | every step |
+| `docs/usage/rehearse.md` (what the dry run checks on the Hub) | 2, 3, 4, 6 |
 
-**Where.** `views/standings.js`: a new export, `crossClubGridHTML(cat, perClubRows,
-model)`, called from `categoryColumnHTML`, and styles in `css/standings.css`. Control
-Center gets it too (proposed): it is the operators' quickest check of a disputed score.
+And in the site repo, `field-guide.html` (the public feature tour; its Match Finder
+and Standings entries) with steps 2, 3, 4 and 6.
 
-**Depends on.** Nothing. Most useful with P16.
+## 12. Decisions
 
-**Tests.** `standings.test.mjs` on the PNF × BUP fixture
-(`_tests/fixtures/pnf-x-bup-dual-meet/`): every played pairing in its cell, a missing
-pairing empty, the row-first reading. Harness accepted differences on every dual-meet
-Standings case.
+Every decision is answered; the build follows the answers. The original wording of
+the questions is in §15 with the dropped proposals.
 
-**Open decisions.**
-
-- **D14.** The grid open (proposed on a computer) or folded under a *Head-to-head*
-  heading (proposed on a phone, where it doubles the card's height).
+| # | Step | Decision | Answer |
+| --- | --- | --- | --- |
+| D1 | 3 | How much of the banner stays on a phone | The full banner at the top; folded, the bar carries the logo, the date and venue line and the title |
+| D2 | 2 | A team event's next-matchup block now or later | Later: standard and dual-meet events only |
+| D3 | 1 | Scroll to the results when a saved search is restored on load | Yes, when the saved tab is Match Finder |
+| D15 | 2 | The next-match block before the day goes live | Yes, the block alone |
+| D16 | 2 | The block in Control Center's card too | Yes |
+| D17 | 3 | What the menu holds | The tabs, the day picker and the sync line |
+| D6 | 4 | Team bracket tables get the table pill | Yes; no tie pills |
+| D18 | 4 | The pill's count | *In progress · 6/10* |
+| D11 | 6 | A team event's podium now or later | Now |
+| D13 | 8 | The chips jump or filter | Jump |
 
 ---
 
-## 21. Not taken from the other portals
+# Part 2. Background
 
-### 21.1 From Purple Pickle XP (2026-10-10)
+## 13. Why
+
+### 13.1 What the Hub does today, measured
+
+The standard template on the Piggleball fixture, mid-day, on a 375 × 812 phone,
+measured on 2026-11-23 at `b89fda5`:
+
+| | Top of it, from the top of the page |
+| --- | --- |
+| The tabs | 346 px |
+| The search box | 541 px |
+| A pair's results, after a search | 763 px |
+| The pair summary card | 845 px, 326 px tall |
+| The pair's first ticket | 1,223 px |
+
+### 13.2 The comparisons
+
+On 2026-10-10 the Hub was compared with another organiser's player portal (Purple
+Pickle XP, "Powered by Qourts", one 1.8 MB page reading a database every 15 s). On a
+phone it opens on the player's **next match** once they have picked their name,
+keeps its section tabs one tap away, and puts the task before the event's banner.
+Steps 1–3 take those three, without its welcome screen.
+
+On 2026-10-25 it was compared with Dinktator's spectator pages for a two-club event
+(`pvo.dinktator.club/t/pvo`). Their standings open on a division, explain
+themselves (who advances, how a tie was placed, the games behind a quotient, how
+many games are final), show a cross-club grid, and show a podium. The Hub's
+Standings opened empty on a phone, a dual meet's were one 6,300 px column, the row
+colours went unexplained, the first screen called pairs *teams*, and the club score
+was only in Standings. Steps 4–8 take what the owner kept of those.
+
+### 13.3 What the engine gained before this was built
+
+Between 2026-11-10 and 2026-11-22, changes made for their own reasons covered part
+of the proposals, and Part 1 is written against them: Match Finder's pair summary
+card (`476dbd7`), which gives a playoff pair's next match, one pair's medal and one
+pair's *round robin final*; PF and PA in every round-robin table (`16aa049`,
+`2c01b15`), which replaced P14's quotient line; a pair's matches in Schedule time
+order (`ccc6c60`), the **Next Up** rule step 2 reuses; the first screen's
+*Categories* count (`2435ef6`); and the match-number tabs and category pills on
+tickets (`85907e1`).
+
+## 14. The owner's picks
+
+On 2026-11-23 the owner kept P1, P2, P3, P5, P6, P12, P14, P15 and P16, and dropped
+P4, P7, P8, P9, P10, P11, P13 and P17. P2 was redone to keep the full banner at the
+top and fold it into a bar on scrolling; P5 to put the tabs in that bar's menu rather
+than a bar along the bottom; P6 to be one pill per table rather than a status line
+and a rules line, and then, at the owner's request, to add the tie pills, saying how
+each tie was broken. The owner approved each redone design on its mockup.
+
+## 15. Dropped proposals
+
+Not to be built. Kept as the record of what was considered.
+
+- **P4. Names, not team codes, on the Hub's tickets.** A `showCodes` ticket option
+  the Hub would set to `false`, hiding the pair code above the names. Dropped: the
+  tickets keep their codes.
+- **P7. A rules link.** An optional `rulesUrl` setting showing a **Rules** link
+  under the tabs and in the footer (D7: a shell setting or `events.json`). Dropped.
+- **P8. Follow more than one pair.** Up to four followed pairs as chips. Dropped as
+  recommended: a list to manage, for players who are mostly in one category a day.
+- **P9. A tab's own address.** `#finder`, `#live`, `#standings`, `#teams`, so a QR
+  code could open on Standings (D8: replace the fragment or add a history entry).
+  Dropped.
+- **P10. Standings open on a category on phones**, instead of an empty search (D9:
+  chips at small events). Dropped.
+
+  ![The Standings tab on a phone. Today, a "Search a category" box and an empty card. In the mockup the box reads Intermediate Men's Doubles and the category's brackets are drawn under it.](../../images/hub-player-experience/p10-standings-open.png)
+
+- **P11. *Final* once the day is over**: the sync line reading "Oct 3 · Final ·
+  results as of …" once every facility has a `completedAt` (D10: a facility never
+  completed). Dropped.
+
+  ![The banner's sync line on a finished day. Today: "Oct 3 · Live · last synced 2:54:44 AM". Mockup: "Oct 3 · Final · results as of 2:54:44 AM".](../../images/hub-player-experience/p11-final.png)
+
+- **P13. Explain the colours and the ties**, as sentences: a legend for the green and
+  pink rows (D12: keep the colours with a legend, or drop them) and a note under a
+  tied pair. Dropped as text; its tie note is step 4's tie pills.
+
+  ![Pickle for Sight's Novice Mixed Doubles, Bracket 2. Today a W, L, PF, PA, Q table. In the mockup: "Round robin complete" under the header, a note on each pair a tiebreak placed, a colour legend and "Ranked by wins, head-to-head, then quotient. The organisers confirm who advances."](../../images/hub-player-experience/p6-p13-standings-explained.png)
+
+- **P17. A cross-club grid per category** at a dual meet: one club's pairs down the
+  side, the other's across, every score in its cell (D14: open or folded). Dropped.
+
+  ![PNF × BUP's Low Intermediate Women's Doubles card on a phone, with a Head-to-head grid between the club tables and the Bronze Battle.](../../images/hub-player-experience/p17-cross-club-grid.png)
+
+The decisions D4 and D5 belonged to P5's bottom tab bar (keep the banner's tabs as
+well; icons above the labels), which the menu replaced.
+
+## 16. Not taken from the other portals
 
 | Their feature | Why not |
 | --- | --- |
-| A welcome screen asking "player or spectator" before anything shows | An extra step for every spectator. P3 gives players the same result after one search |
-| The event poster as the home screen | The banner already carries the event's identity; P2 keeps it and folds it into a bar on scrolling, rather than making it larger |
-| Eight sections (Home, Overview, Schedule, Standings, Live Courts, Championship, My Matches, Rules) | They overlap. The Hub's three tabs cover the same ground |
-| A venue TV view inside the player portal | The [schedule board](../../features/schedule-board.md) is a separate, unlisted page on purpose |
-| A qualification projection ("Live projection") | The workbook decides who advances; P6 says so instead of guessing |
-| Polling a database row every 15 s | The Hub's live push is faster and archives every publish |
-| A 1.8 MB page with its images inlined | The Hub's shell loads the engine's modules and the event's own images as separate files, and nothing here adds an image |
-
-### 21.2 From Dinktator (2026-10-25)
-
-| Their feature | Why not |
-| --- | --- |
-| A page per court (umpire, up next, the rest of the court's day) | A new page, outside this spec's scope (§2). The [schedule board](../../features/schedule-board.md)'s court filter covers part of it. A court view for a QR code at each court would be a spec of its own |
-| A schedule grid that becomes stacked cards on a phone | The schedule board doesn't change here (§2). Worth its own change to the board: at PNF × BUP's nine courts a phone shows two at a time and cuts long names short |
-| Players signing in, so their own matches are marked and the phone buzzes when they're called | A sign-in step for every player. P3 and the saved search give the same *your match* without one, and iOS Safari has no vibration |
-| Pair codes before names (`PU-HMD-04`) | The Hub's tickets lead with the names; their codes are small, above them |
-| Overlapping initials circles for each pair | No photos to show, and the second circle clips the first one's initials |
-| An umpire's name on each court, PAUSED / NEXT states and a call-to-court forfeit clock | The workbook carries none of it. Calling a match to a court belongs to Control Center ([Court Control](../in-progress/control-center-court-control-spec.md)) |
-| A sponsor's logo on every court card | Organiser artwork per court that no event has asked for. The event's own banner carries its partners |
-| Five separate pages behind a menu | The Hub keeps its tabs on one page. P5's menu reaches them from anywhere on it |
-
-## 22. Building it
-
-- **Engine rules apply** ([site engine](../../technical/site-engine.md)): only
-  `lib/v1` is edited, compatibly (new options, exports and classes, nothing
-  removed or renamed), and a module only starts using another's new export in a
-  later push.
-- **Each proposal is its own push**, in the order of §3. Each runs
-  `npm run verify` and adds its accepted differences to
-  `_tests/engine/accepted.mjs`, each with a new row in the site engine spec's
-  reconciliations table (§12).
-- **Not within three days of an event**, as for any push to the site's `main`.
-- **Docs, with each one built:** [Tournament Hub](../../features/tournament-hub.md)
-  (Match Finder, Standings), [site engine](../../technical/site-engine.md) for new
-  options and settings, and this spec's status line and a
-  divergences section once anything departs from what is written here.
-
-## 23. Decisions, in one place
-
-The owner answered all ten still asked on 2026-11-23. The rest belonged to dropped
-proposals, or to P5's bottom bar, which the menu replaced.
-
-| # | Proposal | Decision | Answer |
-| --- | --- | --- | --- |
-| D1 | P2 | How much of the banner stays on a phone | **Answered:** the logos, date and venue and title, smaller: what the folded bar carries. The full banner stays at the top (the owner's note) |
-| D2 | P3 | Team events' next-matchup block now or later | **Answered:** later |
-| D3 | P3 | Scroll to the card when a saved search is restored on load | **Answered:** yes, when the saved tab is Match Finder |
-| D15 | P3 | Show the next-match block before the day goes live, when the card itself shows nothing | **Answered:** yes, the block alone |
-| D16 | P3 | The next-match block in Control Center's card too | **Answered:** yes |
-| D13 | P16 | Category chips jump to a category or filter to it | **Answered:** jump |
-| D17 | P5 | What the menu holds | **Answered:** the tabs, the day picker and the sync line |
-| D6 | P6 | Team Standings' bracket tables get the pill | **Answered:** yes |
-| D18 | P6 | The pill's count (*In progress · 6/10*) or *In progress* alone | **Answered:** with the count |
-| D11 | P12 | Team events' podium now or later | **Answered:** now |
-| D4, D5 | P5 | Tabs and icons in a bottom bar | No longer asked: the bottom bar is replaced by the menu |
-| D7–D10, D12, D14 | P7, P9, P10, P11, P13, P17 | | No longer asked: the proposals are dropped |
+| A welcome screen asking "player or spectator" | An extra step for everyone. Steps 1 and 2 give a player the same after one search |
+| The event poster as the home screen | The banner already carries the event; step 3 folds it into a bar rather than making it larger |
+| Eight overlapping sections | The Hub's three tabs cover the same ground |
+| A venue TV view in the player portal | The [schedule board](../../features/schedule-board.md) is a separate, unlisted page on purpose |
+| A qualification projection | The workbook decides who advances; the Hub never projects |
+| Polling a database every 15 s | The Hub's live push is faster and archives every publish |
+| A page per court | A new page, outside this spec; the schedule board's court filter covers part of it |
+| A schedule grid that stacks into cards on a phone | The schedule board doesn't change here; worth its own change |
+| Players signing in | A sign-in step for every player; the saved search gives *your match* without one |
+| Pair codes before names | The Hub's tickets lead with the names |
+| Initials circles per pair | No photos, and the second circle clips the first's initials |
+| Umpires, PAUSED / NEXT states, a forfeit clock | The workbook carries none of it; calling a match to a court is Control Center's ([Court Control](../in-progress/control-center-court-control-spec.md)) |
+| A sponsor's logo on every court | No event has asked for it |
+| Five pages behind a menu | The Hub keeps one page; step 3's menu reaches every tab from anywhere on it |
 
 ---
 **Features:** [Tournament Hub](../../features/tournament-hub.md) · **Technical:** [site engine](../../technical/site-engine.md)

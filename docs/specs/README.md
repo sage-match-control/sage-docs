@@ -345,7 +345,8 @@ build status.
   opens its pair's matches. For a dual meet, the club score comes first, pairs are
   counted as *Pairs*, and chips jump to a category. Engine Hub and templates only;
   no new sections. The pair summary card and the PF and PA columns already cover
-  parts of five of them (its §1.3).
+  parts of five of them (its §13.3). Part 1 is an eight-step build guide, one push
+  each, written to be followed without other context.
 - **[Lean deploy image](not-started/lean-deploy-image-spec.md)** — the build trigger
   runs a `cloudbuild.yaml` kept in `sage-tools-api` with Docker's layer cache on (it
   runs `--no-cache` today), and the `Dockerfile` clears npm's cache. Each deploy then

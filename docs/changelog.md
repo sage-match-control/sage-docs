@@ -37,6 +37,38 @@ has been replaced.
 
 ---
 
+## [2.88.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/not-started/hub-player-experience-spec.md) is rewritten as a build guide that can
+  be followed without other context. Part 1 sets out:
+  - the repositories, the engine's rules and why new code goes in new modules (so each step is one push);
+  - the branch and who merges;
+  - the unit tests, the comparison harness and a new behaviour test file for scrolling, the bar and the menu,
+    which the harness's full-page screenshots can't see;
+  - the four live event pages the engine already serves, to check by hand.
+
+  Then it gives eight steps, one push each, with exact modules, functions, markup, CSS, tests and a
+  "done when". The review against the code settled what the proposals left open:
+  - the bar's offset for everything already pinned on a phone;
+  - where the table pill goes on a table without bracket headers, and how a best-of-3 meeting counts;
+  - tie pills only for pairs that have played;
+  - when a category without a bronze shows its podium, and a series final's line;
+  - which existing finder members open a pair from Standings;
+  - the club bar left unpinned in Match Finder;
+  - the chips' labels from the event's own codes.
+
+  Part 2 keeps the background, the owner's picks and the dropped proposals, condensed.
+- [Ranking rules](specs/not-started/ranking-rules-spec.md): D3 now points at the Hub player experience's tie pills
+  (step 4) rather than its dropped P13.
+
+### Fixed
+
+- [Hub player experience](specs/not-started/hub-player-experience-spec.md): its scope said no event page imports
+  `lib/v1`; four do (ACSO, UPAP, Ladies' Dink and Millennium), and the build now checks them. P2's bar needs no
+  safe-area padding: the templates' viewport tag has no `viewport-fit=cover`.
+
 ## [2.87.0] — 2026-11-23
 
 ### Changed
