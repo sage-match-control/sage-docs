@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.101.1] — 2026-11-23
+
+### Changed
+
+- [The Ultimate Generation Cup 2026](specs/in-progress/ultimate-generation-cup-2026-spec.md): all four phases
+  are built and on the site's `main` (the Day picker, the board with the `events.json` entry, the Hub, the desk
+  page and checklist), and `npm run verify` passes. The QR image, Day 1's `HIMD_F_2` bracket link, the player
+  names, live-sync setup and the dry run are left.
+
 ## [2.101.0] — 2026-11-23
 
 ### Changed

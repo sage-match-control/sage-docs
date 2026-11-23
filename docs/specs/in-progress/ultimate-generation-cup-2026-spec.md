@@ -1,8 +1,13 @@
 # Spec — The Ultimate Generation Cup 2026
 
-> **Status: in progress.** Phase 1 (the schedule board's **Day** picker, §4) is built and committed on
-> the site's branch `gencup` as `98e2bfe`, with its docs; nothing is pushed or merged yet (§7.6).
-> Phases 2–4 are not started. Written 2026-11-23 against `sage-match-control.github.io` at
+> **Status: in progress.** All four phases are built and on the site's `main`, merged from `gencup`
+> by fast-forward on 2026-11-23: the **Day** picker `98e2bfe` (§4), the board `24c8511` (§5), the
+> Hub `1acfcaa` (§6), and the desk page and checklist `d5eb2e4` (§7), with the event registered in
+> `event-data` (`bacea528`) and Phase 1's docs (2.101.0). Unit tests 904, 907, 910, 910; §7.5's
+> `npm run verify` passes (910 unit, 783 comparison). Left: the QR image (§2, §9.5); in the
+> workbooks (§9.1), Day 1's `HIMD_F_2` bracket link and both days' player names (Day 2's match
+> numbers, 1–49, are in); live-sync setup (§9.2), the dry run (§9.6) and the event.
+> Written 2026-11-23 against `sage-match-control.github.io` at
 > `d92ed28`, `event-data`'s `config/events.json` at `e0eb51f5`, and both event workbooks as read
 > that day through the Sheets API. The owner answered every open question the same day; the
 > answers are in §10. Left to come: the short link and the QR image (§2).

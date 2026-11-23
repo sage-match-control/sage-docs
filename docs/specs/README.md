@@ -331,8 +331,9 @@ build status.
   Pampanga Paddle Aces' two-day event at Kingcourts (28 November Next Gen, 29 November Gen X),
   re-skinned from its pubmat, in four phases on one site branch, `gencup`. Phase 1, a **Day**
   picker on every template-made schedule board (an engine change, so nothing is pushed during
-  the event), is built and committed there; the board with both days in `events.json`, the Hub
-  and the desk page are left, and nothing is pushed yet. Due on the site by 24 November.
+  the event), then the board with both days in `events.json`, the Hub and the desk page. All
+  four are built and on the site's `main`; the QR image, two workbook fixes, live-sync setup and
+  the dry run are left.
 
 ---
 
