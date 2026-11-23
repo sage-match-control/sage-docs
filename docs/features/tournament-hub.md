@@ -35,6 +35,28 @@ on. Typing, clearing the box and the page refreshing with new scores never scrol
 On a computer the results are already on screen, so nothing scrolls, though
 **Find matches** still closes the suggestions.
 
+**The bar.** At the top of the page the banner (logos, tagline, date and venue, title,
+tabs and sync line) is as it always was. Once it has scrolled out of view, a slim bar in
+the event's dark colour stays pinned to the top of the screen, so switching tab never
+means scrolling back up. On its left are the event's logo, its date and venue, and its
+title. What is on the right depends on the screen:
+
+- **On a phone**, a button naming the open tab (**Match Finder ☰**). It opens a menu over
+  a dimmed page: the tabs, the open one marked, the day picker at an event with more than
+  one day, and the sync line (**Sep 27 · Live · last synced 7:50:29 PM**). Picking a tab
+  closes the menu, switches to it and scrolls to its content; picking a day loads it and
+  returns to the top. The button (now a ×), a tap on the dimmed page or Escape closes the
+  menu. Match Finder's search box, Standings' category headers and a dual meet's club
+  score bar pin just under the bar.
+- **On a computer** (900 px wide and over) there is no menu. The sync line, the day picker
+  and the tabs sit in a row on the right of the bar, the open tab in the event's accent
+  colour; below 1100 px the sync line is left out. The QR panel moves down under the bar,
+  and the search box scrolls away with the page.
+
+The bar goes away when the banner scrolls back into view. While no day is chosen or one
+is loading there are no tabs, so there is no bar either. A team event's menu has its
+fourth tab, Teams.
+
 Above a pair's matches, a **summary card** says where the pair plays next and where it stands:
 
 - A navy block that opens the card and answers *where and when do I play next?*

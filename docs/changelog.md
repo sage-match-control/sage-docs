@@ -37,6 +37,21 @@ has been replaced.
 
 ---
 
+## [2.92.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 3 (the banner that folds
+  into a bar), is built. Once the Tournament Hub's banner has scrolled away, a slim bar stays pinned to the
+  top with the event's logo, date and venue, and title. On a phone its button (**Match Finder ☰**) opens a menu
+  of the tabs, the day picker at a multi-day event and the sync line; on a computer the same three sit in a
+  row on the right, with no menu, the sync line left out below 1100 px. The spec's Divergences section records
+  the 42 harness cases whose steps scroll the page and so capture the bar. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): the bar, on a phone and on a computer;
+  - [Site engine](technical/site-engine.md): the `hub-bar` module, its options, when it shows, what it pins
+    other elements under, and `reveal.js`'s allowance for it;
+  - [Rehearse](usage/rehearse.md): what the dry run checks in the bar.
+
 ## [2.91.0] — 2026-11-23
 
 ### Changed

@@ -88,6 +88,11 @@ a phone:
   was on at any point, confirm the Hub goes hidden rather than showing scores.
 - [ ] **Standings** on the Hub: the same unmapped-code warning and the same standings as
   the console.
+- [ ] **The bar:** scroll the Hub down on a phone. A slim bar with the event's logo, date and
+  venue, and title stays at the top, and its button (**Match Finder ☰**) opens a menu of the tabs,
+  the day picker if the event has more than one day, and the sync line. Pick **Standings**: the
+  menu closes and Standings are open. On a computer the same bar carries the tabs in a row, and
+  scrolling back to the top removes it.
 
 ### Check scorer links and attendance
 

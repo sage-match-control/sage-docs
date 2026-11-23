@@ -327,8 +327,9 @@ build status.
   counted as *Pairs*, and chips jump to a category. Engine Hub and templates only;
   no new sections. The pair summary card and the PF and PA columns already cover
   parts of five of them (its §13.3). Part 1 is an eight-step build guide, one push
-  each, written to be followed without other context. Step 1 (the search scrolls to its results, and
-  Find matches closes its suggestions) is built; the other seven are left.
+  each, written to be followed without other context. Steps 1 to 3 (the search scrolls to its results and
+  Find matches closes its suggestions; the pair summary card opens with the next match; the banner folds into
+  a bar with a menu on a phone) are built; the other five are left.
 
 ---
 

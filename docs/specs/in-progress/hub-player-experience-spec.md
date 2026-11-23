@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — steps 1 and 2 of 8 built (a search shows its results; the next match on the pair summary card); steps 3–8 not started.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — steps 1 to 3 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar); steps 4–8 not started.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -983,6 +983,45 @@ Where the build departs from what Part 1 says.
 - **The live dot has no margin on the block.** §4 gives the dot `background:var(--white)` only. `.live-dot` carries
   `margin-right:8px` and the block's `small` is a flex row with `gap:6px`, so the dot would sit 14 px from the
   text; `.ps-next .live-dot` also sets `margin-right:0`.
+
+**Step 3 (the banner that folds into a bar)**
+
+- **More harness cases differ than §5 says.** §5 says no case should differ, because the full-page screenshots
+  never scroll. A case whose steps scroll the page does leave the banner out of view when it is captured, so the
+  bar is in its text and its screenshot. A probe of every Hub case with steps (174, after their steps, with no
+  comparison run) found the bar showing in 42, all in `team-index`, `std-index` and `dm-index`:
+  - `finder-search` and `finder-find-button` on a phone, because the search runs `revealResults` (any state):
+    `std-index` (`piggleball-2026`, `pickle-for-sight-2026`) and `dm-index` (`pnf-x-bup-dual-meet`), three
+    states: 18;
+  - `finder-team` and `finder-player` on a phone, the same scroll: `team-index` (`pickledrive-anniversary-2026`,
+    `team-demo-2026`), three states: 12;
+  - `standings-bracket-open`, phone and desktop, where Playwright scrolls the group's button into view:
+    `team-index`, both events, three states: 12.
+
+  Every other case with steps (a tab click, a category pick) ends with the banner in view, and the cases with no
+  steps never scroll. Their entries are `both` (text and pixels):
+  `/^(std-index|dm-index)\/[^/]+\/finder-(search|find-button)\/[^/]+\/phone$/`,
+  `/^team-index\/[^/]+\/finder-(team|player)\/[^/]+\/phone$/` and
+  `/^team-index\/[^/]+\/standings-bracket-open\/[^/]+\/(phone|desktop)$/`. None is added yet: the
+  entries go in `_tests/engine/accepted.mjs` when `npm run verify` runs after the last step. The first two
+  groups already differ for steps 1 and 2 in some states, so those entries are written once for all the
+  steps.
+- **The bar is made after the event is known.** §5 says "after the elements are looked up"; `mountHub` makes it
+  once the event's type is checked and its views exist, so a page that stops on a settings error never gets one.
+  Until then `bar` is a no-op, so the `update()` calls are safe in any order.
+- **The row is redrawn only when it changed.** §5 says `update()` redraws the row. A poll or a live push that finds
+  the same sync line would otherwise replace the day picker's `<select>` while it is open, closing it on a
+  computer, so `update()` compares the row's markup with the last and leaves it alone when it is the same.
+- **Extra exports.** `hub-bar.js` also exports `cleanText`, `readBarItems`, `barRowHTML`, `menuHTML`,
+  `barShows` and `tabScrollTop`, the pure parts, so `_tests/unit/views/hub-bar.test.mjs` can test them without
+  a browser. `reveal.js` guards its `document` lookup with `typeof document` so `reveal.test.mjs`, which stubs no
+  `document`, passes unchanged; the new reveal cases are in `hub-bar.test.mjs`.
+- **A menu tab is a flex row.** §5 says a full-width block button with a ● "at its right"; the tab is
+  `display:flex; justify-content:space-between` so the ● sits at the right edge without a float.
+- **A long date line is cut.** The bar's date and title lines are one line each with an ellipsis, as §5 says, and
+  UPAP's date line (**Sunday, 22 November 2026 The Foundry · Cainta, Rizal**, its `<br>` read as a space) and a
+  long title do not fit beside the button at 375 px: they read "SUNDAY, 22 NOVEMBER 2026 TH…" and
+  "3RD ANNUAL TOU…". Nothing in the build changes that; it is the design's cost.
 
 ---
 

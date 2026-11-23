@@ -19,7 +19,7 @@ lib/v1/
   data/            the outside world
     registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
   views/           functions that return HTML strings, plus small components
-    html  scroll  reveal  ticket  finder  live-matches  standings  bracket  bracket-full  teams  team-mark
+    html  scroll  reveal  hub-bar  ticket  finder  live-matches  standings  bracket  bracket-full  teams  team-mark
     score-dialog  court-dialog  attendance-view
   apps/            one per kind of page, wiring data, model and views to the page's markup
     hub  schedule-board  scorer  attendance-desk
@@ -275,8 +275,9 @@ On a phone the banner and the search box fill the first screen, so a search chan
 person can see. `views/reveal.js` exports `PHONE_QUERY` (`(max-width: 899px)`, the width at which
 `css/finder.css` pins the search box) and `revealResults({ resultsEl, searchPanelEl, input })`. On a
 phone it blurs the box, so the keyboard closes, and scrolls the page so the results start just under
-the pinned search panel (the panel's `top` offset and height plus 8 px; instantly under *reduce
-motion*) and returns `true`. On a computer it does nothing and returns `false`.
+the pinned search panel (the panel's `top` offset and height plus 8 px, plus the bar's 54 px while
+the Hub's bar is on the page but not showing yet, since the scroll brings it in and moves the panel
+down; instantly under *reduce motion*) and returns `true`. On a computer it does nothing and returns `false`.
 
 `createFinder`'s `onSearched` option is called right after a person runs a search, in exactly
 three handlers: a click on a suggestion, Enter in the box and the **Find matches** button. A data
@@ -291,6 +292,61 @@ The module is new, so `hub.js` and the views importing it are safe against a bro
 copy of an existing module. `reveal.test.mjs` covers it and the option with stubbed browser globals, and
 the engine harness's `hub-behaviour.test.mjs` opens the Hub at a real phone and computer size, which the
 harness's full-page screenshots can't (they never scroll).
+
+## The bar the banner folds into
+
+Once the Hub's banner has scrolled out of view, a slim bar is pinned to the top of the screen
+(hub-player-experience-spec §5). `views/hub-bar.js` exports `HUB_BAR_HEIGHT` (54) and
+`createHubBar({ heroEl, tabsWrapEl, dayPickerEl, dayPickerWrapEl, syncStatusEl, panelFor })`, which
+returns `{ update() }`. The banner keeps the page's one set of tabs, day picker and sync line; the bar
+reads them and clicks them, it never holds its own state.
+
+- **Markup.** Made once and appended to `document.body`: `.hub-bar` (hidden), `.hub-menu-scrim` and
+  `nav.hub-menu#hubMenu`. The bar carries the first `.hero-logos` image's `src`
+  (`.hub-bar-logo`; left out when there is none), the hero's `.eyebrow` and `.title` as
+  `innerText` with whitespace collapsed (`.hub-bar-meta`, `.hub-bar-title`), a row
+  (`.hub-bar-row`) and a button (`.hub-bar-btn`, `aria-expanded`, `aria-controls="hubMenu"`).
+  Both the row and the button are always in the markup; the CSS shows one per width.
+- **Items.** `readBarItems` reads the banner: a tab per `.view-tab` showing (not
+  `display:none`, not `hidden`), the open one `active`; the day picker (its options without the
+  disabled placeholder, its value) when its wrapper is showing, so only at an event with more than one
+  day; the sync line when it is showing. `barRowHTML` draws them as the computer's row (the sync line, a
+  `.hub-bar-day` label with a `<select>`, a `.hub-bar-tab` pill per tab) and `menuHTML` as the phone's
+  menu (a `.hub-menu-tab` per tab, `.hub-menu-day`, `.hub-menu-sync`). Everything is escaped. The row
+  is replaced only when its markup changed, so a poll that finds the same sync line leaves an open day
+  picker alone; the menu is filled each time it opens.
+- **A tab** closes the menu, clicks the matching `.view-tab` (whose handler switches the view and
+  remembers it) and scrolls `panelFor(view)` to just under the bar (`tabScrollTop`: its top minus
+  `HUB_BAR_HEIGHT` and 8 px, never above the page; instant under *reduce motion*). **A day** closes the
+  menu, sets `dayPickerEl.value`, dispatches `change` on it and scrolls to the top.
+- **When it shows** (`barShows`): the tabs are showing, the banner is out of view (an
+  `IntersectionObserver` on it, threshold 0) and the stylesheet has loaded
+  (`getComputedStyle(bar).position === 'fixed'`, so a cached old `hub.css` never shows it unstyled).
+  Showing unhides the bar and puts `hub-bar-on` on `body`; hiding reverses both and closes the menu.
+- **The menu** (a phone, below 900 px; `PHONE_QUERY` from `reveal.js`). The button toggles it, and
+  opening focuses its first tab. The scrim, the button and Escape close it and return focus to the button;
+  widening the screen to 900 px or more closes it too.
+- **Wiring.** `apps/hub.js` creates the bar once the event is known to be a Hub event and its views exist
+  (a shell without `header.hero` or the tab row keeps a no-op), with `panelFor` returning the search
+  panel, Live Matches, Standings or Teams panel, and calls `bar.update()` at the end of `showView`, of
+  `revealLiveTabsAfterLoad`, in `selectDay` after it hides the tabs, and in `loadLiveData` after the
+  sync line is written (success and error). Control Center does not use it.
+- **CSS** (appended to `css/hub.css`). The bar is fixed, 54 px, `z-index` 50, on the theme's
+  `--navy`, with the accent `--green` for its date line and a computer's open tab. While
+  `body.hub-bar-on`, what is already pinned to the top moves under it: `.standings-col-head` and
+  `.club-summary` at `top:54px`, and on a phone the Match Finder search panel at `top:62px`; on a computer
+  `.qr-panel` moves from `top:26px` to `80px`. From 900 px the row is shown and the button hidden, and
+  from 900 to 1099 px the sync line is hidden; below 900 px the reverse, with the menu and its scrim
+  (`z-index` 49 and 48).
+
+`hub-bar.test.mjs` covers the pure parts (reading the items, the markup, when the bar shows, where a tab
+scrolls, and `reveal.js`'s allowance) with faked elements. The engine harness's `hub-behaviour.test.mjs`
+covers the bar on a page: it shows only once the banner has scrolled away; a phone's button, menu, Escape,
+scrim and widening; a computer's row, the QR panel and the 950 px sync line; a team event's four tabs; a
+dual meet's club bar pinned under it; and a multi-day event's day picker, in the row and in the menu. The
+harness's full-page screenshots never scroll, but a step that scrolls the page (a phone search, a team
+chip, a click that Playwright scrolls into view) leaves the banner out of view, so those cases capture
+the bar; the hub-player-experience spec's Divergences section lists them.
 
 ## The scoring rule
 
