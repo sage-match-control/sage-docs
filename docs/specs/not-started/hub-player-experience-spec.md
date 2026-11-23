@@ -20,16 +20,16 @@ The Hub keeps its three tabs (four at a team event); nothing moves off the page.
 Eight steps, each one push to the site's `main`, in this order. Step 3 is two
 proposals that share one bar.
 
-| Step | Proposal | What a player sees | Section |
-| --- | --- | --- | --- |
-| 1 | P1 | A search scrolls to its results and closes the keyboard and the suggestions | §3 |
-| 2 | P3 | The pair summary card opens with the pair's next match | §4 |
-| 3 | P2 + P5 | Once the banner scrolls away, a slim bar stays at the top, with a menu holding the tabs, the day and the sync line | §5 |
-| 4 | P6 | Each round-robin table's header says *In progress · 6/10* or *Final*, and tied rows say how the tie was broken | §6 |
-| 5 | P14 | Tapping a Standings row opens that pair in Match Finder | §7 |
-| 6 | P12 | A finished category's Standings card opens with its podium | §8 |
-| 7 | P15 | A dual meet's Match Finder opens with the club score, and counts *Pairs*, not *Teams* | §9 |
-| 8 | P16 | A dual meet's Standings on a phone have chips that jump to a category | §10 |
+| Step | Proposal | What a player sees | Control Center | Computers | Section |
+| --- | --- | --- | --- | --- | --- |
+| 1 | P1 | A search scrolls to its results and closes the keyboard and the suggestions | **Find matches** closes its suggestions; nothing scrolls | **Find matches** closes its suggestions; nothing scrolls | §3 |
+| 2 | P3 | The pair summary card opens with the pair's next match | Yes: the card is shared | Yes | §4 |
+| 3 | P2 + P5 | Once the banner scrolls away, a slim bar stays at the top, with a menu holding the tabs, the day and the sync line | No | No: phones only | §5 |
+| 4 | P6 | Each round-robin table's header says *In progress · 6/10* or *Final*, and tied rows say how the tie was broken | Yes, team events included | Yes | §6 |
+| 5 | P14 | Tapping a Standings row opens that pair in Match Finder | No | Yes | §7 |
+| 6 | P12 | A finished category's Standings card opens with its podium | No: it has its Awards tab | Yes | §8 |
+| 7 | P15 | A dual meet's Match Finder opens with the club score, and counts *Pairs*, not *Teams* | The *Pairs* label only | Yes | §9 |
+| 8 | P16 | A dual meet's Standings on a phone have chips that jump to a category | No | No: phones only | §10 |
 
 Proposal numbers (P1…P17) are the ones the owner marked; the dropped ones are in
 §15. Build nothing from §15.
@@ -235,7 +235,8 @@ The right-hand panel is steps 1 and 2 together.
 
 1. **New module `lib/v1/views/reveal.js`**, exporting:
    - `PHONE_QUERY = '(max-width: 899px)'`.
-   - `revealResults({ resultsEl, searchPanelEl, input })`. Does nothing unless
+   - `revealResults({ resultsEl, searchPanelEl, input })`, returning `true` when it
+     scrolled and `false` when it did nothing. It does nothing unless
      `matchMedia(PHONE_QUERY).matches`. Otherwise: `input.blur()`; then
      `stuck = (parseFloat(getComputedStyle(searchPanelEl).top) || 0) + searchPanelEl.getBoundingClientRect().height + 8`;
      `top = resultsEl.getBoundingClientRect().top + window.scrollY - stuck`;
@@ -250,12 +251,15 @@ The right-hand panel is steps 1 and 2 together.
    reaches Control Center too. `refresh`, `rebuildIndex`, `setQuery`, `reset` and
    the clear button never call `onSearched`. Document the option in the comment
    above `createFinder`.
-3. **`views/teams.js`, `createTeams`**: a new option `onSearched`. In the team
-   chip handler (`.team-chip-btn`), after `finder.run()`: if `options.onSearched`
-   is set, call it instead of `window.scrollTo({ top: 0, … })`; otherwise keep the
-   scroll to the top (Control Center). Document it with the other options.
+3. **`views/teams.js`, `createTeams`**: a new option `onSearched`, a function
+   returning `true` when it moved the page. In the team chip handler
+   (`.team-chip-btn`), after `finder.run()`: call `options.onSearched` when it is
+   set, and keep today's `window.scrollTo({ top: 0, … })` when it is not set or
+   returned `false`. So a computer, where `revealResults` does nothing, and Control
+   Center keep scrolling to the top as today. Document it with the other options.
 4. **`apps/hub.js`**: `const reveal = () => revealResults({ resultsEl, searchPanelEl, input });`
    and pass `onSearched: reveal` to both `createFinder` and `createTeams`.
+   (`createFinder` ignores the return value.)
 5. **A returning visit (decision D3).** In `selectDay`'s `isInitialLoad` branch,
    after `finder.setQuery(savedSearch)`, call `reveal()` when the Match Finder tab
    is the active one (`document.querySelector('.view-tab[data-view="finder"].active')`).
@@ -269,7 +273,9 @@ The right-hand panel is steps 1 and 2 together.
   with **Find matches** (`#searchBtn`) after typing `Josh Manarang`. The same on
   `…/desktop` asserts `window.scrollY` is unchanged. On
   `team-index/pickledrive-anniversary-2026/finder/mid/phone`, click the first
-  `.team-chip-btn` and assert `#results` is near the top as above.
+  `.team-chip-btn` and assert `#results` is near the top as above; on its
+  `…/desktop` twin, scroll down 400 px first, click the chip, and assert
+  `window.scrollY` is 0 (today's behaviour, kept).
 - The harness: add a view `finder-find-button` to the default views in
   `hubCases` (`_tests/engine/cases.mjs`):
   `[type('#teamInput', word), click('#searchBtn')]`. On the baseline its
@@ -655,15 +661,22 @@ unchanged.
 3. **`apps/hub.js`**, for a standard or dual-meet event, `onPairSelect: code => { … }`:
    `const team = finder.pairs.find(t => t.codes.includes(code)); if(!team) return;`
    click `.view-tab[data-view="finder"]`; then `input.value = team.label;
-   finder.selection = team; finder.updateClear(); finder.run(); reveal();`. These
-   are `createFinder`'s existing members, so no cached-module risk.
+   finder.selection = team; finder.updateClear(); finder.run();`. Then
+   `if(!reveal()) window.scrollTo({ top: Math.max(0, searchPanelEl.getBoundingClientRect().top + window.scrollY - 16) })`:
+   on a phone `reveal` lands on the results; on a computer, where it does nothing,
+   the page goes to the search box, so the results are in view rather than
+   wherever Standings had been scrolled to. These are `createFinder`'s existing
+   members, so no cached-module risk.
 
 **Tests.** `standings.test.mjs`: with `openRows` the named rows carry `data-team`
 and the mark, *TBD* rows don't; without it nothing changes.
 `hub-behaviour.test.mjs`, on `std-index/pickle-for-sight-2026/standings-category-2/mid/phone`
 with `runSteps: true` (it opens Standings and picks the second category): click the first
 `tr.rr-open`, then assert Match Finder is the active tab, `#results` holds
-`.pair-summary`, and `#results` is near the top. The harness: every Standings case
+`.pair-summary`, and `#results` is near the top. On
+`std-index/pickle-for-sight-2026/standings/mid/desktop` with `runSteps: true`,
+scroll so a row is in view, click it, and assert `#searchPanel`'s top is within
+the viewport. The harness: every Standings case
 of `std-index` and `dm-index` differs (the marks; accept `pixels`).
 
 **Done when** those pass and a row tap works on ACSO's and UPAP's pages.
