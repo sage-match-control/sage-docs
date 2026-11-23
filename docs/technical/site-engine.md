@@ -16,6 +16,7 @@ lib/v1/
   domain/          the rules, pure functions with no DOM and no clock
     csv  byes  series  deciders  matches  pair-schedule  standings  standings-status  codes  bracket  brackets  golive  progress
     teams  lineup-rules  awards  event-pages  attendance  attendance-marks  schedule-grid  scoresheet-names  courts  model
+    board-day  initial-day
   data/            the outside world
     registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
   views/           functions that return HTML strings, plus small components
@@ -119,6 +120,16 @@ event's `display.pairs` from `events.json`. A board whose page has the
 `#dayfilter` container reads the event's days from `events.json` too, for its
 **Day** picker; which day it shows is `domain/board-day.js`
 ([schedule board](schedule-board.md#day-picker-day)).
+
+Which day the Hub and Control Center open on is `domain/initial-day.js`'s
+`initialDayIndex({ days, savedKey, today })`: the day this browser last picked for the
+event (`savedKey`, while it is still one of the event's days), else the day dated
+`today`, else the day nearest `today` by date (a later day winning a tie), else the
+first day; `null` only for an event with no days. `today` is `manilaIsoDate(now)`, the
+Philippines' date, with `now` passed in by the caller. The Hub passes the day saved
+under `<event>.dayIndex`; Control Center the event's entry in
+`sage.controlCenter.dayByEvent` (`{ [event]: dayKey }`, written with every day it
+loads), after an address's `?day=`. `_tests/unit/domain/initial-day.test.mjs` covers it.
 
 A team event's `display.teamColors` reaches every page as `EventConfig.teamColors`
 (`eventConfigFrom` keeps hex colours only, `{}` without the map). `views/team-mark.js` turns it
@@ -278,7 +289,7 @@ On a phone a search's results can start below the screen, under the search box a
 so a search can change nothing the person sees. `views/reveal.js` exports `PHONE_QUERY` (`(max-width: 899px)`, the width at which
 `css/finder.css` pins the search box) and `revealResults({ resultsEl, searchPanelEl, input })`. On a
 phone it blurs the box, so the keyboard closes, and scrolls the page so the results start just under
-the pinned search panel (the panel's `top` offset and height plus 8 px, plus the bar's 54 px while
+the pinned search panel (the panel's `top` offset and height plus 8 px, plus the bar's height (`--hub-bar-h`, else 54 px) while
 the bar is on the page but not showing yet, which only a cached stylesheet from before the fold rules
 leaves, since there the scroll brings it in and moves the panel down; instantly under *reduce motion*) and returns `true`. On a computer it does nothing and returns `false`.
 
@@ -298,12 +309,16 @@ harness's full-page screenshots can't (they never scroll).
 
 ## The bar the banner folds into
 
-A slim bar pinned to the top of the screen stands in for the banner (hub-player-experience-spec §5): on a
+A bar pinned to the top of the screen stands in for the banner (hub-player-experience-spec §5): on a
 phone always, since the banner never shows there; on a computer once the reader folds the banner with its
-chevron, the schedule board's. Control Center uses the same bar. `views/hub-bar.js` exports
-`HUB_BAR_HEIGHT` (54), `FOLDED_KEY` (`'sage.hub.bannerFolded'`) and
-`createHubBar({ heroEl, tabsWrapEl, dayPickerEl, dayPickerWrapEl, syncStatusEl, panelFor, text, logoSrc, pickers, storageKey, menuLabel })`,
-which returns `{ update() }`; the last five are optional. The banner keeps the page's one set of tabs,
+chevron, the schedule board's. Control Center uses the same bar. On a phone it is two rows: the logo, the
+small line and the whole title, then, on a darker band, the menu button (and at a multi-day event a day pill
+beside it). On a computer the Hub's is one slim row (54 px) and Control Center's two rows (the title, then
+the row of the day picker, the tabs and the sync line). `views/hub-bar.js` exports `HUB_BAR_HEIGHT` (54, the
+slim row, until the bar is measured), `TITLE_MIN_PX` (13), `FOLDED_KEY` (`'sage.hub.bannerFolded'`),
+`titleFit`, `barHeight`, `shortDay`, `dayPillLabel` and
+`createHubBar({ heroEl, tabsWrapEl, dayPickerEl, dayPickerWrapEl, syncStatusEl, panelFor, text, logoSrc, pickers, storageKey, menuLabel, computerRows })`,
+which returns `{ update() }`; the last six are optional. The banner keeps the page's one set of tabs,
 pickers and sync line; the bar reads them and clicks them, it never holds its own state.
 
 - **Markup.** Made once and appended to `document.body`: `.hub-bar` (hidden), `.hub-menu-scrim` and
@@ -312,9 +327,11 @@ pickers and sync line; the bar reads them and clicks them, it never holds its ow
   lines (`.hub-bar-meta`, `.hub-bar-title`: `text()`'s `{ meta, title }`, read on every update, else the
   hero's `.eyebrow` and `.title` with each `<br>` read as a space and whitespace collapsed, read from a copy
   since a hidden element's `innerText` runs the lines together), a row (`.hub-bar-row`), the chevron that
-  brings the banner back (`.hub-bar-fold`, *Show the banner*) and the phone's button (`.hub-bar-btn`,
-  `aria-expanded`, `aria-controls="hubMenu"`). It also appends the fold chevron (`.hub-fold-btn`, *Fold the
-  banner*, hidden) to the banner. The CSS shows the row and the chevrons on a computer, the button on a phone.
+  brings the banner back (`.hub-bar-fold`, *Show the banner*), the phone's day pill (`.hub-bar-pday`,
+  hidden: `.hub-bar-pday-text`, a caret and a `<select aria-label="Day">` laid over it, invisible) and the
+  phone's button (`.hub-bar-btn`, `aria-expanded`, `aria-controls="hubMenu"`). `computerRows: 2` adds
+  `hub-bar-two` to the bar. It also appends the fold chevron (`.hub-fold-btn`, *Fold the banner*, hidden) to
+  the banner. The CSS shows the row and the chevrons on a computer, the pill and the button on a phone.
 - **Items.** `readBarItems` reads the banner: a tab per `.view-tab` showing (not `display:none`, not
   `hidden`), the open one `active`, and none while the tab row itself is hidden (no day loaded); each of
   `pickers` (`[{ el, wrapEl?, label }]`) whose wrapper is showing, keeping its index; the day picker (its
@@ -326,9 +343,25 @@ pickers and sync line; the bar reads them and clicks them, it never holds its ow
   day picker waits for a first pick, or *Menu*. Everything is escaped. The row is replaced only when its
   markup changed, so a poll that finds the same sync line leaves an open day picker alone; the menu is filled
   each time it opens.
+- **The day pill** (a phone, an event with more than one day). Shown when the day picker is read and the
+  stylesheet lays the pill out (`--hub-bar-fit` is set on the bar; a cached older stylesheet does not, and
+  the pill stays hidden). Its text is `dayPillLabel`: the open day's label up to its first " · "
+  (`shortDay`: *Nov 28 · Next Gen* reads *Nov 28*), or *Day* before one is picked. Its `<select>` holds the
+  day picker's options (with a disabled *Choose a day* placeholder before a pick), rewritten only when they
+  change; a choice goes through the bar's own `change` handling, as the row's and the menu's do.
+- **The title.** Where the stylesheet sets `--hub-bar-fit: 1` on the bar (a phone, and `hub-bar-two` on a
+  computer; the slim row sets 0 and cuts the title short with an ellipsis), `fitTitle` measures the title at
+  its own size: `titleFit({ room, need, base })` keeps it (`'fits'`, a pixel of rounding allowed), shrinks it
+  (`{ size }`, rounded down to 0.1 px) or, below `TITLE_MIN_PX`, wraps it (`hub-bar-title-wrap`) at its own
+  size. It runs in `fit()` and once the fonts have loaded.
+- **The bar's height.** `measure()` sets the bar's rounded height on `<html>` as `--hub-bar-h`, written only
+  when it changes, from `fit()` and a `ResizeObserver` on the bar. `barHeight()` reads it back (54 where it
+  is not set). `views/reveal.js`, `views/standings.js`, `apps/hub.js` and Control Center read the custom
+  property themselves (54 where it is not set) rather than import `barHeight`, so a module never needs
+  another's new export in the same push.
 - **A tab** closes the menu, clicks the matching `.view-tab` (whose handler switches the view and
-  remembers it) and scrolls `panelFor(view)` to just under the bar (`tabScrollTop`: its top minus
-  `HUB_BAR_HEIGHT` and 8 px, never above the page; instant under *reduce motion*). **A day**, or **a
+  remembers it) and scrolls `panelFor(view)` to just under the bar (`tabScrollTop(top, scrollY, height)`: its
+  top minus the bar's measured height and 8 px, never above the page; instant under *reduce motion*). **A day**, or **a
   picker**, closes the menu, sets the banner's `<select>` and dispatches `change` on it, then scrolls to the top.
 - **Folding.** The banner's chevron sets the folded choice, the bar's clears it; each stores it in
   `localStorage[storageKey]` (`'1'` or `'0'`), re-checks, scrolls to the top and moves focus to the other
@@ -343,9 +376,9 @@ pickers and sync line; the bar reads them and clicks them, it never holds its ow
   and with the fold rules `hub-bar-folded` too; hiding reverses them and closes the menu. The banner
   chevron's `hidden` is written only when it changes, since a page may watch the banner to redraw the bar.
   A change of width re-checks.
-- **Fitting the row.** On a computer the row keeps its width while it fits; where it doesn't (Control
-  Center's seven tabs below about 1,300 px) the CSS lets it shrink, with the title keeping 120 px, and scroll
-  sideways, and `fit()` puts `hub-bar-tight` on the bar (which hides the sync line) and scrolls the open tab
+- **Fitting the row.** On a computer the slim row keeps its width while it fits; where it doesn't the CSS
+  lets it shrink, with the title keeping 120 px, and scroll sideways (Control Center's own row is as wide as
+  the bar, and scrolls only where that is too narrow), and `fit()` puts `hub-bar-tight` on the bar (which hides the sync line) and scrolls the open tab
   into view. It runs on every check and on `resize`.
 - **The menu** (a phone, below 900 px). The button toggles it, and opening focuses its first tab (or its
   first select). The scrim, the button and Escape close it and return focus to the button; widening the
@@ -356,32 +389,42 @@ pickers and sync line; the bar reads them and clicks them, it never holds its ow
   `revealLiveTabsAfterLoad`, in `selectDay` after it hides the tabs, and in `loadLiveData` after the
   sync line is written (success and error). Control Center creates it with `text()` (*Control Center* and
   the event's title), `logoSrc: '/assets/logo.png'`, its event picker in `pickers`,
-  `storageKey: 'sage.controlCenter.bannerFolded'` and `menuLabel: 'Control Center'`, and a
+  `storageKey: 'sage.controlCenter.bannerFolded'`, `menuLabel: 'Control Center'` and `computerRows: 2`, and a
   `MutationObserver` on the banner (its subtree, text and `class`, `style` and `hidden`) calls `update()` on
   any change there.
 - **CSS** (`css/hub-bar.css`, which `css/hub.css` imports and Control Center links on its own). The bar is
-  fixed, 54 px, `z-index` 50, on the theme's `--navy`, with the accent `--green` for its small line and a
-  computer's open tab. On a phone `header.hero` is hidden and `html body` has 66 px of top padding
-  (`html body` outranks the pages' own `html,body{ padding:0 }`, which `hub.css` sets after its import);
-  hiding the banner from the stylesheet rather than the script means it never flashes up while the page
-  loads. On a computer `body.hub-bar-folded` hides `header.hero` and pads the page by 78 px. The chevrons are
-  32 and 30 px squares with the board's border and colours, the banner's in its top-left corner. While
-  `body.hub-bar-on`, what is already pinned to the top moves under it: `.standings-col-head`,
-  `.club-summary` and `.dm-pin` at `top:54px`, and on a phone the Match Finder search panel at `top:62px`.
-  On a computer a Standings column scrolls by itself (the pages cap it at 92vh), so its `.standings-col-head`
-  pins to the column's own top and keeps `top:0` there (`.standings-board-desktop .standings-col-head`);
-  on a computer `.qr-panel` moves from `top:26px` to `80px`. From 900 to 1099 px the sync line is hidden;
-  below 900 px the row and chevrons are hidden and the menu and its scrim (`z-index` 49 and 48) shown.
+  fixed, `z-index` 50, a wrapping flex line on the theme's `--navy`, with the accent `--green` for its small
+  line and a computer's open tab. The markup is the same for every layout: the second row's items take
+  `order` 10 and up, and a phone's `.hub-bar::after` (an empty item as wide as the bar, `order` 9) ends the
+  title's line; the band is a gradient, the bottom 48 px (44 on a computer) in `--navy-deep` (`--navy` where a
+  theme has none). On a phone the second row is the day pill (`flex:1`) and the button (`flex:3`), each 34 px
+  high with 7 px above and below; alone, the button takes the row. On a computer the slim row is 54 px, no
+  wrap, `--navy`; `.hub-bar-two` wraps instead, a 58 px title row (38 px logo, a 20 px title) over the 44 px
+  row (`flex-basis` 100%), the sync line pushed to its right end. `--hub-bar-h` starts at 100 px on a phone and
+  54 px on a computer until the script measures the bar. On a phone `header.hero` is hidden and `html body`
+  has `--hub-bar-h` plus 12 px of top padding (`html body` outranks the pages' own `html,body{ padding:0 }`,
+  which `hub.css` sets after its import); hiding the banner from the stylesheet rather than the script means
+  it never flashes up while the page loads. On a computer `body.hub-bar-folded` hides `header.hero` and pads
+  the page by `--hub-bar-h` plus 24 px. The chevrons are 32 and 30 px squares with the board's border and
+  colours, the banner's in its top-left corner. While `body.hub-bar-on`, what is already pinned to the top
+  moves under it: `.standings-col-head`, `.club-summary` and `.dm-pin` at `top: var(--hub-bar-h)`, and on a
+  phone the Match Finder search panel 8 px below that. On a computer a Standings column scrolls by itself
+  (the pages cap it at 92vh), so its `.standings-col-head` pins to the column's own top and keeps `top:0`
+  there (`.standings-board-desktop .standings-col-head`); on a computer `.qr-panel` moves from `top:26px` to
+  26 px under the bar. From 900 to 1099 px the slim row's sync line is hidden; below 900 px the row and
+  chevrons are hidden and the menu and its scrim (`z-index` 49 and 48) shown, from `--hub-bar-h` down.
 
-`hub-bar.test.mjs` covers the pure parts (reading the items and pickers, the markup, the button's label, when
-the bar shows with and without the fold rules, where a tab scrolls, and `reveal.js`'s allowance) with faked
-elements. The engine harness's `hub-behaviour.test.mjs` covers the bar on a page: a phone's bar always on
+`hub-bar.test.mjs` covers the pure parts (reading the items and pickers, the markup, the button's label, the
+day pill's label, how the title fits, when the bar shows with and without the fold rules, where a tab scrolls,
+and `reveal.js`'s allowance, measured or not) with faked elements. The engine harness's `hub-behaviour.test.mjs` covers the bar on a page: a phone's bar always on
 with no banner, its button, menu, Escape, scrim and widening (which brings a computer's banner back); a
 computer's banner and chevron, folding, the choice kept across a reload, unfolding, the bar's row, the QR
 panel and the 950 px sync line; a team event's four tabs; a dual meet's club bar pinned under it; a multi-day
-event's day picker, in the row and in the menu, and *Choose a day* before one is picked; and Control Center's
-bar: its menu with the event picker, switching event from it, folding into its own key, and seven tabs at
-950 px. The harness's steps (`engine/steps.mjs`) click a tab and set a picker from script when the banner is
+event's day picker, in the row, in the menu and as a phone's day pill (a quarter of the row), and the day
+that opens with nothing saved and with a day picked before; the two rows on a phone and Control Center's
+computer, the Hub's slim row on a computer, the title whole and `--hub-bar-h` equal to the bar's height; and
+Control Center's bar: its menu with the event picker, switching event from it (a long title fitted or
+wrapped), folding into its own key, and seven tabs at 950 px. The harness's steps (`engine/steps.mjs`) click a tab and set a picker from script when the banner is
 folded away, as the bar's menu does, so every phone case runs as before; its screenshots show the bar in
 place of the banner on every phone case, and the fold chevron in every computer's banner.
 
@@ -450,7 +493,7 @@ row is another control.
 `codes` include the team code (a code the finder has no matches for does nothing), clicks the Match Finder tab,
 puts the pair's label in the search box, sets `finder.selection`, runs the search and calls `reveal`. On a phone
 `reveal` lands on the results under the pinned search box; on a computer, where it does nothing, the page scrolls
-to the search panel (16 px above it, and 54 px more while the bar shows, `body.hub-bar-on`), so the results are in
+to the search panel (16 px above it, and the bar's height more while the bar shows, `body.hub-bar-on`: `--hub-bar-h`, else 54 px), so the results are in
 view. It uses the finder's existing members and adds no import. Control Center passes the same kind of handler,
 `openPairInFinder`, for a standard event or a dual meet: it switches with `showView('finder')`, runs the search the
 same way and calls `revealResults` itself, since it passes the finder no `onSearched`.
@@ -538,7 +581,7 @@ not pass it, is unchanged. `apps/hub.js` passes `jumpChips: true` at a dual meet
 
 `createStandings` finds a chip's column by comparing each `.standings-col`'s `data-cat-key` with the chip's
 `data-jump-cat` (a label is never built into a selector) and scrolls the page so the column starts 8 px under the pinned
-row: `column top + scrollY - pinned row height - 8`, and 54 px (the Hub bar's height) less when the bar is showing there
+row: `column top + scrollY - pinned row height - 8`, and the Hub bar's height (`--hub-bar-h`, else 54 px) less when the bar is showing there
 (`hub-bar-on`), instant under *reduce motion*. A tap from the top of the page lands with the banner gone and the bar on,
 though the bar is not on yet, so `hubBarShowsAt(top)` also answers yes when the target is below the banner (`header.hero`)
 and the page has a `.hub-bar`, which only a stylesheet from before the fold rules needs (with them the bar is always
@@ -551,7 +594,7 @@ marking after it redraws so a live update keeps the highlight.
 `.dm-pin .club-summary{ position:static }` (the bar pins as part of the row), `.dm-jump` (a flex row that scrolls
 sideways with no scrollbar) and `.dm-jump-chip` (Barlow Condensed 700 12px, uppercase, a white pill; `.active` is navy),
 and the category heads stop pinning under the row (`.dm-pin ~ .standings-board .standings-col-head{ position:static }`).
-`css/hub.css` has `body.hub-bar-on .dm-pin{ top:54px }` beside the club bar's own rule. `_tests/unit/views/standings.test.mjs`
+`css/hub-bar.css` has `body.hub-bar-on .dm-pin{ top: var(--hub-bar-h) }` beside the club bar's own rule. `_tests/unit/views/standings.test.mjs`
 covers the markup (the order, the labels and targets, the escaping, the markup without the option and on a computer) and
 `hub-behaviour.test.mjs` taps the chips at a phone size, with the bar off and on, by hand-scrolling, and checks that a
 computer and Control Center draw none.

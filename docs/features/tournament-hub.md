@@ -48,24 +48,32 @@ tagline, date and venue, title, tabs and sync line), pinned to the top of the sc
 switching tab never means scrolling back up. On its left are the event's logo, its date and
 venue, and its title. What it does depends on the screen:
 
-- **On a phone** the banner never shows: the bar is the top of the page, always. On its right
-  is a button naming the open tab (**Match Finder ☰**), which opens a menu over a dimmed
+- **On a phone** the banner never shows: the bar is the top of the page, always, in two
+  rows. The first holds the logo, the date and venue (on two lines where they need them) and
+  the whole title on one line, made a little smaller where it would not fit, and on two
+  lines only where even that is too small. The second, on a darker band, is a button as wide
+  as the screen naming the open tab (**Match Finder ☰**), which opens a menu over a dimmed
   page: the tabs, the open one marked, the day picker at an event with more than one day,
-  and the sync line (**Sep 27 · Live · last synced 7:50:29 PM**). Picking a tab closes the
-  menu, switches to it and scrolls to its content; picking a day loads it and returns to
-  the top. The button (now a ×), a tap on the dimmed page or Escape closes the menu. Before
-  a day is loaded the menu holds only the day picker, and the button reads **Choose a day**.
-  Match Finder's search box, Standings' category headers and a dual meet's club score bar
-  pin just under the bar.
+  and the sync line (**Sep 27 · Live · last synced 7:50:29 PM**). At an event with more than
+  one day the button shares the row with a day pill (a quarter of the row, the button the
+  rest) showing the day's date (**Nov 28**); tapping it opens the phone's own list of the
+  days. Picking a tab closes the menu, switches to it and scrolls to its content; picking a
+  day loads it and returns to the top. The button (now a ×), a tap on the dimmed page or
+  Escape closes the menu. Match Finder's search box, Standings' category headers and a dual
+  meet's club score bar pin just under the bar.
 - **On a computer** (900 px wide and over) the banner shows, with a small chevron in its
   top-left corner, the same as the schedule board's. The chevron folds the banner away and
   the bar takes its place, pinned to the top however far the page scrolls; the chevron at
   the bar's right end brings the banner back. The browser remembers the choice, so a
   folded Hub opens folded next time. There is no menu: the sync line, the day picker and
-  the tabs sit in a row on the right of the bar, the open tab in the event's accent colour;
-  below 1100 px the sync line is left out. The QR panel moves down under the bar, and the
-  search box scrolls away with the page. While no day is chosen or one is loading, the
-  banner shows whatever the choice, since its day picker is the way in.
+  the tabs sit in a row on the right of the slim bar, the open tab in the event's accent
+  colour; below 1100 px the sync line is left out, and a title too long for what is left is
+  cut short. The QR panel moves down under the bar, and the search box scrolls away with the
+  page. While a day is loading, the banner shows whatever the choice.
+
+**Which day opens.** At an event with more than one day the Hub opens on a day straight
+away: the one this browser picked last time, else today's, else the nearest one (before the
+event its first day, after it its last). Nobody has to pick a day before seeing anything.
 
 A team event's menu has its fourth tab, Teams.
 

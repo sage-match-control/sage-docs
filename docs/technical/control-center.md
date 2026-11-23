@@ -169,12 +169,19 @@ same "not set up" condition the sync pipeline itself skips.
 over its own banner: `text()` gives *Control Center* and `#eventTitleLine`'s text, the
 logo is `/assets/logo.png`, the event picker (`#eventPicker`, in `#eventPickerWrap`) is
 an extra picker in the phone's menu, the folded choice is kept under
-`sage.controlCenter.bannerFolded` (the Hub's is its own) and `panelFor` maps every view
-to its panel. Rather than calling `update()` from each place that changes the banner (an
+`sage.controlCenter.bannerFolded` (the Hub's is its own), `computerRows: 2` gives a
+computer the two-row bar (the event's whole title over the row of the day picker and
+the tabs) and `panelFor` maps every view to its panel. Rather than calling `update()` from each place that changes the banner (an
 event switch, a day load, the sync line, the Attendance and Teams tabs showing or hiding),
 a `MutationObserver` on `header.hero` (subtree, text, and the `class`, `style` and
-`hidden` attributes) calls it. The day prompt (*Select a tournament day to load its
-matches and standings.*) names no place for the picker, which is in the menu on a phone. Standings pass `onPairSelect:
+`hidden` attributes) calls it.
+
+**Which day opens.** `selectEvent` always loads a day: the address's `?day=` (on the
+first load), else `initialDayIndex` (`lib/v1/domain/initial-day.js`; see
+[site engine](site-engine.md)) with the event's entry in `sage.controlCenter.dayByEvent`,
+which `saveSelection` writes beside `sage.lastSelection` for every day loaded, and
+today's date in Manila. **Jump to today** keeps its own rule (`getTodayOrNextDayIndex`:
+today's day, else the next one, else the last). Standings pass `onPairSelect:
 openPairInFinder`, which opens a named round-robin row's pair in Match Finder as the
 Hub does (`showView('finder')`, the pair's label in the box, `finder.selection`, `run()`,
 then `revealResults` on a phone or a scroll to the search box on a computer).

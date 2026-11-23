@@ -7,28 +7,39 @@
 Control Center is the operator's console for running a tournament day —
 one page, covering every registered event, always showing live data (unlike
 Tournament Hub, it never hides scores while previewing a day before it's
-publicly live). Open it, pick an event and a day, and the tabs appear, in
+publicly live). Open it and pick an event; a day loads with it (see **Which
+day opens** below), and the tabs appear, in
 this order: **Mission Control** (where it opens), **Awards**, **Attendance**,
 **Match Finder**, **Live Matches**, **Standings** and **Teams**. **Attendance**
 shows only for an event with attendance turned on, and **Teams** only for a
 team event whose rosters are published.
 
 **The bar.** The banner at the top (the event picker, the day picker, the tabs
-and the sync line) folds into a slim navy bar pinned to the top of the screen,
-as on the [Tournament Hub](tournament-hub.md): the S.A.G.E. logo,
-**Control Center** and the event's title on its left.
+and the sync line) folds into a navy bar pinned to the top of the screen, as on
+the [Tournament Hub](tournament-hub.md), in two rows: first the S.A.G.E. logo,
+**Control Center** and the event's whole title, then, on a darker band, what
+switches the page.
 
-- **On a phone** the banner never shows: the bar is always there, and its
-  button, naming the open tab (**Mission Control ☰**), opens a menu of the
-  tabs, the **Event** picker, the day picker at an event with more than one
-  day, and the sync line.
+- **On a phone** the banner never shows: the bar is always there. Its second
+  row is a button as wide as the screen, naming the open tab (**Mission
+  Control ☰**), which opens a menu of the tabs, the **Event** picker, the day
+  picker at an event with more than one day, and the sync line. At an event
+  with more than one day a day pill showing the day's date (**Nov 28**) takes
+  a quarter of the row, beside the button. The title keeps one line, made a
+  little smaller where it must be (**The Ultimate Generation Cup 2026** fits).
 - **On a computer** the banner shows, with a chevron in its top-left corner
   (the schedule board's). The chevron folds the banner away and the bar takes
-  its place, with the sync line and every tab in a row; the chevron at the
-  bar's right end brings the banner back, which is where to switch events.
-  The browser remembers the choice, apart from the Hub's. Where the row is
-  wider than the screen (seven tabs below about 1,300 px) the sync line is
-  left out and the row scrolls sideways, keeping the open tab in view.
+  its place: the title row with the chevron that brings the banner back (which
+  is where to switch events) at its right end, then the day picker and every
+  tab, with the sync line at the right. The browser remembers the choice,
+  apart from the Hub's. Where the row is narrower than everything in it the
+  sync line is left out and the row scrolls sideways, keeping the open tab in
+  view.
+
+**Which day opens.** An event always opens on a day: the address's
+(`?day=`), else the day this browser last picked for that event (kept per
+event, so switching events and back returns to it), else today's, else the
+nearest one. **Jump to today** still goes to today's day, or the next one.
 
 No sign-in is needed to view Awards, Match Finder, Live Matches or
 Standings — they're read-only.

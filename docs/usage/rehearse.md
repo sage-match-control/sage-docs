@@ -92,11 +92,14 @@ a phone:
   the console, with each table's pill reading as it did there. A category with no final
   played yet shows no **Podium** card; one with its final (and bronze) entered shows gold,
   silver and bronze with the final's score, matching Control Center's Awards tab.
-- [ ] **The bar:** scroll the Hub down on a phone. A slim bar with the event's logo, date and
-  venue, and title stays at the top, and its button (**Match Finder ☰**) opens a menu of the tabs,
-  the day picker if the event has more than one day, and the sync line. Pick **Standings**: the
-  menu closes and Standings are open. On a computer the same bar carries the tabs in a row, and
-  scrolling back to the top removes it.
+- [ ] **The bar:** open the Hub on a phone. The bar at the top shows the event's logo, date and
+  venue, and its whole title, and under it a button as wide as the screen (**Match Finder ☰**)
+  that opens a menu of the tabs, the day picker if the event has more than one day, and the sync
+  line; at an event with more than one day a day pill with the date sits beside it. Pick
+  **Standings**: the menu closes and Standings are open. On a computer fold the banner with its
+  chevron: the slim bar carries the tabs in a row, and its own chevron brings the banner back.
+- [ ] **The opening day:** at an event with more than one day, open the Hub in a private window.
+  It opens on today's day (before the event, the first day) without a pick.
 
 ### Check scorer links and attendance
 

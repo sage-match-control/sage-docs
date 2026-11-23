@@ -37,6 +37,20 @@ has been replaced.
 
 ---
 
+## [2.103.0] — 2026-11-24
+
+### Changed
+
+- [Tournament Hub](features/tournament-hub.md), [Control Center](features/control-center.md) and the
+  [site engine](technical/site-engine.md#the-bar-the-banner-folds-into): on a phone the bar is two rows, the whole title
+  (kept on one line, smaller where it must be, down to 13px) over a full-width menu button, with a day pill beside it at
+  a multi-day event. Control Center's bar on a computer is two rows too; the Hub's stays one slim row. The bar's
+  height is measured into `--hub-bar-h`, which everything under it reads.
+- [Tournament Hub](features/tournament-hub.md) and [Control Center](features/control-center.md): a multi-day
+  event opens on a day straight away (the one picked last time, else today's, else the nearest), from the new
+  `domain/initial-day.js` ([site engine](technical/site-engine.md)); Control Center keeps the last day per event.
+- [Rehearse](usage/rehearse.md): the bar and opening-day checks.
+
 ## [2.102.0] — 2026-11-23
 
 ### Changed
