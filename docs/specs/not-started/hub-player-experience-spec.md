@@ -24,7 +24,7 @@ proposals that share one bar.
 | --- | --- | --- | --- | --- | --- |
 | 1 | P1 | A search scrolls to its results and closes the keyboard and the suggestions | **Find matches** closes its suggestions; nothing scrolls | **Find matches** closes its suggestions; nothing scrolls | §3 |
 | 2 | P3 | The pair summary card opens with the pair's next match | Yes: the card is shared | Yes | §4 |
-| 3 | P2 + P5 | Once the banner scrolls away, a slim bar stays at the top, with a menu holding the tabs, the day and the sync line | No | No: phones only | §5 |
+| 3 | P2 + P5 | Once the banner scrolls away, a slim bar stays at the top with the tabs, the day and the sync line: in a ☰ menu on a phone | No | Yes: the same in a row on the right, no menu | §5 |
 | 4 | P6 | Each round-robin table's header says *In progress · 6/10* or *Final*, and tied rows say how the tie was broken | Yes, team events included | Yes | §6 |
 | 5 | P14 | Tapping a Standings row opens that pair in Match Finder | No | Yes | §7 |
 | 6 | P12 | A finished category's Standings card opens with its podium | No: it has its Awards tab | Yes | §8 |
@@ -373,22 +373,34 @@ team event gives `''`. The harness: every `finder-search` case of `std-index`,
 **Done when** those pass, `npm run verify` passes with the accepted differences,
 and §2.5's pages show the block after a search.
 
-## 5. Step 3 — P2 + P5: a banner that folds into a bar with a menu
+## 5. Step 3 — P2 + P5: a banner that folds into a bar
 
 **Today.** The banner (logos, tagline, date and venue, title, headline, tabs, sync
-line) fills the first 541 px of a phone. Scrolled away, it takes the event's name,
-the tabs, the day picker and the sync line with it: switching tab means scrolling
-back to the top.
+line) fills the first 541 px of a phone and about 500 px of a computer. Scrolled
+away, it takes the event's name, the tabs, the day picker and the sync line with it:
+switching tab means scrolling back to the top.
 
-**After.** At the top of the page the banner is unchanged. On a phone, once it has
-scrolled out of view, a slim navy bar is pinned to the top of the screen: the
-event's logo, its date and venue line in small green capitals, its title, and on
-the right a button naming the open tab (*Match Finder ☰*). The button opens a menu
-over a dimmed page: the tabs (the open one marked), the day picker at a multi-day
-event, and the sync line. The bar goes away when the banner scrolls back into view.
-Computers never see it. The bottom tab bar first proposed for P5 is not built.
+**After.** At the top of the page the banner is unchanged. Once it has scrolled out
+of view, a slim navy bar is pinned to the top of the screen, on every screen size:
+the event's logo, its date and venue line in small green capitals and its title on
+the left. What is on the right depends on the width:
+
+- **On a phone** (below 900 px), a button naming the open tab (*Match Finder ☰*). It
+  opens a menu over a dimmed page: the tabs (the open one marked), the day picker at
+  a multi-day event, and the sync line.
+- **On a computer** (900 px and wider), the same three in a row, right-aligned, with
+  no menu: the sync line in small type, the day picker at a multi-day event, then the
+  tabs as pills, the open one green (decision D19). Below 1100 px the sync line is
+  left out, to leave room.
+
+The bar goes away when the banner scrolls back into view. On a computer the QR panel
+(fixed in the top-right corner) moves down under the bar while it shows (D20), and
+Match Finder's search box scrolls away with the page as today: only a phone pins it
+(D21). The bottom tab bar first proposed for P5 is not built.
 
 ![Three mockups on a phone at Pickle for Sight, 1 PM. First, the top of the page: the banner as it is today. Second, after a search: a slim navy bar pinned at the top with the S.A.G.E. logo, "Sep 27 · PCPH Main" above "Pickle for Sight", and a "Match Finder ☰" button; the search box pinned under it, then the pair's name and summary card. Third, the menu open: Match Finder (marked as open), Live Matches and Standings, a Day row reading Sep 27, and the sync line, over a dimmed page.](../../images/hub-player-experience/p2-p5-menu-bar.png)
+
+![Two mockups at 1280 × 800, scrolled. First, Match Finder after a search: a navy bar across the top with the logo, "Sep 27 · PCPH Main" and "Pickle for Sight" on the left, and on the right "Sep 27 · Live · last synced 7:50:29 PM", a "Day Sep 27" picker, and Match Finder (green), Live Matches and Standings pills; the QR panel sits under the bar on the right; the summary card and tickets below. Second, Standings scrolled, the same bar with Standings green.](../../images/hub-player-experience/p2-p5-desktop-bar.png)
 
 **Build.**
 
@@ -407,7 +419,14 @@ Computers never see it. The bottom tab bar first proposed for P5 is not built.
          <small class="hub-bar-meta">Sep 27 · PCPH Main</small>
          <span class="hub-bar-title">Pickle for Sight</span>
        </div>
-       <button type="button" class="hub-bar-btn" aria-expanded="false" aria-controls="hubMenu">
+       <div class="hub-bar-row">                         <!-- a computer's row; filled by update() -->
+         <span class="hub-bar-sync">Sep 27 · Live · last synced 7:50:29 PM</span>
+         <label class="hub-bar-day">Day <select>…</select></label>   <!-- only at a multi-day event -->
+         <button type="button" class="hub-bar-tab active" data-view="finder">Match Finder</button>
+         <button type="button" class="hub-bar-tab" data-view="live">Live Matches</button>
+         <button type="button" class="hub-bar-tab" data-view="standings">Standings</button>
+       </div>
+       <button type="button" class="hub-bar-btn" aria-expanded="false" aria-controls="hubMenu">   <!-- a phone's menu button -->
          <span class="hub-bar-btn-label">Match Finder</span><span class="hub-bar-burger" aria-hidden="true"></span>
        </button>
      </div>
@@ -415,47 +434,52 @@ Computers never see it. The bottom tab bar first proposed for P5 is not built.
      <nav class="hub-menu" id="hubMenu" aria-label="Tournament Hub" hidden></nav>
      ```
 
+     Both the row and the button are in the markup; the CSS shows one per width.
      The meta line is `heroEl.querySelector('.eyebrow')`'s `innerText`, the title
      `.title`'s `innerText`, each with `.replace(/\s+/g, ' ').trim()` (`innerText`,
      so a `<br>` becomes a space). A missing element leaves its line empty.
-   - **When the bar shows.** All four: `matchMedia(PHONE_QUERY).matches` (import
-     `PHONE_QUERY` from `./reveal.js`); the tabs are showing
+   - **The items**, the same on both widths and built by one function each time
+     they are drawn: one tab per `.view-tab` that is showing (`style.display !== 'none'`
+     and not `hidden`), `active` on the open one; the day picker when
+     `dayPickerWrapEl.style.display !== 'none'`, a `<select>` with `dayPickerEl`'s
+     options (leave out its disabled placeholder) and its value; the sync line,
+     `syncStatusEl.textContent`, when `syncStatusEl` is showing.
+   - **A tab** (in the row or the menu) closes the menu if it is open, clicks the
+     matching `.view-tab` (whose handler switches the view and remembers it), then
+     scrolls `panelFor(view)` to just under the bar (`top - HUB_BAR_HEIGHT - 8`,
+     instant under *reduce motion*). **The day select** closes the menu, sets
+     `dayPickerEl.value`, dispatches a `change` event on `dayPickerEl` and scrolls to
+     the top.
+   - **When the bar shows.** All three: the tabs are showing
      (`tabsWrapEl.style.display !== 'none'`); the hero is out of view (an
      `IntersectionObserver` on `heroEl`, threshold 0, keeps the last
      `isIntersecting`); and the stylesheet has loaded
      (`getComputedStyle(bar).position === 'fixed'`, so a cached old `hub.css` never
-     shows an unstyled bar). Re-check on the observer's callback, on the media
-     query's `change` event, and on every `update()`. Showing sets `bar.hidden =
-     false` and adds `hub-bar-on` to `document.body`; hiding reverses both and
-     closes the menu.
-   - **The menu.** The button toggles it. Opening builds its content fresh: one
-     `<button type="button" class="hub-menu-tab" data-view="…">` per `.view-tab`
-     that is showing (`style.display !== 'none'` and not `hidden`), with `active` on
-     the open one; then, when `dayPickerWrapEl.style.display !== 'none'`,
-     `<label class="hub-menu-day">Day <select>…</select></label>` with
-     `dayPickerEl`'s options (leave out its disabled placeholder) and its value;
-     then `<div class="hub-menu-sync">` with `syncStatusEl.textContent`. It unhides
-     the scrim and the menu, sets `aria-expanded="true"` and focuses the first tab.
-     A tab tap closes the menu, clicks the matching `.view-tab` (whose handler
-     switches the view and remembers it), then scrolls `panelFor(view)` to just
-     under the bar (`top - HUB_BAR_HEIGHT - 8`, instant under *reduce motion*).
-     Changing the day closes the menu, sets `dayPickerEl.value`, dispatches a
-     `change` event on `dayPickerEl` and scrolls to the top. The scrim, the button
-     and Escape close the menu, which returns focus to the button.
-   - Returns `{ update() }`: re-reads the open tab's label into
-     `.hub-bar-btn-label` and re-checks when the bar shows.
+     shows an unstyled bar). Re-check on the observer's callback and on every
+     `update()`. Showing sets `bar.hidden = false` and adds `hub-bar-on` to
+     `document.body`; hiding reverses both and closes the menu.
+   - **The menu** (a phone). The button toggles it. Opening fills `#hubMenu` with the
+     items: `<button type="button" class="hub-menu-tab">` per tab, then
+     `<label class="hub-menu-day">Day <select>…</select></label>`, then
+     `<div class="hub-menu-sync">`. It unhides the scrim and the menu, sets
+     `aria-expanded="true"` and focuses the first tab. The scrim, the button and
+     Escape close it, which returns focus to the button. When the screen widens to
+     900 px or more (`matchMedia(PHONE_QUERY)`'s `change` event; import
+     `PHONE_QUERY` from `./reveal.js`) an open menu closes.
+   - Returns `{ update() }`: redraws the row's items and the button's label (the open
+     tab's text), and re-checks when the bar shows.
 2. **`apps/hub.js`**: create the bar after the elements are looked up, with
    `panelFor: v => ({ finder: searchPanelEl, live: liveResultsEl, standings: standingsResultsEl, teams: teamsResultsEl })[v]`.
    Call `bar.update()` at the end of `showView`, at the end of
-   `revealLiveTabsAfterLoad`, and in `selectDay` after it hides the tabs.
+   `revealLiveTabsAfterLoad`, in `selectDay` after it hides the tabs, and in
+   `loadLiveData` after it writes the sync line (both the success and the error
+   branch).
 3. **`views/reveal.js`** (step 1): when `document.body.classList.contains('hub-bar-on')`
    is false but a `.hub-bar` exists, the bar is about to appear as the page
-   scrolls, so add `HUB_BAR_HEIGHT` to `stuck`. Define the constant locally (54)
-   rather than importing it, so the two modules stay independent.
+   scrolls, so add the bar's 54 px to `stuck`. Define the number locally rather
+   than importing it, so the two modules stay independent.
 4. **`css/hub.css`**, appended:
-   - Outside any media query: `.hub-bar, .hub-menu, .hub-menu-scrim{ display:none; }`
-     (computers).
-   - Under `@media (max-width:899px)`:
+   - Every width:
      - `.hub-bar{ position:fixed; top:0; left:0; right:0; z-index:50; height:54px; display:flex; align-items:center; gap:10px; padding:0 12px; background:var(--navy); color:var(--white); box-shadow:0 4px 14px rgba(0,0,0,.18); }`
        and `.hub-bar[hidden]{ display:none; }` (a `display:flex` rule overrides the
        `hidden` attribute otherwise).
@@ -465,6 +489,27 @@ Computers never see it. The bottom tab bar first proposed for P5 is not built.
        Meta: Barlow Condensed 700, 11px, letter-spacing .12em, uppercase,
        `color:var(--green)`. Title: Archivo Black 400, 15px, line-height 1.1,
        uppercase.
+     - `.hub-menu, .hub-menu-scrim{ display:none; }` until the phone rules below.
+     - Everything already pinned to the top moves under the bar:
+       `body.hub-bar-on .standings-col-head, body.hub-bar-on .club-summary{ top:54px; }`
+       (both `top:0` in `standings.css`, and pinned whenever Standings use their
+       phone layout, which a wide but short screen does too).
+   - Under `@media (min-width:900px)`:
+     - `.hub-bar{ padding:0 20px; gap:12px; }`, `.hub-bar-logo{ width:34px; height:34px; }`,
+       `.hub-bar-btn{ display:none; }`.
+     - `.hub-bar-row{ display:flex; align-items:center; gap:8px; flex:none; }`.
+     - `.hub-bar-sync`: Barlow Condensed 12.5px, `rgba(255,255,255,.7)`,
+       `white-space:nowrap`, margin-right 6px.
+     - `.hub-bar-day`: a pill (`background:rgba(255,255,255,.08); border-radius:999px; padding:5px 12px;`),
+       its label Barlow Condensed 700 12px uppercase `rgba(255,255,255,.6)`, the
+       select white on transparent, no border.
+     - `.hub-bar-tab`: Barlow Condensed 700, 12.5px, letter-spacing .06em, uppercase,
+       `color:var(--white)`, transparent, `border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:6px 14px; white-space:nowrap;`
+       a visible focus ring; `.hub-bar-tab.active{ background:var(--green); border-color:var(--green); color:var(--navy); }`.
+     - `body.hub-bar-on .qr-panel{ top:80px; }` (it is `top:26px`).
+   - Under `@media (min-width:900px) and (max-width:1099px)`: `.hub-bar-sync{ display:none; }`.
+   - Under `@media (max-width:899px)`:
+     - `.hub-bar-row{ display:none; }`.
      - `.hub-bar-btn`: `display:flex; align-items:center; gap:8px;` Barlow Condensed
        700, 13px, letter-spacing .06em, uppercase, `color:var(--white)`,
        `background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:6px 12px 6px 14px;`
@@ -483,29 +528,44 @@ Computers never see it. The bottom tab bar first proposed for P5 is not built.
        `rgba(255,255,255,.6)`; the select white on transparent.
        `.hub-menu-sync`: margin-top 12px, Barlow Condensed 12.5px,
        `rgba(255,255,255,.7)`.
-     - Everything already pinned to the top on a phone moves under the bar:
-       `body.hub-bar-on .search-panel{ top:62px; }` (it is `top:8px` in
-       `finder.css`), `body.hub-bar-on .standings-col-head, body.hub-bar-on .club-summary{ top:54px; }`
-       (both `top:0` in `standings.css`).
+     - `body.hub-bar-on .search-panel{ top:62px; }` (it is `top:8px` in
+       `finder.css`, and pinned only on a phone).
    - The templates' viewport tag has no `viewport-fit=cover`, so the page never
-     runs under the phone's status bar: the bar needs no safe-area padding, and no
+     runs under a phone's status bar: the bar needs no safe-area padding, and no
      shell changes.
 5. Control Center does not use `createHubBar`; it does not change.
 
-**Tests.** `hub-behaviour.test.mjs`, on
-`std-index/pickle-for-sight-2026/finder/mid/phone`: at the top `.hub-bar` is
-hidden; after `window.scrollTo(0, 1500)` it is visible and `body` has `hub-bar-on`;
-its label reads `Match Finder`; clicking `.hub-bar-btn` shows `#hubMenu` with
-three `.hub-menu-tab`s, one `active`; clicking the Standings one hides the menu,
-makes `.view-tab[data-view="standings"]` active and leaves the label `Standings`;
-Escape closes an open menu; back at the top the bar hides. On `…/desktop` the bar
-never shows. On `team-index/pickledrive-anniversary-2026/finder/mid/phone` the menu
-has four tabs. The harness: nothing should differ (the full-page screenshots never
-scroll); if a case does, find out why before accepting it. Manual: §2.5's four
-pages, scrolled, with the menu open, and the dual meet template's Standings
-(`dm-index`) scrolled, to see its club bar pin under the bar.
+**Tests.** `hub-behaviour.test.mjs`:
 
-**Done when** those pass and the four live pages look right.
+- On `std-index/pickle-for-sight-2026/finder/mid/phone`: at the top `.hub-bar` is
+  hidden; after `window.scrollTo(0, 1500)` it is visible, `body` has `hub-bar-on`,
+  `.hub-bar-btn` is visible and `.hub-bar-row` is not; the label reads
+  `Match Finder`; clicking `.hub-bar-btn` shows `#hubMenu` with three
+  `.hub-menu-tab`s, one `active`; clicking the Standings one hides the menu, makes
+  `.view-tab[data-view="standings"]` active and leaves the label `Standings`; Escape
+  closes an open menu; back at the top the bar hides.
+- On `std-index/pickle-for-sight-2026/finder/mid/desktop`: at the top the bar is
+  hidden; after scrolling, it is visible, `.hub-bar-row` holds three `.hub-bar-tab`s
+  (one `active`) and the sync line, `.hub-bar-btn` is not visible, there is no day
+  picker (a one-day event), and `.qr-panel`'s top is at least 54 px; clicking the
+  Standings tab makes it active on the bar and in the banner.
+- On `team-index/pickledrive-anniversary-2026/finder/mid/phone` the menu has four
+  tabs.
+- A multi-day event: none of the fixtures has two days, so give the test its own
+  registry: take the `std-index/pickle-for-sight-2026/finder/mid/desktop` case,
+  copy `c.registry` and add a second day to the event's `days` (a new key, the
+  same facilities, the next date), copy `c.snapshots` and put the first day's
+  snapshot under the new key too, and pass both to `openPage`. Assert the
+  bar's day picker lists both days, and that choosing the second reloads the page's
+  day (the banner's `#dayPicker` value changes).
+
+The harness: nothing should differ (the full-page screenshots never scroll); if a
+case does, find out why before accepting it. Manual: §2.5's four pages scrolled, on
+a phone with the menu open and on a computer at 1280 px and at 950 px (no sync line),
+and the dual meet template's Standings (`dm-index`) scrolled on a phone, to see its
+club bar pin under the bar.
+
+**Done when** those pass and the four live pages look right at both sizes.
 
 ## 6. Step 4 — P6: a status pill on each round-robin table, and tie pills
 
@@ -662,7 +722,8 @@ unchanged.
    `const team = finder.pairs.find(t => t.codes.includes(code)); if(!team) return;`
    click `.view-tab[data-view="finder"]`; then `input.value = team.label;
    finder.selection = team; finder.updateClear(); finder.run();`. Then
-   `if(!reveal()) window.scrollTo({ top: Math.max(0, searchPanelEl.getBoundingClientRect().top + window.scrollY - 16) })`:
+   `if(!reveal()) window.scrollTo({ top: Math.max(0, searchPanelEl.getBoundingClientRect().top + window.scrollY - 16 - (document.querySelector('.hub-bar') ? 54 : 0)) })`
+   (the 54 leaves room for step 3's bar, which appears as the banner leaves the screen):
    on a phone `reveal` lands on the results; on a computer, where it does nothing,
    the page goes to the search box, so the results are in view rather than
    wherever Standings had been scrolled to. These are `createFinder`'s existing
@@ -893,6 +954,9 @@ the questions is in §15 with the dropped proposals.
 | D15 | 2 | The next-match block before the day goes live | Yes, the block alone |
 | D16 | 2 | The block in Control Center's card too | Yes |
 | D17 | 3 | What the menu holds | The tabs, the day picker and the sync line |
+| D19 | 3 | The bar on a computer | Yes: the same items in a row, right-aligned, instead of the ☰ menu |
+| D20 | 3 | The QR panel while the bar shows, on a computer | It moves down under the bar |
+| D21 | 3 | Match Finder's search box pinned under the bar on a computer | No: it scrolls away as today; only a phone pins it |
 | D6 | 4 | Team bracket tables get the table pill | Yes; no tie pills |
 | D18 | 4 | The pill's count | *In progress · 6/10* |
 | D11 | 6 | A team event's podium now or later | Now |

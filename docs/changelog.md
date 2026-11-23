@@ -37,6 +37,20 @@ has been replaced.
 
 ---
 
+## [2.89.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/not-started/hub-player-experience-spec.md), step 3: the folding bar shows on a
+  computer too, at the owner's request. There the tabs, the day picker and the sync line sit in a right-aligned row
+  instead of the ☰ menu, and the sync line is left out below 1100 px. The owner's three answers are recorded:
+  - D19: a row on a computer;
+  - D20: the QR panel moves down under the bar;
+  - D21: the search box isn't pinned on a computer.
+
+  A desktop mockup and desktop and multi-day behaviour tests are added. Step 5's desktop scroll leaves room for
+  the bar.
+
 ## [2.88.1] — 2026-11-23
 
 ### Fixed
