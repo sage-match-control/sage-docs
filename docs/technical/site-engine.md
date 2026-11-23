@@ -97,7 +97,7 @@ offers it.
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)`, `markPlayer(name, match)` → class | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark) |
 | Match Finder | `searchHandlers`, `searchHint`, `delegate`, `onSearched()`, `introTop(model)` | the match-number search; the team event's own finder; nothing for `onSearched` (the Hub passes `revealResults`) or `introTop` (the dual-meet Hub passes the club bar; Control Center and every other event draw none) |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html, `countDone` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round; `true`, so a done court counts apart from the courts in play |
-| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class, `onPairSelect(teamCode)`, `podium`, `jumpChips` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match); nothing for `onPairSelect` (the Hub opens the pair in Match Finder) or `podium` (the Hub draws a finished category's podium; Control Center has its Awards tab) or `jumpChips` (the dual-meet Hub draws the chips on a phone) |
+| Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class, `onPairSelect(teamCode)`, `podium`, `jumpChips` | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match); `openPairInFinder` for `onPairSelect` (the pair in Match Finder, as the Hub does); nothing for `podium` (the Hub draws a finished category's podium; Control Center has its Awards tab) or `jumpChips` (the dual-meet Hub draws the chips on a phone) |
 | team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint`, `onSearched()`, `podium` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub); nothing for `onSearched` (the Hub passes `revealResults`); nothing for `podium` (the Hub opens the Standings with the event's podium) |
 
 ## Settings, the shells and fixture mode
@@ -271,13 +271,13 @@ the order and the Next Up rule.
 
 ## Showing a search's results
 
-On a phone the banner and the search box fill the first screen, so a search changes nothing the
-person can see. `views/reveal.js` exports `PHONE_QUERY` (`(max-width: 899px)`, the width at which
+On a phone a search's results can start below the screen, under the search box and the day's counts,
+so a search can change nothing the person sees. `views/reveal.js` exports `PHONE_QUERY` (`(max-width: 899px)`, the width at which
 `css/finder.css` pins the search box) and `revealResults({ resultsEl, searchPanelEl, input })`. On a
 phone it blurs the box, so the keyboard closes, and scrolls the page so the results start just under
 the pinned search panel (the panel's `top` offset and height plus 8 px, plus the bar's 54 px while
-the Hub's bar is on the page but not showing yet, since the scroll brings it in and moves the panel
-down; instantly under *reduce motion*) and returns `true`. On a computer it does nothing and returns `false`.
+the bar is on the page but not showing yet, which only a cached stylesheet from before the fold rules
+leaves, since there the scroll brings it in and moves the panel down; instantly under *reduce motion*) and returns `true`. On a computer it does nothing and returns `false`.
 
 `createFinder`'s `onSearched` option is called right after a person runs a search, in exactly
 three handlers: a click on a suggestion, Enter in the box and the **Find matches** button. A data
@@ -295,58 +295,90 @@ harness's full-page screenshots can't (they never scroll).
 
 ## The bar the banner folds into
 
-Once the Hub's banner has scrolled out of view, a slim bar is pinned to the top of the screen
-(hub-player-experience-spec §5). `views/hub-bar.js` exports `HUB_BAR_HEIGHT` (54) and
-`createHubBar({ heroEl, tabsWrapEl, dayPickerEl, dayPickerWrapEl, syncStatusEl, panelFor })`, which
-returns `{ update() }`. The banner keeps the page's one set of tabs, day picker and sync line; the bar
-reads them and clicks them, it never holds its own state.
+A slim bar pinned to the top of the screen stands in for the banner (hub-player-experience-spec §5): on a
+phone always, since the banner never shows there; on a computer once the reader folds the banner with its
+chevron, the schedule board's. Control Center uses the same bar. `views/hub-bar.js` exports
+`HUB_BAR_HEIGHT` (54), `FOLDED_KEY` (`'sage.hub.bannerFolded'`) and
+`createHubBar({ heroEl, tabsWrapEl, dayPickerEl, dayPickerWrapEl, syncStatusEl, panelFor, text, logoSrc, pickers, storageKey, menuLabel })`,
+which returns `{ update() }`; the last five are optional. The banner keeps the page's one set of tabs,
+pickers and sync line; the bar reads them and clicks them, it never holds its own state.
 
 - **Markup.** Made once and appended to `document.body`: `.hub-bar` (hidden), `.hub-menu-scrim` and
-  `nav.hub-menu#hubMenu`. The bar carries the first `.hero-logos` image's `src`
-  (`.hub-bar-logo`; left out when there is none), the hero's `.eyebrow` and `.title` as
-  `innerText` with whitespace collapsed (`.hub-bar-meta`, `.hub-bar-title`), a row
-  (`.hub-bar-row`) and a button (`.hub-bar-btn`, `aria-expanded`, `aria-controls="hubMenu"`).
-  Both the row and the button are always in the markup; the CSS shows one per width.
-- **Items.** `readBarItems` reads the banner: a tab per `.view-tab` showing (not
-  `display:none`, not `hidden`), the open one `active`; the day picker (its options without the
-  disabled placeholder, its value) when its wrapper is showing, so only at an event with more than one
-  day; the sync line when it is showing. `barRowHTML` draws them as the computer's row (the sync line, a
-  `.hub-bar-day` label with a `<select>`, a `.hub-bar-tab` pill per tab) and `menuHTML` as the phone's
-  menu (a `.hub-menu-tab` per tab, `.hub-menu-day`, `.hub-menu-sync`). Everything is escaped. The row
-  is replaced only when its markup changed, so a poll that finds the same sync line leaves an open day
-  picker alone; the menu is filled each time it opens.
+  `nav.hub-menu#hubMenu` (`aria-label` from `menuLabel`, default *Tournament Hub*). The bar carries a logo
+  (`.hub-bar-logo`: `logoSrc`, else the first `.hero-logos` image's `src`; left out when there is none), two
+  lines (`.hub-bar-meta`, `.hub-bar-title`: `text()`'s `{ meta, title }`, read on every update, else the
+  hero's `.eyebrow` and `.title` with each `<br>` read as a space and whitespace collapsed, read from a copy
+  since a hidden element's `innerText` runs the lines together), a row (`.hub-bar-row`), the chevron that
+  brings the banner back (`.hub-bar-fold`, *Show the banner*) and the phone's button (`.hub-bar-btn`,
+  `aria-expanded`, `aria-controls="hubMenu"`). It also appends the fold chevron (`.hub-fold-btn`, *Fold the
+  banner*, hidden) to the banner. The CSS shows the row and the chevrons on a computer, the button on a phone.
+- **Items.** `readBarItems` reads the banner: a tab per `.view-tab` showing (not `display:none`, not
+  `hidden`), the open one `active`, and none while the tab row itself is hidden (no day loaded); each of
+  `pickers` (`[{ el, wrapEl?, label }]`) whose wrapper is showing, keeping its index; the day picker (its
+  options without the disabled placeholder, its value) when its wrapper is showing, so only at an event with
+  more than one day; the sync line when it is showing. `barRowHTML` draws the computer's row (the sync line,
+  a `.hub-bar-day` label with a `<select>`, a `.hub-bar-tab` pill per tab; never the extra pickers) and
+  `menuHTML` the phone's menu (a `.hub-menu-tab` per tab, a `.hub-menu-day.hub-menu-picker[data-picker]` row
+  per picker, `.hub-menu-day`, `.hub-menu-sync`). `buttonLabel` names the open tab, or *Choose a day* while a
+  day picker waits for a first pick, or *Menu*. Everything is escaped. The row is replaced only when its
+  markup changed, so a poll that finds the same sync line leaves an open day picker alone; the menu is filled
+  each time it opens.
 - **A tab** closes the menu, clicks the matching `.view-tab` (whose handler switches the view and
   remembers it) and scrolls `panelFor(view)` to just under the bar (`tabScrollTop`: its top minus
-  `HUB_BAR_HEIGHT` and 8 px, never above the page; instant under *reduce motion*). **A day** closes the
-  menu, sets `dayPickerEl.value`, dispatches `change` on it and scrolls to the top.
-- **When it shows** (`barShows`): the tabs are showing, the banner is out of view (an
-  `IntersectionObserver` on it, threshold 0) and the stylesheet has loaded
-  (`getComputedStyle(bar).position === 'fixed'`, so a cached old `hub.css` never shows it unstyled).
-  Showing unhides the bar and puts `hub-bar-on` on `body`; hiding reverses both and closes the menu.
-- **The menu** (a phone, below 900 px; `PHONE_QUERY` from `reveal.js`). The button toggles it, and
-  opening focuses its first tab. The scrim, the button and Escape close it and return focus to the button;
-  widening the screen to 900 px or more closes it too.
+  `HUB_BAR_HEIGHT` and 8 px, never above the page; instant under *reduce motion*). **A day**, or **a
+  picker**, closes the menu, sets the banner's `<select>` and dispatches `change` on it, then scrolls to the top.
+- **Folding.** The banner's chevron sets the folded choice, the bar's clears it; each stores it in
+  `localStorage[storageKey]` (`'1'` or `'0'`), re-checks, scrolls to the top and moves focus to the other
+  chevron. The choice is read once, when the bar is made.
+- **When it shows.** With the fold rules loaded (`css/hub-bar.css` sets `--hub-bar-fold: 1` on `.hub-bar`),
+  `barFolds`: always on a phone (`PHONE_QUERY` from `reveal.js`), even before a day is loaded; on a computer
+  when the banner is folded and the tabs are showing, so the banner, with its pickers, is back while no day is
+  loaded. The banner's chevron shows on a computer once the tabs show. A stylesheet from before the fold rules
+  (a browser's cached copy) gets `barShows`, the earlier rule: the tabs are showing, the banner is out of
+  view (an `IntersectionObserver` on it, threshold 0) and the bar is styled
+  (`getComputedStyle(bar).position === 'fixed'`). Showing unhides the bar and puts `hub-bar-on` on `body`,
+  and with the fold rules `hub-bar-folded` too; hiding reverses them and closes the menu. The banner
+  chevron's `hidden` is written only when it changes, since a page may watch the banner to redraw the bar.
+  A change of width re-checks.
+- **Fitting the row.** On a computer the row keeps its width while it fits; where it doesn't (Control
+  Center's seven tabs below about 1,300 px) the CSS lets it shrink, with the title keeping 120 px, and scroll
+  sideways, and `fit()` puts `hub-bar-tight` on the bar (which hides the sync line) and scrolls the open tab
+  into view. It runs on every check and on `resize`.
+- **The menu** (a phone, below 900 px). The button toggles it, and opening focuses its first tab (or its
+  first select). The scrim, the button and Escape close it and return focus to the button; widening the
+  screen to 900 px or more closes it too.
 - **Wiring.** `apps/hub.js` creates the bar once the event is known to be a Hub event and its views exist
   (a shell without `header.hero` or the tab row keeps a no-op), with `panelFor` returning the search
   panel, Live Matches, Standings or Teams panel, and calls `bar.update()` at the end of `showView`, of
   `revealLiveTabsAfterLoad`, in `selectDay` after it hides the tabs, and in `loadLiveData` after the
-  sync line is written (success and error). Control Center does not use it.
-- **CSS** (appended to `css/hub.css`). The bar is fixed, 54 px, `z-index` 50, on the theme's
-  `--navy`, with the accent `--green` for its date line and a computer's open tab. While
-  `body.hub-bar-on`, what is already pinned to the top moves under it: `.standings-col-head` and
-  `.club-summary` at `top:54px`, and on a phone the Match Finder search panel at `top:62px`; on a computer
-  `.qr-panel` moves from `top:26px` to `80px`. From 900 px the row is shown and the button hidden, and
-  from 900 to 1099 px the sync line is hidden; below 900 px the reverse, with the menu and its scrim
-  (`z-index` 49 and 48).
+  sync line is written (success and error). Control Center creates it with `text()` (*Control Center* and
+  the event's title), `logoSrc: '/assets/logo.png'`, its event picker in `pickers`,
+  `storageKey: 'sage.controlCenter.bannerFolded'` and `menuLabel: 'Control Center'`, and a
+  `MutationObserver` on the banner (its subtree, text and `class`, `style` and `hidden`) calls `update()` on
+  any change there.
+- **CSS** (`css/hub-bar.css`, which `css/hub.css` imports and Control Center links on its own). The bar is
+  fixed, 54 px, `z-index` 50, on the theme's `--navy`, with the accent `--green` for its small line and a
+  computer's open tab. On a phone `header.hero` is hidden and `html body` has 66 px of top padding
+  (`html body` outranks the pages' own `html,body{ padding:0 }`, which `hub.css` sets after its import);
+  hiding the banner from the stylesheet rather than the script means it never flashes up while the page
+  loads. On a computer `body.hub-bar-folded` hides `header.hero` and pads the page by 78 px. The chevrons are
+  32 and 30 px squares with the board's border and colours, the banner's in its top-left corner. While
+  `body.hub-bar-on`, what is already pinned to the top moves under it: `.standings-col-head`,
+  `.club-summary` and `.dm-pin` at `top:54px`, and on a phone the Match Finder search panel at `top:62px`;
+  on a computer `.qr-panel` moves from `top:26px` to `80px`. From 900 to 1099 px the sync line is hidden;
+  below 900 px the row and chevrons are hidden and the menu and its scrim (`z-index` 49 and 48) shown.
 
-`hub-bar.test.mjs` covers the pure parts (reading the items, the markup, when the bar shows, where a tab
-scrolls, and `reveal.js`'s allowance) with faked elements. The engine harness's `hub-behaviour.test.mjs`
-covers the bar on a page: it shows only once the banner has scrolled away; a phone's button, menu, Escape,
-scrim and widening; a computer's row, the QR panel and the 950 px sync line; a team event's four tabs; a
-dual meet's club bar pinned under it; and a multi-day event's day picker, in the row and in the menu. The
-harness's full-page screenshots never scroll, but a step that scrolls the page (a phone search, a team
-chip, a click that Playwright scrolls into view) leaves the banner out of view, so those cases capture
-the bar; the hub-player-experience spec's Divergences section lists them.
+`hub-bar.test.mjs` covers the pure parts (reading the items and pickers, the markup, the button's label, when
+the bar shows with and without the fold rules, where a tab scrolls, and `reveal.js`'s allowance) with faked
+elements. The engine harness's `hub-behaviour.test.mjs` covers the bar on a page: a phone's bar always on
+with no banner, its button, menu, Escape, scrim and widening (which brings a computer's banner back); a
+computer's banner and chevron, folding, the choice kept across a reload, unfolding, the bar's row, the QR
+panel and the 950 px sync line; a team event's four tabs; a dual meet's club bar pinned under it; a multi-day
+event's day picker, in the row and in the menu, and *Choose a day* before one is picked; and Control Center's
+bar: its menu with the event picker, switching event from it, folding into its own key, and seven tabs at
+950 px. The harness's steps (`engine/steps.mjs`) click a tab and set a picker from script when the banner is
+folded away, as the bar's menu does, so every phone case runs as before; its screenshots show the bar in
+place of the banner on every phone case, and the fold chevron in every computer's banner.
 
 ## The round-robin pills
 
@@ -392,14 +424,14 @@ covers the rules, including that the pills' order is `rankStandings`' on each ti
 
 ## A Standings row opens its pair
 
-On the Hub a named round-robin row opens that pair in Match Finder (hub-player-experience-spec §7).
+On the Hub and in Control Center a named round-robin row opens that pair in Match Finder
+(hub-player-experience-spec §7).
 `createStandings` takes an option `onPairSelect(teamCode)`, off by default. When it is set, the options the
 builders already pass carry a boolean, `openRows`: `cardOptions()` adds it for a standard event's cards
 (`categoryCardHTML` hands it to `stageTablesHTML`), and a dual meet's body is drawn with `{ ...options, openRows }`,
 which `dualMeetStandingsHTML` passes down through `categoryColumnHTML` and `clubSubsectionHTML` to
 `stageTablesHTML` (the shared Bronze and Final block never draws a round-robin row). Without `openRows` every
-row is drawn exactly as before, so Control Center, which does not pass `onPairSelect`, and the page's old cached
-copies are unchanged; a team event's Standings are `views/teams.js`, which never reads it.
+row is drawn exactly as before, so the page's old cached copies are unchanged; a team event's Standings are `views/teams.js`, which never reads it.
 
 `stageTablesHTML` gives each round-robin row for a named pair (not `isEmptyStanding`, so not an unseeded slot, a
 TBD or a pair still listed under its team code) `class="… rr-open"`, `data-team="<teamCode>"` and `tabindex="0"`,
@@ -413,13 +445,16 @@ row is another control.
 `codes` include the team code (a code the finder has no matches for does nothing), clicks the Match Finder tab,
 puts the pair's label in the search box, sets `finder.selection`, runs the search and calls `reveal`. On a phone
 `reveal` lands on the results under the pinned search box; on a computer, where it does nothing, the page scrolls
-to the search panel (16 px above it, and 54 px more when the bar is on the page, which the scroll brings in), so
-the results are in view. It uses the finder's existing members and adds no import.
+to the search panel (16 px above it, and 54 px more while the bar shows, `body.hub-bar-on`), so the results are in
+view. It uses the finder's existing members and adds no import. Control Center passes the same kind of handler,
+`openPairInFinder`, for a standard event or a dual meet: it switches with `showView('finder')`, runs the search the
+same way and calls `revealResults` itself, since it passes the finder no `onSearched`.
 
 `css/standings.css` has `tr.rr-open` (a pointer), its `:focus-visible` outline (`--green-dark`) and
 `.rr-open-mark` (`--muted`, bold, 4 px from the figure). The mark is about 3 px wide and fits the Q column's
 54 px, so a row's height does not change. `_tests/unit/views/standings-open-rows.test.mjs` covers the markup and
-`hub-behaviour.test.mjs` taps a row at a phone and a computer size, with Enter and with the bar showing.
+`hub-behaviour.test.mjs` taps a row at a phone and a computer size, with Enter and with the bar showing, and in
+Control Center at both sizes, at a dual meet, and at a team event, which has no open rows.
 
 ## The podium
 
@@ -501,7 +536,8 @@ not pass it, is unchanged. `apps/hub.js` passes `jumpChips: true` at a dual meet
 row: `column top + scrollY - pinned row height - 8`, and 54 px (the Hub bar's height) less when the bar is showing there
 (`hub-bar-on`), instant under *reduce motion*. A tap from the top of the page lands with the banner gone and the bar on,
 though the bar is not on yet, so `hubBarShowsAt(top)` also answers yes when the target is below the banner (`header.hero`)
-and the page has a `.hub-bar`; Control Center has neither. One passive `scroll` listener, added once when the option is
+and the page has a `.hub-bar`, which only a stylesheet from before the fold rules needs (with them the bar is always
+on on a phone). Control Center draws no chips. One passive `scroll` listener, added once when the option is
 set and throttled with `requestAnimationFrame`, marks `active` the chip of the last column whose top is no further than the
 8 px gap and 4 px of rounding under the pinned row's bottom, reading the DOM each time, and `render()` runs the same
 marking after it redraws so a live update keeps the highlight.

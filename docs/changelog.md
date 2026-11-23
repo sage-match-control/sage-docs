@@ -37,6 +37,25 @@ has been replaced.
 
 ---
 
+## [2.99.0] — 2026-11-23
+
+### Changed
+
+- The bar the banner folds into works by hand, and Control Center has it. On a phone the Tournament Hub's banner never
+  shows: the slim bar is always at the top, and its menu holds the day picker before a day is loaded (its button
+  reads *Choose a day*). On a computer the banner shows with the schedule board's chevron in its corner, which folds
+  it into the bar, pinned; the bar's chevron brings it back, and the browser keeps the choice. Control Center gets
+  the same bar over its banner, with its event picker in the phone's menu and its own kept choice, and a row of seven
+  tabs that does not fit drops the sync line and scrolls sideways. Control Center's standard and dual-meet Standings
+  rows now open the pair in its Match Finder, as the Hub's do. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): the bar on a phone and a computer; Control Center's rows;
+  - [Control Center](features/control-center.md): the bar; a Standings row opens its pair; the pinned search box;
+  - [Site engine](technical/site-engine.md): `hub-bar.js`'s new options, folding, when it shows, fitting the row,
+    `css/hub-bar.css`; Control Center's `onPairSelect`; the search-results and category-chip notes;
+  - [Control Center (technical)](technical/control-center.md): how the page makes the bar and opens a row's pair;
+  - [Hub player experience](specs/implemented/hub-player-experience-spec.md): its Divergences record the change
+    after the build.
+
 ## [2.98.0] — 2026-11-23
 
 ### Changed

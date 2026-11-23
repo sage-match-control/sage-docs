@@ -164,6 +164,21 @@ registry schema](event-data-config.md) § Sheet IDs are effectively
 public). The link is omitted for a facility with no `sheetId` yet, the
 same "not set up" condition the sync pipeline itself skips.
 
+**The bar.** The page links `lib/v1/css/hub-bar.css` and makes the Hub's bar
+(`createHubBar`, `lib/v1/views/hub-bar.js`; see [site engine](site-engine.md#the-bar-the-banner-folds-into))
+over its own banner: `text()` gives *Control Center* and `#eventTitleLine`'s text, the
+logo is `/assets/logo.png`, the event picker (`#eventPicker`, in `#eventPickerWrap`) is
+an extra picker in the phone's menu, the folded choice is kept under
+`sage.controlCenter.bannerFolded` (the Hub's is its own) and `panelFor` maps every view
+to its panel. Rather than calling `update()` from each place that changes the banner (an
+event switch, a day load, the sync line, the Attendance and Teams tabs showing or hiding),
+a `MutationObserver` on `header.hero` (subtree, text, and the `class`, `style` and
+`hidden` attributes) calls it. The day prompt (*Select a tournament day to load its
+matches and standings.*) names no place for the picker, which is in the menu on a phone. Standings pass `onPairSelect:
+openPairInFinder`, which opens a named round-robin row's pair in Match Finder as the
+Hub does (`showView('finder')`, the pair's label in the box, `finder.selection`, `run()`,
+then `revealResults` on a phone or a scroll to the search box on a computer).
+
 **Tab order and landing.** The tabs run Mission Control, Awards, Attendance,
 Match Finder, Live Matches, Standings, Teams. Teams shows only for a `"team"`
 event whose snapshot carries a roster (`model.team.roster`; `createTeams` shows or

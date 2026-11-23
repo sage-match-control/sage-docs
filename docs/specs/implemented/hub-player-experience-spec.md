@@ -1267,6 +1267,19 @@ Where the build departs from what Part 1 says.
   `std-schedule/pickle-for-sight-2026/staff/pre/desktop`, `attendance/team-demo-2026/list/pre/desktop`) and were
   identical when run again: load, not the build.
 
+**After the build: steps 3 and 5 reach Control Center, and the bar folds by hand (owner, 2026-11-23)**
+
+- **Control Center has both.** §5 item 5 and §7 kept Control Center out of steps 3 and 5. The owner asked for both
+  there: Control Center makes the same bar over its own banner, with its event picker in the phone's menu, and its
+  standard and dual-meet Standings rows open the pair in its Match Finder.
+- **The bar no longer follows the scroll.** The owner found the scroll-driven bar unreliable on a computer and chose
+  the schedule board's model instead. On a phone the banner never shows and the bar is always there, its menu
+  carrying the day picker before a day is loaded (§5's *When the bar shows* no longer applies there). On a computer
+  the banner shows with a chevron in its corner that folds it into the bar, pinned, and the bar's own chevron brings
+  it back; the choice is kept in the browser. §5's scroll rule survives only for a browser holding a cached
+  stylesheet from before the change. The bar's CSS moved from `css/hub.css` to `css/hub-bar.css`, which `hub.css`
+  imports. How it works now is in [Site engine](../../technical/site-engine.md#the-bar-the-banner-folds-into).
+
 ---
 
 # Part 2. Background

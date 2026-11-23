@@ -13,6 +13,23 @@ this order: **Mission Control** (where it opens), **Awards**, **Attendance**,
 shows only for an event with attendance turned on, and **Teams** only for a
 team event whose rosters are published.
 
+**The bar.** The banner at the top (the event picker, the day picker, the tabs
+and the sync line) folds into a slim navy bar pinned to the top of the screen,
+as on the [Tournament Hub](tournament-hub.md): the S.A.G.E. logo,
+**Control Center** and the event's title on its left.
+
+- **On a phone** the banner never shows: the bar is always there, and its
+  button, naming the open tab (**Mission Control ☰**), opens a menu of the
+  tabs, the **Event** picker, the day picker at an event with more than one
+  day, and the sync line.
+- **On a computer** the banner shows, with a chevron in its top-left corner
+  (the schedule board's). The chevron folds the banner away and the bar takes
+  its place, with the sync line and every tab in a row; the chevron at the
+  bar's right end brings the banner back, which is where to switch events.
+  The browser remembers the choice, apart from the Hub's. Where the row is
+  wider than the screen (seven tabs below about 1,300 px) the sync line is
+  left out and the row scrolls sideways, keeping the open tab in view.
+
 No sign-in is needed to view Awards, Match Finder, Live Matches or
 Standings — they're read-only.
 Only the actions inside Mission Control (resyncing, forcing the public site
@@ -285,7 +302,7 @@ bar is the Hub's. A team event's matchup cards show their
 matches with a **Hide matches** button, as on the Hub.
 
 The search box sits just above the list, not in the banner, and on a phone it
-stays pinned to the top of the screen while you scroll. **Find matches** closes
+stays pinned under the bar while you scroll. **Find matches** closes
 the suggestions, as Enter and picking one do. Control Center never scrolls the
 page after a search, as Tournament Hub does on a phone.
 
@@ -409,6 +426,12 @@ pill under its names saying how the table placed it: **Tie · won head-to-head 1
 shows them whether or not the public day is live, since its Standings always show the scores. At a team
 event the status pill is in each bracket's title, and the tie pills are not drawn. The words are the
 public event page's: see [Tournament Hub](tournament-hub.md).
+
+At a standard event or a dual meet each named round-robin row ends with a **›** after the quotient, and
+clicking the row (or Enter on it) opens that pair in Match Finder: the summary card with its next match,
+then its tickets, which a signed-in operator can score. On a phone the results land just under the pinned search box; on a
+computer the page goes to the search box. A slot with no names yet has no **›** and does nothing, and a
+team event's Standings have none, as on the Hub.
 
 For an event with attendance, a signed-in operator sees the same greyed names with the amber dot in the
 list view: in the round-robin tables, and in the playoff matchup cards. A round-robin row is not a match,
