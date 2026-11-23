@@ -37,6 +37,17 @@ has been replaced.
 
 ---
 
+## [2.100.0] — 2026-11-23
+
+### Added
+
+- [The Ultimate Generation Cup 2026](specs/not-started/ultimate-generation-cup-2026-spec.md), not started: the
+  Pampanga Paddle Aces' two-day standard event at Kingcourts, San Fernando (28 November Next Gen, 29 November
+  Gen X), re-skinned from its pubmat. It is built in four phases, the first an engine change: every schedule
+  board made from a template gets a **Day** picker, opening on the day whose date it is, so nothing is pushed
+  during the event. Then the board with both days in `events.json`, the Hub, and the desk page and checklist.
+  Every site edit was dry-run on 23 November; it lands on the site by 24 November.
+
 ## [2.99.0] — 2026-11-23
 
 ### Changed
