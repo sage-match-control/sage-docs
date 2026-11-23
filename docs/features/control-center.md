@@ -400,6 +400,14 @@ Awards tab's standings fallback uses it too. The workbook's playoff feeders
 don't: they rank by wins then quotient, so on a head-to-head tie the pair
 the sheet advances can differ from the one listed first here.
 
+Each round-robin table's heading carries a status pill, **In progress · 6/10** (six of the table's
+ten round-robin meetings are played) or **Final**, and a pair level on wins with another carries a
+pill under its names saying how the table placed it: **Tie · won head-to-head 11–5**,
+**3-way tie · on quotient**, or a yellow **Tied** when nothing separates the pair. Control Center
+shows them whether or not the public day is live, since its Standings always show the scores. At a team
+event the status pill is in each bracket's title, and the tie pills are not drawn. The words are the
+public event page's: see [Tournament Hub](tournament-hub.md).
+
 For an event with attendance, a signed-in operator sees the same greyed names with the amber dot in the
 list view: in the round-robin tables, and in the playoff matchup cards. A round-robin row is not a match,
 so its names are marked whenever the person is not in. The bracket chart and the full tree are unchanged,

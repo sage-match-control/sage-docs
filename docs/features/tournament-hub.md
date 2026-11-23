@@ -187,6 +187,32 @@ the website's ranking only: the scoring workbook picks who advances
 to the playoffs by wins and then quotient, so on a head-to-head tie the
 two can differ.
 
+**Where a table stands, and how a tie was broken.** Once the day is live, every
+round-robin table's heading carries a pill: **In progress · 6/10** while some of the
+table's round-robin meetings are unplayed (here six of ten are played), and **Final**
+once every one is. A bracket's pill sits in its **Bracket 2** label, a table with no
+brackets has it in its **Round Robin** heading, and a dual meet's one table per club has
+one in its heading. A best-of-3 meeting counts as one meeting, played once a pair has
+two games, and a meeting against a BYE is not counted. Before the day is live no pill
+shows.
+
+A pair level on wins with another also carries a pill under its names saying how the
+table placed it (pairs that have not played get none):
+
+- **Tie · won head-to-head 11–5** and **Tie · lost head-to-head 5–11**: two pairs
+  separated by the match between them, the pair's own score first. A best-of-3 meeting
+  reads in games (*2–1*) and a double round robin in meetings won (*2–0*);
+- **3-way tie · head-to-head**: three or more pairs level, and this pair's wins against
+  the others differ from every other pair's;
+- **Tie · on quotient** (**3-way tie · on quotient** for three or more): level on
+  head-to-head too, so the quotient placed the pair. Pairs at a dual meet's club table
+  never meet, so their ties always read this way;
+- **Tied**, in yellow: level on head-to-head and quotient as well, so the table keeps the
+  workbook's order.
+
+The pills describe the website's order. The workbook still picks who advances by wins and
+then quotient, so on a head-to-head tie it can disagree with the table.
+
 **Club Showdown** *(dual-meet events only)* — a running head-to-head win
 count between the two clubs sits front and center on Standings, updated
 after every match, with whichever club is ahead visually highlighted.
@@ -286,6 +312,11 @@ Bronze, Final — then each bracket's matchups behind a collapsible heading. On
 a computer screen the quarterfinals sit two by two and the semifinals share
 one row, while Bronze and Final each take a full row; a phone shows one
 matchup per row.
+
+Once the day is live each bracket's title carries the same status pill, **In progress · 3/6**
+or **Final**, counting the bracket's matchups (a matchup is played once it reads *Final* or a
+tie). A team table has no tie pills: its ranking and its own **Tied · playoff** pill are as
+above.
 
 **Searching by team or player.** Match Finder takes a team name or a player's
 name. A team result lists every matchup that team plays, in schedule order,

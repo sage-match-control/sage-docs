@@ -14,7 +14,7 @@ desk-link QR code, cdnjs. Pushing to GitHub Pages deploys it.
 lib/v1/
   platform.js      constants: the Pages address, the Cloud Run URL, fetch timeout, poll intervals, fixtureName()
   domain/          the rules, pure functions with no DOM and no clock
-    csv  byes  series  deciders  matches  pair-schedule  standings  codes  bracket  brackets  golive  progress
+    csv  byes  series  deciders  matches  pair-schedule  standings  standings-status  codes  bracket  brackets  golive  progress
     teams  lineup-rules  awards  event-pages  attendance  attendance-marks  schedule-grid  scoresheet-names  courts  model
   data/            the outside world
     registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
@@ -347,6 +347,48 @@ dual meet's club bar pinned under it; and a multi-day event's day picker, in the
 harness's full-page screenshots never scroll, but a step that scrolls the page (a phone search, a team
 chip, a click that Playwright scrolls into view) leaves the banner out of view, so those cases capture
 the bar; the hub-player-experience spec's Divergences section lists them.
+
+## The round-robin pills
+
+Each round-robin table says how far it has got, and each pair level on wins with another says how
+it was placed (hub-player-experience-spec §6). The rules are `domain/standings-status.js`, which
+imports `domain/` only; the markup is drawn by `views/standings.js` and `views/teams.js`, and only
+when `model.isLive`, so nothing shows before the day is live. Control Center's model is always live.
+
+- `tableProgress(rows, matches, type)` → `{ played, total }`. A table's meetings are the round-robin
+  matches (`roundKeyword` of the code's `rest` is `null`) with a side that is a row of the table and no
+  BYE side (`matchByeSide`), counted once each. A best-of-3 meeting (`bestOf` 3, grouped by
+  `rrSeriesGroups`) is one meeting, played when `walkSeries(list, 3).decidedBy` is set; any other match
+  is played when `m.played`. A dual meet's club table has one side of each cross-club match, so both
+  clubs' tables count the same matches. `progressLabel` turns it into `{ kind, text }`, `In progress ·
+  6/10` or `Final`, and `null` for a table with no meetings.
+- `tieBreaks(rows, matches)` → `Map<teamCode, { size, rule, won?, score? }>`. Among the rows that have
+  played (`wins + loss > 0`), the rows level on wins form a group, and `headToHeadWins` (the function
+  `rankStandings` orders by) gives each row's head-to-head wins in it. `rule` is `'h2h'` for a row whose
+  head-to-head wins differ from every other row's in the group, `'quotient'` when it shares them and its
+  quotient differs from theirs, `'none'` when it shares both. `size` is the whole group. In a group of
+  two told apart by head-to-head the entry also has `won` and `score`, the pair's own side first: the
+  one match's points (`11–5`), a best-of-3 meeting's games (`2–1`), or, for two or more meetings, the
+  meetings won and lost. `tieLabel` turns an entry into `{ text, tied }`. A row level with no other is
+  not in the map. The pills describe `rankStandings`' order only, not the workbook's feeders.
+- `teamTableProgress(matchups, group)` → `{ played, total }` for a team bracket: the group-stage
+  matchups (`stage` null) of the bracket, played once `result.state` is `final` or `tie`.
+
+`stageTablesHTML` draws `<span class="rr-status rr-status--progress|final">` in a bracket's
+`.rr-bracket-label`; for a table drawn as one (no brackets, or the dual meet's `'column'` layout, one
+pill for the whole table) in the Round Robin heading, which is the `.stage-caption` or, in a standard
+card, inside the `.standings-section-text` title. `groupTableHTML` puts it in each team bracket's
+`h3.group-title`. A tie pill is `<span class="rr-tie">` (`rr-tie--tied` for *Tied*) passed to
+`pairCell`'s `after` option, which places an HTML string in the pair cell after the two names (none
+by default, and none in a TBD cell); it follows the block-level name spans without a `<br>`, which
+would add an empty line. Team tables get no tie pills.
+
+`css/standings.css` styles both: `.rr-status` takes its fill from `--green-dark` and `--navy`, and the
+tie pill from `--paper-dim`, `--ink` and `--line`, with *Tied* in the team events' yellow. The
+stylesheet is loaded by all three templates and Control Center, so Control Center draws the pills
+through the shared views with no change of its own. `_tests/unit/domain/standings-status.test.mjs`
+covers the rules, including that the pills' order is `rankStandings`' on each tie case, and
+`_tests/unit/views/standings-status-markup.test.mjs` the markup.
 
 ## The scoring rule
 

@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — steps 1 to 3 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar); steps 4–8 not started.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — steps 1 to 4 of 8 built (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills); steps 5–8 not started.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -1022,6 +1022,59 @@ Where the build departs from what Part 1 says.
   UPAP's date line (**Sunday, 22 November 2026 The Foundry · Cainta, Rizal**, its `<br>` read as a space) and a
   long title do not fit beside the button at 375 px: they read "SUNDAY, 22 NOVEMBER 2026 TH…" and
   "3RD ANNUAL TOU…". Nothing in the build changes that; it is the design's cost.
+
+**Step 4 (the status pill on each round-robin table, and tie pills)**
+
+- **Fewer harness cases differ than §6 says.** §6 says every Standings case of every page differs. A probe
+  that opened each of the 96 harness cases whose id mentions `standings`, ran its steps and looked for a drawn
+  pill (no comparison run) found a pill in 81 of them; the other 15 draw none. A standard event's Standings on
+  a phone show no table until a category is picked, so the plain `standings` case there has nothing to
+  mark: `std-index` (`piggleball-2026`, `pickle-for-sight-2026`), `cc` (same two events) and `cc-signed-in`
+  (`piggleball-2026`), three states, phone: 15. The 81 differ in text and pixels (accept `both`):
+  - `std-index`, 18: `standings` on a computer (2 events × 3 states = 6) and `standings-category-2` on a phone
+    and a computer (12);
+  - `dm-index`, 12: `standings` and `standings-category-2`, phone and computer, 3 states;
+  - `team-index`, 24: `standings` and `standings-bracket-open`, both events, both sizes, 3 states;
+  - `cc`, 24: `standings` on a computer for all five events (15), and on a phone for `pnf-x-bup-dual-meet`,
+    `pickledrive-anniversary-2026` and `team-demo-2026` (9);
+  - `cc-signed-in`, 3: `standings` on a computer.
+
+  By state, each of `pre`, `mid` and `final` has 27 (every count above divides by three). The harness's clock
+  is the day's 13:00, so the day is live in all three states and every one of them draws pills; no harness case
+  has a day that is not live, so "no pill before the day is live" is covered by the unit tests only. In `pre`
+  every table reads *In progress · 0/n* (the matches are blanked, the `STANDINGSCSV` is as published, so the tie
+  pills still show). Their entries are `both`, written when `npm run verify` runs after the last step:
+  `/^std-index\/[^/]+\/standings\/[^/]+\/desktop$/`,
+  `/^std-index\/[^/]+\/standings-category-2\/[^/]+\/(phone|desktop)$/`,
+  `/^dm-index\/[^/]+\/standings(-category-2)?\/[^/]+\/(phone|desktop)$/`,
+  `/^team-index\/[^/]+\/standings(-bracket-open)?\/[^/]+\/(phone|desktop)$/`,
+  `/^cc\/[^/]+\/standings\/[^/]+\/desktop$/`,
+  `/^cc\/(pnf-x-bup-dual-meet|pickledrive-anniversary-2026|team-demo-2026)\/standings\/[^/]+\/phone$/` and
+  `/^cc-signed-in\/[^/]+\/standings\/[^/]+\/desktop$/`.
+- **A tie pill has no `<br>` before it.** §6's markup is `<br><span class="rr-tie">…</span>`. A pair's names are
+  block spans (`.br-table td.pair span{display:block}`) and the pill is an inline-block after them, so it
+  already starts a line of its own; the `<br>` added an empty line (measured on UPAP's *45+ (DUPR 3.26+) Mixed
+  Doubles*: the pill sat 20 px under the names instead of the 4 px of its `margin-top`, and the row was 16 px
+  taller). The markup is the span alone.
+- **The words are exported from the domain module.** `standings-status.js` also exports `progressLabel(progress)`
+  (`{ kind, text }` or `null`) and `tieLabel(tie)` (`{ text, tied }`), so `views/standings.js` and `views/teams.js`
+  share the wording. `views/teams.js` could not import a new export of `views/standings.js` in the same push, and
+  the labels are plain text with no DOM, so they belong in `domain/`.
+- **A standard card's pill is inside the title text.** In a table with no brackets drawn on a card (`sectionTitles`)
+  the pill is inside the `.standings-section-text` span, after the words *Round Robin*, so its 8 px margin and
+  baseline match the caption's. `sectionTitleHTML` gained a fourth parameter, `inside`, for it. The border is
+  dropped in `.stage-caption`, `.standings-section-text` and a team's `.group-title`, the three light headings.
+- **Two existing assertions in `teams.test.mjs` were loosened.** *lettered brackets: Standings titles and orders
+  them A, B* and *numbered brackets still read as before* pinned the team bracket's `<h3 class="group-title">`
+  as exactly `Bracket N</h3>`, which the pill in the title (§6, decision D6) changes. Their regexes now accept an
+  optional `rr-status` span before `</h3>` and still check the title and its order; the owner chose this over
+  drawing the pill beside the `<h3>`. Nothing else in the existing tests changed.
+- **A team group's tiebreaker matchup counts.** §6 counts a bracket's matchups with `stage === null` and the
+  bracket's `group`. A group-stage tiebreaker (codes ending `_TB`, Ladies' Dink's match 101) is one of them, so a
+  bracket whose tiebreaker is not played yet reads *In progress*, which is true; nothing else is left out.
+- **Control Center needed no change.** Its Standings draw the pills through `views/standings.js` and
+  `views/teams.js` and `css/standings.css`, which `tools/control-center.html` already loads; its model is always
+  live, so they show before the public day is live too.
 
 ---
 

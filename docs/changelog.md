@@ -37,6 +37,25 @@ has been replaced.
 
 ---
 
+## [2.93.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 4 (a status pill on each
+  round-robin table, and tie pills), is built. Once the day is live every round-robin table's heading carries
+  a pill, **In progress · 6/10** while meetings are left and **Final** once every one is played, and a pair
+  level on wins with another carries a pill under its names saying how the table placed it: **Tie · won
+  head-to-head 11–5**, **3-way tie · on quotient**, or a yellow **Tied**. A team event's bracket titles carry
+  the status pill, with no tie pills. Control Center's Standings draw them too, through the shared views. The
+  spec's Divergences section records the 81 of 96 Standings harness cases that differ (not every one), the
+  tie pill drawn without a `<br>`, and two existing team-table assertions loosened for the pill in the
+  bracket title. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): the status pill, the five tie pills and a team bracket's pill;
+  - [Control Center](features/control-center.md): the pills in Standings;
+  - [Site engine](technical/site-engine.md): the `standings-status` domain module, `pairCell`'s `after` option
+    and where the pills are drawn and styled;
+  - [Rehearse](usage/rehearse.md): what the dry run checks in Standings.
+
 ## [2.92.0] — 2026-11-23
 
 ### Changed

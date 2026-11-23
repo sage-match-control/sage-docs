@@ -64,7 +64,9 @@ Sign in under Mission Control, click **Resync this day now**, then check:
   while one of its matches is on court), then its rank with W, L, PF, PA and Q, and a
   status pill. With the day set to **Force hidden** the card is the block alone.
 - [ ] **Standings:** the round-robin tables show W, L, PF, PA and Q, and Match A's score
-  is counted in its two pairs' PF and PA.
+  is counted in its two pairs' PF and PA. Each table's heading carries a pill, **In progress**
+  with how many of its meetings are played (`1/6` for a four-pair table after one test score) or
+  **Final**, and a pair level on wins with another carries a tie pill under its names.
 - [ ] **Awards:** it loads without errors and lists every category. Before any Final or
   Bronze is played, every placing reads **Pending**.
 - [ ] **Public site status:** set it to **Force hidden**, then back to **Auto**. The
@@ -87,7 +89,7 @@ a phone:
 - [ ] **Live Matches** on the Hub matches what the console showed. If **Force hidden**
   was on at any point, confirm the Hub goes hidden rather than showing scores.
 - [ ] **Standings** on the Hub: the same unmapped-code warning and the same standings as
-  the console.
+  the console, with each table's pill reading as it did there.
 - [ ] **The bar:** scroll the Hub down on a phone. A slim bar with the event's logo, date and
   venue, and title stays at the top, and its button (**Match Finder ☰**) opens a menu of the tabs,
   the day picker if the event has more than one day, and the sync line. Pick **Standings**: the
