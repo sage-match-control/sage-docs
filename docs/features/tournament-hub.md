@@ -26,6 +26,15 @@ order, so you can also just scroll to yours. The search box sits just above
 the list, and on a phone it stays pinned to the top of the screen as you
 scroll, so a new search is always in reach.
 
+On a phone, running a search shows its results. Picking a suggestion, pressing
+Enter or tapping **Find matches** closes the suggestions and the keyboard and
+scrolls the page so your pair's matches start just under the pinned search box,
+instead of leaving them below the banner. When the hub reopens on a saved search,
+it scrolls to the results the same way as long as Match Finder is the tab it opens
+on. Typing, clearing the box and the page refreshing with new scores never scroll.
+On a computer the results are already on screen, so nothing scrolls, though
+**Find matches** still closes the suggestions.
+
 Above a pair's matches, a **summary card** says where the pair stands:
 
 - Its category, and its bracket when the category has more than one
@@ -252,7 +261,8 @@ played. A player result lists each match they play, each inside its matchup
 card with only their own match showing. With nothing typed, Match Finder
 shows the teams, then every matchup of the day, ordered by match number: a
 matchup whose matches are #3, #8, #9 and #17 sits where #3 would. Tapping a
-team runs its search. Each matchup card in a team result or that list shows its
+team runs its search, and on a phone shows its results as above (on a computer the page
+scrolls back to the top). Each matchup card in a team result or that list shows its
 matches, with a **Hide matches** button that folds them away (and **Show
 matches** to bring them back); the page keeps the choice as scores arrive.
 

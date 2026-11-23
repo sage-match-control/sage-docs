@@ -37,11 +37,24 @@ has been replaced.
 
 ---
 
+## [2.90.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 1 (the search shows its results),
+  is built, and the spec moves to `in-progress/`. On a phone a search closes the suggestions and the keyboard and
+  scrolls to the pair's results, a team chip does the same, and a returning visit lands on its saved search.
+  **Find matches** now closes its suggestions, in Control Center too. Pages updated:
+  - [Tournament Hub](features/tournament-hub.md): what a player sees after a search;
+  - [Control Center](features/control-center.md): **Find matches** closes the suggestions;
+  - [Site engine](technical/site-engine.md): the `reveal` module, the `onSearched` option and its two
+    extension-point rows.
+
 ## [2.89.0] — 2026-11-23
 
 ### Changed
 
-- [Hub player experience](specs/not-started/hub-player-experience-spec.md), step 3: the folding bar shows on a
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 3: the folding bar shows on a
   computer too, at the owner's request. There the tabs, the day picker and the sync line sit in a right-aligned row
   instead of the ☰ menu, and the sync line is left out below 1100 px. The owner's three answers are recorded:
   - D19: a row on a computer;
@@ -55,7 +68,7 @@ has been replaced.
 
 ### Fixed
 
-- [Hub player experience](specs/not-started/hub-player-experience-spec.md): on a computer, a team chip keeps scrolling
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md): on a computer, a team chip keeps scrolling
   to the top as today (step 1), and a Standings row tap brings the search box into view (step 5); each has a
   behaviour test. Its overview table says what each step changes in Control Center and on a computer.
 
@@ -63,7 +76,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/not-started/hub-player-experience-spec.md) is rewritten as a build guide that can
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md) is rewritten as a build guide that can
   be followed without other context. Part 1 sets out:
   - the repositories, the engine's rules and why new code goes in new modules (so each step is one push);
   - the branch and who merges;
@@ -87,7 +100,7 @@ has been replaced.
 
 ### Fixed
 
-- [Hub player experience](specs/not-started/hub-player-experience-spec.md): its scope said no event page imports
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md): its scope said no event page imports
   `lib/v1`; four do (ACSO, UPAP, Ladies' Dink and Millennium), and the build now checks them. P2's bar needs no
   safe-area padding: the templates' viewport tag has no `viewport-fit=cover`.
 
@@ -95,7 +108,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/not-started/hub-player-experience-spec.md) is revisited against the site at
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md) is revisited against the site at
   `b89fda5`. A new §1.3 lists what the engine has gained since the spec was written and which proposals each
   change covers in part. The pair summary card covers P3 for a pair in the playoffs, P6 and P12 for one pair,
   and P14's quotient line. The PF and PA columns cover P14, Schedule time order is P3's rule, and the
@@ -939,19 +952,19 @@ has been replaced.
 
 ### Added
 
-- Spec [Hub player experience](specs/not-started/hub-player-experience-spec.md): proposals P9–P17
+- Spec [Hub player experience](specs/in-progress/hub-player-experience-spec.md): proposals P9–P17
   from a comparison with Dinktator's spectator pages (§1.2): a tab's own address, Standings opening
   on a category on phones, *Final* once a day is over, a podium on a finished category, the row
   colours and ties explained, a Standings row opening its pair's matches, and for a dual meet the
   club score on the first screen, *Pairs* for *Teams*, category jump chips and a cross-club grid.
   Decisions D8–D14, and what is not taken from Dinktator (§21.2).
-- Spec [Hub player experience](specs/not-started/hub-player-experience-spec.md): a picture for every
+- Spec [Hub player experience](specs/in-progress/hub-player-experience-spec.md): a picture for every
   proposal that changes the page, today beside a mockup, drawn on the engine's template pages and
   the harness's fixture data (`images/hub-player-experience/`).
 
 ### Fixed
 
-- Spec [Hub player experience](specs/not-started/hub-player-experience-spec.md): a standings row is
+- Spec [Hub player experience](specs/in-progress/hub-player-experience-spec.md): a standings row is
   pink at a level record too, not only a losing one. P13's tie note follows the Hub's real order,
   head-to-head wins among all the pairs level and then quotient.
 
@@ -1382,7 +1395,7 @@ attendance list comes through the API.
 
 ### Added
 
-- Spec: [Hub player experience](specs/not-started/hub-player-experience-spec.md). Eight
+- Spec: [Hub player experience](specs/in-progress/hub-player-experience-spec.md). Eight
   independent proposals to make the Tournament Hub quicker on a phone, each for the owner
   to keep or drop. Not started.
 

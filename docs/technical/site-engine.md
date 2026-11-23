@@ -19,7 +19,7 @@ lib/v1/
   data/            the outside world
     registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
   views/           functions that return HTML strings, plus small components
-    html  scroll  ticket  finder  live-matches  standings  bracket  bracket-full  teams  team-mark
+    html  scroll  reveal  ticket  finder  live-matches  standings  bracket  bracket-full  teams  team-mark
     score-dialog  court-dialog  attendance-view
   apps/            one per kind of page, wiring data, model and views to the page's markup
     hub  schedule-board  scorer  attendance-desk
@@ -95,10 +95,10 @@ offers it.
 | View | Option | What Control Center passes |
 | --- | --- | --- |
 | ticket | `decorate(m)` → `{ className, attrs, metaHTML }`, `teamLogoHTML(code)`, `markPlayer(name, match)` → class | the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark) |
-| Match Finder | `searchHandlers`, `searchHint`, `delegate` | the match-number search; the team event's own finder |
+| Match Finder | `searchHandlers`, `searchHint`, `delegate`, `onSearched()` | the match-number search; the team event's own finder; nothing for `onSearched` (the Hub passes `revealResults`) |
 | Live Matches | `facilityExtras(name, model)` with `extrasEl`, `liveRow`, `emptyMatchupHTML`, `teamLogoHTML`, `courtCell(facility, court, match\|null)` → `{ className, attrs, html }` or `null`, `markPlayer(name, match)` → class, `matchNote(match)` → html, `countDone` | the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the **Set match** button on each court's cell (`withCourtCell` adds it to the first `live-court-cell` of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round; `true`, so a done court counts apart from the courts in play |
 | Standings | `dualMeetDesktopLayout` (`'grid'` or `'row'`), `rrBracketLayout` (`'grid'` or `'column'`), `clubLogoHTML`, `unresolved`, `decorateBracketMatch(m)` → `{ className, attrs }`, `markPlayer(name, match\|null)` → class | the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (`null` for a round-robin row, which has no match) |
-| team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub) |
+| team views | `decorateRow`, `expandAllClass`, `teamLetters`, `searchHint`, `onSearched()` | the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub); nothing for `onSearched` (the Hub passes `revealResults`) |
 
 ## Settings, the shells and fixture mode
 
@@ -250,6 +250,29 @@ The module is new, so `finder.js` importing it is safe against a browser's cache
 module; it uses `pointsFromMatches`, an export a push earlier than the one that added it. Its styles
 are `.pair-summary` and the `.ps-*` classes at the end of `css/finder.css`. `pair-summary.test.mjs`
 covers each stage on hand-made days.
+
+## Showing a search's results
+
+On a phone the banner and the search box fill the first screen, so a search changes nothing the
+person can see. `views/reveal.js` exports `PHONE_QUERY` (`(max-width: 899px)`, the width at which
+`css/finder.css` pins the search box) and `revealResults({ resultsEl, searchPanelEl, input })`. On a
+phone it blurs the box, so the keyboard closes, and scrolls the page so the results start just under
+the pinned search panel (the panel's `top` offset and height plus 8 px; instantly under *reduce
+motion*) and returns `true`. On a computer it does nothing and returns `false`.
+
+`createFinder`'s `onSearched` option is called right after a person runs a search, in exactly
+three handlers: a click on a suggestion, Enter in the box and the **Find matches** button. A data
+refresh, `setQuery` (a restored search), `reset`, typing and the clear button never call it. The
+**Find matches** handler also closes the suggestion list, in Control Center too. `createTeams`'s
+`onSearched` is called after a team chip's search and returns `true` when it moved the page; without
+it, or when it returns `false` (a computer, or Control Center), the chip scrolls to the top as it
+always did. `apps/hub.js` passes `revealResults` to both, and calls it after restoring a saved
+search when Match Finder is the open tab. Control Center passes nothing, so it never scrolls.
+
+The module is new, so `hub.js` and the views importing it are safe against a browser's cached
+copy of an existing module. `reveal.test.mjs` covers it and the option with stubbed browser globals, and
+the engine harness's `hub-behaviour.test.mjs` opens the Hub at a real phone and computer size, which the
+harness's full-page screenshots can't (they never scroll).
 
 ## The scoring rule
 

@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: not started — ready to build.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — step 1 of 8 built (a search shows its results); steps 2–8 not started.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -1071,7 +1071,7 @@ well; icons above the labels), which the menu replaced.
 | Players signing in | A sign-in step for every player; the saved search gives *your match* without one |
 | Pair codes before names | The Hub's tickets lead with the names |
 | Initials circles per pair | No photos, and the second circle clips the first's initials |
-| Umpires, PAUSED / NEXT states, a forfeit clock | The workbook carries none of it; calling a match to a court is Control Center's ([Court Control](../in-progress/control-center-court-control-spec.md)) |
+| Umpires, PAUSED / NEXT states, a forfeit clock | The workbook carries none of it; calling a match to a court is Control Center's ([Court Control](control-center-court-control-spec.md)) |
 | A sponsor's logo on every court | No event has asked for it |
 | Five pages behind a menu | The Hub keeps one page; step 3's menu reaches every tab from anywhere on it |
 

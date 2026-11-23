@@ -317,6 +317,19 @@ build status.
   the same write-then-publish path as score entry. Built and live (`sage-tools-api` 3.8.0, the
   site and the docs); the owner's checks on workbook copies are left.
 
+- **[Hub player experience](in-progress/hub-player-experience-spec.md)** —
+  seventeen proposals to make *where and when do I play next?* and *where do we
+  stand?* quicker on a phone, of which the owner kept nine. A search scrolls to its
+  results and the pair summary card opens with the pair's next match. The banner
+  folds into a slim bar with a menu once it scrolls away. Each round-robin bracket
+  carries a status pill, a finished category shows its podium, and a Standings row
+  opens its pair's matches. For a dual meet, the club score comes first, pairs are
+  counted as *Pairs*, and chips jump to a category. Engine Hub and templates only;
+  no new sections. The pair summary card and the PF and PA columns already cover
+  parts of five of them (its §13.3). Part 1 is an eight-step build guide, one push
+  each, written to be followed without other context. Step 1 (the search scrolls to its results, and
+  Find matches closes its suggestions) is built; the other seven are left.
+
 ---
 
 ## Not started
@@ -336,17 +349,6 @@ build status.
   only: run the Control Center runbook's rehearsal with one command,
   including Puppeteer editing the real facility sheet so the onEdit trigger
   is tested too. Its rendering checks come from the site test suite.
-- **[Hub player experience](not-started/hub-player-experience-spec.md)** —
-  seventeen proposals to make *where and when do I play next?* and *where do we
-  stand?* quicker on a phone, of which the owner kept nine. A search scrolls to its
-  results and the pair summary card opens with the pair's next match. The banner
-  folds into a slim bar with a menu once it scrolls away. Each round-robin bracket
-  carries a status pill, a finished category shows its podium, and a Standings row
-  opens its pair's matches. For a dual meet, the club score comes first, pairs are
-  counted as *Pairs*, and chips jump to a category. Engine Hub and templates only;
-  no new sections. The pair summary card and the PF and PA columns already cover
-  parts of five of them (its §13.3). Part 1 is an eight-step build guide, one push
-  each, written to be followed without other context.
 - **[Lean deploy image](not-started/lean-deploy-image-spec.md)** — the build trigger
   runs a `cloudbuild.yaml` kept in `sage-tools-api` with Docker's layer cache on (it
   runs `--no-cache` today), and the `Dockerfile` clears npm's cache. Each deploy then

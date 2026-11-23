@@ -283,7 +283,9 @@ ordered by its lowest match number). A team event's matchup cards show their
 matches with a **Hide matches** button, as on the Hub.
 
 The search box sits just above the list, not in the banner, and on a phone it
-stays pinned to the top of the screen while you scroll.
+stays pinned to the top of the screen while you scroll. **Find matches** closes
+the suggestions, as Enter and picking one do. Control Center never scrolls the
+page after a search, as Tournament Hub does on a phone.
 
 Control Center's search also takes a **match number**: type `42` or `#42`
 to see just that match (for a team event, its matchup card narrowed to that
