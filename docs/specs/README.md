@@ -337,16 +337,15 @@ build status.
   including Puppeteer editing the real facility sheet so the onEdit trigger
   is tested too. Its rendering checks come from the site test suite.
 - **[Hub player experience](not-started/hub-player-experience-spec.md)** —
-  seventeen independent proposals for the owner to keep or drop, to make *where and
-  when do I play next?* and *where do we stand?* quicker on a phone. A search scrolls to its results, the
-  banner is shorter on phones, a "Your next match" card tops a pair's results,
-  and the Hub's tickets show names without codes. Then four extras: the tabs
-  along the bottom, a provisional-standings line, a rules link and following
-  more than one pair. Nine more make *where do we stand?* quicker: a tab's own
-  address, Standings opening on a category, *Final* once a day is over, a podium,
-  the colours and ties explained, a row opening its pair's matches, and for a
-  dual meet the club score first, category jump chips and a cross-club grid.
-  Engine Hub and templates only; no new sections.
+  seventeen proposals to make *where and when do I play next?* and *where do we
+  stand?* quicker on a phone, of which the owner kept nine. A search scrolls to its
+  results and the pair summary card opens with the pair's next match. The banner
+  folds into a slim bar with a menu once it scrolls away. Each round-robin bracket
+  carries a status pill, a finished category shows its podium, and a Standings row
+  opens its pair's matches. For a dual meet, the club score comes first, pairs are
+  counted as *Pairs*, and chips jump to a category. Engine Hub and templates only;
+  no new sections. The pair summary card and the PF and PA columns already cover
+  parts of five of them (its §1.3).
 - **[Lean deploy image](not-started/lean-deploy-image-spec.md)** — the build trigger
   runs a `cloudbuild.yaml` kept in `sage-tools-api` with Docker's layer cache on (it
   runs `--no-cache` today), and the `Dockerfile` clears npm's cache. Each deploy then

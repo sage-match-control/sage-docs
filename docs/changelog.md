@@ -37,6 +37,46 @@ has been replaced.
 
 ---
 
+## [2.87.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/not-started/hub-player-experience-spec.md) is revisited against the site at
+  `b89fda5`. A new §1.3 lists what the engine has gained since the spec was written and which proposals each
+  change covers in part. The pair summary card covers P3 for a pair in the playoffs, P6 and P12 for one pair,
+  and P14's quotient line. The PF and PA columns cover P14, Schedule time order is P3's rule, and the
+  *Categories* label is half of P15. §3's table gains a "Covered so far" column.
+  - **P3** becomes a next-match block at the top of the pair summary card, rather than a second card, with
+    two new decisions: D15 (show the block before the day is live) and D16 (Control Center gets it too).
+  - **P14** drops the quotient line, which the card's W, L, PF, PA and Q replace.
+  - P4, P6, P12 and P15 say what is already on the page, and §1.1 is measured again.
+  - The pictures for P1, P3, P6, P13, P14 and P15 are taken again on today's page.
+- The same spec records the owner's picks (§3): P1, P2, P3, P5, P6, P12, P14, P15 and P16
+  kept; P4, P7, P8, P9, P10, P11, P13 and P17 dropped, each section marked. Three kept
+  proposals are redone to the owner's notes, with new mockups:
+  - **P2** keeps the banner at the top of the page and folds it into a slim bar once it
+    scrolls away.
+  - **P5** puts the tabs, the day picker and the sync line in a menu on that bar, in
+    place of a bottom tab bar.
+  - **P6** is a status pill on each round-robin bracket (*In progress · 6/10*, *Final*)
+    in place of a status line and a rules line.
+
+  The owner approved the three new designs and answered every open decision (§23),
+  among them two new ones: D17 (the menu holds the tabs, the day picker and the sync
+  line) and D18 (the pill shows its count). D11 brings a team event's podium into P12
+  now.
+- At the owner's request, **P6** also gains tie pills on the tied rows that say how each
+  tie was broken: *Tie · won head-to-head 11–5* for two pairs, *3-way tie · on quotient*
+  for a circle, a yellow *Tied* when nothing separates them. The mockup shows a real
+  three-way tie, a real unbroken tie, and the fixture with one result flipped for the
+  two-way head-to-head case, which no event has had. The owner approved them, so the
+  spec is ready to build.
+
+### Removed
+
+- The pictures of P2's shorter banner and P5's bottom tab bar, whose designs the owner
+  turned down.
+
 ## [2.86.0] — 2026-11-23
 
 ### Changed
