@@ -331,7 +331,7 @@ build status.
   Find matches closes its suggestions; the pair summary card opens with the next match; the banner folds into
   a bar with a menu on a phone; each round-robin table's heading carries an *In progress · 6/10* or *Final*
   pill and tied pairs say how the tie was broken; a Standings row opens that pair in Match Finder; a finished category's Standings card opens with its podium, and a
-  team event's Standings with the event's; a dual meet's Match Finder opens with the club score, and counts *Pairs*; a dual meet's Standings on a phone have chips that jump to a category) are built, all eight; the verify run, the owner's review and the merge are left.
+  team event's Standings with the event's; a dual meet's Match Finder opens with the club score, and counts *Pairs*; a dual meet's Standings on a phone have chips that jump to a category) are built, all eight, and `npm run verify` passes; the owner's review and the merge are left.
 
 ---
 

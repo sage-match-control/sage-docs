@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.97.1] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/in-progress/hub-player-experience-spec.md): the verify run after the last step passes,
+  with the accepted harness entries for steps 2 to 8; the spec's status line, its Divergences (*The verify run*) and
+  the two specs indexes say so. The owner's review and the merge are what is left.
+
 ## [2.97.0] — 2026-11-23
 
 ### Changed

@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — steps 1 to 8 of 8 built, all eight, with nothing left to build (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category; a dual meet's club score first, and *Pairs*; a dual meet's Standings jump to a category). The verify run, the owner's review, the merge and the accepted harness entries are still to do.** Written 2026-10-10 and 2026-10-25 as
+> **Status: in progress — steps 1 to 8 of 8 built, all eight, with nothing left to build (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category; a dual meet's club score first, and *Pairs*; a dual meet's Standings jump to a category). `npm run verify` passes on the branch with the accepted harness entries for steps 2 to 8 (2026-11-23); the owner's review and the merge are still to do.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -1251,6 +1251,21 @@ Where the build departs from what Part 1 says.
   bar showing, the last chip, scrolling by hand, the chip row's sideways scroll, the category heads, the page staying whole, a
   computer and Control Center). The step 3 case *a dual meet's club score bar pins under the bar* needed no change: the club bar inside
   `.dm-pin` still sits 54 px from the top.
+
+**The verify run (after step 8)**
+
+- **The accepted entries.** `_tests/engine/accepted.mjs` gained five entries, all `both`, each naming its proposals in
+  `row`: P3 (the step 2 cases; its `cc` part names the three events whose card shows the block), P2+P5 (the step 3
+  regexes above), *P6, P14, P12, P16* (step 4's Hub Standings regexes, which cover steps 5, 6 and 8), P6 for Control
+  Center's Standings, and P15 (the step 7 regexes). The step 1 entry (P1) was written with step 1.
+- **The run.** `npm run verify` on 2026-11-23 against the baseline `b89fda5`: unit 882/882; 769 engine tests (the 716
+  harness cases and the behaviour tests), 766 passing. The three failures were Control Center cases whose
+  `page.selectOption` on `#eventPicker` timed out under load (no page error, no difference compared); each passed when
+  run again on its own. The cases that differ are exactly those this section predicts, and each entry matches no case
+  that does not: P1 18, P3 24, P2+P5 42, the Hub Standings 54, Control Center's Standings 27, P15 42. Three more cases
+  differed once under entries older than this spec (`team-index/pickledrive-anniversary-2026/finder-team/mid/desktop`,
+  `std-schedule/pickle-for-sight-2026/staff/pre/desktop`, `attendance/team-demo-2026/list/pre/desktop`) and were
+  identical when run again: load, not the build.
 
 ---
 
