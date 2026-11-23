@@ -367,7 +367,9 @@ pickers and sync line; the bar reads them and clicks them, it never holds its ow
   loads. On a computer `body.hub-bar-folded` hides `header.hero` and pads the page by 78 px. The chevrons are
   32 and 30 px squares with the board's border and colours, the banner's in its top-left corner. While
   `body.hub-bar-on`, what is already pinned to the top moves under it: `.standings-col-head`,
-  `.club-summary` and `.dm-pin` at `top:54px`, and on a phone the Match Finder search panel at `top:62px`;
+  `.club-summary` and `.dm-pin` at `top:54px`, and on a phone the Match Finder search panel at `top:62px`.
+  On a computer a Standings column scrolls by itself (the pages cap it at 92vh), so its `.standings-col-head`
+  pins to the column's own top and keeps `top:0` there (`.standings-board-desktop .standings-col-head`);
   on a computer `.qr-panel` moves from `top:26px` to `80px`. From 900 to 1099 px the sync line is hidden;
   below 900 px the row and chevrons are hidden and the menu and its scrim (`z-index` 49 and 48) shown.
 

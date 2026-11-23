@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.102.0] — 2026-11-23
+
+### Changed
+
+- [Site engine](technical/site-engine.md): with the bar on, a computer's Standings category heads keep `top:0`, since
+  each column scrolls by itself; the bar's 54px offset is for heads pinned to the screen.
+- [The Ultimate Generation Cup 2026](specs/in-progress/ultimate-generation-cup-2026-spec.md) §3.4: the board's
+  Novice and Low Intermediate colours are one shade deeper, so those cells and their stripes stand out from the page.
+
 ## [2.101.2] — 2026-11-23
 
 ### Changed

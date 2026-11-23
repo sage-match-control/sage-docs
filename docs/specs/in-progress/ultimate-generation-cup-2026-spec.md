@@ -249,6 +249,14 @@ If `logo.jpg` or `pubmat.jpg` is missing when you start, stop and report.
    grey (`#CCCCCC`), so those take the generator's own Advanced shades (`#1C4587`, `#783F04`)
    and `OWD` its darkest magenta (`#4C1130`): Open sits above Advanced. The same code has the
    same colour on both days.
+
+   **Since built, Novice and Low Intermediate are one shade deeper** (owner's request, 23
+   November): the board tints a cell 40% over white, and the workbooks' pale shades gave the
+   Novice cells almost the page's own colour (1.00–1.06:1) and a stripe that barely showed.
+   They take the next shade of the same Sheets palette: `NMD` `#6D9EEB`, `NWD` `#C27BA0`, `NXD`
+   `#F2A55A`, `LIMD` `#3470D2`, `LIWD` `#A64D79`, `LIXD` `#E38326`; the rest are unchanged. The
+   hue still says the event and the shade the level, and every chip's text reads at 4.5:1 or
+   better. §5.4's block is the colours as first built.
 5. **The board's Day picker** (Phase 1). The board shows one day, its page's `DAY_KEY`. A page
    whose markup has the new container `<div class="dayfilter" id="dayfilter" hidden></div>`
    reads the event's days from `events.json` and, with two or more, shows a **Day** select in
