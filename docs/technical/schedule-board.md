@@ -71,6 +71,21 @@ the filter (it keys what's visible). The **match count** doesn't: it covers
 the whole board on every screen, so the same label doesn't mean different
 things on two split screens. Only the scope text changes.
 
+## Day picker — `?day=`
+
+A page whose markup has `<div class="dayfilter" id="dayfilter" hidden></div>`
+(every template's, before the venue filter) reads the event's days from
+`events.json` and, with two or more, fills it with a **Day** select. The day
+shown is `?day=` when it names one of the event's days, else the day whose
+`date` is today in the browser's time zone, else the page's `DAY_KEY`
+(`lib/v1/domain/board-day.js`, `boardDay`); with `events.json` unreadable it
+is `DAY_KEY`. Choosing a day reloads the page with `?day=` set and `?courts=`
+and `?venue=` dropped, so the snapshot, the live channel and the staff view
+all start on the new day. A page without the container reads no `events.json`
+(unless it is a team event's) and shows `DAY_KEY` only. The compact header
+hides the picker. In fixture mode the data is the fixture state's whatever
+the day.
+
 ## Venue filter — `?venue=`
 
 On a day with more than one venue, a **Venue** row (All + one button per

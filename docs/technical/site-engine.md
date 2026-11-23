@@ -115,7 +115,10 @@ which the harness and the runbook find by name.
 callers) with `teamLetters: false` and its own `searchHint`, and shows a fourth
 Teams tab. The schedule board takes `type` (`'standard'`, `'dual-meet'` or
 `'team'`, inferred from `clubOrder` without it); a team board also reads the
-event's `display.pairs` from `events.json`.
+event's `display.pairs` from `events.json`. A board whose page has the
+`#dayfilter` container reads the event's days from `events.json` too, for its
+**Day** picker; which day it shows is `domain/board-day.js`
+([schedule board](schedule-board.md#day-picker-day)).
 
 A team event's `display.teamColors` reaches every page as `EventConfig.teamColors`
 (`eventConfigFrom` keeps hex colours only, `{}` without the map). `views/team-mark.js` turns it

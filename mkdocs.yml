@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.100.1</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.101.0</a>'
 
 docs_dir: docs
 
@@ -163,6 +163,7 @@ nav:
           - Double and best-of-3 round robin, finals: specs/in-progress/double-round-robin-and-finals-spec.md
           - UPAP 3rd Annual Tournament: specs/in-progress/upap-3rd-annual-tournament-spec.md
           - Court Control from Control Center: specs/in-progress/control-center-court-control-spec.md
+          - The Ultimate Generation Cup 2026: specs/in-progress/ultimate-generation-cup-2026-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md
@@ -171,7 +172,6 @@ nav:
           - Automated dry run: specs/not-started/automated-dry-run-spec.md
           - Lean deploy image: specs/not-started/lean-deploy-image-spec.md
           - Ranking rules: specs/not-started/ranking-rules-spec.md
-          - The Ultimate Generation Cup 2026: specs/not-started/ultimate-generation-cup-2026-spec.md
       - Archived:
           - Overview: specs/archived/README.md
           - Fast data delivery: specs/archived/fast-data-delivery-spec.md

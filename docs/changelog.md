@@ -37,11 +37,28 @@ has been replaced.
 
 ---
 
+## [2.101.0] — 2026-11-23
+
+### Changed
+
+- The schedule board has a **Day** picker. At an event with more than one day, a **Day** select in the
+  board's bar switches between them, and on each event day the board opens on that day by itself; on any
+  other date it opens on the day its page is set to. Pages updated:
+  - [Schedule board](features/schedule-board.md): one day at a time, the picker, and which day opens;
+  - [Schedule board (technical)](technical/schedule-board.md#day-picker-day): the new *Day picker* section, `?day=`
+    and how the day is chosen;
+  - [Site engine](technical/site-engine.md): a board whose page has `#dayfilter` reads the event's days too;
+  - [Event spec template](specs/event-spec-template.md): what each day is called, and a board that changes day
+    by itself.
+- [The Ultimate Generation Cup 2026](specs/in-progress/ultimate-generation-cup-2026-spec.md) moves from not
+  started to in progress: Phase 1, the Day picker, is committed on the site's branch `gencup`, and nothing is
+  pushed yet.
+
 ## [2.100.1] — 2026-11-23
 
 ### Changed
 
-- [The Ultimate Generation Cup 2026](specs/not-started/ultimate-generation-cup-2026-spec.md) is built on one
+- [The Ultimate Generation Cup 2026](specs/in-progress/ultimate-generation-cup-2026-spec.md) is built on one
   branch, `gencup`, with one commit per phase: each phase keeps its own unit tests and browser checks,
   `npm run verify` runs once after Phase 4, and the site, `event-data` and the docs are pushed together at the end,
   on the owner's yes.
@@ -50,7 +67,7 @@ has been replaced.
 
 ### Added
 
-- [The Ultimate Generation Cup 2026](specs/not-started/ultimate-generation-cup-2026-spec.md), not started: the
+- [The Ultimate Generation Cup 2026](specs/in-progress/ultimate-generation-cup-2026-spec.md), not started: the
   Pampanga Paddle Aces' two-day standard event at Kingcourts, San Fernando (28 November Next Gen, 29 November
   Gen X), re-skinned from its pubmat. It is built in four phases, the first an engine change: every schedule
   board made from a template gets a **Day** picker, opening on the day whose date it is, so nothing is pushed

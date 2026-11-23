@@ -1,6 +1,8 @@
 # Spec — The Ultimate Generation Cup 2026
 
-> **Status: not started.** Written 2026-11-23 against `sage-match-control.github.io` at
+> **Status: in progress.** Phase 1 (the schedule board's **Day** picker, §4) is built and committed on
+> the site's branch `gencup` as `98e2bfe`, with its docs; nothing is pushed or merged yet (§7.6).
+> Phases 2–4 are not started. Written 2026-11-23 against `sage-match-control.github.io` at
 > `d92ed28`, `event-data`'s `config/events.json` at `e0eb51f5`, and both event workbooks as read
 > that day through the Sheets API. The owner answered every open question the same day; the
 > answers are in §10. Left to come: the short link and the QR image (§2).

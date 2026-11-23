@@ -327,6 +327,13 @@ build status.
   the same write-then-publish path as score entry. Built and live (`sage-tools-api` 3.8.0, the
   site and the docs); the owner's checks on workbook copies are left.
 
+- **[The Ultimate Generation Cup 2026](in-progress/ultimate-generation-cup-2026-spec.md)** — the
+  Pampanga Paddle Aces' two-day event at Kingcourts (28 November Next Gen, 29 November Gen X),
+  re-skinned from its pubmat, in four phases on one site branch, `gencup`. Phase 1, a **Day**
+  picker on every template-made schedule board (an engine change, so nothing is pushed during
+  the event), is built and committed there; the board with both days in `events.json`, the Hub
+  and the desk page are left, and nothing is pushed yet. Due on the site by 24 November.
+
 ---
 
 ## Not started
@@ -357,11 +364,6 @@ build status.
   of named rules in `events.json`, so a new organiser's tiebreakers are config rather than an
   engine change. Today's three rankers become presets that every existing event keeps. No build
   date: it waits for an organiser who needs it.
-- **[The Ultimate Generation Cup 2026](not-started/ultimate-generation-cup-2026-spec.md)** — the
-  Pampanga Paddle Aces' two-day event at Kingcourts (28 November Next Gen, 29 November Gen X),
-  re-skinned from its pubmat, in four phases: a **Day** picker on every template-made schedule board
-  (an engine change, so nothing is pushed during the event), the board with both days in
-  `events.json`, the Hub, and the desk page. Dry-run 23 November; due on the site by 24 November.
 
 ---
 

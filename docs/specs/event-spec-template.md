@@ -56,7 +56,7 @@ and the spec says which.
   | Whether the staff pages (desk, scorer) take the event's colours or keep the house colours | Phase 3's edits. House colours unless the owner says otherwise |
   | The build order, if not the default (§1.2) | The phases |
   | The first serve, if the workbook and pubmat disagree | The go-live time and every timing check |
-  | With more than one day: how the board changes day (§1.3) | An engine phase, or a push every evening of the event |
+  | With more than one day: what each day is called (a division, a wave, a generation) | Each day's `label` in `events.json` |
   | A raffle or door-prize draw: whether there is one, on which day, from which names | An operator task and a dry-run check (§8.5); nothing on the site, since the prize draw is a tool that opens on any event |
 
   **[Team]** also: how teams are ranked (`teamScoring`, `headToHeadQuotient`), the pair labels
@@ -99,9 +99,10 @@ One pass instead of phases only when the owner asks for it.
 ### 1.3 Several facilities, or several days
 
 The skeleton is written for one day at one facility, as every event since the engine has been.
-The engine handles more (the board's **Venue** row, the Hub's day picker), but no event has used
-it yet: Pickle for Sight (one day, two facilities) and BKL Cup 2026 (five days × three facilities)
-both came before the engine. An event with more of either changes these parts of the spec (the
+The engine handles more (the board's **Venue** row and **Day** picker, the Hub's day picker).
+Pickle for Sight (one day, two facilities) and BKL Cup 2026 (five days × three facilities) came
+before the engine; The Ultimate Generation Cup 2026 is the first engine-era event with two days.
+An event with more of either changes these parts of the spec (the
 section numbers are the skeleton's, in Part 2), and its spec checks every one of them in the dry
 run.
 
@@ -124,20 +125,12 @@ run.
 
 **Several days.** One `days` entry per day in §4.6, each day key unique across the whole file
 (`<event-key>-day1`, `-day2`, …), each with its own `isLive` and its own workbooks. The Hub's day
-picker comes from `events.json`, so the Hub needs nothing more. The board does: **it shows exactly
-one day.** Its `DAY_KEY` is fixed in `schedule.html`, it has no day picker, and Control Center's
-**Open schedule** opens that one file. Ask the owner which of these two to do, and record the
-answer in §9 and §10:
-
-1. **Push the board every evening**, with `DAY_KEY` set to the next day. No engine change, but
-   every one of those pushes lands inside the 3-day freeze and needs its own go-ahead. §0.3 lists
-   them with their dates.
-2. **An engine phase first** (Part 3) that lets the board choose its day, for example from a
-   `?day=` in its address or from today's date in `events.json`. Nothing is then pushed during the
-   event. That phase changes `lib/v1/apps/schedule-board.js` and the templates' `schedule.html`
-   compatibly, and Control Center's **Open schedule** link if the choice goes in the address.
-
-Each day's go-live, dry run (§8.5) and fixture state are then per day.
+picker comes from `events.json`, and so does the board's: a board made from a template shows a
+**Day** picker at an event with two days or more, opens on the day whose date is today, and
+otherwise on its `DAY_KEY`, which the spec sets to the first day. Nothing is pushed during the
+event. Each day's go-live, dry run (§8.5) and fixture state are per day; fixture mode reads
+`/_fixtures/<event-key>/<state>.json` whatever the day, so the fixture writes one state per day
+(`day1-finished`, `day2-finished`).
 
 ### 1.4 Write every edit so it can't be misapplied
 

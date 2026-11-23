@@ -100,8 +100,11 @@ round-robin meeting once a pair has won the first two games.
 
 ## What it needs
 
-The board shows exactly one day. The event's page is set to that day, and the
-colour key for the categories is set by hand from the scoring workbook's own
+The board shows one day at a time. At an event with more than one day, a
+**Day** picker in the bar switches between them, and on each event day the
+board opens on that day by itself; on any other date it opens on the day its
+page is set to. The colour key for the categories is set by hand from the
+scoring workbook's own
 colour coding. Both are part of
 [Usage step 4](../usage/register-and-build-the-site.md). If the workbook is
 recoloured, the board's colours are re-set by hand: nothing detects the change.
