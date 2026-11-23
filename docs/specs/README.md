@@ -78,6 +78,16 @@ build status.
   and a harness proves nothing visible changed except the differences the owner
   approved. Merged 2026-10-06. Phase 8 of the architecture spec.
 
+- **[Hub player experience](implemented/hub-player-experience-spec.md)** — nine
+  changes that make *where and when do I play next?* and *where do we stand?* quicker on
+  a phone. A search scrolls to its results and the pair summary card opens with the
+  pair's next match. The banner folds into a slim bar with a menu once it scrolls away.
+  Each round-robin table carries an *In progress · 6/10* or *Final* pill and tied pairs
+  say how the tie was broken; a Standings row opens its pair in Match Finder; a finished
+  category shows its podium. For a dual meet, Match Finder opens with the club score and
+  counts *Pairs*, and Standings on a phone have chips that jump to a category. Merged
+  2026-11-23.
+
 ### Sync & live data
 
 - **[Runtime-fetched sync config](implemented/sync-config-runtime-spec.md)** —
@@ -316,22 +326,6 @@ build status.
   — an operator puts a match on a court, replaces it, or clears it, from Live Matches, through
   the same write-then-publish path as score entry. Built and live (`sage-tools-api` 3.8.0, the
   site and the docs); the owner's checks on workbook copies are left.
-
-- **[Hub player experience](in-progress/hub-player-experience-spec.md)** —
-  seventeen proposals to make *where and when do I play next?* and *where do we
-  stand?* quicker on a phone, of which the owner kept nine. A search scrolls to its
-  results and the pair summary card opens with the pair's next match. The banner
-  folds into a slim bar with a menu once it scrolls away. Each round-robin bracket
-  carries a status pill, a finished category shows its podium, and a Standings row
-  opens its pair's matches. For a dual meet, the club score comes first, pairs are
-  counted as *Pairs*, and chips jump to a category. Engine Hub and templates only;
-  no new sections. The pair summary card and the PF and PA columns already cover
-  parts of five of them (its §13.3). Part 1 is an eight-step build guide, one push
-  each, written to be followed without other context. Steps 1 to 8 (the search scrolls to its results and
-  Find matches closes its suggestions; the pair summary card opens with the next match; the banner folds into
-  a bar with a menu on a phone; each round-robin table's heading carries an *In progress · 6/10* or *Final*
-  pill and tied pairs say how the tie was broken; a Standings row opens that pair in Match Finder; a finished category's Standings card opens with its podium, and a
-  team event's Standings with the event's; a dual meet's Match Finder opens with the club score, and counts *Pairs*; a dual meet's Standings on a phone have chips that jump to a category) are built, all eight, and `npm run verify` passes; the owner's review and the merge are left.
 
 ---
 

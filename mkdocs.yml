@@ -6,7 +6,7 @@ repo_name: sage-match-control/sage-docs
 edit_uri: edit/main/docs/
 # The docs version. Bump it with a new entry at the top of docs/changelog.md;
 # the deploy workflow checks the two agree.
-copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.97.1</a>'
+copyright: 'S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.98.0</a>'
 
 docs_dir: docs
 
@@ -151,6 +151,7 @@ nav:
           - Live push delivery - explainer: specs/implemented/durable-object-push-explainer.md
           - Score entry and scorer links: specs/implemented/control-center-score-entry-spec.md
           - Site engine: specs/implemented/site-engine-spec.md
+          - Hub player experience: specs/implemented/hub-player-experience-spec.md
           - Link attribution: specs/implemented/link-attribution-spec.md
           - Push for attendance: specs/implemented/attendance-push-spec.md
           - sage-tools-api architecture hardening: specs/implemented/sage-tools-api-architecture-spec.md
@@ -162,7 +163,6 @@ nav:
           - Double and best-of-3 round robin, finals: specs/in-progress/double-round-robin-and-finals-spec.md
           - UPAP 3rd Annual Tournament: specs/in-progress/upap-3rd-annual-tournament-spec.md
           - Court Control from Control Center: specs/in-progress/control-center-court-control-spec.md
-          - Hub player experience: specs/in-progress/hub-player-experience-spec.md
       - Not started:
           - Overview: specs/not-started/README.md
           - Site test suite: specs/not-started/site-test-suite-spec.md

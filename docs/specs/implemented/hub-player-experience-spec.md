@@ -1,6 +1,6 @@
 # Spec — Tournament Hub player experience
 
-> **Status: in progress — steps 1 to 8 of 8 built, all eight, with nothing left to build (a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category; a dual meet's club score first, and *Pairs*; a dual meet's Standings jump to a category). `npm run verify` passes on the branch with the accepted harness entries for steps 2 to 8 (2026-11-23); the owner's review and the merge are still to do.** Written 2026-10-10 and 2026-10-25 as
+> **Status: implemented — all eight steps built and live: a search shows its results; the next match on the pair summary card; the banner that folds into a bar; the round-robin status and tie pills; a Standings row opens that pair in Match Finder; a podium on a finished category; a dual meet's club score first, and *Pairs*; a dual meet's Standings jump to a category. `npm run verify` passed with the accepted harness entries for steps 2 to 8, and the branch was merged into `main` and pushed on 2026-11-23 (site `06a2fd6`). Where the build departs from Part 1, the *Divergences* section says so.** Written 2026-10-10 and 2026-10-25 as
 > seventeen proposals; revisited 2026-11-23 against `sage-match-control.github.io`
 > commit `b89fda5`, when the owner kept nine, dropped eight, had three redone and
 > answered every decision (§12). Part 1 (§1–§12) is the build, written to be
@@ -58,7 +58,7 @@ The workspace is `D:\Personal\SAGE`. Two repositories matter:
     `ticket.js` with the Hub, but not `apps/hub.js` or `hub.css`.
   - `_tests/`: the unit tests and the comparison harness (§2.4).
 - **`sage-docs/`**, the documentation, a mkdocs site. This spec is
-  `sage-docs/docs/specs/not-started/hub-player-experience-spec.md`.
+  `sage-docs/docs/specs/implemented/hub-player-experience-spec.md`.
 
 Read `sage-match-control.github.io/_templates/CLAUDE.md` §8 and
 `sage-docs/docs/technical/site-engine.md` (*Dependency rules*, *The versioning
@@ -1376,7 +1376,7 @@ well; icons above the labels), which the menu replaced.
 | Players signing in | A sign-in step for every player; the saved search gives *your match* without one |
 | Pair codes before names | The Hub's tickets lead with the names |
 | Initials circles per pair | No photos, and the second circle clips the first's initials |
-| Umpires, PAUSED / NEXT states, a forfeit clock | The workbook carries none of it; calling a match to a court is Control Center's ([Court Control](control-center-court-control-spec.md)) |
+| Umpires, PAUSED / NEXT states, a forfeit clock | The workbook carries none of it; calling a match to a court is Control Center's ([Court Control](../in-progress/control-center-court-control-spec.md)) |
 | A sponsor's logo on every court | No event has asked for it |
 | Five pages behind a menu | The Hub keeps one page; step 3's menu reaches every tab from anywhere on it |
 

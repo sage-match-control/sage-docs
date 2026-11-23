@@ -37,11 +37,18 @@ has been replaced.
 
 ---
 
+## [2.98.0] — 2026-11-23
+
+### Changed
+
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md) moves to `implemented/`: all eight steps are
+  merged into the site's `main` and live. Its status line, the specs index, both folder READMEs and the nav say so.
+
 ## [2.97.1] — 2026-11-23
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md): the verify run after the last step passes,
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md): the verify run after the last step passes,
   with the accepted harness entries for steps 2 to 8; the spec's status line, its Divergences (*The verify run*) and
   the two specs indexes say so. The owner's review and the merge are what is left.
 
@@ -49,7 +56,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 8 (jump to a category in a dual
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 8 (jump to a category in a dual
   meet's Standings), is built; it is the last step. On a phone the Tournament Hub's dual-meet Standings pin a row of
   category chips (*LI WD*, *LI MD*, *LI XD*…) under the club bar, and a tap scrolls to that category's card, just
   under the pinned row, whichever way the Hub's bar stands; the chip of the category at the top of the screen is
@@ -65,7 +72,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 7 (a dual meet's club score
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 7 (a dual meet's club score
   first, and *Pairs*), is built. At a dual meet whose day is live the Tournament Hub's Match Finder opens with the
   club bar Standings opens with, both clubs, their logos and their round-robin wins (*Pickle & Friends Community
   64 vs 48 1Bataan United Picklers*), above the day's counts; here it scrolls with the page instead of pinning, and a
@@ -81,7 +88,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 6 (a podium on a finished
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 6 (a podium on a finished
   category), is built. On the Tournament Hub a category's Standings card opens with a **Podium**: gold, silver
   and bronze with the pairs' names, and under gold the final, such as *Beat Makeen Fernandez / Noelle Mercado
   11–7 in the final* (no score for a series final). It shows once the podium is certain, by the rule Control
@@ -100,7 +107,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 5 (a Standings row opens that
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 5 (a Standings row opens that
   pair's matches), is built. On the Tournament Hub each named round-robin row ends with a **›**, and a tap or
   click on the row, or Enter on it, opens that pair in Match Finder: the tab switches, the search box holds
   the pair and its summary card and tickets show. On a phone the page lands on the results under the pinned
@@ -116,7 +123,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 4 (a status pill on each
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 4 (a status pill on each
   round-robin table, and tie pills), is built. Once the day is live every round-robin table's heading carries
   a pill, **In progress · 6/10** while meetings are left and **Final** once every one is played, and a pair
   level on wins with another carries a pill under its names saying how the table placed it: **Tie · won
@@ -135,7 +142,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 3 (the banner that folds
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 3 (the banner that folds
   into a bar), is built. Once the Tournament Hub's banner has scrolled away, a slim bar stays pinned to the
   top with the event's logo, date and venue, and title. On a phone its button (**Match Finder ☰**) opens a menu
   of the tabs, the day picker at a multi-day event and the sync line; on a computer the same three sit in a
@@ -150,7 +157,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 2 (the next match on the pair
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 2 (the next match on the pair
   summary card), is built. A navy block opens the card with where and when the pair plays next: **Next match**
   with the time, court and opponent of its next unplayed match, or **Playing now** with the court while one of its
   matches is on court. Before the day goes live the card is that block alone. Control Center's card has it too.
@@ -165,7 +172,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 1 (the search shows its results),
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 1 (the search shows its results),
   is built, and the spec moves to `in-progress/`. On a phone a search closes the suggestions and the keyboard and
   scrolls to the pair's results, a team chip does the same, and a returning visit lands on its saved search.
   **Find matches** now closes its suggestions, in Control Center too. Pages updated:
@@ -178,7 +185,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md), step 3: the folding bar shows on a
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md), step 3: the folding bar shows on a
   computer too, at the owner's request. There the tabs, the day picker and the sync line sit in a right-aligned row
   instead of the ☰ menu, and the sync line is left out below 1100 px. The owner's three answers are recorded:
   - D19: a row on a computer;
@@ -192,7 +199,7 @@ has been replaced.
 
 ### Fixed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md): on a computer, a team chip keeps scrolling
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md): on a computer, a team chip keeps scrolling
   to the top as today (step 1), and a Standings row tap brings the search box into view (step 5); each has a
   behaviour test. Its overview table says what each step changes in Control Center and on a computer.
 
@@ -200,7 +207,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md) is rewritten as a build guide that can
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md) is rewritten as a build guide that can
   be followed without other context. Part 1 sets out:
   - the repositories, the engine's rules and why new code goes in new modules (so each step is one push);
   - the branch and who merges;
@@ -224,7 +231,7 @@ has been replaced.
 
 ### Fixed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md): its scope said no event page imports
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md): its scope said no event page imports
   `lib/v1`; four do (ACSO, UPAP, Ladies' Dink and Millennium), and the build now checks them. P2's bar needs no
   safe-area padding: the templates' viewport tag has no `viewport-fit=cover`.
 
@@ -232,7 +239,7 @@ has been replaced.
 
 ### Changed
 
-- [Hub player experience](specs/in-progress/hub-player-experience-spec.md) is revisited against the site at
+- [Hub player experience](specs/implemented/hub-player-experience-spec.md) is revisited against the site at
   `b89fda5`. A new §1.3 lists what the engine has gained since the spec was written and which proposals each
   change covers in part. The pair summary card covers P3 for a pair in the playoffs, P6 and P12 for one pair,
   and P14's quotient line. The PF and PA columns cover P14, Schedule time order is P3's rule, and the
@@ -1076,19 +1083,19 @@ has been replaced.
 
 ### Added
 
-- Spec [Hub player experience](specs/in-progress/hub-player-experience-spec.md): proposals P9–P17
+- Spec [Hub player experience](specs/implemented/hub-player-experience-spec.md): proposals P9–P17
   from a comparison with Dinktator's spectator pages (§1.2): a tab's own address, Standings opening
   on a category on phones, *Final* once a day is over, a podium on a finished category, the row
   colours and ties explained, a Standings row opening its pair's matches, and for a dual meet the
   club score on the first screen, *Pairs* for *Teams*, category jump chips and a cross-club grid.
   Decisions D8–D14, and what is not taken from Dinktator (§21.2).
-- Spec [Hub player experience](specs/in-progress/hub-player-experience-spec.md): a picture for every
+- Spec [Hub player experience](specs/implemented/hub-player-experience-spec.md): a picture for every
   proposal that changes the page, today beside a mockup, drawn on the engine's template pages and
   the harness's fixture data (`images/hub-player-experience/`).
 
 ### Fixed
 
-- Spec [Hub player experience](specs/in-progress/hub-player-experience-spec.md): a standings row is
+- Spec [Hub player experience](specs/implemented/hub-player-experience-spec.md): a standings row is
   pink at a level record too, not only a losing one. P13's tie note follows the Hub's real order,
   head-to-head wins among all the pairs level and then quotient.
 
@@ -1519,7 +1526,7 @@ attendance list comes through the API.
 
 ### Added
 
-- Spec: [Hub player experience](specs/in-progress/hub-player-experience-spec.md). Eight
+- Spec: [Hub player experience](specs/implemented/hub-player-experience-spec.md). Eight
   independent proposals to make the Tournament Hub quicker on a phone, each for the owner
   to keep or drop. Not started.
 
