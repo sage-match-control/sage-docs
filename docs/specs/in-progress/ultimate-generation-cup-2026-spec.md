@@ -4,14 +4,17 @@
 > by fast-forward on 2026-11-23: the **Day** picker `98e2bfe` (§4), the board `24c8511` (§5), the
 > Hub `1acfcaa` (§6), and the desk page and checklist `d5eb2e4` (§7), with the event registered in
 > `event-data` (`bacea528`) and Phase 1's docs (2.101.0). Unit tests 904, 907, 910, 910; §7.5's
-> `npm run verify` passes (910 unit, 783 comparison). Of §9.1's workbook fixes, Day 2's match
-> numbers (1–49) and Day 1's `HIMD_F_2` bracket link (`Variables!AD89:AF89`) are in. Left: the QR
-> image (§2, §9.5), both days' player names (§9.1), live-sync setup (§9.2), the dry run (§9.6)
-> and the event.
+> `npm run verify` passes (910 unit, 783 comparison). The QR image is in (`6584e65`) and the Hub shows it.
+> Both workbooks' live sync is set up and publishing, both days'
+> player names are in, Day 2's match numbers (1–49) and Day 1's `HIMD_F_2` bracket link
+> (`Variables!AD89:AF89`) are in, and each workbook's `Court Control` tab and generator version (1.5.0)
+> are checked. Day 1 now has 162 matches, numbered 1–162 with no gaps (the re-shaped `LIWD` 8 (4-4) and
+> `AMD` 5 changed the count from §1's 166; §1 and Appendix A keep the numbers as first written), and Day 2
+> 49. Left: the dry run (§9.6, by 26 November), printing and scanning the Hub's QR panel (§9.5), and the event.
 > Written 2026-11-23 against `sage-match-control.github.io` at
 > `d92ed28`, `event-data`'s `config/events.json` at `e0eb51f5`, and both event workbooks as read
 > that day through the Sheets API. The owner answered every open question the same day; the
-> answers are in §10. Left to come: the short link and the QR image (§2).
+> answers are in §10; the short link and the QR image have come (§2).
 >
 > **Built in four phases** (§0.3): a **Day** picker on the schedule board (an engine change),
 > then the event's board with its `events.json` entry, then the Tournament Hub, then everything

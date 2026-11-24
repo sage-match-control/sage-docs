@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.103.2] — 2026-11-24
+
+### Changed
+
+- [The Ultimate Generation Cup 2026](specs/in-progress/ultimate-generation-cup-2026-spec.md) status: the QR image,
+  live sync, both days' player names and the workbook checks are done; Day 1 has 162 matches. Left: the dry run,
+  the QR panel print and the event.
+
 ## [2.103.1] — 2026-11-24
 
 ### Changed
