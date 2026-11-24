@@ -143,6 +143,18 @@ purple), because both land under the 4.5:1 contrast floor against their label
 text at their natural values. A re-skin that touches either one has to
 re-check that contrast rather than restoring the "clean" palette value.
 
+## The image's title
+
+The category title is never cut off. `fitTitle()` measures it in Archivo Black
+against the image's width less 120px and takes the largest size from
+`TITLE_MAX_PX` (38) down to `TITLE_MIN_PX` (28) at which it fits on one line.
+A title still too wide at 28px goes onto two lines, split between words where
+the two come out most even, at the largest size both fit, and the header grows
+by one line to make room. Only a title with a single word wider than the image
+is truncated with an ellipsis. The whole layout, title included, is measured
+before anything is drawn. `_tests/unit/tools/bracket-generator-title.test.mjs`
+runs `fitTitle()` against a stand-in canvas.
+
 ## The event name
 
 Optional, and remembered per browser in `localStorage`

@@ -123,7 +123,9 @@ carries the instructions with it.
 
 Two export options, once a draw has landed:
 
-- **Export as image** — a printable PNG, laid out as a card per bracket.
+- **Export as image** — a printable PNG, laid out as a card per bracket. A
+  long category title is shown in full: it shrinks to fit, and one too long
+  even then goes onto two lines.
 - **Export as text** — a plain-text list of every bracket and its pairs,
   followed by the seed and every pair's fingerprint.
 

@@ -37,6 +37,15 @@ has been replaced.
 
 ---
 
+## [2.104.0] — 2026-11-24
+
+### Changed
+
+- [Bracket Generator](features/bracket-generator.md) and its
+  [technical page](technical/bracket-generator.md#the-images-title): the exported image never cuts the category
+  title off with an ellipsis. It shrinks from 38px to as little as 28px to fit one line, and a title too long even
+  then takes two lines, split where they come out most even.
+
 ## [2.103.2] — 2026-11-24
 
 ### Changed
