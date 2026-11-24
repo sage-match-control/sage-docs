@@ -37,6 +37,14 @@ has been replaced.
 
 ---
 
+## [2.103.1] — 2026-11-24
+
+### Changed
+
+- [The Ultimate Generation Cup 2026](specs/in-progress/ultimate-generation-cup-2026-spec.md) §3: Day 1's women's
+  doubles is `IWD`, Intermediate Women's Doubles (the division `I`, Intermediate), 8 pairs in two brackets of 4;
+  `LIXD` is 8 pairs (4, 4), `AMD` 5, and Day 1 84 pairs.
+
 ## [2.103.0] — 2026-11-24
 
 ### Changed

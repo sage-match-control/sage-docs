@@ -162,10 +162,12 @@ From the pubmat and the two workbooks (`Title`, `Variables`, `SCHEDULE`, `CSV`, 
 
 **The categories.** The pubmat advertises Beginner, Low Inter, High Inter and Advanced in each
 division; the workbooks name them by level alone, and the owner keeps the workbooks' names
-(§10). The division of the code is the level: `N` Novice, `LI` Low Intermediate, `HI` High
-Intermediate, `A` Advanced, `O` Open. Which generation is the day's label, not the category's.
+(§10). The division of the code is the level: `N` Novice, `LI` Low Intermediate, `I`
+Intermediate, `HI` High Intermediate, `A` Advanced, `O` Open. Which generation is the day's
+label, not the category's. Day 1's women's doubles is `IWD`, Intermediate, the one category at
+that level (the organiser's naming; its workbook tab, codes and colour rules carry `IWD`).
 
-Day 1, Next Gen, 85 pairs:
+Day 1, Next Gen, 84 pairs:
 
 | Code | The workbook's name | Pairs | Brackets (sizes) | Playoff |
 | --- | --- | --- | --- | --- |
@@ -173,11 +175,11 @@ Day 1, Next Gen, 85 pairs:
 | `NWD` | Novice Women's Doubles | 8 | 2 (4, 4) | Semifinals (top two, crossed), Bronze, Final |
 | `NXD` | Novice Mixed Doubles | 12 | 3 (4, 4, 4) | The three bracket winners to the Semifinals; the best runner-up meets the winner of the 2nd- v 3rd-best runner-ups (`R16-3`) in `QF-2` for the fourth seat; Bronze, Final |
 | `LIMD` | Low Intermediate Men's Doubles | 14 | 4 (4, 4, 3, 3) | As `NMD` |
-| `LIWD` | Low Intermediate Women's Doubles | 9 | 2 (5, 4) | As `NWD` |
-| `LIXD` | Low Intermediate Mixed Doubles | 9 | 2 (5, 4) | As `NWD` |
+| `IWD` | Intermediate Women's Doubles | 8 | 2 (4, 4) | As `NWD` |
+| `LIXD` | Low Intermediate Mixed Doubles | 8 | 2 (4, 4) | As `NWD` |
 | `HIMD` | High Intermediate Men's Doubles | 8 | 2 (4, 4) | As `NWD` |
 | `HIXD` | High Intermediate Mixed Doubles | 4 | 1 | Final, #1 v #2; #3 takes bronze without playing (`B_2` is a BYE) |
-| `AMD` | Advanced Men's Doubles | 4 | 1 | As `HIXD` |
+| `AMD` | Advanced Men's Doubles | 5 | 1 | As `HIXD` |
 | `AXD` | Advanced Mixed Doubles | 4 | 1 | As `HIXD` |
 
 Day 2, Gen X, 25 pairs:
@@ -244,7 +246,7 @@ If `logo.jpg` or `pubmat.jpg` is missing when you start, stop and report.
 4. **The board's colours are the workbooks' where they have them.** The generator fills each
    category's round-robin cells by level and event (Men's blue, Women's magenta, Mixed orange,
    lighter for a lower level); read off both `SCHEDULE` tabs through the Sheets API: `NMD`
-   `#C9DAF8`, `NWD` `#EAD1DC`, `NXD` `#FCE5CD`, `LIMD` `#6D9EEB`, `LIWD` `#C27BA0`, `LIXD`
+   `#C9DAF8`, `NWD` `#EAD1DC`, `NXD` `#FCE5CD`, `LIMD` `#6D9EEB`, `IWD` `#C27BA0`, `LIXD`
    `#F6B26B`, `HIMD` `#1155CC`, `HIXD` `#B45F06`. The workbooks leave `AMD`, `AXD` and `OWD`
    grey (`#CCCCCC`), so those take the generator's own Advanced shades (`#1C4587`, `#783F04`)
    and `OWD` its darkest magenta (`#4C1130`): Open sits above Advanced. The same code has the
@@ -254,7 +256,7 @@ If `logo.jpg` or `pubmat.jpg` is missing when you start, stop and report.
    November): the board tints a cell 40% over white, and the workbooks' pale shades gave the
    Novice cells almost the page's own colour (1.00–1.06:1) and a stripe that barely showed.
    They take the next shade of the same Sheets palette: `NMD` `#6D9EEB`, `NWD` `#C27BA0`, `NXD`
-   `#F2A55A`, `LIMD` `#3470D2`, `LIWD` `#A64D79`, `LIXD` `#E38326`; the rest are unchanged. The
+   `#F2A55A`, `LIMD` `#3470D2`, `IWD` `#A64D79`, `LIXD` `#E38326`; the rest are unchanged. The
    hue still says the event and the shade the level, and every chip's text reads at 4.5:1 or
    better. §5.4's block is the colours as first built.
 5. **The board's Day picker** (Phase 1). The board shows one day, its page's `DAY_KEY`. A page
@@ -269,9 +271,10 @@ If `logo.jpg` or `pubmat.jpg` is missing when you start, stop and report.
    tests. A board without the container (every existing one) reads no more than before and is
    unchanged; the compact header hides the picker, as it hides the court filter. Control Center
    itself is not changed.
-6. **The labels** (owner's choice, §10): divisions Novice, Low Intermediate, High Intermediate,
-   Advanced, Open; the engine shows `<division> <event>`, e.g. "Low Intermediate Men's Doubles".
-   It finds the division by the **longest** matching prefix, so `HI` wins over nothing shorter,
+6. **The labels** (owner's choice, §10): divisions Novice, Low Intermediate, Intermediate, High
+   Intermediate, Advanced, Open; the engine shows `<division> <event>`, e.g. "Low Intermediate
+   Men's Doubles". It finds the division by the **longest** matching prefix, so `LI` and `HI` win
+   over `I`, `I` only matches `IWD`,
    `N` only matches `N…` and `O` only `OWD`. The generation is in each day's label:
    **"Nov 28 · Next Gen"** and **"Nov 29 · Gen X"**, which the Hub's and the board's day pickers,
    the board's meta line and Control Center all show.
@@ -1055,7 +1058,7 @@ const CAT_META = {
   NWD:  { short:'N WD',    color:'#EAD1DC' },
   NXD:  { short:'N XD',    color:'#FCE5CD' },
   LIMD: { short:'LI MD',   color:'#6D9EEB' },
-  LIWD: { short:'LI WD',   color:'#C27BA0' },
+  IWD:  { short:'I WD',    color:'#C27BA0' },
   LIXD: { short:'LI XD',   color:'#F6B26B' },
   HIMD: { short:'HI MD',   color:'#1155CC' },
   HIXD: { short:'HI XD',   color:'#B45F06' },
@@ -1073,7 +1076,7 @@ Leave the `mountScheduleBoard({ … })` call below it unchanged.
 grep -n "EXAMPLE\|#14263C\|#7CB92C\|#F6F7F2\|#5C8F1F" events/generation-cup-2026/schedule.html
 ```
 
-Prints nothing. (`LIWD`, `LIMD` and the other template example keys are this event's real
+Prints nothing. (`IWD`, `LIMD` and the other template example keys are this event's real
 categories, with the same colours, so they are not checked for.)
 
 ```bash
@@ -1158,6 +1161,7 @@ config.events['generation-cup-2026'] = {
     divisions: {
       N: 'Novice',
       LI: 'Low Intermediate',
+      I: 'Intermediate',
       HI: 'High Intermediate',
       A: 'Advanced',
       O: 'Open',
@@ -1230,7 +1234,7 @@ npx --yes http-server -p 8000 -c-1
 It must print exactly:
 
 ```
-Day 1: 166 matches, 85 pairs; gold/bronze NMD NM 6A/NM 9A, NWD NW 8A/NW 2A, NXD NX 9A/NX 2A, LIMD LM 12A/LM 10A, LIWD LW 1A/LW 7A, LIXD LX 7A/LX 4A, HIMD HM 8A/HM 1A, HIXD HX 3A/HX 4A, AMD AM 1A/AM 3A, AXD AX 1A/AX 2A
+Day 1: 166 matches, 85 pairs; gold/bronze NMD NM 6A/NM 9A, NWD NW 8A/NW 2A, NXD NX 9A/NX 2A, LIMD LM 12A/LM 10A, IWD LW 1A/LW 7A, LIXD LX 7A/LX 4A, HIMD HM 8A/HM 1A, HIXD HX 3A/HX 4A, AMD AM 1A/AM 3A, AXD AX 1A/AX 2A
 Day 2: 49 matches, 25 pairs; gold/bronze NMD GNM 4A/GNM 2A, LIMD GLM 1A/GLM 11A, LIXD GLX 3A/GLX 4A, AMD GAM 1A/GAM 2A, OWD GOW 3A/GOW 1A
 ```
 
@@ -1919,16 +1923,16 @@ const FACILITY = 'Kingcourts';
 
 // Each workbook's SCHEDULE, slot by slot: "<court>:<team code 1>:<team code 2>", courts in order, empty ones left out.
 const DAY1_SLOTS = [
-  ['9:00 AM',  '1:NMD_1:NMD_2 2:NMD_3:NMD_4 3:NMD_11:NMD_12 4:NWD_1:NWD_2 5:NWD_3:NWD_4 6:LIMD_1:LIMD_2 7:LIMD_3:LIMD_4 8:LIMD_9:LIMD_10 9:LIWD_1:LIWD_2 10:LIWD_3:LIWD_4'],
-  ['9:25 AM',  '1:NMD_5:NMD_6 2:NMD_8:NMD_9 4:NWD_5:NWD_6 5:NWD_7:NWD_8 6:LIMD_5:LIMD_6 7:LIMD_7:LIMD_8 8:LIMD_12:LIMD_13 9:LIWD_1:LIWD_3 10:LIWD_4:LIWD_5'],
-  ['9:50 AM',  '1:NMD_1:NMD_3 2:NMD_2:NMD_4 3:NMD_12:NMD_13 4:NWD_1:NWD_3 5:NWD_2:NWD_4 6:LIMD_1:LIMD_3 7:LIMD_2:LIMD_4 8:LIMD_10:LIMD_11 9:LIWD_6:LIWD_7 10:LIWD_8:LIWD_9'],
-  ['10:15 AM', '1:NMD_6:NMD_7 2:NMD_9:NMD_10 4:NWD_5:NWD_7 5:NWD_6:NWD_8 6:LIMD_5:LIMD_7 7:LIMD_6:LIMD_8 8:LIMD_13:LIMD_14 9:LIWD_1:LIWD_4 10:LIWD_2:LIWD_5'],
-  ['10:40 AM', '1:NMD_1:NMD_4 2:NMD_2:NMD_3 3:NMD_11:NMD_13 4:NWD_1:NWD_4 5:NWD_2:NWD_3 6:LIMD_1:LIMD_4 7:LIMD_2:LIMD_3 8:LIMD_9:LIMD_11 9:LIWD_6:LIWD_8 10:LIWD_7:LIWD_9'],
-  ['11:05 AM', '1:NMD_5:NMD_7 2:NMD_8:NMD_10 4:NWD_5:NWD_8 5:NWD_6:NWD_7 6:LIMD_5:LIMD_8 7:LIMD_6:LIMD_7 8:LIMD_12:LIMD_14 9:LIWD_3:LIWD_5 10:LIWD_2:LIWD_4'],
-  ['11:30 AM', '1:NMD_QF_1:NMD_QF_2 2:NMD_QF_3:NMD_QF_4 3:NMD_QF_5:NMD_QF_6 4:NMD_QF_7:NMD_QF_8 5:LIMD_QF_1:LIMD_QF_2 6:LIMD_QF_3:LIMD_QF_4 7:LIMD_QF_5:LIMD_QF_6 8:LIMD_QF_7:LIMD_QF_8 9:LIWD_6:LIWD_9 10:LIWD_7:LIWD_8'],
-  ['11:55 AM', '1:HIMD_1:HIMD_2 2:HIMD_3:HIMD_4 3:NWD_SF_1:NWD_SF_2 4:NWD_SF_3:NWD_SF_4 5:NMD_SF_1:NMD_SF_2 6:NMD_SF_3:NMD_SF_4 7:LIMD_SF_1:LIMD_SF_2 8:LIMD_SF_3:LIMD_SF_4 9:LIWD_1:LIWD_5 10:LIWD_2:LIWD_3'],
-  ['12:20 PM', '1:HIMD_5:HIMD_6 2:HIMD_7:HIMD_8 3:NWD_B_1:NWD_B_2 4:NWD_F_1:NWD_F_2 5:NMD_F_1:NMD_F_2 6:NMD_B_1:NMD_B_2 7:LIMD_F_1:LIMD_F_2 8:LIMD_B_1:LIMD_B_2 9:LIWD_SF_1:LIWD_SF_2 10:LIWD_SF_3:LIWD_SF_4'],
-  ['12:45 PM', '1:HIMD_1:HIMD_3 2:HIMD_2:HIMD_4 3:NXD_1:NXD_2 4:NXD_3:NXD_4 5:NXD_9:NXD_10 6:NXD_11:NXD_12 7:LIWD_F_1:LIWD_F_2 8:LIWD_B_1:LIWD_B_2 9:LIXD_1:LIXD_2 10:LIXD_3:LIXD_4'],
+  ['9:00 AM',  '1:NMD_1:NMD_2 2:NMD_3:NMD_4 3:NMD_11:NMD_12 4:NWD_1:NWD_2 5:NWD_3:NWD_4 6:LIMD_1:LIMD_2 7:LIMD_3:LIMD_4 8:LIMD_9:LIMD_10 9:IWD_1:IWD_2 10:IWD_3:IWD_4'],
+  ['9:25 AM',  '1:NMD_5:NMD_6 2:NMD_8:NMD_9 4:NWD_5:NWD_6 5:NWD_7:NWD_8 6:LIMD_5:LIMD_6 7:LIMD_7:LIMD_8 8:LIMD_12:LIMD_13 9:IWD_1:IWD_3 10:IWD_4:IWD_5'],
+  ['9:50 AM',  '1:NMD_1:NMD_3 2:NMD_2:NMD_4 3:NMD_12:NMD_13 4:NWD_1:NWD_3 5:NWD_2:NWD_4 6:LIMD_1:LIMD_3 7:LIMD_2:LIMD_4 8:LIMD_10:LIMD_11 9:IWD_6:IWD_7 10:IWD_8:IWD_9'],
+  ['10:15 AM', '1:NMD_6:NMD_7 2:NMD_9:NMD_10 4:NWD_5:NWD_7 5:NWD_6:NWD_8 6:LIMD_5:LIMD_7 7:LIMD_6:LIMD_8 8:LIMD_13:LIMD_14 9:IWD_1:IWD_4 10:IWD_2:IWD_5'],
+  ['10:40 AM', '1:NMD_1:NMD_4 2:NMD_2:NMD_3 3:NMD_11:NMD_13 4:NWD_1:NWD_4 5:NWD_2:NWD_3 6:LIMD_1:LIMD_4 7:LIMD_2:LIMD_3 8:LIMD_9:LIMD_11 9:IWD_6:IWD_8 10:IWD_7:IWD_9'],
+  ['11:05 AM', '1:NMD_5:NMD_7 2:NMD_8:NMD_10 4:NWD_5:NWD_8 5:NWD_6:NWD_7 6:LIMD_5:LIMD_8 7:LIMD_6:LIMD_7 8:LIMD_12:LIMD_14 9:IWD_3:IWD_5 10:IWD_2:IWD_4'],
+  ['11:30 AM', '1:NMD_QF_1:NMD_QF_2 2:NMD_QF_3:NMD_QF_4 3:NMD_QF_5:NMD_QF_6 4:NMD_QF_7:NMD_QF_8 5:LIMD_QF_1:LIMD_QF_2 6:LIMD_QF_3:LIMD_QF_4 7:LIMD_QF_5:LIMD_QF_6 8:LIMD_QF_7:LIMD_QF_8 9:IWD_6:IWD_9 10:IWD_7:IWD_8'],
+  ['11:55 AM', '1:HIMD_1:HIMD_2 2:HIMD_3:HIMD_4 3:NWD_SF_1:NWD_SF_2 4:NWD_SF_3:NWD_SF_4 5:NMD_SF_1:NMD_SF_2 6:NMD_SF_3:NMD_SF_4 7:LIMD_SF_1:LIMD_SF_2 8:LIMD_SF_3:LIMD_SF_4 9:IWD_1:IWD_5 10:IWD_2:IWD_3'],
+  ['12:20 PM', '1:HIMD_5:HIMD_6 2:HIMD_7:HIMD_8 3:NWD_B_1:NWD_B_2 4:NWD_F_1:NWD_F_2 5:NMD_F_1:NMD_F_2 6:NMD_B_1:NMD_B_2 7:LIMD_F_1:LIMD_F_2 8:LIMD_B_1:LIMD_B_2 9:IWD_SF_1:IWD_SF_2 10:IWD_SF_3:IWD_SF_4'],
+  ['12:45 PM', '1:HIMD_1:HIMD_3 2:HIMD_2:HIMD_4 3:NXD_1:NXD_2 4:NXD_3:NXD_4 5:NXD_9:NXD_10 6:NXD_11:NXD_12 7:IWD_F_1:IWD_F_2 8:IWD_B_1:IWD_B_2 9:LIXD_1:LIXD_2 10:LIXD_3:LIXD_4'],
   ['1:10 PM',  '1:HIMD_5:HIMD_7 2:HIMD_6:HIMD_8 4:NXD_5:NXD_6 5:NXD_7:NXD_8 6:AMD_1:AMD_2 7:AMD_3:AMD_4 9:LIXD_6:LIXD_7 10:LIXD_8:LIXD_9'],
   ['1:35 PM',  '1:HIMD_1:HIMD_4 2:HIMD_2:HIMD_3 4:NXD_1:NXD_3 5:NXD_2:NXD_4 6:NXD_9:NXD_11 7:NXD_10:NXD_12 9:LIXD_1:LIXD_3 10:LIXD_4:LIXD_5'],
   ['2:00 PM',  '1:HIMD_5:HIMD_8 2:HIMD_6:HIMD_7 4:NXD_5:NXD_7 5:NXD_6:NXD_8 6:AMD_1:AMD_3 7:AMD_2:AMD_4 9:LIXD_6:LIXD_8 10:LIXD_7:LIXD_9'],
@@ -1979,7 +1983,7 @@ const LADDERS = {
 // Category -> [name stem, bracket sizes, ladder], in each workbook's order.
 const DAY1_CATS = {
   NMD: ['NM', [4, 3, 3, 3], 'qf8'], NWD: ['NW', [4, 4], 'sf4'], NXD: ['NX', [4, 4, 4], 'r16'],
-  LIMD: ['LM', [4, 4, 3, 3], 'qf8'], LIWD: ['LW', [5, 4], 'sf4'], LIXD: ['LX', [5, 4], 'sf4'],
+  LIMD: ['LM', [4, 4, 3, 3], 'qf8'], IWD: ['LW', [5, 4], 'sf4'], LIXD: ['LX', [5, 4], 'sf4'],
   HIMD: ['HM', [4, 4], 'sf4'], HIXD: ['HX', [4], 'final'], AMD: ['AM', [4], 'final'], AXD: ['AX', [4], 'final'],
 };
 const DAY2_CATS = {
@@ -2092,7 +2096,7 @@ config.events[EVENT] = {
     'generation-cup-day2': { label: 'Nov 29 · Gen X', date: '2026-11-29', isLive: 'auto', facilities: [{ name: FACILITY, sheetId: 'FIXTUREGENCUPDAY2SHEETID000000000000' }] },
   },
   display: {
-    divisions: { N: 'Novice', LI: 'Low Intermediate', HI: 'High Intermediate', A: 'Advanced', O: 'Open' },
+    divisions: { N: 'Novice', LI: 'Low Intermediate', I: 'Intermediate', HI: 'High Intermediate', A: 'Advanced', O: 'Open' },
     events: { MD: "Men's Doubles", WD: "Women's Doubles", XD: 'Mixed Doubles' },
   },
 };
