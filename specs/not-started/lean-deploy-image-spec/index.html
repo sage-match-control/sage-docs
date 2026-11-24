@@ -1,0 +1,6164 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/specs/not-started/lean-deploy-image-spec/">
+      
+      
+        <link rel="prev" href="../automated-dry-run-spec/">
+      
+      
+        <link rel="next" href="../ranking-rules-spec/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Lean deploy image - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-lean-deploy-image" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lean deploy image
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../usage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../technical/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/before-you-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles, access and kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing the event
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparing the event
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/plan-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Plan it
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/build-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Build the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/draw-and-rosters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Draw and fill rosters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/register-and-build-the-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Register and build the site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/connect-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Connect the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/printables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Print
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/rehearse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Rehearse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    On the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/run-the-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Run the day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. When something's wrong
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handouts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Handouts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/scorer-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/desk-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance desks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/after-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    After the event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public pages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Public pages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Running the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/score-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/clock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoring workbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scoring workbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoring-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The scoring workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/team-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and print tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and print tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/prize-draw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prize draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/site-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/prize-draw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prize draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/clock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../event-spec-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event spec template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/team-tournament-template-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament event-site template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/scoresheet-team-names-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team names on scoresheets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/calculator-share-estimate-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator share and presets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/prize-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prize draw (Lucky Dink)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/standings-bracket-chart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Playoff bracket chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/millennium-invitational-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Millennium Invitational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/ladies-dink-club-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ladies' Dink 1st Club Tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/acso-employees-sportsfest-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angeles City Employees Sportsfest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/team-workbook-stack-cache-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook recalculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/control-center-score-entry-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry and scorer links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/site-engine-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/hub-player-experience-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hub player experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/link-attribution-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/attendance-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Push for attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/code-and-access-protection-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code and access protection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/docs-usage-guide-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage guide and docs restructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implemented/mission-control-layout-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mission Control and attendance marks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/double-round-robin-and-finals-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Double and best-of-3 round robin, finals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/upap-3rd-annual-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UPAP 3rd Annual Tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/control-center-court-control-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Court Control from Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../in-progress/ultimate-generation-cup-2026-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Ultimate Generation Cup 2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator-team-format-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator team format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../team-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean deploy image
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean deploy image
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-where-things-stand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Where things stand
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Where things stand">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-is-in-the-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What is in the image
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-what-one-deploy-stores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 What one deploy stores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-the-cleanup-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 The cleanup policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-what-cloud-run-needs-from-the-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 What Cloud Run needs from the registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-the-trigger-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 The trigger today
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-decisions-taken-2026-11-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Decisions (taken 2026-11-23)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-goals-and-non-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Goals and non-goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-the-dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The Dockerfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-cloudbuildyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 cloudbuild.yaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-the-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 The trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-the-cleanup-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 The cleanup policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Versioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-size-and-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Size and time
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-runbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Runbook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-keeping-chromium-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Keeping Chromium current
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-if-something-goes-wrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. If something goes wrong
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-tested-2026-11-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Tested 2026-11-23
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-a-the-inline-build-config-before-this-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix A — the inline build config before this change
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ranking-rules-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ranking rules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../archived/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archived
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archived
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archived/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-where-things-stand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Where things stand
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Where things stand">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-is-in-the-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What is in the image
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-what-one-deploy-stores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 What one deploy stores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-the-cleanup-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 The cleanup policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-what-cloud-run-needs-from-the-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 What Cloud Run needs from the registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-the-trigger-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 The trigger today
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-decisions-taken-2026-11-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Decisions (taken 2026-11-23)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-goals-and-non-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Goals and non-goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-the-dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The Dockerfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-cloudbuildyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 cloudbuild.yaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-the-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 The trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-the-cleanup-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 The cleanup policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Versioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-size-and-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Size and time
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-runbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Runbook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-keeping-chromium-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Keeping Chromium current
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-if-something-goes-wrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. If something goes wrong
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-tested-2026-11-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Tested 2026-11-23
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-a-the-inline-build-config-before-this-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix A — the inline build config before this change
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/specs/not-started/lean-deploy-image-spec.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-lean-deploy-image">Spec — lean deploy image<a class="headerlink" href="#spec-lean-deploy-image" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Status: not started.</strong> Written 2026-10-26 against <code>sage-tools-api</code> 3.4.0;
+rewritten 2026-11-23 against 3.9.0 (commit <code>38bab1a</code>) and the build trigger's
+own build config, after two test builds on Cloud Build (§11). Every decision is
+taken (§3). The cleanup policy in §2.3 is already set (<code>keepCount</code> 1); nothing
+else here is built. <strong>Build it only when the owner says so</strong>, and never within
+3 days of an event. The runbook (§7) is written to be followed without any
+other context.</p>
+</blockquote>
+<p>Make each deploy of <code>sage-tools-api</code> store about 16 MB in Artifact Registry
+instead of 382 MB, keep the last <strong>2</strong> deploys so a bad deploy can be rolled back
+from the Cloud Run console, stay inside the free 0.5 GB, and make each deploy
+about 80 seconds faster. Nothing the service does changes.</p>
+<hr />
+<h2 id="1-why">1. Why<a class="headerlink" href="#1-why" title="Permanent link">&para;</a></h2>
+<p>Every push to <code>main</code> makes a Cloud Build trigger build a new image of
+<code>sage-tools-api</code> and store it in the Artifact Registry repository
+<code>cloud-run-source-deploy</code> (project <code>sage-tools-api</code>, region <code>us-central1</code>).
+Artifact Registry gives 0.5 GB of storage free per month and charges about
+$0.10 per GB-month above it.</p>
+<p>The trigger's build runs <code>docker build --no-cache</code> (§2.5). Without the cache, the
+<code>apt-get install chromium</code> step runs again on every deploy and makes a <strong>new</strong>
+269 MB layer, byte-for-byte different even when nothing in it changed, so no two
+deploys share it. That is how 74 deploys reached 25.5 GB before the cleanup
+policy (§2.3) existed. The policy now keeps one deploy (382 MB), which fits the
+free allowance only because nothing else is kept, so the only rollback is
+reverting the commit and pushing.</p>
+<p>With the cache on, a deploy reuses the previous image's Node and Chromium layers
+(350 MB, stored once) and adds only its npm packages and code.</p>
+<h2 id="2-where-things-stand">2. Where things stand<a class="headerlink" href="#2-where-things-stand" title="Permanent link">&para;</a></h2>
+<h3 id="21-what-is-in-the-image">2.1 What is in the image<a class="headerlink" href="#21-what-is-in-the-image" title="Permanent link">&para;</a></h3>
+<p>The compressed layers of the live image (3.9.0, built 2026-11-22):</p>
+<table>
+<thead>
+<tr>
+<th>Layers</th>
+<th>Size</th>
+<th>Changes when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>node:22-slim</code> (Debian bookworm and Node)</td>
+<td>81 MB</td>
+<td>Docker publishes a new <code>node:22-slim</code> (last: 2026-11-11)</td>
+</tr>
+<tr>
+<td><code>apt-get install chromium fonts-liberation ca-certificates</code></td>
+<td>269 MB</td>
+<td>every deploy today, because of <code>--no-cache</code></td>
+</tr>
+<tr>
+<td><code>npm install --omit=dev</code></td>
+<td>31.8 MB</td>
+<td>every deploy: <code>package.json</code>'s version is bumped with every code change</td>
+</tr>
+<tr>
+<td><code>index.mjs</code>, <code>src/</code>, <code>templates/</code></td>
+<td>0.8 MB</td>
+<td>every deploy</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>382 MB</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The npm layer holds 85 MB (unpacked) of <code>node_modules</code> and 24 MB of npm's own
+download cache, <code>/root/.npm</code>, which the service never reads.</p>
+<h3 id="22-what-one-deploy-stores">2.2 What one deploy stores<a class="headerlink" href="#22-what-one-deploy-stores" title="Permanent link">&para;</a></h3>
+<p>Each deploy adds <strong>one image</strong> to the package <code>sage-tools-api/sage-tools-api</code>,
+tagged with the commit SHA. Cloud Build attaches two provenance records to it
+(in-toto attestations, under 20 KB each). A version listing shows all three, but
+a cleanup rule's <code>keepCount</code> counts only the image, and the attachments are
+deleted with it.</p>
+<p>A deploy made by hand with the <code>Dockerfile</code>'s fallback command
+(<code>gcloud run deploy … --source .</code>) stores its image in a different package,
+<code>sage-tools-api</code>, which the policy deletes within a day.</p>
+<h3 id="23-the-cleanup-policy">2.3 The cleanup policy<a class="headerlink" href="#23-the-cleanup-policy" title="Permanent link">&para;</a></h3>
+<p>Set on the repository, not a dry run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete-all"</span><span class="p">,</span><span class="w"> </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Delete"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">"condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"tagState"</span><span class="p">:</span><span class="w"> </span><span class="s2">"any"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keep-last-deploy"</span><span class="p">,</span><span class="w"> </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Keep"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">"mostRecentVersions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"packageNamePrefixes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"sage-tools-api/sage-tools-api"</span><span class="p">],</span><span class="w"> </span><span class="nt">"keepCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">]</span>
+</code></pre></div>
+<p>It keeps the newest image of the trigger's package with its attachments, and
+deletes everything else. Artifact Registry applies it about once a day.
+<code>keepCount</code> is a number of deploys, since attachments are not counted. A tag does
+not protect an image (<code>tagState</code> is <code>any</code>).</p>
+<h3 id="24-what-cloud-run-needs-from-the-registry">2.4 What Cloud Run needs from the registry<a class="headerlink" href="#24-what-cloud-run-needs-from-the-registry" title="Permanent link">&para;</a></h3>
+<p>Cloud Run copies an image when it deploys a revision and "keeps this copy while a
+serving revision uses it"; instances never pull from Artifact Registry
+(<a href="https://docs.cloud.google.com/run/docs/deploying">Cloud Run: deploying</a>). The
+docs promise nothing for a revision that has stopped serving. So:</p>
+<ul>
+<li>Deleting the <strong>live</strong> revision's image from Artifact Registry does not stop it
+  serving or block a cold start.</li>
+<li>Routing traffic back to an <strong>older</strong> revision is only safe while that
+  revision's image is still in the registry. With <code>keepCount</code> 2, that is the one
+  deploy before the live one.</li>
+</ul>
+<h3 id="25-the-trigger-today">2.5 The trigger today<a class="headerlink" href="#25-the-trigger-today" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>rmgpgab-sage-tools-api-us-central1-sage-match-control-sage-tjfv</code> (region <code>global</code>)</td>
+</tr>
+<tr>
+<td>Fires on</td>
+<td>a push to <code>main</code> of <code>sage-match-control/sage-tools-api</code>, except one touching only the ignored files (<code>apps-script/**</code>, <code>live-worker/**</code>, <code>test/**</code>, <code>scripts/**</code>, <code>.githooks/**</code>, <code>**/*.md</code>, <code>.env.example</code>, <code>jsconfig.json</code>)</td>
+</tr>
+<tr>
+<td>Runs as</td>
+<td><code>sage-tools-api-runtime@sage-tools-api.iam.gserviceaccount.com</code></td>
+</tr>
+<tr>
+<td>Build config</td>
+<td><strong>inline</strong>, the one Cloud Run's "continuous deployment" setup generated (Appendix A)</td>
+</tr>
+</tbody>
+</table>
+<p>Three steps:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Runs</th>
+<th>Time (last 12 builds)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Build</code></td>
+<td><code>docker build --no-cache -t &lt;image&gt;:$COMMIT_SHA . -f Dockerfile</code></td>
+<td>71–93 s</td>
+</tr>
+<tr>
+<td><code>Push</code></td>
+<td><code>docker push &lt;image&gt;:$COMMIT_SHA</code></td>
+<td>43–55 s</td>
+</tr>
+<tr>
+<td><code>Deploy</code></td>
+<td><code>gcloud run services update sage-tools-api --image=&lt;image&gt;:$COMMIT_SHA …</code> with every environment variable</td>
+<td>27–82 s</td>
+</tr>
+</tbody>
+</table>
+<p><code>&lt;image&gt;</code> is <code>$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME</code>,
+which resolves to
+<code>us-central1-docker.pkg.dev/sage-tools-api/cloud-run-source-deploy/sage-tools-api/sage-tools-api</code>.
+<code>$REPO_NAME</code> (<code>sage-tools-api</code>), <code>$COMMIT_SHA</code> and <code>$BUILD_ID</code> are Cloud Build's
+own; the <code>$_…</code> values are the trigger's <strong>substitution variables</strong>: <code>_AR_HOSTNAME</code>,
+<code>_AR_PROJECT_ID</code>, <code>_AR_REPOSITORY</code>, <code>_SERVICE_NAME</code>, <code>_DEPLOY_REGION</code>, <code>_PLATFORM</code>,
+<code>_TRIGGER_ID</code>, and the production secrets and settings (<code>_GITHUB_TOKEN</code>,
+<code>_SYNC_SHARED_SECRET</code>, <code>_GOOGLE_SHEETS_API_KEY</code>, <code>_SHEETS_FETCH_TIMEOUT_MS</code>,
+<code>_AUTH_PASSWORD_HASH</code>, <code>_AUTH_TOKEN_SECRET</code>, <code>_AUTH_TOKEN_TTL_MS</code>,
+<code>_LIVE_PUSH_URL</code>, <code>_LIVE_PUSH_SECRET</code>), stored <strong>in plaintext</strong>.</p>
+<p>The inline build config carries a second, older set of substitutions of its own.
+Its <code>_GITHUB_TOKEN</code> and <code>_SYNC_SHARED_SECRET</code> differ from the trigger's, and the
+live service runs with the <strong>trigger's</strong> values (checked 2026-11-23 by comparing
+hashes): trigger values override a build config's. Moving the build config into
+the repository (§5.2) drops the stale inline set and changes nothing the service
+gets.</p>
+<p>The <code>docker</code> builder image runs Docker 20.10.24 with <code>DOCKER_BUILDKIT</code> unset, so
+<code>docker build</code> uses the <strong>classic builder</strong> (<code>buildx</code> is installed but unused).
+The classic builder's <code>--cache-from</code> reuses a layer when the pulled image has the
+same parent layers and the same instruction, or, for a <code>COPY</code>, the same file
+contents.</p>
+<h2 id="3-decisions-taken-2026-11-23">3. Decisions (taken 2026-11-23)<a class="headerlink" href="#3-decisions-taken-2026-11-23" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Decision</th>
+<th>Taken</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td>How many deploys the policy keeps</td>
+<td><strong>2</strong>: the live one and the one before, for a one-step rollback from the console</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>Where the build config lives</td>
+<td><strong>In the repository</strong>, as <code>sage-tools-api/cloudbuild.yaml</code>, with the trigger pointing at it, so a change to it is reviewed and versioned. It names the substitutions and holds no secret</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>Clear npm's download cache in the image</td>
+<td><strong>Yes</strong>: <code>npm cache clean --force</code> after <code>npm install</code>, halving what each deploy stores (31.8 → 15.4 MB)</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>Who changes the trigger</td>
+<td><strong>The owner, by hand in the Cloud Console</strong> (§7 step 6). Nobody exports or imports the trigger with <code>gcloud</code>: that writes its plaintext secrets to a file</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>When it is built</td>
+<td><strong>When the owner says so</strong>, and never within 3 days of an event</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-goals-and-non-goals">4. Goals and non-goals<a class="headerlink" href="#4-goals-and-non-goals" title="Permanent link">&para;</a></h2>
+<p><strong>Goals</strong></p>
+<ul>
+<li>Each deploy stores about 16 MB; two deploys total about 383 MB, inside 0.5 GB.</li>
+<li>A deploy builds and pushes about 80 s faster.</li>
+<li>The previous deploy stays in the registry, so a bad deploy is rolled back from
+  the Cloud Run console.</li>
+<li>The service behaves exactly as before. Every scoresheet type renders the same PDF.</li>
+</ul>
+<p><strong>Not doing</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Why not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A hand-built base image (<code>sage-tools-api-base</code>, Node and Chromium, dated tags) that the <code>Dockerfile</code> builds <code>FROM</code></td>
+<td>Stores the same layers as the cache but adds a second image, a new folder, a keep rule for the base and a monthly rebuild by hand. The cache shares the layers with no extra image and refreshes Chromium on its own (§9). It stays the fallback if the cache doesn't hit (§8).</td>
+</tr>
+<tr>
+<td>Keeping deploys without the cache (≈ 0.76 GB for 2)</td>
+<td>About $0.03 a month, and builds stay slow.</td>
+</tr>
+<tr>
+<td><code>puppeteer-core</code> instead of <code>puppeteer</code></td>
+<td>Would shave a few MB off the npm layer at the price of a code change (the browser path through <code>loadConfig</code>). D3 saves more for one line.</td>
+</tr>
+<tr>
+<td>Chrome's headless-only build (<code>chrome-headless-shell</code>)</td>
+<td>About 100 MB smaller, but a different browser build can render fonts and page breaks differently. With the layer shared, its size stops mattering.</td>
+</tr>
+<tr>
+<td>An Alpine base</td>
+<td>Alpine's Chromium is built against musl and lags Puppeteer's supported version. Same rendering risk, no saving once layers are shared.</td>
+</tr>
+<tr>
+<td>Scoresheets in a service of their own</td>
+<td>Stores the same Chromium layer anyway and adds a second service to deploy.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-design">5. Design<a class="headerlink" href="#5-design" title="Permanent link">&para;</a></h2>
+<h3 id="51-the-dockerfile">5.1 The <code>Dockerfile</code><a class="headerlink" href="#51-the-dockerfile" title="Permanent link">&para;</a></h3>
+<p>One change, in <code>sage-tools-api/Dockerfile</code>: the npm step also clears npm's cache.
+Replace</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">RUN</span><span class="w"> </span>npm<span class="w"> </span>install<span class="w"> </span>--omit<span class="o">=</span>dev
+</code></pre></div>
+<p>with</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c"># npm's download cache (/root/.npm, about 24 MB) is never read at runtime;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c"># clearing it halves the layer each deploy stores.</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">RUN</span><span class="w"> </span>npm<span class="w"> </span>install<span class="w"> </span>--omit<span class="o">=</span>dev<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>cache<span class="w"> </span>clean<span class="w"> </span>--force
+</code></pre></div>
+<p>and add one line under the existing deploy-command comment at the top:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c"># The build trigger runs cloudbuild.yaml (cached from the last deploy); the</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c"># command above is the manual fallback only.</span>
+</code></pre></div>
+<p>Nothing else in the <code>Dockerfile</code> changes: in particular the <code>FROM</code> line and the
+<code>apt-get</code> line must stay exactly as they are, or the first build can't reuse the
+live image's Chromium layer.</p>
+<h3 id="52-cloudbuildyaml">5.2 <code>cloudbuild.yaml</code><a class="headerlink" href="#52-cloudbuildyaml" title="Permanent link">&para;</a></h3>
+<p>A new file, <code>sage-tools-api/cloudbuild.yaml</code>. Its <code>Deploy</code> step, <code>images</code>,
+<code>tags</code> and <code>options</code> are the inline config's (Appendix A), unchanged:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Cloud Build config for the sage-tools-api trigger (a push to main). See</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># sage-docs/docs/specs/.../lean-deploy-image-spec.md.</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># The $_… values are the trigger's substitution variables; the secrets live there,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># never in this file. _CACHE_TAG=none forces a build without the cache.</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">substitutions</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">_CACHE_TAG</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">latest</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="nt">options</span><span class="p">:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="nt">logging</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CLOUD_LOGGING_ONLY</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="nt">substitutionOption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ALLOW_LOOSE</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nt">tags</span><span class="p">:</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp-cloud-build-deploy-cloud-run</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp-cloud-build-deploy-cloud-run-managed</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sage-tools-api</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nt">images</span><span class="p">:</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="nt">steps</span><span class="p">:</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pull cache</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcr.io/cloud-builders/docker</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bash</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-c</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker pull $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$_CACHE_TAG || exit 0</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcr.io/cloud-builders/docker</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--cache-from</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$_CACHE_TAG</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--build-arg</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BUILDKIT_INLINE_CACHE=1</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-t</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-t</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:latest</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-f</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Push</span>
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcr.io/cloud-builders/docker</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">push</span>
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--all-tags</span>
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME</span>
+<a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy</span>
+<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcr.io/google.com/cloudsdktool/cloud-sdk:slim</span>
+<a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcloud</span>
+<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
+<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">run</span>
+<a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services</span>
+<a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">update</span>
+<a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$_SERVICE_NAME</span>
+<a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--platform=managed</span>
+<a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--image=$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA</span>
+<a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID</span>
+<a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--region=$_DEPLOY_REGION</span>
+<a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--quiet</span>
+<a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--set-env-vars=SCORESHEET_CONCURRENCY=8,CORS_ORIGIN=https://sage-match-control.github.io,GITHUB_OWNER=sage-match-control,GITHUB_REPO=event-data,GITHUB_BRANCH=main,GITHUB_TOKEN=$_GITHUB_TOKEN,SYNC_SHARED_SECRET=$_SYNC_SHARED_SECRET,GOOGLE_SHEETS_API_KEY=$_GOOGLE_SHEETS_API_KEY,SHEETS_FETCH_TIMEOUT_MS=$_SHEETS_FETCH_TIMEOUT_MS,AUTH_PASSWORD_HASH=$_AUTH_PASSWORD_HASH,AUTH_TOKEN_SECRET=$_AUTH_TOKEN_SECRET,AUTH_TOKEN_TTL_MS=$_AUTH_TOKEN_TTL_MS,LIVE_PUSH_URL=$_LIVE_PUSH_URL,LIVE_PUSH_SECRET=$_LIVE_PUSH_SECRET</span>
+</code></pre></div>
+<p>What each new piece does:</p>
+<ul>
+<li><strong><code>Pull cache</code></strong> fetches the last deploy's image, tagged <code>latest</code> (about 20 s).
+  <code>|| exit 0</code> lets the build go on without it (a forced refresh, §9, or a missing
+  <code>latest</code>), which is then a full build like today's.</li>
+<li><strong><code>Build</code></strong> has no <code>--no-cache</code> and reuses every layer whose parents and
+  instruction match the pulled image: <code>node:22-slim</code> and the Chromium install,
+  unless <code>node:22-slim</code> has moved since. The <code>COPY package.json</code> layer and
+  everything after it rebuild every time, because the version is bumped with
+  every code change. <code>BUILDKIT_INLINE_CACHE=1</code> keeps the cache working if Cloud
+  Build's Docker ever switches to BuildKit (from the second build after the
+  switch). Today it prints a harmless line:
+  <code>[Warning] One or more build-args [BUILDKIT_INLINE_CACHE] were not consumed</code>.</li>
+<li><strong><code>latest</code></strong> always names the last deploy, so the next build pulls it. <code>Deploy</code>
+  still deploys <code>:$COMMIT_SHA</code>, so each Cloud Run revision still names its commit.</li>
+<li><strong><code>Push --all-tags</code></strong> pushes both tags. The registry already has the shared
+  layers (<code>Layer already exists</code>), so only the npm and code layers upload.</li>
+<li>The file's <code>_CACHE_TAG: latest</code> is a default. A run that passes
+  <code>_CACHE_TAG=none</code> overrides it (§9).</li>
+</ul>
+<p><code>cloudbuild.yaml</code> is not in the trigger's ignored files, so a push that changes it
+builds and deploys, which is what a change to the build should do.</p>
+<h3 id="53-the-trigger">5.3 The trigger<a class="headerlink" href="#53-the-trigger" title="Permanent link">&para;</a></h3>
+<p>The owner changes one setting in the Console (§7 step 6): the build config moves
+from <strong>Inline</strong> to <strong>Cloud Build configuration file</strong>, location <strong>Repository</strong>,
+path <code>cloudbuild.yaml</code>. Its event, branch, ignored files, substitution variables
+and service account stay as they are.</p>
+<h3 id="54-the-cleanup-policy">5.4 The cleanup policy<a class="headerlink" href="#54-the-cleanup-policy" title="Permanent link">&para;</a></h3>
+<p><code>keepCount</code> goes from 1 to <strong>2</strong>, before the first cached deploy (§7 step 2), so
+the 3.9.0 image (or whatever is live then) stays for rollback. The next image
+shares its 350 MB, so this costs nothing.</p>
+<h3 id="55-versioning">5.5 Versioning<a class="headerlink" href="#55-versioning" title="Permanent link">&para;</a></h3>
+<p>The <code>Dockerfile</code> and <code>cloudbuild.yaml</code> changes are one <strong>patch</strong> release of
+<code>sage-tools-api</code>: the next patch version in <code>package.json</code> and a Changelog entry
+in <code>README.md</code>. No test covers the build, so <code>test/</code> does not change; this is the
+one kind of change the "failing test first" rule can't apply to, and the entry
+says so (§7 step 4 gives its text).</p>
+<h2 id="6-size-and-time">6. Size and time<a class="headerlink" href="#6-size-and-time" title="Permanent link">&para;</a></h2>
+<p>Measured on Cloud Build (§11). Every image built with the cache shares 350 MB
+(<code>node:22-slim</code> 81 MB plus Chromium 269 MB). With D3, each deploy adds 16.3 MB
+of its own (npm 15.4 MB, code 0.8 MB, plus a few KB).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Stored</th>
+<th>Per month</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Now: last deploy only, no cache</td>
+<td>382 MB</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>First cached deploy, beside the 3.9.0 image</td>
+<td>382 + 16.3 ≈ 399 MB</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Steady state: 2 cached deploys</td>
+<td>350 + 2 × 16.3 ≈ 383 MB</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>For up to 2 deploys after <code>node:22-slim</code> moves or a forced refresh (§9)</td>
+<td>2 × 350 + 2 × 16.3 ≈ 733 MB</td>
+<td>under a cent</td>
+</tr>
+</tbody>
+</table>
+<p>After a change to the shared layers, the old 350 MB stays until both kept deploys
+have been built on the new layers, which is two deploys.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Pull cache</th>
+<th>Build</th>
+<th>Push</th>
+<th>Build + push</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Today (last 12 builds)</td>
+<td>—</td>
+<td>71–93 s</td>
+<td>43–55 s</td>
+<td>115–148 s</td>
+</tr>
+<tr>
+<td>With the cache (§11, build 1)</td>
+<td>22 s</td>
+<td>19 s</td>
+<td>8 s</td>
+<td>49 s</td>
+</tr>
+<tr>
+<td>Forced refresh, no cache (§11, build 2)</td>
+<td>2 s</td>
+<td>104 s</td>
+<td>50 s</td>
+<td>156 s</td>
+</tr>
+</tbody>
+</table>
+<p><code>Deploy</code> (27–82 s) doesn't change.</p>
+<h2 id="7-runbook">7. Runbook<a class="headerlink" href="#7-runbook" title="Permanent link">&para;</a></h2>
+<p><strong>Owner</strong> marks the steps the owner does; every other step is the implementer's.
+Run the commands in PowerShell, from the workspace root <code>D:\Personal\SAGE</code>,
+signed in to <code>gcloud</code> as the owner's account with project <code>sage-tools-api</code>
+(<code>gcloud config list</code> shows it). Stop at any step whose result differs from what
+it says, and tell the owner.</p>
+<ol>
+<li>
+<p><strong>Ask the owner to go ahead</strong>, and for the date of the next event. Do nothing
+   further unless the owner says go and the event is more than 3 days away.</p>
+</li>
+<li>
+<p><strong>Keep 2 deploys.</strong> Write this to a file outside the repositories, for example
+   <code>$env:TEMP\cleanup-policy.json</code>:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">[</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete-all"</span><span class="p">,</span><span class="w"> </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Delete"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">"condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"tagState"</span><span class="p">:</span><span class="w"> </span><span class="s2">"any"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keep-last-deploy"</span><span class="p">,</span><span class="w"> </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Keep"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">"mostRecentVersions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"packageNamePrefixes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"sage-tools-api/sage-tools-api"</span><span class="p">],</span><span class="w"> </span><span class="nt">"keepCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">]</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">gcloud</span> <span class="n">artifacts</span> <span class="n">repositories</span> <span class="nb">set-cleanup</span><span class="n">-policies</span> <span class="n">cloud-run-source-deploy</span> <span class="p">-</span><span class="n">-location</span><span class="p">=</span><span class="n">us-central1</span> <span class="p">-</span><span class="n">-policy</span><span class="p">=</span><span class="s2">"$env:TEMP\cleanup-policy.json"</span> <span class="p">-</span><span class="n">-no-dry-run</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">gcloud</span> <span class="n">artifacts</span> <span class="n">repositories</span> <span class="n">describe</span> <span class="n">cloud-run-source-deploy</span> <span class="p">-</span><span class="n">-location</span><span class="p">=</span><span class="n">us-central1</span> <span class="p">-</span><span class="n">-format</span><span class="p">=</span><span class="n">json</span>
+</code></pre></div>
+<p>The second command's <code>cleanupPolicies</code> shows <code>keepCount: 2</code>.</p>
+<ol>
+<li><strong>Seed the cache.</strong> Find the live image and tag it <code>latest</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">gcloud</span> <span class="n">run</span> <span class="n">services</span> <span class="n">describe</span> <span class="n">sage-tools-api</span> <span class="p">-</span><span class="n">-region</span> <span class="n">us-central1</span> <span class="p">-</span><span class="n">-format</span><span class="p">=</span><span class="s1">'value(spec.template.spec.containers[0].image)'</span>
+</code></pre></div>
+<p>It prints <code>…/sage-tools-api/sage-tools-api:&lt;sha&gt;</code>. Then, with that <code>&lt;sha&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">gcloud</span> <span class="n">artifacts</span> <span class="n">docker</span> <span class="n">tags</span> <span class="n">add</span> <span class="n">us-central1-docker</span><span class="p">.</span><span class="n">pkg</span><span class="p">.</span><span class="n">dev</span><span class="p">/</span><span class="n">sage-tools-api</span><span class="p">/</span><span class="n">cloud-run-source-deploy</span><span class="p">/</span><span class="n">sage-tools-api</span><span class="p">/</span><span class="n">sage-tools-api</span><span class="p">:&lt;</span><span class="n">sha</span><span class="p">&gt;</span> <span class="n">us-central1-docker</span><span class="p">.</span><span class="n">pkg</span><span class="p">.</span><span class="n">dev</span><span class="p">/</span><span class="n">sage-tools-api</span><span class="p">/</span><span class="n">cloud-run-source-deploy</span><span class="p">/</span><span class="n">sage-tools-api</span><span class="p">/</span><span class="n">sage-tools-api</span><span class="p">:</span><span class="n">latest</span>
+</code></pre></div>
+<p>Record the repository's size now, for check 2:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">gcloud</span> <span class="n">artifacts</span> <span class="n">repositories</span> <span class="n">describe</span> <span class="n">cloud-run-source-deploy</span> <span class="p">-</span><span class="n">-location</span><span class="p">=</span><span class="n">us-central1</span> <span class="p">-</span><span class="n">-format</span><span class="p">=</span><span class="s1">'value(sizeBytes)'</span>
+</code></pre></div>
+<ol>
+<li><strong>Make the repository change</strong> in <code>sage-tools-api</code>, on <code>main</code>, up to date with
+   <code>origin/main</code> and with a clean working tree:</li>
+<li><code>Dockerfile</code> as in §5.1.</li>
+<li><code>cloudbuild.yaml</code> as in §5.2, character for character.</li>
+<li><code>package.json</code>: the next patch version.</li>
+<li>
+<p><code>README.md</code>'s Changelog, at the top of the entries:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gu">### &lt;version&gt; — cached builds</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">-</span><span class="w"> </span>The build trigger now runs <span class="sb">`cloudbuild.yaml`</span> from this repository instead of an inline config.
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>  It pulls the last deploy's image (<span class="sb">`latest`</span>) and builds <span class="sb">`--cache-from`</span> it, so a deploy reuses the
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>  Node and Chromium layers instead of reinstalling Chromium (<span class="sb">`--no-cache`</span> is gone), and pushes both
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  its commit tag and <span class="sb">`latest`</span>. The <span class="sb">`Deploy`</span> step and every environment variable are unchanged.
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>  <span class="sb">`_CACHE_TAG=none`</span> forces a build without the cache.
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="k">-</span><span class="w"> </span>The <span class="sb">`Dockerfile`</span>'s npm step clears npm's download cache, halving the layer each deploy stores.
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="k">-</span><span class="w"> </span><span class="gs">**Tests:**</span> none. No test covers the <span class="sb">`Dockerfile`</span> or the build config, so this change has no
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  failing test first; it is checked by the production checks in lean-deploy-image-spec §8.
+</code></pre></div>
+</li>
+<li>
+<p><code>README.md</code>'s paragraph that starts "A push to <code>main</code> deploys Cloud Run
+     through a Cloud Build trigger": add a sentence saying the trigger runs
+     <code>cloudbuild.yaml</code>, and that a change to it builds and deploys.</p>
+</li>
+</ol>
+<p>Run <code>npm test</code>, then <code>npm run verify</code>; both pass. Commit (message
+   <code>&lt;version&gt;: cached builds (cloudbuild.yaml, --cache-from latest, npm cache cleared)</code>).
+   <strong>Do not push yet.</strong></p>
+<ol>
+<li>
+<p><strong>Tell the owner the commit is ready</strong> and ask for step 6.</p>
+</li>
+<li>
+<p><strong>Owner</strong>, in the Cloud Console (project <code>sage-tools-api</code>): <strong>Cloud Build →
+   Triggers →</strong> <code>rmgpgab-sage-tools-api-us-central1-sage-match-control-sage-tjfv</code>
+   <strong>→ Edit</strong>.</p>
+</li>
+<li><strong>Configuration</strong>: Type <strong>Cloud Build configuration file (yaml or json)</strong>,
+     Location <strong>Repository</strong>, file location <code>cloudbuild.yaml</code>.</li>
+<li>Leave <strong>Event</strong>, <strong>Source</strong>, the ignored files, the <strong>Substitution
+     variables</strong> and the <strong>Service account</strong> as they are.</li>
+<li><strong>Save</strong>, and tell the implementer it is done.</li>
+</ol>
+<p>Until the push in step 7, nobody pushes to <code>sage-tools-api</code>'s <code>main</code>: the
+   trigger now expects a file that isn't there yet.</p>
+<ol>
+<li><strong>Push</strong> the commit from step 4. The pre-push hook runs the tests again. The
+   push starts a build; find it and wait for it to finish (about 2 minutes):</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">gcloud</span> <span class="n">builds</span> <span class="n">list</span> <span class="p">-</span><span class="n">-region</span><span class="p">=</span><span class="n">global</span> <span class="p">-</span><span class="n">-limit</span><span class="p">=</span><span class="n">1</span> <span class="p">-</span><span class="n">-format</span><span class="p">=</span><span class="s1">'table(id,createTime,status)'</span>
+</code></pre></div>
+<p>Repeat until <code>STATUS</code> is <code>SUCCESS</code> (or <code>FAILURE</code>: go to §10). Then run the
+   checks in §8.</p>
+<ol>
+<li><strong>Docs</strong>, once every check in §8 passes:</li>
+<li><code>sage-docs/docs/technical/deployment.md</code>, section <strong>Cloud Run deploy</strong>:
+     replace "The build/deploy trigger runs the equivalent of: …" with a
+     description of <code>cloudbuild.yaml</code>'s four steps (pull the last deploy's image,
+     build with its cache, push the commit tag and <code>latest</code>, deploy), keep the
+     <code>gcloud run deploy --source .</code> command as the <strong>manual fallback</strong> only, and
+     add two short subsections: <strong>Image storage and rollback</strong> (the cleanup
+     policy keeps 2 deploys; roll back one step from the Cloud Run console's
+     Revisions tab) and <strong>Refreshing Chromium</strong> (§9's command). In <strong>Which
+     pushes build</strong>, add that a change to <code>cloudbuild.yaml</code> builds.</li>
+<li>The workspace <code>CLAUDE.md</code> (<code>D:\Personal\SAGE\CLAUDE.md</code>, repository
+     <code>sage-workspace</code>), section <code>sage-tools-api</code>, the paragraph "Deploys
+     automatically on push to <code>main</code> via a Cloud Run build trigger …": say the
+     trigger runs <code>cloudbuild.yaml</code>, cached from the last deploy, and that the
+     <code>Dockerfile</code> comment's command is the manual fallback.</li>
+<li>
+<p>Move this spec from <code>not-started/</code> to <code>implemented/</code> by the procedure in
+     <code>sage-docs/docs/specs/README.md</code> ("Moving a spec between folders"), set its
+     status line to <strong>Implemented</strong> with the version and date, and add a MINOR
+     entry to <code>sage-docs/docs/changelog.md</code> (and the same version in
+     <code>mkdocs.yml</code>) covering both pages.</p>
+</li>
+<li>
+<p><strong>The next day</strong>, check the size (§8 check 6).</p>
+</li>
+</ol>
+<h2 id="8-checks">8. Checks<a class="headerlink" href="#8-checks" title="Permanent link">&para;</a></h2>
+<p>After the build in step 7:</p>
+<ol>
+<li><strong>It deployed.</strong> The live image is the new commit, and <code>/ping</code> answers the new
+   version:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">gcloud</span> <span class="n">run</span> <span class="n">services</span> <span class="n">describe</span> <span class="n">sage-tools-api</span> <span class="p">-</span><span class="n">-region</span> <span class="n">us-central1</span> <span class="p">-</span><span class="n">-format</span><span class="p">=</span><span class="s1">'value(status.url,spec.template.spec.containers[0].image)'</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">curl</span><span class="p">.</span><span class="n">exe</span> <span class="n">-sI</span> <span class="p">&lt;</span><span class="n">url</span><span class="p">&gt;/</span><span class="n">ping</span>
+</code></pre></div>
+<p><code>X-App-Version</code> is the version from step 4.</p>
+<ol>
+<li><strong>The cache hit.</strong> The repository grew by about 16 MB, not about 285 MB:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">gcloud</span> <span class="n">artifacts</span> <span class="n">repositories</span> <span class="n">describe</span> <span class="n">cloud-run-source-deploy</span> <span class="p">-</span><span class="n">-location</span><span class="p">=</span><span class="n">us-central1</span> <span class="p">-</span><span class="n">-format</span><span class="p">=</span><span class="s1">'value(sizeBytes)'</span>
+</code></pre></div>
+<p>Compare with the size from step 3: under 50 MB more means the Chromium layer
+   was reused. (If a package named <code>cache-test</code> from the 2026-11-23 test is still
+   listed, <code>gcloud artifacts packages list --repository=cloud-run-source-deploy --location=us-central1</code>,
+   its size was in both readings.) The build's log in the Console (<strong>Cloud Build →
+   History →</strong> the build <strong>→ Build</strong>) shows <code>Using cache</code> under
+   <code>Step 2/12 : RUN apt-get update &amp;&amp; apt-get install …</code>.</p>
+<ol>
+<li><strong>It was faster.</strong> <code>Build</code> plus <code>Push</code> took under a minute:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">gcloud</span> <span class="n">builds</span> <span class="n">describe</span> <span class="p">&lt;</span><span class="n">build</span> <span class="n">id</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-region</span><span class="p">=</span><span class="n">global</span> <span class="p">-</span><span class="n">-format</span><span class="p">=</span><span class="s1">'json(steps[].id,steps[].timing)'</span>
+</code></pre></div>
+<ol>
+<li><strong><code>latest</code> moved.</strong> Both tags are on the new image:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">gcloud</span> <span class="n">artifacts</span> <span class="n">docker</span> <span class="n">tags</span> <span class="n">list</span> <span class="n">us-central1-docker</span><span class="p">.</span><span class="n">pkg</span><span class="p">.</span><span class="n">dev</span><span class="p">/</span><span class="n">sage-tools-api</span><span class="p">/</span><span class="n">cloud-run-source-deploy</span><span class="p">/</span><span class="n">sage-tools-api</span><span class="p">/</span><span class="n">sage-tools-api</span>
+</code></pre></div>
+<p><code>latest</code> and the new commit SHA show the same digest.</p>
+<ol>
+<li><strong>Scoresheets render.</strong> Save this as <code>$env:TEMP\check.csv</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>matchNumber,teamCode1,team1Player1,team1Player2,teamCode2,team2Player1,team2Player2
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>1,AAA,Ann Cruz,Ben Diaz,BBB,Cy Eng,Di Fox
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>2,CCC,Gus Hall,Ivy Jin,DDD,Kai Lee,Mo Ng
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>3,EEE,Ola Pak,Qin Ray,FFF,Sol Tan,Uma Vo
+</code></pre></div>
+<p>and post it once for each registered type, <code>scoresheet</code>, <code>scoresheet-no-ref</code>
+   and <code>scoresheet-no-ref-wide</code> (no sign-in needed), changing <code>type=</code> and the
+   output file's name each time:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">curl</span><span class="p">.</span><span class="n">exe</span> <span class="n">-s</span> <span class="n">-o</span> <span class="s2">"$env:TEMP\check-scoresheet.pdf"</span> <span class="n">-w</span> <span class="s1">'%{http_code} %{content_type} %{size_download}'</span> <span class="n">-H</span> <span class="s1">'Accept: application/pdf'</span> <span class="o">-F</span> <span class="n">evt</span><span class="p">=</span><span class="n">Check</span> <span class="o">-F</span> <span class="n">type</span><span class="p">=</span><span class="n">scoresheet</span> <span class="o">-F</span> <span class="n">blanks</span><span class="p">=</span><span class="n">0</span> <span class="o">-F</span> <span class="s2">"csv=@$env:TEMP\check.csv"</span> <span class="p">&lt;</span><span class="n">url</span><span class="p">&gt;/</span><span class="n">v3</span><span class="p">/</span><span class="n">scoresheets</span>
+</code></pre></div>
+<p>Each answers <code>200 application/pdf</code> and more than 1,000 bytes. The first may
+   take 20–30 s (Chromium's cold start).</p>
+<ol>
+<li><strong>The next day</strong>, the size is about 383–400 MB and the package
+   <code>sage-tools-api/sage-tools-api</code> lists two images (step 3's command and
+   <code>gcloud artifacts docker images list us-central1-docker.pkg.dev/sage-tools-api/cloud-run-source-deploy/sage-tools-api/sage-tools-api</code>).</li>
+</ol>
+<h2 id="9-keeping-chromium-current">9. Keeping Chromium current<a class="headerlink" href="#9-keeping-chromium-current" title="Permanent link">&para;</a></h2>
+<p>Today every deploy installs the newest Chromium. With the cache, Chromium changes
+only when <code>node:22-slim</code> moves (Docker republishes it for Node and Debian
+updates, every few weeks) or on purpose:</p>
+<ul>
+<li><strong>To refresh on purpose</strong>, outside event weeks, run the trigger on <code>main</code>
+  without the cache; it rebuilds and redeploys the same commit with the newest
+  Chromium:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">gcloud</span> <span class="n">builds</span> <span class="n">triggers</span> <span class="n">run</span> <span class="n">rmgpgab-sage-tools-api-us-central1-sage</span><span class="o">-match</span><span class="n">-control-sage-tjfv</span> <span class="p">-</span><span class="n">-region</span><span class="p">=</span><span class="n">global</span> <span class="p">-</span><span class="n">-branch</span><span class="p">=</span><span class="n">main</span> <span class="p">-</span><span class="n">-substitutions</span><span class="p">=</span><span class="n">_CACHE_TAG</span><span class="p">=</span><span class="n">none</span>
+</code></pre></div>
+<p>Or in the Console: <strong>Cloud Build → Triggers → Run</strong> on the trigger, with the
+  substitution <code>_CACHE_TAG</code> set to <code>none</code>. The <code>Pull cache</code> step then fails
+  harmlessly (<code>manifest unknown</code>) and the build starts from nothing.
+- A scoresheet that renders differently after a refresh is a Chromium change:
+  roll back one revision (§10) and report it.</p>
+<p>The service renders only its own templates, never a page from outside, so a
+Chromium security fix rarely matters to it; one that does is a reason to refresh.</p>
+<h2 id="10-if-something-goes-wrong">10. If something goes wrong<a class="headerlink" href="#10-if-something-goes-wrong" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Effect</th>
+<th>Do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The build fails in <code>Pull cache</code>, <code>Build</code> or <code>Push</code></td>
+<td>Nothing deploys; the live revision keeps serving</td>
+<td>Read the build log in the Console. Fix <code>cloudbuild.yaml</code> and push. If that can't be done quickly, the <strong>owner</strong> switches the trigger back to <strong>Inline</strong> and pastes Appendix A; the trigger's substitution variables are still there</td>
+</tr>
+<tr>
+<td>The build fails in <code>Deploy</code></td>
+<td>The new image is stored, the live revision keeps serving</td>
+<td>Same as above</td>
+</tr>
+<tr>
+<td>It deploys but the service misbehaves</td>
+<td>The new revision serves</td>
+<td><strong>Cloud Run → sage-tools-api → Revisions →</strong> the previous revision <strong>→ Manage traffic → 100%</strong>. Its image is still kept (<code>keepCount</code> 2). Then revert the commit and push</td>
+</tr>
+<tr>
+<td>Check 2 shows about 285 MB of growth</td>
+<td>The cache missed: storage and time are as today, nothing is broken</td>
+<td>Confirm in the build log which step stopped using the cache. If it was <code>FROM</code> (<code>node:22-slim</code> moved between step 3 and step 7), the next deploy will hit. If not, report it; the base-image design in §4 is the fallback</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-tested-2026-11-23">11. Tested 2026-11-23<a class="headerlink" href="#11-tested-2026-11-23" title="Permanent link">&para;</a></h2>
+<p>Two builds with <code>gcloud builds submit</code>, from commit <code>38bab1a</code>'s files with
+<code>package.json</code>'s version bumped as the next deploy's would be, ran §5.2's
+<code>Pull cache</code>, <code>Build</code> and <code>Push</code> steps. They pushed to a throwaway package,
+<code>cache-test/sage-tools-api</code>, which the cleanup policy deletes, and deployed nothing.</p>
+<ol>
+<li><strong>Cache from the live image</strong> (<code>:38bab1a…</code>): the <code>Build</code> log showed
+   <code>Using cache</code> for the Chromium install and every step before the
+   <code>package.json</code> copy. The new image's <code>node:22-slim</code> and Chromium layers have
+   the live image's digests (Chromium <code>49de7d1b4336</code>). <code>Push</code> reported them as
+   <code>Layer already exists</code> and uploaded the other 32.7 MB, and the repository grew
+   by 32.6 MB. The cache hit although Docker Hub's copy of <code>node:22-slim</code>'s first
+   layer has a different compressed digest from the stored one, because the cache
+   compares contents.</li>
+<li><strong>A forced refresh</strong> (<code>_CACHE_TAG=none</code>), with D3's <code>npm cache clean --force</code>:
+   the pull failed (<code>manifest unknown</code>) and the build went on, installed Chromium
+   156.0.8078.79 afresh and stored a new 269 MB layer. The npm layer came to
+   15.4 MB, with <code>/root/.npm</code> down to 1 MB.</li>
+</ol>
+<p>Untested: the trigger reading <code>cloudbuild.yaml</code> from the repository, the <code>Deploy</code>
+step from that file, and <code>gcloud builds triggers run --substitutions</code>. Checks 1–4
+cover the first two on the first real deploy.</p>
+<h2 id="appendix-a-the-inline-build-config-before-this-change">Appendix A — the inline build config before this change<a class="headerlink" href="#appendix-a-the-inline-build-config-before-this-change" title="Permanent link">&para;</a></h2>
+<p>What the trigger ran up to this change, without its substitutions (the trigger
+keeps those). Pasting it back as the trigger's <strong>Inline</strong> config undoes §7 step 6.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nt">steps</span><span class="p">:</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcr.io/cloud-builders/docker</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">build</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">--no-cache</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-t</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">'$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">.</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-f</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Dockerfile</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Push</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcr.io/cloud-builders/docker</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">'$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcr.io/google.com/cloudsdktool/cloud-sdk:slim</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcloud</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="w">    </span><span class="nt">args</span><span class="p">:</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">run</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">update</span>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$_SERVICE_NAME</span>
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--platform=managed</span>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--image=$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA</span>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID</span>
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--region=$_DEPLOY_REGION</span>
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--quiet</span>
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--set-env-vars=SCORESHEET_CONCURRENCY=8,CORS_ORIGIN=https://sage-match-control.github.io,GITHUB_OWNER=sage-match-control,GITHUB_REPO=event-data,GITHUB_BRANCH=main,GITHUB_TOKEN=$_GITHUB_TOKEN,SYNC_SHARED_SECRET=$_SYNC_SHARED_SECRET,GOOGLE_SHEETS_API_KEY=$_GOOGLE_SHEETS_API_KEY,SHEETS_FETCH_TIMEOUT_MS=$_SHEETS_FETCH_TIMEOUT_MS,AUTH_PASSWORD_HASH=$_AUTH_PASSWORD_HASH,AUTH_TOKEN_SECRET=$_AUTH_TOKEN_SECRET,AUTH_TOKEN_TTL_MS=$_AUTH_TOKEN_TTL_MS,LIVE_PUSH_URL=$_LIVE_PUSH_URL,LIVE_PUSH_SECRET=$_LIVE_PUSH_SECRET</span>
+<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a><span class="nt">images</span><span class="p">:</span>
+<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA</span>
+<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a><span class="nt">options</span><span class="p">:</span>
+<a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a><span class="w">  </span><span class="nt">substitutionOption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ALLOW_LOOSE</span>
+<a id="__codelineno-21-26" name="__codelineno-21-26" href="#__codelineno-21-26"></a><span class="w">  </span><span class="nt">logging</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CLOUD_LOGGING_ONLY</span>
+<a id="__codelineno-21-27" name="__codelineno-21-27" href="#__codelineno-21-27"></a><span class="nt">tags</span><span class="p">:</span>
+<a id="__codelineno-21-28" name="__codelineno-21-28" href="#__codelineno-21-28"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp-cloud-build-deploy-cloud-run</span>
+<a id="__codelineno-21-29" name="__codelineno-21-29" href="#__codelineno-21-29"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcp-cloud-build-deploy-cloud-run-managed</span>
+<a id="__codelineno-21-30" name="__codelineno-21-30" href="#__codelineno-21-30"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sage-tools-api</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../automated-dry-run-spec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Automated dry run">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Automated dry run
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ranking-rules-spec/" class="md-footer__link md-footer__link--next" aria-label="Next: Ranking rules">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Ranking rules
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.104.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

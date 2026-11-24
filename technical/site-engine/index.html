@@ -1,0 +1,6074 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for S.A.G.E. Match Control Experts' tournament tooling.">
+      
+      
+      
+        <link rel="canonical" href="https://sage-match-control.github.io/sage-docs/technical/site-engine/">
+      
+      
+        <link rel="prev" href="../scorer-page/">
+      
+      
+        <link rel="next" href="../control-center/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="https://sage-match-control.github.io/assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Site engine - S.A.G.E. Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#site-engine" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-header__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            S.A.G.E. Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Site engine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../usage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../features/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Features
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../specs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="S.A.G.E. Documentation" class="md-nav__button md-logo" aria-label="S.A.G.E. Documentation" data-md-component="logo">
+      
+  <img src="https://sage-match-control.github.io/assets/logo.png" alt="logo">
+
+    </a>
+    S.A.G.E. Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sage-match-control/sage-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sage-match-control/sage-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/before-you-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles, access and kit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing the event
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparing the event
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/plan-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Plan it
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/build-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Build the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/draw-and-rosters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Draw and fill rosters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/register-and-build-the-site/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Register and build the site
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/connect-the-workbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Connect the workbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/printables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Print
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/rehearse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Rehearse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    On the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/run-the-day/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Run the day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. When something's wrong
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handouts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Handouts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/scorer-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/desk-handout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance desks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/after-the-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    After the event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public pages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Public pages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the day
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Running the day
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/score-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/clock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoring workbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scoring workbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoring-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The scoring workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/team-workbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and print tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and print tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/prize-draw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prize draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/scoresheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scoresheet-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-meet-sheet-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual Meet Sheet Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../named-function-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named Function library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard-tournament-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-attendance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scorer-page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scorer page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-versioning-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The versioning rule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-model-every-view-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The model every view reads
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extension-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extension points
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings-the-shells-and-fixture-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Settings, the shells and fixture mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#match-numbers-categories-and-done-courts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Match numbers, categories and done courts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-pair-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The pair summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#showing-a-searchs-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Showing a search's results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-bar-the-banner-folds-into" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The bar the banner folds into
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-round-robin-pills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The round-robin pills
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-standings-row-opens-its-pair" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Standings row opens its pair
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-podium" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The podium
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-club-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The club bar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category chips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-scoring-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The scoring rule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-bracket-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The bracket chart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-theme-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The theme contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-comparison-harness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The comparison harness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-the-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing the engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../control-center/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule-board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tournament-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tournament Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bracket-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prize-draw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prize draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-data-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event registry schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adding-a-new-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a new event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/event-spec-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event spec template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/implemented/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implemented
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implemented
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/team-tournament-template-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament event-site template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sync-config-runtime-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime-fetched sync config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sync-script-configuration-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync script configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/match-control-console-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Match Control console
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/awards-podium-tab-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Awards tab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/schedule-screen-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/scoresheet-event-picker-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scoresheet event picker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/scoresheet-team-names-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team names on scoresheets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/calculator-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator dual-meet fixes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/calculator-pwa-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator PWA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/calculator-share-estimate-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator share and presets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-generator-verifiable-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifiable draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-draw-name-import-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket draw name import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/prize-draw-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prize draw (Lucky Dink)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-sheet-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sheet generator (Phase 1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-schedule-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule generator (Phase 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/dual-meet-readouts-generator-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Readouts generator (Phase 3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/standard-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/standings-bracket-chart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Playoff bracket chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/event-templates-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event site templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/pnf-x-bup-dual-meet-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PNF x BUP dual meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/pickle-for-sight-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLSO Pickle for Sight
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/piggleball-chairmans-cup-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Piggleball Chairman's Cup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/millennium-invitational-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Millennium Invitational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/ladies-dink-club-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ladies' Dink 1st Club Tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/acso-employees-sportsfest-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angeles City Employees Sportsfest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/pickledrive-club-anniversary-team-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/team-workbook-stack-cache-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team workbook recalculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/facility-progress-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility progress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/multi-event-attendance-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attendance for every event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/immediate-sync-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immediate sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sage-tools-api-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/bracket-generator-keep-apart-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bracket Generator keep-apart groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/durable-object-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/durable-object-push-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live push delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/control-center-score-entry-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Score entry and scorer links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/site-engine-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/hub-player-experience-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hub player experience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/link-attribution-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link attribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/attendance-push-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Push for attendance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/sage-tools-api-architecture-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sage-tools-api architecture hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/code-and-access-protection-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code and access protection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/docs-usage-guide-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage guide and docs restructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/implemented/mission-control-layout-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mission Control and attendance marks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/in-progress/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In progress
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    In progress
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/double-round-robin-and-finals-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Double and best-of-3 round robin, finals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/upap-3rd-annual-tournament-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UPAP 3rd Annual Tournament
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/control-center-court-control-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Court Control from Control Center
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/in-progress/ultimate-generation-cup-2026-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Ultimate Generation Cup 2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/not-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Not started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Not started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/site-test-suite-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Site test suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/calculator-team-format-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calculator team format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/team-tournament-master-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team Tournament Master
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/automated-dry-run-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated dry run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/lean-deploy-image-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean deploy image
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/not-started/ranking-rules-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ranking rules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specs/archived/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archived
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archived
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/archived/fast-data-delivery-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/archived/fast-data-delivery-explainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fast data delivery - explainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-versioning-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The versioning rule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-model-every-view-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The model every view reads
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extension-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extension points
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings-the-shells-and-fixture-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Settings, the shells and fixture mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#match-numbers-categories-and-done-courts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Match numbers, categories and done courts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-pair-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The pair summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#showing-a-searchs-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Showing a search's results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-bar-the-banner-folds-into" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The bar the banner folds into
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-round-robin-pills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The round-robin pills
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-standings-row-opens-its-pair" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Standings row opens its pair
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-podium" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The podium
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-club-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The club bar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category chips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-scoring-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The scoring rule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-bracket-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The bracket chart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-theme-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The theme contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-comparison-harness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The comparison harness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-the-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing the engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/sage-match-control/sage-docs/edit/main/docs/technical/site-engine.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="site-engine">Site engine<a class="headerlink" href="#site-engine" title="Permanent link">&para;</a></h1>
+<p>The site's pages share their code as JavaScript modules under
+<code>sage-match-control.github.io/lib/v1/</code>, the <strong>engine</strong>. Each event page is a
+<strong>shell</strong> (its markup, its colours and one small settings script), and
+<code>tools/control-center.html</code> imports the same modules for every view it shares
+with an event page. There is no build step, no framework and no runtime
+dependency beyond what a page loads from Google Fonts and, for Control Center's
+desk-link QR code, cdnjs. Pushing to GitHub Pages deploys it.</p>
+<h2 id="layout">Layout<a class="headerlink" href="#layout" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>lib/v1/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  platform.js      constants: the Pages address, the Cloud Run URL, fetch timeout, poll intervals, fixtureName()
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  domain/          the rules, pure functions with no DOM and no clock
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    csv  byes  series  deciders  matches  pair-schedule  standings  standings-status  codes  bracket  brackets  golive  progress
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    teams  lineup-rules  awards  event-pages  attendance  attendance-marks  schedule-grid  scoresheet-names  courts  model
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    board-day  initial-day
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  data/            the outside world
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    registry  snapshot  live-channel  attendance-signal  attendance-status  operator-session  api  tokens
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  views/           functions that return HTML strings, plus small components
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    html  scroll  reveal  hub-bar  ticket  finder  club-bar  live-matches  standings  podium  bracket  bracket-full  teams  team-mark
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    score-dialog  court-dialog  attendance-view
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>  apps/            one per kind of page, wiring data, model and views to the page's markup
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    hub  schedule-board  scorer  attendance-desk
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  css/             ticket  finder  live-matches  standings  teams  score-dialog  court-dialog  attendance
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>                   hub  schedule-board  scorer  attendance-desk
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>_tests/            never published (Jekyll skips folders that start with "_")
+</code></pre></div>
+<p>Pages import the engine by root-absolute path (<code>/lib/v1/apps/hub.js</code>), for the
+same reason their assets are root-absolute: moving an event's folder into
+<code>events/archives/</code> must not break it.</p>
+<h2 id="dependency-rules">Dependency rules<a class="headerlink" href="#dependency-rules" title="Permanent link">&para;</a></h2>
+<p>Imports point one way, enforced by <code>_tests/unit/guards.test.mjs</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>May import</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>platform.js</code></td>
+<td>nothing</td>
+</tr>
+<tr>
+<td><code>domain/</code></td>
+<td>other <code>domain/</code> files</td>
+</tr>
+<tr>
+<td><code>data/</code></td>
+<td><code>platform</code>, <code>domain</code>, <code>data</code></td>
+</tr>
+<tr>
+<td><code>views/</code></td>
+<td><code>domain</code>, <code>views</code></td>
+</tr>
+<tr>
+<td><code>apps/</code></td>
+<td><code>platform</code>, <code>domain</code>, <code>data</code>, <code>views</code> (never another app)</td>
+</tr>
+</tbody>
+</table>
+<p><code>domain/</code> uses no browser global: a function that needs the time takes <code>now</code>.
+Nothing under <code>views/</code> or <code>domain/</code> names an operator feature, apart from
+<code>score-dialog.js</code>, <code>court-dialog.js</code> and <code>attendance-view.js</code>, which are Control Center and the
+scorer and desk pages' components. No file in them takes a flag that names a
+page (<code>isConsole</code>, <code>mode: 'hub'</code>).</p>
+<h2 id="the-versioning-rule">The versioning rule<a class="headerlink" href="#the-versioning-rule" title="Permanent link">&para;</a></h2>
+<p>A page names the engine version in every import. Only the newest version
+folder is edited, and an edit must be compatible: it may add a module, an
+export, an option or a CSS class, or fix a bug, but never removes or renames an
+export, a CSS class a page's markup or CSS uses, or a theme property, and never
+changes an export's parameters or return shape in a way an existing caller
+would notice. GitHub Pages lets a browser keep a file for up to ten minutes, so
+within a version one module only starts using another module's export after
+that export was published in an earlier push.</p>
+<p>An incompatible change is a new folder, <code>lib/v2/</code>: copy <code>v1</code>, change it there,
+move Control Center, the templates and every unfinished event's pages to it,
+and freeze <code>v1</code>. A finished event's shell never moves version.</p>
+<h2 id="the-model-every-view-reads">The model every view reads<a class="headerlink" href="#the-model-every-view-reads" title="Permanent link">&para;</a></h2>
+<p><code>data/registry.js</code> returns an <code>EventConfig</code> for one event, read from
+<code>event-data/config/events.json</code> the way Control Center reads it: <code>type</code>
+(required, never inferred), <code>title</code>, <code>days</code> (in date order, each with its
+facility names), <code>display</code> (the code-to-label maps for divisions, events and
+clubs; key order is display order), <code>scoreEntry</code>, <code>attendance</code>, <code>teamScoring</code> (a team event's rule: <code>"points"</code>, or
+<code>"games"</code> when <code>events.json</code> says so), <code>scoring</code> (the game's own rule, <code>{ to, winBy, podiumWinBy }</code>, or <code>null</code>
+without the setting; see <a href="#the-scoring-rule">the scoring rule</a>) and <code>playoffSeats</code> (a standard event's labels for empty
+playoff seats, <code>{}</code> without the setting; see <a href="#the-bracket-chart">the bracket chart</a>). A successful
+fetch is kept in <code>localStorage</code> (<code>sage.registry.lastGood</code>), and a failed one
+falls back to it.</p>
+<p><code>domain/model.js</code> <code>buildDayModel(event, day, snapshot, { now, alwaysLive })</code>
+turns one day's snapshot into a <code>DayModel</code>: every facility's matches (and each
+facility's own, for the Live Matches board), the standings, the match index by
+code, the games that will never be played (a series Final's games after its decider, and a team playoff
+matchup's tiebreaker that the matchup's other games made unnecessary), whether the day is live
+(<code>alwaysLive</code> is Control Center, which always shows scores) and, for a team
+event, its <code>team</code> data. It is built once per snapshot and handed to every view.</p>
+<h2 id="extension-points">Extension points<a class="headerlink" href="#extension-points" title="Permanent link">&para;</a></h2>
+<p>Control Center adds to a shared view through an option that does nothing by
+default, never a flag. Each is documented in the JSDoc of the function that
+offers it.</p>
+<table>
+<thead>
+<tr>
+<th>View</th>
+<th>Option</th>
+<th>What Control Center passes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ticket</td>
+<td><code>decorate(m)</code> → <code>{ className, attrs, metaHTML }</code>, <code>teamLogoHTML(code)</code>, <code>markPlayer(name, match)</code> → class</td>
+<td>the click-to-score class, attributes and hint; the dual-meet Hub passes club logos; a class on one player's name (Control Center's not-in mark)</td>
+</tr>
+<tr>
+<td>Match Finder</td>
+<td><code>searchHandlers</code>, <code>searchHint</code>, <code>delegate</code>, <code>onSearched()</code>, <code>introTop(model)</code></td>
+<td>the match-number search; the team event's own finder; nothing for <code>onSearched</code> (the Hub passes <code>revealResults</code>) or <code>introTop</code> (the dual-meet Hub passes the club bar; Control Center and every other event draw none)</td>
+</tr>
+<tr>
+<td>Live Matches</td>
+<td><code>facilityExtras(name, model)</code> with <code>extrasEl</code>, <code>liveRow</code>, <code>emptyMatchupHTML</code>, <code>teamLogoHTML</code>, <code>courtCell(facility, court, match\|null)</code> → <code>{ className, attrs, html }</code> or <code>null</code>, <code>markPlayer(name, match)</code> → class, <code>matchNote(match)</code> → html, <code>countDone</code></td>
+<td>the facility progress cards; a team event's rows; the dual-meet Hub's club logos; the <strong>Set match</strong> button on each court's cell (<code>withCourtCell</code> adds it to the first <code>live-court-cell</code> of a court's row, whichever builder drew it); a class on a name, and html after a row's category and round; <code>true</code>, so a done court counts apart from the courts in play</td>
+</tr>
+<tr>
+<td>Standings</td>
+<td><code>dualMeetDesktopLayout</code> (<code>'grid'</code> or <code>'row'</code>), <code>rrBracketLayout</code> (<code>'grid'</code> or <code>'column'</code>), <code>clubLogoHTML</code>, <code>unresolved</code>, <code>decorateBracketMatch(m)</code> → <code>{ className, attrs }</code>, <code>markPlayer(name, match\|null)</code> → class, <code>onPairSelect(teamCode)</code>, <code>podium</code>, <code>jumpChips</code></td>
+<td>the row layout; the dual-meet Hub's single table and logos; the set the label warning reads; the click-to-score class and attributes for a bracket card whose game has a scheduled match; a class on a name in the list view (<code>null</code> for a round-robin row, which has no match); <code>openPairInFinder</code> for <code>onPairSelect</code> (the pair in Match Finder, as the Hub does); nothing for <code>podium</code> (the Hub draws a finished category's podium; Control Center has its Awards tab) or <code>jumpChips</code> (the dual-meet Hub draws the chips on a phone)</td>
+</tr>
+<tr>
+<td>team views</td>
+<td><code>decorateRow</code>, <code>expandAllClass</code>, <code>teamLetters</code>, <code>searchHint</code>, <code>onSearched()</code>, <code>podium</code></td>
+<td>the click-to-score row hook; the Teams tab's button class (Control Center); no team letters and the Hub's own search hint (a team event's Hub); nothing for <code>onSearched</code> (the Hub passes <code>revealResults</code>); nothing for <code>podium</code> (the Hub opens the Standings with the event's podium)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="settings-the-shells-and-fixture-mode">Settings, the shells and fixture mode<a class="headerlink" href="#settings-the-shells-and-fixture-mode" title="Permanent link">&para;</a></h2>
+<p>Each <code>apps/</code> module documents its settings in its header and rejects an
+unknown or missing one with a console error that names it: <code>mountHub({
+eventKey, liveBaseUrl, clubLogos })</code>, <code>mountScheduleBoard({ eventKey, dayKey,
+liveBaseUrl, categoryColors, clubOrder, type })</code>, <code>mountScorer({ eventKey,
+liveBaseUrl })</code>, <code>mountAttendanceDesk({ eventKey })</code>. A shell keeps the
+constant names <code>EVENT_KEY</code>, <code>LIVE_BASE_URL</code> and (schedule board) <code>DAY_KEY</code>,
+which the harness and the runbook find by name.</p>
+<p><code>mountHub</code> serves all three event types. For <code>"team"</code> it builds the team views
+(<code>views/teams.js</code>, the same component Control Center uses, so it has two
+callers) with <code>teamLetters: false</code> and its own <code>searchHint</code>, and shows a fourth
+Teams tab. The schedule board takes <code>type</code> (<code>'standard'</code>, <code>'dual-meet'</code> or
+<code>'team'</code>, inferred from <code>clubOrder</code> without it); a team board also reads the
+event's <code>display.pairs</code> from <code>events.json</code>. A board whose page has the
+<code>#dayfilter</code> container reads the event's days from <code>events.json</code> too, for its
+<strong>Day</strong> picker; which day it shows is <code>domain/board-day.js</code>
+(<a href="../schedule-board/#day-picker-day">schedule board</a>).</p>
+<p>Which day the Hub and Control Center open on is <code>domain/initial-day.js</code>'s
+<code>initialDayIndex({ days, savedKey, today })</code>: the day this browser last picked for the
+event (<code>savedKey</code>, while it is still one of the event's days), else the day dated
+<code>today</code>, else the day nearest <code>today</code> by date (a later day winning a tie), else the
+first day; <code>null</code> only for an event with no days. <code>today</code> is <code>manilaIsoDate(now)</code>, the
+Philippines' date, with <code>now</code> passed in by the caller. The Hub passes the day saved
+under <code>&lt;event&gt;.dayIndex</code>; Control Center the event's entry in
+<code>sage.controlCenter.dayByEvent</code> (<code>{ [event]: dayKey }</code>, written with every day it
+loads), after an address's <code>?day=</code>. <code>_tests/unit/domain/initial-day.test.mjs</code> covers it.</p>
+<p>A team event's <code>display.teamColors</code> reaches every page as <code>EventConfig.teamColors</code>
+(<code>eventConfigFrom</code> keeps hex colours only, <code>{}</code> without the map). <code>views/team-mark.js</code> turns it
+into marks: <code>teamMarkOf(teamColors, code)</code> gives <code>{ color, shape }</code>, the n-th team in the map
+taking the n-th of <code>TEAM_MARK_SHAPES</code>; <code>teamMarkHTML(mark)</code> draws it as an inline SVG; and
+<code>teamTintStyle(left, right)</code> sets <code>--team-a</code>/<code>--team-b</code> for the <code>.team-tint</code> gradient.
+<code>views/teams.js</code> (<code>sideMarkOf(model, side)</code>) puts a mark before each team name in the matchup
+cards, bracket tables, Live Matches rows, roster cards and Match Finder, and tints each matchup
+card's headline; the board does the same from <code>buildScheduleData</code>'s <code>base1</code>/<code>base2</code>. The styles
+are in <code>css/teams.css</code> and <code>css/schedule-board.css</code>.</p>
+<p><code>domain/prize-draw.js</code> is the prize draw's rules (entries, prizes, each spin's winners, the replay check), imported by <code>tools/prize-draw.html</code>.</p>
+<p><code>domain/scoresheet-names.js</code> <code>withTeamNames(matchesCsv, standingsCsv)</code> adds <code>teamName1</code> and
+<code>teamName2</code> columns to a team event's matches CSV, for the Scoresheet Generator to post.</p>
+<p><code>domain/matches.js</code> reads an optional <code>lineupShown</code> column (<code>isShown</code>: a ticked box, <code>TRUE</code>, yes, 1, x or ✓)
+into each match's <code>lineupShown</code> (<code>null</code> without the column). For an event with <code>lineupReveal</code>, <code>mountHub</code>
+builds its day model with <code>hideUnshownLineups</code>, which makes every unticked match's players <code>TBD</code> in
+<code>matches</code> and <code>matchesByFacility</code> alike, and the schedule board passes the same option to
+<code>buildScheduleData</code>. A page can add badges to each matchup card's header through <code>createTeams</code>'s
+<code>cardBadges(mu)</code>, and a note to every match line, in every view, through <code>rowNotes(m)</code> (unlike
+<code>decorateRow</code>, which only the interactive cards apply: Match Finder's and Standings' matchup cards). A
+Match Finder matchup card (a team result, the all-matchups list) takes <code>createTeams</code>' <code>collapsed</code> set through
+<code>hooks.collapsed</code>, and carries a <strong>Hide matches</strong> / <strong>Show matches</strong> toggle (<code>data-tm-collapse</code>) that
+<code>createTeams</code> keeps across the poll's re-render.</p>
+<p><code>domain/lineup-rules.js</code> checks a team event's lineups against its <code>lineupRules</code> in <code>events.json</code>
+(<code>lineupRulesFrom</code>, <code>lineupIssues</code>): pure, and read only by Control Center.</p>
+<p>The team rules in <code>domain/teams.js</code> take the event's <code>teamScoring</code>:
+<code>teamMatchupResult(ms, scoring)</code>, <code>buildTeamData(matches, standings, { scoring })</code>
+(which echoes it as <code>model.team.scoring</code> for the views) and
+<code>teamRankBracket(rows, matches, scoring, { headToHeadQuotient })</code>, where the event's
+<code>headToHeadQuotient: false</code> skips the head-to-head quotient below. A group-stage game whose two
+codes end <code>_TB</code> is left out of <code>teamGameRecords</code> and of both quotients, and only ranks the teams
+still level after everything below, by the most such games won against each other; an unplayed
+one doesn't count as a group match left. With <code>"games"</code> a matchup is won on
+matches won and then total points, and a bracket is ranked by matches won, then,
+for two teams level, head-to-head wins and the head-to-head quotient, and for
+three or more, the overall quotient (two still level going to the two-team
+rules), all computed from the matches. A tie left after that keeps the sheet's
+order; once every group match between the bracket's teams is played, the ranked
+array carries <code>ties</code>, <code>[{ codes, playoff: 'game' | 'round-robin' }]</code>, and the
+bracket table gives those teams the higher rank and a <code>.tie-pill</code> (<em>Tied ·
+playoff game</em> for two teams, <em>Tied · playoff</em> for three or more); <code>teamGameRecords(matches)</code> gives each side's wins, losses and points
+for and against, and the bracket table shows W, L, PF, PA and Quotient
+(<code>fmtQ(pf / pa)</code>, "—" before a point is conceded). Each matchup card adds a <code>.tm-stats</code>
+line under each side, its PF, PA and quotient in that matchup. Without it every
+rule is the points rule, and the card has no such line.</p>
+<p><code>domain/series.js</code> also holds a <strong>best-of-3 round-robin meeting</strong> (a category planned with
+<code>rr_best_of</code> 3): its three games are rows with the same two team codes, flagged <code>3</code> in the
+<code>CSV</code> tab's <code>bestOf</code> column, which <code>rowsToMatches</code> and the board's <code>parseFacilityCsv</code> read as
+<code>bestOf</code>. <code>rrSeriesGroups(matches)</code> collects them by facility and pair (match numbers repeat
+across facilities), in match-number order and at most three, and <code>unneededMeetingGames</code> returns
+the games after the one that gave a side its second win. <code>unneededSeriesGames</code> includes them in
+the same set as a series Final's games after the decider. <code>headToHeadWins</code> counts such a meeting
+once, for the pair that took it, so <code>rankStandings</code> breaks a tie on meetings won; W, L and the
+quotient come from <code>STANDINGSCSV</code>, and the round-robin table's PF and PA (<code>pointsFromMatches</code> in
+<code>views/standings.js</code>) count every game's points. The API's completion stamp applies the same rule
+(<a href="../sync-pipeline/#facility-completion">Sync pipeline § Facility completion</a>).</p>
+<p><code>domain/deciders.js</code> holds a team playoff matchup's <strong>tiebreaker game</strong>: a match whose two team
+codes both end in <code>_TB</code> (<code>QF-1_TB</code> v <code>QF-2_TB</code>), belonging to the matchup whose rows share its
+<code>matchUp</code>. It is played only when the matchup's other games leave the two sides level on games won.
+Once they are all played and one side has won more, <code>unneededDeciders(matches)</code> returns it, and
+<code>unneededSeriesGames</code> includes it in the same set as a series Final's games after the decider, so
+facility progress, the board's <em>Not needed</em> card, Match Finder's next match and the score dialog's
+warning all treat it as never played. <code>teamMatchupResult</code> leaves it out of a settled matchup (a
+matchup won 2–0 is final without it; at 1–1 it counts, so the matchup stays in progress until it is
+scored), a matchup card does not list it, and <code>pairLabel</code> reads it as <em>Tiebreaker</em> / <em>TB</em>. A
+tiebreaker row with no <code>matchUp</code> is always counted. The API's completion stamp applies the same
+rule (<a href="../sync-pipeline/#facility-completion">Sync pipeline § Facility completion</a>).</p>
+<p><code>domain/brackets.js</code> keys a team's bracket from <code>STANDINGSCSV</code>'s <code>bracket</code>: <code>bracketKeyOf</code> gives a
+number (<code>"1"</code> → <code>1</code>) or one upper-case letter (<code>"a"</code> → <code>"A"</code>), and anything else (blank, <code>#N/A</code>,
+<code>AB</code>) is no bracket. <code>compareBrackets</code> sorts no bracket first, then numbers by value, then letters
+A–Z. A lettered bracket reads <strong>Bracket A</strong> wherever a numbered one reads <strong>Bracket 1</strong>, and the
+schedule board's category for it is <code>GA</code>.</p>
+<p>On <code>localhost</code>, <code>?fixture=&lt;name&gt;</code> makes the Hub and the schedule board read
+<code>/_fixtures/</code> instead of the published data, as the scorer and desk pages
+do (<code>platform.js</code> <code>fixtureName()</code>; inert on the live site).</p>
+<h2 id="match-numbers-categories-and-done-courts">Match numbers, categories and done courts<a class="headerlink" href="#match-numbers-categories-and-done-courts" title="Permanent link">&para;</a></h2>
+<p>The match number is a tab in a top-left corner, the same on every page: <code>.ticket-num</code> as the
+ticket's first child (<code>views/ticket.js</code>), <code>.live-num</code> at the start of a Live Matches row's strip
+(<code>td.live-cat-cell</code>, in <code>views/live-matches.js</code> and a team event's <code>liveRowHTML</code> in <code>views/teams.js</code>),
+and <code>.tm-num</code> in a team match line. Both corner tabs sit absolutely, so the room beside them is
+padding: the ticket's <code>.time-row</code>, and the strip's left and right padding, the same on both sides so
+the centred text stays centred. The strip's padding is set by <code>table.live-table tr td.live-cat-cell</code>,
+whose selector outranks the shells' own phone rules for the strip, which finished events keep; the
+strip's height is fixed (24px, 22px on a phone) so an idle row keeps the height of a live one.</p>
+<p>A ticket's category is <code>divisionEventLabel</code> of whichever side's code has one (<code>.tag.cat</code>, before the
+round's tag): the category alone, as Live Matches shows it, since a dual meet's club is already on
+each side's code.</p>
+<p>A Live Matches row is <strong>done</strong> when its match is <code>played</code> or in <code>model.unneededGames</code>: the court cell
+gets <code>done</code> and a <code>.live-done-mark</code> (✓) in place of <code>.live-dot</code>, both rows get <code>live-done</code>, and the
+strip ends in <code>.live-done-note</code>. The test lives in <code>live-matches.js</code> and again in <code>teams.js</code> (a module
+may only start using another's new export in a later push), and <code>live-matches.test.mjs</code> checks both.
+The done colours are literals, not <code>--amber</code>, which most shells set to a green.</p>
+<h2 id="the-pair-summary">The pair summary<a class="headerlink" href="#the-pair-summary" title="Permanent link">&para;</a></h2>
+<p><code>views/pair-summary.js</code> draws the card Match Finder shows above a searched pair's tickets;
+<code>pairResultsHTML</code> (<code>views/finder.js</code>) puts it under the results head and leaves out the head's
+category tag when it does. It returns <code>''</code> for a team event (whose finder is <code>views/teams.js</code>). While
+the day is not live, and for a pair with no round-robin row, it is the next-match block alone in a
+<code>.pair-summary</code> (and <code>''</code> when the pair has no next match); otherwise the block is the card's first
+child, before <code>.ps-top</code>.</p>
+<ul>
+<li><code>domain/pair-schedule.js</code>: <code>pairMatches(model, codes)</code> is the pair's matches (any of its codes, either
+  side, a BYE side left out) in schedule order: the Schedule time in event-day minutes, a time that does
+  not parse last, equal times by match number. <code>nextUpIndex(model, list)</code> is the index of the first one
+  not played, not on a live court and not in <code>model.unneededGames</code>, or <code>-1</code>. <code>pairResultsHTML</code> uses both
+  for its tickets and their <strong>Next Up</strong> pill, and <code>nextMatchHTML</code> uses them for the block.</li>
+<li>
+<p><code>nextMatchHTML(team, model)</code>: the navy <code>.ps-next</code> block. On a live day, a pair match with a live court
+  that is not played is <em>Playing now</em> (<code>.ps-next--live</code>, the live dot, <code>Court ${m.liveCourt}</code>); otherwise
+  the Next Up match (<code>.ps-next--next</code>) shows its Schedule time and, when not blank, its
+  <code>CourtAssignment</code>. The opponent is the other side's two names, or, for an open side, its
+  <code>openSeatLabel</code> or <em>To be decided</em>. The round is the pair's own code's <code>roundKeyword</code> through the
+  same names as the playoff rows (<em>Round robin</em> with none), with <code>· Game n</code> for a series game. The
+  facility (<code>m.facility</code>) shows only when <code>model.day.facilities</code> has more than one. A day that is not
+  live ignores live courts. Every value is escaped.</p>
+</li>
+<li>
+<p><code>roundRobinStanding(team, model)</code>: the pair's round-robin code (the first of <code>team.codes</code> whose
+  stage is <code>RR</code>), its group (same category, club for a dual meet, and bracket label, filtered as
+  <code>stageTablesHTML</code> filters), ranked with <code>rankStandings</code>, and PF and PA from <code>pointsFromMatches</code>
+  (<code>views/standings.js</code>). W, L and Q are the <code>STANDINGSCSV</code> row's. <code>played</code> is whether the pair has a
+  played round-robin match (the rank shows <code>—</code> until then), <code>done</code> is <code>categoryRoundRobinDone</code>.</p>
+</li>
+<li><code>playoffRounds(team, model, standing)</code>: one row per playoff code in <code>team.codes</code> (a pair joins a
+  playoff slot's code once the sheet writes its names there), over its matches without a BYE side. A
+  series final (<code>seriesGameOf</code>) is one row over every game of the series: <code>walkSeries</code> decides it,
+  the result counts games from the pair's side, and an undecided series lists the games so far. A
+  slot whose opponent side is blank, <code>TBD</code> or its own code is open: its label is the opponent slot's
+  <code>from</code> (<code>matchIdText</code>: "W:SF-2" → "Winner of Semifinal 2") or its <code>seat</code>. A bronze taken without a
+  match (<code>standingsBronzeWalkover</code>, matched by names) adds a <code>walkover</code> row.</li>
+<li><code>pairStatus(rounds, standing, model)</code>: the pill, by the first case that fits: a live round, the
+  Final won or lost, the Bronze won (or the walkover) or lost, the last round still to play, lost, or
+  won; with no playoff round, <em>Did not advance</em> once the category's round robin is done and every
+  seat of its first playoff stage is named.</li>
+</ul>
+<p>The module is new, so <code>finder.js</code> importing it is safe against a browser's cached copy of an existing
+module; it uses <code>pointsFromMatches</code>, an export a push earlier than the one that added it. Its styles
+are <code>.pair-summary</code> and the <code>.ps-*</code> classes at the end of <code>css/finder.css</code>; the block's are
+<code>.ps-next</code> and its <code>small</code>, <code>b</code>, <code>span</code>, <code>i</code> and <code>em</code>, in the page's <code>--navy</code>, <code>--white</code> and <code>--green</code>.
+<code>pair-summary.test.mjs</code> covers each stage and the block on hand-made days, and <code>pair-schedule.test.mjs</code>
+the order and the Next Up rule.</p>
+<h2 id="showing-a-searchs-results">Showing a search's results<a class="headerlink" href="#showing-a-searchs-results" title="Permanent link">&para;</a></h2>
+<p>On a phone a search's results can start below the screen, under the search box and the day's counts,
+so a search can change nothing the person sees. <code>views/reveal.js</code> exports <code>PHONE_QUERY</code> (<code>(max-width: 899px)</code>, the width at which
+<code>css/finder.css</code> pins the search box) and <code>revealResults({ resultsEl, searchPanelEl, input })</code>. On a
+phone it blurs the box, so the keyboard closes, and scrolls the page so the results start just under
+the pinned search panel (the panel's <code>top</code> offset and height plus 8 px, plus the bar's height (<code>--hub-bar-h</code>, else 54 px) while
+the bar is on the page but not showing yet, which only a cached stylesheet from before the fold rules
+leaves, since there the scroll brings it in and moves the panel down; instantly under <em>reduce motion</em>) and returns <code>true</code>. On a computer it does nothing and returns <code>false</code>.</p>
+<p><code>createFinder</code>'s <code>onSearched</code> option is called right after a person runs a search, in exactly
+three handlers: a click on a suggestion, Enter in the box and the <strong>Find matches</strong> button. A data
+refresh, <code>setQuery</code> (a restored search), <code>reset</code>, typing and the clear button never call it. The
+<strong>Find matches</strong> handler also closes the suggestion list, in Control Center too. <code>createTeams</code>'s
+<code>onSearched</code> is called after a team chip's search and returns <code>true</code> when it moved the page; without
+it, or when it returns <code>false</code> (a computer, or Control Center), the chip scrolls to the top as it
+always did. <code>apps/hub.js</code> passes <code>revealResults</code> to both, and calls it after restoring a saved
+search when Match Finder is the open tab. Control Center passes nothing, so it never scrolls.</p>
+<p>The module is new, so <code>hub.js</code> and the views importing it are safe against a browser's cached
+copy of an existing module. <code>reveal.test.mjs</code> covers it and the option with stubbed browser globals, and
+the engine harness's <code>hub-behaviour.test.mjs</code> opens the Hub at a real phone and computer size, which the
+harness's full-page screenshots can't (they never scroll).</p>
+<h2 id="the-bar-the-banner-folds-into">The bar the banner folds into<a class="headerlink" href="#the-bar-the-banner-folds-into" title="Permanent link">&para;</a></h2>
+<p>A bar pinned to the top of the screen stands in for the banner (hub-player-experience-spec §5): on a
+phone always, since the banner never shows there; on a computer once the reader folds the banner with its
+chevron, the schedule board's. Control Center uses the same bar. On a phone it is two rows: the logo, the
+small line and the whole title, then, on a darker band, the menu button (and at a multi-day event a day pill
+beside it). On a computer the Hub's is one slim row (54 px) and Control Center's two rows (the title, then
+the row of the day picker, the tabs and the sync line). <code>views/hub-bar.js</code> exports <code>HUB_BAR_HEIGHT</code> (54, the
+slim row, until the bar is measured), <code>TITLE_MIN_PX</code> (13), <code>FOLDED_KEY</code> (<code>'sage.hub.bannerFolded'</code>),
+<code>titleFit</code>, <code>barHeight</code>, <code>shortDay</code>, <code>dayPillLabel</code> and
+<code>createHubBar({ heroEl, tabsWrapEl, dayPickerEl, dayPickerWrapEl, syncStatusEl, panelFor, text, logoSrc, pickers, storageKey, menuLabel, computerRows })</code>,
+which returns <code>{ update() }</code>; the last six are optional. The banner keeps the page's one set of tabs,
+pickers and sync line; the bar reads them and clicks them, it never holds its own state.</p>
+<ul>
+<li><strong>Markup.</strong> Made once and appended to <code>document.body</code>: <code>.hub-bar</code> (hidden), <code>.hub-menu-scrim</code> and
+  <code>nav.hub-menu#hubMenu</code> (<code>aria-label</code> from <code>menuLabel</code>, default <em>Tournament Hub</em>). The bar carries a logo
+  (<code>.hub-bar-logo</code>: <code>logoSrc</code>, else the first <code>.hero-logos</code> image's <code>src</code>; left out when there is none), two
+  lines (<code>.hub-bar-meta</code>, <code>.hub-bar-title</code>: <code>text()</code>'s <code>{ meta, title }</code>, read on every update, else the
+  hero's <code>.eyebrow</code> and <code>.title</code> with each <code>&lt;br&gt;</code> read as a space and whitespace collapsed, read from a copy
+  since a hidden element's <code>innerText</code> runs the lines together), a row (<code>.hub-bar-row</code>), the chevron that
+  brings the banner back (<code>.hub-bar-fold</code>, <em>Show the banner</em>), the phone's day pill (<code>.hub-bar-pday</code>,
+  hidden: <code>.hub-bar-pday-text</code>, a caret and a <code>&lt;select aria-label="Day"&gt;</code> laid over it, invisible) and the
+  phone's button (<code>.hub-bar-btn</code>, <code>aria-expanded</code>, <code>aria-controls="hubMenu"</code>). <code>computerRows: 2</code> adds
+  <code>hub-bar-two</code> to the bar. It also appends the fold chevron (<code>.hub-fold-btn</code>, <em>Fold the banner</em>, hidden) to
+  the banner. The CSS shows the row and the chevrons on a computer, the pill and the button on a phone.</li>
+<li><strong>Items.</strong> <code>readBarItems</code> reads the banner: a tab per <code>.view-tab</code> showing (not <code>display:none</code>, not
+  <code>hidden</code>), the open one <code>active</code>, and none while the tab row itself is hidden (no day loaded); each of
+  <code>pickers</code> (<code>[{ el, wrapEl?, label }]</code>) whose wrapper is showing, keeping its index; the day picker (its
+  options without the disabled placeholder, its value) when its wrapper is showing, so only at an event with
+  more than one day; the sync line when it is showing. <code>barRowHTML</code> draws the computer's row (the sync line,
+  a <code>.hub-bar-day</code> label with a <code>&lt;select&gt;</code>, a <code>.hub-bar-tab</code> pill per tab; never the extra pickers) and
+  <code>menuHTML</code> the phone's menu (a <code>.hub-menu-tab</code> per tab, a <code>.hub-menu-day.hub-menu-picker[data-picker]</code> row
+  per picker, <code>.hub-menu-day</code>, <code>.hub-menu-sync</code>). <code>buttonLabel</code> names the open tab, or <em>Choose a day</em> while a
+  day picker waits for a first pick, or <em>Menu</em>. Everything is escaped. The row is replaced only when its
+  markup changed, so a poll that finds the same sync line leaves an open day picker alone; the menu is filled
+  each time it opens.</li>
+<li><strong>The day pill</strong> (a phone, an event with more than one day). Shown when the day picker is read and the
+  stylesheet lays the pill out (<code>--hub-bar-fit</code> is set on the bar; a cached older stylesheet does not, and
+  the pill stays hidden). Its text is <code>dayPillLabel</code>: the open day's label up to its first " · "
+  (<code>shortDay</code>: <em>Nov 28 · Next Gen</em> reads <em>Nov 28</em>), or <em>Day</em> before one is picked. Its <code>&lt;select&gt;</code> holds the
+  day picker's options (with a disabled <em>Choose a day</em> placeholder before a pick), rewritten only when they
+  change; a choice goes through the bar's own <code>change</code> handling, as the row's and the menu's do.</li>
+<li><strong>The title.</strong> Where the stylesheet sets <code>--hub-bar-fit: 1</code> on the bar (a phone, and <code>hub-bar-two</code> on a
+  computer; the slim row sets 0 and cuts the title short with an ellipsis), <code>fitTitle</code> measures the title at
+  its own size: <code>titleFit({ room, need, base })</code> keeps it (<code>'fits'</code>, a pixel of rounding allowed), shrinks it
+  (<code>{ size }</code>, rounded down to 0.1 px) or, below <code>TITLE_MIN_PX</code>, wraps it (<code>hub-bar-title-wrap</code>) at its own
+  size. It runs in <code>fit()</code> and once the fonts have loaded.</li>
+<li><strong>The bar's height.</strong> <code>measure()</code> sets the bar's rounded height on <code>&lt;html&gt;</code> as <code>--hub-bar-h</code>, written only
+  when it changes, from <code>fit()</code> and a <code>ResizeObserver</code> on the bar. <code>barHeight()</code> reads it back (54 where it
+  is not set). <code>views/reveal.js</code>, <code>views/standings.js</code>, <code>apps/hub.js</code> and Control Center read the custom
+  property themselves (54 where it is not set) rather than import <code>barHeight</code>, so a module never needs
+  another's new export in the same push.</li>
+<li><strong>A tab</strong> closes the menu, clicks the matching <code>.view-tab</code> (whose handler switches the view and
+  remembers it) and scrolls <code>panelFor(view)</code> to just under the bar (<code>tabScrollTop(top, scrollY, height)</code>: its
+  top minus the bar's measured height and 8 px, never above the page; instant under <em>reduce motion</em>). <strong>A day</strong>, or <strong>a
+  picker</strong>, closes the menu, sets the banner's <code>&lt;select&gt;</code> and dispatches <code>change</code> on it, then scrolls to the top.</li>
+<li><strong>Folding.</strong> The banner's chevron sets the folded choice, the bar's clears it; each stores it in
+  <code>localStorage[storageKey]</code> (<code>'1'</code> or <code>'0'</code>), re-checks, scrolls to the top and moves focus to the other
+  chevron. The choice is read once, when the bar is made.</li>
+<li><strong>When it shows.</strong> With the fold rules loaded (<code>css/hub-bar.css</code> sets <code>--hub-bar-fold: 1</code> on <code>.hub-bar</code>),
+  <code>barFolds</code>: always on a phone (<code>PHONE_QUERY</code> from <code>reveal.js</code>), even before a day is loaded; on a computer
+  when the banner is folded and the tabs are showing, so the banner, with its pickers, is back while no day is
+  loaded. The banner's chevron shows on a computer once the tabs show. A stylesheet from before the fold rules
+  (a browser's cached copy) gets <code>barShows</code>, the earlier rule: the tabs are showing, the banner is out of
+  view (an <code>IntersectionObserver</code> on it, threshold 0) and the bar is styled
+  (<code>getComputedStyle(bar).position === 'fixed'</code>). Showing unhides the bar and puts <code>hub-bar-on</code> on <code>body</code>,
+  and with the fold rules <code>hub-bar-folded</code> too; hiding reverses them and closes the menu. The banner
+  chevron's <code>hidden</code> is written only when it changes, since a page may watch the banner to redraw the bar.
+  A change of width re-checks.</li>
+<li><strong>Fitting the row.</strong> On a computer the slim row keeps its width while it fits; where it doesn't the CSS
+  lets it shrink, with the title keeping 120 px, and scroll sideways (Control Center's own row is as wide as
+  the bar, and scrolls only where that is too narrow), and <code>fit()</code> puts <code>hub-bar-tight</code> on the bar (which hides the sync line) and scrolls the open tab
+  into view. It runs on every check and on <code>resize</code>.</li>
+<li><strong>The menu</strong> (a phone, below 900 px). The button toggles it, and opening focuses its first tab (or its
+  first select). The scrim, the button and Escape close it and return focus to the button; widening the
+  screen to 900 px or more closes it too.</li>
+<li><strong>Wiring.</strong> <code>apps/hub.js</code> creates the bar once the event is known to be a Hub event and its views exist
+  (a shell without <code>header.hero</code> or the tab row keeps a no-op), with <code>panelFor</code> returning the search
+  panel, Live Matches, Standings or Teams panel, and calls <code>bar.update()</code> at the end of <code>showView</code>, of
+  <code>revealLiveTabsAfterLoad</code>, in <code>selectDay</code> after it hides the tabs, and in <code>loadLiveData</code> after the
+  sync line is written (success and error). Control Center creates it with <code>text()</code> (<em>Control Center</em> and
+  the event's title), <code>logoSrc: '/assets/logo.png'</code>, its event picker in <code>pickers</code>,
+  <code>storageKey: 'sage.controlCenter.bannerFolded'</code>, <code>menuLabel: 'Control Center'</code> and <code>computerRows: 2</code>, and a
+  <code>MutationObserver</code> on the banner (its subtree, text and <code>class</code>, <code>style</code> and <code>hidden</code>) calls <code>update()</code> on
+  any change there.</li>
+<li><strong>CSS</strong> (<code>css/hub-bar.css</code>, which <code>css/hub.css</code> imports and Control Center links on its own). The bar is
+  fixed, <code>z-index</code> 50, a wrapping flex line on the theme's <code>--navy</code>, with the accent <code>--green</code> for its small
+  line and a computer's open tab. The markup is the same for every layout: the second row's items take
+  <code>order</code> 10 and up, and a phone's <code>.hub-bar::after</code> (an empty item as wide as the bar, <code>order</code> 9) ends the
+  title's line; the band is a gradient, the bottom 48 px (44 on a computer) in <code>--navy-deep</code> (<code>--navy</code> where a
+  theme has none). On a phone the second row is the day pill (<code>flex:1</code>) and the button (<code>flex:3</code>), each 34 px
+  high with 7 px above and below; alone, the button takes the row. On a computer the slim row is 54 px, no
+  wrap, <code>--navy</code>; <code>.hub-bar-two</code> wraps instead, a 58 px title row (38 px logo, a 20 px title) over the 44 px
+  row (<code>flex-basis</code> 100%), the sync line pushed to its right end. <code>--hub-bar-h</code> starts at 100 px on a phone and
+  54 px on a computer until the script measures the bar. On a phone <code>header.hero</code> is hidden and <code>html body</code>
+  has <code>--hub-bar-h</code> plus 12 px of top padding (<code>html body</code> outranks the pages' own <code>html,body{ padding:0 }</code>,
+  which <code>hub.css</code> sets after its import); hiding the banner from the stylesheet rather than the script means
+  it never flashes up while the page loads. On a computer <code>body.hub-bar-folded</code> hides <code>header.hero</code> and pads
+  the page by <code>--hub-bar-h</code> plus 24 px. The chevrons are 32 and 30 px squares with the board's border and
+  colours, the banner's in its top-left corner. While <code>body.hub-bar-on</code>, what is already pinned to the top
+  moves under it: <code>.standings-col-head</code>, <code>.club-summary</code> and <code>.dm-pin</code> at <code>top: var(--hub-bar-h)</code>, and on a
+  phone the Match Finder search panel 8 px below that. On a computer a Standings column scrolls by itself
+  (the pages cap it at 92vh), so its <code>.standings-col-head</code> pins to the column's own top and keeps <code>top:0</code>
+  there (<code>.standings-board-desktop .standings-col-head</code>); on a computer <code>.qr-panel</code> moves from <code>top:26px</code> to
+  26 px under the bar. From 900 to 1099 px the slim row's sync line is hidden; below 900 px the row and
+  chevrons are hidden and the menu and its scrim (<code>z-index</code> 49 and 48) shown, from <code>--hub-bar-h</code> down.</li>
+</ul>
+<p><code>hub-bar.test.mjs</code> covers the pure parts (reading the items and pickers, the markup, the button's label, the
+day pill's label, how the title fits, when the bar shows with and without the fold rules, where a tab scrolls,
+and <code>reveal.js</code>'s allowance, measured or not) with faked elements. The engine harness's <code>hub-behaviour.test.mjs</code> covers the bar on a page: a phone's bar always on
+with no banner, its button, menu, Escape, scrim and widening (which brings a computer's banner back); a
+computer's banner and chevron, folding, the choice kept across a reload, unfolding, the bar's row, the QR
+panel and the 950 px sync line; a team event's four tabs; a dual meet's club bar pinned under it; a multi-day
+event's day picker, in the row, in the menu and as a phone's day pill (a quarter of the row), and the day
+that opens with nothing saved and with a day picked before; the two rows on a phone and Control Center's
+computer, the Hub's slim row on a computer, the title whole and <code>--hub-bar-h</code> equal to the bar's height; and
+Control Center's bar: its menu with the event picker, switching event from it (a long title fitted or
+wrapped), folding into its own key, and seven tabs at 950 px. The harness's steps (<code>engine/steps.mjs</code>) click a tab and set a picker from script when the banner is
+folded away, as the bar's menu does, so every phone case runs as before; its screenshots show the bar in
+place of the banner on every phone case, and the fold chevron in every computer's banner.</p>
+<h2 id="the-round-robin-pills">The round-robin pills<a class="headerlink" href="#the-round-robin-pills" title="Permanent link">&para;</a></h2>
+<p>Each round-robin table says how far it has got, and each pair level on wins with another says how
+it was placed (hub-player-experience-spec §6). The rules are <code>domain/standings-status.js</code>, which
+imports <code>domain/</code> only; the markup is drawn by <code>views/standings.js</code> and <code>views/teams.js</code>, and only
+when <code>model.isLive</code>, so nothing shows before the day is live. Control Center's model is always live.</p>
+<ul>
+<li><code>tableProgress(rows, matches, type)</code> → <code>{ played, total }</code>. A table's meetings are the round-robin
+  matches (<code>roundKeyword</code> of the code's <code>rest</code> is <code>null</code>) with a side that is a row of the table and no
+  BYE side (<code>matchByeSide</code>), counted once each. A best-of-3 meeting (<code>bestOf</code> 3, grouped by
+  <code>rrSeriesGroups</code>) is one meeting, played when <code>walkSeries(list, 3).decidedBy</code> is set; any other match
+  is played when <code>m.played</code>. A dual meet's club table has one side of each cross-club match, so both
+  clubs' tables count the same matches. <code>progressLabel</code> turns it into <code>{ kind, text }</code>, <code>In progress ·
+  6/10</code> or <code>Final</code>, and <code>null</code> for a table with no meetings.</li>
+<li><code>tieBreaks(rows, matches)</code> → <code>Map&lt;teamCode, { size, rule, won?, score? }&gt;</code>. Among the rows that have
+  played (<code>wins + loss &gt; 0</code>), the rows level on wins form a group, and <code>headToHeadWins</code> (the function
+  <code>rankStandings</code> orders by) gives each row's head-to-head wins in it. <code>rule</code> is <code>'h2h'</code> for a row whose
+  head-to-head wins differ from every other row's in the group, <code>'quotient'</code> when it shares them and its
+  quotient differs from theirs, <code>'none'</code> when it shares both. <code>size</code> is the whole group. In a group of
+  two told apart by head-to-head the entry also has <code>won</code> and <code>score</code>, the pair's own side first: the
+  one match's points (<code>11–5</code>), a best-of-3 meeting's games (<code>2–1</code>), or, for two or more meetings, the
+  meetings won and lost. <code>tieLabel</code> turns an entry into <code>{ text, tied }</code>. A row level with no other is
+  not in the map. The pills describe <code>rankStandings</code>' order only, not the workbook's feeders.</li>
+<li><code>teamTableProgress(matchups, group)</code> → <code>{ played, total }</code> for a team bracket: the group-stage
+  matchups (<code>stage</code> null) of the bracket, played once <code>result.state</code> is <code>final</code> or <code>tie</code>.</li>
+</ul>
+<p><code>stageTablesHTML</code> draws <code>&lt;span class="rr-status rr-status--progress|final"&gt;</code> in a bracket's
+<code>.rr-bracket-label</code>; for a table drawn as one (no brackets, or the dual meet's <code>'column'</code> layout, one
+pill for the whole table) in the Round Robin heading, which is the <code>.stage-caption</code> or, in a standard
+card, inside the <code>.standings-section-text</code> title. <code>groupTableHTML</code> puts it in each team bracket's
+<code>h3.group-title</code>. A tie pill is <code>&lt;span class="rr-tie"&gt;</code> (<code>rr-tie--tied</code> for <em>Tied</em>) passed to
+<code>pairCell</code>'s <code>after</code> option, which places an HTML string in the pair cell after the two names (none
+by default, and none in a TBD cell); it follows the block-level name spans without a <code>&lt;br&gt;</code>, which
+would add an empty line. Team tables get no tie pills.</p>
+<p><code>css/standings.css</code> styles both: <code>.rr-status</code> takes its fill from <code>--green-dark</code> and <code>--navy</code>, and the
+tie pill from <code>--paper-dim</code>, <code>--ink</code> and <code>--line</code>, with <em>Tied</em> in the team events' yellow. The
+stylesheet is loaded by all three templates and Control Center, so Control Center draws the pills
+through the shared views with no change of its own. <code>_tests/unit/domain/standings-status.test.mjs</code>
+covers the rules, including that the pills' order is <code>rankStandings</code>' on each tie case, and
+<code>_tests/unit/views/standings-status-markup.test.mjs</code> the markup.</p>
+<h2 id="a-standings-row-opens-its-pair">A Standings row opens its pair<a class="headerlink" href="#a-standings-row-opens-its-pair" title="Permanent link">&para;</a></h2>
+<p>On the Hub and in Control Center a named round-robin row opens that pair in Match Finder
+(hub-player-experience-spec §7).
+<code>createStandings</code> takes an option <code>onPairSelect(teamCode)</code>, off by default. When it is set, the options the
+builders already pass carry a boolean, <code>openRows</code>: <code>cardOptions()</code> adds it for a standard event's cards
+(<code>categoryCardHTML</code> hands it to <code>stageTablesHTML</code>), and a dual meet's body is drawn with <code>{ ...options, openRows }</code>,
+which <code>dualMeetStandingsHTML</code> passes down through <code>categoryColumnHTML</code> and <code>clubSubsectionHTML</code> to
+<code>stageTablesHTML</code> (the shared Bronze and Final block never draws a round-robin row). Without <code>openRows</code> every
+row is drawn exactly as before, so the page's old cached copies are unchanged; a team event's Standings are <code>views/teams.js</code>, which never reads it.</p>
+<p><code>stageTablesHTML</code> gives each round-robin row for a named pair (not <code>isEmptyStanding</code>, so not an unseeded slot, a
+TBD or a pair still listed under its team code) <code>class="… rr-open"</code>, <code>data-team="&lt;teamCode&gt;"</code> and <code>tabindex="0"</code>,
+in the grid and the <code>'column'</code> layouts alike, and ends its Q cell with
+<code>&lt;span class="rr-open-mark" aria-hidden="true"&gt;›&lt;/span&gt;</code>, after the figure and clear of the tie pill, which is in
+the pair cell. A click on a <code>tr.rr-open</code> inside the panel, or Enter with focus in one, calls
+<code>options.onPairSelect(tr.dataset.team)</code>; the panel's own click handler checks for a row first, since nothing in a
+row is another control.</p>
+<p><code>apps/hub.js</code> passes <code>onPairSelect</code> for a standard or dual-meet event. It finds the pair in <code>finder.pairs</code> whose
+<code>codes</code> include the team code (a code the finder has no matches for does nothing), clicks the Match Finder tab,
+puts the pair's label in the search box, sets <code>finder.selection</code>, runs the search and calls <code>reveal</code>. On a phone
+<code>reveal</code> lands on the results under the pinned search box; on a computer, where it does nothing, the page scrolls
+to the search panel (16 px above it, and the bar's height more while the bar shows, <code>body.hub-bar-on</code>: <code>--hub-bar-h</code>, else 54 px), so the results are in
+view. It uses the finder's existing members and adds no import. Control Center passes the same kind of handler,
+<code>openPairInFinder</code>, for a standard event or a dual meet: it switches with <code>showView('finder')</code>, runs the search the
+same way and calls <code>revealResults</code> itself, since it passes the finder no <code>onSearched</code>.</p>
+<p><code>css/standings.css</code> has <code>tr.rr-open</code> (a pointer), its <code>:focus-visible</code> outline (<code>--green-dark</code>) and
+<code>.rr-open-mark</code> (<code>--muted</code>, bold, 4 px from the figure). The mark is about 3 px wide and fits the Q column's
+54 px, so a row's height does not change. <code>_tests/unit/views/standings-open-rows.test.mjs</code> covers the markup and
+<code>hub-behaviour.test.mjs</code> taps a row at a phone and a computer size, with Enter and with the bar showing, and in
+Control Center at both sizes, at a dual meet, and at a team event, which has no open rows.</p>
+<h2 id="the-podium">The podium<a class="headerlink" href="#the-podium" title="Permanent link">&para;</a></h2>
+<p>On the Hub a finished category's Standings card opens with its podium, and a team event's Standings with the event's
+(hub-player-experience-spec §8). The rule is Control Center's Awards tab's, so the two never disagree: <code>views/podium.js</code>
+reads <code>domain/awards.js</code> (<code>buildPodiums</code>, <code>buildTeamPodium</code>, <code>resolveDecisiveMatch</code>, <code>standingsBronzeWalkover</code>) and
+<code>domain/series.js</code>'s <code>seriesGameOf</code>, and has no rule of its own beyond when to show it.</p>
+<ul>
+<li><code>podiumFor(model, category)</code> and <code>teamPodiumFor(model)</code> → <code>{ gold, silver, bronze, finalLine }</code> or <code>null</code>. Each place is a
+  display string: a pair's two names joined by <code>/</code> (followed by <code>· &lt;club label&gt;</code> at a dual meet), or a team's name;
+  <code>bronze</code> is <code>null</code> when there is none. <code>buildPodiums(model)</code> is kept per model in a <code>WeakMap</code> (a model is built once per
+  snapshot), so the cards of one render share one derivation.</li>
+<li><strong>When it shows</strong> (standard and dual meet): the entry has no <code>warning</code> (a Final or Bronze tied on points), <code>gold</code> and <code>silver</code>
+  are set, and <code>bronze</code> is set or the category has no bronze at all (<code>resolveDecisiveMatch(model, category, 'B').any</code> and
+  <code>standingsBronzeWalkover(...).walkover</code> are both false). A category decided by its round robin alone (<code>source: 'standings'</code>)
+  shows too, once <code>buildPodiums</code> fills its places (the round robin is done), with no final line. A team event shows when
+  <code>buildTeamPodium</code> has no warning, gold and silver, and a bronze unless the event has no <code>Br</code> matchup.</li>
+<li><strong>The final line</strong> (gold's <code>&lt;small&gt;</code>): for <code>source: 'bracket'</code>, the decisive Final's winner's score first, <em>Beat <silver>
+  11–7 in the final</em>, and with no score for a series final (<code>seriesGameOf(m.t1)</code>, whose games are not one score). A team's
+  uses the <code>Fi</code> matchup's result from the winner's side: <code>pts1</code>–<code>pts2</code>, or <code>pairs1</code>–<code>pairs2</code> when <code>result.scoring</code> is
+  <code>'games'</code>, and <em>37–35 on points</em> for a Final level on games, which <code>"2–2"</code> would misreport.</li>
+<li><code>podiumHTML(p)</code> returns <code>&lt;div class="podium"&gt;</code> with a <code>.podium-title</code>, and an <code>&lt;ol class="podium-list"&gt;</code> of <code>&lt;li class="podium-place
+  podium-place--gold|silver|bronze"&gt;</code> rows, each a <code>.podium-rank</code> (1, 2, 3) and <code>.podium-names</code>; every string is escaped. No
+  podium is <code>''</code>. <code>categoryPodiumHTML(model, rows)</code> reads the category from the card's rows
+  (<code>parseCode(rows[0].teamCode, type).category</code>) for the two Standings builders.</li>
+</ul>
+<p><code>createStandings</code> takes <code>podium</code> (default <code>false</code>) and carries it in the card options: <code>categoryCardHTML</code> and
+<code>categoryColumnHTML</code> (a dual meet's column, through <code>dualMeetStandingsHTML</code>) put the podium first in <code>.standings-col-body</code>.
+<code>createTeams</code> takes it through <code>hooks.podium</code>, and <code>teamStandingsHTML</code> starts the <code>.team-standings</code> container with it. Both
+import the new module; a module that did not exist before cannot be a stale cached copy, so the import is safe. <code>apps/hub.js</code> passes <code>podium: true</code> to both;
+Control Center passes neither, so its Standings never draw one.</p>
+<p><code>css/standings.css</code> has <code>.podium</code> (a white card, 14px radius, <code>--card-shadow</code>, 12px 14px padding), <code>.podium-title</code> (Barlow
+Condensed, uppercase, <code>--muted</code>), <code>.podium-place</code> (a flex row, a dashed <code>--line</code> divider between places), <code>.podium-rank</code> (a 26px
+circle; gold <code>#F3D46B</code> on <code>#4A3500</code>, silver <code>#DADDE3</code> on <code>#2E333D</code>, bronze <code>#E3B48A</code> on <code>#4A2A0C</code>, the pair summary card's
+medal colours) and <code>.podium-names</code> (14px 600, wrapping long names, its <code>small</code> 12px <code>--ink-soft</code>). On a computer the card sits
+in its column and changes no column's width, so the 1 col / 2 cols toggle and the bracket chart are as before.
+<code>_tests/unit/views/podium.test.mjs</code> covers the rule on the fixtures and on hand-made days, and
+<code>podium-wiring.test.mjs</code> the options (off by default, first in the body, none on <code>mid</code>).</p>
+<h2 id="the-club-bar">The club bar<a class="headerlink" href="#the-club-bar" title="Permanent link">&para;</a></h2>
+<p>At a dual meet the Hub's Match Finder opens with the club score (hub-player-experience-spec §9).
+<code>views/club-bar.js</code> exports <code>clubBarHTML(model, { clubLogoHTML })</code>: <code>''</code> unless <code>model.event.type</code> is
+<code>'dual-meet'</code> and <code>model.isLive</code> (and <code>''</code> with fewer than two clubs), otherwise
+<code>&lt;div class="finder-club-bar"&gt;</code> around <code>clubSummaryHTML</code>, the win-totals bar of Standings. It groups
+<code>model.standings</code> by club and orders the clubs as <code>dualMeetStandingsHTML</code> does (the event's <code>display.clubs</code> in key
+order, then any other), the few lines copied rather than exported so that no existing module starts importing a new export
+of another in the same push. The wins are therefore Standings' wins, and the same logos come through <code>clubLogoHTML</code>,
+which <code>apps/hub.js</code> now holds in one named const for both.</p>
+<p><code>introHTML(model, { introTop })</code> prints <code>introTop(model)</code>'s HTML before <code>.stats-row</code>; <code>createFinder</code> takes <code>introTop</code>
+(default none) and passes it to the first screen's <code>introHTML</code>. Only the first screen draws it: a search's results
+replace it, and a team event's finder, which draws its own first screen through its <code>delegate</code>, never does. The Hub passes
+<code>introTop: m =&gt; clubBarHTML(m, { clubLogoHTML })</code> at a dual meet and nothing elsewhere; Control Center passes none. The
+middle count's label reads <em>Pairs</em> (it was <em>Teams</em>, which a pair of players is not); a team event's own counts (Matches,
+Matchups, Teams) are <code>teams.js</code>'s and unchanged.</p>
+<p><code>css/finder.css</code> has <code>.finder-club-bar</code> (a 14px bottom margin) and <code>.finder-club-bar .club-summary{ position:static }</code>,
+because the bar sticks in Standings and must scroll here. <code>_tests/unit/views/club-bar.test.mjs</code> covers the bar against
+Standings', the logos, and the cases that draw none (a standard or team event, a day not live), and
+<code>finder.test.mjs</code> the label and the option. A page now has two <code>.club-summary</code> elements at a dual meet (Match Finder's and
+Standings'), so a selector for Standings' names its panel (<code>#standingsBody .club-summary</code>).</p>
+<h2 id="category-chips">Category chips<a class="headerlink" href="#category-chips" title="Permanent link">&para;</a></h2>
+<p>On the Hub a dual meet's Standings on a phone have a row of chips that jump to a category
+(hub-player-experience-spec §10). <code>createStandings</code> takes <code>jumpChips</code> (default <code>false</code>) and <code>dualMeetStandingsHTML</code>
+reads it: in the phone branch only (not <code>isDesktopStandings()</code>), the club bar and the chips are wrapped in
+<code>&lt;div class="dm-pin"&gt;</code>, before <code>.standings-board</code>, with a <code>&lt;nav class="dm-jump" aria-label="Jump to a category"&gt;</code> of
+<code>&lt;button type="button" class="dm-jump-chip" data-jump-cat="&lt;label&gt;"&gt;</code>, one for each category in <code>sortedCats</code> order. A
+chip's <code>data-jump-cat</code> is its column's <code>data-cat-key</code>, and its text is <code>${divCode} ${evCode}</code> from
+<code>splitCategory(parseCode(rows[0].teamCode, type).category, display)</code>, or the category code when the display settings cannot
+split it; both are escaped. Without the option, or on a computer, the markup is what it was, so Control Center, which does
+not pass it, is unchanged. <code>apps/hub.js</code> passes <code>jumpChips: true</code> at a dual meet.</p>
+<p><code>createStandings</code> finds a chip's column by comparing each <code>.standings-col</code>'s <code>data-cat-key</code> with the chip's
+<code>data-jump-cat</code> (a label is never built into a selector) and scrolls the page so the column starts 8 px under the pinned
+row: <code>column top + scrollY - pinned row height - 8</code>, and the Hub bar's height (<code>--hub-bar-h</code>, else 54 px) less when the bar is showing there
+(<code>hub-bar-on</code>), instant under <em>reduce motion</em>. A tap from the top of the page lands with the banner gone and the bar on,
+though the bar is not on yet, so <code>hubBarShowsAt(top)</code> also answers yes when the target is below the banner (<code>header.hero</code>)
+and the page has a <code>.hub-bar</code>, which only a stylesheet from before the fold rules needs (with them the bar is always
+on on a phone). Control Center draws no chips. One passive <code>scroll</code> listener, added once when the option is
+set and throttled with <code>requestAnimationFrame</code>, marks <code>active</code> the chip of the last column whose top is no further than the
+8 px gap and 4 px of rounding under the pinned row's bottom, reading the DOM each time, and <code>render()</code> runs the same
+marking after it redraws so a live update keeps the highlight.</p>
+<p><code>css/standings.css</code>, under the phone media query, has <code>.dm-pin</code> (sticky at the top, <code>z-index</code> 6, <code>--paper</code>, 6 px under),
+<code>.dm-pin .club-summary{ position:static }</code> (the bar pins as part of the row), <code>.dm-jump</code> (a flex row that scrolls
+sideways with no scrollbar) and <code>.dm-jump-chip</code> (Barlow Condensed 700 12px, uppercase, a white pill; <code>.active</code> is navy),
+and the category heads stop pinning under the row (<code>.dm-pin ~ .standings-board .standings-col-head{ position:static }</code>).
+<code>css/hub-bar.css</code> has <code>body.hub-bar-on .dm-pin{ top: var(--hub-bar-h) }</code> beside the club bar's own rule. <code>_tests/unit/views/standings.test.mjs</code>
+covers the markup (the order, the labels and targets, the escaping, the markup without the option and on a computer) and
+<code>hub-behaviour.test.mjs</code> taps the chips at a phone size, with the bar off and on, by hand-scrolling, and checks that a
+computer and Control Center draw none.</p>
+<h2 id="the-scoring-rule">The scoring rule<a class="headerlink" href="#the-scoring-rule" title="Permanent link">&para;</a></h2>
+<p><code>domain/scoring.js</code> holds an event's own rule for a game, from <code>events.json</code>'s <code>scoring</code>, and the
+warnings a score gets under it. <code>scoringFrom(raw, eventKey)</code> checks the setting (<code>to</code> 1–99, default
+11; <code>winBy</code> 1 or 2; <code>podiumWinBy</code> 1 or 2, default <code>winBy</code>) and returns <code>null</code> without it, or with a
+console warning when it is malformed. <code>isPodiumMatch(m, type)</code> is true for a final or a bronze match:
+either side's code, after its category, names round <code>F</code> or <code>B</code> (<code>codes.js</code>'s <code>roundKeyword</code>, so
+<code>B45HMD_1</code>, whose category starts with B, is not one). <code>scoringRuleFor(m, scoring, type)</code> gives
+the <code>{ to, winBy }</code> one match plays to, and <code>scoreRuleWarnings(a, b, rule)</code> what is wrong with a score
+under it: under win by 1 the winner has exactly <code>to</code>; under win by 2, with no cap, the winner has <code>to</code>
+and the loser at most <code>to - 2</code>, or past that the lead is exactly 2. <code>views/score-dialog.js</code>'s
+<code>scoreBasicWarnings(a, b, m, rule)</code> uses the rule when there is one (the dialog's optional
+<code>scoringRule(m)</code>), keeping <em>Unusually high: over 21</em> and a group-stage tiebreaker's game to 5;
+without one its warnings are those of a game to 11, win by 2. Control Center and the scorer page
+pass <code>scoringRule</code>; the warnings never stop a save.</p>
+<h2 id="the-bracket-chart">The bracket chart<a class="headerlink" href="#the-bracket-chart" title="Permanent link">&para;</a></h2>
+<p>A standard category with two or more playoff rounds can draw its playoffs as a
+bracket chart instead of the matchup cards. <code>domain/bracket.js</code> is the pure part:
+<code>buildBracket(rows, model)</code> groups a category's playoff rows into rounds of
+matches (a <code>Node</code>, with a <code>Game</code> per scheduled match and a <code>Seat</code> per side),
+<code>seatText</code> says what each seat reads, <code>bracketShapeKey</code> names the category's
+shape (<code>3x2</code>: three round robin brackets, two advancing from each), and
+<code>layoutBracket</code> returns every card's and line's position in pixels.
+<code>views/bracket.js</code> turns that into the chart (<code>bracketChartHTML</code>) and the
+narrow-screen window (<code>roundStripHTML</code>: the same chart in a sideways-scrolling track under a chip per round), and <code>views/bracket-full.js</code> is Full
+tree, a fixed layer with pinch, drag and double-tap whose arithmetic is
+<code>fitScale</code>, <code>clampPan</code> and <code>zoomAbout</code>. Full tree draws its chart with
+<code>bracketChartHTML</code>'s <code>fullTree</code> option: <code>FULL_TREE_DIMS</code>'s wider cards and taller
+seats, each player of a pair on a <code>bk-line</code> of their own (<code>.bk--two</code> in
+<code>css/standings.css</code>). <code>views/standings.js</code> decides which to
+show: <code>createStandings</code> keeps the reader's List / Bracket choice
+(<code>localStorage</code> <code>sage.standings.playoffView</code>), and <code>stageTablesHTML</code> draws the
+whole chart when it is no wider than the card, else the window. Given the window's
+width, <code>roundStripHTML</code> stretches the cards (<code>fitCardWidth</code>, <code>bracketChartHTML</code>'s
+<code>cardW</code>) so the window holds whole rounds (<code>bk-rounds--fit</code>, snapping to each), and
+<code>createStandings</code> lights the chip of every round in view. On a phone the room is the
+card's body less its padding and border (<code>availableWidth</code>), one round at a time; on
+the desktop layout <code>categoryCardHTML</code>'s <code>fixedColumn</code> makes it the card's own column,
+360px or, for side-by-side brackets, 740px (<code>COLUMN_WIDTH</code>, <code>WIDE_COLUMN_WIDTH</code>, less
+<code>CARD_PADDING</code> and <code>COLUMN_CHROME</code>), so List and Bracket draw the card at the same
+width, and <code>roundsInView</code> shows one round at a time or two (a chart with no more
+rounds is drawn whole, stretched). A standard category's card titles its two
+sections, Round Robin and Playoffs (<code>.standings-section-title</code>, <code>stageTablesHTML</code>'s
+<code>sectionTitles</code>; a dual meet keeps the plain stage caption), and the List / Bracket
+switch sits at the end of the Playoffs title (<code>.playoffs-head</code>, <code>viewSwitch</code>), not
+in the category's title. Either way a <strong>Full tree</strong> button (<code>fullTreeButtonHTML</code>) sits under it.</p>
+<p>The sheet supplies the shape of the ladder in two <code>STANDINGSCSV</code> columns,
+<code>match</code> and <code>from</code> (<code>rowsToStandings</code> reads them; see
+<a href="../standard-tournament-generator/#bracket-links">the generator</a>). With them a
+category is <strong>linked</strong>: rounds, lines and "Winner of QF-2" come from the sheet,
+and the seats are grouped by <code>match</code>, never by arithmetic on seat numbers. A
+workbook without them is drawn by pairing the rows in order (the same rule as the
+matchup cards, now <code>pairPlayoffRows</code>), with the rounds side by side, no lines and
+<code>TBD</code> seats. A seat the round robin fills reads the workbook's label for it (the
+row's <code>seat</code>, <code>STANDINGSCSV</code>'s <code>seat</code> column), else the event's
+(<code>display.playoffSeats</code>, by category code or by shape key, in
+<a href="../event-data-config/">the config</a>), else <strong>Qualifier</strong>; once its names are on the
+sheet, <code>sourceTag</code> matches them to the round robin rows by name and tags the
+finish (<code>Br 2 · #1</code>). The site displays labels and never computes who qualifies.</p>
+<p>Control Center passes <code>decorateBracketMatch</code>, so a card with a scheduled match
+opens the score dialog (see <a href="../control-center/">Control Center</a>). The Hub passes
+nothing. The chart's CSS is in <code>css/standings.css</code> and uses only the theme
+properties; the Full tree layer's class <code>bk-full</code> is on a <code>div</code>, which the rule
+<code>div.bk-full</code> keeps apart from the span of the same class that holds a pair's full
+names.</p>
+<h2 id="the-theme-contract">The theme contract<a class="headerlink" href="#the-theme-contract" title="Permanent link">&para;</a></h2>
+<p>A shell's <code>:root</code> defines the custom properties the engine's CSS reads
+(<code>--navy</code>, <code>--green</code>, <code>--paper</code>, <code>--ink</code>, <code>--radius</code>, <code>--card-shadow</code> and the
+rest in <code>_tests/unit/theme-contract.test.mjs</code>). A property the CSS reads with
+a fallback (for example <code>--att-bar-bg</code>) is listed as optional. Where a page
+differs from the shared rules, its own rules sit in a labelled block at the end
+of its <code>&lt;style&gt;</code>.</p>
+<p>Some tints and shadows in the engine's CSS are still literal house colours
+(<code>rgba(124,185,44,…)</code> and the like): a winning side, a live row, the live dot's
+pulse, the dividers, a sticky header's paper. A page with its own palette would
+show them unchanged, so every template's Hub, board and scorer page restates each
+of those rules in a block headed <strong>lib/v1/css's house colours, through this
+page's tokens</strong>, writing <code>color-mix(in srgb, var(--token) N%, transparent)</code> for
+<code>rgba(&lt;house token&gt;, N/100)</code>. That is the same colour on the house palette and
+the event's own on any other. <code>_tests/unit/house-colours.test.mjs</code> fails when an
+engine rule in a house colour is missing from the block of a page it lists (the
+templates, and event pages re-skinned from them), or is restated as anything but
+its token version.</p>
+<h2 id="the-comparison-harness">The comparison harness<a class="headerlink" href="#the-comparison-harness" title="Permanent link">&para;</a></h2>
+<p><code>_tests/</code> runs the same page in two trees, the commit the branch started from
+and the branch, on the same data, the same fixed clock and the same screen
+size, and compares what each shows: the page's text and a full-page
+screenshot.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>sage-match-control.github.io/_tests
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>npm<span class="w"> </span>install
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>npm<span class="w"> </span>run<span class="w"> </span>verify<span class="w">      </span><span class="c1"># the unit tests, then the comparison</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>npm<span class="w"> </span><span class="nb">test</span><span class="w">            </span><span class="c1"># the unit tests only</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>npm<span class="w"> </span>run<span class="w"> </span>compare<span class="w">     </span><span class="c1"># the comparison only</span>
+</code></pre></div>
+<p><code>CONCURRENCY=3</code> sets how many cases run at once and <code>CASE='&lt;regex&gt;'</code> selects
+cases by id (for example <code>CASE='^cc/piggleball-2026/finder'</code>; on Windows Git
+Bash, prefix <code>MSYS_NO_PATHCONV=1</code> if the regex starts with <code>/</code>). A case that
+differs because the machine was busy (a step timed out, or a page was caught
+mid-reload) is run again; a real difference is still there on the reruns.
+<code>_tests/engine/accepted.mjs</code> lists the differences that are accepted on
+purpose, each naming its row in the spec's reconciliations table. The unit
+tests under <code>_tests/unit/</code> cover the pure modules, the views' markup
+builders, the apps' settings checks, the dependency guards, the theme
+contract, and that the engine's server-side twin, <code>facilityCompletion.mjs</code>
+in <code>sage-tools-api</code>, agrees with the browser's played/BYE/series rules
+(<code>parity-server.test.mjs</code>, which needs <code>sage-tools-api</code> beside this repo).</p>
+<h2 id="changing-the-engine">Changing the engine<a class="headerlink" href="#changing-the-engine" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>A rule</strong> (played, BYE, series, standings, go-live): change the module in
+  <code>domain/</code>, with its unit test first. There is one copy, so the Hub, Control
+  Center and the scorer page all change; run <code>npm run verify</code>.
+  <code>sage-tools-api/src/sync/domain/facilityCompletion.mjs</code> is the server's copy
+  of the played and BYE rules; the parity test fails if the two disagree.</li>
+<li><strong>A view</strong>: change the builder in <code>views/</code> and its CSS in <code>css/</code>, keep the
+  ids and classes the pages' markup uses, and add an option rather than a
+  flag when Control Center needs something the Hub does not.</li>
+<li><strong>A new view or page kind</strong>: a new module in the right layer, a unit test
+  for it, and, for a page, an <code>apps/</code> module with a shell.</li>
+<li><strong>Before pushing to <code>main</code></strong>: <code>npm run verify</code>, and not within three days of
+  an event.</li>
+</ul>
+<p>Where the Hub and Control Center still differ on purpose, the spec's
+reconciliations table (<a href="../../specs/implemented/site-engine-spec/">§12</a>)
+records each difference and the decision behind it.</p>
+<hr />
+<p><strong>Features:</strong> <a href="../../usage/">Usage guide</a> · <a href="../../features/tournament-hub/">The Tournament Hub</a>
+<strong>Spec:</strong> <a href="../../specs/implemented/site-engine-spec/"><code>site-engine-spec.md</code></a> (the plan, the phases and the reconciliations).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../scorer-page/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Scorer page">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Scorer page
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../control-center/" class="md-footer__link md-footer__link--next" aria-label="Next: Control Center">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Control Center
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      S.A.G.E. Documentation <a href="https://sage-match-control.github.io/sage-docs/changelog/">v2.104.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
